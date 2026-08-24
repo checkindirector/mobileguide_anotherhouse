@@ -291,7 +291,7 @@ test("opening hero becomes a five-photo automatic touch carousel after the intro
   assert.doesNotMatch(html,/>\s*넘겨보기\s*</);
   assert.match(app,/const heroSequenceDuration=5520/);
   assert.match(app,/const heroAutoDelay=4600/);
-  assert.match(app,/heroSlides=\[[^\]]*main-01\.webp[^\]]*main-02\.webp[^\]]*common-15-corridor-512-2\.webp[^\]]*common-07-entry-direction-2\.webp[^\]]*common-06-entry-direction-1\.webp/);
+  assert.match(app,/heroSlides=\[[^\]]*main-01\.webp[^\]]*main-02\.webp[^\]]*common-15-corridor-512-2\.webp[^\]]*common-06-entry-direction-1\.webp[^\]]*common-07-entry-direction-2\.webp/);
   assert.match(app,/scheduleHeroAuto/);
   assert.match(app,/setTimeout\(ready,heroSequenceDuration\)/);
   assert.match(app,/pointerdown[\s\S]*pointerup[\s\S]*Math\.abs\(delta\)>=42/);

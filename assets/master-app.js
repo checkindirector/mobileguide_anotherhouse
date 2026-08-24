@@ -5,7 +5,7 @@ const reduceMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matc
 let revealObserver=null,motionMutationObserver=null,pageTransitionTimer=0,parallaxTick=false,heroMotionQueued=false,heroCarouselTimer=0,heroAutoTimer=0,heroSlideIndex=0,heroSwipeStartX=null;
 const heroSequenceDuration=5520;
 const heroAutoDelay=4600;
-const heroSlides=['assets/images/main-01.webp','assets/images/main-02.webp','assets/images/gallery/another-house/common-15-corridor-512-2.webp','assets/images/gallery/another-house/common-07-entry-direction-2.webp','assets/images/gallery/another-house/common-06-entry-direction-1.webp'];
+const heroSlides=['assets/images/main-01.webp','assets/images/main-02.webp','assets/images/gallery/another-house/common-15-corridor-512-2.webp','assets/images/gallery/another-house/common-06-entry-direction-1.webp','assets/images/gallery/another-house/common-07-entry-direction-2.webp'];
 const motionSelector='.hotel-section,.stay-story,.previous-gallery-preview,.concierge-hub,.quick-tile,.essential-item,.getting-card,.airport-access-card,.nearby-card,.stay-info-link,.checkin-hero,.checkin-text-section,.checkin-accordion,.checkin-guide-card,.transport-hero,.transport-card,.station-walk-step,.wifi-hero,.wifi-card,.guidebook-hero,.guidebook-viewer,.gallery-head,.gallery-magazine-card,.restaurants-hero,.tours-hero,.restaurants-controls,.restaurant-host-pick,.restaurant-summary,.restaurant-card,.tour-card,.guide-detail-hero,.device,.contact-card,.menu-link';
 const mediaSelector='.previous-gallery-mosaic button,.nearby-card-media,.tour-photo-cover,.restaurant-photo,.station-walk-step .image-zoom,.figure .image-zoom,.device-guide-visual,.gallery-magazine-card';
 const carouselSelector='.device-guide-carousel';
