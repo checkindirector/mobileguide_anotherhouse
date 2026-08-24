@@ -1002,7 +1002,7 @@ html,body,.app,[data-screen="home"]{background:var(--background)}
 /* Master typography: Oxanium Light/Medium for Latin; gothic sans-serif for Korean glyphs. */
 body,button,input,textarea,select{font-family:'Oxanium',var(--font-ko)!important;font-weight:400}
 .section-kicker,.concierge-kicker,.previous-gallery-heading h2,.previous-gallery-heading button,.hotel-footer strong,.gallery-count{font-family:'Oxanium',var(--font-ko)!important;font-weight:500!important}
-body .top h1,body .brand-home{font-family:'Oxanium',var(--font-ko)!important;font-size:18px!important;font-weight:400!important;letter-spacing:-.015em!important}
+body .top h1,body .brand-home{font-family:'Oxanium',var(--font-ko)!important;font-size:16px!important;font-weight:400!important;letter-spacing:-.015em!important}
 .hero-title,.landing-hero .hero-title{font-family:'Oxanium',var(--font-ko)!important;font-weight:300!important;letter-spacing:-.02em!important}
 .landing-hero .eyebrow{font-family:'Oxanium',var(--font-ko)!important;font-weight:500!important;letter-spacing:0!important}
 html[lang="ko"] p,html[lang="ko"] small,html[lang="ko"] li,html[lang="ko"] input,html[lang="ko"] textarea,html[lang="ko"] .page-sub,html[lang="ko"] .stay-contact-label{font-family:var(--font-ko)!important}
@@ -1240,7 +1240,19 @@ body.hero-scrolled .landing-hero .hero-photo-secondary{animation:none;opacity:0;
 
 /* 2026-07-30: refined intro timing, Tetris gallery, swipe lightbox, and row-style support. */
 .brand-intro.is-running img{animation:brandMarkSequence 3.24s cubic-bezier(.4,0,.2,1) both}
-@keyframes brandMarkSequence{0%{opacity:0;transform:translateY(8px) scale(.965);filter:blur(3px)}58.26%,75.46%{opacity:1;transform:translateY(0) scale(1);filter:none}100%{opacity:0;transform:translateY(-4px) scale(1.015);filter:blur(2px)}}
+@keyframes brandMarkSequence{0%{opacity:0;transform:translateY(8px) scale(.965);filter:blur(3px)}58.26%,100%{opacity:1;transform:translateY(0) scale(1);filter:none}}
+.brand-intro{overflow:hidden;transition:none}
+.brand-intro::before,.brand-intro::after{content:"";position:absolute;inset:-8%;z-index:2;opacity:0;pointer-events:none}
+.brand-intro::before{background:repeating-linear-gradient(0deg,rgba(35,29,25,.18) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(117,72,54,.11) 0 2px,transparent 2px 7px);mix-blend-mode:multiply}
+.brand-intro::after{background:linear-gradient(180deg,transparent 0 42%,rgba(35,29,25,.18) 46% 52%,transparent 56% 100%)}
+.brand-intro.is-leaving{opacity:1;visibility:visible;pointer-events:none;animation:introSignalDrop .42s steps(7,end) both}
+.brand-intro.is-leaving img{animation:introLogoGlitch .42s steps(7,end) both!important}
+.brand-intro.is-leaving::before{animation:introStaticNoise .42s steps(8,end) both}
+.brand-intro.is-leaving::after{animation:introScanDrop .42s linear both}
+@keyframes introSignalDrop{0%,68%{opacity:1;background:#fff}72%{opacity:.78;background:#eee9e3}82%{opacity:.94;background:#fff}100%{opacity:0;background:#fff}}
+@keyframes introLogoGlitch{0%{opacity:1;transform:translate(0) scale(1);filter:none}18%{transform:translate(-3px,1px) scaleX(1.012);filter:contrast(1.35)}32%{transform:translate(4px,-1px) scaleX(.99);clip-path:inset(18% 0 34% 0)}48%{transform:translate(-2px,0);clip-path:inset(54% 0 10% 0);filter:contrast(1.7) grayscale(.35)}66%{opacity:.72;transform:translate(3px,1px);clip-path:none}82%{opacity:.34;filter:blur(1px)}100%{opacity:0;transform:scaleY(.04);filter:blur(2px)}}
+@keyframes introStaticNoise{0%{opacity:0;transform:translate(0)}18%{opacity:.34;transform:translate(-2%,1%)}34%{opacity:.18;transform:translate(3%,-2%)}52%{opacity:.38;transform:translate(-1%,2%)}72%{opacity:.16;transform:translate(2%,-1%)}100%{opacity:0;transform:translate(0)}}
+@keyframes introScanDrop{0%{opacity:0;transform:translateY(-34%)}28%{opacity:.3}78%{opacity:.18;transform:translateY(36%)}100%{opacity:0;transform:translateY(52%)}}
 body.motion-ready .landing-hero:before{animation:heroPrimarySequence 5.52s cubic-bezier(.45,0,.55,1) both}
 body.motion-ready .landing-hero .hero-photo-secondary{animation:heroSecondarySequence 5.52s cubic-bezier(.45,0,.55,1) both}
 @keyframes heroPrimarySequence{0%{opacity:1;transform:translate3d(0,0,0) scale(1.20)}34.783%{opacity:1;transform:translate3d(0,0,0) scale(1)}52.899%{opacity:0;transform:translate3d(0,0,0) scale(1)}76.449%{opacity:0;transform:translate3d(0,0,0) scale(1)}100%{opacity:1;transform:translate3d(0,0,0) scale(1)}}
@@ -1293,7 +1305,7 @@ body.motion-ready .landing-hero .hero-photo-secondary{animation:heroSecondarySeq
 .hero-photo-tertiary{background-image:url('assets/images/gallery/another-house/common-15-corridor-512-2.webp')}
 .hero-photo-quaternary{background-image:url('assets/images/gallery/another-house/common-06-entry-direction-1.webp')}
 .hero-photo-quinary{background-image:url('assets/images/gallery/another-house/common-07-entry-direction-2.webp')}
-.hero-swipe-controls{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:0;transition:opacity .55s cubic-bezier(.22,1,.36,1)}
+.hero-swipe-controls{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:1;transition:opacity .55s cubic-bezier(.22,1,.36,1)}
 body.hero-carousel-ready .hero-swipe-controls{opacity:1}
 .hero-swipe-arrow{position:absolute;top:50%;width:40px;height:40px;border:1px solid rgba(255,255,255,.5);border-radius:50%;background:rgba(27,21,17,.28);color:#fff;display:grid;place-items:center;padding:0;transform:translateY(-50%);box-shadow:0 7px 24px rgba(14,10,7,.18);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);pointer-events:auto;cursor:pointer;transition:background .25s ease,border-color .25s ease,transform .25s ease}
 .hero-swipe-arrow:active{background:rgba(27,21,17,.5);border-color:rgba(255,255,255,.78);transform:translateY(-50%) scale(.94)}
@@ -1335,7 +1347,7 @@ body.is-home.hero-scrolled .header-brand-logo,body:not(.is-home) .header-brand-l
 /* Stay NEMO-aligned readable type scale. */
 body{font-size:17px}
 .landing-hero .eyebrow,.essentials-kicker,.getting-kicker,.nearby-kicker,.previous-gallery-kicker,.stay-story-kicker{font-size:13px}
-.landing-hero .hero-title{font-size:clamp(60px,13.34vw,64px)}
+.landing-hero .hero-title{font-size:clamp(54px,12vw,58px)}
 .concierge-kicker{font-size:9px}
 .concierge-heading{font-size:25px}
 .concierge-greeting{font-size:16px;line-height:1.55}
@@ -1348,6 +1360,7 @@ body{font-size:17px}
 .essential-copy strong{font-size:17px}
 .essentials-link{font-size:15px}
 .previous-gallery-subtitle{font-size:24px}
+.previous-gallery-heading h2{font-size:34px}
 .getting-card h3{font-size:24px}
 .getting-address,.getting-transit{font-size:15px}
 .getting-actions a{font-size:13px}
@@ -1377,6 +1390,7 @@ body{font-size:17px}
 .checkin-overview .checkin-info-row strong{font-size:15px}
 .checkin-overview .checkin-info-row p{font-size:13px}
 .stay-story-body{font-size:16px}
+.stay-story-title{font-size:clamp(38px,10vw,42px)}
 @media(prefers-reduced-motion:reduce){
   .hero-swipe-controls,.hero-swipe-arrow,.hero-slide-bar{transition:none!important}
   body.hero-carousel-ready .landing-hero:before{opacity:0!important}
@@ -1414,5 +1428,5 @@ body{font-size:17px}
 <div class="menu-backdrop" id="menuBackdrop"></div><aside class="menu-panel" id="menuPanel" aria-label="전체 메뉴"><div class="menu-panel-head"><img class="menu-panel-logo" src="assets/images/another-house-logo-symbol.webp" alt="ANOTHER HOUSE"><button class="icon-btn" id="closeMenu" type="button" aria-label="메뉴 닫기"><span class="mi">close</span></button></div><nav class="menu-nav"><button class="menu-link" data-go="home"><span class="menu-icon"><span class="mi">home</span></span><span class="menu-copy"><strong>홈</strong><small>어나더하우스 처음 화면</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="gallery"><span class="menu-icon"><span class="mi">photo_library</span></span><span class="menu-copy"><strong>객실 둘러보기</strong><small>공용 공간·객실·욕실 사진</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="transport"><span class="menu-icon"><span class="mi">map</span></span><span class="menu-copy"><strong>찾아오는 길</strong><small>공항과 역에서 숙소까지</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="checkin"><span class="menu-icon"><span class="mi">login</span></span><span class="menu-copy"><strong>체크인 · 체크아웃 안내</strong><small>입실·퇴실 방법과 이용 안내</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="wifi"><span class="menu-icon"><span class="mi">wifi</span></span><span class="menu-copy"><strong>Wi-Fi</strong><small>네트워크 정보와 비밀번호</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="appliances"><span class="menu-icon"><span class="mi">room_service</span></span><span class="menu-copy"><strong>냉난방 • 주방기기 사용법</strong><small>냉난방·주방·가전 사용법</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="laundry"><span class="menu-icon"><span class="mi">local_laundry_service</span></span><span class="menu-copy"><strong>세탁 안내</strong><small>세탁기·건조기 사용법</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="trash"><span class="menu-icon"><span class="mi">delete_outline</span></span><span class="menu-copy"><strong>쓰레기 배출</strong><small>분리수거와 배출 안내</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="restaurants"><span class="menu-icon"><span class="mi">restaurant</span></span><span class="menu-copy"><strong>주변 맛집</strong><small>ANOTHER HOUSE가 고른 주변 맛집</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="tours"><span class="menu-icon"><span class="mi">near_me</span></span><span class="menu-copy"><strong>추천 근교 투어</strong><small>서울에서 만나는 추천 21곳</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button></nav><div class="menu-footer-note"><span>STAY ANOTHER LIFE</span><small>ANOTHER HOUSE • DONGDAEMUN SEOUL</small></div></aside>
 <div class="image-lightbox-backdrop" id="imageLightboxBackdrop"></div><section class="image-lightbox" id="imageLightbox" role="dialog" aria-modal="true" aria-label="사진 크게 보기"><button class="image-lightbox-close" id="closeImageLightbox" type="button" aria-label="닫기"><span class="mi">close</span></button><div class="image-lightbox-stage" id="imageLightboxStage"><button class="image-lightbox-nav image-lightbox-prev" id="lightboxPrev" type="button" aria-label="이전 사진"><span class="mi">chevron_left</span></button><img id="imageLightboxImg" src="" alt="" draggable="false"><button class="image-lightbox-nav image-lightbox-next" id="lightboxNext" type="button" aria-label="다음 사진"><span class="mi">chevron_right</span></button></div><div class="image-lightbox-meta"><p class="image-lightbox-caption" id="imageLightboxCaption"></p><span class="image-lightbox-count" id="imageLightboxCount"></span><span class="image-lightbox-swipe"><span>SWIPE</span><span class="mi">swipe</span></span></div></section>
 <div class="chat-backdrop" id="chatBackdrop"></div><section class="chat-panel" id="chatPanel"><header class="chat-head"><div><h2>ANOTHER HOUSE CONCIERGE</h2><p>숙소 이용 안내만 답변합니다.</p></div><button class="chat-close" id="closeChat"><span class="mi">close</span></button></header><div class="chat-log" id="chatLog"><div class="msg bot">안녕하세요. 체크인, 교통, Wi-Fi, 기기 사용법을 물어보세요.</div></div><div><div class="chat-suggestions"><button class="suggestion">체크인은 몇 시야?</button><button class="suggestion">와이파이 알려줘</button><button class="suggestion">동대문역에서 어떻게 가?</button></div><div class="chat-note">비밀번호와 출입 코드는 예약 플랫폼 메시지에서 확인해 주세요.</div><form class="chat-form" id="chatForm"><textarea id="chatInput" rows="1" placeholder="질문을 입력하세요"></textarea><button class="send-btn"><span class="mi">arrow_upward</span></button></form></div></section><div class="toast" id="toast">복사했습니다</div>
-<script src="assets/site-data.js?v=20260824-60"></script><script src="assets/gallery-data.js?v=20260824-60"></script><script src="assets/content-updates.js?v=20260824-60"></script><script src="assets/gallery-overrides.js?v=20260824-60"></script><script src="assets/restaurant-data.js?v=20260824-60"></script><script src="assets/restaurant-expanded.js?v=20260824-60"></script><script src="assets/tour-data.js?v=20260824-60"></script><script src="assets/master-app.js?v=20260824-60"></script><script src="assets/tour-app.js?v=20260824-60"></script></body>
+<script src="assets/site-data.js?v=20260824-61"></script><script src="assets/gallery-data.js?v=20260824-61"></script><script src="assets/content-updates.js?v=20260824-61"></script><script src="assets/gallery-overrides.js?v=20260824-61"></script><script src="assets/restaurant-data.js?v=20260824-61"></script><script src="assets/restaurant-expanded.js?v=20260824-61"></script><script src="assets/tour-data.js?v=20260824-61"></script><script src="assets/master-app.js?v=20260824-61"></script><script src="assets/tour-app.js?v=20260824-61"></script></body>
 </html>

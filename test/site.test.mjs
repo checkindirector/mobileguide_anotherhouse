@@ -55,7 +55,7 @@ test("home typography and approved hero subtitle follow the contract",async()=>{
   const html = await read("index.html");
   const app = await read("assets/master-app.js");
   const data = await read("assets/site-data.js");
-  assert.match(html,/body \.top h1,body \.brand-home\{[^}]*font-size:18px!important[^}]*font-weight:400!important[^}]*letter-spacing:-\.015em!important/);
+  assert.match(html,/body \.top h1,body \.brand-home\{[^}]*font-size:16px!important[^}]*font-weight:400!important[^}]*letter-spacing:-\.015em!important/);
   assert.match(html,/\.hero-title,\.landing-hero \.hero-title\{[^}]*font-weight:300!important[^}]*letter-spacing:-\.02em!important/);
   assert.match(html,/\.landing-hero \.eyebrow\{[^}]*font-family:'Oxanium'/);
   assert.ok(data.includes("heroSubtitle: 'STAY ANOTHER LIFE'"));
@@ -239,8 +239,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260824-60/);
-  assert.match(html,/gallery-overrides\.js\?v=20260824-60/);
+  assert.match(html,/content-updates\.js\?v=20260824-61/);
+  assert.match(html,/gallery-overrides\.js\?v=20260824-61/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
@@ -261,7 +261,9 @@ test("refined intro, magazine gallery, luggage media, room lock, and home-native
   assert.equal(html,alias);
   assert.match(html,/\.brand-intro img\{[^}]*width:min\(88vw,374px\)/);
   assert.match(html,/brandMarkSequence 3\.24s/);
-  assert.match(html,/58\.26%[\s\S]*75\.46%/);
+  assert.match(html,/introStaticNoise \.42s/);
+  assert.match(html,/introLogoGlitch \.42s/);
+  assert.match(html,/58\.26%,100%\{opacity:1/);
   assert.match(html,/heroPrimarySequence 5\.52s/);
   assert.match(app,/,3240\);\}\);\}/);
   assert.match(html,/34\.783%[\s\S]*52\.899%[\s\S]*76\.449%/);
@@ -279,7 +281,7 @@ test("refined intro, magazine gallery, luggage media, room lock, and home-native
   await access(resolve(root,"assets/images/checkin-room-doorlock.jpg"));
 });
 
-test("opening hero becomes a five-photo automatic touch carousel after the intro",async()=>{
+test("opening hero runs one automatic five-photo pass with controls visible from the start",async()=>{
   const html=await read("index.html");
   const app=await read("assets/master-app.js");
   assert.match(html,/id="heroSwipePrev"/);
@@ -288,13 +290,16 @@ test("opening hero becomes a five-photo automatic touch carousel after the intro
   assert.equal((html.match(/data-hero-slide="[0-4]"/g)||[]).length,5);
   for(const className of ["hero-photo-secondary","hero-photo-tertiary","hero-photo-quaternary","hero-photo-quinary"]) assert.match(html,new RegExp(className));
   for(const file of ["common-15-corridor-512-2.webp","common-07-entry-direction-2.webp","common-06-entry-direction-1.webp"]) assert.ok(html.includes(file));
-  assert.match(html,/body\.hero-carousel-ready \.hero-swipe-controls\{opacity:1\}/);
+  assert.match(html,/\.hero-swipe-controls\{[^}]*opacity:1/);
   assert.doesNotMatch(html,/>\s*넘겨보기\s*</);
   assert.match(app,/const heroSequenceDuration=5520/);
-  assert.match(app,/const heroAutoDelay=4600/);
+  assert.match(app,/const heroAutoDelay=2400/);
   assert.match(app,/heroSlides=\[[^\]]*main-01\.webp[^\]]*main-02\.webp[^\]]*common-15-corridor-512-2\.webp[^\]]*common-06-entry-direction-1\.webp[^\]]*common-07-entry-direction-2\.webp/);
   assert.match(app,/setTimeout\(\(\)=>\{heroAutoTimer=0;/);
-  assert.match(app,/setHeroSlide\(heroSlideIndex\+1,false\);scheduleHeroAuto\(\);\},heroAutoDelay\)/);
+  assert.match(app,/heroAutoComplete/);
+  assert.match(app,/heroSlideIndex>=heroSlides\.length-1/);
+  assert.match(app,/setHeroSlide\(heroSlideIndex\+1,false\);if\(heroSlideIndex>=heroSlides\.length-1\)heroAutoComplete=true;else scheduleHeroAuto\(\)/);
+  assert.match(app,/startHeroMotion\(\)[^\n]*armHeroCarousel\(true\)/);
   assert.match(app,/visibilitychange[^\n]*scheduleHeroAuto\(\)/);
   assert.match(app,/\.landing-hero \.hero-photo[^\n]*is-active/);
   assert.match(app,/\.hero-slide-bar[^\n]*aria-current/);
@@ -306,12 +311,15 @@ test("opening hero becomes a five-photo automatic touch carousel after the intro
 test("site-wide typography matches the measured Stay NEMO scale without oversizing",async()=>{
   const html=await read("index.html");
   assert.match(html,/body\{font-size:17px\}/);
-  assert.match(html,/\.landing-hero \.hero-title\{font-size:clamp\(60px,13\.34vw,64px\)\}/);
+  assert.match(html,/\.landing-hero \.hero-title\{font-size:clamp\(54px,12vw,58px\)\}/);
+  assert.match(html,/body \.top h1,body \.brand-home\{[^}]*font-size:16px!important/);
   assert.match(html,/\.concierge-heading\{font-size:25px\}/);
   assert.match(html,/\.concierge-greeting\{font-size:16px/);
   assert.match(html,/\.essential-copy strong\{font-size:17px\}/);
   assert.match(html,/\.essentials-title,\.getting-title,\.stay-guide-title\{font-size:26px\}/);
   assert.match(html,/\.previous-gallery-subtitle\{font-size:24px\}/);
+  assert.match(html,/\.previous-gallery-heading h2\{font-size:34px\}/);
+  assert.match(html,/\.stay-story-title\{font-size:clamp\(38px,10vw,42px\)\}/);
   assert.match(html,/\.tab\{font-size:11px\}/);
   assert.doesNotMatch(html,/\.landing-hero \.hero-title\{font-size:clamp\(60px,16vw,76px\)\}/);
   assert.match(html,/\.transport-card p,[^\n]*\.restaurant-copy\{font-size:15px\}/);
