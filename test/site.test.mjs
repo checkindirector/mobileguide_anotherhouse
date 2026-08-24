@@ -239,8 +239,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260824-59/);
-  assert.match(html,/gallery-overrides\.js\?v=20260824-59/);
+  assert.match(html,/content-updates\.js\?v=20260824-60/);
+  assert.match(html,/gallery-overrides\.js\?v=20260824-60/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
@@ -293,19 +293,27 @@ test("opening hero becomes a five-photo automatic touch carousel after the intro
   assert.match(app,/const heroSequenceDuration=5520/);
   assert.match(app,/const heroAutoDelay=4600/);
   assert.match(app,/heroSlides=\[[^\]]*main-01\.webp[^\]]*main-02\.webp[^\]]*common-15-corridor-512-2\.webp[^\]]*common-06-entry-direction-1\.webp[^\]]*common-07-entry-direction-2\.webp/);
-  assert.match(app,/setInterval\(\(\)=>setHeroSlide\(heroSlideIndex\+1,false\),heroAutoDelay\)/);
+  assert.match(app,/setTimeout\(\(\)=>\{heroAutoTimer=0;/);
+  assert.match(app,/setHeroSlide\(heroSlideIndex\+1,false\);scheduleHeroAuto\(\);\},heroAutoDelay\)/);
+  assert.match(app,/visibilitychange[^\n]*scheduleHeroAuto\(\)/);
   assert.match(app,/\.landing-hero \.hero-photo[^\n]*is-active/);
   assert.match(app,/\.hero-slide-bar[^\n]*aria-current/);
+  assert.match(app,/retireLegacySiteCache/);
   assert.match(app,/setTimeout\(ready,heroSequenceDuration\)/);
   assert.match(app,/pointerdown[\s\S]*pointerup[\s\S]*Math\.abs\(delta\)>=42/);
 });
 
-test("site-wide typography uses the larger Stay NEMO-aligned scale",async()=>{
+test("site-wide typography matches the measured Stay NEMO scale without oversizing",async()=>{
   const html=await read("index.html");
   assert.match(html,/body\{font-size:17px\}/);
-  assert.match(html,/\.landing-hero \.hero-title\{font-size:clamp\(60px,16vw,76px\)\}/);
+  assert.match(html,/\.landing-hero \.hero-title\{font-size:clamp\(60px,13\.34vw,64px\)\}/);
+  assert.match(html,/\.concierge-heading\{font-size:25px\}/);
   assert.match(html,/\.concierge-greeting\{font-size:16px/);
   assert.match(html,/\.essential-copy strong\{font-size:17px\}/);
+  assert.match(html,/\.essentials-title,\.getting-title,\.stay-guide-title\{font-size:26px\}/);
+  assert.match(html,/\.previous-gallery-subtitle\{font-size:24px\}/);
+  assert.match(html,/\.tab\{font-size:11px\}/);
+  assert.doesNotMatch(html,/\.landing-hero \.hero-title\{font-size:clamp\(60px,16vw,76px\)\}/);
   assert.match(html,/\.transport-card p,[^\n]*\.restaurant-copy\{font-size:15px\}/);
 });
 
