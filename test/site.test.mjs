@@ -124,7 +124,7 @@ test("check-in page matches the master overview and header rhythm",async()=>{
   assert.match(app,/<section class="checkin-text-section checkin-overview"><h3>/);
   assert.doesNotMatch(data,/건물 찾기/);
   assert.match(data,/checkout: \{ title: I\('체크아웃 안내'/);
-  assert.match(data,/rules: \{ title: I\('숙소 이용 안내'/);
+  assert.match(data,/rules: \{ title: I\('숙소 이용 규칙'/);
   assert.match(app,/card\(t\(help\.title\),'support_agent'.*card\(t\(self\.title\),'login'.*card\(t\(o\.title\),'logout'.*card\(t\(r\.title\),'checklist'/);
   assert.match(html,/\.checkin-card-header\{[^}]*grid-template-columns:42px[^}]*height:76px[^}]*min-height:76px[^}]*padding:17px 18px/);
   assert.match(html,/\.guide-detail-screen \.device-card-stack \.device-header\{[^}]*grid-template-columns:42px[^}]*height:76px[^}]*padding:17px 18px/);
@@ -188,7 +188,7 @@ test("master motion system covers every page and adds visible media reveals",asy
   assert.match(app,/data-go="rules"/);
   assert.match(app,/\['숙소 이용 규칙','함께 지키는 숙소 이용 규칙'\]/);
   assert.match(app,/trash\.insertAdjacentHTML\('afterend'/);
-  assert.match(app,/<span class="mi">fact_check<\/span>/);
+  assert.match(app,/<span class="mi">rule<\/span>/);
   const houseRuleOrder=['쓰레기 배출','숙소 이용 규칙','주변 맛집'].map(name=>app.indexOf("['"+name+"'"));
   assert.ok(houseRuleOrder[0]<houseRuleOrder[1]&&houseRuleOrder[1]<houseRuleOrder[2]);
   assert.match(menuSegment,/STAY ANOTHER LIFE/);
@@ -246,8 +246,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260824-65/);
-  assert.match(html,/gallery-overrides\.js\?v=20260824-65/);
+  assert.match(html,/content-updates\.js\?v=20260824-66/);
+  assert.match(html,/gallery-overrides\.js\?v=20260824-66/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
@@ -262,8 +262,13 @@ test("source document additions include parking, editorial story, OTA links, and
 test("check-in flow keeps self check-in and departure open above parking while house rules use a separate screen",async()=>{
   const html=await read("index.html");
   const app=await read("assets/master-app.js");
+  const data=await read("assets/site-data.js");
   assert.match(html,/data-screen="rules"[^>]*>[\s\S]*?class="guide-detail-hero rules-hero"[\s\S]*?id="rulesContent"/);
+  assert.match(html,/class="guide-detail-hero rules-hero">[\s\S]*?<h2 class="page-title">숙소 이용 규칙<\/h2>/);
+  assert.match(data,/rules: \{ title: I\('숙소 이용 규칙', 'House rules', '宿泊ルール', '住宿规则'\), kicker: 'HOUSE RULES'/);
   assert.match(app,/function renderRulesPage\(\)/);
+  assert.match(app,/checkin-card-icon"><span class="mi">rule<\/span>/);
+  assert.match(app,/HOUSE RULES<\/small><b>'\+esc\(t\(r\.title\)\)/);
   assert.match(app,/legacyRules\?\.remove\(\)/);
   assert.match(app,/departure\.after\(parking\)/);
   assert.match(app,/renderCheckin\(\);renderRulesPage\(\);renderBookingLinks\(\)/);
@@ -280,9 +285,9 @@ test("refined intro, magazine gallery, luggage media, room lock, and home-native
   assert.equal(html,alias);
   assert.match(html,/\.brand-intro img\{[^}]*width:min\(88vw,374px\)/);
   assert.match(html,/brandMarkSequence 3\.24s/);
-  assert.match(html,/introStaticNoise \.42s/);
-  assert.match(html,/introLogoSignalFade \.42s/);
-  assert.match(html,/introStaticBands \.42s/);
+  assert.match(html,/introSignalGrain \.46s/);
+  assert.match(html,/introLogoSignalDissolve \.46s/);
+  assert.match(html,/introSignalScan \.46s/);
   assert.doesNotMatch(html,/introLogoGlitch/);
   assert.doesNotMatch(html,/\.brand-intro\.is-leaving \.brand-intro-mark img\{[^}]*transform/);
   assert.match(html,/class="brand-intro-mark"/);
@@ -292,10 +297,11 @@ test("refined intro, magazine gallery, luggage media, room lock, and home-native
   assert.match(html,/58\.26%,100%\{opacity:1/);
   assert.match(html,/heroPrimarySequence 5\.52s/);
   assert.match(app,/,2916\);\}\);\}/);
-  assert.match(app,/resolve\(\);\},520\)/);
-  assert.match(html,/\.brand-intro\.is-leaving\{[^}]*transition:opacity \.22s cubic-bezier\(\.22,1,\.36,1\) \.3s/);
-  assert.match(html,/\.intro-home-zoom \.landing-hero \.hero-photo-primary\.is-active\{animation:heroHomeRevealZoom 2\.4s/);
-  assert.match(html,/@keyframes heroHomeRevealZoom\{0%\{transform:translate3d\(0,0,0\) scale\(1\.20\)\}100%\{transform:translate3d\(0,0,0\) scale\(1\)\}\}/);
+  assert.match(app,/resolve\(\);setTimeout\(\(\)=>intro\.remove\(\),640\)/);
+  assert.match(html,/\.brand-intro\.is-leaving\{[^}]*transition:opacity \.54s cubic-bezier\(\.4,0,\.2,1\) \.08s/);
+  assert.match(html,/\.intro-home-zoom \.landing-hero \.hero-photo-primary\.is-active\{opacity:1;transition:none;animation:heroHomeRevealZoom 2\.4s/);
+  assert.match(html,/\.landing-hero:before\{transform:translate3d\(0,0,0\) scale\(1\.12\)\}/);
+  assert.match(html,/@keyframes heroHomeRevealZoom\{0%\{transform:translate3d\(0,0,0\) scale\(1\.12\)\}100%\{transform:translate3d\(0,0,0\) scale\(1\)\}\}/);
   assert.match(app,/classList\.add\('motion-ready','intro-home-zoom'\)/);
   assert.match(app,/classList\.remove\('intro-home-zoom'\),2500/);
   assert.match(app,/requestAnimationFrame\(startHeroMotion\)\),24/);
@@ -322,12 +328,12 @@ test("opening hero runs one automatic five-photo pass with controls visible from
   assert.match(html,/class="hero-slide-bars" aria-label="총 5장의 메인 사진"/);
   assert.equal((html.match(/data-hero-slide="[0-4]"/g)||[]).length,5);
   for(const className of ["hero-photo-secondary","hero-photo-tertiary","hero-photo-quaternary","hero-photo-quinary"]) assert.match(html,new RegExp(className));
-  for(const file of ["common-15-corridor-512-2.webp","common-07-entry-direction-2.webp","common-06-entry-direction-1.webp"]) assert.ok(html.includes(file));
+  for(const file of ["common-15-corridor-512-2.webp","common-07-entry-direction-2.webp","common-18-kitchen-2.webp"]) assert.ok(html.includes(file));
   assert.match(html,/\.hero-swipe-controls\{[^}]*opacity:1/);
   assert.doesNotMatch(html,/>\s*넘겨보기\s*</);
   assert.match(app,/const heroSequenceDuration=5520/);
   assert.match(app,/const heroAutoDelay=2400/);
-  assert.match(app,/heroSlides=\[[^\]]*main-01\.webp[^\]]*main-02\.webp[^\]]*common-15-corridor-512-2\.webp[^\]]*common-07-entry-direction-2\.webp[^\]]*common-06-entry-direction-1\.webp/);
+  assert.match(app,/heroSlides=\[[^\]]*main-01\.webp[^\]]*main-02\.webp[^\]]*common-15-corridor-512-2\.webp[^\]]*common-07-entry-direction-2\.webp[^\]]*common-18-kitchen-2\.webp/);
   assert.match(app,/setTimeout\(\(\)=>\{heroAutoTimer=0;/);
   assert.match(app,/heroAutoComplete/);
   assert.match(app,/heroSlideIndex>=heroSlides\.length-1/);
