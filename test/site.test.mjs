@@ -175,7 +175,7 @@ test("master motion system covers every page and adds visible media reveals",asy
   assert.match(overrides,/D\.homeGallery=byNumber\(originalCommon,\[22,15\]\)\.concat\(byNumber\(originalDouble,\[9\]\)\)/);
   assert.match(app,/data-gallery-lightbox-index/);
   assert.match(app,/pointerdown[\s\S]*pointerup[\s\S]*moveLightbox/);
-});test("hamburger menu follows the Stay NEMO structure with a separate house guide",async()=>{
+});test("hamburger menu places house rules after trash with a dedicated icon",async()=>{
   const html=await read("index.html");
   const app=await read("assets/master-app.js");
   const order=[...html.matchAll(/<button class="menu-link" data-go="([^"]+)"/g)].map(match=>match[1]);
@@ -186,8 +186,11 @@ test("master motion system covers every page and adds visible media reveals",asy
   assert.equal((menuSegment.match(/class="menu-icon"/g)||[]).length,10);
   assert.match(app,/ensureRulesMenuItem\(\)/);
   assert.match(app,/data-go="rules"/);
-  assert.match(app,/\['숙소 이용 안내','함께 지키는 숙소 이용 안내'\]/);
-  assert.match(app,/appliances\.insertAdjacentHTML\('afterend'/);
+  assert.match(app,/\['숙소 이용 규칙','함께 지키는 숙소 이용 규칙'\]/);
+  assert.match(app,/trash\.insertAdjacentHTML\('afterend'/);
+  assert.match(app,/<span class="mi">fact_check<\/span>/);
+  const houseRuleOrder=['쓰레기 배출','숙소 이용 규칙','주변 맛집'].map(name=>app.indexOf("['"+name+"'"));
+  assert.ok(houseRuleOrder[0]<houseRuleOrder[1]&&houseRuleOrder[1]<houseRuleOrder[2]);
   assert.match(menuSegment,/STAY ANOTHER LIFE/);
   for(const names of [["Trash","Restaurants","Nearby Tours"],["ごみ出し","周辺グルメ","近郊おすすめツアー"],["垃圾处理","周边美食","近郊推荐行程"]]){
     const positions=names.map(name=>app.indexOf("['"+name+"'"));
@@ -243,8 +246,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260824-64/);
-  assert.match(html,/gallery-overrides\.js\?v=20260824-64/);
+  assert.match(html,/content-updates\.js\?v=20260824-65/);
+  assert.match(html,/gallery-overrides\.js\?v=20260824-65/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
@@ -291,6 +294,11 @@ test("refined intro, magazine gallery, luggage media, room lock, and home-native
   assert.match(app,/,2916\);\}\);\}/);
   assert.match(app,/resolve\(\);\},520\)/);
   assert.match(html,/\.brand-intro\.is-leaving\{[^}]*transition:opacity \.22s cubic-bezier\(\.22,1,\.36,1\) \.3s/);
+  assert.match(html,/\.intro-home-zoom \.landing-hero \.hero-photo-primary\.is-active\{animation:heroHomeRevealZoom 2\.4s/);
+  assert.match(html,/@keyframes heroHomeRevealZoom\{0%\{transform:translate3d\(0,0,0\) scale\(1\.20\)\}100%\{transform:translate3d\(0,0,0\) scale\(1\)\}\}/);
+  assert.match(app,/classList\.add\('motion-ready','intro-home-zoom'\)/);
+  assert.match(app,/classList\.remove\('intro-home-zoom'\),2500/);
+  assert.match(app,/requestAnimationFrame\(startHeroMotion\)\),24/);
   assert.match(html,/34\.783%[\s\S]*52\.899%[\s\S]*76\.449%/);
   assert.doesNotMatch(html,/heroPanelSettle/);
   const homeSegment=html.slice(html.indexOf('<section class="screen active" data-screen="home">'),html.indexOf('<section class="screen" data-screen="checkin">'));
