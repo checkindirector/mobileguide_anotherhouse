@@ -249,8 +249,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260824-68/);
-  assert.match(html,/gallery-overrides\.js\?v=20260824-68/);
+  assert.match(html,/content-updates\.js\?v=20260824-69/);
+  assert.match(html,/gallery-overrides\.js\?v=20260824-69/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
@@ -282,6 +282,10 @@ test("check-in flow keeps self check-in and departure open above parking while h
   assert.match(html,/\.rules-editorial\{[^}]*display:grid[^}]*gap:10px/);
   assert.match(html,/\.rule-kitchen-grid\{[^}]*grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
   assert.match(html,/\.rule-support\{[^}]*grid-template-columns:91px minmax\(0,1fr\)/);
+  assert.match(html,/\.rule-quiet\{background:var\(--signature\)/);
+  assert.doesNotMatch(html,/#52685e/);
+  assert.match(html,/\.rule-editorial-block h4\{[^}]*font-size:21px[^}]*font-weight:800/);
+  assert.match(html,/\.rule-kitchen-note p\{[^}]*font-size:15px[^}]*font-weight:600/);
   assert.match(app,/checkin-card-icon">'\+rulesIconMarkup\+'<\/span>/);
   assert.match(app,/HOUSE RULES<\/small><b>'\+esc\(t\(r\.title\)\)/);
   assert.match(app,/legacyRules\?\.remove\(\)/);
@@ -364,7 +368,7 @@ test("opening hero runs one automatic five-photo pass with controls visible from
 
 test("site-wide typography matches Stay NEMO and keeps card copy readable",async()=>{
   const html=await read("index.html");
-  assert.match(html,/body\{font-size:17px\}/);
+  assert.match(html,/body\{font-size:17px;font-weight:600;line-height:1\.55\}/);
   assert.match(html,/\.landing-hero \.hero-title\{font-size:clamp\(54px,12vw,58px\)\}/);
   assert.match(html,/body \.top h1,body \.brand-home\{[^}]*font-size:16px!important/);
   assert.match(html,/\.concierge-heading\{font-size:25px\}/);
@@ -378,7 +382,9 @@ test("site-wide typography matches Stay NEMO and keeps card copy readable",async
   assert.doesNotMatch(html,/\.landing-hero \.hero-title\{font-size:clamp\(60px,16vw,76px\)\}/);
   assert.match(html,/\.stay-info-link span:last-child\{font-size:15px\}/);
   assert.match(html,/\.menu-copy strong\{font-size:16px\}/);
-  assert.match(html,/\.transport-card p,[^\n]*\.restaurant-copy\{font-size:14px\}/);
+  assert.match(html,/\.transport-card p,[^\n]*\.restaurant-copy\{font-size:15px;font-weight:600\}/);
+  assert.match(html,/\.checkin-info-row strong\{font-size:16px;font-weight:800\}/);
+  assert.match(html,/\.checkin-overview \.checkin-info-row p\{font-size:14px;font-weight:600\}/);
   assert.match(html,/--font-main:'Oxanium','Arial Narrow',Arial,sans-serif/);
   assert.match(html,/\.tour-home-card \.nearby-card-copy>span\{[^}]*font-size:12px/);
 });
