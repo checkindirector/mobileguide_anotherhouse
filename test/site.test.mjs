@@ -41,7 +41,7 @@ test("SEO and OG assets are complete",async()=>{
 
 test("multi-page appliance diagrams use the peek carousel contract",async()=>{
   const html = await read("index.html");
-  const alias = await read("guide-anotherstay.html");
+  const alias = await read("guide-anotherhouse.html");
   const app = await read("assets/master-app.js");
   const data = await read("assets/site-data.js");
   assert.match(app,/device-guide-carousel/);
@@ -103,7 +103,7 @@ test("guide page polish removes duplicates and matches the master media",async()
 });
 test("mobile shell follows the master width contract",async()=>{
   const html=await read("index.html");
-  const alias=await read("guide-anotherstay.html");
+  const alias=await read("guide-anotherhouse.html");
   const app=await read("assets/master-app.js");
   assert.match(html,/\.app\{max-width:480px;margin:0 auto;min-height:100dvh/);
   assert.match(html,/\.app\{max-width:480px;padding-bottom:0;background:#F7F1EA;overflow:hidden\}/);
@@ -228,7 +228,6 @@ test("booking platform contact copy and logos replace Airbnb",async()=>{
     assert.ok(sw.includes(`/${asset}`));
   }
 });
-
 test("source document additions include parking, editorial story, OTA links, and the designated washer photo",async()=>{
   const html=await read("index.html");
   const app=await read("assets/master-app.js");
@@ -251,7 +250,7 @@ test("source document additions include parking, editorial story, OTA links, and
 
 test("refined intro, magazine gallery, luggage media, room lock, and home-native OTA panel",async()=>{
   const html=await read("index.html");
-  const alias=await read("guide-anotherstay.html");
+  const alias=await read("guide-anotherhouse.html");
   const app=await read("assets/master-app.js");
   const overrides=await read("assets/gallery-overrides.js");
   assert.equal(html,alias);

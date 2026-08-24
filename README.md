@@ -18,4 +18,4 @@
 npm start
 ```
 
-`/guide-anotherstay`에서 확인할 수 있습니다.
+`/guide-anotherhouse`에서 확인할 수 있습니다.
