@@ -239,8 +239,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260731-58/);
-  assert.match(html,/gallery-overrides\.js\?v=20260731-58/);
+  assert.match(html,/content-updates\.js\?v=20260824-59/);
+  assert.match(html,/gallery-overrides\.js\?v=20260824-59/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
@@ -284,7 +284,8 @@ test("opening hero becomes a five-photo automatic touch carousel after the intro
   const app=await read("assets/master-app.js");
   assert.match(html,/id="heroSwipePrev"/);
   assert.match(html,/id="heroSwipeNext"/);
-  assert.match(html,/id="heroSlideCount"[\s\S]*1 \/ 5/);
+  assert.match(html,/class="hero-slide-bars" aria-label="총 5장의 메인 사진"/);
+  assert.equal((html.match(/data-hero-slide="[0-4]"/g)||[]).length,5);
   for(const className of ["hero-photo-secondary","hero-photo-tertiary","hero-photo-quaternary","hero-photo-quinary"]) assert.match(html,new RegExp(className));
   for(const file of ["common-15-corridor-512-2.webp","common-07-entry-direction-2.webp","common-06-entry-direction-1.webp"]) assert.ok(html.includes(file));
   assert.match(html,/body\.hero-carousel-ready \.hero-swipe-controls\{opacity:1\}/);
@@ -292,9 +293,20 @@ test("opening hero becomes a five-photo automatic touch carousel after the intro
   assert.match(app,/const heroSequenceDuration=5520/);
   assert.match(app,/const heroAutoDelay=4600/);
   assert.match(app,/heroSlides=\[[^\]]*main-01\.webp[^\]]*main-02\.webp[^\]]*common-15-corridor-512-2\.webp[^\]]*common-06-entry-direction-1\.webp[^\]]*common-07-entry-direction-2\.webp/);
-  assert.match(app,/scheduleHeroAuto/);
+  assert.match(app,/setInterval\(\(\)=>setHeroSlide\(heroSlideIndex\+1,false\),heroAutoDelay\)/);
+  assert.match(app,/\.landing-hero \.hero-photo[^\n]*is-active/);
+  assert.match(app,/\.hero-slide-bar[^\n]*aria-current/);
   assert.match(app,/setTimeout\(ready,heroSequenceDuration\)/);
   assert.match(app,/pointerdown[\s\S]*pointerup[\s\S]*Math\.abs\(delta\)>=42/);
+});
+
+test("site-wide typography uses the larger Stay NEMO-aligned scale",async()=>{
+  const html=await read("index.html");
+  assert.match(html,/body\{font-size:17px\}/);
+  assert.match(html,/\.landing-hero \.hero-title\{font-size:clamp\(60px,16vw,76px\)\}/);
+  assert.match(html,/\.concierge-greeting\{font-size:16px/);
+  assert.match(html,/\.essential-copy strong\{font-size:17px\}/);
+  assert.match(html,/\.transport-card p,[^\n]*\.restaurant-copy\{font-size:15px\}/);
 });
 
 test("official Another House logo appears in the header, concierge, and menu",async()=>{
