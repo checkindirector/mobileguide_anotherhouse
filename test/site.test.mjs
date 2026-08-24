@@ -130,7 +130,7 @@ test("check-in page matches the master overview and header rhythm",async()=>{
   assert.match(html,/\.guide-detail-screen \.device-card-stack \.device-header\{[^}]*grid-template-columns:42px[^}]*height:76px[^}]*padding:17px 18px/);
   assert.match(html,/\.restaurant-host-pick\{[^}]*height:76px[^}]*min-height:76px[^}]*padding:17px 18px/);
   assert.match(html,/<h2>체크인 • 체크아웃 안내<\/h2>/);
-  assert.match(html,/>찾아오는 길<\/span><small>공항에서 숙소까지/);
+  assert.match(html,/<strong>찾아오는 길<\/strong><small>공항과 역에서 숙소까지/);
 });
 test("home location and room-gallery signature styling use approved copy",async()=>{
   const html=await read("index.html");
@@ -149,8 +149,8 @@ test("master motion system covers every page and adds visible media reveals",asy
   assert.match(app,/new MutationObserver/);
   assert.match(app,/function observeMotionTargets\(/);
   assert.match(app,/function queueMotionReady\(/);
-  assert.match(app,/preloadHeroImage\('assets\/images\/main-01\.webp'\)/);
-  assert.match(app,/preloadHeroImage\('assets\/images\/main-02\.webp'\)/);
+  assert.match(app,/heroSlides\.map\(preloadHeroImage\)/);
+  assert.match(app,/heroSlides=\['assets\/images\/main-01\.webp','assets\/images\/main-02\.webp'/);
   assert.match(app,/const carouselSelector='\.device-guide-carousel'/);
   assert.match(app,/gallery-magazine-card/);
   assert.match(html,/<body class="is-home">/);
@@ -175,11 +175,16 @@ test("master motion system covers every page and adds visible media reveals",asy
   assert.match(overrides,/D\.homeGallery=byNumber\(originalCommon,\[22,15\]\)\.concat\(byNumber\(originalDouble,\[9\]\)\)/);
   assert.match(app,/data-gallery-lightbox-index/);
   assert.match(app,/pointerdown[\s\S]*pointerup[\s\S]*moveLightbox/);
-});test("hamburger menu places local recommendations below waste",async()=>{
+});test("hamburger menu follows the Stay NEMO structure without a guidebook item",async()=>{
   const html=await read("index.html");
   const app=await read("assets/master-app.js");
   const order=[...html.matchAll(/<button class="menu-link" data-go="([^"]+)"/g)].map(match=>match[1]);
-  assert.deepEqual(order,["home","gallery","checkin","transport","wifi","appliances","laundry","trash","restaurants","tours","guidebook"]);
+  assert.deepEqual(order,["home","gallery","transport","checkin","wifi","appliances","laundry","trash","restaurants","tours"]);
+  const menuSegment=html.slice(html.indexOf('<aside class="menu-panel"'),html.indexOf('<div class="image-lightbox-backdrop"'));
+  assert.doesNotMatch(menuSegment,/data-go="guidebook"|게스트 가이드북/);
+  assert.match(menuSegment,/menu-panel-logo/);
+  assert.equal((menuSegment.match(/class="menu-icon"/g)||[]).length,10);
+  assert.match(menuSegment,/STAY ANOTHER LIFE/);
   for(const names of [["Trash","Restaurants","Nearby Tours"],["ごみ出し","周辺グルメ","近郊おすすめツアー"],["垃圾处理","周边美食","近郊推荐行程"]]){
     const positions=names.map(name=>app.indexOf("['"+name+"'"));
     assert.ok(positions[0]<positions[1]&&positions[1]<positions[2]);
@@ -200,8 +205,8 @@ test("guest access, Wi-Fi, taxi landmark, appliance menu, and TV icon use the ap
   assert.match(data,/landmark: I\('교촌치킨 동대문 1호점'/);
   assert.equal((data.match(/택시 하차 위치는 “교촌치킨 동대문 1호점”/g)||[]).length,2);
   assert.match(data,/appliances: \{ title: I\('냉난방 • 주방기기 사용법'/);
-  assert.match(app,/\['냉난방 • 주방기기 사용법','냉난방 · 주방 기기 사용법'\]/);
-  assert.match(html,/data-go="appliances"><span>냉난방 • 주방기기 사용법<\/span>/);
+  assert.match(app,/\['냉난방 • 주방기기 사용법','냉난방·주방·가전 사용법'\]/);
+  assert.match(html,/data-go="appliances"[\s\S]*?<strong>냉난방 • 주방기기 사용법<\/strong>/);
   assert.match(app,/applianceNoticeMarkup[\s\S]*<span class="mi">tv<\/span>/);
   assert.doesNotMatch(app,/tv_off/);
   assert.match(app,/data-copy="\x27\+esc\(t\(p\.sections\[1\]\.body\)\)\+\x27"/);
@@ -274,16 +279,37 @@ test("refined intro, magazine gallery, luggage media, room lock, and home-native
   await access(resolve(root,"assets/images/checkin-room-doorlock.jpg"));
 });
 
-test("opening hero becomes a touch carousel only after the automatic sequence",async()=>{
+test("opening hero becomes a five-photo automatic touch carousel after the intro",async()=>{
   const html=await read("index.html");
   const app=await read("assets/master-app.js");
   assert.match(html,/id="heroSwipePrev"/);
   assert.match(html,/id="heroSwipeNext"/);
+  assert.match(html,/id="heroSlideCount"[\s\S]*1 \/ 5/);
+  for(const className of ["hero-photo-secondary","hero-photo-tertiary","hero-photo-quaternary","hero-photo-quinary"]) assert.match(html,new RegExp(className));
+  for(const file of ["common-15-corridor-512-2.webp","common-07-entry-direction-2.webp","common-06-entry-direction-1.webp"]) assert.ok(html.includes(file));
   assert.match(html,/body\.hero-carousel-ready \.hero-swipe-controls\{opacity:1\}/);
   assert.doesNotMatch(html,/>\s*넘겨보기\s*</);
   assert.match(app,/const heroSequenceDuration=5520/);
+  assert.match(app,/const heroAutoDelay=4600/);
+  assert.match(app,/heroSlides=\[[^\]]*main-01\.webp[^\]]*main-02\.webp[^\]]*common-15-corridor-512-2\.webp[^\]]*common-07-entry-direction-2\.webp[^\]]*common-06-entry-direction-1\.webp/);
+  assert.match(app,/scheduleHeroAuto/);
   assert.match(app,/setTimeout\(ready,heroSequenceDuration\)/);
   assert.match(app,/pointerdown[\s\S]*pointerup[\s\S]*Math\.abs\(delta\)>=42/);
+});
+
+test("official Another House logo appears in the header, concierge, and menu",async()=>{
+  const html=await read("index.html");
+  const sw=await read("sw.js");
+  for(const file of ["another-house-logo-mark.webp","another-house-logo-symbol.webp"]){
+    await access(resolve(root,"assets/images/"+file));
+    assert.ok(html.includes(file));
+    assert.ok(sw.includes(file));
+  }
+  assert.match(html,/class="header-brand-logo"/);
+  assert.match(html,/class="concierge-brand-logo"/);
+  assert.match(html,/필요한 정보를 바로 찾아드릴께요\./);
+  assert.match(html,/placeholder="무엇이든 물어보세요\."/);
+  assert.doesNotMatch(html,/class="concierge-character another-concierge-character"/);
 });
 
 test("nearby tours add Doota shopping, remove Ihwa from host picks, and hide photo banners",async()=>{
