@@ -239,8 +239,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260824-61/);
-  assert.match(html,/gallery-overrides\.js\?v=20260824-61/);
+  assert.match(html,/content-updates\.js\?v=20260824-62/);
+  assert.match(html,/gallery-overrides\.js\?v=20260824-62/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
@@ -263,6 +263,10 @@ test("refined intro, magazine gallery, luggage media, room lock, and home-native
   assert.match(html,/brandMarkSequence 3\.24s/);
   assert.match(html,/introStaticNoise \.42s/);
   assert.match(html,/introLogoGlitch \.42s/);
+  assert.match(html,/class="brand-intro-mark"/);
+  assert.match(html,/\.brand-intro-mark::before,\.brand-intro-mark::after\{[^}]*mask:url\('assets\/images\/another-house-intro-logo\.png'\)/);
+  assert.doesNotMatch(html,/\.brand-intro::before,\.brand-intro::after/);
+  assert.doesNotMatch(html,/introSignalDrop/);
   assert.match(html,/58\.26%,100%\{opacity:1/);
   assert.match(html,/heroPrimarySequence 5\.52s/);
   assert.match(app,/,3240\);\}\);\}/);
@@ -308,21 +312,23 @@ test("opening hero runs one automatic five-photo pass with controls visible from
   assert.match(app,/pointerdown[\s\S]*pointerup[\s\S]*Math\.abs\(delta\)>=42/);
 });
 
-test("site-wide typography matches the measured Stay NEMO scale without oversizing",async()=>{
+test("site-wide typography keeps Korean copy inside cards compact",async()=>{
   const html=await read("index.html");
   assert.match(html,/body\{font-size:17px\}/);
   assert.match(html,/\.landing-hero \.hero-title\{font-size:clamp\(54px,12vw,58px\)\}/);
   assert.match(html,/body \.top h1,body \.brand-home\{[^}]*font-size:16px!important/);
   assert.match(html,/\.concierge-heading\{font-size:25px\}/);
   assert.match(html,/\.concierge-greeting\{font-size:16px/);
-  assert.match(html,/\.essential-copy strong\{font-size:17px\}/);
+  assert.match(html,/\.essential-copy strong\{font-size:15px\}/);
   assert.match(html,/\.essentials-title,\.getting-title,\.stay-guide-title\{font-size:26px\}/);
   assert.match(html,/\.previous-gallery-subtitle\{font-size:24px\}/);
   assert.match(html,/\.previous-gallery-heading h2\{font-size:34px\}/);
   assert.match(html,/\.stay-story-title\{font-size:clamp\(38px,10vw,42px\)\}/);
   assert.match(html,/\.tab\{font-size:11px\}/);
   assert.doesNotMatch(html,/\.landing-hero \.hero-title\{font-size:clamp\(60px,16vw,76px\)\}/);
-  assert.match(html,/\.transport-card p,[^\n]*\.restaurant-copy\{font-size:15px\}/);
+  assert.match(html,/\.stay-info-link span:last-child\{font-size:14px\}/);
+  assert.match(html,/\.menu-copy strong\{font-size:15px\}/);
+  assert.match(html,/\.transport-card p,[^\n]*\.restaurant-copy\{font-size:13px\}/);
 });
 
 test("official Another House logo appears in the header, concierge, and menu",async()=>{

@@ -1242,14 +1242,15 @@ body.hero-scrolled .landing-hero .hero-photo-secondary{animation:none;opacity:0;
 .brand-intro.is-running img{animation:brandMarkSequence 3.24s cubic-bezier(.4,0,.2,1) both}
 @keyframes brandMarkSequence{0%{opacity:0;transform:translateY(8px) scale(.965);filter:blur(3px)}58.26%,100%{opacity:1;transform:translateY(0) scale(1);filter:none}}
 .brand-intro{overflow:hidden;transition:none}
-.brand-intro::before,.brand-intro::after{content:"";position:absolute;inset:-8%;z-index:2;opacity:0;pointer-events:none}
-.brand-intro::before{background:repeating-linear-gradient(0deg,rgba(35,29,25,.18) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(117,72,54,.11) 0 2px,transparent 2px 7px);mix-blend-mode:multiply}
-.brand-intro::after{background:linear-gradient(180deg,transparent 0 42%,rgba(35,29,25,.18) 46% 52%,transparent 56% 100%)}
-.brand-intro.is-leaving{opacity:1;visibility:visible;pointer-events:none;animation:introSignalDrop .42s steps(7,end) both}
-.brand-intro.is-leaving img{animation:introLogoGlitch .42s steps(7,end) both!important}
-.brand-intro.is-leaving::before{animation:introStaticNoise .42s steps(8,end) both}
-.brand-intro.is-leaving::after{animation:introScanDrop .42s linear both}
-@keyframes introSignalDrop{0%,68%{opacity:1;background:#fff}72%{opacity:.78;background:#eee9e3}82%{opacity:.94;background:#fff}100%{opacity:0;background:#fff}}
+.brand-intro-mark{position:relative;display:block;width:min(88vw,374px)}
+.brand-intro-mark img{position:relative;z-index:1;width:100%}
+.brand-intro-mark::before,.brand-intro-mark::after{content:"";position:absolute;inset:0;z-index:2;opacity:0;pointer-events:none;-webkit-mask:url('assets/images/another-house-intro-logo.png') center/contain no-repeat;mask:url('assets/images/another-house-intro-logo.png') center/contain no-repeat}
+.brand-intro-mark::before{background:repeating-linear-gradient(0deg,rgba(35,29,25,.34) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(117,72,54,.24) 0 2px,transparent 2px 7px);mix-blend-mode:multiply}
+.brand-intro-mark::after{background:linear-gradient(180deg,transparent 0 42%,rgba(35,29,25,.34) 46% 52%,transparent 56% 100%)}
+.brand-intro.is-leaving{opacity:0;visibility:visible;pointer-events:none;transition:opacity .12s linear .3s}
+.brand-intro.is-leaving .brand-intro-mark img{animation:introLogoGlitch .42s steps(7,end) both!important}
+.brand-intro.is-leaving .brand-intro-mark::before{animation:introStaticNoise .42s steps(8,end) both}
+.brand-intro.is-leaving .brand-intro-mark::after{animation:introScanDrop .42s linear both}
 @keyframes introLogoGlitch{0%{opacity:1;transform:translate(0) scale(1);filter:none}18%{transform:translate(-3px,1px) scaleX(1.012);filter:contrast(1.35)}32%{transform:translate(4px,-1px) scaleX(.99);clip-path:inset(18% 0 34% 0)}48%{transform:translate(-2px,0);clip-path:inset(54% 0 10% 0);filter:contrast(1.7) grayscale(.35)}66%{opacity:.72;transform:translate(3px,1px);clip-path:none}82%{opacity:.34;filter:blur(1px)}100%{opacity:0;transform:scaleY(.04);filter:blur(2px)}}
 @keyframes introStaticNoise{0%{opacity:0;transform:translate(0)}18%{opacity:.34;transform:translate(-2%,1%)}34%{opacity:.18;transform:translate(3%,-2%)}52%{opacity:.38;transform:translate(-1%,2%)}72%{opacity:.16;transform:translate(2%,-1%)}100%{opacity:0;transform:translate(0)}}
 @keyframes introScanDrop{0%{opacity:0;transform:translateY(-34%)}28%{opacity:.3}78%{opacity:.18;transform:translateY(36%)}100%{opacity:0;transform:translateY(52%)}}
@@ -1352,43 +1353,44 @@ body{font-size:17px}
 .concierge-heading{font-size:25px}
 .concierge-greeting{font-size:16px;line-height:1.55}
 .concierge-ask input{font-size:15px}
-.quick-tile b{font-size:12px}
+.quick-tile b{font-size:11px}
 .essentials-title,.getting-title,.stay-guide-title{font-size:26px}
 .nearby-title{font-size:29px}
 .essentials-sub{font-size:16px}
-.essential-copy small{font-size:13px;letter-spacing:0!important}
-.essential-copy strong{font-size:17px}
-.essentials-link{font-size:15px}
+.essential-copy small{font-size:11px;letter-spacing:0!important}
+.essential-copy strong{font-size:15px}
+.essentials-link{font-size:13px}
 .previous-gallery-subtitle{font-size:24px}
 .previous-gallery-heading h2{font-size:34px}
 .getting-card h3{font-size:24px}
-.getting-address,.getting-transit{font-size:15px}
-.getting-actions a{font-size:13px}
-.airport-access-copy strong{font-size:22px}
-.nearby-card-label{font-size:12px}
-.nearby-card strong{font-size:18px}
-.nearby-card p{font-size:13px}
-.nearby-all{font-size:14px}
-.stay-info-link span:last-child{font-size:16px}
-.home-help-copy,.home-support-card>.home-help-copy,.home-support-card>.home-support-details>.home-help-copy{font-size:15px}
-.ota-booking-hint,.booking-hint{font-size:13px!important}
+.getting-address,.getting-transit{font-size:13px}
+.getting-actions a{font-size:11px}
+.airport-access-copy strong{font-size:19px}
+.nearby-card-label{font-size:10px}
+.nearby-card strong{font-size:16px}
+.nearby-card p{font-size:11px}
+.nearby-all{font-size:12px}
+.stay-info-link span:last-child{font-size:14px}
+.home-help-copy,.home-support-card>.home-help-copy,.home-support-card>.home-support-details>.home-help-copy{font-size:13px}
+.ota-booking-hint,.booking-hint{font-size:11px!important}
 .hotel-footer{font-size:13px}
 .tab{font-size:11px}
-.menu-copy small{font-size:12px}
+.menu-copy strong{font-size:15px}
+.menu-copy small{font-size:10px}
 .menu-footer-note small{font-size:11px}
 .page-sub,.transport-hero p:last-child,.restaurants-hero p:last-child,.checkin-hero p:last-child,.gallery-head p:last-child{font-size:15px}
 .gallery-head h2{font-size:37px}
-.wifi-card h3,.transport-card h3{font-size:20px}
-.transport-card p,.wifi-steps li div>span,.route-steps li,.guide-detail-screen .steps li,.door-steps li div>span,.checkin-card-body>p,.trash-guide-card .device-body>p,.device-summary,.station-walk-step figcaption p,.restaurant-copy{font-size:15px}
-.device-model,.device-caution p{font-size:15px}
-.airport-copy small,.checkin-card-header .airport-copy small{font-size:12px}
-.airport-copy b,.checkin-card-header .airport-copy b{font-size:20px}
-.checkin-info-row>small{font-size:12px}
-.checkin-info-row strong{font-size:16px}
-.checkin-info-row p{font-size:15px}
-.checkin-overview .checkin-info-row>small{font-size:12px}
-.checkin-overview .checkin-info-row strong{font-size:15px}
-.checkin-overview .checkin-info-row p{font-size:13px}
+.wifi-card h3,.transport-card h3{font-size:18px}
+.transport-card p,.wifi-steps li div>span,.route-steps li,.guide-detail-screen .steps li,.door-steps li div>span,.checkin-card-body>p,.trash-guide-card .device-body>p,.device-summary,.station-walk-step figcaption p,.restaurant-copy{font-size:13px}
+.device-model,.device-caution p{font-size:13px}
+.airport-copy small,.checkin-card-header .airport-copy small{font-size:10px}
+.airport-copy b,.checkin-card-header .airport-copy b{font-size:17px}
+.checkin-info-row>small{font-size:10px}
+.checkin-info-row strong{font-size:14px}
+.checkin-info-row p{font-size:13px}
+.checkin-overview .checkin-info-row>small{font-size:10px}
+.checkin-overview .checkin-info-row strong{font-size:13px}
+.checkin-overview .checkin-info-row p{font-size:11px}
 .stay-story-body{font-size:16px}
 .stay-story-title{font-size:clamp(38px,10vw,42px)}
 @media(prefers-reduced-motion:reduce){
@@ -1401,7 +1403,7 @@ body{font-size:17px}
 </style>
 </head>
 <body class="is-home">
-<div class="brand-intro" id="brandIntro" aria-hidden="true"><img src="assets/images/another-house-intro-logo.png" alt=""></div>
+<div class="brand-intro" id="brandIntro" aria-hidden="true"><span class="brand-intro-mark"><img src="assets/images/another-house-intro-logo.png" alt=""></span></div>
 <div class="app">
 <header class="top"><button class="icon-btn" aria-label="메뉴" id="menuTop"><svg class="header-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg></button><h1><button class="brand-home" type="button" data-go="home" aria-label="홈으로 이동"><img class="header-brand-logo" src="assets/images/another-house-logo-mark.webp" alt=""><span>ANOTHER HOUSE</span></button></h1><div class="home-language" id="homeLanguage"><button class="home-language-btn" type="button" id="homeLangToggle" aria-label="언어 선택" aria-haspopup="true" aria-controls="homeLangMenu" aria-expanded="false"><span id="homeLangText">KR</span><svg class="header-icon" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5" /></svg></button><div class="home-language-menu" id="homeLangMenu" role="menu"><button class="home-language-option" type="button" data-language="ko"><span>한국어</span><small>KR</small></button><button class="home-language-option" type="button" data-language="en"><span>English</span><small>EN</small></button><button class="home-language-option" type="button" data-language="ja"><span>日本語</span><small>JP</small></button><button class="home-language-option" type="button" data-language="zh"><span>中文</span><small>CN</small></button></div></div></header>
 <main>
@@ -1428,5 +1430,5 @@ body{font-size:17px}
 <div class="menu-backdrop" id="menuBackdrop"></div><aside class="menu-panel" id="menuPanel" aria-label="전체 메뉴"><div class="menu-panel-head"><img class="menu-panel-logo" src="assets/images/another-house-logo-symbol.webp" alt="ANOTHER HOUSE"><button class="icon-btn" id="closeMenu" type="button" aria-label="메뉴 닫기"><span class="mi">close</span></button></div><nav class="menu-nav"><button class="menu-link" data-go="home"><span class="menu-icon"><span class="mi">home</span></span><span class="menu-copy"><strong>홈</strong><small>어나더하우스 처음 화면</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="gallery"><span class="menu-icon"><span class="mi">photo_library</span></span><span class="menu-copy"><strong>객실 둘러보기</strong><small>공용 공간·객실·욕실 사진</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="transport"><span class="menu-icon"><span class="mi">map</span></span><span class="menu-copy"><strong>찾아오는 길</strong><small>공항과 역에서 숙소까지</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="checkin"><span class="menu-icon"><span class="mi">login</span></span><span class="menu-copy"><strong>체크인 · 체크아웃 안내</strong><small>입실·퇴실 방법과 이용 안내</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="wifi"><span class="menu-icon"><span class="mi">wifi</span></span><span class="menu-copy"><strong>Wi-Fi</strong><small>네트워크 정보와 비밀번호</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="appliances"><span class="menu-icon"><span class="mi">room_service</span></span><span class="menu-copy"><strong>냉난방 • 주방기기 사용법</strong><small>냉난방·주방·가전 사용법</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="laundry"><span class="menu-icon"><span class="mi">local_laundry_service</span></span><span class="menu-copy"><strong>세탁 안내</strong><small>세탁기·건조기 사용법</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="trash"><span class="menu-icon"><span class="mi">delete_outline</span></span><span class="menu-copy"><strong>쓰레기 배출</strong><small>분리수거와 배출 안내</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="restaurants"><span class="menu-icon"><span class="mi">restaurant</span></span><span class="menu-copy"><strong>주변 맛집</strong><small>ANOTHER HOUSE가 고른 주변 맛집</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button><button class="menu-link" data-go="tours"><span class="menu-icon"><span class="mi">near_me</span></span><span class="menu-copy"><strong>추천 근교 투어</strong><small>서울에서 만나는 추천 21곳</small></span><span class="menu-chevron"><span class="mi">chevron_right</span></span></button></nav><div class="menu-footer-note"><span>STAY ANOTHER LIFE</span><small>ANOTHER HOUSE • DONGDAEMUN SEOUL</small></div></aside>
 <div class="image-lightbox-backdrop" id="imageLightboxBackdrop"></div><section class="image-lightbox" id="imageLightbox" role="dialog" aria-modal="true" aria-label="사진 크게 보기"><button class="image-lightbox-close" id="closeImageLightbox" type="button" aria-label="닫기"><span class="mi">close</span></button><div class="image-lightbox-stage" id="imageLightboxStage"><button class="image-lightbox-nav image-lightbox-prev" id="lightboxPrev" type="button" aria-label="이전 사진"><span class="mi">chevron_left</span></button><img id="imageLightboxImg" src="" alt="" draggable="false"><button class="image-lightbox-nav image-lightbox-next" id="lightboxNext" type="button" aria-label="다음 사진"><span class="mi">chevron_right</span></button></div><div class="image-lightbox-meta"><p class="image-lightbox-caption" id="imageLightboxCaption"></p><span class="image-lightbox-count" id="imageLightboxCount"></span><span class="image-lightbox-swipe"><span>SWIPE</span><span class="mi">swipe</span></span></div></section>
 <div class="chat-backdrop" id="chatBackdrop"></div><section class="chat-panel" id="chatPanel"><header class="chat-head"><div><h2>ANOTHER HOUSE CONCIERGE</h2><p>숙소 이용 안내만 답변합니다.</p></div><button class="chat-close" id="closeChat"><span class="mi">close</span></button></header><div class="chat-log" id="chatLog"><div class="msg bot">안녕하세요. 체크인, 교통, Wi-Fi, 기기 사용법을 물어보세요.</div></div><div><div class="chat-suggestions"><button class="suggestion">체크인은 몇 시야?</button><button class="suggestion">와이파이 알려줘</button><button class="suggestion">동대문역에서 어떻게 가?</button></div><div class="chat-note">비밀번호와 출입 코드는 예약 플랫폼 메시지에서 확인해 주세요.</div><form class="chat-form" id="chatForm"><textarea id="chatInput" rows="1" placeholder="질문을 입력하세요"></textarea><button class="send-btn"><span class="mi">arrow_upward</span></button></form></div></section><div class="toast" id="toast">복사했습니다</div>
-<script src="assets/site-data.js?v=20260824-61"></script><script src="assets/gallery-data.js?v=20260824-61"></script><script src="assets/content-updates.js?v=20260824-61"></script><script src="assets/gallery-overrides.js?v=20260824-61"></script><script src="assets/restaurant-data.js?v=20260824-61"></script><script src="assets/restaurant-expanded.js?v=20260824-61"></script><script src="assets/tour-data.js?v=20260824-61"></script><script src="assets/master-app.js?v=20260824-61"></script><script src="assets/tour-app.js?v=20260824-61"></script></body>
+<script src="assets/site-data.js?v=20260824-62"></script><script src="assets/gallery-data.js?v=20260824-62"></script><script src="assets/content-updates.js?v=20260824-62"></script><script src="assets/gallery-overrides.js?v=20260824-62"></script><script src="assets/restaurant-data.js?v=20260824-62"></script><script src="assets/restaurant-expanded.js?v=20260824-62"></script><script src="assets/tour-data.js?v=20260824-62"></script><script src="assets/master-app.js?v=20260824-62"></script><script src="assets/tour-app.js?v=20260824-62"></script></body>
 </html>
