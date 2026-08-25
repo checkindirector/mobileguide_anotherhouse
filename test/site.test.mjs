@@ -249,8 +249,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260824-69/);
-  assert.match(html,/gallery-overrides\.js\?v=20260824-69/);
+  assert.match(html,/content-updates\.js\?v=20260825-70/);
+  assert.match(html,/gallery-overrides\.js\?v=20260825-70/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
@@ -368,6 +368,7 @@ test("opening hero runs one automatic five-photo pass with controls visible from
 
 test("site-wide typography matches Stay NEMO and keeps card copy readable",async()=>{
   const html=await read("index.html");
+  const app=await read("assets/master-app.js");
   assert.match(html,/body\{font-size:17px;font-weight:600;line-height:1\.55\}/);
   assert.match(html,/\.landing-hero \.hero-title\{font-size:clamp\(54px,12vw,58px\)\}/);
   assert.match(html,/body \.top h1,body \.brand-home\{[^}]*font-size:16px!important/);
@@ -381,12 +382,20 @@ test("site-wide typography matches Stay NEMO and keeps card copy readable",async
   assert.match(html,/\.tab\{font-size:11px\}/);
   assert.doesNotMatch(html,/\.landing-hero \.hero-title\{font-size:clamp\(60px,16vw,76px\)\}/);
   assert.match(html,/\.stay-info-link span:last-child\{font-size:15px\}/);
-  assert.match(html,/\.menu-copy strong\{font-size:16px\}/);
+  assert.match(html,/\.menu-copy strong\{font-size:18px;font-weight:800/);
   assert.match(html,/\.transport-card p,[^\n]*\.restaurant-copy\{font-size:15px;font-weight:600\}/);
   assert.match(html,/\.checkin-info-row strong\{font-size:16px;font-weight:800\}/);
   assert.match(html,/\.checkin-overview \.checkin-info-row p\{font-size:14px;font-weight:600\}/);
   assert.match(html,/--font-main:'Oxanium','Arial Narrow',Arial,sans-serif/);
   assert.match(html,/\.tour-home-card \.nearby-card-copy>span\{[^}]*font-size:12px/);
+  assert.match(html,/\.gallery-head \.section-kicker\{font-size:13px!important;font-weight:800!important/);
+  assert.match(html,/\.stay-story-kicker,\.stay-story-index\{font-size:13px;font-weight:800/);
+  assert.match(html,/\.stay-story-fact span\{font-size:15px;font-weight:600/);
+  assert.match(html,/\.gallery-category\{min-height:52px[^}]*font-size:15px/);
+  assert.match(html,/\.ota-booking-hint,\.booking-hint\{font-size:14px!important;font-weight:600!important/);
+  assert.match(html,/\.ota-link img,\.ota-link-list \.ota-link img\{max-width:98px;height:22px\}/);
+  assert.match(html,/\.wifi-network-card strong,[^\n]*\{font-size:16px;font-weight:800!important/);
+  assert.match(app,/links:\['체크인 정보 확인하기','숙소 주소 지도 바로 보기'\]/);
 });
 
 test("official Another House logo appears in the header, concierge, and menu",async()=>{
