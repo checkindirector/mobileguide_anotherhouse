@@ -12,6 +12,18 @@ test("single lodging data source contains all guide routes and four languages",a
   assert.doesNotMatch(data,/FAQ|faq|EXTAY|guide-extay/);
 });
 
+test("language switching translates home shortcuts, maps, and room gallery heading",async()=>{
+  const app=await read("assets/master-app.js");
+  const data=await read("assets/site-data.js");
+  assert.match(app,/quick:\['Check-in','Directions','Wi-Fi','Facilities'\],naverMap:'Naver Maps'/);
+  assert.match(app,/quick:\['チェックイン','アクセス','Wi-Fi','設備案内'\],naverMap:'Naver Maps'/);
+  assert.match(app,/quick:\['入住','交通路线','Wi-Fi','设施使用'\],naverMap:'Naver Maps'/);
+  assert.match(app,/\.quick-tile b'\)\.forEach\(\(e,i\)=>e\.textContent=x\.quick\[i\]\)/);
+  assert.match(app,/\.getting-actions a span:last-child'\)\.forEach\(\(e,i\)=>e\.textContent=\[x\.naverMap,x\.googleMap\]\[i\]\)/);
+  assert.match(app,/galleryHeadline\.textContent=x\.gallery/);
+  assert.ok(data.includes("5F, Sunil Building, 294 Jong-ro, Jongno-gu, Seoul"));
+});
+
 test("navigation stays on the root URL and uses no hash routes",async()=>{
   const html = await read("index.html"); const app = await read("assets/app.js");
   assert.doesNotMatch(html,/http-equiv="refresh"|href="#/i);
@@ -167,15 +179,35 @@ test("master motion system covers every page and adds visible media reveals",asy
   assert.match(app,/gallery-magazine-card/);
   assert.doesNotMatch(app,/gallerySwipeStartX|gallerySwipePointerId|selectGallery\(/);
   assert.match(html,/id="galleryMagazine"/);
-  assert.doesNotMatch(html,/id="galleryThumbs"|id="galleryMainZoom"|zoom_in/);
+  assert.doesNotMatch(html,/id="galleryThumbs"|id="galleryMainZoom"/);
   for(const category of ["exterior","lounge","bath","luggage","single","double"]) assert.ok(overrides.includes(`id:'${category}'`));
   assert.match(overrides,/removedCommon=new Set\(\[3,5,7,9,14,16,21,23,25,34\]\)/);
   assert.deepEqual([...overrides.matchAll(/\{id:'(exterior|lounge|bath|single|double|luggage)'/g)].map(match=>match[1]),["exterior","lounge","bath","single","double","luggage"]);
   assert.match(overrides,/doubleRooms=byNumber\(originalDouble,\[4,9,1,8\]\)/);
   assert.match(overrides,/D\.homeGallery=byNumber\(originalCommon,\[22,15\]\)\.concat\(byNumber\(originalDouble,\[9\]\)\)/);
   assert.match(app,/data-gallery-lightbox-index/);
-  assert.match(app,/pointerdown[\s\S]*pointerup[\s\S]*moveLightbox/);
-});test("hamburger menu places house rules after trash with a dedicated icon",async()=>{
+  assert.match(app,/pointerdown[\s\S]*pointerup/);
+  assert.match(app,/function moveLightbox/);
+});
+
+test("official Samsung guide stays consistent across languages and supports pinch zoom",async()=>{
+  const app=await read("assets/master-app.js");
+  const data=await read("assets/site-data.js");
+  const html=await read("index.html");
+  assert.match(data,/guideImage: I\('\/assets\/images\/guides\/official-samsung-ko\.webp', '\/assets\/images\/guides\/official-samsung\.webp', '\/assets\/images\/guides\/official-samsung\.webp', '\/assets\/images\/guides\/official-samsung\.webp'\)/);
+  await access(resolve(root,"assets/images/guides/official-samsung-ko.webp"));
+  await access(resolve(root,"assets/images/guides/official-samsung.webp"));
+  assert.match(app,/const lightboxPointers=new Map\(\)/);
+  assert.match(app,/Math\.hypot/);
+  assert.match(app,/clampLightbox\([^\n]*,1,4\)/);
+  assert.match(app,/pointermove/);
+  assert.match(app,/applyLightboxTransform/);
+  assert.match(html,/--lightbox-scale/);
+  assert.match(html,/image-lightbox\.is-zoomed/);
+  assert.match(html,/PINCH TO ZOOM/);
+});
+
+test("hamburger menu places house rules after trash with a dedicated icon",async()=>{
   const html=await read("index.html");
   const app=await read("assets/master-app.js");
   const order=[...html.matchAll(/<button class="menu-link" data-go="([^"]+)"/g)].map(match=>match[1]);
@@ -249,8 +281,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260825-70/);
-  assert.match(html,/gallery-overrides\.js\?v=20260825-70/);
+  assert.match(html,/content-updates\.js\?v=20260825-71/);
+  assert.match(html,/gallery-overrides\.js\?v=20260825-71/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
