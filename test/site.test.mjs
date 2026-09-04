@@ -315,8 +315,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260904-76/);
-  assert.match(html,/gallery-overrides\.js\?v=20260904-76/);
+  assert.match(html,/content-updates\.js\?v=20260904-77/);
+  assert.match(html,/gallery-overrides\.js\?v=20260904-77/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
@@ -591,4 +591,16 @@ test("greeting waits for intro, closes after five seconds, and stays dismissed",
   const manual=setup();manual.show();manual.api.initChatGreeting();manual.api.dismissChatGreeting();
   assert.equal(manual.greeting.hidden,true);
   assert.equal(manual.stored(),'1');
+});
+
+test("concierge caption sits below the logo with reserved safe space",async()=>{
+  const html=await read("index.html");
+  const caption=html.match(/\.concierge-launcher-caption\{([^}]+)\}/)[1];
+  const widget=html.match(/\.concierge-widget\{([^}]+)\}/)[1];
+  assert.ok(caption.includes('top:calc(100% + 6px)'));
+  assert.ok(caption.includes('bottom:auto'));
+  assert.ok(widget.includes('padding-bottom:var(--concierge-caption-space)'));
+  assert.ok(widget.includes('--concierge-caption-space:calc(1.05rem + 12px)'));
+  assert.ok(widget.includes('env(safe-area-inset-bottom,0px)'));
+  assert.doesNotMatch(caption,/bottom:-/);
 });
