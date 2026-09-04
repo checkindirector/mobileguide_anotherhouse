@@ -12,6 +12,36 @@ test("single lodging data source contains all guide routes and four languages",a
   assert.doesNotMatch(data,/FAQ|faq|EXTAY|guide-extay/);
 });
 
+
+test("logo chat opens, closes and restores focus without a delayed focus leak",async()=>{
+  const source=await read("assets/master-app.js");
+  const node=()=>({inert:true,isConnected:true,attributes:{},classes:new Set(),focusCount:0,
+    setAttribute(key,value){this.attributes[key]=value},
+    focus(){this.focusCount++},
+    get classList(){const classes=this.classes;return {add:x=>classes.add(x),remove:x=>classes.delete(x),contains:x=>classes.has(x)}}});
+  const elements=Object.fromEntries(['chatPanel','chatBackdrop','openChatFab','chatInput'].map(id=>['#'+id,node()]));
+  const timers=[];
+  const start=source.indexOf('function openChat(){');
+  const end=source.indexOf('\n',start);
+  const functions=source.slice(start,end);
+  const create=new Function('$','document','setTimeout','let chatReturnFocus=null;'+functions+';return {openChat,closeChat};');
+  const api=create(key=>elements[key],{activeElement:elements['#openChatFab']},fn=>timers.push(fn));
+  api.openChat();
+  assert.equal(elements['#chatPanel'].inert,false);
+  assert.equal(elements['#chatPanel'].classList.contains('open'),true);
+  assert.equal(elements['#openChatFab'].attributes['aria-expanded'],'true');
+  api.closeChat();
+  assert.equal(elements['#chatPanel'].inert,true);
+  assert.equal(elements['#chatBackdrop'].classList.contains('open'),false);
+  assert.equal(elements['#openChatFab'].attributes['aria-expanded'],'false');
+  assert.equal(elements['#openChatFab'].focusCount,1);
+  timers.splice(0).forEach(fn=>fn());
+  assert.equal(elements['#chatInput'].focusCount,0);
+  api.openChat();
+  timers.splice(0).forEach(fn=>fn());
+  assert.equal(elements['#chatInput'].focusCount,1);
+});
+
 test("language switching translates home shortcuts, maps, and room gallery heading",async()=>{
   const app=await read("assets/master-app.js");
   const data=await read("assets/site-data.js");
@@ -285,8 +315,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260825-72/);
-  assert.match(html,/gallery-overrides\.js\?v=20260825-72/);
+  assert.match(html,/content-updates\.js\?v=20260904-73/);
+  assert.match(html,/gallery-overrides\.js\?v=20260904-73/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
@@ -484,7 +514,7 @@ test("device diagrams swipe in fullscreen, gallery captions stay hidden, and air
 });
 
 
-test("tour totals stay data-driven and the legacy floating AI button is gone",async()=>{
+test("tour totals stay data-driven and the shared logo chat launcher is available",async()=>{
   const html=await read("index.html");
   const data=await read("assets/tour-data.js");
   const tourApp=await read("assets/tour-app.js");
@@ -494,6 +524,12 @@ test("tour totals stay data-driven and the legacy floating AI button is gone",as
   assert.match(html,/추천 근교 투어 21곳 보기/);
   assert.match(tourApp,/const total = DATA\.places\.length/);
   assert.match(masterApp,/const tourPlaceCount=window\.ANOTHER_HOUSE_TOURS\?\.places\?\.length\|\|20/);
-  assert.doesNotMatch(html,/id="openChatFab"|another-chat-fab/);
+  assert.match(html,/class="concierge-launcher" id="openChatFab"/);
+  assert.match(html,/aria-controls="chatPanel" aria-expanded="false"/);
+  assert.match(html,/concierge-launcher[\s\S]*?another-house-logo-symbol\.webp/);
+  assert.match(html,/\.concierge-launcher\{position:fixed/);
+  assert.match(masterApp,/panel\.inert=false/);
+  assert.match(masterApp,/panel\.inert=true/);
+  for(const label of ['어나더하우스 챗봇 열기','Open Another House chat','Another House チャットを開く','打开 Another House 聊天']) assert.ok(masterApp.includes(label));
   assert.match(masterApp,/\$\('#openChatFab'\)\?\.addEventListener\('click',openChat\)/);
 });
