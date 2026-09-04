@@ -24,8 +24,8 @@ test("logo chat opens, closes and restores focus without a delayed focus leak",a
   const start=source.indexOf('function openChat(){');
   const end=source.indexOf('\n',start);
   const functions=source.slice(start,end);
-  const create=new Function('$','document','setTimeout','let chatReturnFocus=null;'+functions+';return {openChat,closeChat};');
-  const api=create(key=>elements[key],{activeElement:elements['#openChatFab']},fn=>timers.push(fn));
+  const create=new Function('$','document','setTimeout','dismissChatGreeting','let chatReturnFocus=null;'+functions+';return {openChat,closeChat};');
+  const api=create(key=>elements[key],{activeElement:elements['#openChatFab']},fn=>timers.push(fn),()=>{});
   api.openChat();
   assert.equal(elements['#chatPanel'].inert,false);
   assert.equal(elements['#chatPanel'].classList.contains('open'),true);
@@ -315,8 +315,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260904-74/);
-  assert.match(html,/gallery-overrides\.js\?v=20260904-74/);
+  assert.match(html,/content-updates\.js\?v=20260904-75/);
+  assert.match(html,/gallery-overrides\.js\?v=20260904-75/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
@@ -527,7 +527,7 @@ test("tour totals stay data-driven and the shared logo chat launcher is availabl
   assert.match(html,/class="concierge-launcher" id="openChatFab"/);
   assert.match(html,/aria-controls="chatPanel" aria-expanded="false"/);
   assert.match(html,/concierge-launcher[\s\S]*?another-house-logo-symbol\.webp/);
-  assert.match(html,/\.concierge-launcher\{position:fixed/);
+  assert.match(html,/\.concierge-widget\{position:fixed/);
   assert.match(masterApp,/panel\.inert=false/);
   assert.match(masterApp,/panel\.inert=true/);
   for(const label of ['어나더하우스 챗봇 열기','Open Another House chat','Another House チャットを開く','打开 Another House 聊天']) assert.ok(masterApp.includes(label));
@@ -537,7 +537,7 @@ test("tour totals stay data-driven and the shared logo chat launcher is availabl
 test("floating concierge speech bubble is visible, clickable, and localized",async()=>{
   const html=await read("index.html");
   const source=await read("assets/master-app.js");
-  assert.match(html,/<button class="concierge-launcher"[^>]*><span class="concierge-launcher-message">/);
+  assert.match(html,/<div class="concierge-launcher-message" id="chatGreeting" hidden><button class="concierge-greeting-open"/);
   assert.match(html,/id="chatLauncherLabel">AI 컨시어지/);
   assert.match(html,/id="chatLauncherMessage">무엇을 도와드릴까요\?/);
   assert.match(html,/max-width:min\(230px,calc\(100vw - 122px\)\)/);
@@ -555,4 +555,39 @@ test("floating concierge speech bubble is visible, clickable, and localized",asy
     assert.equal(nodes['#chatLauncherMessage'].textContent,message);
     assert.ok(nodes['#openChatFab']['aria-label'].includes(message));
   }
+});
+
+test("greeting waits for intro, closes after five seconds, and stays dismissed",async()=>{
+  const source=await read("assets/master-app.js");
+  const block=source.slice(source.indexOf('let chatGreetingTimer='),source.indexOf('\nfunction renderAll(){'));
+  function setup(seen=false){
+    let visible=false,stored=seen?'1':null;
+    const timers=[];
+    const greeting={hidden:true,contains:()=>false};
+    const doc={body:{},visibilityState:'visible',activeElement:null,addEventListener(){},removeEventListener(){}};
+    const nodes={'#chatGreeting':greeting,'#conciergeWidget':{},'#openChatFab':{focus(){}}};
+    const create=new Function('$','document','sessionStorage','MutationObserver','getComputedStyle','setTimeout','clearTimeout',block+';return {initChatGreeting,tryShowChatGreeting,dismissChatGreeting};');
+    const api=create(key=>nodes[key],doc,{getItem:()=>stored,setItem:(k,v)=>stored=v},class{observe(){}disconnect(){}},()=>({visibility:visible?'visible':'hidden'}),(fn,ms)=>{timers.push({fn,ms});return timers.length},()=>{});
+    return {api,greeting,timers,show:()=>visible=true,stored:()=>stored};
+  }
+  const first=setup();
+  first.api.initChatGreeting();
+  assert.equal(first.greeting.hidden,true);
+  assert.equal(first.timers.length,0);
+  first.show();first.api.tryShowChatGreeting();
+  assert.equal(first.greeting.hidden,false);
+  assert.equal(first.timers[0].ms,5000);
+  first.api.tryShowChatGreeting();
+  assert.equal(first.timers.length,1);
+  first.timers[0].fn();
+  assert.equal(first.greeting.hidden,true);
+  first.api.tryShowChatGreeting();
+  assert.equal(first.greeting.hidden,true);
+  assert.equal(first.stored(),'1');
+  const returning=setup(true);returning.show();returning.api.initChatGreeting();
+  assert.equal(returning.greeting.hidden,true);
+  assert.equal(returning.timers.length,0);
+  const manual=setup();manual.show();manual.api.initChatGreeting();manual.api.dismissChatGreeting();
+  assert.equal(manual.greeting.hidden,true);
+  assert.equal(manual.stored(),'1');
 });
