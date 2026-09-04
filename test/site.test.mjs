@@ -315,8 +315,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260904-73/);
-  assert.match(html,/gallery-overrides\.js\?v=20260904-73/);
+  assert.match(html,/content-updates\.js\?v=20260904-74/);
+  assert.match(html,/gallery-overrides\.js\?v=20260904-74/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
@@ -532,4 +532,27 @@ test("tour totals stay data-driven and the shared logo chat launcher is availabl
   assert.match(masterApp,/panel\.inert=true/);
   for(const label of ['어나더하우스 챗봇 열기','Open Another House chat','Another House チャットを開く','打开 Another House 聊天']) assert.ok(masterApp.includes(label));
   assert.match(masterApp,/\$\('#openChatFab'\)\?\.addEventListener\('click',openChat\)/);
+});
+
+test("floating concierge speech bubble is visible, clickable, and localized",async()=>{
+  const html=await read("index.html");
+  const source=await read("assets/master-app.js");
+  assert.match(html,/<button class="concierge-launcher"[^>]*><span class="concierge-launcher-message">/);
+  assert.match(html,/id="chatLauncherLabel">AI 컨시어지/);
+  assert.match(html,/id="chatLauncherMessage">무엇을 도와드릴까요\?/);
+  assert.match(html,/max-width:min\(230px,calc\(100vw - 122px\)\)/);
+  const body=source.slice(source.indexOf('function renderChatLauncher(){'),source.indexOf('\nlet chatReturnFocus'));
+  for(const [language,label,message] of [
+    ['ko','AI 컨시어지','무엇을 도와드릴까요?'],
+    ['en','AI Concierge','How can I help you?'],
+    ['ja','AIコンシェルジュ','何かお困りですか？'],
+    ['zh','AI 礼宾助手','有什么可以帮您？']
+  ]){
+    const nodes={};
+    const $=key=>nodes[key]||(nodes[key]={setAttribute(k,v){this[k]=v}});
+    new Function('$','lang',body+';renderChatLauncher();')($,language);
+    assert.equal(nodes['#chatLauncherLabel'].textContent,label);
+    assert.equal(nodes['#chatLauncherMessage'].textContent,message);
+    assert.ok(nodes['#openChatFab']['aria-label'].includes(message));
+  }
 });
