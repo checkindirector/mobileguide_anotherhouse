@@ -17,7 +17,7 @@
     ko: { places: '곳', from: '숙소에서', map: '지도', official: '상세 정보', empty: '조건에 맞는 장소가 없습니다.' },
     en: { places: 'places', from: 'FROM THE HOUSE', map: 'MAPS', official: 'DETAILS', empty: 'No places match your search.' },
     ja: { places: 'スポット', from: '宿から', map: '地図', official: '詳細情報', empty: '条件に合うスポットがありません。' },
-    zh: { places: '处', from: '距住宿', map: '地图', official: '详细信息', empty: '没有符合条件的地点。' },
+    zh: { places: '处', from: '距住宿', map: '地图', official: '详细信息', empty: '没有符合条件的地点。' }, "zh-TW":{ places: "處", from: "距住宿", map: "地圖", official: "詳細資訊", empty: "沒有符合條件的地點。" },
   }[lang()] || {});
 
   let category = 'host';
@@ -115,7 +115,7 @@
       ko: ['추천 근교 투어', `추천 근교 투어 ${total}곳 보기`],
       en: ['Nearby Tours', `View ${total} nearby tours`],
       ja: ['近郊おすすめツアー', `近郊スポット${total}選を見る`],
-      zh: ['附近精选路线', `查看${total}个附近景点`],
+      zh: ['附近精选路线', `查看${total}个附近景点`], "zh-TW":["附近精選路線", `檢視${total}個附近景點`],
     }[lang()] || ['추천 근교 투어', `추천 근교 투어 ${total}곳 보기`];
     const homeTitle = $('#homeToursTitle');
     const browseLabel = $('#tourBrowseLabel');

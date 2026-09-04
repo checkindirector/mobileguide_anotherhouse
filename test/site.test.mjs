@@ -5,10 +5,10 @@ import { resolve } from "node:path";
 const root = resolve(import.meta.dirname,"..");
 const read = file => readFile(resolve(root,file),"utf8");
 
-test("single lodging data source contains all guide routes and four languages",async()=>{
+test("single lodging data source contains all guide routes and five languages",async()=>{
   const data = await read("assets/site-data.js");
   for(const route of ["checkin","checkout","transport","wifi","appliances","laundry","trash","rules","nearby","guidebook"]) assert.match(data,new RegExp("\\b"+route+"\\b"));
-  assert.ok(data.includes("const I = (ko, en, ja, zh)"));
+  assert.ok(data.includes("const I = (ko, en, ja, zh, zhTW)"));
   assert.doesNotMatch(data,/FAQ|faq|EXTAY|guide-extay/);
 });
 
@@ -224,7 +224,7 @@ test("official Samsung guide stays consistent across languages and supports pinc
   const app=await read("assets/master-app.js");
   const data=await read("assets/site-data.js");
   const html=await read("index.html");
-  assert.match(data,/guideImage: I\('\/assets\/images\/guides\/official-samsung-ko\.webp', '\/assets\/images\/guides\/official-samsung-en-hd\.webp', '\/assets\/images\/guides\/official-samsung-en-hd\.webp', '\/assets\/images\/guides\/official-samsung-en-hd\.webp'\)/);
+  assert.match(data,/guideImage: I\('\/assets\/images\/guides\/official-samsung-ko\.webp', '\/assets\/images\/guides\/official-samsung-en-hd\.webp', '\/assets\/images\/guides\/official-samsung-en-hd\.webp', '\/assets\/images\/guides\/official-samsung-en-hd\.webp', "\/assets\/images\/guides\/official-samsung-en-hd\.webp"\)/);
   await access(resolve(root,"assets/images/guides/official-samsung-ko.webp"));
   await access(resolve(root,"assets/images/guides/official-samsung-en-hd.webp"));
   assert.match(app,/const lightboxPointers=new Map\(\)/);
@@ -315,8 +315,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260904-75/);
-  assert.match(html,/gallery-overrides\.js\?v=20260904-75/);
+  assert.match(html,/content-updates\.js\?v=20260904-76/);
+  assert.match(html,/gallery-overrides\.js\?v=20260904-76/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
@@ -334,7 +334,7 @@ test("check-in flow keeps self check-in and departure open above parking while h
   const data=await read("assets/site-data.js");
   assert.match(html,/data-screen="rules"[^>]*>[\s\S]*?class="guide-detail-hero rules-hero"[\s\S]*?id="rulesContent"/);
   assert.match(html,/class="guide-detail-hero rules-hero">[\s\S]*?<h2 class="page-title">숙소 이용 규칙<\/h2>/);
-  assert.match(data,/rules: \{ title: I\('숙소 이용 규칙', 'House rules', '宿泊ルール', '住宿规则'\), kicker: 'HOUSE RULES'/);
+  assert.match(data,/rules: \{ title: I\('숙소 이용 규칙', 'House rules', '宿泊ルール', '住宿规则', "住宿規則"\), kicker: 'HOUSE RULES'/);
   assert.match(app,/function renderRulesPage\(\)/);
   assert.match(app,/function rulesEditorialMarkup\(r\)/);
   assert.match(app,/privacyTitle:'안전과 프라이버시'/);
@@ -546,7 +546,8 @@ test("floating concierge speech bubble is visible, clickable, and localized",asy
     ['ko','AI 컨시어지','무엇을 도와드릴까요?'],
     ['en','AI Concierge','How can I help you?'],
     ['ja','AIコンシェルジュ','何かお困りですか？'],
-    ['zh','AI 礼宾助手','有什么可以帮您？']
+    ['zh','AI 礼宾助手','有什么可以帮您？'],
+    ['zh-TW','AI 禮賓助手','有什麼可以幫您？']
   ]){
     const nodes={};
     const $=key=>nodes[key]||(nodes[key]={setAttribute(k,v){this[k]=v}});

@@ -16,19 +16,19 @@
   const luggage=range(37,37);
 
   D.galleryCategories=[
-    {id:'exterior',label:{ko:'전경',en:'Exterior',ja:'外観',zh:'外景'},items:exterior},
-    {id:'lounge',label:{ko:'라운지',en:'Lounge',ja:'ラウンジ',zh:'休息区'},items:lounge},
-    {id:'bath',label:{ko:'샤워실 & 파우더룸',en:'Shower & powder',ja:'シャワー＆パウダールーム',zh:'淋浴间与化妆间'},items:bath},
-    {id:'single',label:{ko:'1인실',en:'Single rooms',ja:'1人部屋',zh:'单人房'},items:originalSingle},
-    {id:'double',label:{ko:'2인실',en:'Double rooms',ja:'2人部屋',zh:'双人房'},items:doubleRooms},
-    {id:'luggage',label:{ko:'러기지룸',en:'Luggage room',ja:'荷物室',zh:'行李房'},items:luggage}
+    {id:'exterior',label:{ko:'전경',en:'Exterior',ja:'外観',zh:'外景', "zh-TW":"外景"},items:exterior},
+    {id:'lounge',label:{ko:'라운지',en:'Lounge',ja:'ラウンジ',zh:'休息区', "zh-TW":"休息區"},items:lounge},
+    {id:'bath',label:{ko:'샤워실 & 파우더룸',en:'Shower & powder',ja:'シャワー＆パウダールーム',zh:'淋浴间与化妆间', "zh-TW":"淋浴間與化妝間"},items:bath},
+    {id:'single',label:{ko:'1인실',en:'Single rooms',ja:'1人部屋',zh:'单人房', "zh-TW":"單人房"},items:originalSingle},
+    {id:'double',label:{ko:'2인실',en:'Double rooms',ja:'2人部屋',zh:'双人房', "zh-TW":"雙人房"},items:doubleRooms},
+    {id:'luggage',label:{ko:'러기지룸',en:'Luggage room',ja:'荷物室',zh:'行李房', "zh-TW":"行李房"},items:luggage}
   ];
 
   D.gallery=exterior;
   D.homeGallery=byNumber(originalCommon,[22,15]).concat(byNumber(originalDouble,[9]));
 
   D.pages.checkin.roomDoorlockImage='/assets/images/checkin-room-doorlock.jpg';
-  D.pages.checkin.roomDoorlockLabel={ko:'객실 도어락',en:'Room door lock',ja:'客室ドアロック',zh:'客房门锁'};
-  D.luggage.value={ko:'503호 앞 러기지 룸',en:'Luggage room in front of Room 503',ja:'503号室前の荷物室',zh:'503号房前的行李房'};
+  D.pages.checkin.roomDoorlockLabel={ko:'객실 도어락',en:'Room door lock',ja:'客室ドアロック',zh:'客房门锁', "zh-TW":"客房門鎖"};
+  D.luggage.value={ko:'503호 앞 러기지 룸',en:'Luggage room in front of Room 503',ja:'503号室前の荷物室',zh:'503号房前的行李房', "zh-TW":"503號房前的行李房"};
   D.luggage.image='/assets/images/gallery/another-house/common-37-luggage.webp';
 })();

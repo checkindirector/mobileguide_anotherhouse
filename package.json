@@ -5,7 +5,7 @@
   "scripts": {
     "start": "npx serve .",
     "build": "node scripts/validate.mjs",
-    "test": "node --test test/site.test.mjs"
+    "test": "node --test test/site.test.mjs test/taiwan.test.mjs"
   },
   "devDependencies": {}
 }
