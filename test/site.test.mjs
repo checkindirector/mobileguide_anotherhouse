@@ -315,8 +315,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260904-77/);
-  assert.match(html,/gallery-overrides\.js\?v=20260904-77/);
+  assert.match(html,/content-updates\.js\?v=20260907-01/);
+  assert.match(html,/gallery-overrides\.js\?v=20260907-01/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
