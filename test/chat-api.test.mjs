@@ -112,6 +112,12 @@ test("searched weather answers always expose an official source fallback", async
   assert.equal(res.payload.links[0].url, "https://www.weather.go.kr/w/index.do");
 });
 
+test("official fallback source labels follow the guest language", async () => {
+  const output = { model: "gpt-5.4-mini", output_text: "It is sunny today.", output: [{ type: "web_search_call", action: { sources: [] } }], usage: {} };
+  const { res } = await callApi({ message: "What is the weather today?", language: "en" }, output, "203.0.113.29");
+  assert.equal(res.payload.links[0].label, "Verified source · Korea Meteorological Administration");
+});
+
 test("chat API rejects requests when OPENAI_API_KEY is missing", async () => {
   const originalKey = process.env.OPENAI_API_KEY;
   delete process.env.OPENAI_API_KEY;

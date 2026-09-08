@@ -99,10 +99,17 @@ function extractSources(data, language) {
 
 function fallbackOfficialSources(message, language) {
   const label = LINK_LABELS[language].source;
-  if (/(날씨|기온|weather|天気|天气|天氣)/i.test(message)) return [{ kind: "source", label: `${label} · 기상청`, url: "https://www.weather.go.kr/w/index.do" }];
-  if (/(공영주차장|public parking|駐車場|停车场|停車場)/i.test(message)) return [{ kind: "source", label: `${label} · 서울주차정보`, url: "https://parking.seoul.go.kr/" }];
-  if (/(공항|airport|空港|机场|機場)/i.test(message)) return [{ kind: "source", label: `${label} · 인천국제공항`, url: "https://www.airport.kr/" }];
-  if (/(지하철|버스|교통|subway|bus|transit|地下鉄|バス|地铁|地鐵|公交|巴士)/i.test(message)) return [{ kind: "source", label: `${label} · 서울교통정보`, url: "https://topis.seoul.go.kr/" }];
+  const names = {
+    ko: { weather: "기상청", parking: "서울주차정보", airport: "인천국제공항", transit: "서울교통정보" },
+    en: { weather: "Korea Meteorological Administration", parking: "Seoul Parking Information", airport: "Incheon International Airport", transit: "Seoul Transport Operation & Information" },
+    ja: { weather: "韓国気象庁", parking: "ソウル駐車情報", airport: "仁川国際空港", transit: "ソウル交通情報" },
+    zh: { weather: "韩国气象厅", parking: "首尔停车信息", airport: "仁川国际机场", transit: "首尔交通信息" },
+    "zh-TW": { weather: "韓國氣象廳", parking: "首爾停車資訊", airport: "仁川國際機場", transit: "首爾交通資訊" }
+  }[language];
+  if (/(날씨|기온|weather|天気|天气|天氣)/i.test(message)) return [{ kind: "source", label: `${label} · ${names.weather}`, url: "https://www.weather.go.kr/w/index.do" }];
+  if (/(공영주차장|public parking|駐車場|停车场|停車場)/i.test(message)) return [{ kind: "source", label: `${label} · ${names.parking}`, url: "https://parking.seoul.go.kr/" }];
+  if (/(공항|airport|空港|机场|機場)/i.test(message)) return [{ kind: "source", label: `${label} · ${names.airport}`, url: "https://www.airport.kr/" }];
+  if (/(지하철|버스|교통|subway|bus|transit|地下鉄|バス|地铁|地鐵|公交|巴士)/i.test(message)) return [{ kind: "source", label: `${label} · ${names.transit}`, url: "https://topis.seoul.go.kr/" }];
   return [];
 }
 
