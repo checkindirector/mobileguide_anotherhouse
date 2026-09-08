@@ -44,6 +44,7 @@ test("manual question uses server knowledge, gpt-5.4-mini, and no web search", a
   assert.equal(request.body.store, false);
   assert.equal(request.body.tools, undefined);
   assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-08\.1/);
+  assert.match(request.body.instructions, /MAP_SPOT: <canonical place name> \| <complete street address>/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
   assert.equal(request.body.prompt_cache_key, "another-house-2026-09-08.1-ko");
   assert.equal(res.payload.meta.cachedTokens, 80);
@@ -85,11 +86,37 @@ test("address answer includes two clickable map links", async () => {
 });
 
 test("specific public parking map links come before source links", async () => {
-  const output = { model: "gpt-5.4-mini", output_text: "숙소 안내가 아닌 공개 자료를 확인했습니다.", output: [{ type: "web_search_call", action: { sources: [{ title: "서울 주차정보", url: "https://parking.seoul.go.kr/" }] } }], usage: {} };
+  const output = { model: "gpt-5.4-mini", output_text: "동대문 공영주차장은 서울특별시 중구 을지로 227에 있습니다.\nMAP_SPOT: 동대문 공영주차장 | 서울특별시 중구 을지로 227", output: [{ type: "web_search_call", action: { sources: [{ title: "서울 주차정보", url: "https://parking.seoul.go.kr/" }] } }], usage: {} };
   const { res } = await callApi({ message: "동대문 근처 공영주차장 찾아줘", language: "ko" }, output, "203.0.113.24");
   assert.equal(res.payload.links[0].kind, "map");
   assert.equal(res.payload.links[1].kind, "map");
   assert.equal(res.payload.links[2].kind, "source");
+  assert.match(res.payload.links[0].label, /^동대문 공영주차장 · 네이버 지도$/);
+  assert.doesNotMatch(res.payload.answer, /MAP_SPOT/);
+});
+
+test("unresolved routes show no map buttons and collapse repeated source domains", async () => {
+  const output = {
+    model: "gpt-5.4-mini",
+    output_text: "심야버스 운행 여부는 확인되지 않았습니다. 정확한 출발 지점을 확정하기 어렵습니다.",
+    output: [{ type: "web_search_call", action: { sources: [
+      { title: "airport.kr", url: "https://www.airport.kr/ap_en/1514/subview.do" },
+      { title: "airport.kr", url: "https://airport.kr/ap_en/1509/subview.do?ref=search" },
+      { title: "airport.kr", url: "https://m.airport.kr/ap_en/1514/subview.do" }
+    ] } }],
+    usage: {}
+  };
+  const { res } = await callApi({ message: "심야에는 공항버스가 더 현실적인가요?", language: "ko" }, output, "203.0.113.30");
+  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 0);
+  assert.equal(res.payload.links.filter(link => link.kind === "source").length, 1);
+  assert.equal(res.payload.links[0].url, "https://www.airport.kr/ap_en/1514/subview.do");
+});
+
+test("a place name without a complete street address never creates map buttons", async () => {
+  const output = { model: "gpt-5.4-mini", output_text: "인천공항 제1터미널을 이용하세요.\nMAP_SPOT: 인천공항 제1터미널 | Incheon Airport Terminal 1", output: [{ type: "web_search_call", action: { sources: [{ title: "인천국제공항", url: "https://www.airport.kr/" }] } }], usage: {} };
+  const { res } = await callApi({ message: "인천공항 위치가 어디야?", language: "ko" }, output, "203.0.113.31");
+  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 0);
+  assert.doesNotMatch(res.payload.answer, /MAP_SPOT/);
 });
 
 test("duplicate current question is removed from recent history", async () => {

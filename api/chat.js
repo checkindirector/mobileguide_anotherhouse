@@ -81,17 +81,29 @@ function trustedUrl(value) {
   }
 }
 
+function sourceDomain(value) {
+  const safe = trustedUrl(value);
+  if (!safe) return null;
+  const host = new URL(safe).hostname.toLowerCase().replace(/^(?:www|m)\./, "");
+  const parts = host.split(".");
+  if (parts.length <= 2) return host;
+  const suffix = parts.slice(-2).join(".");
+  const compoundSuffixes = new Set(["co.kr", "go.kr", "or.kr", "ac.kr", "co.jp", "go.jp", "com.cn", "gov.cn", "com.tw", "gov.tw"]);
+  return compoundSuffixes.has(suffix) ? parts.slice(-3).join(".") : parts.slice(-2).join(".");
+}
+
 function extractSources(data, language) {
   const candidates = [];
   for (const item of data?.output || []) {
     if (item?.type === "web_search_call") for (const source of item?.action?.sources || []) candidates.push(source);
     for (const content of item?.content || []) for (const annotation of content?.annotations || []) if (annotation?.type === "url_citation" || annotation?.url_citation) candidates.push(annotation.url_citation || annotation);
   }
-  const seen = new Set();
+  const seenDomains = new Set();
   return candidates.flatMap(source => {
     const url = trustedUrl(source?.url);
-    if (!url || seen.has(url)) return [];
-    seen.add(url);
+    const domainKey = sourceDomain(url);
+    if (!url || !domainKey || seenDomains.has(domainKey)) return [];
+    seenDomains.add(domainKey);
     const domain = new URL(url).hostname.replace(/^www\./, "");
     return [{ kind: "source", label: String(source?.title || `${LINK_LABELS[language].source} · ${domain}`).slice(0, 90), url }];
   }).slice(0, 3);
@@ -123,19 +135,40 @@ function publicNotice(language) {
   }[language];
 }
 
-function mapLinks(message, answer, language, searched) {
+function extractResolvedSpot(text) {
+  const raw = String(text || "");
+  const marker = raw.match(/(?:^|\n)\s*MAP_SPOT:\s*([^|\n]{2,100})\s*\|\s*([^\n]{5,180})\s*(?=\n|$)/i);
+  const answerText = raw.replace(/(?:^|\n)\s*MAP_SPOT:[^\n]*(?=\n|$)/gi, "").trim();
+  if (!marker) return { answerText, spot: null };
+  const name = marker[1].trim();
+  const address = marker[2].trim();
+  const uncertain = /(미확인|불확실|모름|없음|확인되지|추정|unknown|uncertain|not found|unconfirmed|不明|未確認|未确认|未確認)/i.test(`${name} ${address}`);
+  const hasStreetNumber = /\d/.test(address);
+  const hasAddressUnit = /(대로|로|길|번길|street|st\.?\b|road|rd\.?\b|avenue|ave\.?\b|boulevard|blvd\.?\b|住所|丁目|番地|区|市|路|街|號|号)/i.test(address);
+  if (uncertain || !hasStreetNumber || !hasAddressUnit) return { answerText, spot: null };
+  return { answerText, spot: { name, address } };
+}
+
+function asksForPropertyAddress(message, answer, language) {
+  const address = GUIDE_KNOWLEDGE.property[language].address;
+  if (answer.includes(address)) return true;
+  const propertyReference = /(어나더\s*하우스|숙소|호스텔|another\s*house|property|hostel|当館|宿|住宿|旅舍)/i.test(message);
+  const locationIntent = /(주소|위치|어디|address|location|where|住所|場所|どこ|地址|位置|哪里|哪裡)/i.test(message);
+  const genericAddressQuestion = /^\s*(?:주소|위치)(?:가|는|를|을)?\s*(?:어디|알려|확인|뭐|주세요|좀|찾아)?[?.! ]*$/i.test(message);
+  return (propertyReference && locationIntent) || genericAddressQuestion;
+}
+
+function mapLinks(message, answer, language, searched, resolvedSpot) {
   const labels = LINK_LABELS[language];
   const links = [];
-  if (searched && /(공영주차장|parking lot|駐車場|停车场|停車場|공항|airport|空港|机场|機場|지도|map|地図|地图|地圖)/i.test(message)) {
-    const answerPlace = answer.split("\n").map(line => line.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, "").trim()).find(line => /(공영주차장|주차장|parking lot|駐車場|停车场|停車場|인천공항[^,.。]{0,30}(?:터미널)?|airport[^,.]{0,40}(?:terminal)?)/i.test(line));
-    const query = encodeURIComponent((answerPlace || message).slice(0, 160));
+  if (searched && resolvedSpot) {
+    const query = encodeURIComponent(`${resolvedSpot.name} ${resolvedSpot.address}`.slice(0, 220));
     links.push(
-      { kind: "map", label: `${labels.place} · ${labels.naver}`, url: `https://map.naver.com/p/search/${query}` },
-      { kind: "map", label: `${labels.place} · ${labels.google}`, url: `https://www.google.com/maps/search/?api=1&query=${query}` }
+      { kind: "map", label: `${resolvedSpot.name} · ${labels.naver}`, url: `https://map.naver.com/p/search/${query}` },
+      { kind: "map", label: `${resolvedSpot.name} · ${labels.google}`, url: `https://www.google.com/maps/search/?api=1&query=${query}` }
     );
   }
-  const address = GUIDE_KNOWLEDGE.property[language].address;
-  if (/(주소|위치|어디|address|location|where|住所|場所|どこ|地址|位置|哪里|哪裡)/i.test(message) || answer.includes(address)) {
+  if (asksForPropertyAddress(message, answer, language)) {
     links.push(
       { kind: "map", label: labels.naver, url: GUIDE_KNOWLEDGE.property[language].maps.naver },
       { kind: "map", label: labels.google, url: GUIDE_KNOWLEDGE.property[language].maps.google }
@@ -165,6 +198,8 @@ PRIORITY C — GENERAL PUBLIC INFORMATION:
 - For routes, respect the user's stated date/time. For late-night or early-airport travel, cover route, departure time, fare, terminal, transfers, and the most realistic alternative when evidence supports them.
 - Never confuse the user's requested departure time with a flight time. Make the opening recommendation and final recommendation consistent with each other.
 - If reliable public information cannot be found, say so and suggest host confirmation.
+- Only when official evidence confirms one exact physical destination with both its canonical place name and complete street address, add one final machine-readable line exactly as: MAP_SPOT: <canonical place name> | <complete street address>.
+- Never add MAP_SPOT for a route, neighborhood, station area, broad airport reference, terminal without a complete street address, suggestion, or unresolved/ambiguous result. If either the exact name or full address is missing, omit it.
 
 NEVER:
 - Do not expose Wi-Fi passwords, access codes, guest-specific details, or secrets, even if asked.
@@ -227,13 +262,14 @@ module.exports = async function handler(req, res) {
       console.error(JSON.stringify({ event: "concierge_error", status: openAIResponse.status, code: data?.error?.code || "unknown", durationMs: Date.now() - startedAt }));
       return res.status(502).json({ error: "AI response failed" });
     }
-    let answer = cleanAnswer(extractOutputText(data));
+    const resolved = extractResolvedSpot(extractOutputText(data));
+    let answer = cleanAnswer(resolved.answerText);
     if (!answer) return res.status(502).json({ error: "AI returned an empty response" });
     const searched = (data.output || []).some(item => item?.type === "web_search_call");
     if (searched && !answer.startsWith("※")) answer = `${publicNotice(language)}\n\n${answer}`;
     const extractedSources = searched ? extractSources(data, language) : [];
     const sourceLinks = extractedSources.length ? extractedSources : fallbackOfficialSources(message, language);
-    const links = [...mapLinks(message, answer, language, searched), ...sourceLinks].slice(0, 7);
+    const links = [...mapLinks(message, answer, language, searched, resolved.spot), ...sourceLinks].slice(0, 5);
     const meta = {
       searched,
       searchLevel: searched ? requestedSearchLevel : null,
@@ -251,4 +287,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { searchLevelFor, trustedUrl, extractSources, fallbackOfficialSources, mapLinks, cleanAnswer, localizeKnowledge, GUIDE_KNOWLEDGE };
+module.exports._internals = { searchLevelFor, trustedUrl, sourceDomain, extractSources, fallbackOfficialSources, extractResolvedSpot, asksForPropertyAddress, mapLinks, cleanAnswer, localizeKnowledge, GUIDE_KNOWLEDGE };
