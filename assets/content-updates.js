@@ -20,6 +20,48 @@
     ]
   };
 
+  D.homeEditorial = {
+    kicker: 'ANOTHER HOUSE JOURNAL',
+    meta: 'SEOUL · DONGDAEMUN',
+    title: I(
+      '서울의 하루 끝,\n나를 위한 다른 집.',
+      'At the end of a day in Seoul,\na house that is entirely yours.',
+      'ソウルの一日の終わりに、\n私のためのもう一つの家。',
+      '在首尔一天的尽头，\n回到只属于自己的另一处家。',
+      '在首爾一天的盡頭，\n回到只屬於自己的另一個家。'
+    ),
+    intro: I(
+      '동대문의 빠른 리듬에서 한 걸음 벗어나 문을 닫으면, 따뜻하고 부드러운 쉼이 시작됩니다. 어나더하우스는 혼자 또는 함께 서울을 여행하는 여성을 위한 프라이빗 스테이입니다.',
+      'Step away from Dongdaemun’s quick rhythm and close the door behind you. Warm, gentle rest begins here. Another House is a private, women-only stay for those exploring Seoul alone or together.',
+      '東大門の速いリズムから一歩離れ、扉を閉めると、あたたかく穏やかな休息が始まります。Another Houseは、ひとりでも誰かと一緒でも、ソウルを旅する女性のためのプライベートステイです。',
+      '从东大门的快节奏中暂时退一步，关上门，温暖而柔和的休息便从这里开始。Another House 是为独自或结伴探索首尔的女性打造的私密住宿空间。',
+      '從東大門的快節奏中暫時退一步，關上門，溫暖而柔和的休息便從這裡開始。Another House 是為獨自或結伴探索首爾的女性打造的私密住宿空間。'
+    ),
+    entryCaption: I('여성 전용 · 프라이빗 스테이', 'Women only · Private stay', '女性専用 · プライベートステイ', '女性专用 · 私密住宿', '女性專用 · 私密住宿'),
+    entryAlt: I('어나더하우스 로고가 있는 따뜻한 입구', 'Warm entrance with the Another House logo', 'Another Houseのロゴがある温かな入口', '带有 Another House 标志的温暖入口', '帶有 Another House 標誌的溫暖入口'),
+    privateKicker: 'A ROOM OF YOUR OWN',
+    privateTitle: I(
+      '작지만 온전한,\n나만의 밤.',
+      'Small in scale,\nfully yours for the night.',
+      '小さくても、\n夜はまるごと私のもの。',
+      '空间虽小，\n这一夜完整属于自己。',
+      '空間雖小，\n這一夜完整屬於自己。'
+    ),
+    privateBody: I(
+      '혼자라면 싱글룸, 친구나 가족과 함께라면 2인실. 캡슐형 객실에도 개별 도어락을 마련해 휴식만큼은 온전히 프라이빗하게 지켜드립니다. 화려함보다 안락함과 실용에 집중했습니다.',
+      'Choose a single room for solo travel or a double room for friends and family. Even the capsule-style rooms have individual door locks, so your rest stays private. We focus on comfort and practical ease rather than spectacle.',
+      'ひとり旅にはシングルルーム、友人や家族との旅には2人部屋を。カプセル型の客室にも個別のドアロックを備え、休息の時間をしっかりとプライベートに守ります。華やかさより、心地よさと実用性を大切にしています。',
+      '独自旅行可选择单人房，与朋友或家人同行可选择双人房。胶囊式客房也配有独立门锁，让休息时光保持私密。这里不追求浮华，更重视舒适与实用。',
+      '獨自旅行可選擇單人房，與朋友或家人同行可選擇雙人房。膠囊式客房也配有獨立門鎖，讓休息時光保持私密。這裡不追求浮華，更重視舒適與實用。'
+    ),
+    privateAlt: I('창가의 프라이빗 싱글룸', 'Private single room by the window', '窓辺のプライベートシングルルーム', '窗边的私密单人房', '窗邊的私密單人房'),
+    facts: [
+      { value: '30 SEC', label: I('동대문역 6번 출구', 'Dongdaemun Station Exit 6', '東大門駅6番出口', '东大门站6号出口', '東大門站6號出口') },
+      { value: 'WOMEN', label: I('여성 전용 프라이빗 스테이', 'Private women-only stay', '女性専用プライベートステイ', '女性专用私密住宿', '女性專用私密住宿') },
+      { value: 'WARM', label: I('따뜻함 · 부드러움 · 안락함', 'Warm · Gentle · Restful', 'あたたかさ · やわらかさ · 安らぎ', '温暖 · 柔和 · 安适', '溫暖 · 柔和 · 安適') }
+    ]
+  };
+
   D.ota = {
     hint: I(
       '플랫폼을 클릭하면 예약 페이지로 이동합니다.',

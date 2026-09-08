@@ -122,6 +122,23 @@ test("home gallery copy, compact rhythm, and restaurant imagery are upgraded",as
   }
 });
 
+test("home editorial story presents the host narrative with lazy media and five-language copy",async()=>{
+  const html=await read("index.html");
+  const app=await read("assets/master-app.js");
+  const content=await read("assets/content-updates.js");
+  assert.match(html,/class="home-editorial"/);
+  assert.match(html,/common-03-entry-1\.webp"[^>]*loading="lazy"/);
+  assert.match(html,/single-01-503-1\.webp"[^>]*loading="lazy"/);
+  assert.match(html,/서울의 하루 끝,[\s\S]*나를 위한 다른 집/);
+  assert.match(html,/\.home-editorial-title\{[^}]*font-size:clamp\(38px[^}]*font-weight:800/);
+  assert.match(content,/D\.homeEditorial = \{/);
+  assert.match(content,/캡슐형 객실에도 개별 도어락/);
+  assert.match(content,/30 SEC/);
+  assert.match(app,/function renderHomeEditorial\(\)/);
+  assert.match(app,/renderHome\(\);renderHomeEditorial\(\)/);
+  for(const locale of ['ko','en','ja','zh','zh-TW']) assert.ok(content.includes(locale==='zh-TW'?'"zh-TW"':locale));
+});
+
 test("guide page polish removes duplicates and matches the master media",async()=>{
   const html=await read("index.html");
   const app=await read("assets/master-app.js");
@@ -316,7 +333,7 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260908-02/);
+  assert.match(html,/content-updates\.js\?v=20260908-04/);
   assert.match(html,/gallery-overrides\.js\?v=20260908-02/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
