@@ -35,7 +35,7 @@
   });
 
   window.ANOTHER_HOUSE_TOURS = {
-    hero: '/assets/images/tours/seoul-sunny-hero.webp',
+    hero: '/assets/images/tours/seoul-my-soul-night-hero.webp',
     kicker: 'NEARBY TOURS',
     title: I('추천 근교 투어', 'Recommended Nearby Tours', 'おすすめ近郊ツアー', '推荐近郊路线', "推薦近郊路線"),
     summary: I(

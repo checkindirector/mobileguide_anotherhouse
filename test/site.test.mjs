@@ -488,6 +488,9 @@ test("nearby tours add Doota shopping, remove Ihwa from host picks, and hide pho
   const data=await read("assets/tour-data.js");
   const app=await read("assets/tour-app.js");
   const sw=await read("sw.js");
+  assert.match(data,/hero: '\/assets\/images\/tours\/seoul-my-soul-night-hero\.webp'/);
+  assert.ok(sw.includes('/assets/images/tours/seoul-my-soul-night-hero.webp'));
+  await access(resolve(root,"assets/images/tours/seoul-my-soul-night-hero.webp"));
   assert.match(data,/'doota-mall': \{ image: '\/assets\/images\/tours\/spots\/21-doota-mall\.webp'/);
   assert.match(data,/place\('doota-mall', '21', 'shopping_bag', 'charcoal', true, \['shopping', 'culture'\]/);
   assert.match(data,/place\('ihwa', '04', 'palette', 'terracotta', false/);
