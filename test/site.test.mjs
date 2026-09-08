@@ -128,9 +128,14 @@ test("home editorial story presents the host narrative with lazy media and five-
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="home-editorial"/);
   assert.match(html,/common-03-entry-1\.webp"[^>]*loading="lazy"/);
-  assert.match(html,/single-01-503-1\.webp"[^>]*loading="lazy"/);
+  assert.doesNotMatch(html,/homeEditorialPrivateImage|home-editorial-private-figure|single-01-503-1\.webp/);
+  assert.match(html,/A QUIET END TO A DAY IN SEOUL/);
+  assert.match(html,/PRIVATE REST · PRACTICAL COMFORT/);
   assert.match(html,/서울의 하루 끝,[\s\S]*나를 위한 다른 집/);
-  assert.match(html,/\.home-editorial-title\{[^}]*font-size:clamp\(38px[^}]*font-weight:800/);
+  assert.match(html,/\.home-editorial-title\{[^}]*font-size:32px[^}]*font-weight:800[^}]*line-height:1\.14/);
+  assert.match(html,/\.home-editorial-intro\{[^}]*font-size:16px[^}]*font-weight:600[^}]*line-height:1\.72/);
+  assert.match(html,/\.home-editorial-private-title\{[^}]*font-size:31px[^}]*font-weight:800[^}]*line-height:1\.08/);
+  assert.match(html,/\.home-editorial-private-body\{[^}]*font-size:16px[^}]*font-weight:600[^}]*line-height:1\.7/);
   assert.match(content,/D\.homeEditorial = \{/);
   assert.match(content,/캡슐형 객실에도 개별 도어락/);
   assert.match(content,/30 SEC/);
@@ -333,7 +338,7 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260908-04/);
+  assert.match(html,/content-updates\.js\?v=20260908-05/);
   assert.match(html,/gallery-overrides\.js\?v=20260908-02/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
