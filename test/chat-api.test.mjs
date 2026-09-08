@@ -119,6 +119,13 @@ test("a place name without a complete street address never creates map buttons",
   assert.doesNotMatch(res.payload.answer, /MAP_SPOT/);
 });
 
+test("route advice never turns a broad airport destination into map buttons", async () => {
+  const output = { model: "gpt-5.4-mini", output_text: "심야에는 공항버스 운행 시간부터 확인해야 합니다.\nMAP_SPOT: 인천국제공항 제1여객터미널 | 인천광역시 중구 공항로 272", output: [{ type: "web_search_call", action: { sources: [{ title: "인천국제공항", url: "https://www.airport.kr/" }] } }], usage: {} };
+  const { res } = await callApi({ message: "심야에는 공항철도보다 심야버스가 더 현실적인가요? 어나더하우스에서 인천공항까지 가고 싶어요.", language: "ko" }, output, "203.0.113.32");
+  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 0);
+  assert.doesNotMatch(res.payload.answer, /MAP_SPOT/);
+});
+
 test("duplicate current question is removed from recent history", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "15:00부터입니다.", output: [], usage: {} };
   const { request } = await callApi({ message: "체크인은 몇 시야?", language: "ko", history: [{ role: "user", text: "체크인은 몇 시야?" }] }, output, "203.0.113.25");

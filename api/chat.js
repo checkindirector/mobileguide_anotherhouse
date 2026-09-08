@@ -161,7 +161,8 @@ function asksForPropertyAddress(message, answer, language) {
 function mapLinks(message, answer, language, searched, resolvedSpot) {
   const labels = LINK_LABELS[language];
   const links = [];
-  if (searched && resolvedSpot) {
+  const explicitPlaceIntent = /(공영주차장|주차장|parking lot|駐車場|停车场|停車場|지도|map|地図|地图|地圖|주소|address|住所|地址|어디|where|場所|どこ|哪里|哪裡|찾아줘|find (?:a |the )?place|locate)/i.test(message);
+  if (searched && resolvedSpot && explicitPlaceIntent) {
     const query = encodeURIComponent(`${resolvedSpot.name} ${resolvedSpot.address}`.slice(0, 220));
     links.push(
       { kind: "map", label: `${resolvedSpot.name} · ${labels.naver}`, url: `https://map.naver.com/p/search/${query}` },
