@@ -139,7 +139,7 @@ test("home editorial story presents a photo-free mosaic with five-language copy"
   assert.match(html,/\.home-editorial-private-body\{[^}]*font-size:16px[^}]*font-weight:600[^}]*line-height:1\.7/);
   assert.match(html,/\.home-editorial-facts\{[^}]*grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
   assert.match(content,/D\.homeEditorial = \{/);
-  assert.match(content,/캡슐형 객실에도 개별 도어락/);
+  assert.match(content,/싱글룸과 2인실 모두 개별 도어락/);
   assert.match(content,/30 SEC/);
   assert.match(app,/function renderHomeEditorial\(\)/);
   assert.match(app,/renderHome\(\);renderHomeEditorial\(\)/);
@@ -340,7 +340,7 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260908-06/);
+  assert.match(html,/content-updates\.js\?v=20260908-07/);
   assert.match(html,/gallery-overrides\.js\?v=20260908-02/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);

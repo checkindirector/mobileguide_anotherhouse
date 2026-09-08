@@ -31,11 +31,11 @@
       '在首爾一天的盡頭，\n回到只屬於自己的另一個家。'
     ),
     intro: I(
-      '동대문의 빠른 리듬에서 한 걸음 벗어나 문을 닫으면, 따뜻하고 부드러운 쉼이 시작됩니다. 어나더하우스는 혼자 또는 함께 서울을 여행하는 여성을 위한 프라이빗 스테이입니다.',
-      'Step away from Dongdaemun’s quick rhythm and close the door behind you. Warm, gentle rest begins here. Another House is a private, women-only stay for those exploring Seoul alone or together.',
-      '東大門の速いリズムから一歩離れ、扉を閉めると、あたたかく穏やかな休息が始まります。Another Houseは、ひとりでも誰かと一緒でも、ソウルを旅する女性のためのプライベートステイです。',
-      '从东大门的快节奏中暂时退一步，关上门，温暖而柔和的休息便从这里开始。Another House 是为独自或结伴探索首尔的女性打造的私密住宿空间。',
-      '從東大門的快節奏中暫時退一步，關上門，溫暖而柔和的休息便從這裡開始。Another House 是為獨自或結伴探索首爾的女性打造的私密住宿空間。'
+      '동대문 곁, 문을 닫으면 따뜻한 쉼이 시작됩니다. 서울을 여행하는 여성을 위한 프라이빗 스테이입니다.',
+      'Step away from Dongdaemun into warm, quiet rest. A private stay for women exploring Seoul alone or together.',
+      '東大門のすぐそばで、扉を閉めれば温かな休息が始まります。ソウルを旅する女性のためのプライベートステイです。',
+      '邻近东大门，关上门便开始温暖休息。为游览首尔的女性打造的私密住宿。',
+      '鄰近東大門，關上門便開始溫暖休息。為遊覽首爾的女性打造的私密住宿。'
     ),
     privateKicker: 'A ROOM OF YOUR OWN',
     privateTitle: I(
@@ -46,11 +46,11 @@
       '空間雖小，\n這一夜完整屬於自己。'
     ),
     privateBody: I(
-      '혼자라면 싱글룸, 친구나 가족과 함께라면 2인실. 캡슐형 객실에도 개별 도어락을 마련해 휴식만큼은 온전히 프라이빗하게 지켜드립니다. 화려함보다 안락함과 실용에 집중했습니다.',
-      'Choose a single room for solo travel or a double room for friends and family. Even the capsule-style rooms have individual door locks, so your rest stays private. We focus on comfort and practical ease rather than spectacle.',
-      'ひとり旅にはシングルルーム、友人や家族との旅には2人部屋を。カプセル型の客室にも個別のドアロックを備え、休息の時間をしっかりとプライベートに守ります。華やかさより、心地よさと実用性を大切にしています。',
-      '独自旅行可选择单人房，与朋友或家人同行可选择双人房。胶囊式客房也配有独立门锁，让休息时光保持私密。这里不追求浮华，更重视舒适与实用。',
-      '獨自旅行可選擇單人房，與朋友或家人同行可選擇雙人房。膠囊式客房也配有獨立門鎖，讓休息時光保持私密。這裡不追求浮華，更重視舒適與實用。'
+      '싱글룸과 2인실 모두 개별 도어락을 갖췄습니다. 작지만 안락하고 실용적인 프라이빗 공간입니다.',
+      'Single and double rooms each have a private door lock. A compact, comfortable space designed for practical rest.',
+      'シングルと2人部屋はすべて個別ドアロック付き。小さくても、心地よく実用的なプライベート空間です。',
+      '单人房与双人房均配有独立门锁。空间小巧、舒适且实用。',
+      '單人房與雙人房均配有獨立門鎖。空間小巧、舒適且實用。'
     ),
     facts: [
       { value: '30 SEC', label: I('동대문역 6번 출구', 'Dongdaemun Station Exit 6', '東大門駅6番出口', '东大门站6号出口', '東大門站6號出口') },
