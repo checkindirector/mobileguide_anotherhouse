@@ -1,0 +1,4109 @@
+{
+  "version": "2026-09-08.1",
+  "generatedAt": "2026-09-08",
+  "sourceOfTruth": "Current rendered site data",
+  "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
+  "languages": [
+    "ko",
+    "en",
+    "ja",
+    "zh",
+    "zh-TW"
+  ],
+  "property": {
+    "ko": {
+      "name": "ANOTHER HOUSE",
+      "type": "여성 전용 숙소",
+      "address": "서울시 종로구 종로 294 선일빌딩 5층",
+      "nearestStation": "동대문역 6번 출구 · 도보 30초",
+      "contact": "예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴)을 통해 메시지로 호스트에게 연락해 주세요.",
+      "maps": {
+        "naver": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%A2%85%EB%A1%9C%20294%20%EC%84%A0%EC%9D%BC%EB%B9%8C%EB%94%A9%205%EC%B8%B5",
+        "google": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%9A%B8%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%A2%85%EB%A1%9C%20294%20%EC%84%A0%EC%9D%BC%EB%B9%8C%EB%94%A9%205%EC%B8%B5"
+      }
+    },
+    "en": {
+      "name": "ANOTHER HOUSE",
+      "type": "Women-only accommodation",
+      "address": "5F, Sunil Building, 294 Jong-ro, Jongno-gu, Seoul",
+      "nearestStation": "Dongdaemun Station Exit 6 · 30 sec walk",
+      "contact": "Please contact the host by message through the platform you booked with (Booking.com, Agoda, or Trip.com).",
+      "maps": {
+        "naver": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%A2%85%EB%A1%9C%20294%20%EC%84%A0%EC%9D%BC%EB%B9%8C%EB%94%A9%205%EC%B8%B5",
+        "google": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%9A%B8%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%A2%85%EB%A1%9C%20294%20%EC%84%A0%EC%9D%BC%EB%B9%8C%EB%94%A9%205%EC%B8%B5"
+      }
+    },
+    "ja": {
+      "name": "ANOTHER HOUSE",
+      "type": "女性専用宿泊施設",
+      "address": "ソウル特別市鍾路区鍾路294 ソニルビル5階",
+      "nearestStation": "東大門駅6番出口 · 徒歩30秒",
+      "contact": "予約したプラットフォーム（Booking.com、Agoda、Trip.com）のメッセージを通じてホストへご連絡ください。",
+      "maps": {
+        "naver": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%A2%85%EB%A1%9C%20294%20%EC%84%A0%EC%9D%BC%EB%B9%8C%EB%94%A9%205%EC%B8%B5",
+        "google": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%9A%B8%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%A2%85%EB%A1%9C%20294%20%EC%84%A0%EC%9D%BC%EB%B9%8C%EB%94%A9%205%EC%B8%B5"
+      }
+    },
+    "zh": {
+      "name": "ANOTHER HOUSE",
+      "type": "女性专用住宿",
+      "address": "首尔特别市钟路区钟路294，Sunil大厦5层",
+      "nearestStation": "东大门站6号出口 · 步行30秒",
+      "contact": "请通过您预订的平台（Booking.com、Agoda或Trip.com）向房东发送消息。",
+      "maps": {
+        "naver": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%A2%85%EB%A1%9C%20294%20%EC%84%A0%EC%9D%BC%EB%B9%8C%EB%94%A9%205%EC%B8%B5",
+        "google": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%9A%B8%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%A2%85%EB%A1%9C%20294%20%EC%84%A0%EC%9D%BC%EB%B9%8C%EB%94%A9%205%EC%B8%B5"
+      }
+    },
+    "zh-TW": {
+      "name": "ANOTHER HOUSE",
+      "type": "女性專用住宿",
+      "address": "首爾特別市鍾路區鍾路294，Sunil大廈5層",
+      "nearestStation": "東大門站6號出口 · 步行30秒",
+      "contact": "請通過您預訂的平台（Booking.com、Agoda或Trip.com）向房東傳送訊息。",
+      "maps": {
+        "naver": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%A2%85%EB%A1%9C%20294%20%EC%84%A0%EC%9D%BC%EB%B9%8C%EB%94%A9%205%EC%B8%B5",
+        "google": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%9A%B8%EC%8B%9C%20%EC%A2%85%EB%A1%9C%EA%B5%AC%20%EC%A2%85%EB%A1%9C%20294%20%EC%84%A0%EC%9D%BC%EB%B9%8C%EB%94%A9%205%EC%B8%B5"
+      }
+    }
+  },
+  "stay": {
+    "ko": {
+      "essentials": [
+        {
+          "label": "체크인",
+          "value": "15:00",
+          "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+        },
+        {
+          "label": "체크아웃",
+          "value": "11:00",
+          "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+        },
+        {
+          "label": "입실",
+          "value": "셀프 체크인",
+          "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+        },
+        {
+          "label": "위치",
+          "value": "동대문역 6번 출구에서 도보 30초",
+          "source": "https://anotherhouse-guide.vercel.app/?page=transport"
+        }
+      ],
+      "checkin": {
+        "title": "체크인",
+        "summary": "체크인은 15:00부터입니다. 선일빌딩 5층 키오스크에서 예약자 정보로 셀프 체크인을 진행해 주세요.",
+        "sections": [
+          {
+            "title": "셀프 체크인",
+            "steps": [
+              "체크인 하루 전부터 당일 오전 9시 사이에 예약 플랫폼 메시지로 발송된 체크인 안내를 확인합니다.",
+              "15:00 이후 5층 키오스크에서 예약 바우처에 적힌 예약자 이름 또는 예약 번호 뒤 4자리로 예약을 조회합니다.",
+              "화면 안내에 따라 셀프 체크인을 완료하고 객실 번호와 카드키를 확인합니다.",
+              "체크인 후에는 카드키를 출입구 옆 기기에 태그하여 문을 엽니다.",
+              "짐은 503호 앞 러기지룸에 보관할 수 있습니다. 체크인 전 짐 보관을 위한 출입정보는 예약 메시지에서 확인해 주세요."
+            ]
+          },
+          {
+            "title": "도움이 필요할 때",
+            "body": "예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴)을 통해 메시지로 호스트에게 연락해 주세요."
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      "checkout": {
+        "title": "체크아웃 안내",
+        "summary": "체크아웃은 11:00까지입니다. 카드키 반납과 공용공간 정리를 마친 뒤 출입구 문이 완전히 닫혔는지 확인해 주세요.",
+        "sections": [
+          {
+            "title": "퇴실 순서",
+            "steps": [
+              "객실에 두고 가는 물건이 없는지 확인하고, 사용한 공용 물품은 원위치해 주세요.",
+              "사용한 식기는 설거지 후 원위치하고, 쓰레기는 공용 주방에서 종류별로 분리해 주세요.",
+              "사용한 수건은 샤워실 앞 파우더룸의 타월 바구니에 넣어 주세요.",
+              "에너지 절약을 위해 객실 카드키를 뽑아 전원을 차단해 주세요.",
+              "키오스크에서 체크아웃을 선택한 뒤 카드키를 반납해 주세요.",
+              "나오실 때 다른 투숙객의 안전을 위해 출입구 문이 완전히 닫혔는지 확인해 주세요."
+            ]
+          },
+          {
+            "title": "체크아웃 후 짐 보관",
+            "steps": [
+              "체크아웃 당일에 한해 러기지룸에 무료로 보관할 수 있습니다.",
+              "레이트 체크아웃은 불가합니다."
+            ]
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+      },
+      "luggage": {
+        "label": "짐 보관",
+        "value": "503호 앞 러기지 룸",
+        "note": "체크인 전 이용에 필요한 출입 정보는 예약 플랫폼 메시지에서 확인해 주세요.",
+        "image": "/assets/images/gallery/another-house/common-37-luggage.webp",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      "parking": {
+        "title": "주차 안내",
+        "kicker": "PARKING GUIDE",
+        "onSite": "건물 내 주차 불가",
+        "intro": "차량 이용 시 아래 주변 유료 주차장을 이용해 주세요. 현장 운영 및 요금은 변경될 수 있으므로 입차 전 다시 확인해 주세요.",
+        "places": [
+          {
+            "name": "동대문호텔 민영 주차장",
+            "address": "서울 종로구 창신동 444-1",
+            "note": "1시간 4,000원 · 하루 최대 20,000원"
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
+        "rateMayChange": true
+      },
+      "rules": {
+        "title": "숙소 이용 규칙",
+        "summary": "모두의 안전과 편안한 휴식을 위해 지켜 주세요.",
+        "sections": [
+          {
+            "title": "숙소 이용 규칙",
+            "steps": [
+              "어나더하우스는 여성 전용 숙소이며, 예약 인원을 초과한 방문객의 출입은 불가합니다.",
+              "숙소 전 구역은 금연이며 반려동물, 파티, 상업 촬영은 허용되지 않습니다.",
+              "매너타임은 22:00부터 05:00까지입니다. 늦은 시간에는 소음에 특히 유의해 주세요.",
+              "취사는 가능하지만 연기나 냄새가 강한 고기·생선류 조리는 삼가 주세요.",
+              "냉장고에 음식물을 보관할 때는 포스트잇에 이름과 보관일 또는 퇴실일을 적어 붙여 주세요.",
+              "게스트 박스의 공용 물품은 사용 후 원위치해 주세요. 일회용 소모품은 필요한 만큼만 이용해 주세요.",
+              "기물이 파손된 경우 예약 플랫폼 메시지로 즉시 호스트에게 알려 주세요."
+            ]
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=rules"
+      },
+      "tvAndOtt": {
+        "title": "TV · OTT 안내",
+        "body": "객실과 공용공간에 TV는 설치되어 있지 않습니다. 개인 모바일 기기에서 콘텐츠를 이용해 주세요.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+      }
+    },
+    "en": {
+      "essentials": [
+        {
+          "label": "Check-in",
+          "value": "15:00",
+          "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+        },
+        {
+          "label": "Check-out",
+          "value": "11:00",
+          "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+        },
+        {
+          "label": "Entry",
+          "value": "Self check-in",
+          "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+        },
+        {
+          "label": "Location",
+          "value": "30-second walk from Dongdaemun Station Exit 6",
+          "source": "https://anotherhouse-guide.vercel.app/?page=transport"
+        }
+      ],
+      "checkin": {
+        "title": "Check-in",
+        "summary": "Check-in begins at 15:00. Use the kiosk on the 5th floor of Sunil Building with the booking guest’s details.",
+        "sections": [
+          {
+            "title": "Self check-in",
+            "steps": [
+              "Check the arrival instructions sent through your booking platform between the day before check-in and 09:00 on arrival day.",
+              "After 15:00, use the kiosk on the 5th floor and search with the name shown on the booking voucher or the last four digits of the reservation number.",
+              "Complete self check-in on screen and confirm your room number and key card.",
+              "After check-in, tap the key card on the reader beside the entrance.",
+              "Luggage can be stored in the luggage room in front of Room 503. For luggage access before check-in, use the access information in your booking message."
+            ]
+          },
+          {
+            "title": "If you need help",
+            "body": "Please contact the host by message through the platform you booked with (Booking.com, Agoda, or Trip.com)."
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      "checkout": {
+        "title": "Check-out guide",
+        "summary": "Check out by 11:00. Return the key card, restore shared items, and make sure the entrance door is fully closed.",
+        "sections": [
+          {
+            "title": "Departure steps",
+            "steps": [
+              "Check for personal belongings and return shared items to their original places.",
+              "Wash and return used dishes, then sort waste in the shared kitchen.",
+              "Place used towels in the towel basket in the powder room outside the showers.",
+              "Remove the room key card to switch off the room power.",
+              "Select checkout at the kiosk and return the key card.",
+              "For everyone’s safety, make sure the entrance door is fully closed when you leave."
+            ]
+          },
+          {
+            "title": "Luggage after checkout",
+            "steps": [
+              "Free luggage storage is available in the luggage room until later on the day of checkout.",
+              "Late checkout is not available."
+            ]
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+      },
+      "luggage": {
+        "label": "Luggage storage",
+        "value": "Luggage room in front of Room 503",
+        "note": "Check your booking-platform message for the access information needed before check-in.",
+        "image": "/assets/images/gallery/another-house/common-37-luggage.webp",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      "parking": {
+        "title": "Parking guide",
+        "kicker": "PARKING GUIDE",
+        "onSite": "No on-site parking",
+        "intro": "Please use the nearby paid parking lot below. Operations and rates may change, so confirm them before entering.",
+        "places": [
+          {
+            "name": "Dongdaemun Hotel private parking",
+            "address": "444-1 Changsin-dong, Jongno-gu, Seoul",
+            "note": "₩4,000 per hour · up to ₩20,000 per day"
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
+        "rateMayChange": true
+      },
+      "rules": {
+        "title": "House rules",
+        "summary": "Please follow these rules for everyone’s safety and comfort.",
+        "sections": [
+          {
+            "title": "House rules",
+            "steps": [
+              "Another House is women-only. Visitors beyond the booked guest count are not allowed.",
+              "Smoking, pets, parties, and commercial filming are not permitted anywhere in the property.",
+              "Quiet hours are 22:00–05:00. Please keep noise especially low late at night.",
+              "Cooking is allowed, but avoid meat, fish, or other foods that create strong smoke or odors.",
+              "Label refrigerator items with your name and the storage date or checkout date.",
+              "Return shared Guest Box items after use and take only the disposable supplies you need.",
+              "Report any damaged item to the host immediately through your booking platform message."
+            ]
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=rules"
+      },
+      "tvAndOtt": {
+        "title": "TV · OTT notice",
+        "body": "There is no TV in the rooms or shared areas. Please use your personal mobile device for streaming.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+      }
+    },
+    "ja": {
+      "essentials": [
+        {
+          "label": "チェックイン",
+          "value": "15:00",
+          "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+        },
+        {
+          "label": "チェックアウト",
+          "value": "11:00",
+          "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+        },
+        {
+          "label": "入室",
+          "value": "セルフチェックイン",
+          "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+        },
+        {
+          "label": "場所",
+          "value": "東大門駅6番出口から徒歩30秒",
+          "source": "https://anotherhouse-guide.vercel.app/?page=transport"
+        }
+      ],
+      "checkin": {
+        "title": "チェックイン",
+        "summary": "チェックインは15:00からです。ソニルビル5階のキオスクで予約者情報を使ってセルフチェックインしてください。",
+        "sections": [
+          {
+            "title": "セルフチェックイン",
+            "steps": [
+              "チェックイン前日から当日9:00までに予約プラットフォームのメッセージで届く案内をご確認ください。",
+              "15:00以降、5階のキオスクで予約バウチャー記載の予約者名、または予約番号の下4桁で予約を検索します。",
+              "画面案内に従ってセルフチェックインを完了し、客室番号とカードキーをご確認ください。",
+              "チェックイン後は入口横の端末にカードキーをかざして入館します。",
+              "荷物は503号室前のラゲッジルームに保管できます。チェックイン前の荷物預かり用入館情報は予約メッセージでご確認ください。"
+            ]
+          },
+          {
+            "title": "サポートが必要な場合",
+            "body": "予約したプラットフォーム（Booking.com、Agoda、Trip.com）のメッセージを通じてホストへご連絡ください。"
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      "checkout": {
+        "title": "チェックアウト案内",
+        "summary": "チェックアウトは11:00までです。カードキーを返却し、共用品を元に戻して入口の扉が完全に閉まったことをご確認ください。",
+        "sections": [
+          {
+            "title": "退室手順",
+            "steps": [
+              "忘れ物がないか確認し、使用した共用品は元の場所へ戻してください。",
+              "使用した食器は洗って元に戻し、ごみは共用キッチンで分別してください。",
+              "使用済みタオルはシャワー室前パウダールームのタオルかごに入れてください。",
+              "省エネのため客室のカードキーを抜いて電源を切ってください。",
+              "キオスクでチェックアウトを選び、カードキーを返却してください。",
+              "他のゲストの安全のため、退出時に入口の扉が完全に閉まったことをご確認ください。"
+            ]
+          },
+          {
+            "title": "チェックアウト後の荷物",
+            "steps": [
+              "チェックアウト当日に限り、ラゲッジルームで無料保管できます。",
+              "レイトチェックアウトはできません。"
+            ]
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+      },
+      "luggage": {
+        "label": "荷物保管",
+        "value": "503号室前の荷物室",
+        "note": "チェックイン前の利用に必要な入館情報は予約プラットフォームのメッセージでご確認ください。",
+        "image": "/assets/images/gallery/another-house/common-37-luggage.webp",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      "parking": {
+        "title": "駐車案内",
+        "kicker": "PARKING GUIDE",
+        "onSite": "建物内駐車不可",
+        "intro": "お車の場合は下記の周辺有料駐車場をご利用ください。運営状況・料金は変更される場合があるため、入庫前に再度ご確認ください。",
+        "places": [
+          {
+            "name": "東大門ホテル民営駐車場",
+            "address": "ソウル特別市 鍾路区 昌信洞 444-1",
+            "note": "1時間4,000ウォン · 1日最大20,000ウォン"
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
+        "rateMayChange": true
+      },
+      "rules": {
+        "title": "宿泊ルール",
+        "summary": "皆さまの安全と快適な滞在のためにご協力ください。",
+        "sections": [
+          {
+            "title": "ハウスルール",
+            "steps": [
+              "Another Houseは女性専用です。予約人数を超える訪問者の入館はできません。",
+              "館内は全面禁煙で、ペット、パーティー、商業撮影は不可です。",
+              "マナータイムは22:00〜05:00です。深夜は特に静かにお過ごしください。",
+              "調理は可能ですが、煙やにおいの強い肉・魚料理はお控えください。",
+              "冷蔵庫に食品を保管する際は、付箋に名前と保管日または退室日を書いて貼ってください。",
+              "ゲストボックスの共用品は使用後に元へ戻し、消耗品は必要な分だけご利用ください。",
+              "備品を破損した場合は予約プラットフォームのメッセージで直ちにホストへお知らせください。"
+            ]
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=rules"
+      },
+      "tvAndOtt": {
+        "title": "TV・OTT案内",
+        "body": "客室および共用スペースにテレビはありません。動画視聴はご自身のモバイル端末をご利用ください。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+      }
+    },
+    "zh": {
+      "essentials": [
+        {
+          "label": "入住",
+          "value": "15:00",
+          "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+        },
+        {
+          "label": "退房",
+          "value": "11:00",
+          "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+        },
+        {
+          "label": "入室",
+          "value": "自助入住",
+          "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+        },
+        {
+          "label": "位置",
+          "value": "从东大门站6号出口步行30秒",
+          "source": "https://anotherhouse-guide.vercel.app/?page=transport"
+        }
+      ],
+      "checkin": {
+        "title": "入住",
+        "summary": "15:00起可办理入住。请在Sunil大厦5层使用预订人信息通过自助机办理入住。",
+        "sections": [
+          {
+            "title": "自助入住",
+            "steps": [
+              "请查看入住前一天至入住当日上午9:00之间通过预订平台消息发送的入住说明。",
+              "15:00后，在5层自助机上使用预订凭证中的姓名，或订单号后四位查询订单。",
+              "按照屏幕提示完成自助入住，并确认房号和房卡。",
+              "入住后请将房卡贴近入口旁的读卡器开门。",
+              "行李可寄存在503号房前的行李室。入住前寄存行李所需的门禁信息请查看预订消息。"
+            ]
+          },
+          {
+            "title": "需要帮助时",
+            "body": "请通过您预订的平台（Booking.com、Agoda或Trip.com）向房东发送消息。"
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      "checkout": {
+        "title": "退房指南",
+        "summary": "请于11:00前退房。归还房卡、整理公共用品，并确认入口门已完全关闭。",
+        "sections": [
+          {
+            "title": "退房步骤",
+            "steps": [
+              "确认没有遗留个人物品，并将使用过的公共用品放回原位。",
+              "使用过的餐具请清洗后放回原位，垃圾请在公共厨房分类投放。",
+              "使用过的毛巾请放入淋浴间前化妆区的毛巾篮。",
+              "为节约能源，请拔出客房房卡以切断电源。",
+              "在自助机上选择退房后归还房卡。",
+              "为保障其他住客安全，离开时请确认入口门已完全关闭。"
+            ]
+          },
+          {
+            "title": "退房后寄存行李",
+            "steps": [
+              "仅限退房当天可在行李室免费寄存。",
+              "不提供延迟退房。"
+            ]
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+      },
+      "luggage": {
+        "label": "行李寄存",
+        "value": "503号房前的行李房",
+        "note": "入住前使用寄存室所需的门禁信息，请在预订平台消息中确认。",
+        "image": "/assets/images/gallery/another-house/common-37-luggage.webp",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      "parking": {
+        "title": "停车指南",
+        "kicker": "PARKING GUIDE",
+        "onSite": "楼内不可停车",
+        "intro": "驾车时请使用下方附近的收费停车场。营业情况及费用可能变更，请在入场前再次确认。",
+        "places": [
+          {
+            "name": "东大门酒店私人停车场",
+            "address": "首尔特别市钟路区昌信洞444-1",
+            "note": "每小时4,000韩元 · 每天最高20,000韩元"
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
+        "rateMayChange": true
+      },
+      "rules": {
+        "title": "住宿规则",
+        "summary": "为了所有人的安全与舒适，请遵守以下规则。",
+        "sections": [
+          {
+            "title": "住宿规则",
+            "steps": [
+              "Another House为女性专用住宿，禁止超过预订人数的访客进入。",
+              "全区域禁烟，禁止携带宠物、举办派对及商业拍摄。",
+              "安静时段为22:00至05:00，夜间请特别注意控制噪音。",
+              "可使用厨房，但请勿烹饪会产生大量油烟或强烈气味的肉类、鱼类食物。",
+              "在冰箱存放食物时，请用便签标注姓名及存放日期或退房日期。",
+              "使用Guest Box公共用品后请放回原位，一次性用品请按需取用。",
+              "如有物品损坏，请立即通过预订平台消息联系房东。"
+            ]
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=rules"
+      },
+      "tvAndOtt": {
+        "title": "电视与OTT说明",
+        "body": "客房和公共区域均未安装电视。观看内容时请使用个人移动设备。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+      }
+    },
+    "zh-TW": {
+      "essentials": [
+        {
+          "label": "入住",
+          "value": "15:00",
+          "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+        },
+        {
+          "label": "退房",
+          "value": "11:00",
+          "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+        },
+        {
+          "label": "入室",
+          "value": "自助入住",
+          "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+        },
+        {
+          "label": "位置",
+          "value": "從東大門站6號出口步行30秒",
+          "source": "https://anotherhouse-guide.vercel.app/?page=transport"
+        }
+      ],
+      "checkin": {
+        "title": "入住",
+        "summary": "15:00起可辦理入住。請在Sunil大廈5層使用預訂人資訊通過自助機辦理入住。",
+        "sections": [
+          {
+            "title": "自助入住",
+            "steps": [
+              "請檢視入住前一天至入住當日上午9:00之間通過預訂平台訊息傳送的入住說明。",
+              "15:00後，在5層自助機上使用預訂憑證中的姓名，或訂單號後四位查詢訂單。",
+              "按照螢幕提示完成自助入住，並確認房號和房卡。",
+              "入住後請將房卡貼近入口旁的讀卡器開門。",
+              "行李可寄存在503號房前的行李室。入住前寄存行李所需的門禁資訊請檢視預訂訊息。"
+            ]
+          },
+          {
+            "title": "需要幫助時",
+            "body": "請通過您預訂的平台（Booking.com、Agoda或Trip.com）向房東傳送訊息。"
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      "checkout": {
+        "title": "退房指南",
+        "summary": "請於11:00前退房。歸還房卡、整理公共用品，並確認入口門已完全關閉。",
+        "sections": [
+          {
+            "title": "退房步驟",
+            "steps": [
+              "確認沒有遺留個人物品，並將使用過的公共用品放回原位。",
+              "使用過的餐具請清洗後放回原位，垃圾請在公共廚房分類投放。",
+              "使用過的毛巾請放入淋浴間前化妝區的毛巾籃。",
+              "為節約能源，請拔出客房房卡以切斷電源。",
+              "在自助機上選擇退房後歸還房卡。",
+              "為保障其他住客安全，離開時請確認入口門已完全關閉。"
+            ]
+          },
+          {
+            "title": "退房後寄存行李",
+            "steps": [
+              "僅限退房當天可在行李室免費寄存。",
+              "不提供延遲退房。"
+            ]
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+      },
+      "luggage": {
+        "label": "行李寄放",
+        "value": "503號房前的行李房",
+        "note": "入住前使用寄存室所需的門禁資訊，請在預訂平台訊息中確認。",
+        "image": "/assets/images/gallery/another-house/common-37-luggage.webp",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      "parking": {
+        "title": "停車指南",
+        "kicker": "PARKING GUIDE",
+        "onSite": "樓內不可停車",
+        "intro": "駕車時請使用下方附近的收費停車場。營業情況及費用可能變更，請在入場前再次確認。",
+        "places": [
+          {
+            "name": "東大門酒店私人停車場",
+            "address": "首爾特別市鍾路區昌信洞444-1",
+            "note": "每小時4,000韓元 · 每天最高20,000韓元"
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
+        "rateMayChange": true
+      },
+      "rules": {
+        "title": "住宿規則",
+        "summary": "為了所有人的安全與舒適，請遵守以下規則。",
+        "sections": [
+          {
+            "title": "住宿規則",
+            "steps": [
+              "Another House為女性專用住宿，禁止超過預訂人數的訪客進入。",
+              "全區域禁菸，禁止攜帶寵物、舉辦派對及商業拍攝。",
+              "安靜時段為22:00至05:00，夜間請特別注意控制噪音。",
+              "可使用廚房，但請勿烹飪會產生大量油煙或強烈氣味的肉類、魚類食物。",
+              "在冰箱存放食物時，請用便籤標註姓名及存放日期或退房日期。",
+              "使用Guest Box公共用品後請放回原位，一次性用品請按需取用。",
+              "如有物品損壞，請立即通過預訂平台訊息聯絡房東。"
+            ]
+          }
+        ],
+        "source": "https://anotherhouse-guide.vercel.app/?page=rules"
+      },
+      "tvAndOtt": {
+        "title": "電視與OTT說明",
+        "body": "客房和公共區域均未安裝電視。觀看內容時請使用個人行動裝置。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+      }
+    }
+  },
+  "connectivity": {
+    "ko": {
+      "title": "Wi-Fi",
+      "network": "another",
+      "routerLocation": "복도 천장 및 라운지 테이블 위쪽",
+      "passwordPolicy": "Wi-Fi 비밀번호는 공개 챗봇에서 제공하지 않습니다. 현재 숙소 Wi-Fi 안내 화면 또는 예약 플랫폼 메시지에서 확인해 주세요.",
+      "source": "https://anotherhouse-guide.vercel.app/?page=wifi"
+    },
+    "en": {
+      "title": "Wi-Fi",
+      "network": "another",
+      "routerLocation": "Corridor ceiling and above the lounge table",
+      "passwordPolicy": "The Wi-Fi password is not disclosed in public chat. Check the property's Wi-Fi guide screen or your booking-platform message.",
+      "source": "https://anotherhouse-guide.vercel.app/?page=wifi"
+    },
+    "ja": {
+      "title": "Wi-Fi",
+      "network": "another",
+      "routerLocation": "廊下の天井およびラウンジテーブルの上側",
+      "passwordPolicy": "Wi-Fiパスワードは公開チャットでは案内しません。宿のWi-Fi案内画面または予約プラットフォームのメッセージで確認してください。",
+      "source": "https://anotherhouse-guide.vercel.app/?page=wifi"
+    },
+    "zh": {
+      "title": "Wi-Fi",
+      "network": "another",
+      "routerLocation": "走廊天花板及休息区桌子上方",
+      "passwordPolicy": "公开聊天中不提供 Wi-Fi 密码。请查看住宿的 Wi-Fi 指南页面或预订平台消息。",
+      "source": "https://anotherhouse-guide.vercel.app/?page=wifi"
+    },
+    "zh-TW": {
+      "title": "Wi-Fi",
+      "network": "another",
+      "routerLocation": "走廊天花板及休息區桌子上方",
+      "passwordPolicy": "公開聊天中不提供 Wi-Fi 密碼。請查看住宿的 Wi-Fi 指南頁面或預訂平台訊息。",
+      "source": "https://anotherhouse-guide.vercel.app/?page=wifi"
+    }
+  },
+  "arrivalAndTransport": {
+    "ko": {
+      "title": "찾아오는 길",
+      "summary": "동대문역 6번 출구에서 도보 약 30초, 선일빌딩 5층입니다.",
+      "sections": [
+        {
+          "title": "인천공항에서 오시는 길"
+        },
+        {
+          "title": "김포공항에서 오시는 길"
+        }
+      ],
+      "source": "https://anotherhouse-guide.vercel.app/?page=transport"
+    },
+    "en": {
+      "title": "Getting here",
+      "summary": "We are on the 5th floor of Sunil Building, about 30 seconds from Dongdaemun Station Exit 6.",
+      "sections": [
+        {
+          "title": "From Incheon Airport"
+        },
+        {
+          "title": "From Gimpo Airport"
+        }
+      ],
+      "source": "https://anotherhouse-guide.vercel.app/?page=transport"
+    },
+    "ja": {
+      "title": "アクセス",
+      "summary": "東大門駅6番出口から徒歩約30秒、ソニルビル5階です。",
+      "sections": [
+        {
+          "title": "仁川空港からのアクセス"
+        },
+        {
+          "title": "金浦空港からのアクセス"
+        }
+      ],
+      "source": "https://anotherhouse-guide.vercel.app/?page=transport"
+    },
+    "zh": {
+      "title": "交通路线",
+      "summary": "从东大门站6号出口步行约30秒，位于Sunil大厦5层。",
+      "sections": [
+        {
+          "title": "从仁川机场前往"
+        },
+        {
+          "title": "从金浦机场前往"
+        }
+      ],
+      "source": "https://anotherhouse-guide.vercel.app/?page=transport"
+    },
+    "zh-TW": {
+      "title": "交通路線",
+      "summary": "從東大門站6號出口步行約30秒，位於Sunil大廈5層。",
+      "sections": [
+        {
+          "title": "從仁川機場前往"
+        },
+        {
+          "title": "從金浦機場前往"
+        }
+      ],
+      "source": "https://anotherhouse-guide.vercel.app/?page=transport"
+    }
+  },
+  "appliances": {
+    "ko": {
+      "title": "냉난방 • 주방기기 사용법",
+      "summary": "사진에서 확인한 모델명과 제조사 공식 자료를 대조해, 숙소에서 자주 쓰는 조작만 정리했습니다.",
+      "devices": [
+        {
+          "name": "객실 냉난방",
+          "model": "Samsung AM016BN1PBH2 · AWR/MWR-WG00 series controller",
+          "steps": [
+            "왼쪽 아래 전원 버튼을 눌러 켭니다.",
+            "화면에서 운전 모드를 선택한 뒤 냉방 또는 난방을 고릅니다.",
+            "위·아래 버튼으로 희망 온도를 맞춥니다.",
+            "필요하면 풍량 메뉴에서 바람 세기를 조절합니다.",
+            "외출할 때는 전원을 꺼 주세요. 중앙 제어 중에는 일부 모드가 제한될 수 있습니다."
+          ],
+          "officialManual": {
+            "label": "삼성 공식 설명서",
+            "url": "https://samsung.aiibook.net/b2b/catImage/263/240823_SAC%20%EC%A0%9C%EC%96%B4%20%EC%8B%9C%EC%8A%A4%ED%85%9C%20%EC%84%A4%EC%B9%98%20%EA%B0%80%EC%9D%B4%EB%93%9C%EB%B6%81.pdf"
+          }
+        },
+        {
+          "name": "전자레인지",
+          "model": "Cooing MM-E20RBKC · 20 L / 700 W",
+          "steps": [
+            "금속·포일은 넣지 말고 전자레인지용 용기를 사용합니다.",
+            "음식을 넣고 문을 완전히 닫습니다.",
+            "빠른 가열은 시작/+30초 버튼을 누르며 시간을 늘립니다.",
+            "세부 설정은 파워조절 또는 해동 무게/시간 버튼을 누르고 다이얼로 값을 맞춘 뒤 시작합니다.",
+            "정지/취소로 멈추고, 가열 중에는 자리를 비우지 마세요."
+          ],
+          "officialManual": {
+            "label": "제품 공식 인증 정보",
+            "url": "https://www.rra.go.kr/ko/license/A_b_popup_keyno.do?key_no=R-R-mdk-AM720C2AD-PM0B"
+          }
+        },
+        {
+          "name": "하이라이트 전기쿡탑",
+          "model": "Haatz HEC-1050S(H)-01",
+          "steps": [
+            "평평한 바닥의 조리 용기를 올립니다.",
+            "전원 버튼을 1초간 눌러 대기 상태로 켭니다.",
+            "하이라이트 + 버튼을 누르면 1단으로 시작하며, + / −로 1–9단 화력을 조절합니다.",
+            "사용 후 전원 버튼을 1초간 눌러 끕니다.",
+            "잔열 표시 H가 사라질 때까지 상판을 만지지 마세요. 잠금 해제는 잠금 버튼을 2초간 누릅니다."
+          ],
+          "officialManual": {
+            "label": "하츠 공식 설명서",
+            "url": "https://www.haatz.com/upload/manual/202601/1767614190_m0137482_20260105205630.pdf"
+          }
+        },
+        {
+          "name": "정수기",
+          "model": "Chungho WP-30C9460BN",
+          "steps": [
+            "컵을 출수구 아래에 놓습니다.",
+            "정수·냉수·온수 버튼 중 원하는 물을 선택합니다.",
+            "용량 버튼으로 120 mL, 500 mL 또는 연속을 선택합니다.",
+            "출수 버튼을 눌러 물을 받습니다.",
+            "온수 사용 시 잠금 버튼을 약 5초 눌러 해제하고, 빨간 출수 버튼이 켜진 상태에서 화상에 주의하세요."
+          ],
+          "officialManual": {
+            "label": "청호 공식 설명서",
+            "url": "https://www.chungho.co.kr/newch/admin/manual/202405290953002979.pdf"
+          }
+        },
+        {
+          "name": "공용 냉장고",
+          "steps": [
+            "음식과 음료마다 포스트잇에 이름(또는 객실)과 보관 시작일 또는 체크아웃일을 적어 붙입니다.",
+            "냄새가 강한 음식은 완전히 밀봉해 주세요.",
+            "유통기한이 지났거나 장기 보관되었거나 표기가 없는 식품은 위생 관리를 위해 폐기될 수 있습니다.",
+            "다른 게스트의 음식과 음료는 절대 드시지 마세요.",
+            "체크아웃할 때 남은 음식은 직접 정리해 주세요."
+          ]
+        },
+        {
+          "name": "게스트박스",
+          "steps": [
+            "공용 공간의 GUEST BOX에서 필요한 물품을 확인합니다.",
+            "여분 수건·일회용 칫솔 세트·밴드·여행용 어댑터·고데기·물티슈·비닐봉투가 준비되어 있습니다.",
+            "여행용 어댑터와 고데기 등 재사용 물품은 사용 직후 제자리에 돌려놓습니다.",
+            "일회용품은 필요한 수량만 가져가 주세요."
+          ]
+        }
+      ],
+      "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+    },
+    "en": {
+      "title": "Appliance guide",
+      "summary": "We matched the photographed models with manufacturer documentation and summarized the controls guests use most.",
+      "devices": [
+        {
+          "name": "Room climate control",
+          "model": "Samsung AM016BN1PBH2 · AWR/MWR-WG00 series controller",
+          "steps": [
+            "Press the lower-left power button.",
+            "Open Operation Mode and choose Cool or Heat.",
+            "Use up/down to set the target temperature.",
+            "Adjust fan speed from the fan menu if needed.",
+            "Turn it off when leaving. Some modes may be restricted by central control."
+          ],
+          "officialManual": {
+            "label": "Samsung official manual",
+            "url": "https://org.downloadcenter.samsung.com/downloadfile/ContentsFile.aspx?CDSite=UNI_RS&OriginYN=N&ModelType=N&ModelName=MWR-WG00JN&CttFileID=11569184&CDCttType=UM&VPath=UM%2F202607%2F20260723130050154%2FDB68-08383A-09_IB_SOL_LCD_Wired_Remote1_EU_Book_EN_260623-D01.pdf"
+          }
+        },
+        {
+          "name": "Microwave",
+          "model": "Cooing MM-E20RBKC · 20 L / 700 W",
+          "steps": [
+            "Use microwave-safe containers; never use metal or foil.",
+            "Place food inside and close the door fully.",
+            "For quick heating, press Start/+30 sec repeatedly.",
+            "For detailed settings, choose Power, Weight Defrost, or Time Defrost, set with the dial, then press Start.",
+            "Press Stop/Cancel to stop, and never leave heating unattended."
+          ],
+          "officialManual": {
+            "label": "Official product certification",
+            "url": "https://www.rra.go.kr/ko/license/A_b_popup_keyno.do?key_no=R-R-mdk-AM720C2AD-PM0B"
+          }
+        },
+        {
+          "name": "Ceramic cooktop",
+          "model": "Haatz HEC-1050S(H)-01",
+          "steps": [
+            "Use flat-bottom cookware.",
+            "Hold Power for 1 second to enter standby.",
+            "Press the Highlight + button to start at level 1, then use + / − for levels 1–9.",
+            "Hold Power for 1 second after use.",
+            "Do not touch while H is shown. To unlock, hold Lock for 2 seconds."
+          ],
+          "officialManual": {
+            "label": "Haatz official manual",
+            "url": "https://www.haatz.com/upload/manual/202601/1767614190_m0137482_20260105205630.pdf"
+          }
+        },
+        {
+          "name": "Water purifier",
+          "model": "Chungho WP-30C9460BN",
+          "steps": [
+            "Place a cup under the spout.",
+            "Choose ambient, cold, or hot water.",
+            "Select 120 mL, 500 mL, or Continuous.",
+            "Press Dispense.",
+            "For hot water, hold Lock for about 5 seconds to unlock; take care when the dispense button turns red."
+          ],
+          "officialManual": {
+            "label": "Chungho official manual",
+            "url": "https://www.chungho.co.kr/newch/admin/manual/202405290953002979.pdf"
+          }
+        },
+        {
+          "name": "Shared refrigerator",
+          "steps": [
+            "Label every food and drink with your name or room plus the storage date or checkout date.",
+            "Seal strong-smelling food completely.",
+            "Expired, long-stored, or unlabelled items may be discarded for hygiene.",
+            "Never consume food or drinks belonging to another guest.",
+            "Remove all of your remaining food at checkout."
+          ]
+        },
+        {
+          "name": "Guest Box",
+          "steps": [
+            "Find the GUEST BOX in the shared area.",
+            "It contains extra towels, disposable dental kits, bandages, travel adapters, a hair straightener, wet wipes, and plastic bags.",
+            "Return reusable items such as the adapter and hair straightener immediately after use.",
+            "Take only the quantity of disposable items you need."
+          ]
+        }
+      ],
+      "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+    },
+    "ja": {
+      "title": "設備ガイド",
+      "summary": "写真の型番をメーカー公式資料と照合し、滞在中によく使う操作をまとめました。",
+      "devices": [
+        {
+          "name": "客室空調",
+          "model": "Samsung AM016BN1PBH2 · AWR/MWR-WG00 series controller",
+          "steps": [
+            "左下の電源を押します。",
+            "運転モードから冷房または暖房を選びます。",
+            "上下で設定温度を調節します。",
+            "必要に応じて風量を調節します。",
+            "外出時は電源を切ってください。集中制御中は一部モードが制限されます。"
+          ],
+          "officialManual": {
+            "label": "Samsung公式説明書",
+            "url": "https://org.downloadcenter.samsung.com/downloadfile/ContentsFile.aspx?CDSite=UNI_RS&OriginYN=N&ModelType=N&ModelName=MWR-WG00JN&CttFileID=11569184&CDCttType=UM&VPath=UM%2F202607%2F20260723130050154%2FDB68-08383A-09_IB_SOL_LCD_Wired_Remote1_EU_Book_EN_260623-D01.pdf"
+          }
+        },
+        {
+          "name": "電子レンジ",
+          "model": "Cooing MM-E20RBKC · 20 L / 700 W",
+          "steps": [
+            "金属やアルミホイルは使わず、電子レンジ対応容器を使います。",
+            "食品を入れ、扉を完全に閉めます。",
+            "すぐに温める場合は「スタート/+30秒」を押します。",
+            "出力・重量解凍・時間解凍を選び、ダイヤルで設定してスタートします。",
+            "停止/取消で止め、加熱中は離れないでください。"
+          ],
+          "officialManual": {
+            "label": "製品公式認証情報",
+            "url": "https://www.rra.go.kr/ko/license/A_b_popup_keyno.do?key_no=R-R-mdk-AM720C2AD-PM0B"
+          }
+        },
+        {
+          "name": "電気クッキングヒーター",
+          "model": "Haatz HEC-1050S(H)-01",
+          "steps": [
+            "底が平らな調理器具を置きます。",
+            "電源を1秒長押しして待機状態にします。",
+            "ハイライトの＋で1段から開始し、＋／−で1〜9段を調節します。",
+            "使用後は電源を1秒長押しします。",
+            "余熱表示Hが消えるまで触れないでください。ロック解除は2秒長押しです。"
+          ],
+          "officialManual": {
+            "label": "Haatz公式説明書",
+            "url": "https://www.haatz.com/upload/manual/202601/1767614190_m0137482_20260105205630.pdf"
+          }
+        },
+        {
+          "name": "浄水器",
+          "model": "Chungho WP-30C9460BN",
+          "steps": [
+            "コップを注水口の下に置きます。",
+            "常温水・冷水・温水を選びます。",
+            "120 mL・500 mL・連続を選びます。",
+            "出水ボタンを押します。",
+            "温水はロックを約5秒長押しして解除し、赤い出水ボタン点灯中はやけどに注意してください。"
+          ],
+          "officialManual": {
+            "label": "Chungho公式説明書",
+            "url": "https://www.chungho.co.kr/newch/admin/manual/202405290953002979.pdf"
+          }
+        },
+        {
+          "name": "共用冷蔵庫",
+          "steps": [
+            "食品・飲料ごとに名前または客室と、保管開始日またはチェックアウト日を記入してください。",
+            "においの強い食品は完全に密封してください。",
+            "期限切れ・長期保管・無記名の食品は衛生管理のため処分されることがあります。",
+            "他のゲストの食品や飲料は絶対に口にしないでください。",
+            "チェックアウト時に残った食品を片付けてください。"
+          ]
+        },
+        {
+          "name": "ゲストボックス",
+          "steps": [
+            "共用スペースのGUEST BOXをご利用ください。",
+            "予備タオル、使い捨て歯ブラシ、絆創膏、旅行用アダプター、ヘアアイロン、ウェットティッシュ、ビニール袋があります。",
+            "アダプターやヘアアイロンなど再利用品は使用後すぐ元の場所に戻してください。",
+            "使い捨て用品は必要な分だけお取りください。"
+          ]
+        }
+      ],
+      "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+    },
+    "zh": {
+      "title": "设备指南",
+      "summary": "已将照片中的型号与制造商官方资料核对，并整理住客常用操作。",
+      "devices": [
+        {
+          "name": "房间空调",
+          "model": "Samsung AM016BN1PBH2 · AWR/MWR-WG00 series controller",
+          "steps": [
+            "按左下角电源键。",
+            "在运行模式中选择制冷或制热。",
+            "用上下键设定温度。",
+            "需要时调节风量。",
+            "离开时请关闭。中央控制时部分模式可能受限。"
+          ],
+          "officialManual": {
+            "label": "三星官方说明书",
+            "url": "https://org.downloadcenter.samsung.com/downloadfile/ContentsFile.aspx?CDSite=UNI_RS&OriginYN=N&ModelType=N&ModelName=MWR-WG00JN&CttFileID=11569184&CDCttType=UM&VPath=UM%2F202607%2F20260723130050154%2FDB68-08383A-09_IB_SOL_LCD_Wired_Remote1_EU_Book_EN_260623-D01.pdf"
+          }
+        },
+        {
+          "name": "微波炉",
+          "model": "Cooing MM-E20RBKC · 20 L / 700 W",
+          "steps": [
+            "请使用微波炉专用容器，勿放入金属或锡纸。",
+            "放入食物并关好门。",
+            "快速加热时反复按“启动/+30秒”。",
+            "选择功率、重量解冻或时间解冻，用旋钮设定后启动。",
+            "按停止/取消结束，加热时请勿离开。"
+          ],
+          "officialManual": {
+            "label": "产品官方认证信息",
+            "url": "https://www.rra.go.kr/ko/license/A_b_popup_keyno.do?key_no=R-R-mdk-AM720C2AD-PM0B"
+          }
+        },
+        {
+          "name": "电陶炉",
+          "model": "Haatz HEC-1050S(H)-01",
+          "steps": [
+            "使用平底锅具。",
+            "长按电源1秒进入待机。",
+            "按加热区＋从1档启动，再用＋／−调节1至9档。",
+            "使用后长按电源1秒关闭。",
+            "显示H时请勿触摸。长按锁定键2秒可解锁。"
+          ],
+          "officialManual": {
+            "label": "Haatz官方说明书",
+            "url": "https://www.haatz.com/upload/manual/202601/1767614190_m0137482_20260105205630.pdf"
+          }
+        },
+        {
+          "name": "净水器",
+          "model": "Chungho WP-30C9460BN",
+          "steps": [
+            "将杯子放在出水口下。",
+            "选择常温、冷水或热水。",
+            "选择120 mL、500 mL或连续出水。",
+            "按出水键。",
+            "热水需长按锁定键约5秒解锁；出水键亮红色时谨防烫伤。"
+          ],
+          "officialManual": {
+            "label": "Chungho官方说明书",
+            "url": "https://www.chungho.co.kr/newch/admin/manual/202405290953002979.pdf"
+          }
+        },
+        {
+          "name": "公用冰箱",
+          "steps": [
+            "每份食品和饮料请标注姓名或房间以及存放日期或退房日期。",
+            "气味较重的食品请完全密封。",
+            "过期、长期存放或无标签食品可能因卫生管理被清理。",
+            "请勿食用其他住客的食品或饮料。",
+            "退房时请自行清理剩余食品。"
+          ]
+        },
+        {
+          "name": "住客用品箱",
+          "steps": [
+            "请在公共区域使用GUEST BOX。",
+            "内有备用毛巾、一次性牙具、创可贴、旅行转换插头、直发器、湿巾和塑料袋。",
+            "转换插头和直发器等可重复使用物品请在使用后立即归还原位。",
+            "一次性用品请只取所需数量。"
+          ]
+        }
+      ],
+      "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+    },
+    "zh-TW": {
+      "title": "裝置指南",
+      "summary": "已將照片中的型號與製造商官方資料核對，並整理住客常用操作。",
+      "devices": [
+        {
+          "name": "房間冷暖氣",
+          "model": "Samsung AM016BN1PBH2 · AWR/MWR-WG00 series controller",
+          "steps": [
+            "按左下角電源鍵。",
+            "在執行模式中選擇製冷或制熱。",
+            "用上下鍵設定溫度。",
+            "需要時調節風量。",
+            "離開時請關閉。中央控制時部分模式可能受限。"
+          ],
+          "officialManual": {
+            "label": "三星官方說明書",
+            "url": "https://org.downloadcenter.samsung.com/downloadfile/ContentsFile.aspx?CDSite=UNI_RS&OriginYN=N&ModelType=N&ModelName=MWR-WG00JN&CttFileID=11569184&CDCttType=UM&VPath=UM%2F202607%2F20260723130050154%2FDB68-08383A-09_IB_SOL_LCD_Wired_Remote1_EU_Book_EN_260623-D01.pdf"
+          }
+        },
+        {
+          "name": "微波爐",
+          "model": "Cooing MM-E20RBKC · 20 L / 700 W",
+          "steps": [
+            "請使用微波爐專用容器，勿放入金屬或錫紙。",
+            "放入食物並關好門。",
+            "快速加熱時反覆按“啟動/+30秒”。",
+            "選擇功率、重量解凍或時間解凍，用旋鈕設定後啟動。",
+            "按停止/取消結束，加熱時請勿離開。"
+          ],
+          "officialManual": {
+            "label": "產品官方認證資訊",
+            "url": "https://www.rra.go.kr/ko/license/A_b_popup_keyno.do?key_no=R-R-mdk-AM720C2AD-PM0B"
+          }
+        },
+        {
+          "name": "電陶爐",
+          "model": "Haatz HEC-1050S(H)-01",
+          "steps": [
+            "使用平底鍋具。",
+            "長按電源1秒進入待機。",
+            "按加熱區＋從1檔啟動，再用＋／−調節1至9檔。",
+            "使用後長按電源1秒關閉。",
+            "顯示H時請勿觸控。長按鎖定鍵2秒可解鎖。"
+          ],
+          "officialManual": {
+            "label": "Haatz官方說明書",
+            "url": "https://www.haatz.com/upload/manual/202601/1767614190_m0137482_20260105205630.pdf"
+          }
+        },
+        {
+          "name": "淨水器",
+          "model": "Chungho WP-30C9460BN",
+          "steps": [
+            "將杯子放在出水口下。",
+            "選擇常溫、冷水或熱水。",
+            "選擇120 mL、500 mL或連續出水。",
+            "按出水鍵。",
+            "熱水需長按鎖定鍵約5秒解鎖；出水鍵亮紅色時謹防燙傷。"
+          ],
+          "officialManual": {
+            "label": "Chungho官方說明書",
+            "url": "https://www.chungho.co.kr/newch/admin/manual/202405290953002979.pdf"
+          }
+        },
+        {
+          "name": "公用冰箱",
+          "steps": [
+            "每份食品和飲料請標註姓名或房間以及存放日期或退房日期。",
+            "氣味較重的食品請完全密封。",
+            "過期、長期存放或無標籤食品可能因衛生管理被清理。",
+            "請勿食用其他住客的食品或飲料。",
+            "退房時請自行清理剩餘食品。"
+          ]
+        },
+        {
+          "name": "住客用品箱",
+          "steps": [
+            "請在公共區域使用GUEST BOX。",
+            "內有備用毛巾、一次性牙具、創可貼、旅行轉換插頭、直髮器、溼巾和塑膠袋。",
+            "轉換插頭和直髮器等可重複使用物品請在使用後立即歸還原位。",
+            "一次性用品請只取所需數量。"
+          ]
+        }
+      ],
+      "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+    }
+  },
+  "laundry": {
+    "ko": {
+      "title": "세탁 안내",
+      "model": "LG FY9WTB · wash 9 kg / dry 4.5 kg",
+      "summary": "",
+      "caution": "밤 10시 이전에 사용을 마쳐 주세요. 건조 직후에는 내부와 세탁물이 매우 뜨거우므로 화상에 주의하고, 건조 후 먼지 필터를 정리해 주세요.",
+      "sections": [
+        {
+          "title": "기본 사용",
+          "steps": [
+            "세제와 섬유유연제는 세탁기 위 선반에 있습니다.",
+            "세탁물을 넣고 문을 완전히 닫습니다.",
+            "전원 버튼을 눌러 제품을 켭니다.",
+            "코스 선택 버튼으로 세탁물에 맞는 코스를 선택합니다.",
+            "필요하면 헹굼횟수·탈수세기·물온도를 조절한 뒤 시작/일시정지 버튼을 1초간 눌러 시작합니다. 밤 10시 이전에 이용을 마쳐 주세요.",
+            "완료 후 세탁물을 바로 꺼내고 세제 투입구와 문을 열어 둡니다. 건조 후에는 먼지 필터를 정리해 주세요."
+          ]
+        }
+      ],
+      "officialManual": {
+        "label": "LG FY9WTB 공식 설명서",
+        "url": "https://www.lge.co.kr/support/product-FY9WTB"
+      },
+      "source": "https://anotherhouse-guide.vercel.app/?page=laundry"
+    },
+    "en": {
+      "title": "Laundry guide",
+      "model": "LG FY9WTB · wash 9 kg / dry 4.5 kg",
+      "summary": "",
+      "caution": "Finish using the machine before 22:00. The drum and laundry are very hot after drying; avoid burns and clean the lint filter.",
+      "sections": [
+        {
+          "title": "Basic use",
+          "steps": [
+            "Detergent and fabric softener are on the shelf above the washer.",
+            "Load the laundry and close the door completely.",
+            "Press Power.",
+            "Select the appropriate cycle.",
+            "Adjust the rinse count, spin speed or water temperature if needed, then hold Start/Pause for one second. Finish before 22:00.",
+            "Remove laundry promptly, leave the detergent drawer and door open, and clean the lint filter after drying."
+          ]
+        }
+      ],
+      "officialManual": {
+        "label": "LG FY9WTB official manual",
+        "url": "https://www.lge.co.kr/support/product-FY9WTB"
+      },
+      "source": "https://anotherhouse-guide.vercel.app/?page=laundry"
+    },
+    "ja": {
+      "title": "洗濯案内",
+      "model": "LG FY9WTB · wash 9 kg / dry 4.5 kg",
+      "summary": "",
+      "caution": "22時までに使用を終えてください。乾燥直後は内部と衣類が非常に熱いため、やけどに注意し、糸くずフィルターを掃除してください。",
+      "sections": [
+        {
+          "title": "基本操作",
+          "steps": [
+            "洗剤と柔軟剤は洗濯機上の棚にあります。",
+            "洗濯物を入れてドアを完全に閉めます。",
+            "電源ボタンを押します。",
+            "洗濯物に合うコースを選択します。",
+            "必要に応じてすすぎ回数・脱水強さ・水温を調整し、スタート／一時停止を1秒押します。22時までに終えてください。",
+            "終了後はすぐ取り出し、洗剤投入口とドアを開け、乾燥後は糸くずフィルターを掃除してください。"
+          ]
+        }
+      ],
+      "officialManual": {
+        "label": "LG FY9WTB公式説明書",
+        "url": "https://www.lge.co.kr/support/product-FY9WTB"
+      },
+      "source": "https://anotherhouse-guide.vercel.app/?page=laundry"
+    },
+    "zh": {
+      "title": "洗衣指南",
+      "model": "LG FY9WTB · wash 9 kg / dry 4.5 kg",
+      "summary": "",
+      "caution": "请在22:00前结束使用。烘干后内筒和衣物非常烫，请谨防烫伤并清理绒毛过滤器。",
+      "sections": [
+        {
+          "title": "基本使用",
+          "steps": [
+            "洗涤剂和柔顺剂位于洗衣机上方搁板。",
+            "放入衣物并完全关好机门。",
+            "按下电源键。",
+            "选择适合衣物的程序。",
+            "需要时调整漂洗次数、脱水强度或水温，然后长按启动／暂停1秒。请在22:00前结束。",
+            "结束后及时取出衣物，敞开洗涤剂盒和机门，烘干后清理绒毛过滤器。"
+          ]
+        }
+      ],
+      "officialManual": {
+        "label": "LG FY9WTB官方说明书",
+        "url": "https://www.lge.co.kr/support/product-FY9WTB"
+      },
+      "source": "https://anotherhouse-guide.vercel.app/?page=laundry"
+    },
+    "zh-TW": {
+      "title": "洗衣指南",
+      "model": "LG FY9WTB · wash 9 kg / dry 4.5 kg",
+      "summary": "",
+      "caution": "請在22:00前結束使用。烘乾後內筒和衣物非常燙，請謹防燙傷並清理絨毛過濾器。",
+      "sections": [
+        {
+          "title": "基本使用",
+          "steps": [
+            "洗滌劑和柔順劑位於洗衣機上方擱板。",
+            "放入衣物並完全關好機門。",
+            "按下電源鍵。",
+            "選擇適合衣物的程式。",
+            "需要時調整漂洗次數、脫水強度或水溫，然後長按啟動／暫停1秒。請在22:00前結束。",
+            "結束後及時取出衣物，敞開洗滌劑盒和機門，烘乾後清理絨毛過濾器。"
+          ]
+        }
+      ],
+      "officialManual": {
+        "label": "LG FY9WTB官方說明書",
+        "url": "https://www.lge.co.kr/support/product-FY9WTB"
+      },
+      "source": "https://anotherhouse-guide.vercel.app/?page=laundry"
+    }
+  },
+  "waste": {
+    "ko": {
+      "title": "쓰레기 배출",
+      "summary": "일반 쓰레기와 재활용은 공용 주방 테이블 맞은편, 음식물 쓰레기는 인덕션 옆 전용 쓰레기통에 버려 주세요.",
+      "sections": [
+        {
+          "title": "분리배출",
+          "steps": [
+            "일반 쓰레기는 공용 주방 테이블 맞은편의 일반 쓰레기통에 버립니다.",
+            "캔·병·플라스틱 등 재활용품은 같은 공간의 표시에 맞춰 분리합니다.",
+            "음식물 쓰레기는 인덕션 근처 구석에 마련된 음식물 전용 쓰레기통에 버립니다.",
+            "용기의 내용물을 비우고 가볍게 헹군 뒤 분리배출해 주세요.",
+            "대형 쓰레기나 처리 방법이 불분명한 물건은 임의로 버리지 말고 호스트에게 문의해 주세요."
+          ]
+        }
+      ],
+      "source": "https://anotherhouse-guide.vercel.app/?page=trash"
+    },
+    "en": {
+      "title": "Trash guide",
+      "summary": "General waste and recycling are opposite the shared-kitchen table. Food waste goes in the dedicated bin beside the cooktop.",
+      "sections": [
+        {
+          "title": "How to sort",
+          "steps": [
+            "Put general waste in the general-waste bin opposite the shared-kitchen table.",
+            "Sort cans, bottles, plastics, and other recycling according to the labels in the same area.",
+            "Put food waste in the dedicated bin in the corner beside the cooktop.",
+            "Empty and lightly rinse containers before recycling.",
+            "Ask the host before discarding bulky or unclear items."
+          ]
+        }
+      ],
+      "source": "https://anotherhouse-guide.vercel.app/?page=trash"
+    },
+    "ja": {
+      "title": "ごみ出し案内",
+      "summary": "一般ごみと資源ごみは共用キッチンのテーブル向かい、食品ごみはクックトップ横の専用ごみ箱へ捨ててください。",
+      "sections": [
+        {
+          "title": "分別方法",
+          "steps": [
+            "一般ごみは共用キッチンのテーブル向かいにある一般ごみ箱へ捨てます。",
+            "缶・瓶・プラスチックなどは同じ場所の表示に従って分別します。",
+            "食品ごみはクックトップ横の隅にある専用ごみ箱へ捨てます。",
+            "容器は中身を空にして軽くすすいでから分別してください。",
+            "粗大ごみや処分方法が不明な物は、勝手に捨てずホストへお問い合わせください。"
+          ]
+        }
+      ],
+      "source": "https://anotherhouse-guide.vercel.app/?page=trash"
+    },
+    "zh": {
+      "title": "垃圾投放指南",
+      "summary": "一般垃圾和可回收物请投放在公共厨房餐桌对面；厨余垃圾请放入灶台旁的专用垃圾桶。",
+      "sections": [
+        {
+          "title": "分类方法",
+          "steps": [
+            "一般垃圾请投入公共厨房餐桌对面的普通垃圾桶。",
+            "罐、瓶、塑料等可回收物请按照同一区域的标识分类。",
+            "厨余垃圾请投入灶台旁角落的专用垃圾桶。",
+            "容器请倒空并简单冲洗后再分类投放。",
+            "大型垃圾或不确定如何处理的物品，请先咨询房东。"
+          ]
+        }
+      ],
+      "source": "https://anotherhouse-guide.vercel.app/?page=trash"
+    },
+    "zh-TW": {
+      "title": "垃圾投放指南",
+      "summary": "一般垃圾和可回收物請投放在公共廚房餐桌對面；廚餘垃圾請放入灶臺旁的專用垃圾桶。",
+      "sections": [
+        {
+          "title": "分類方法",
+          "steps": [
+            "一般垃圾請投入公共廚房餐桌對面的普通垃圾桶。",
+            "罐、瓶、塑膠等可回收物請按照同一區域的標識分類。",
+            "廚餘垃圾請投入灶臺旁角落的專用垃圾桶。",
+            "容器請倒空並簡單沖洗後再分類投放。",
+            "大型垃圾或不確定如何處理的物品，請先諮詢房東。"
+          ]
+        }
+      ],
+      "source": "https://anotherhouse-guide.vercel.app/?page=trash"
+    }
+  },
+  "hostRecommendations": {
+    "ko": {
+      "restaurants": [
+        {
+          "name": "별난오리",
+          "category": "한식·오리",
+          "description": "동네 단골이 두툼하게 쌓인 오리요리 전문점. 여럿이 푸짐하게 먹는 첫 저녁으로 추천합니다.",
+          "walk": "도보 약 5분",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%B3%84%EB%82%9C%EC%98%A4%EB%A6%AC%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%B3%84%EB%82%9C%EC%98%A4%EB%A6%AC%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "진옥화할매원조닭한마리",
+          "category": "한식·노포",
+          "description": "닭한마리 골목을 대표하는 오래된 이름. 맑은 닭 육수에 떡과 칼국수까지 이어지는 동대문식 한 끼입니다.",
+          "walk": "도보 약 8분",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%A7%84%EC%98%A5%ED%99%94%ED%95%A0%EB%A7%A4%EC%9B%90%EC%A1%B0%EB%8B%AD%ED%95%9C%EB%A7%88%EB%A6%AC",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%A7%84%EC%98%A5%ED%99%94%ED%95%A0%EB%A7%A4%EC%9B%90%EC%A1%B0%EB%8B%AD%ED%95%9C%EB%A7%88%EB%A6%AC"
+          }
+        },
+        {
+          "name": "부촌육회 본점",
+          "category": "광장시장·한식",
+          "description": "광장시장 육회의 기준점. 미쉐린 빕 구르망에 이름을 올린 곳으로 산낙지와 함께 주문하기 좋습니다.",
+          "walk": "도보 약 20분",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%B6%80%EC%B4%8C%EC%9C%A1%ED%9A%8C%20%EB%B3%B8%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%B6%80%EC%B4%8C%EC%9C%A1%ED%9A%8C%20%EB%B3%B8%EC%A0%90"
+          }
+        },
+        {
+          "name": "에베레스트 레스토랑",
+          "category": "네팔·인도",
+          "description": "동대문에서 오래 사랑받은 네팔 음식점. 커리, 탄두리, 모모를 채식 옵션과 함께 즐길 수 있습니다.",
+          "walk": "도보 약 5분",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%97%90%EB%B2%A0%EB%A0%88%EC%8A%A4%ED%8A%B8%20%EB%A0%88%EC%8A%A4%ED%86%A0%EB%9E%91%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EB%B2%A0%EB%A0%88%EC%8A%A4%ED%8A%B8%20%EB%A0%88%EC%8A%A4%ED%86%A0%EB%9E%91%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "커피한약방",
+          "category": "카페·디저트",
+          "description": "을지로 골목 안, 오래된 가구와 손글씨 메뉴가 만드는 독보적인 분위기. 핸드드립과 디저트로 마무리하기 좋습니다.",
+          "walk": "도보 약 25분",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%BB%A4%ED%94%BC%ED%95%9C%EC%95%BD%EB%B0%A9",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%BB%A4%ED%94%BC%ED%95%9C%EC%95%BD%EB%B0%A9"
+          }
+        },
+        {
+          "name": "창신동매운족발",
+          "category": "한식·야식",
+          "description": "숯향과 매운맛이 강렬한 창신동 대표 야식. 맵기를 즐기는 여행자에게 기억에 남을 한 접시입니다.",
+          "walk": "도보 약 8분",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EC%8B%A0%EB%8F%99%EB%A7%A4%EC%9A%B4%EC%A1%B1%EB%B0%9C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%EB%A7%A4%EC%9A%B4%EC%A1%B1%EB%B0%9C"
+          }
+        },
+        {
+          "name": "전주집",
+          "category": "생선구이·노포",
+          "description": "동대문 생선구이 골목의 정석. 숯불에 구운 생선과 따뜻한 밥상으로 혼자서도 편안합니다.",
+          "walk": "도보 약 9분",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%A0%84%EC%A3%BC%EC%A7%91%20%EB%8F%99%EB%8C%80%EB%AC%B8%20%EC%83%9D%EC%84%A0%EA%B5%AC%EC%9D%B4",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%A0%84%EC%A3%BC%EC%A7%91%20%EB%8F%99%EB%8C%80%EB%AC%B8%20%EC%83%9D%EC%84%A0%EA%B5%AC%EC%9D%B4"
+          }
+        },
+        {
+          "name": "서울집",
+          "category": "컨템퍼러리·와인",
+          "description": "DDP와 을지로 사이에서 즐기는 세련된 저녁. 가벼운 와인과 함께 분위기 있는 식사를 원할 때 좋습니다.",
+          "walk": "도보 약 15분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%A7%91%20%EC%9D%84%EC%A7%80%EB%A1%9C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%9A%B8%EC%A7%91%20%EC%9D%84%EC%A7%80%EB%A1%9C"
+          }
+        },
+        {
+          "name": "퍼항",
+          "category": "베트남",
+          "description": "현지 향신료와 진한 육수가 살아 있는 베트남 식당. 늦은 시간 따뜻한 국물이 필요할 때 유용합니다.",
+          "walk": "도보 약 5분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%8D%BC%ED%95%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%8D%BC%ED%95%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "원조순희네빈대떡",
+          "category": "광장시장·길거리",
+          "description": "광장시장의 바삭한 빈대떡을 가장 활기찬 분위기에서 경험하는 곳. 막걸리 한 잔과 잘 어울립니다.",
+          "walk": "도보 약 20분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9B%90%EC%A1%B0%EC%88%9C%ED%9D%AC%EB%84%A4%EB%B9%88%EB%8C%80%EB%96%A1%20%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9B%90%EC%A1%B0%EC%88%9C%ED%9D%AC%EB%84%A4%EB%B9%88%EB%8C%80%EB%96%A1%20%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "name": "대화정 진짜해장국",
+          "category": "아침·해장국",
+          "description": "이른 시간 든든한 국밥이 필요할 때 가까운 선택. 진한 국물과 빠른 한 끼로 현지 직장인도 찾습니다.",
+          "walk": "도보 약 4분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8C%80%ED%99%94%EC%A0%95%20%EC%A7%84%EC%A7%9C%ED%95%B4%EC%9E%A5%EA%B5%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8C%80%ED%99%94%EC%A0%95%20%EC%A7%84%EC%A7%9C%ED%95%B4%EC%9E%A5%EA%B5%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "BLT 스테이크",
+          "category": "양식·스테이크",
+          "description": "JW 메리어트 동대문 안의 클래식 스테이크하우스. 기념일이나 격식 있는 저녁에 잘 맞습니다.",
+          "walk": "도보 약 3분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/BLT%20%EC%8A%A4%ED%85%8C%EC%9D%B4%ED%81%AC%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=BLT%20%EC%8A%A4%ED%85%8C%EC%9D%B4%ED%81%AC%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "타볼로 24",
+          "category": "양식·뷔페",
+          "description": "동대문 전망과 함께 즐기는 호텔 올데이다이닝. 아침 식사부터 여유로운 주말 브런치까지 편합니다.",
+          "walk": "도보 약 3분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%83%80%EB%B3%BC%EB%A1%9C24%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%83%80%EB%B3%BC%EB%A1%9C24%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "핏제리아오 대학로본점",
+          "category": "양식·이탈리안",
+          "description": "대학로에서 리뷰가 특히 많은 화덕 피자 전문점. 여러 명이 피자와 파스타를 나누기 좋습니다.",
+          "walk": "택시 약 10분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%95%8F%EC%A0%9C%EB%A6%AC%EC%95%84%EC%98%A4%20%EB%8C%80%ED%95%99%EB%A1%9C%EB%B3%B8%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%95%8F%EC%A0%9C%EB%A6%AC%EC%95%84%EC%98%A4%20%EB%8C%80%ED%95%99%EB%A1%9C%EB%B3%B8%EC%A0%90"
+          }
+        },
+        {
+          "name": "더플레이스 광화문SFC점",
+          "category": "양식·이탈리안",
+          "description": "광화문에서 접근하기 쉬운 캐주얼 이탈리안. 궁궐 투어 전후 파스타와 피자를 먹기 좋습니다.",
+          "walk": "대중교통 약 20분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8D%94%ED%94%8C%EB%A0%88%EC%9D%B4%EC%8A%A4%20%EA%B4%91%ED%99%94%EB%AC%B8SFC%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8D%94%ED%94%8C%EB%A0%88%EC%9D%B4%EC%8A%A4%20%EA%B4%91%ED%99%94%EB%AC%B8SFC%EC%A0%90"
+          }
+        },
+        {
+          "name": "어니언 안국점",
+          "category": "브런치·베이커리",
+          "description": "한옥 공간에서 빵과 커피를 즐기는 서울 대표 카페. 이른 시간 방문하면 비교적 여유롭습니다.",
+          "walk": "대중교통 약 20분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B9%B4%ED%8E%98%20%EC%96%B4%EB%8B%88%EC%96%B8%20%EC%95%88%EA%B5%AD",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B9%B4%ED%8E%98%20%EC%96%B4%EB%8B%88%EC%96%B8%20%EC%95%88%EA%B5%AD"
+          }
+        },
+        {
+          "name": "런던베이글뮤지엄 안국점",
+          "category": "브런치·베이글",
+          "description": "두툼한 베이글과 크림치즈로 유명한 안국의 대표 브런치 스폿. 대기가 긴 편입니다.",
+          "walk": "대중교통 약 20분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%9F%B0%EB%8D%98%EB%B2%A0%EC%9D%B4%EA%B8%80%EB%AE%A4%EC%A7%80%EC%97%84%20%EC%95%88%EA%B5%AD%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%9F%B0%EB%8D%98%EB%B2%A0%EC%9D%B4%EA%B8%80%EB%AE%A4%EC%A7%80%EC%97%84%20%EC%95%88%EA%B5%AD%EC%A0%90"
+          }
+        },
+        {
+          "name": "밀토스트 익선점",
+          "category": "브런치·토스트",
+          "description": "익선동 한옥에서 수플레 토스트와 스팀 식빵을 맛보는 곳. 가벼운 아침 산책 코스와 잘 어울립니다.",
+          "walk": "대중교통 약 15분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%B0%80%ED%86%A0%EC%8A%A4%ED%8A%B8%20%EC%9D%B5%EC%84%A0%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%B0%80%ED%86%A0%EC%8A%A4%ED%8A%B8%20%EC%9D%B5%EC%84%A0%EC%A0%90"
+          }
+        },
+        {
+          "name": "카페 레이어드 북촌",
+          "category": "브런치·베이커리",
+          "description": "스콘과 케이크가 가득한 북촌 베이커리 카페. 안국과 북촌 산책 중 쉬어가기 좋습니다.",
+          "walk": "대중교통 약 20분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B9%B4%ED%8E%98%20%EB%A0%88%EC%9D%B4%EC%96%B4%EB%93%9C%20%EB%B6%81%EC%B4%8C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B9%B4%ED%8E%98%20%EB%A0%88%EC%9D%B4%EC%96%B4%EB%93%9C%20%EB%B6%81%EC%B4%8C"
+          }
+        },
+        {
+          "name": "에그드랍 동대문점",
+          "category": "브런치·샌드위치",
+          "description": "짧은 시간에 계란 샌드위치와 커피를 챙기기 좋은 가까운 브런치 선택입니다.",
+          "walk": "도보 약 9분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90"
+          }
+        },
+        {
+          "name": "청수당 베이커리",
+          "category": "카페·디저트",
+          "description": "대나무와 물길이 만든 익선동의 몰입형 카페. 수플레 카스텔라와 야간 분위기가 인기입니다.",
+          "walk": "대중교통 약 15분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B2%AD%EC%88%98%EB%8B%B9%20%EB%B2%A0%EC%9D%B4%EC%BB%A4%EB%A6%AC%20%EC%9D%B5%EC%84%A0%EB%8F%99",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B2%AD%EC%88%98%EB%8B%B9%20%EB%B2%A0%EC%9D%B4%EC%BB%A4%EB%A6%AC%20%EC%9D%B5%EC%84%A0%EB%8F%99"
+          }
+        },
+        {
+          "name": "프릳츠 원서",
+          "category": "카페·로스터리",
+          "description": "창덕궁 옆 오래된 공간을 살린 로스터리 카페. 커피 품질과 베이커리 모두 안정적입니다.",
+          "walk": "대중교통 약 20분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%94%84%EB%A6%B3%EC%B8%A0%20%EC%9B%90%EC%84%9C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%94%84%EB%A6%B3%EC%B8%A0%20%EC%9B%90%EC%84%9C"
+          }
+        },
+        {
+          "name": "널담은공간 경복궁점",
+          "category": "카페·체험",
+          "description": "미래의 나에게 편지를 쓰는 체험형 카페. 경복궁·서촌 일정에 감성적인 휴식을 더합니다.",
+          "walk": "대중교통 약 25분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%84%90%EB%8B%B4%EC%9D%80%EA%B3%B5%EA%B0%84%20%EA%B2%BD%EB%B3%B5%EA%B6%81%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%84%90%EB%8B%B4%EC%9D%80%EA%B3%B5%EA%B0%84%20%EA%B2%BD%EB%B3%B5%EA%B6%81%EC%A0%90"
+          }
+        },
+        {
+          "name": "도넛정수 창신",
+          "category": "카페·도넛",
+          "description": "창신동 절벽마을 전망과 한국식 도넛을 함께 즐기는 목적지형 카페입니다.",
+          "walk": "마을버스 약 15분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%84%EB%84%9B%EC%A0%95%EC%88%98%20%EC%B0%BD%EC%8B%A0",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%84%EB%84%9B%EC%A0%95%EC%88%98%20%EC%B0%BD%EC%8B%A0"
+          }
+        },
+        {
+          "name": "태극당",
+          "category": "카페·노포 빵집",
+          "description": "1946년부터 이어진 서울의 대표 노포 빵집. 모나카 아이스크림과 클래식한 빵을 맛보기 좋습니다.",
+          "walk": "대중교통 약 15분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%83%9C%EA%B7%B9%EB%8B%B9%20%EC%9E%A5%EC%B6%A9%EB%8F%99",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%83%9C%EA%B7%B9%EB%8B%B9%20%EC%9E%A5%EC%B6%A9%EB%8F%99"
+          }
+        },
+        {
+          "name": "교촌치킨 동대문1호점",
+          "category": "같은 건물·24시간",
+          "description": "숙소와 같은 선일빌딩 1층의 24시간 치킨 매장. 늦은 체크인이나 심야 포장에 가장 편합니다.",
+          "walk": "같은 건물 · 1층",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B5%90%EC%B4%8C%EC%B9%98%ED%82%A8%20%EB%8F%99%EB%8C%80%EB%AC%B81%ED%98%B8%EC%A0%90%20%EC%A2%85%EB%A1%9C%20294",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B5%90%EC%B4%8C%EC%B9%98%ED%82%A8%20%EB%8F%99%EB%8C%80%EB%AC%B81%ED%98%B8%EC%A0%90%20%EC%A2%85%EB%A1%9C%20294"
+          }
+        }
+      ],
+      "tours": [
+        {
+          "name": "동대문디자인플라자 DDP",
+          "description": "자하 하디드의 유려한 건축과 전시, 야간 조명이 이어지는 동대문의 상징입니다.",
+          "travel": "도보 약 6분",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%8C%80%EB%AC%B8%EB%94%94%EC%9E%90%EC%9D%B8%ED%94%8C%EB%9D%BC%EC%9E%90%20DDP",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EB%94%94%EC%9E%90%EC%9D%B8%ED%94%8C%EB%9D%BC%EC%9E%90%20DDP"
+          },
+          "official": "https://ddp.or.kr/"
+        },
+        {
+          "name": "흥인지문",
+          "description": "서울 한양도성의 동쪽 대문. 성곽 산책을 시작하기 가장 좋은 기준점입니다.",
+          "travel": "도보 약 3분",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8"
+          },
+          "official": "https://seoulcitywall.seoul.go.kr/"
+        },
+        {
+          "name": "낙산공원 & 서울한양도성",
+          "description": "도심 능선을 따라 성곽과 서울의 지붕을 한눈에 보는 해질녘 산책 코스입니다.",
+          "travel": "도보·오르막 약 20분",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%82%99%EC%82%B0%EA%B3%B5%EC%9B%90%20%EC%84%9C%EC%9A%B8%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%82%99%EC%82%B0%EA%B3%B5%EC%9B%90%20%EC%84%9C%EC%9A%B8%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1"
+          },
+          "official": "https://english.visitseoul.net/editorspicks/SeoulCityWallHikingTrail/ENNpxjh2o"
+        },
+        {
+          "name": "이화벽화마을",
+          "description": "가파른 골목과 작은 작업실, 벽화가 이어지는 낙산 아래의 오래된 마을입니다.",
+          "travel": "도보 약 18분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9D%B4%ED%99%94%EB%B2%BD%ED%99%94%EB%A7%88%EC%9D%84",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B4%ED%99%94%EB%B2%BD%ED%99%94%EB%A7%88%EC%9D%84"
+          }
+        },
+        {
+          "name": "창신동 절벽마을 & 채석장 전망대",
+          "description": "화강암 채석장의 흔적과 산복도로 풍경을 따라 걷는, 창신동만의 입체적인 서울입니다.",
+          "travel": "마을버스 약 15분",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EC%A0%88%EB%B2%BD%EB%A7%88%EC%9D%84%20%EC%B1%84%EC%84%9D%EC%9E%A5%20%EC%A0%84%EB%A7%9D%EB%8C%80",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EC%A0%88%EB%B2%BD%EB%A7%88%EC%9D%84%20%EC%B1%84%EC%84%9D%EC%9E%A5%20%EC%A0%84%EB%A7%9D%EB%8C%80"
+          },
+          "official": "https://english.visitseoul.net/attractions/2024-changsincliff/ENPgvo4y2"
+        },
+        {
+          "name": "광장시장",
+          "description": "빈대떡, 육회, 마약김밥과 포목 상가가 공존하는 서울의 대표 전통시장입니다.",
+          "travel": "도보 약 15분",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5"
+          },
+          "official": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=92336"
+        },
+        {
+          "name": "청계천 야간 산책",
+          "description": "숙소 가까이에서 물길과 도시 조명을 따라 부담 없이 걷기 좋은 야간 코스입니다.",
+          "travel": "도보 약 5분",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B2%AD%EA%B3%84%EC%B2%9C%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B2%AD%EA%B3%84%EC%B2%9C%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "한양도성박물관",
+          "description": "성곽의 축조와 보존 이야기를 먼저 이해하고 낙산 코스로 이어가기 좋습니다.",
+          "travel": "도보 약 9분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1%EB%B0%95%EB%AC%BC%EA%B4%80",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1%EB%B0%95%EB%AC%BC%EA%B4%80"
+          },
+          "official": "https://museum.seoul.go.kr/scwm/"
+        },
+        {
+          "name": "동대문종합시장",
+          "description": "원단, 부자재, 액세서리와 공예 재료를 층층이 탐험하는 세계적인 패션 재료 시장입니다.",
+          "travel": "도보 약 6분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A2%85%ED%95%A9%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A2%85%ED%95%A9%EC%8B%9C%EC%9E%A5"
+          },
+          "official": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=92336"
+        },
+        {
+          "name": "두타몰 · 두산타워",
+          "description": "동대문의 패션·뷰티 브랜드와 야간 쇼핑을 한 번에 즐기기 좋은 세련된 실내 쇼핑몰입니다.",
+          "travel": "도보 약 5분",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%91%90%ED%83%80%EB%AA%B0%20%EB%91%90%EC%82%B0%ED%83%80%EC%9B%8C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%91%90%ED%83%80%EB%AA%B0%20%EB%91%90%EC%82%B0%ED%83%80%EC%9B%8C"
+          },
+          "official": "https://www.doota-mall.com/main.do"
+        },
+        {
+          "name": "동묘 벼룩시장",
+          "description": "빈티지 의류, 오래된 음반과 생활 도구가 쌓여 있는 서울의 독특한 보물찾기 시장입니다.",
+          "travel": "도보 약 12분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%AC%98%20%EB%B2%BC%EB%A3%A9%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%AC%98%20%EB%B2%BC%EB%A3%A9%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "name": "창신동 문구완구거리",
+          "description": "작은 장난감과 문구, 파티용품이 빽빽하게 들어선 오래된 도매 골목입니다.",
+          "travel": "도보 약 8분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EB%AC%B8%EA%B5%AC%EC%99%84%EA%B5%AC%EA%B1%B0%EB%A6%AC",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EB%AC%B8%EA%B5%AC%EC%99%84%EA%B5%AC%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "name": "종묘",
+          "description": "조선 왕과 왕비의 신위를 모신 유네스코 세계유산. 절제된 건축과 긴 월대가 인상적입니다.",
+          "travel": "대중교통 약 15분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%A2%85%EB%AC%98",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%A2%85%EB%AC%98"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101030000.do"
+        },
+        {
+          "name": "창덕궁",
+          "description": "자연 지형을 살린 궁궐 배치와 후원으로 사랑받는 유네스코 세계유산입니다.",
+          "travel": "대중교통 약 20분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EB%8D%95%EA%B6%81",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EB%8D%95%EA%B6%81"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101010000.do"
+        },
+        {
+          "name": "창경궁",
+          "description": "명정전, 춘당지와 온실을 잇는 차분한 궁궐 산책. 야간 개장 여부도 확인해 보세요.",
+          "travel": "대중교통 약 20분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EA%B2%BD%EA%B6%81",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EA%B2%BD%EA%B6%81"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101020000.do"
+        },
+        {
+          "name": "경복궁",
+          "description": "근정전과 경회루, 북악산이 만드는 서울의 가장 상징적인 궁궐 풍경입니다.",
+          "travel": "대중교통 약 25분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B2%BD%EB%B3%B5%EA%B6%81",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B2%BD%EB%B3%B5%EA%B6%81"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101000000.do"
+        },
+        {
+          "name": "익선동 한옥거리",
+          "description": "좁은 한옥 골목에 작은 식당, 디저트 숍과 공방이 이어지는 산책 동네입니다.",
+          "travel": "대중교통 약 15분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9D%B5%EC%84%A0%EB%8F%99%20%ED%95%9C%EC%98%A5%EA%B1%B0%EB%A6%AC",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B5%EC%84%A0%EB%8F%99%20%ED%95%9C%EC%98%A5%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "name": "인사동",
+          "description": "공예품, 고서점, 전통 찻집과 갤러리를 천천히 둘러보는 서울 문화 산책입니다.",
+          "travel": "대중교통 약 20분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9D%B8%EC%82%AC%EB%8F%99",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B8%EC%82%AC%EB%8F%99"
+          }
+        },
+        {
+          "name": "서순라길",
+          "description": "종묘 담장을 따라 주얼리 공방과 작은 바, 카페가 이어지는 낮고 고요한 거리입니다.",
+          "travel": "대중교통 약 18분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%84%9C%EC%88%9C%EB%9D%BC%EA%B8%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%88%9C%EB%9D%BC%EA%B8%B8"
+          }
+        },
+        {
+          "name": "대학로 & 마로니에공원",
+          "description": "소극장, 독립 서점과 공원이 어우러진 서울 공연예술의 오래된 중심지입니다.",
+          "travel": "대중교통 약 15분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8C%80%ED%95%99%EB%A1%9C%20%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8C%80%ED%95%99%EB%A1%9C%20%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90"
+          }
+        },
+        {
+          "name": "국립현대미술관 서울",
+          "description": "경복궁 옆에서 한국과 세계의 현대미술, 건축적 중정을 함께 경험하는 미술관입니다.",
+          "travel": "대중교통 약 25분",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%ED%98%84%EB%8C%80%EB%AF%B8%EC%88%A0%EA%B4%80%20%EC%84%9C%EC%9A%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B5%AD%EB%A6%BD%ED%98%84%EB%8C%80%EB%AF%B8%EC%88%A0%EA%B4%80%20%EC%84%9C%EC%9A%B8"
+          },
+          "official": "https://www.mmca.go.kr/eng/"
+        }
+      ],
+      "restaurantSource": "https://anotherhouse-guide.vercel.app/?page=nearby",
+      "tourSource": "https://anotherhouse-guide.vercel.app/?page=tours"
+    },
+    "en": {
+      "restaurants": [
+        {
+          "name": "Byeolnan Ori",
+          "category": "Korean · Duck",
+          "description": "A deeply local duck specialist with an exceptional review record—ideal for a generous first dinner with friends.",
+          "walk": "About 5 min walk",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%B3%84%EB%82%9C%EC%98%A4%EB%A6%AC%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%B3%84%EB%82%9C%EC%98%A4%EB%A6%AC%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "Jin Ok-hwa Original Chicken",
+          "category": "Korean · Institution",
+          "description": "The defining name of Dakhanmari Alley: whole chicken broth followed by rice cakes and knife-cut noodles.",
+          "walk": "About 8 min walk",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%A7%84%EC%98%A5%ED%99%94%ED%95%A0%EB%A7%A4%EC%9B%90%EC%A1%B0%EB%8B%AD%ED%95%9C%EB%A7%88%EB%A6%AC",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%A7%84%EC%98%A5%ED%99%94%ED%95%A0%EB%A7%A4%EC%9B%90%EC%A1%B0%EB%8B%AD%ED%95%9C%EB%A7%88%EB%A6%AC"
+          }
+        },
+        {
+          "name": "Buchon Yukhoe",
+          "category": "Gwangjang · Korean",
+          "description": "A benchmark for Gwangjang Market yukhoe and a MICHELIN Bib Gourmand selection; pair it with live octopus.",
+          "walk": "About 20 min walk",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%B6%80%EC%B4%8C%EC%9C%A1%ED%9A%8C%20%EB%B3%B8%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%B6%80%EC%B4%8C%EC%9C%A1%ED%9A%8C%20%EB%B3%B8%EC%A0%90"
+          }
+        },
+        {
+          "name": "Everest Restaurant",
+          "category": "Nepali · Indian",
+          "description": "A long-loved Dongdaemun Nepali restaurant for curry, tandoori, momo, and vegetarian-friendly choices.",
+          "walk": "About 5 min walk",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%97%90%EB%B2%A0%EB%A0%88%EC%8A%A4%ED%8A%B8%20%EB%A0%88%EC%8A%A4%ED%86%A0%EB%9E%91%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EB%B2%A0%EB%A0%88%EC%8A%A4%ED%8A%B8%20%EB%A0%88%EC%8A%A4%ED%86%A0%EB%9E%91%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "Coffee Hanyakbang",
+          "category": "Cafe · Dessert",
+          "description": "A singular Euljiro alley cafe of antique furniture and handwritten menus—perfect for hand-drip coffee and dessert.",
+          "walk": "About 25 min walk",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%BB%A4%ED%94%BC%ED%95%9C%EC%95%BD%EB%B0%A9",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%BB%A4%ED%94%BC%ED%95%9C%EC%95%BD%EB%B0%A9"
+          }
+        },
+        {
+          "name": "Changsin-dong Spicy Jokbal",
+          "category": "Korean · Late night",
+          "description": "Changsin-dong’s smoky, fiercely spicy late-night signature for travelers who enjoy serious heat.",
+          "walk": "About 8 min walk",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EC%8B%A0%EB%8F%99%EB%A7%A4%EC%9A%B4%EC%A1%B1%EB%B0%9C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%EB%A7%A4%EC%9A%B4%EC%A1%B1%EB%B0%9C"
+          }
+        },
+        {
+          "name": "Jeonjujip",
+          "category": "Grilled fish · Institution",
+          "description": "A classic of Dongdaemun’s grilled-fish alley, serving charcoal-grilled fish and a comforting set meal suitable for solo diners.",
+          "walk": "About 9 min walk",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%A0%84%EC%A3%BC%EC%A7%91%20%EB%8F%99%EB%8C%80%EB%AC%B8%20%EC%83%9D%EC%84%A0%EA%B5%AC%EC%9D%B4",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%A0%84%EC%A3%BC%EC%A7%91%20%EB%8F%99%EB%8C%80%EB%AC%B8%20%EC%83%9D%EC%84%A0%EA%B5%AC%EC%9D%B4"
+          }
+        },
+        {
+          "name": "Seoulzip",
+          "category": "Contemporary · Wine",
+          "description": "A polished dinner between DDP and Euljiro, well suited to a relaxed meal with wine.",
+          "walk": "About 15 min walk",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%A7%91%20%EC%9D%84%EC%A7%80%EB%A1%9C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%9A%B8%EC%A7%91%20%EC%9D%84%EC%A7%80%EB%A1%9C"
+          }
+        },
+        {
+          "name": "Pho Hang",
+          "category": "Vietnamese",
+          "description": "Vietnamese comfort food with fragrant herbs and a deep broth, especially welcome later at night.",
+          "walk": "About 5 min walk",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%8D%BC%ED%95%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%8D%BC%ED%95%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "Original Soonhee Bindaetteok",
+          "category": "Gwangjang · Street food",
+          "description": "One of the liveliest ways to experience Gwangjang Market’s crisp mung-bean pancakes, ideally with makgeolli.",
+          "walk": "About 20 min walk",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9B%90%EC%A1%B0%EC%88%9C%ED%9D%AC%EB%84%A4%EB%B9%88%EB%8C%80%EB%96%A1%20%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9B%90%EC%A1%B0%EC%88%9C%ED%9D%AC%EB%84%A4%EB%B9%88%EB%8C%80%EB%96%A1%20%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "name": "Daehwajeong Jinjja Haejangguk",
+          "category": "Breakfast · Haejangguk",
+          "description": "A nearby, satisfying bowl for an early start, known for deep broth and a quick local-style meal.",
+          "walk": "About 4 min walk",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8C%80%ED%99%94%EC%A0%95%20%EC%A7%84%EC%A7%9C%ED%95%B4%EC%9E%A5%EA%B5%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8C%80%ED%99%94%EC%A0%95%20%EC%A7%84%EC%A7%9C%ED%95%B4%EC%9E%A5%EA%B5%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "BLT Steak",
+          "category": "Western · Steak",
+          "description": "A classic steakhouse inside JW Marriott Dongdaemun, best for celebrations and polished dinners.",
+          "walk": "About 3 min walk",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/BLT%20%EC%8A%A4%ED%85%8C%EC%9D%B4%ED%81%AC%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=BLT%20%EC%8A%A4%ED%85%8C%EC%9D%B4%ED%81%AC%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "Tavolo 24",
+          "category": "Western · Buffet",
+          "description": "Hotel all-day dining with Dongdaemun views, from breakfast to an easy weekend brunch.",
+          "walk": "About 3 min walk",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%83%80%EB%B3%BC%EB%A1%9C24%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%83%80%EB%B3%BC%EB%A1%9C24%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "Pizzeria O Daehakro",
+          "category": "Western · Italian",
+          "description": "A heavily reviewed Daehakro destination for wood-fired pizza and pasta to share.",
+          "walk": "About 10 min by taxi",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%95%8F%EC%A0%9C%EB%A6%AC%EC%95%84%EC%98%A4%20%EB%8C%80%ED%95%99%EB%A1%9C%EB%B3%B8%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%95%8F%EC%A0%9C%EB%A6%AC%EC%95%84%EC%98%A4%20%EB%8C%80%ED%95%99%EB%A1%9C%EB%B3%B8%EC%A0%90"
+          }
+        },
+        {
+          "name": "The Place Gwanghwamun",
+          "category": "Western · Italian",
+          "description": "An approachable Italian stop in Gwanghwamun, convenient before or after a palace tour.",
+          "walk": "About 20 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8D%94%ED%94%8C%EB%A0%88%EC%9D%B4%EC%8A%A4%20%EA%B4%91%ED%99%94%EB%AC%B8SFC%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8D%94%ED%94%8C%EB%A0%88%EC%9D%B4%EC%8A%A4%20%EA%B4%91%ED%99%94%EB%AC%B8SFC%EC%A0%90"
+          }
+        },
+        {
+          "name": "Cafe Onion Anguk",
+          "category": "Brunch · Bakery",
+          "description": "A signature Seoul hanok cafe for bread and coffee; earlier visits are usually calmer.",
+          "walk": "About 20 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B9%B4%ED%8E%98%20%EC%96%B4%EB%8B%88%EC%96%B8%20%EC%95%88%EA%B5%AD",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B9%B4%ED%8E%98%20%EC%96%B4%EB%8B%88%EC%96%B8%20%EC%95%88%EA%B5%AD"
+          }
+        },
+        {
+          "name": "London Bagel Museum Anguk",
+          "category": "Brunch · Bagel",
+          "description": "Anguk’s famous brunch stop for substantial bagels and cream cheese; expect a queue.",
+          "walk": "About 20 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%9F%B0%EB%8D%98%EB%B2%A0%EC%9D%B4%EA%B8%80%EB%AE%A4%EC%A7%80%EC%97%84%20%EC%95%88%EA%B5%AD%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%9F%B0%EB%8D%98%EB%B2%A0%EC%9D%B4%EA%B8%80%EB%AE%A4%EC%A7%80%EC%97%84%20%EC%95%88%EA%B5%AD%EC%A0%90"
+          }
+        },
+        {
+          "name": "Mil Toast House",
+          "category": "Brunch · Toast",
+          "description": "A hanok brunch stop in Ikseon-dong for souffle toast and steamed bread.",
+          "walk": "About 15 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%B0%80%ED%86%A0%EC%8A%A4%ED%8A%B8%20%EC%9D%B5%EC%84%A0%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%B0%80%ED%86%A0%EC%8A%A4%ED%8A%B8%20%EC%9D%B5%EC%84%A0%EC%A0%90"
+          }
+        },
+        {
+          "name": "Cafe Layered Bukchon",
+          "category": "Brunch · Bakery",
+          "description": "A Bukchon bakery cafe filled with scones and cakes, ideal during an Anguk walk.",
+          "walk": "About 20 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B9%B4%ED%8E%98%20%EB%A0%88%EC%9D%B4%EC%96%B4%EB%93%9C%20%EB%B6%81%EC%B4%8C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B9%B4%ED%8E%98%20%EB%A0%88%EC%9D%B4%EC%96%B4%EB%93%9C%20%EB%B6%81%EC%B4%8C"
+          }
+        },
+        {
+          "name": "Egg Drop Dongdaemun",
+          "category": "Brunch · Sandwich",
+          "description": "A nearby, efficient stop for an egg sandwich and coffee when time is short.",
+          "walk": "About 9 min walk",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90"
+          }
+        },
+        {
+          "name": "Cheongsudang Bakery",
+          "category": "Cafe · Dessert",
+          "description": "An immersive Ikseon-dong cafe of bamboo and water, known for souffle castella and evening ambience.",
+          "walk": "About 15 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B2%AD%EC%88%98%EB%8B%B9%20%EB%B2%A0%EC%9D%B4%EC%BB%A4%EB%A6%AC%20%EC%9D%B5%EC%84%A0%EB%8F%99",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B2%AD%EC%88%98%EB%8B%B9%20%EB%B2%A0%EC%9D%B4%EC%BB%A4%EB%A6%AC%20%EC%9D%B5%EC%84%A0%EB%8F%99"
+          }
+        },
+        {
+          "name": "Fritz Coffee Wonseo",
+          "category": "Cafe · Roastery",
+          "description": "A roastery in a restored old space beside Changdeokgung, reliable for both coffee and bread.",
+          "walk": "About 20 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%94%84%EB%A6%B3%EC%B8%A0%20%EC%9B%90%EC%84%9C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%94%84%EB%A6%B3%EC%B8%A0%20%EC%9B%90%EC%84%9C"
+          }
+        },
+        {
+          "name": "Nuldam Space Gyeongbokgung",
+          "category": "Cafe · Experience",
+          "description": "An experience cafe where you write a letter to your future self, ideal with a Seochon itinerary.",
+          "walk": "About 25 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%84%90%EB%8B%B4%EC%9D%80%EA%B3%B5%EA%B0%84%20%EA%B2%BD%EB%B3%B5%EA%B6%81%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%84%90%EB%8B%B4%EC%9D%80%EA%B3%B5%EA%B0%84%20%EA%B2%BD%EB%B3%B5%EA%B6%81%EC%A0%90"
+          }
+        },
+        {
+          "name": "Donut Jungsu Changsin",
+          "category": "Cafe · Donut",
+          "description": "A destination cafe pairing Korean-style donuts with Changsin-dong hill views.",
+          "walk": "About 15 min by local bus",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%84%EB%84%9B%EC%A0%95%EC%88%98%20%EC%B0%BD%EC%8B%A0",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%84%EB%84%9B%EC%A0%95%EC%88%98%20%EC%B0%BD%EC%8B%A0"
+          }
+        },
+        {
+          "name": "Taegeukdang",
+          "category": "Cafe · Heritage bakery",
+          "description": "A landmark Seoul bakery dating to 1946, known for monaka ice cream and classic breads.",
+          "walk": "About 15 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%83%9C%EA%B7%B9%EB%8B%B9%20%EC%9E%A5%EC%B6%A9%EB%8F%99",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%83%9C%EA%B7%B9%EB%8B%B9%20%EC%9E%A5%EC%B6%A9%EB%8F%99"
+          }
+        },
+        {
+          "name": "Kyochon Chicken Dongdaemun 1",
+          "category": "Same building · 24 hours",
+          "description": "A 24-hour chicken shop on the first floor of the same Sunil Building—ideal for late arrival or takeaway.",
+          "walk": "Same building · 1F",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B5%90%EC%B4%8C%EC%B9%98%ED%82%A8%20%EB%8F%99%EB%8C%80%EB%AC%B81%ED%98%B8%EC%A0%90%20%EC%A2%85%EB%A1%9C%20294",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B5%90%EC%B4%8C%EC%B9%98%ED%82%A8%20%EB%8F%99%EB%8C%80%EB%AC%B81%ED%98%B8%EC%A0%90%20%EC%A2%85%EB%A1%9C%20294"
+          }
+        }
+      ],
+      "tours": [
+        {
+          "name": "Dongdaemun Design Plaza",
+          "description": "Dongdaemun’s landmark for Zaha Hadid’s fluid architecture, exhibitions and night lights.",
+          "travel": "About 6 min walk",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%8C%80%EB%AC%B8%EB%94%94%EC%9E%90%EC%9D%B8%ED%94%8C%EB%9D%BC%EC%9E%90%20DDP",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EB%94%94%EC%9E%90%EC%9D%B8%ED%94%8C%EB%9D%BC%EC%9E%90%20DDP"
+          },
+          "official": "https://ddp.or.kr/"
+        },
+        {
+          "name": "Heunginjimun Gate",
+          "description": "The eastern gate of the Seoul City Wall and the best starting point for a wall walk.",
+          "travel": "About 3 min walk",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8"
+          },
+          "official": "https://seoulcitywall.seoul.go.kr/"
+        },
+        {
+          "name": "Naksan Park & Seoul City Wall",
+          "description": "A sunset ridge walk with the city wall and a broad view over Seoul’s rooftops.",
+          "travel": "About 20 min uphill walk",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%82%99%EC%82%B0%EA%B3%B5%EC%9B%90%20%EC%84%9C%EC%9A%B8%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%82%99%EC%82%B0%EA%B3%B5%EC%9B%90%20%EC%84%9C%EC%9A%B8%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1"
+          },
+          "official": "https://english.visitseoul.net/editorspicks/SeoulCityWallHikingTrail/ENNpxjh2o"
+        },
+        {
+          "name": "Ihwa Mural Village",
+          "description": "An old hillside neighborhood of steep alleys, small studios and murals below Naksan.",
+          "travel": "About 18 min walk",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9D%B4%ED%99%94%EB%B2%BD%ED%99%94%EB%A7%88%EC%9D%84",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B4%ED%99%94%EB%B2%BD%ED%99%94%EB%A7%88%EC%9D%84"
+          }
+        },
+        {
+          "name": "Changsin Cliff Village",
+          "description": "A layered side of Seoul shaped by granite quarry traces and steep hillside roads.",
+          "travel": "About 15 min by local bus",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EC%A0%88%EB%B2%BD%EB%A7%88%EC%9D%84%20%EC%B1%84%EC%84%9D%EC%9E%A5%20%EC%A0%84%EB%A7%9D%EB%8C%80",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EC%A0%88%EB%B2%BD%EB%A7%88%EC%9D%84%20%EC%B1%84%EC%84%9D%EC%9E%A5%20%EC%A0%84%EB%A7%9D%EB%8C%80"
+          },
+          "official": "https://english.visitseoul.net/attractions/2024-changsincliff/ENPgvo4y2"
+        },
+        {
+          "name": "Gwangjang Market",
+          "description": "A landmark traditional market for bindaetteok, yukhoe, mayak gimbap and textiles.",
+          "travel": "About 15 min walk",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5"
+          },
+          "official": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=92336"
+        },
+        {
+          "name": "Cheonggyecheon Night Walk",
+          "description": "An easy evening walk following the stream and city lights just minutes from the house.",
+          "travel": "About 5 min walk",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B2%AD%EA%B3%84%EC%B2%9C%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B2%AD%EA%B3%84%EC%B2%9C%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "Seoul City Wall Museum",
+          "description": "Learn how the wall was built and preserved before continuing toward Naksan.",
+          "travel": "About 9 min walk",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1%EB%B0%95%EB%AC%BC%EA%B4%80",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1%EB%B0%95%EB%AC%BC%EA%B4%80"
+          },
+          "official": "https://museum.seoul.go.kr/scwm/"
+        },
+        {
+          "name": "Dongdaemun Shopping Complex",
+          "description": "A vast fashion-material market for fabrics, notions, accessories and craft supplies.",
+          "travel": "About 6 min walk",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A2%85%ED%95%A9%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A2%85%ED%95%A9%EC%8B%9C%EC%9E%A5"
+          },
+          "official": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=92336"
+        },
+        {
+          "name": "Doota Mall · Doosan Tower",
+          "description": "A polished indoor mall for Dongdaemun fashion, beauty and late-night shopping.",
+          "travel": "About 5 min walk",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%91%90%ED%83%80%EB%AA%B0%20%EB%91%90%EC%82%B0%ED%83%80%EC%9B%8C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%91%90%ED%83%80%EB%AA%B0%20%EB%91%90%EC%82%B0%ED%83%80%EC%9B%8C"
+          },
+          "official": "https://www.doota-mall.com/main.do"
+        },
+        {
+          "name": "Dongmyo Flea Market",
+          "description": "A singular Seoul treasure hunt among vintage clothes, records and everyday antiques.",
+          "travel": "About 12 min walk",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%AC%98%20%EB%B2%BC%EB%A3%A9%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%AC%98%20%EB%B2%BC%EB%A3%A9%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "name": "Changsin Toy Wholesale Market",
+          "description": "An old wholesale lane packed with toys, stationery and party supplies.",
+          "travel": "About 8 min walk",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EB%AC%B8%EA%B5%AC%EC%99%84%EA%B5%AC%EA%B1%B0%EB%A6%AC",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EB%AC%B8%EA%B5%AC%EC%99%84%EA%B5%AC%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "name": "Jongmyo Shrine",
+          "description": "A UNESCO royal shrine known for restrained architecture and its monumental stone terrace.",
+          "travel": "About 15 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%A2%85%EB%AC%98",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%A2%85%EB%AC%98"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101030000.do"
+        },
+        {
+          "name": "Changdeokgung Palace",
+          "description": "A UNESCO palace beloved for architecture shaped around the landscape and its Secret Garden.",
+          "travel": "About 20 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EB%8D%95%EA%B6%81",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EB%8D%95%EA%B6%81"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101010000.do"
+        },
+        {
+          "name": "Changgyeonggung Palace",
+          "description": "A calm palace walk through Myeongjeongjeon, Chundangji pond and the greenhouse.",
+          "travel": "About 20 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EA%B2%BD%EA%B6%81",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EA%B2%BD%EA%B6%81"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101020000.do"
+        },
+        {
+          "name": "Gyeongbokgung Palace",
+          "description": "Seoul’s most iconic palace scene, framed by Geunjeongjeon, Gyeonghoeru and Bugaksan.",
+          "travel": "About 25 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B2%BD%EB%B3%B5%EA%B6%81",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B2%BD%EB%B3%B5%EA%B6%81"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101000000.do"
+        },
+        {
+          "name": "Ikseon-dong Hanok Street",
+          "description": "A walkable web of narrow hanok lanes filled with restaurants, dessert shops and studios.",
+          "travel": "About 15 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9D%B5%EC%84%A0%EB%8F%99%20%ED%95%9C%EC%98%A5%EA%B1%B0%EB%A6%AC",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B5%EC%84%A0%EB%8F%99%20%ED%95%9C%EC%98%A5%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "name": "Insadong",
+          "description": "A slow cultural walk among crafts, antiquarian books, traditional tea houses and galleries.",
+          "travel": "About 20 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9D%B8%EC%82%AC%EB%8F%99",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B8%EC%82%AC%EB%8F%99"
+          }
+        },
+        {
+          "name": "Seosulla-gil",
+          "description": "A low-key lane along Jongmyo’s wall, lined with jewelry studios, small bars and cafes.",
+          "travel": "About 18 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%84%9C%EC%88%9C%EB%9D%BC%EA%B8%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%88%9C%EB%9D%BC%EA%B8%B8"
+          }
+        },
+        {
+          "name": "Daehangno & Marronnier Park",
+          "description": "Seoul’s longstanding theater district, mixing small stages, indie bookshops and a leafy park.",
+          "travel": "About 15 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8C%80%ED%95%99%EB%A1%9C%20%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8C%80%ED%95%99%EB%A1%9C%20%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90"
+          }
+        },
+        {
+          "name": "MMCA Seoul",
+          "description": "A contemporary-art museum beside Gyeongbokgung with generous courtyards and global exhibitions.",
+          "travel": "About 25 min by transit",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%ED%98%84%EB%8C%80%EB%AF%B8%EC%88%A0%EA%B4%80%20%EC%84%9C%EC%9A%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B5%AD%EB%A6%BD%ED%98%84%EB%8C%80%EB%AF%B8%EC%88%A0%EA%B4%80%20%EC%84%9C%EC%9A%B8"
+          },
+          "official": "https://www.mmca.go.kr/eng/"
+        }
+      ],
+      "restaurantSource": "https://anotherhouse-guide.vercel.app/?page=nearby",
+      "tourSource": "https://anotherhouse-guide.vercel.app/?page=tours"
+    },
+    "ja": {
+      "restaurants": [
+        {
+          "name": "ピョルナンオリ",
+          "category": "韓国料理・鴨",
+          "description": "地元客に愛される鴨料理専門店。仲間との初日の夕食におすすめです。",
+          "walk": "徒歩約5分",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%B3%84%EB%82%9C%EC%98%A4%EB%A6%AC%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%B3%84%EB%82%9C%EC%98%A4%EB%A6%AC%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "陳玉華ハルメ元祖タッカンマリ",
+          "category": "韓国料理・老舗",
+          "description": "タッカンマリ横丁を代表する老舗。鶏スープから餅、カルグクスまで楽しめます。",
+          "walk": "徒歩約8分",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%A7%84%EC%98%A5%ED%99%94%ED%95%A0%EB%A7%A4%EC%9B%90%EC%A1%B0%EB%8B%AD%ED%95%9C%EB%A7%88%EB%A6%AC",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%A7%84%EC%98%A5%ED%99%94%ED%95%A0%EB%A7%A4%EC%9B%90%EC%A1%B0%EB%8B%AD%ED%95%9C%EB%A7%88%EB%A6%AC"
+          }
+        },
+        {
+          "name": "プチョンユッケ 本店",
+          "category": "広蔵市場・韓国料理",
+          "description": "広蔵市場ユッケの定番。ミシュラン・ビブグルマン掲載店で、サンナクチとの組み合わせも人気です。",
+          "walk": "徒歩約20分",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%B6%80%EC%B4%8C%EC%9C%A1%ED%9A%8C%20%EB%B3%B8%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%B6%80%EC%B4%8C%EC%9C%A1%ED%9A%8C%20%EB%B3%B8%EC%A0%90"
+          }
+        },
+        {
+          "name": "エベレスト・レストラン",
+          "category": "ネパール・インド",
+          "description": "東大門で長く愛されるネパール料理店。カレー、タンドリー、モモ、ベジ対応もあります。",
+          "walk": "徒歩約5分",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%97%90%EB%B2%A0%EB%A0%88%EC%8A%A4%ED%8A%B8%20%EB%A0%88%EC%8A%A4%ED%86%A0%EB%9E%91%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EB%B2%A0%EB%A0%88%EC%8A%A4%ED%8A%B8%20%EB%A0%88%EC%8A%A4%ED%86%A0%EB%9E%91%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "コーヒー韓薬房",
+          "category": "カフェ・デザート",
+          "description": "乙支路の路地にあるアンティークな名物カフェ。ハンドドリップとデザートに。",
+          "walk": "徒歩約25分",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%BB%A4%ED%94%BC%ED%95%9C%EC%95%BD%EB%B0%A9",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%BB%A4%ED%94%BC%ED%95%9C%EC%95%BD%EB%B0%A9"
+          }
+        },
+        {
+          "name": "昌信洞メウンチョッパル",
+          "category": "韓国料理・夜食",
+          "description": "炭火の香りと辛さが強烈な昌信洞の夜食名物。辛党におすすめです。",
+          "walk": "徒歩約8分",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EC%8B%A0%EB%8F%99%EB%A7%A4%EC%9A%B4%EC%A1%B1%EB%B0%9C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%EB%A7%A4%EC%9A%B4%EC%A1%B1%EB%B0%9C"
+          }
+        },
+        {
+          "name": "チョンジュチプ",
+          "category": "焼き魚・老舗",
+          "description": "東大門焼き魚横丁の定番。炭火焼きの魚定食は一人でも気軽です。",
+          "walk": "徒歩約9分",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%A0%84%EC%A3%BC%EC%A7%91%20%EB%8F%99%EB%8C%80%EB%AC%B8%20%EC%83%9D%EC%84%A0%EA%B5%AC%EC%9D%B4",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%A0%84%EC%A3%BC%EC%A7%91%20%EB%8F%99%EB%8C%80%EB%AC%B8%20%EC%83%9D%EC%84%A0%EA%B5%AC%EC%9D%B4"
+          }
+        },
+        {
+          "name": "ソウルチプ",
+          "category": "現代料理・ワイン",
+          "description": "DDPと乙支路の間で楽しむ洗練されたディナー。ワインと雰囲気を楽しみたい夜に。",
+          "walk": "徒歩約15分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%A7%91%20%EC%9D%84%EC%A7%80%EB%A1%9C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%9A%B8%EC%A7%91%20%EC%9D%84%EC%A7%80%EB%A1%9C"
+          }
+        },
+        {
+          "name": "フォーハン",
+          "category": "ベトナム料理",
+          "description": "香草と濃いスープが魅力のベトナム料理店。遅い時間の温かい一杯に。",
+          "walk": "徒歩約5分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%8D%BC%ED%95%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%8D%BC%ED%95%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "元祖スニネピンデトッ",
+          "category": "広蔵市場・屋台",
+          "description": "広蔵市場の活気の中で味わうカリッとしたピンデトッ。マッコリと好相性です。",
+          "walk": "徒歩約20分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9B%90%EC%A1%B0%EC%88%9C%ED%9D%AC%EB%84%A4%EB%B9%88%EB%8C%80%EB%96%A1%20%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9B%90%EC%A1%B0%EC%88%9C%ED%9D%AC%EB%84%A4%EB%B9%88%EB%8C%80%EB%96%A1%20%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "name": "テファジョン チンチャヘジャングク",
+          "category": "朝食・ヘジャングク",
+          "description": "早い時間にしっかり食べたい時の近場の一杯。濃いスープで地元客にも人気です。",
+          "walk": "徒歩約4分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8C%80%ED%99%94%EC%A0%95%20%EC%A7%84%EC%A7%9C%ED%95%B4%EC%9E%A5%EA%B5%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8C%80%ED%99%94%EC%A0%95%20%EC%A7%84%EC%A7%9C%ED%95%B4%EC%9E%A5%EA%B5%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "BLTステーキ",
+          "category": "洋食・ステーキ",
+          "description": "JWマリオット東大門内のクラシックなステーキハウス。記念日のディナーに。",
+          "walk": "徒歩約3分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/BLT%20%EC%8A%A4%ED%85%8C%EC%9D%B4%ED%81%AC%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=BLT%20%EC%8A%A4%ED%85%8C%EC%9D%B4%ED%81%AC%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "タボロ24",
+          "category": "洋食・ビュッフェ",
+          "description": "東大門を望むホテルのオールデイダイニング。朝食や週末ブランチに便利です。",
+          "walk": "徒歩約3分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%83%80%EB%B3%BC%EB%A1%9C24%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%83%80%EB%B3%BC%EB%A1%9C24%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "ピッツェリア・オ 大学路",
+          "category": "洋食・イタリアン",
+          "description": "大学路で口コミの多い薪窯ピザ店。ピザとパスタのシェアに。",
+          "walk": "タクシー約10分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%95%8F%EC%A0%9C%EB%A6%AC%EC%95%84%EC%98%A4%20%EB%8C%80%ED%95%99%EB%A1%9C%EB%B3%B8%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%95%8F%EC%A0%9C%EB%A6%AC%EC%95%84%EC%98%A4%20%EB%8C%80%ED%95%99%EB%A1%9C%EB%B3%B8%EC%A0%90"
+          }
+        },
+        {
+          "name": "ザ・プレイス 光化門",
+          "category": "洋食・イタリアン",
+          "description": "光化門のカジュアルイタリアン。宮殿観光の前後に便利です。",
+          "walk": "公共交通約20分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8D%94%ED%94%8C%EB%A0%88%EC%9D%B4%EC%8A%A4%20%EA%B4%91%ED%99%94%EB%AC%B8SFC%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8D%94%ED%94%8C%EB%A0%88%EC%9D%B4%EC%8A%A4%20%EA%B4%91%ED%99%94%EB%AC%B8SFC%EC%A0%90"
+          }
+        },
+        {
+          "name": "オニオン 安国店",
+          "category": "ブランチ・ベーカリー",
+          "description": "韓屋でパンとコーヒーを楽しむソウルの人気店。早めの訪問がおすすめです。",
+          "walk": "公共交通約20分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B9%B4%ED%8E%98%20%EC%96%B4%EB%8B%88%EC%96%B8%20%EC%95%88%EA%B5%AD",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B9%B4%ED%8E%98%20%EC%96%B4%EB%8B%88%EC%96%B8%20%EC%95%88%EA%B5%AD"
+          }
+        },
+        {
+          "name": "ロンドンベーグルミュージアム 安国",
+          "category": "ブランチ・ベーグル",
+          "description": "厚いベーグルとクリームチーズで有名。待ち時間を見込んでください。",
+          "walk": "公共交通約20分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%9F%B0%EB%8D%98%EB%B2%A0%EC%9D%B4%EA%B8%80%EB%AE%A4%EC%A7%80%EC%97%84%20%EC%95%88%EA%B5%AD%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%9F%B0%EB%8D%98%EB%B2%A0%EC%9D%B4%EA%B8%80%EB%AE%A4%EC%A7%80%EC%97%84%20%EC%95%88%EA%B5%AD%EC%A0%90"
+          }
+        },
+        {
+          "name": "ミルトースト 益善店",
+          "category": "ブランチ・トースト",
+          "description": "益善洞の韓屋でスフレトーストと蒸しパンを楽しめます。",
+          "walk": "公共交通約15分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%B0%80%ED%86%A0%EC%8A%A4%ED%8A%B8%20%EC%9D%B5%EC%84%A0%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%B0%80%ED%86%A0%EC%8A%A4%ED%8A%B8%20%EC%9D%B5%EC%84%A0%EC%A0%90"
+          }
+        },
+        {
+          "name": "カフェ・レイヤード 北村",
+          "category": "ブランチ・ベーカリー",
+          "description": "スコーンとケーキが並ぶ北村のベーカリーカフェです。",
+          "walk": "公共交通約20分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B9%B4%ED%8E%98%20%EB%A0%88%EC%9D%B4%EC%96%B4%EB%93%9C%20%EB%B6%81%EC%B4%8C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B9%B4%ED%8E%98%20%EB%A0%88%EC%9D%B4%EC%96%B4%EB%93%9C%20%EB%B6%81%EC%B4%8C"
+          }
+        },
+        {
+          "name": "エッグドロップ 東大門",
+          "category": "ブランチ・サンド",
+          "description": "短時間で卵サンドとコーヒーを楽しめる近場の選択です。",
+          "walk": "徒歩約9分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90"
+          }
+        },
+        {
+          "name": "清水堂ベーカリー",
+          "category": "カフェ・デザート",
+          "description": "竹と水の演出が印象的な益善洞のカフェ。夜の雰囲気も人気です。",
+          "walk": "公共交通約15分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B2%AD%EC%88%98%EB%8B%B9%20%EB%B2%A0%EC%9D%B4%EC%BB%A4%EB%A6%AC%20%EC%9D%B5%EC%84%A0%EB%8F%99",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B2%AD%EC%88%98%EB%8B%B9%20%EB%B2%A0%EC%9D%B4%EC%BB%A4%EB%A6%AC%20%EC%9D%B5%EC%84%A0%EB%8F%99"
+          }
+        },
+        {
+          "name": "フリッツ 原西",
+          "category": "カフェ・ロースタリー",
+          "description": "昌徳宮近くの古い建物を活かしたロースタリーです。",
+          "walk": "公共交通約20分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%94%84%EB%A6%B3%EC%B8%A0%20%EC%9B%90%EC%84%9C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%94%84%EB%A6%B3%EC%B8%A0%20%EC%9B%90%EC%84%9C"
+          }
+        },
+        {
+          "name": "ノルダムン空間 景福宮",
+          "category": "カフェ・体験",
+          "description": "未来の自分へ手紙を書く体験型カフェです。",
+          "walk": "公共交通約25分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%84%90%EB%8B%B4%EC%9D%80%EA%B3%B5%EA%B0%84%20%EA%B2%BD%EB%B3%B5%EA%B6%81%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%84%90%EB%8B%B4%EC%9D%80%EA%B3%B5%EA%B0%84%20%EA%B2%BD%EB%B3%B5%EA%B6%81%EC%A0%90"
+          }
+        },
+        {
+          "name": "ドーナツジョンス 昌信",
+          "category": "カフェ・ドーナツ",
+          "description": "昌信洞の丘の景色と韓国式ドーナツを楽しめます。",
+          "walk": "マウルバス約15分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%84%EB%84%9B%EC%A0%95%EC%88%98%20%EC%B0%BD%EC%8B%A0",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%84%EB%84%9B%EC%A0%95%EC%88%98%20%EC%B0%BD%EC%8B%A0"
+          }
+        },
+        {
+          "name": "太極堂",
+          "category": "カフェ・老舗パン屋",
+          "description": "1946年創業のソウルを代表する老舗パン屋です。",
+          "walk": "公共交通約15分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%83%9C%EA%B7%B9%EB%8B%B9%20%EC%9E%A5%EC%B6%A9%EB%8F%99",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%83%9C%EA%B7%B9%EB%8B%B9%20%EC%9E%A5%EC%B6%A9%EB%8F%99"
+          }
+        },
+        {
+          "name": "キョチョンチキン 東大門1号店",
+          "category": "同じ建物・24時間",
+          "description": "宿と同じソニルビル1階の24時間営業店。深夜のテイクアウトに便利です。",
+          "walk": "同じ建物・1階",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B5%90%EC%B4%8C%EC%B9%98%ED%82%A8%20%EB%8F%99%EB%8C%80%EB%AC%B81%ED%98%B8%EC%A0%90%20%EC%A2%85%EB%A1%9C%20294",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B5%90%EC%B4%8C%EC%B9%98%ED%82%A8%20%EB%8F%99%EB%8C%80%EB%AC%B81%ED%98%B8%EC%A0%90%20%EC%A2%85%EB%A1%9C%20294"
+          }
+        }
+      ],
+      "tours": [
+        {
+          "name": "東大門デザインプラザ DDP",
+          "description": "ザハ・ハディドの流線形建築、展示、夜景を楽しめる東大門の象徴です。",
+          "travel": "徒歩約6分",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%8C%80%EB%AC%B8%EB%94%94%EC%9E%90%EC%9D%B8%ED%94%8C%EB%9D%BC%EC%9E%90%20DDP",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EB%94%94%EC%9E%90%EC%9D%B8%ED%94%8C%EB%9D%BC%EC%9E%90%20DDP"
+          },
+          "official": "https://ddp.or.kr/"
+        },
+        {
+          "name": "興仁之門",
+          "description": "漢陽都城の東門。城郭散策の出発点に最適です。",
+          "travel": "徒歩約3分",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8"
+          },
+          "official": "https://seoulcitywall.seoul.go.kr/"
+        },
+        {
+          "name": "駱山公園＆漢陽都城",
+          "description": "城郭とソウルの屋根を一望できる夕暮れの尾根散歩です。",
+          "travel": "上り徒歩約20分",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%82%99%EC%82%B0%EA%B3%B5%EC%9B%90%20%EC%84%9C%EC%9A%B8%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%82%99%EC%82%B0%EA%B3%B5%EC%9B%90%20%EC%84%9C%EC%9A%B8%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1"
+          },
+          "official": "https://english.visitseoul.net/editorspicks/SeoulCityWallHikingTrail/ENNpxjh2o"
+        },
+        {
+          "name": "梨花壁画村",
+          "description": "急な路地、小さな工房、壁画が続く駱山麓の古い街です。",
+          "travel": "徒歩約18分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9D%B4%ED%99%94%EB%B2%BD%ED%99%94%EB%A7%88%EC%9D%84",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B4%ED%99%94%EB%B2%BD%ED%99%94%EB%A7%88%EC%9D%84"
+          }
+        },
+        {
+          "name": "昌信洞崖村＆採石場展望台",
+          "description": "花崗岩採石場の痕跡と山腹道路を歩く、昌信洞ならではの立体的なソウルです。",
+          "travel": "マウルバス約15分",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EC%A0%88%EB%B2%BD%EB%A7%88%EC%9D%84%20%EC%B1%84%EC%84%9D%EC%9E%A5%20%EC%A0%84%EB%A7%9D%EB%8C%80",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EC%A0%88%EB%B2%BD%EB%A7%88%EC%9D%84%20%EC%B1%84%EC%84%9D%EC%9E%A5%20%EC%A0%84%EB%A7%9D%EB%8C%80"
+          },
+          "official": "https://english.visitseoul.net/attractions/2024-changsincliff/ENPgvo4y2"
+        },
+        {
+          "name": "広蔵市場",
+          "description": "ピンデトッ、ユッケ、麻薬キンパ、布地商店が並ぶ代表的な伝統市場です。",
+          "travel": "徒歩約15分",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5"
+          },
+          "official": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=92336"
+        },
+        {
+          "name": "清渓川ナイトウォーク",
+          "description": "宿のすぐ近くで水辺と街の灯りをたどる気軽な夜散歩です。",
+          "travel": "徒歩約5分",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B2%AD%EA%B3%84%EC%B2%9C%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B2%AD%EA%B3%84%EC%B2%9C%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "漢陽都城博物館",
+          "description": "城郭の築造と保存を知ってから駱山へ続けるのに最適です。",
+          "travel": "徒歩約9分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1%EB%B0%95%EB%AC%BC%EA%B4%80",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1%EB%B0%95%EB%AC%BC%EA%B4%80"
+          },
+          "official": "https://museum.seoul.go.kr/scwm/"
+        },
+        {
+          "name": "東大門総合市場",
+          "description": "生地、副資材、アクセサリー、工芸材料を探せる巨大な服飾材料市場です。",
+          "travel": "徒歩約6分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A2%85%ED%95%A9%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A2%85%ED%95%A9%EC%8B%9C%EC%9E%A5"
+          },
+          "official": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=92336"
+        },
+        {
+          "name": "ドゥータモール・斗山タワー",
+          "description": "東大門のファッションやビューティー、夜のショッピングを楽しめる屋内モールです。",
+          "travel": "徒歩約5分",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%91%90%ED%83%80%EB%AA%B0%20%EB%91%90%EC%82%B0%ED%83%80%EC%9B%8C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%91%90%ED%83%80%EB%AA%B0%20%EB%91%90%EC%82%B0%ED%83%80%EC%9B%8C"
+          },
+          "official": "https://www.doota-mall.com/main.do"
+        },
+        {
+          "name": "東廟フリーマーケット",
+          "description": "古着、レコード、生活雑貨が積み上がるソウル独特の宝探し市場です。",
+          "travel": "徒歩約12分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%AC%98%20%EB%B2%BC%EB%A3%A9%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%AC%98%20%EB%B2%BC%EB%A3%A9%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "name": "昌信洞文具玩具通り",
+          "description": "玩具、文具、パーティー用品が密集する昔ながらの卸売路地です。",
+          "travel": "徒歩約8分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EB%AC%B8%EA%B5%AC%EC%99%84%EA%B5%AC%EA%B1%B0%EB%A6%AC",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EB%AC%B8%EA%B5%AC%EC%99%84%EA%B5%AC%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "name": "宗廟",
+          "description": "簡潔な建築と長い月台が印象的なユネスコ世界遺産の王室祭祀空間です。",
+          "travel": "交通約15分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%A2%85%EB%AC%98",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%A2%85%EB%AC%98"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101030000.do"
+        },
+        {
+          "name": "昌徳宮",
+          "description": "自然地形を生かした配置と後苑で愛されるユネスコ世界遺産です。",
+          "travel": "交通約20分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EB%8D%95%EA%B6%81",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EB%8D%95%EA%B6%81"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101010000.do"
+        },
+        {
+          "name": "昌慶宮",
+          "description": "明政殿、春塘池、温室を結ぶ落ち着いた宮殿散歩です。",
+          "travel": "交通約20分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EA%B2%BD%EA%B6%81",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EA%B2%BD%EA%B6%81"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101020000.do"
+        },
+        {
+          "name": "景福宮",
+          "description": "勤政殿、慶会楼、北岳山がつくるソウルを象徴する宮殿景観です。",
+          "travel": "交通約25分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B2%BD%EB%B3%B5%EA%B6%81",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B2%BD%EB%B3%B5%EA%B6%81"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101000000.do"
+        },
+        {
+          "name": "益善洞韓屋通り",
+          "description": "狭い韓屋路地に食堂、デザート店、工房が続く街歩きエリアです。",
+          "travel": "交通約15分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9D%B5%EC%84%A0%EB%8F%99%20%ED%95%9C%EC%98%A5%EA%B1%B0%EB%A6%AC",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B5%EC%84%A0%EB%8F%99%20%ED%95%9C%EC%98%A5%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "name": "仁寺洞",
+          "description": "工芸、古書、伝統茶屋、ギャラリーをゆっくり巡る文化散歩です。",
+          "travel": "交通約20分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9D%B8%EC%82%AC%EB%8F%99",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B8%EC%82%AC%EB%8F%99"
+          }
+        },
+        {
+          "name": "西巡邏通り",
+          "description": "宗廟の塀沿いにジュエリー工房、小さなバー、カフェが続く静かな通りです。",
+          "travel": "交通約18分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%84%9C%EC%88%9C%EB%9D%BC%EA%B8%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%88%9C%EB%9D%BC%EA%B8%B8"
+          }
+        },
+        {
+          "name": "大学路＆マロニエ公園",
+          "description": "小劇場、独立書店、公園が集まるソウル演劇文化の中心地です。",
+          "travel": "交通約15分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8C%80%ED%95%99%EB%A1%9C%20%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8C%80%ED%95%99%EB%A1%9C%20%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90"
+          }
+        },
+        {
+          "name": "国立現代美術館ソウル",
+          "description": "景福宮の隣で韓国と世界の現代美術、建築的な中庭を楽しめる美術館です。",
+          "travel": "交通約25分",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%ED%98%84%EB%8C%80%EB%AF%B8%EC%88%A0%EA%B4%80%20%EC%84%9C%EC%9A%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B5%AD%EB%A6%BD%ED%98%84%EB%8C%80%EB%AF%B8%EC%88%A0%EA%B4%80%20%EC%84%9C%EC%9A%B8"
+          },
+          "official": "https://www.mmca.go.kr/eng/"
+        }
+      ],
+      "restaurantSource": "https://anotherhouse-guide.vercel.app/?page=nearby",
+      "tourSource": "https://anotherhouse-guide.vercel.app/?page=tours"
+    },
+    "zh": {
+      "restaurants": [
+        {
+          "name": "别样鸭",
+          "category": "韩餐·鸭肉",
+          "description": "本地常客众多的鸭肉专门店，适合多人丰盛聚餐。",
+          "walk": "步行约5分钟",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%B3%84%EB%82%9C%EC%98%A4%EB%A6%AC%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%B3%84%EB%82%9C%EC%98%A4%EB%A6%AC%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "陈玉华奶奶元祖一只鸡",
+          "category": "韩餐·老店",
+          "description": "一只鸡胡同的代表老店，清鸡汤配年糕，最后以刀切面收尾。",
+          "walk": "步行约8分钟",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%A7%84%EC%98%A5%ED%99%94%ED%95%A0%EB%A7%A4%EC%9B%90%EC%A1%B0%EB%8B%AD%ED%95%9C%EB%A7%88%EB%A6%AC",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%A7%84%EC%98%A5%ED%99%94%ED%95%A0%EB%A7%A4%EC%9B%90%EC%A1%B0%EB%8B%AD%ED%95%9C%EB%A7%88%EB%A6%AC"
+          }
+        },
+        {
+          "name": "富村生拌牛肉 总店",
+          "category": "广藏市场·韩餐",
+          "description": "广藏市场生拌牛肉代表店，入选米其林必比登，适合搭配活章鱼。",
+          "walk": "步行约20分钟",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%B6%80%EC%B4%8C%EC%9C%A1%ED%9A%8C%20%EB%B3%B8%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%B6%80%EC%B4%8C%EC%9C%A1%ED%9A%8C%20%EB%B3%B8%EC%A0%90"
+          }
+        },
+        {
+          "name": "珠穆朗玛餐厅",
+          "category": "尼泊尔·印度",
+          "description": "东大门老牌尼泊尔餐厅，可品尝咖喱、坦都里和蒸饺，并有素食选择。",
+          "walk": "步行约5分钟",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%97%90%EB%B2%A0%EB%A0%88%EC%8A%A4%ED%8A%B8%20%EB%A0%88%EC%8A%A4%ED%86%A0%EB%9E%91%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EB%B2%A0%EB%A0%88%EC%8A%A4%ED%8A%B8%20%EB%A0%88%EC%8A%A4%ED%86%A0%EB%9E%91%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "咖啡韩药房",
+          "category": "咖啡·甜点",
+          "description": "藏在乙支路小巷的复古名店，适合以手冲咖啡和甜点收尾。",
+          "walk": "步行约25分钟",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%BB%A4%ED%94%BC%ED%95%9C%EC%95%BD%EB%B0%A9",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%BB%A4%ED%94%BC%ED%95%9C%EC%95%BD%EB%B0%A9"
+          }
+        },
+        {
+          "name": "昌信洞辣猪蹄",
+          "category": "韩餐·夜宵",
+          "description": "炭香与辣味鲜明的昌信洞夜宵代表，适合嗜辣旅客。",
+          "walk": "步行约8分钟",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EC%8B%A0%EB%8F%99%EB%A7%A4%EC%9A%B4%EC%A1%B1%EB%B0%9C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%EB%A7%A4%EC%9A%B4%EC%A1%B1%EB%B0%9C"
+          }
+        },
+        {
+          "name": "全州家",
+          "category": "烤鱼·老店",
+          "description": "东大门烤鱼胡同经典店，炭火烤鱼套餐也适合独自用餐。",
+          "walk": "步行约9分钟",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%A0%84%EC%A3%BC%EC%A7%91%20%EB%8F%99%EB%8C%80%EB%AC%B8%20%EC%83%9D%EC%84%A0%EA%B5%AC%EC%9D%B4",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%A0%84%EC%A3%BC%EC%A7%91%20%EB%8F%99%EB%8C%80%EB%AC%B8%20%EC%83%9D%EC%84%A0%EA%B5%AC%EC%9D%B4"
+          }
+        },
+        {
+          "name": "首尔之家",
+          "category": "现代料理·葡萄酒",
+          "description": "位于DDP与乙支路之间，适合搭配葡萄酒享受精致晚餐。",
+          "walk": "步行约15分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%A7%91%20%EC%9D%84%EC%A7%80%EB%A1%9C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%9A%B8%EC%A7%91%20%EC%9D%84%EC%A7%80%EB%A1%9C"
+          }
+        },
+        {
+          "name": "Pho Hang 越南粉",
+          "category": "越南料理",
+          "description": "香草与浓郁汤底突出的越南餐厅，晚间想喝热汤时很合适。",
+          "walk": "步行约5分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%8D%BC%ED%95%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%8D%BC%ED%95%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "元祖顺姬家绿豆煎饼",
+          "category": "广藏市场·街头美食",
+          "description": "在广藏市场热闹氛围中品尝酥脆绿豆煎饼，适合搭配米酒。",
+          "walk": "步行约20分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9B%90%EC%A1%B0%EC%88%9C%ED%9D%AC%EB%84%A4%EB%B9%88%EB%8C%80%EB%96%A1%20%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9B%90%EC%A1%B0%EC%88%9C%ED%9D%AC%EB%84%A4%EB%B9%88%EB%8C%80%EB%96%A1%20%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "name": "大和亭醒酒汤",
+          "category": "早餐·醒酒汤",
+          "description": "清早想吃饱时的近距离选择，浓郁汤底也深受本地上班族喜爱。",
+          "walk": "步行约4分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8C%80%ED%99%94%EC%A0%95%20%EC%A7%84%EC%A7%9C%ED%95%B4%EC%9E%A5%EA%B5%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8C%80%ED%99%94%EC%A0%95%20%EC%A7%84%EC%A7%9C%ED%95%B4%EC%9E%A5%EA%B5%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "BLT牛排馆",
+          "category": "西餐·牛排",
+          "description": "位于东大门JW万豪酒店内，适合纪念日及正式晚餐。",
+          "walk": "步行约3分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/BLT%20%EC%8A%A4%ED%85%8C%EC%9D%B4%ED%81%AC%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=BLT%20%EC%8A%A4%ED%85%8C%EC%9D%B4%ED%81%AC%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "Tavolo 24",
+          "category": "西餐·自助餐",
+          "description": "可欣赏东大门景观的酒店全日餐厅，适合早餐和周末早午餐。",
+          "walk": "步行约3分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%83%80%EB%B3%BC%EB%A1%9C24%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%83%80%EB%B3%BC%EB%A1%9C24%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "Pizzeria O 大学路",
+          "category": "西餐·意大利菜",
+          "description": "大学路高评论量柴火披萨店，适合多人分享披萨与意面。",
+          "walk": "出租车约10分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%95%8F%EC%A0%9C%EB%A6%AC%EC%95%84%EC%98%A4%20%EB%8C%80%ED%95%99%EB%A1%9C%EB%B3%B8%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%95%8F%EC%A0%9C%EB%A6%AC%EC%95%84%EC%98%A4%20%EB%8C%80%ED%95%99%EB%A1%9C%EB%B3%B8%EC%A0%90"
+          }
+        },
+        {
+          "name": "The Place 光化门",
+          "category": "西餐·意大利菜",
+          "description": "光化门交通便利的意大利餐厅，适合宫殿游览前后用餐。",
+          "walk": "公共交通约20分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8D%94%ED%94%8C%EB%A0%88%EC%9D%B4%EC%8A%A4%20%EA%B4%91%ED%99%94%EB%AC%B8SFC%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8D%94%ED%94%8C%EB%A0%88%EC%9D%B4%EC%8A%A4%20%EA%B4%91%ED%99%94%EB%AC%B8SFC%EC%A0%90"
+          }
+        },
+        {
+          "name": "Cafe Onion 安国店",
+          "category": "早午餐·烘焙",
+          "description": "在韩屋空间享用面包和咖啡的首尔人气店，建议较早到访。",
+          "walk": "公共交通约20分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B9%B4%ED%8E%98%20%EC%96%B4%EB%8B%88%EC%96%B8%20%EC%95%88%EA%B5%AD",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B9%B4%ED%8E%98%20%EC%96%B4%EB%8B%88%EC%96%B8%20%EC%95%88%EA%B5%AD"
+          }
+        },
+        {
+          "name": "伦敦贝果博物馆 安国店",
+          "category": "早午餐·贝果",
+          "description": "以厚实贝果和奶油奶酪闻名，通常需要排队。",
+          "walk": "公共交通约20分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%9F%B0%EB%8D%98%EB%B2%A0%EC%9D%B4%EA%B8%80%EB%AE%A4%EC%A7%80%EC%97%84%20%EC%95%88%EA%B5%AD%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%9F%B0%EB%8D%98%EB%B2%A0%EC%9D%B4%EA%B8%80%EB%AE%A4%EC%A7%80%EC%97%84%20%EC%95%88%EA%B5%AD%EC%A0%90"
+          }
+        },
+        {
+          "name": "Mil Toast 益善店",
+          "category": "早午餐·吐司",
+          "description": "在益善洞韩屋品尝舒芙蕾吐司和蒸面包。",
+          "walk": "公共交通约15分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%B0%80%ED%86%A0%EC%8A%A4%ED%8A%B8%20%EC%9D%B5%EC%84%A0%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%B0%80%ED%86%A0%EC%8A%A4%ED%8A%B8%20%EC%9D%B5%EC%84%A0%EC%A0%90"
+          }
+        },
+        {
+          "name": "Cafe Layered 北村",
+          "category": "早午餐·烘焙",
+          "description": "北村人气烘焙咖啡馆，司康与蛋糕选择丰富。",
+          "walk": "公共交通约20分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B9%B4%ED%8E%98%20%EB%A0%88%EC%9D%B4%EC%96%B4%EB%93%9C%20%EB%B6%81%EC%B4%8C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B9%B4%ED%8E%98%20%EB%A0%88%EC%9D%B4%EC%96%B4%EB%93%9C%20%EB%B6%81%EC%B4%8C"
+          }
+        },
+        {
+          "name": "Egg Drop 东大门店",
+          "category": "早午餐·三明治",
+          "description": "时间紧张时可快速享用鸡蛋三明治和咖啡。",
+          "walk": "步行约9分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90"
+          }
+        },
+        {
+          "name": "清水堂烘焙店",
+          "category": "咖啡·甜点",
+          "description": "以竹林与水景著称的益善洞沉浸式咖啡馆。",
+          "walk": "公共交通约15分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B2%AD%EC%88%98%EB%8B%B9%20%EB%B2%A0%EC%9D%B4%EC%BB%A4%EB%A6%AC%20%EC%9D%B5%EC%84%A0%EB%8F%99",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B2%AD%EC%88%98%EB%8B%B9%20%EB%B2%A0%EC%9D%B4%EC%BB%A4%EB%A6%AC%20%EC%9D%B5%EC%84%A0%EB%8F%99"
+          }
+        },
+        {
+          "name": "Fritz Coffee 苑西店",
+          "category": "咖啡·烘焙工坊",
+          "description": "位于昌德宫旁的复古烘焙咖啡馆，咖啡和面包品质稳定。",
+          "walk": "公共交通约20分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%94%84%EB%A6%B3%EC%B8%A0%20%EC%9B%90%EC%84%9C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%94%84%EB%A6%B3%EC%B8%A0%20%EC%9B%90%EC%84%9C"
+          }
+        },
+        {
+          "name": "Nuldam Space 景福宫店",
+          "category": "咖啡·体验",
+          "description": "可给未来的自己写信的体验型咖啡馆。",
+          "walk": "公共交通约25分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%84%90%EB%8B%B4%EC%9D%80%EA%B3%B5%EA%B0%84%20%EA%B2%BD%EB%B3%B5%EA%B6%81%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%84%90%EB%8B%B4%EC%9D%80%EA%B3%B5%EA%B0%84%20%EA%B2%BD%EB%B3%B5%EA%B6%81%EC%A0%90"
+          }
+        },
+        {
+          "name": "Donut Jungsu 昌信",
+          "category": "咖啡·甜甜圈",
+          "description": "可同时享受昌信洞山坡景观与韩式甜甜圈。",
+          "walk": "社区巴士约15分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%84%EB%84%9B%EC%A0%95%EC%88%98%20%EC%B0%BD%EC%8B%A0",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%84%EB%84%9B%EC%A0%95%EC%88%98%20%EC%B0%BD%EC%8B%A0"
+          }
+        },
+        {
+          "name": "太极堂",
+          "category": "咖啡·老字号面包店",
+          "description": "创立于1946年的首尔老字号面包店，以最中冰淇淋闻名。",
+          "walk": "公共交通约15分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%83%9C%EA%B7%B9%EB%8B%B9%20%EC%9E%A5%EC%B6%A9%EB%8F%99",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%83%9C%EA%B7%B9%EB%8B%B9%20%EC%9E%A5%EC%B6%A9%EB%8F%99"
+          }
+        },
+        {
+          "name": "校村炸鸡 东大门1号店",
+          "category": "同一栋楼·24小时",
+          "description": "位于住宿同一栋Sunil大厦1层，24小时营业，适合深夜外带。",
+          "walk": "同一栋楼·1层",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B5%90%EC%B4%8C%EC%B9%98%ED%82%A8%20%EB%8F%99%EB%8C%80%EB%AC%B81%ED%98%B8%EC%A0%90%20%EC%A2%85%EB%A1%9C%20294",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B5%90%EC%B4%8C%EC%B9%98%ED%82%A8%20%EB%8F%99%EB%8C%80%EB%AC%B81%ED%98%B8%EC%A0%90%20%EC%A2%85%EB%A1%9C%20294"
+          }
+        }
+      ],
+      "tours": [
+        {
+          "name": "东大门设计广场 DDP",
+          "description": "东大门地标，可欣赏扎哈·哈迪德的流线建筑、展览与夜景。",
+          "travel": "步行约6分钟",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%8C%80%EB%AC%B8%EB%94%94%EC%9E%90%EC%9D%B8%ED%94%8C%EB%9D%BC%EC%9E%90%20DDP",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EB%94%94%EC%9E%90%EC%9D%B8%ED%94%8C%EB%9D%BC%EC%9E%90%20DDP"
+          },
+          "official": "https://ddp.or.kr/"
+        },
+        {
+          "name": "兴仁之门",
+          "description": "首尔汉阳都城的东门，是开启城墙漫步的最佳起点。",
+          "travel": "步行约3分钟",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8"
+          },
+          "official": "https://seoulcitywall.seoul.go.kr/"
+        },
+        {
+          "name": "骆山公园与首尔城墙",
+          "description": "沿城市山脊漫步，在日落时俯瞰城墙与首尔屋顶。",
+          "travel": "步行上坡约20分钟",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%82%99%EC%82%B0%EA%B3%B5%EC%9B%90%20%EC%84%9C%EC%9A%B8%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%82%99%EC%82%B0%EA%B3%B5%EC%9B%90%20%EC%84%9C%EC%9A%B8%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1"
+          },
+          "official": "https://english.visitseoul.net/editorspicks/SeoulCityWallHikingTrail/ENNpxjh2o"
+        },
+        {
+          "name": "梨花壁画村",
+          "description": "位于骆山脚下的老街区，有陡峭小巷、工作室与壁画。",
+          "travel": "步行约18分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9D%B4%ED%99%94%EB%B2%BD%ED%99%94%EB%A7%88%EC%9D%84",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B4%ED%99%94%EB%B2%BD%ED%99%94%EB%A7%88%EC%9D%84"
+          }
+        },
+        {
+          "name": "昌信洞悬崖村与采石场展望台",
+          "description": "沿花岗岩采石场遗迹与山腰道路，感受昌信洞独有的立体首尔。",
+          "travel": "社区巴士约15分钟",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EC%A0%88%EB%B2%BD%EB%A7%88%EC%9D%84%20%EC%B1%84%EC%84%9D%EC%9E%A5%20%EC%A0%84%EB%A7%9D%EB%8C%80",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EC%A0%88%EB%B2%BD%EB%A7%88%EC%9D%84%20%EC%B1%84%EC%84%9D%EC%9E%A5%20%EC%A0%84%EB%A7%9D%EB%8C%80"
+          },
+          "official": "https://english.visitseoul.net/attractions/2024-changsincliff/ENPgvo4y2"
+        },
+        {
+          "name": "广藏市场",
+          "description": "首尔代表性传统市场，汇集绿豆煎饼、生拌牛肉、紫菜包饭与布匹商铺。",
+          "travel": "步行约15分钟",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5"
+          },
+          "official": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=92336"
+        },
+        {
+          "name": "清溪川夜间漫步",
+          "description": "从住宿出发，沿水流与城市灯光轻松夜行。",
+          "travel": "步行约5分钟",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B2%AD%EA%B3%84%EC%B2%9C%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B2%AD%EA%B3%84%EC%B2%9C%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "汉阳都城博物馆",
+          "description": "了解城墙建造与保护历史后，再前往骆山路线。",
+          "travel": "步行约9分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1%EB%B0%95%EB%AC%BC%EA%B4%80",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1%EB%B0%95%EB%AC%BC%EA%B4%80"
+          },
+          "official": "https://museum.seoul.go.kr/scwm/"
+        },
+        {
+          "name": "东大门综合市场",
+          "description": "可探索面料、辅料、饰品与手工材料的大型时尚材料市场。",
+          "travel": "步行约6分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A2%85%ED%95%A9%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A2%85%ED%95%A9%EC%8B%9C%EC%9E%A5"
+          },
+          "official": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=92336"
+        },
+        {
+          "name": "DOOTA Mall · 斗山大厦",
+          "description": "适合一次逛遍东大门时尚、美妆与夜间购物的室内商场。",
+          "travel": "步行约5分钟",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%91%90%ED%83%80%EB%AA%B0%20%EB%91%90%EC%82%B0%ED%83%80%EC%9B%8C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%91%90%ED%83%80%EB%AA%B0%20%EB%91%90%EC%82%B0%ED%83%80%EC%9B%8C"
+          },
+          "official": "https://www.doota-mall.com/main.do"
+        },
+        {
+          "name": "东庙跳蚤市场",
+          "description": "在复古服饰、唱片与生活旧物中寻宝的独特首尔市场。",
+          "travel": "步行约12分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%AC%98%20%EB%B2%BC%EB%A3%A9%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%AC%98%20%EB%B2%BC%EB%A3%A9%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "name": "昌信洞文具玩具街",
+          "description": "汇集玩具、文具与派对用品的传统批发小巷。",
+          "travel": "步行约8分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EB%AC%B8%EA%B5%AC%EC%99%84%EA%B5%AC%EA%B1%B0%EB%A6%AC",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EB%AC%B8%EA%B5%AC%EC%99%84%EA%B5%AC%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "name": "宗庙",
+          "description": "供奉朝鲜王室神位的世界遗产，以克制建筑与长月台著称。",
+          "travel": "公共交通约15分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%A2%85%EB%AC%98",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%A2%85%EB%AC%98"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101030000.do"
+        },
+        {
+          "name": "昌德宫",
+          "description": "以顺应自然地形的宫殿布局与后苑闻名的世界遗产。",
+          "travel": "公共交通约20分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EB%8D%95%EA%B6%81",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EB%8D%95%EA%B6%81"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101010000.do"
+        },
+        {
+          "name": "昌庆宫",
+          "description": "串联明政殿、春塘池与温室的宁静宫殿漫步。",
+          "travel": "公共交通约20分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EA%B2%BD%EA%B6%81",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EA%B2%BD%EA%B6%81"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101020000.do"
+        },
+        {
+          "name": "景福宫",
+          "description": "勤政殿、庆会楼与北岳山构成首尔最具代表性的宫殿景观。",
+          "travel": "公共交通约25分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B2%BD%EB%B3%B5%EA%B6%81",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B2%BD%EB%B3%B5%EA%B6%81"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101000000.do"
+        },
+        {
+          "name": "益善洞韩屋街",
+          "description": "狭窄韩屋小巷中分布餐厅、甜品店与工作室的漫步街区。",
+          "travel": "公共交通约15分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9D%B5%EC%84%A0%EB%8F%99%20%ED%95%9C%EC%98%A5%EA%B1%B0%EB%A6%AC",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B5%EC%84%A0%EB%8F%99%20%ED%95%9C%EC%98%A5%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "name": "仁寺洞",
+          "description": "在工艺品、古书店、传统茶馆与画廊间慢慢漫步。",
+          "travel": "公共交通约20分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9D%B8%EC%82%AC%EB%8F%99",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B8%EC%82%AC%EB%8F%99"
+          }
+        },
+        {
+          "name": "西巡逻街",
+          "description": "沿宗庙围墙延伸的安静街道，分布珠宝工作室、小酒吧与咖啡馆。",
+          "travel": "公共交通约18分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%84%9C%EC%88%9C%EB%9D%BC%EA%B8%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%88%9C%EB%9D%BC%EA%B8%B8"
+          }
+        },
+        {
+          "name": "大学路与马罗尼埃公园",
+          "description": "融合小剧场、独立书店与公园的首尔表演艺术老街区。",
+          "travel": "公共交通约15分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8C%80%ED%95%99%EB%A1%9C%20%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8C%80%ED%95%99%EB%A1%9C%20%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90"
+          }
+        },
+        {
+          "name": "国立现代美术馆首尔馆",
+          "description": "位于景福宫旁，可欣赏韩国与世界当代艺术及建筑庭院。",
+          "travel": "公共交通约25分钟",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%ED%98%84%EB%8C%80%EB%AF%B8%EC%88%A0%EA%B4%80%20%EC%84%9C%EC%9A%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B5%AD%EB%A6%BD%ED%98%84%EB%8C%80%EB%AF%B8%EC%88%A0%EA%B4%80%20%EC%84%9C%EC%9A%B8"
+          },
+          "official": "https://www.mmca.go.kr/eng/"
+        }
+      ],
+      "restaurantSource": "https://anotherhouse-guide.vercel.app/?page=nearby",
+      "tourSource": "https://anotherhouse-guide.vercel.app/?page=tours"
+    },
+    "zh-TW": {
+      "restaurants": [
+        {
+          "name": "別樣鴨",
+          "category": "韓餐·鴨肉",
+          "description": "本地常客眾多的鴨肉專門店，適合多人豐盛聚餐。",
+          "walk": "步行約5分鐘",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%B3%84%EB%82%9C%EC%98%A4%EB%A6%AC%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%B3%84%EB%82%9C%EC%98%A4%EB%A6%AC%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "陳玉華奶奶元祖一隻雞",
+          "category": "韓餐·老店",
+          "description": "一隻雞衚衕的代表老店，清雞湯配年糕，最後以刀切面收尾。",
+          "walk": "步行約8分鐘",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%A7%84%EC%98%A5%ED%99%94%ED%95%A0%EB%A7%A4%EC%9B%90%EC%A1%B0%EB%8B%AD%ED%95%9C%EB%A7%88%EB%A6%AC",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%A7%84%EC%98%A5%ED%99%94%ED%95%A0%EB%A7%A4%EC%9B%90%EC%A1%B0%EB%8B%AD%ED%95%9C%EB%A7%88%EB%A6%AC"
+          }
+        },
+        {
+          "name": "富村生拌牛肉 總店",
+          "category": "廣藏市場·韓餐",
+          "description": "廣藏市場生拌牛肉代表店，入選米其林必比登，適合搭配活章魚。",
+          "walk": "步行約20分鐘",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%B6%80%EC%B4%8C%EC%9C%A1%ED%9A%8C%20%EB%B3%B8%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%B6%80%EC%B4%8C%EC%9C%A1%ED%9A%8C%20%EB%B3%B8%EC%A0%90"
+          }
+        },
+        {
+          "name": "珠穆朗瑪餐廳",
+          "category": "尼泊爾·印度",
+          "description": "東大門老牌尼泊爾餐廳，可品嚐咖哩、坦都裡和蒸餃，並有素食選擇。",
+          "walk": "步行約5分鐘",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%97%90%EB%B2%A0%EB%A0%88%EC%8A%A4%ED%8A%B8%20%EB%A0%88%EC%8A%A4%ED%86%A0%EB%9E%91%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EB%B2%A0%EB%A0%88%EC%8A%A4%ED%8A%B8%20%EB%A0%88%EC%8A%A4%ED%86%A0%EB%9E%91%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "咖啡韓藥房",
+          "category": "咖啡·甜點",
+          "description": "藏在乙支路小巷的復古名店，適合以手衝咖啡和甜點收尾。",
+          "walk": "步行約25分鐘",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%BB%A4%ED%94%BC%ED%95%9C%EC%95%BD%EB%B0%A9",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%BB%A4%ED%94%BC%ED%95%9C%EC%95%BD%EB%B0%A9"
+          }
+        },
+        {
+          "name": "昌信洞辣豬蹄",
+          "category": "韓餐·夜宵",
+          "description": "炭香與辣味鮮明的昌信洞夜宵代表，適合嗜辣旅客。",
+          "walk": "步行約8分鐘",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EC%8B%A0%EB%8F%99%EB%A7%A4%EC%9A%B4%EC%A1%B1%EB%B0%9C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%EB%A7%A4%EC%9A%B4%EC%A1%B1%EB%B0%9C"
+          }
+        },
+        {
+          "name": "全州家",
+          "category": "烤魚·老店",
+          "description": "東大門烤魚衚衕經典店，炭火烤魚套餐也適合獨自用餐。",
+          "walk": "步行約9分鐘",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%A0%84%EC%A3%BC%EC%A7%91%20%EB%8F%99%EB%8C%80%EB%AC%B8%20%EC%83%9D%EC%84%A0%EA%B5%AC%EC%9D%B4",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%A0%84%EC%A3%BC%EC%A7%91%20%EB%8F%99%EB%8C%80%EB%AC%B8%20%EC%83%9D%EC%84%A0%EA%B5%AC%EC%9D%B4"
+          }
+        },
+        {
+          "name": "首爾之家",
+          "category": "現代料理·葡萄酒",
+          "description": "位於DDP與乙支路之間，適合搭配葡萄酒享受精緻晚餐。",
+          "walk": "步行約15分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%84%9C%EC%9A%B8%EC%A7%91%20%EC%9D%84%EC%A7%80%EB%A1%9C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%9A%B8%EC%A7%91%20%EC%9D%84%EC%A7%80%EB%A1%9C"
+          }
+        },
+        {
+          "name": "Pho Hang 越南粉",
+          "category": "越南料理",
+          "description": "香草與濃郁湯底突出的越南餐廳，晚間想喝熱湯時很合適。",
+          "walk": "步行約5分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%8D%BC%ED%95%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%8D%BC%ED%95%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "元祖順姬家綠豆煎餅",
+          "category": "廣藏市場·街頭美食",
+          "description": "在廣藏市場熱鬧氛圍中品嚐酥脆綠豆煎餅，適合搭配米酒。",
+          "walk": "步行約20分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9B%90%EC%A1%B0%EC%88%9C%ED%9D%AC%EB%84%A4%EB%B9%88%EB%8C%80%EB%96%A1%20%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9B%90%EC%A1%B0%EC%88%9C%ED%9D%AC%EB%84%A4%EB%B9%88%EB%8C%80%EB%96%A1%20%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "name": "大和亭醒酒湯",
+          "category": "早餐·醒酒湯",
+          "description": "清早想吃飽時的近距離選擇，濃郁湯底也深受本地上班族喜愛。",
+          "walk": "步行約4分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8C%80%ED%99%94%EC%A0%95%20%EC%A7%84%EC%A7%9C%ED%95%B4%EC%9E%A5%EA%B5%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8C%80%ED%99%94%EC%A0%95%20%EC%A7%84%EC%A7%9C%ED%95%B4%EC%9E%A5%EA%B5%AD%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "BLT牛排館",
+          "category": "西餐·牛排",
+          "description": "位於東大門JW萬豪酒店內，適合紀念日及正式晚餐。",
+          "walk": "步行約3分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/BLT%20%EC%8A%A4%ED%85%8C%EC%9D%B4%ED%81%AC%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=BLT%20%EC%8A%A4%ED%85%8C%EC%9D%B4%ED%81%AC%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "Tavolo 24",
+          "category": "西餐·自助餐",
+          "description": "可欣賞東大門景觀的酒店全日餐廳，適合早餐和週末早午餐。",
+          "walk": "步行約3分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%83%80%EB%B3%BC%EB%A1%9C24%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%83%80%EB%B3%BC%EB%A1%9C24%20JW%20%EB%A9%94%EB%A6%AC%EC%96%B4%ED%8A%B8%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "Pizzeria O 大學路",
+          "category": "西餐·義大利菜",
+          "description": "大學路高評論量柴火披薩店，適合多人分享披薩與意麵。",
+          "walk": "計程車約10分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%95%8F%EC%A0%9C%EB%A6%AC%EC%95%84%EC%98%A4%20%EB%8C%80%ED%95%99%EB%A1%9C%EB%B3%B8%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%95%8F%EC%A0%9C%EB%A6%AC%EC%95%84%EC%98%A4%20%EB%8C%80%ED%95%99%EB%A1%9C%EB%B3%B8%EC%A0%90"
+          }
+        },
+        {
+          "name": "The Place 光化門",
+          "category": "西餐·義大利菜",
+          "description": "光化門交通便利的義大利餐廳，適合宮殿遊覽前後用餐。",
+          "walk": "公共交通約20分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8D%94%ED%94%8C%EB%A0%88%EC%9D%B4%EC%8A%A4%20%EA%B4%91%ED%99%94%EB%AC%B8SFC%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8D%94%ED%94%8C%EB%A0%88%EC%9D%B4%EC%8A%A4%20%EA%B4%91%ED%99%94%EB%AC%B8SFC%EC%A0%90"
+          }
+        },
+        {
+          "name": "Cafe Onion 安國店",
+          "category": "早午餐·烘焙",
+          "description": "在韓屋空間享用麵包和咖啡的首爾人氣店，建議較早到訪。",
+          "walk": "公共交通約20分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B9%B4%ED%8E%98%20%EC%96%B4%EB%8B%88%EC%96%B8%20%EC%95%88%EA%B5%AD",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B9%B4%ED%8E%98%20%EC%96%B4%EB%8B%88%EC%96%B8%20%EC%95%88%EA%B5%AD"
+          }
+        },
+        {
+          "name": "倫敦貝果博物館 安國店",
+          "category": "早午餐·貝果",
+          "description": "以厚實貝果和奶油乳酪聞名，通常需要排隊。",
+          "walk": "公共交通約20分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%9F%B0%EB%8D%98%EB%B2%A0%EC%9D%B4%EA%B8%80%EB%AE%A4%EC%A7%80%EC%97%84%20%EC%95%88%EA%B5%AD%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%9F%B0%EB%8D%98%EB%B2%A0%EC%9D%B4%EA%B8%80%EB%AE%A4%EC%A7%80%EC%97%84%20%EC%95%88%EA%B5%AD%EC%A0%90"
+          }
+        },
+        {
+          "name": "Mil Toast 益善店",
+          "category": "早午餐·吐司",
+          "description": "在益善洞韓屋品嚐舒芙蕾吐司和蒸麵包。",
+          "walk": "公共交通約15分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%B0%80%ED%86%A0%EC%8A%A4%ED%8A%B8%20%EC%9D%B5%EC%84%A0%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%B0%80%ED%86%A0%EC%8A%A4%ED%8A%B8%20%EC%9D%B5%EC%84%A0%EC%A0%90"
+          }
+        },
+        {
+          "name": "Cafe Layered 北村",
+          "category": "早午餐·烘焙",
+          "description": "北村人氣烘焙咖啡館，司康與蛋糕選擇豐富。",
+          "walk": "公共交通約20分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B9%B4%ED%8E%98%20%EB%A0%88%EC%9D%B4%EC%96%B4%EB%93%9C%20%EB%B6%81%EC%B4%8C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B9%B4%ED%8E%98%20%EB%A0%88%EC%9D%B4%EC%96%B4%EB%93%9C%20%EB%B6%81%EC%B4%8C"
+          }
+        },
+        {
+          "name": "Egg Drop 東大門店",
+          "category": "早午餐·三明治",
+          "description": "時間緊張時可快速享用雞蛋三明治和咖啡。",
+          "walk": "步行約9分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90"
+          }
+        },
+        {
+          "name": "清水堂烘焙店",
+          "category": "咖啡·甜點",
+          "description": "以竹林與水景著稱的益善洞沉浸式咖啡館。",
+          "walk": "公共交通約15分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B2%AD%EC%88%98%EB%8B%B9%20%EB%B2%A0%EC%9D%B4%EC%BB%A4%EB%A6%AC%20%EC%9D%B5%EC%84%A0%EB%8F%99",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B2%AD%EC%88%98%EB%8B%B9%20%EB%B2%A0%EC%9D%B4%EC%BB%A4%EB%A6%AC%20%EC%9D%B5%EC%84%A0%EB%8F%99"
+          }
+        },
+        {
+          "name": "Fritz Coffee 苑西店",
+          "category": "咖啡·烘焙工坊",
+          "description": "位於昌德宮旁的復古烘焙咖啡館，咖啡和麵包品質穩定。",
+          "walk": "公共交通約20分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%94%84%EB%A6%B3%EC%B8%A0%20%EC%9B%90%EC%84%9C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%94%84%EB%A6%B3%EC%B8%A0%20%EC%9B%90%EC%84%9C"
+          }
+        },
+        {
+          "name": "Nuldam Space 景福宮店",
+          "category": "咖啡·體驗",
+          "description": "可給未來的自己寫信的體驗型咖啡館。",
+          "walk": "公共交通約25分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%84%90%EB%8B%B4%EC%9D%80%EA%B3%B5%EA%B0%84%20%EA%B2%BD%EB%B3%B5%EA%B6%81%EC%A0%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%84%90%EB%8B%B4%EC%9D%80%EA%B3%B5%EA%B0%84%20%EA%B2%BD%EB%B3%B5%EA%B6%81%EC%A0%90"
+          }
+        },
+        {
+          "name": "Donut Jungsu 昌信",
+          "category": "咖啡·甜甜圈",
+          "description": "可同時享受昌信洞山坡景觀與韓式甜甜圈。",
+          "walk": "社群巴士約15分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%84%EB%84%9B%EC%A0%95%EC%88%98%20%EC%B0%BD%EC%8B%A0",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%84%EB%84%9B%EC%A0%95%EC%88%98%20%EC%B0%BD%EC%8B%A0"
+          }
+        },
+        {
+          "name": "太極堂",
+          "category": "咖啡·老字號麵包店",
+          "description": "創立於1946年的首爾老字號麵包店，以最中冰淇淋聞名。",
+          "walk": "公共交通約15分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%83%9C%EA%B7%B9%EB%8B%B9%20%EC%9E%A5%EC%B6%A9%EB%8F%99",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%83%9C%EA%B7%B9%EB%8B%B9%20%EC%9E%A5%EC%B6%A9%EB%8F%99"
+          }
+        },
+        {
+          "name": "校村炸雞 東大門1號店",
+          "category": "同一棟樓·24小時",
+          "description": "位於住宿同一棟Sunil大廈1層，24小時營業，適合深夜外帶。",
+          "walk": "同一棟樓·1層",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B5%90%EC%B4%8C%EC%B9%98%ED%82%A8%20%EB%8F%99%EB%8C%80%EB%AC%B81%ED%98%B8%EC%A0%90%20%EC%A2%85%EB%A1%9C%20294",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B5%90%EC%B4%8C%EC%B9%98%ED%82%A8%20%EB%8F%99%EB%8C%80%EB%AC%B81%ED%98%B8%EC%A0%90%20%EC%A2%85%EB%A1%9C%20294"
+          }
+        }
+      ],
+      "tours": [
+        {
+          "name": "東大門設計廣場 DDP",
+          "description": "東大門地標，可欣賞扎哈·哈迪德的流線建築、展覽與夜景。",
+          "travel": "步行約6分鐘",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%8C%80%EB%AC%B8%EB%94%94%EC%9E%90%EC%9D%B8%ED%94%8C%EB%9D%BC%EC%9E%90%20DDP",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EB%94%94%EC%9E%90%EC%9D%B8%ED%94%8C%EB%9D%BC%EC%9E%90%20DDP"
+          },
+          "official": "https://ddp.or.kr/"
+        },
+        {
+          "name": "興仁之門",
+          "description": "首爾漢陽都城的東門，是開啟城牆漫步的最佳起點。",
+          "travel": "步行約3分鐘",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8"
+          },
+          "official": "https://seoulcitywall.seoul.go.kr/"
+        },
+        {
+          "name": "駱山公園與首爾城牆",
+          "description": "沿城市山脊漫步，在日落時俯瞰城牆與首爾屋頂。",
+          "travel": "步行上坡約20分鐘",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%82%99%EC%82%B0%EA%B3%B5%EC%9B%90%20%EC%84%9C%EC%9A%B8%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%82%99%EC%82%B0%EA%B3%B5%EC%9B%90%20%EC%84%9C%EC%9A%B8%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1"
+          },
+          "official": "https://english.visitseoul.net/editorspicks/SeoulCityWallHikingTrail/ENNpxjh2o"
+        },
+        {
+          "name": "梨花壁畫村",
+          "description": "位於駱山腳下的老街區，有陡峭小巷、工作室與壁畫。",
+          "travel": "步行約18分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9D%B4%ED%99%94%EB%B2%BD%ED%99%94%EB%A7%88%EC%9D%84",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B4%ED%99%94%EB%B2%BD%ED%99%94%EB%A7%88%EC%9D%84"
+          }
+        },
+        {
+          "name": "昌信洞懸崖村與採石場展望臺",
+          "description": "沿花崗岩採石場遺蹟與山腰道路，感受昌信洞獨有的立體首爾。",
+          "travel": "社群巴士約15分鐘",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EC%A0%88%EB%B2%BD%EB%A7%88%EC%9D%84%20%EC%B1%84%EC%84%9D%EC%9E%A5%20%EC%A0%84%EB%A7%9D%EB%8C%80",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EC%A0%88%EB%B2%BD%EB%A7%88%EC%9D%84%20%EC%B1%84%EC%84%9D%EC%9E%A5%20%EC%A0%84%EB%A7%9D%EB%8C%80"
+          },
+          "official": "https://english.visitseoul.net/attractions/2024-changsincliff/ENPgvo4y2"
+        },
+        {
+          "name": "廣藏市場",
+          "description": "首爾代表性傳統市場，彙集綠豆煎餅、生拌牛肉、紫菜包飯與布匹商鋪。",
+          "travel": "步行約15分鐘",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5"
+          },
+          "official": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=92336"
+        },
+        {
+          "name": "清溪川夜間漫步",
+          "description": "從住宿出發，沿水流與城市燈光輕鬆夜行。",
+          "travel": "步行約5分鐘",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B2%AD%EA%B3%84%EC%B2%9C%20%EB%8F%99%EB%8C%80%EB%AC%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B2%AD%EA%B3%84%EC%B2%9C%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "name": "漢陽都城博物館",
+          "description": "瞭解城牆建造與保護歷史後，再前往駱山路線。",
+          "travel": "步行約9分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1%EB%B0%95%EB%AC%BC%EA%B4%80",
+            "google": "https://www.google.com/maps/search/?api=1&query=%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1%EB%B0%95%EB%AC%BC%EA%B4%80"
+          },
+          "official": "https://museum.seoul.go.kr/scwm/"
+        },
+        {
+          "name": "東大門綜合市場",
+          "description": "可探索面料、輔料、飾品與手工材料的大型時尚材料市場。",
+          "travel": "步行約6分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A2%85%ED%95%A9%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A2%85%ED%95%A9%EC%8B%9C%EC%9E%A5"
+          },
+          "official": "https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=92336"
+        },
+        {
+          "name": "DOOTA Mall · 斗山大廈",
+          "description": "適合一次逛遍東大門時尚、美妝與夜間購物的室內商場。",
+          "travel": "步行約5分鐘",
+          "hostPick": true,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%91%90%ED%83%80%EB%AA%B0%20%EB%91%90%EC%82%B0%ED%83%80%EC%9B%8C",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%91%90%ED%83%80%EB%AA%B0%20%EB%91%90%EC%82%B0%ED%83%80%EC%9B%8C"
+          },
+          "official": "https://www.doota-mall.com/main.do"
+        },
+        {
+          "name": "東廟跳蚤市場",
+          "description": "在復古服飾、唱片與生活舊物中尋寶的獨特首爾市場。",
+          "travel": "步行約12分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%AC%98%20%EB%B2%BC%EB%A3%A9%EC%8B%9C%EC%9E%A5",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%AC%98%20%EB%B2%BC%EB%A3%A9%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "name": "昌信洞文具玩具街",
+          "description": "彙集玩具、文具與派對用品的傳統批發小巷。",
+          "travel": "步行約8分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EB%AC%B8%EA%B5%AC%EC%99%84%EA%B5%AC%EA%B1%B0%EB%A6%AC",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EB%AC%B8%EA%B5%AC%EC%99%84%EA%B5%AC%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "name": "宗廟",
+          "description": "供奉朝鮮王室神位的世界遺產，以剋制建築與長月臺著稱。",
+          "travel": "公共交通約15分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%A2%85%EB%AC%98",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%A2%85%EB%AC%98"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101030000.do"
+        },
+        {
+          "name": "昌德宮",
+          "description": "以順應自然地形的宮殿佈局與後苑聞名的世界遺產。",
+          "travel": "公共交通約20分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EB%8D%95%EA%B6%81",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EB%8D%95%EA%B6%81"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101010000.do"
+        },
+        {
+          "name": "昌慶宮",
+          "description": "串聯明政殿、春塘池與溫室的寧靜宮殿漫步。",
+          "travel": "公共交通約20分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%B0%BD%EA%B2%BD%EA%B6%81",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EA%B2%BD%EA%B6%81"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101020000.do"
+        },
+        {
+          "name": "景福宮",
+          "description": "勤政殿、慶會樓與北嶽山構成首爾最具代表性的宮殿景觀。",
+          "travel": "公共交通約25分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B2%BD%EB%B3%B5%EA%B6%81",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B2%BD%EB%B3%B5%EA%B6%81"
+          },
+          "official": "https://royal.khs.go.kr/ENG/contents/E101000000.do"
+        },
+        {
+          "name": "益善洞韓屋街",
+          "description": "狹窄韓屋小巷中分佈餐廳、甜品店與工作室的漫步街區。",
+          "travel": "公共交通約15分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9D%B5%EC%84%A0%EB%8F%99%20%ED%95%9C%EC%98%A5%EA%B1%B0%EB%A6%AC",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B5%EC%84%A0%EB%8F%99%20%ED%95%9C%EC%98%A5%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "name": "仁寺洞",
+          "description": "在工藝品、古書店、傳統茶館與畫廊間慢慢漫步。",
+          "travel": "公共交通約20分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%9D%B8%EC%82%AC%EB%8F%99",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B8%EC%82%AC%EB%8F%99"
+          }
+        },
+        {
+          "name": "西巡邏街",
+          "description": "沿宗廟圍牆延伸的安靜街道，分佈珠寶工作室、小酒吧與咖啡館。",
+          "travel": "公共交通約18分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EC%84%9C%EC%88%9C%EB%9D%BC%EA%B8%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%88%9C%EB%9D%BC%EA%B8%B8"
+          }
+        },
+        {
+          "name": "大學路與馬羅尼埃公園",
+          "description": "融合小劇場、獨立書店與公園的首爾表演藝術老街區。",
+          "travel": "公共交通約15分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EB%8C%80%ED%95%99%EB%A1%9C%20%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%8C%80%ED%95%99%EB%A1%9C%20%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90"
+          }
+        },
+        {
+          "name": "國立現代美術館首爾館",
+          "description": "位於景福宮旁，可欣賞韓國與世界當代藝術及建築庭院。",
+          "travel": "公共交通約25分鐘",
+          "hostPick": false,
+          "maps": {
+            "naver": "https://map.naver.com/p/search/%EA%B5%AD%EB%A6%BD%ED%98%84%EB%8C%80%EB%AF%B8%EC%88%A0%EA%B4%80%20%EC%84%9C%EC%9A%B8",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EA%B5%AD%EB%A6%BD%ED%98%84%EB%8C%80%EB%AF%B8%EC%88%A0%EA%B4%80%20%EC%84%9C%EC%9A%B8"
+          },
+          "official": "https://www.mmca.go.kr/eng/"
+        }
+      ],
+      "restaurantSource": "https://anotherhouse-guide.vercel.app/?page=nearby",
+      "tourSource": "https://anotherhouse-guide.vercel.app/?page=tours"
+    }
+  },
+  "emergency": {
+    "ko": {
+      "propertySpecific": "예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴)을 통해 메시지로 호스트에게 연락해 주세요.",
+      "police": "범죄·신변 안전 긴급 상황은 112",
+      "fireOrMedical": "화재·구조·응급환자는 119",
+      "officialSources": [
+        {
+          "label": "Korean National Police Agency",
+          "url": "https://police.go.kr/eng/main.do"
+        },
+        {
+          "label": "Korea National Fire Agency",
+          "url": "https://www.nfa.go.kr/eng/ems/service/"
+        }
+      ]
+    },
+    "en": {
+      "propertySpecific": "Please contact the host by message through the platform you booked with (Booking.com, Agoda, or Trip.com).",
+      "police": "Call 112 for police or personal-safety emergencies",
+      "fireOrMedical": "Call 119 for fire, rescue, or medical emergencies",
+      "officialSources": [
+        {
+          "label": "Korean National Police Agency",
+          "url": "https://police.go.kr/eng/main.do"
+        },
+        {
+          "label": "Korea National Fire Agency",
+          "url": "https://www.nfa.go.kr/eng/ems/service/"
+        }
+      ]
+    },
+    "ja": {
+      "propertySpecific": "予約したプラットフォーム（Booking.com、Agoda、Trip.com）のメッセージを通じてホストへご連絡ください。",
+      "police": "犯罪・身の安全に関する緊急時は112",
+      "fireOrMedical": "火災・救助・救急は119",
+      "officialSources": [
+        {
+          "label": "Korean National Police Agency",
+          "url": "https://police.go.kr/eng/main.do"
+        },
+        {
+          "label": "Korea National Fire Agency",
+          "url": "https://www.nfa.go.kr/eng/ems/service/"
+        }
+      ]
+    },
+    "zh": {
+      "propertySpecific": "请通过您预订的平台（Booking.com、Agoda或Trip.com）向房东发送消息。",
+      "police": "犯罪或人身安全紧急情况请拨打112",
+      "fireOrMedical": "火灾、救援或医疗急救请拨打119",
+      "officialSources": [
+        {
+          "label": "Korean National Police Agency",
+          "url": "https://police.go.kr/eng/main.do"
+        },
+        {
+          "label": "Korea National Fire Agency",
+          "url": "https://www.nfa.go.kr/eng/ems/service/"
+        }
+      ]
+    },
+    "zh-TW": {
+      "propertySpecific": "請通過您預訂的平台（Booking.com、Agoda或Trip.com）向房東傳送訊息。",
+      "police": "犯罪或人身安全緊急情況請撥打112",
+      "fireOrMedical": "火災、救援或醫療急救請撥打119",
+      "officialSources": [
+        {
+          "label": "Korean National Police Agency",
+          "url": "https://police.go.kr/eng/main.do"
+        },
+        {
+          "label": "Korea National Fire Agency",
+          "url": "https://www.nfa.go.kr/eng/ems/service/"
+        }
+      ]
+    }
+  },
+  "guidebook": {
+    "ko": {
+      "title": "게스트 가이드북",
+      "description": "체크인부터 체크아웃까지 필요한 안내를 한 번에 확인하고 인쇄할 수 있습니다.",
+      "url": "https://anotherhouse-guide.vercel.app/?page=guidebook"
+    },
+    "en": {
+      "title": "Guest guidebook",
+      "description": "View and print everything you need from arrival to departure.",
+      "url": "https://anotherhouse-guide.vercel.app/?page=guidebook"
+    },
+    "ja": {
+      "title": "ゲストガイドブック",
+      "description": "到着から出発まで必要な案内をまとめて確認・印刷できます。",
+      "url": "https://anotherhouse-guide.vercel.app/?page=guidebook"
+    },
+    "zh": {
+      "title": "住客指南",
+      "description": "集中查看并打印从入住到退房所需的全部信息。",
+      "url": "https://anotherhouse-guide.vercel.app/?page=guidebook"
+    },
+    "zh-TW": {
+      "title": "住客指南",
+      "description": "集中檢視並列印從入住到退房所需的全部資訊。",
+      "url": "https://anotherhouse-guide.vercel.app/?page=guidebook"
+    }
+  },
+  "policy": {
+    "sensitiveFieldsExcluded": [
+      "Wi-Fi password",
+      "door/access codes",
+      "room assignment",
+      "reservation identity or status",
+      "approval",
+      "guest-specific fees"
+    ],
+    "publicInformationMustBeSearched": true,
+    "accommodationFactsMustComeFromThisKnowledge": true
+  },
+  "provenance": [
+    "assets/site-data.js",
+    "assets/gallery-data.js",
+    "assets/content-updates.js",
+    "assets/gallery-overrides.js",
+    "assets/restaurant-data.js",
+    "assets/restaurant-expanded.js",
+    "assets/tour-data.js"
+  ]
+}

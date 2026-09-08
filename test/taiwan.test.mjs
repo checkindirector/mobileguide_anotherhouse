@@ -26,7 +26,8 @@ test('Taiwan locale is selectable, stored, and sent through AI concierge routing
   assert.match(source,/"zh-TW":"TW"/);
   assert.match(source,/localStorage\.setItem\('another-house-lang',lang\)/);
   assert.match(source,/fetch\('\/api\/chat'/);
-  assert.match(source,/message:q,language:lang,context:buildChatContext\(q\)/);
+  assert.match(source,/message:q,language:lang,history:chatHistory\.slice\(-6\)/);
+  assert.doesNotMatch(source,/buildChatContext/);
   assert.match(source,/'zh-TW':\{thinking:'正在查看指南…'/);
   assert.match(source,/window\.ANOTHER_HOUSE_TOURS/);
 });

@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "start": "npx serve .",
-    "build": "node scripts/validate.mjs",
-    "test": "node --test test/site.test.mjs test/taiwan.test.mjs test/chat-api.test.mjs"
+    "generate:knowledge": "node scripts/build-guide-knowledge.mjs",
+    "build": "node scripts/build-guide-knowledge.mjs && node scripts/validate.mjs",
+    "pretest": "node scripts/build-guide-knowledge.mjs",
+    "test": "node --test test/site.test.mjs test/taiwan.test.mjs test/chat-api.test.mjs test/knowledge.test.mjs"
   },
   "devDependencies": {}
 }
