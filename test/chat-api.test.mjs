@@ -66,6 +66,7 @@ test("public information uses medium web search and returns trusted source links
   assert.deepEqual(request.body.include, ["web_search_call.action.sources"]);
   assert.equal(res.payload.meta.searched, true);
   assert.equal(res.payload.meta.searchLevel, "medium");
+  assert.match(res.payload.answer, /^※ 숙소 안내가 아닌 공개 자료/);
   assert.equal(res.payload.links.length, 1);
   assert.equal(res.payload.links[0].label, "기상청");
 });
@@ -99,9 +100,16 @@ test("duplicate current question is removed from recent history", async () => {
 });
 
 test("raw URLs are removed from answer text", async () => {
-  const output = { model: "gpt-5.4-mini", output_text: "공식 안내 https://example.com/page 를 확인하세요.", output: [], usage: {} };
+  const output = { model: "gpt-5.4-mini", output_text: "**공식 안내** https://example.com/page (example.com)를 확인하세요.", output: [], usage: {} };
   const { res } = await callApi({ message: "체크인", language: "ko" }, output, "203.0.113.26");
   assert.doesNotMatch(res.payload.answer, /https?:\/\//);
+  assert.doesNotMatch(res.payload.answer, /\*\*|\(example\.com\)/);
+});
+
+test("searched weather answers always expose an official source fallback", async () => {
+  const output = { model: "gpt-5.4-mini", output_text: "오늘은 맑습니다.", output: [{ type: "web_search_call", action: { sources: [] } }], usage: {} };
+  const { res } = await callApi({ message: "오늘 날씨 알려줘", language: "ko" }, output, "203.0.113.28");
+  assert.equal(res.payload.links[0].url, "https://www.weather.go.kr/w/index.do");
 });
 
 test("chat API rejects requests when OPENAI_API_KEY is missing", async () => {

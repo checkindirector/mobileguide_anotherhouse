@@ -58,7 +58,15 @@ function extractOutputText(data) {
 }
 
 function cleanAnswer(text) {
-  return String(text || "").replace(/\[([^\]]+)\]\(https?:\/\/[^)]+\)/gi, "$1").replace(/https?:\/\/[^\s)\]]+/gi, "").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+  return String(text || "")
+    .replace(/\[([^\]]+)\]\(https?:\/\/[^)]+\)/gi, "$1")
+    .replace(/https?:\/\/[^\s)\]]+/gi, "")
+    .replace(/\s*\((?:https?:\/\/)?(?:www\.)?[a-z0-9.-]+\.[a-z]{2,}(?:\/[^)]*)?\)/gi, "")
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 }
 
 function trustedUrl(value) {
@@ -84,8 +92,28 @@ function extractSources(data, language) {
     const url = trustedUrl(source?.url);
     if (!url || seen.has(url)) return [];
     seen.add(url);
-    return [{ kind: "source", label: String(source?.title || LINK_LABELS[language].source).slice(0, 90), url }];
+    const domain = new URL(url).hostname.replace(/^www\./, "");
+    return [{ kind: "source", label: String(source?.title || `${LINK_LABELS[language].source} · ${domain}`).slice(0, 90), url }];
   }).slice(0, 3);
+}
+
+function fallbackOfficialSources(message, language) {
+  const label = LINK_LABELS[language].source;
+  if (/(날씨|기온|weather|天気|天气|天氣)/i.test(message)) return [{ kind: "source", label: `${label} · 기상청`, url: "https://www.weather.go.kr/w/index.do" }];
+  if (/(공영주차장|public parking|駐車場|停车场|停車場)/i.test(message)) return [{ kind: "source", label: `${label} · 서울주차정보`, url: "https://parking.seoul.go.kr/" }];
+  if (/(공항|airport|空港|机场|機場)/i.test(message)) return [{ kind: "source", label: `${label} · 인천국제공항`, url: "https://www.airport.kr/" }];
+  if (/(지하철|버스|교통|subway|bus|transit|地下鉄|バス|地铁|地鐵|公交|巴士)/i.test(message)) return [{ kind: "source", label: `${label} · 서울교통정보`, url: "https://topis.seoul.go.kr/" }];
+  return [];
+}
+
+function publicNotice(language) {
+  return {
+    ko: "※ 숙소 안내가 아닌 공개 자료를 확인한 정보입니다. 날씨·운행·영업·요금은 바뀔 수 있으니 공식 출처에서 한 번 더 확인해 주세요.",
+    en: "※ This uses public information outside the property guide. Weather, service, hours, and fares can change, so please recheck the official source.",
+    ja: "※ 宿の案内ではなく公開情報を確認した内容です。天気・運行・営業時間・料金は変わる場合があるため、公式情報を再度ご確認ください。",
+    zh: "※ 此信息来自住宿指南之外的公开资料。天气、班次、营业时间及费用可能变更，请再次查看官方来源。",
+    "zh-TW": "※ 此資訊來自住宿指南之外的公開資料。天氣、班次、營業時間及費用可能變更，請再次查看官方來源。"
+  }[language];
 }
 
 function mapLinks(message, answer, language, searched) {
@@ -170,7 +198,7 @@ module.exports = async function handler(req, res) {
     reasoning: { effort: "none" },
     instructions: systemInstructions(language, JSON.stringify(localizeKnowledge(language))),
     input: [...history, { role: "user", content: `CURRENT_DATE_TIME (Asia/Seoul): ${currentTime}\nGUEST_QUESTION: ${message}` }],
-    max_output_tokens: 1000,
+    max_output_tokens: 1400,
     prompt_cache_key: `another-house-${GUIDE_KNOWLEDGE.version}-${language}`,
     store: false
   };
@@ -191,10 +219,13 @@ module.exports = async function handler(req, res) {
       console.error(JSON.stringify({ event: "concierge_error", status: openAIResponse.status, code: data?.error?.code || "unknown", durationMs: Date.now() - startedAt }));
       return res.status(502).json({ error: "AI response failed" });
     }
-    const answer = cleanAnswer(extractOutputText(data));
+    let answer = cleanAnswer(extractOutputText(data));
     if (!answer) return res.status(502).json({ error: "AI returned an empty response" });
     const searched = (data.output || []).some(item => item?.type === "web_search_call");
-    const links = [...mapLinks(message, answer, language, searched), ...(searched ? extractSources(data, language) : [])].slice(0, 5);
+    if (searched && !answer.startsWith("※")) answer = `${publicNotice(language)}\n\n${answer}`;
+    const extractedSources = searched ? extractSources(data, language) : [];
+    const sourceLinks = extractedSources.length ? extractedSources : fallbackOfficialSources(message, language);
+    const links = [...mapLinks(message, answer, language, searched), ...sourceLinks].slice(0, 5);
     const meta = {
       searched,
       searchLevel: searched ? requestedSearchLevel : null,
@@ -212,4 +243,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { searchLevelFor, trustedUrl, extractSources, mapLinks, cleanAnswer, localizeKnowledge, GUIDE_KNOWLEDGE };
+module.exports._internals = { searchLevelFor, trustedUrl, extractSources, fallbackOfficialSources, mapLinks, cleanAnswer, localizeKnowledge, GUIDE_KNOWLEDGE };
