@@ -16,28 +16,39 @@ const recentRequests = new Map();
 const ACCESS_SUPPORT_COPY = {
   ko: {
     recovery: "공동현관문 밖이라면 키오스크 옆 전화기로 연락해 주세요.\n호스트가 원격으로 키오스크에서 새 키카드가 나오도록 도와드립니다.",
+    failed: "전화 연결이나 키카드 발급이 되지 않았군요.\n공동현관문 비밀번호가 필요하면 ‘공동현관 비밀번호를 알려주세요’라고 말씀해 주세요.",
+    clarify: "어떤 비밀번호인지 확인이 필요합니다.\n공동현관 비밀번호가 필요하면 ‘공동현관 비밀번호를 알려주세요’라고 말씀해 주세요.",
     code: value => `공동현관문 비밀번호는 ${value} → ENT입니다.\n순서대로 입력한 뒤, 입실하면 새 키카드를 꼭 수령해 주세요.`
   },
   en: {
     recovery: "If you are outside the shared entrance, use the phone beside the kiosk.\nThe host will remotely issue a replacement key card from the kiosk.",
+    failed: "It sounds like the call or replacement key-card issue did not work.\nIf you need it, ask specifically for the shared entrance code.",
+    clarify: "Please specify which password you need.\nIf you mean the entrance, ask for the shared entrance code.",
     code: value => `The shared entrance code is ${value} → ENT.\nEnter it in this order, then collect a replacement key card once inside.`
   },
   ja: {
     recovery: "共同玄関の外にいる場合は、キオスク横の電話でご連絡ください。\nホストが遠隔操作でキオスクから新しいキーカードを発行します。",
+    failed: "電話がつながらない、またはキーカードが発行されない状況ですね。\n必要な場合は「共同玄関の暗証番号を教えてください」と明確にお伝えください。",
+    clarify: "どの暗証番号が必要か確認が必要です。\n共同玄関の場合は「共同玄関の暗証番号を教えてください」とお伝えください。",
     code: value => `共同玄関の暗証番号は ${value} → ENT です。\n順番に入力し、入館後は新しいキーカードを必ず受け取ってください。`
   },
   zh: {
     recovery: "如果您在公共入口外，请使用自助机旁的电话联系。\n房东会远程操作，让自助机发放新的房卡。",
+    failed: "看来电话未接通或新房卡未能发放。\n如有需要，请明确提出“请告诉我公共入口密码”。",
+    clarify: "请说明您需要哪个密码。\n如果是公共入口，请明确提出“请告诉我公共入口密码”。",
     code: value => `公共入口密码为 ${value} → ENT。\n请按顺序输入，进入后务必领取新房卡。`
   },
   "zh-TW": {
     recovery: "如果您在公共入口外，請使用自助機旁的電話聯絡。\n房東會遠端操作，讓自助機發放新的房卡。",
+    failed: "看來電話未接通或新房卡未能發放。\n如有需要，請明確提出「請告訴我公共入口密碼」。",
+    clarify: "請說明您需要哪個密碼。\n如果是公共入口，請明確提出「請告訴我公共入口密碼」。",
     code: value => `公共入口密碼為 ${value} → ENT。\n請依序輸入，進入後務必領取新房卡。`
   }
 };
 const ACCESS_ISSUE_PATTERN = /(키\s*카드|카드키|키오스크|공동\s*현관|못\s*들어|잠겼|key\s*card|keycard|kiosk|locked\s*out|shared\s*entrance|キーカード|キオスク|共同玄関|入れない|房卡|自助机|自助機|公共入口|无法进入|無法進入)/i;
 const ACCESS_CODE_REQUEST_PATTERN = /(공동\s*현관.{0,24}(비밀번호|비번|암호|코드)|(비밀번호|비번|암호|코드).{0,24}공동\s*현관|(?:shared\s*)?entrance.{0,24}(password|code)|(password|code).{0,24}(?:shared\s*)?entrance|共同玄関.{0,24}(暗証番号|パスワード)|公共入口.{0,24}(密码|密碼)|(?:密码|密碼).{0,24}公共入口)/i;
-const ACCESS_RECOVERY_FAILED_PATTERN = /(전화.{0,24}(했|걸|연락)|키오스크.{0,32}(안|못|실패)|카드.{0,32}(안\s*나|못\s*받|발급.{0,12}(안|못|실패))|called|tried|kiosk.{0,32}(failed|didn|not)|card.{0,32}(not\s*issued|didn|failed)|電話.{0,24}(した|連絡)|キオスク.{0,32}(出ない|失敗)|打了电话|打了電話|联系过|聯絡過|没有出卡|沒有出卡|发卡失败|發卡失敗)/i;
+const ACCESS_ANY_PASSWORD_REQUEST_PATTERN = /(비밀번호|비번|암호|코드|password|passcode|暗証番号|パスワード|密码|密碼)/i;
+const ACCESS_RECOVERY_FAILED_PATTERN = /(전화.{0,32}(했|걸|연락|안\s*(되|돼|됩|받)|연결.{0,12}(안|못)|불통|응답.{0,8}(없|안))|호스트.{0,32}(전화|연락).{0,24}(안\s*받|연결.{0,12}(안|못)|응답.{0,8}(없|안)|답.{0,8}(없|안))|통화.{0,24}(안\s*(되|돼|됩)|못|불통)|키오스크.{0,32}(안|못|실패)|카드.{0,32}(안\s*나|못\s*받|발급.{0,12}(안|못|실패))|called|tried|phone.{0,32}(not\s*work|no\s*answer|unanswered|couldn|can't)|host.{0,32}(not\s*answer|unreachable)|kiosk.{0,32}(failed|didn|not)|card.{0,32}(not\s*issued|didn|failed)|電話.{0,32}(した|連絡|つながら|繋がら|出ない)|ホスト.{0,24}(出ない|応答しない)|キオスク.{0,32}(出ない|失敗)|打了电话|打了電話|电话.{0,24}(不通|没人接|沒人接)|電話.{0,24}(不通|没人接|沒人接)|房东.{0,24}(不接|没回应)|房東.{0,24}(不接|沒回應)|联系过|聯絡過|没有出卡|沒有出卡|发卡失败|發卡失敗)/i;
 
 function getClientAddress(req) {
   const forwarded = req.headers["x-forwarded-for"];
@@ -62,15 +73,22 @@ function parseBody(req) {
 function anotherHouseAccessSupport(message, history, language) {
   const current = String(message || "").trim();
   const priorUserMessages = history.filter(item => item.role === "user").map(item => item.content);
+  const firstIssueIndex = priorUserMessages.findIndex(text => ACCESS_ISSUE_PATTERN.test(text));
+  const hasIssueContext = firstIssueIndex >= 0;
+  const accessContext = hasIssueContext ? priorUserMessages.slice(firstIssueIndex) : [];
   const asksForCode = ACCESS_CODE_REQUEST_PATTERN.test(current);
-  const related = ACCESS_ISSUE_PATTERN.test(current) || asksForCode;
+  const asksForAnyPassword = ACCESS_ANY_PASSWORD_REQUEST_PATTERN.test(current);
+  const currentReportsFailure = ACCESS_RECOVERY_FAILED_PATTERN.test(current);
+  const recoveryAlreadyFailed = accessContext.some(text => ACCESS_RECOVERY_FAILED_PATTERN.test(text));
+  const accessConversationTurns = accessContext.filter(text => ACCESS_ISSUE_PATTERN.test(text) || ACCESS_RECOVERY_FAILED_PATTERN.test(text) || ACCESS_ANY_PASSWORD_REQUEST_PATTERN.test(text)).length;
+  const related = ACCESS_ISSUE_PATTERN.test(current) || asksForCode || (hasIssueContext && (currentReportsFailure || asksForAnyPassword));
   if (!related) return null;
-  const priorIssueTurns = priorUserMessages.filter(text => ACCESS_ISSUE_PATTERN.test(text)).length;
-  const recoveryAlreadyFailed = priorUserMessages.some(text => ACCESS_RECOVERY_FAILED_PATTERN.test(text));
-  if (asksForCode && priorIssueTurns >= 2 && recoveryAlreadyFailed) {
+  if (asksForCode && hasIssueContext && recoveryAlreadyFailed && accessConversationTurns >= 2) {
     const entranceCode = String(process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE || "").trim();
     if (/^[0-9A-Za-z#*]{3,20}$/.test(entranceCode)) return { stage: "code", answer: ACCESS_SUPPORT_COPY[language].code(entranceCode) };
   }
+  if (currentReportsFailure && hasIssueContext) return { stage: "failed", answer: ACCESS_SUPPORT_COPY[language].failed };
+  if (asksForAnyPassword && hasIssueContext && !asksForCode) return { stage: "clarify", answer: ACCESS_SUPPORT_COPY[language].clarify };
   return { stage: "recovery", answer: ACCESS_SUPPORT_COPY[language].recovery };
 }
 
@@ -270,7 +288,7 @@ module.exports = async function handler(req, res) {
   try { body = parseBody(req); } catch { return res.status(400).json({ error: "Invalid JSON" }); }
   const message = String(body.message || "").trim();
   const language = ALLOWED_LANGUAGES.has(body.language) ? body.language : "ko";
-  const history = Array.isArray(body.history) ? body.history.slice(-6).map(item => ({ role: item?.role === "assistant" ? "assistant" : "user", content: String(item?.text || item?.content || "").slice(0, 1200) })).filter(item => item.content) : [];
+  const history = Array.isArray(body.history) ? body.history.slice(-12).map(item => ({ role: item?.role === "assistant" ? "assistant" : "user", content: String(item?.text || item?.content || "").slice(0, 1200) })).filter(item => item.content) : [];
   if (history.at(-1)?.role === "user" && history.at(-1)?.content.trim() === message) history.pop();
   if (!message || message.length > 800) return res.status(400).json({ error: "Invalid request" });
   const accessSupport = anotherHouseAccessSupport(message, history, language);

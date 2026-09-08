@@ -561,6 +561,7 @@ test("tour totals stay data-driven and the shared logo chat launcher is availabl
   assert.match(html,/\.concierge-widget\{position:fixed/);
   assert.match(masterApp,/panel\.inert=false/);
   assert.match(masterApp,/panel\.inert=true/);
+  assert.match(masterApp,/history:chatHistory\.slice\(-12\)/);
   for(const label of ['어나더하우스 챗봇 열기','Open Another House chat','Another House チャットを開く','打开 Another House 聊天']) assert.ok(masterApp.includes(label));
   assert.match(masterApp,/\$\('#openChatFab'\)\?\.addEventListener\('click',openChat\)/);
 });

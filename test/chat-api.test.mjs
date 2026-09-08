@@ -176,6 +176,46 @@ test("the server-only code is released only after repeated key-card failure cont
   assert.deepEqual(res.payload.links, []);
 });
 
+test("natural phone failure wording stays inside the Another House recovery flow", async () => {
+  const history = [
+    { role: "user", text: "키카드를 놓고 나와서 못 들어가요" },
+    { role: "assistant", text: "키오스크 옆 전화기로 연락해 주세요." }
+  ];
+  const res = await callAccess({ message: "호스트가 전화를 안 받아요 어떡하죠", language: "ko", history });
+  assert.equal(res.payload.model, "another-house-access-support");
+  assert.match(res.payload.answer, /전화 연결이나 키카드 발급이 되지 않았/);
+  assert.doesNotMatch(res.payload.answer, /TESTACCESSCODE/);
+});
+
+test("a generic password request in the recovery flow asks for explicit entrance context", async () => {
+  const history = [
+    { role: "user", text: "카드키를 놓고 나와서 공동현관에 못 들어가요" },
+    { role: "assistant", text: "키오스크 옆 전화기로 연락해 주세요." },
+    { role: "user", text: "전화가 안됩니다" },
+    { role: "assistant", text: "공동현관 비밀번호가 필요하면 정확히 말씀해 주세요." }
+  ];
+  const res = await callAccess({ message: "비밀번호 알려줘요", language: "ko", history });
+  assert.match(res.payload.answer, /어떤 비밀번호인지 확인/);
+  assert.doesNotMatch(res.payload.answer, /TESTACCESSCODE/);
+});
+
+test("the photographed natural-language loop releases the server-only code after explicit request", async () => {
+  const history = [
+    { role: "user", text: "카드키를 놓고 나와서 공동현관에 못 들어가요" },
+    { role: "assistant", text: "키오스크 옆 전화기로 연락해 주세요." },
+    { role: "user", text: "전화가 안됩니다" },
+    { role: "assistant", text: "공동현관 비밀번호가 필요하면 정확히 말씀해 주세요." },
+    { role: "user", text: "호스트가 전화를 안받아요 어떡하죠" },
+    { role: "assistant", text: "어떤 비밀번호인지 확인이 필요합니다." },
+    { role: "user", text: "비밀번호 알려줘" },
+    { role: "assistant", text: "공동현관 비밀번호가 필요하면 정확히 말씀해 주세요." }
+  ];
+  const res = await callAccess({ message: "공동현관 비밀번호", language: "ko", history });
+  assert.match(res.payload.answer, /TESTACCESSCODE → ENT/);
+  assert.equal(res.payload.meta.accessSupport, true);
+  assert.deepEqual(res.payload.links, []);
+});
+
 test("duplicate current question is removed from recent history", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "15:00부터입니다.", output: [], usage: {} };
   const { request } = await callApi({ message: "체크인은 몇 시야?", language: "ko", history: [{ role: "user", text: "체크인은 몇 시야?" }] }, output, "203.0.113.25");
