@@ -4,6 +4,7 @@ import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
 const handler = require("../api/chat.js");
+let accessCallSequence = 100;
 
 function responseRecorder() {
   return { statusCode: 200, headers: {}, payload: null, setHeader(name, value) { this.headers[name] = value; }, status(code) { this.statusCode = code; return this; }, json(value) { this.payload = value; return this; } };
@@ -27,6 +28,27 @@ async function callApi(body, output, ip) {
     global.fetch = originalFetch;
     if (originalKey === undefined) delete process.env.OPENAI_API_KEY;
     else process.env.OPENAI_API_KEY = originalKey;
+  }
+}
+
+async function callAccess(body, entranceCode = "TESTACCESSCODE") {
+  const originalFetch = global.fetch;
+  const originalKey = process.env.OPENAI_API_KEY;
+  const originalEntranceCode = process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE;
+  delete process.env.OPENAI_API_KEY;
+  process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE = entranceCode;
+  global.fetch = async () => { throw new Error("Access recovery must not call OpenAI"); };
+  try {
+    const req = { method: "POST", headers: { "x-forwarded-for": `203.0.113.${accessCallSequence++}` }, socket: {}, body };
+    const res = responseRecorder();
+    await handler(req, res);
+    return res;
+  } finally {
+    global.fetch = originalFetch;
+    if (originalKey === undefined) delete process.env.OPENAI_API_KEY;
+    else process.env.OPENAI_API_KEY = originalKey;
+    if (originalEntranceCode === undefined) delete process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE;
+    else process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE = originalEntranceCode;
   }
 }
 
@@ -124,6 +146,34 @@ test("route advice never turns a broad airport destination into map buttons", as
   const { res } = await callApi({ message: "심야에는 공항철도보다 심야버스가 더 현실적인가요? 어나더하우스에서 인천공항까지 가고 싶어요.", language: "ko" }, output, "203.0.113.32");
   assert.equal(res.payload.links.filter(link => link.kind === "map").length, 0);
   assert.doesNotMatch(res.payload.answer, /MAP_SPOT/);
+});
+
+test("Another House key-card recovery starts with the kiosk phone and never calls OpenAI", async () => {
+  const res = await callAccess({ message: "키카드를 놓고 나와서 못 들어가고 있어요", language: "ko", history: [] });
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.payload.model, "another-house-access-support");
+  assert.match(res.payload.answer, /키오스크 옆 전화기/);
+  assert.match(res.payload.answer, /원격으로 키오스크에서 새 키카드/);
+  assert.doesNotMatch(res.payload.answer, /TESTACCESSCODE/);
+});
+
+test("a direct entrance-code request still returns the key-card recovery step", async () => {
+  const res = await callAccess({ message: "공동현관 비밀번호 알려줘", language: "ko", history: [] });
+  assert.match(res.payload.answer, /키오스크 옆 전화기/);
+  assert.doesNotMatch(res.payload.answer, /TESTACCESSCODE/);
+});
+
+test("the server-only code is released only after repeated key-card failure context", async () => {
+  const history = [
+    { role: "user", text: "키카드를 놓고 나와서 못 들어가요" },
+    { role: "assistant", text: "키오스크 옆 전화기로 연락해 주세요." },
+    { role: "user", text: "전화했는데 키오스크에서 새 카드가 안 나와요" },
+    { role: "assistant", text: "현재 상황을 다시 말씀해 주세요." }
+  ];
+  const res = await callAccess({ message: "그래도 안 됩니다. 공동현관 비밀번호 알려주세요", language: "ko", history });
+  assert.match(res.payload.answer, /TESTACCESSCODE → ENT/);
+  assert.equal(res.payload.meta.accessSupport, true);
+  assert.deepEqual(res.payload.links, []);
 });
 
 test("duplicate current question is removed from recent history", async () => {
