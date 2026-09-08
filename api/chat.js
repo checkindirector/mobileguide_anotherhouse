@@ -119,8 +119,8 @@ function publicNotice(language) {
 function mapLinks(message, answer, language, searched) {
   const labels = LINK_LABELS[language];
   const links = [];
-  if (searched && /(공영주차장|parking lot|駐車場|停车场|停車場|지도|map|地図|地图|地圖)/i.test(message)) {
-    const answerPlace = answer.split("\n").map(line => line.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, "").trim()).find(line => /(공영주차장|주차장|parking lot|駐車場|停车场|停車場)/i.test(line));
+  if (searched && /(공영주차장|parking lot|駐車場|停车场|停車場|공항|airport|空港|机场|機場|지도|map|地図|地图|地圖)/i.test(message)) {
+    const answerPlace = answer.split("\n").map(line => line.replace(/^\s*(?:[-*•]|\d+[.)])\s*/, "").trim()).find(line => /(공영주차장|주차장|parking lot|駐車場|停车场|停車場|인천공항[^,.。]{0,30}(?:터미널)?|airport[^,.]{0,40}(?:terminal)?)/i.test(line));
     const query = encodeURIComponent((answerPlace || message).slice(0, 160));
     links.push(
       { kind: "map", label: `${labels.place} · ${labels.naver}`, url: `https://map.naver.com/p/search/${query}` },
@@ -156,6 +156,7 @@ PRIORITY C — GENERAL PUBLIC INFORMATION:
 - Prefer official operators, governments, airports, public agencies, and official venue sources. Give the best practical answer instead of immediately deferring to the host.
 - State that this is public information checked outside the property guide. Note that service, hours, and fares can change and suggest confirming with the operator or host when relevant.
 - For routes, respect the user's stated date/time. For late-night or early-airport travel, cover route, departure time, fare, terminal, transfers, and the most realistic alternative when evidence supports them.
+- Never confuse the user's requested departure time with a flight time. Make the opening recommendation and final recommendation consistent with each other.
 - If reliable public information cannot be found, say so and suggest host confirmation.
 
 NEVER:
@@ -225,7 +226,7 @@ module.exports = async function handler(req, res) {
     if (searched && !answer.startsWith("※")) answer = `${publicNotice(language)}\n\n${answer}`;
     const extractedSources = searched ? extractSources(data, language) : [];
     const sourceLinks = extractedSources.length ? extractedSources : fallbackOfficialSources(message, language);
-    const links = [...mapLinks(message, answer, language, searched), ...sourceLinks].slice(0, 5);
+    const links = [...mapLinks(message, answer, language, searched), ...sourceLinks].slice(0, 7);
     const meta = {
       searched,
       searchLevel: searched ? requestedSearchLevel : null,
