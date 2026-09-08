@@ -122,13 +122,14 @@ test("home gallery copy, compact rhythm, and restaurant imagery are upgraded",as
   }
 });
 
-test("home editorial story presents the host narrative with lazy media and five-language copy",async()=>{
+test("home editorial story presents a photo-free mosaic with five-language copy",async()=>{
   const html=await read("index.html");
   const app=await read("assets/master-app.js");
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="home-editorial"/);
-  assert.match(html,/common-03-entry-1\.webp"[^>]*loading="lazy"/);
-  assert.doesNotMatch(html,/homeEditorialPrivateImage|home-editorial-private-figure|single-01-503-1\.webp/);
+  assert.doesNotMatch(html,/homeEditorialEntryImage|home-editorial-entry|homeEditorialPrivateImage|home-editorial-private-figure|common-03-entry-1\.webp|single-01-503-1\.webp/);
+  assert.match(html,/class="home-editorial-mosaic"/);
+  assert.match(html,/class="home-editorial-bridge"[^>]*>[\s\S]*WOMEN ONLY/);
   assert.match(html,/A QUIET END TO A DAY IN SEOUL/);
   assert.match(html,/PRIVATE REST · PRACTICAL COMFORT/);
   assert.match(html,/서울의 하루 끝,[\s\S]*나를 위한 다른 집/);
@@ -136,6 +137,7 @@ test("home editorial story presents the host narrative with lazy media and five-
   assert.match(html,/\.home-editorial-intro\{[^}]*font-size:16px[^}]*font-weight:600[^}]*line-height:1\.72/);
   assert.match(html,/\.home-editorial-private-title\{[^}]*font-size:31px[^}]*font-weight:800[^}]*line-height:1\.08/);
   assert.match(html,/\.home-editorial-private-body\{[^}]*font-size:16px[^}]*font-weight:600[^}]*line-height:1\.7/);
+  assert.match(html,/\.home-editorial-facts\{[^}]*grid-template-columns:repeat\(3,minmax\(0,1fr\)\)/);
   assert.match(content,/D\.homeEditorial = \{/);
   assert.match(content,/캡슐형 객실에도 개별 도어락/);
   assert.match(content,/30 SEC/);
@@ -338,7 +340,7 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260908-05/);
+  assert.match(html,/content-updates\.js\?v=20260908-06/);
   assert.match(html,/gallery-overrides\.js\?v=20260908-02/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);

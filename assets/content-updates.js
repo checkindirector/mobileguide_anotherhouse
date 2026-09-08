@@ -37,8 +37,6 @@
       '从东大门的快节奏中暂时退一步，关上门，温暖而柔和的休息便从这里开始。Another House 是为独自或结伴探索首尔的女性打造的私密住宿空间。',
       '從東大門的快節奏中暫時退一步，關上門，溫暖而柔和的休息便從這裡開始。Another House 是為獨自或結伴探索首爾的女性打造的私密住宿空間。'
     ),
-    entryCaption: I('여성 전용 · 프라이빗 스테이', 'Women only · Private stay', '女性専用 · プライベートステイ', '女性专用 · 私密住宿', '女性專用 · 私密住宿'),
-    entryAlt: I('어나더하우스 로고가 있는 따뜻한 입구', 'Warm entrance with the Another House logo', 'Another Houseのロゴがある温かな入口', '带有 Another House 标志的温暖入口', '帶有 Another House 標誌的溫暖入口'),
     privateKicker: 'A ROOM OF YOUR OWN',
     privateTitle: I(
       '작지만 온전한,\n나만의 밤.',
