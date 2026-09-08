@@ -316,8 +316,8 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260908-01/);
-  assert.match(html,/gallery-overrides\.js\?v=20260908-01/);
+  assert.match(html,/content-updates\.js\?v=20260908-02/);
+  assert.match(html,/gallery-overrides\.js\?v=20260908-02/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
   assert.match(content,/동대문호텔 민영 주차장/);
@@ -414,12 +414,15 @@ test("opening hero runs one automatic five-photo pass with controls visible from
   assert.match(html,/class="hero-slide-bars" aria-label="총 5장의 메인 사진"/);
   assert.equal((html.match(/data-hero-slide="[0-4]"/g)||[]).length,5);
   for(const className of ["hero-photo-secondary","hero-photo-tertiary","hero-photo-quaternary","hero-photo-quinary"]) assert.match(html,new RegExp(className));
-  for(const file of ["common-15-corridor-512-2.webp","common-07-entry-direction-2.webp","common-12-corridor-entry-2.webp"]) assert.ok(html.includes(file));
+  for(const file of ["common-15-corridor-512-2.webp","common-07-entry-direction-2.webp","common-12-corridor-entry-2.webp"]) assert.ok(app.includes(file));
   assert.match(html,/\.hero-swipe-controls\{[^}]*opacity:1/);
   assert.doesNotMatch(html,/>\s*넘겨보기\s*</);
   assert.match(app,/const heroSequenceDuration=5520/);
   assert.match(app,/const heroAutoDelay=2400/);
   assert.match(app,/heroSlides=\[[^\]]*main-01\.webp[^\]]*main-02\.webp[^\]]*common-15-corridor-512-2\.webp[^\]]*common-07-entry-direction-2\.webp[^\]]*common-12-corridor-entry-2\.webp/);
+  assert.match(app,/function loadHeroSlideBackground\(index\)/);
+  assert.match(app,/loadHeroSlideBackground\(heroSlideIndex\+1\)/);
+  assert.doesNotMatch(html,/background(?:-image)?:url\('assets\/images\/(?:main-02|gallery\/another-house\/common-(?:15|07|12))/);
   assert.match(app,/setTimeout\(\(\)=>\{heroAutoTimer=0;/);
   assert.match(app,/heroAutoComplete/);
   assert.match(app,/heroSlideIndex>=heroSlides\.length-1/);
