@@ -122,6 +122,33 @@ test("limousine-only wording receives an official airport source fallback", asyn
   assert.match(res.payload.links[0].label, /인천국제공항/);
 });
 
+test("time-specific dining requests force high-context web search", async () => {
+  const output = {
+    model: "gpt-5.4-mini",
+    output_text: "에그드랍 동대문점은 공개 영업정보상 22:00까지 운영합니다.",
+    output: [{ type: "web_search_call", action: { sources: [{ title: "에그드랍 동대문점", url: "https://www.tabling.co.kr/place/677ccdae66de5f069881845c" }] } }],
+    usage: {}
+  };
+  const cases = [
+    ["밤 9시 이후 식사 가능한 곳", "203.0.113.45"],
+    ["지금 문 연 식당 알려줘", "203.0.113.46"],
+    ["Find a restaurant open after 9 pm", "203.0.113.47"],
+    ["에그드랍 동대문점은 몇 시까지 영업해?", "203.0.113.49"]
+  ];
+  for (const [message, ip] of cases) {
+    const { res, request } = await callApi({ message, language: message.startsWith("Find") ? "en" : "ko" }, output, ip);
+    assert.equal(request.body.tools[0].search_context_size, "high");
+    assert.match(request.body.instructions, /For dining recommendations tied to a stated time or current opening status, search before answering/);
+    assert.equal(res.payload.meta.searched, true);
+  }
+});
+
+test("a property check-in time question does not become a dining web search", async () => {
+  const output = { model: "gpt-5.4-mini", output_text: "현재 안내를 확인해 주세요.", output: [], usage: {} };
+  const { request } = await callApi({ message: "밤 9시 이후 체크인 가능한가요?", language: "ko" }, output, "203.0.113.48");
+  assert.equal(request.body.tools, undefined);
+});
+
 test("airport boarding questions show no source or property map when the model did not search", async () => {
   const output = {
     model: "gpt-5.4-mini",
