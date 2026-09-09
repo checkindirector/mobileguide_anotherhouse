@@ -100,6 +100,28 @@ test("late-night transport uses high search context", async () => {
   assert.equal(request.body.tools[0].search_context_size, "high");
 });
 
+test("airport bus and airport limousine wording share one searched transport intent", async () => {
+  const output = { model: "gpt-5.4-mini", output_text: "공항리무진 운행 정보를 확인했습니다.", output: [{ type: "web_search_call", action: { sources: [] } }], usage: {} };
+  const cases = [
+    ["공항버스는 어디서 타나요?", "203.0.113.40"],
+    ["공항리무진은 어디서 타나요?", "203.0.113.41"],
+    ["리무진버스는 어디서 타나요?", "203.0.113.42"]
+  ];
+  for (const [message, ip] of cases) {
+    const { request } = await callApi({ message, language: "ko" }, output, ip);
+    assert.equal(request.body.tools[0].search_context_size, "medium");
+    assert.match(request.body.instructions, /airport bus, airport limousine, limousine bus/);
+    assert.match(request.body.instructions, /same airport-bus category/);
+  }
+});
+
+test("limousine-only wording receives an official airport source fallback", async () => {
+  const output = { model: "gpt-5.4-mini", output_text: "리무진버스 운행 정보를 확인했습니다.", output: [{ type: "web_search_call", action: { sources: [] } }], usage: {} };
+  const { res } = await callApi({ message: "리무진버스 어디서 타요?", language: "ko" }, output, "203.0.113.43");
+  assert.equal(res.payload.links[0].url, "https://www.airport.kr/");
+  assert.match(res.payload.links[0].label, /인천국제공항/);
+});
+
 test("address answer includes two clickable map links", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "주소는 서울시 종로구 종로 294 선일빌딩 5층입니다.", output: [], usage: {} };
   const { res } = await callApi({ message: "숙소 주소가 어디야?", language: "ko" }, output, "203.0.113.23");

@@ -12,6 +12,7 @@ const LINK_LABELS = {
   "zh-TW": { source: "已核實來源", naver: "Naver Maps", google: "Google Maps", place: "查詢地點" }
 };
 const recentRequests = new Map();
+const AIRPORT_BUS_PATTERN = /(공항\s*(?:버스|리무진)|리무진\s*버스|공항리무진|airport\s*(?:bus|limousine|coach|shuttle)|limousine\s*bus|空港\s*(?:バス|リムジン)|リムジン\s*バス|机场\s*(?:巴士|大巴)|機場\s*(?:巴士|客運)|机场大巴|機場巴士)/i;
 // Another House-only, server-side access recovery. Never move this into shared guide data or reusable prompts.
 const ACCESS_SUPPORT_COPY = {
   ko: {
@@ -105,7 +106,7 @@ function localizeKnowledge(language) {
 function searchLevelFor(message) {
   const text = message.toLocaleLowerCase();
   const propertyOnly = /(도어|출입|현관|객실|예약|승인|수수료|숙박비|조식|어메니티|반려동물|흡연|파티|체크인|체크아웃|와이파이|wifi|password|door code|room|booking|fee|breakfast|amenit|pet|smoking|party|チェックイン|チェックアウト|予約|部屋|パスワード|入住|退房|预订|預訂|房间|房間|密码|密碼)/i.test(text);
-  const publicInfo = /(날씨|기온|공항|공항버스|지하철|버스|막차|첫차|교통|공영주차장|영업시간|운영시간|휴무|관광|시장|궁|박물관|weather|airport|subway|bus|train|last train|first train|public parking|opening hours|museum|market|palace|天気|空港|地下鉄|バス|終電|始発|営業時間|駐車場|天气|天氣|机场|機場|地铁|地鐵|公交|巴士|末班|首班|营业时间|營業時間|停车场|停車場)/i.test(text);
+  const publicInfo = AIRPORT_BUS_PATTERN.test(text) || /(날씨|기온|공항|공항버스|리무진|지하철|버스|막차|첫차|교통|공영주차장|영업시간|운영시간|휴무|관광|시장|궁|박물관|weather|airport|limousine|coach|subway|bus|train|last train|first train|public parking|opening hours|museum|market|palace|天気|空港|リムジン|地下鉄|バス|終電|始発|営業時間|駐車場|天气|天氣|机场|機場|地铁|地鐵|公交|巴士|客運|末班|首班|营业时间|營業時間|停车场|停車場)/i.test(text);
   if (!publicInfo || (propertyOnly && !/(공항|공영주차장|airport|public parking|空港|駐車場|机场|機場|停车场|停車場)/i.test(text))) return null;
   return /(새벽|심야|막차|첫차|정확|현재 운행|오늘 밤|내일 아침|late.?night|last train|first train|exact|currently running|tonight|early morning|深夜|終電|始発|正確|凌晨|末班|首班|准确|準確)/i.test(text) ? "high" : "medium";
 }
@@ -179,7 +180,7 @@ function fallbackOfficialSources(message, language) {
   }[language];
   if (/(날씨|기온|weather|天気|天气|天氣)/i.test(message)) return [{ kind: "source", label: `${label} · ${names.weather}`, url: "https://www.weather.go.kr/w/index.do" }];
   if (/(공영주차장|public parking|駐車場|停车场|停車場)/i.test(message)) return [{ kind: "source", label: `${label} · ${names.parking}`, url: "https://parking.seoul.go.kr/" }];
-  if (/(공항|airport|空港|机场|機場)/i.test(message)) return [{ kind: "source", label: `${label} · ${names.airport}`, url: "https://www.airport.kr/" }];
+  if (AIRPORT_BUS_PATTERN.test(message) || /(공항|airport|空港|机场|機場)/i.test(message)) return [{ kind: "source", label: `${label} · ${names.airport}`, url: "https://www.airport.kr/" }];
   if (/(지하철|버스|교통|subway|bus|transit|地下鉄|バス|地铁|地鐵|公交|巴士)/i.test(message)) return [{ kind: "source", label: `${label} · ${names.transit}`, url: "https://topis.seoul.go.kr/" }];
   return [];
 }
@@ -253,6 +254,7 @@ PRIORITY B — PROPERTY-SPECIFIC INFORMATION NOT IN THE GUIDE:
 
 PRIORITY C — GENERAL PUBLIC INFORMATION:
 - When a web-search tool is available, use it for non-property public information such as transport, airport service, public parking, weather, public places, store hours, and general travel information.
+- Treat airport bus, airport limousine, limousine bus, and their Korean/Japanese/Chinese equivalents as the same airport-bus category. An airport limousine is a named or premium subtype of airport bus, not a separate transport mode. Distinguish only the exact operator, route, stop, or service class when official evidence does.
 - Prefer official operators, governments, airports, public agencies, and official venue sources. Give the best practical answer instead of immediately deferring to the host.
 - State that this is public information checked outside the property guide. Note that service, hours, and fares can change and suggest confirming with the operator or host when relevant.
 - For routes, respect the user's stated date/time. For late-night or early-airport travel, cover route, departure time, fare, terminal, transfers, and the most realistic alternative when evidence supports them.
