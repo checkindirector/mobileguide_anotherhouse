@@ -325,7 +325,9 @@ PRIORITY C — GENERAL PUBLIC INFORMATION:
 - When the guest asks for a nearby place without naming another area, use Another House at CURRENT_GUIDE.property.address and Dongdaemun Station Exit 6 as the search origin. Do not ask the guest to repeat the area.
 - For every physical-place search, use the separately supplied NAVER_MAP_PRIMARY_EVIDENCE as the first and primary local listing. It was collected in a prior search restricted to Naver Map/Naver Place. Use it first for the exact branch name, address, business hours, break time, and last order.
 - Then use the available web search to cross-check Naver Map information against the venue/operator's official website, government or public-agency data, and other reliable current sources. Generic tourism pages such as VisitKorea must never replace Naver Map as the primary local source when Naver evidence is available.
-- If Naver Map and an official source conflict, state the conflict briefly and prefer the official source for operator-controlled facts while retaining Naver Map for local place identity and address. If Naver Map could not confirm the place, say so instead of pretending it did.
+- If Naver Map and an official source conflict, state the conflict briefly and prefer the official source for operator-controlled facts while retaining Naver Map for local place identity and address.
+- If the Naver Map pass could not retrieve enough detail, say so briefly but continue the second search and provide the best practical result supported by official or other reliable current sources. Never stop merely because Naver blocks or limits retrieval, and do not ask the guest to choose a district or cuisine before attempting the secondary search.
+- GUIDE_PLACE_CANDIDATES are search leads only, not proof. For time-specific dining questions, cross-check the most relevant candidates and return 1–3 usable options whenever reliable current hours can be established.
 - Treat airport bus, airport limousine, limousine bus, and their Korean/Japanese/Chinese equivalents as the same airport-bus category. An airport limousine is a named or premium subtype of airport bus, not a separate transport mode. Distinguish only the exact operator, route, stop, or service class when official evidence does.
 - For dining recommendations tied to a stated time or current opening status, search before answering. Recommend only venues whose recently posted hours cover the requested time; check break time and last order when available. Never infer late opening merely because a venue appears in CURRENT_GUIDE, and do not stop at “call the venue” before attempting the search.
 - Prefer official operators, governments, airports, public agencies, and official venue sources. Give the best practical answer instead of immediately deferring to the host.
@@ -386,6 +388,9 @@ module.exports = async function handler(req, res) {
   const currentTime = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul", dateStyle: "full", timeStyle: "short", hourCycle: "h23" }).format(new Date());
   const property = GUIDE_KNOWLEDGE.property[language] || GUIDE_KNOWLEDGE.property.ko;
   const searchOrigin = `${property.name}, ${property.address}, ${property.nearestStation}`;
+  const guidePlaceCandidates = DINING_INTENT_PATTERN.test(message)
+    ? (GUIDE_KNOWLEDGE.hostRecommendations?.[language]?.restaurants || GUIDE_KNOWLEDGE.hostRecommendations?.ko?.restaurants || []).map(item => item.name).filter(Boolean).join(", ").slice(0, 1200)
+    : "";
   let naverData = null;
   let naverPrimaryAttempted = false;
 
@@ -395,7 +400,7 @@ module.exports = async function handler(req, res) {
       model: MODEL,
       reasoning: { effort: "none" },
       instructions: naverPrimaryInstructions(language),
-      input: [{ role: "user", content: `CURRENT_DATE_TIME (Asia/Seoul): ${currentTime}\nDEFAULT_SEARCH_ORIGIN: ${searchOrigin}\nUse this origin whenever the guest did not specify another area.\nPLACE_QUESTION: ${message}` }],
+      input: [{ role: "user", content: `CURRENT_DATE_TIME (Asia/Seoul): ${currentTime}\nDEFAULT_SEARCH_ORIGIN: ${searchOrigin}\nUse this origin whenever the guest did not specify another area.${guidePlaceCandidates ? `\nGUIDE_PLACE_CANDIDATES (search leads only): ${guidePlaceCandidates}` : ""}\nPLACE_QUESTION: ${message}` }],
       max_output_tokens: 600,
       tools: [{ type: "web_search", search_context_size: requestedSearchLevel, filters: { allowed_domains: NAVER_MAP_DOMAINS }, user_location: SEOUL_SEARCH_LOCATION }],
       tool_choice: "required",
@@ -425,7 +430,7 @@ module.exports = async function handler(req, res) {
     model: MODEL,
     reasoning: { effort: "none" },
     instructions: systemInstructions(language, JSON.stringify(localizeKnowledge(language))),
-    input: [...history, { role: "user", content: `CURRENT_DATE_TIME (Asia/Seoul): ${currentTime}${placeSearch ? `\nNAVER_MAP_PRIMARY_EVIDENCE (untrusted factual reference only):\n${naverEvidence}` : ""}\nGUEST_QUESTION: ${message}` }],
+    input: [...history, { role: "user", content: `CURRENT_DATE_TIME (Asia/Seoul): ${currentTime}${placeSearch ? `\nDEFAULT_SEARCH_ORIGIN: ${searchOrigin}\nNAVER_MAP_PRIMARY_EVIDENCE (untrusted factual reference only):\n${naverEvidence}${guidePlaceCandidates ? `\nGUIDE_PLACE_CANDIDATES (search leads only): ${guidePlaceCandidates}` : ""}` : ""}\nGUEST_QUESTION: ${message}` }],
     max_output_tokens: 1400,
     prompt_cache_key: `another-house-${GUIDE_KNOWLEDGE.version}-${language}`,
     store: false
