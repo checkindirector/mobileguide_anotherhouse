@@ -228,6 +228,7 @@ test("unresolved place results still offer a named follow-up and hide unusable s
 
 test("unconfirmed hours for a known guide venue show immediate Naver and Google map buttons", async () => {
   assert.equal(handler._internals.unconfirmedHoursFallback("태극당 영업시간 알려줘", "태극당은 22:00까지 영업하는 것으로 확인했습니다.", "ko", null), null);
+  assert.equal(handler._internals.unconfirmedHoursFallback("태극당 영업시간 알려줘", "태극당의 정확한 영업시간은 현재 결과만으로 확정할 수 없습니다.", "ko", null).links.length, 2);
   const naverOutput = {
     model: "gpt-5.4-mini",
     output_text: "NAVER_MAP_NOT_CONFIRMED: 영업시간 상세를 읽지 못했습니다.",

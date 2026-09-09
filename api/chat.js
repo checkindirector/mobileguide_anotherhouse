@@ -272,11 +272,15 @@ function guidePlaceFromQuestion(message, language) {
 
 function unconfirmedHoursFallback(message, answer, language, resolvedSpot) {
   if (!BUSINESS_TIME_PATTERN.test(String(message || ""))) return null;
-  const unconfirmed = /(확인(?:할 수|이)?\s*(?:없|되지|어렵)|확정(?:하기\s*어렵|하지\s*못|되지)|정확한.{0,24}(?:알 수 없|확인할 수 없|확인되지|확정하지 못)|전화.{0,18}(?:문의|확인)|직접.{0,18}(?:전화|문의)|cannot\s+(?:confirm|verify)|could(?:n't| not)\s+(?:confirm|verify)|call\s+(?:the|them|ahead)|not\s+(?:confirmed|verified)|確認(?:できません|できない|されていません)|電話.{0,12}(?:確認|問い合わせ)|无法确认|無法確認|未能确认|未能確認|电话.{0,12}(?:确认|詢問)|電話.{0,12}(?:確認|詢問))/i.test(String(answer || ""));
-  if (!unconfirmed) return null;
-
+  const venueHoursIntent = DINING_INTENT_PATTERN.test(String(message || "")) || /(영업|운영\s*시간|문\s*(?:열|닫)|몇\s*시\s*까지|open\s*(?:now|late|until)|opening\s*hours|business\s*hours|closing\s*time|営業時間|営業中|何時まで|营业时间|營業時間|现在营业|現在營業|几点关门|幾點關門)/i.test(String(message || ""));
+  if (!venueHoursIntent) return null;
   const knownPlace = guidePlaceFromQuestion(message, language);
   const spot = validateResolvedSpot(resolvedSpot?.name, resolvedSpot?.address);
+  const answerText = String(answer || "");
+  const hasConcreteHours = /(?:^|\D)(?:[01]?\d|2[0-3]):[0-5]\d(?:\D|$)/.test(answerText);
+  const explicitlyUnconfirmed = /(확인(?:할 수|이)?\s*(?:없|되지|어렵)|확정(?:할\s*수\s*없|하기\s*어렵|하지\s*못|되지)|정확한.{0,24}(?:알 수 없|확인할 수 없|확인되지|확정하지 못)|전화.{0,18}(?:문의|확인)|직접.{0,18}(?:전화|문의)|cannot\s+(?:confirm|verify)|could(?:n't| not)\s+(?:confirm|verify)|call\s+(?:the|them|ahead)|not\s+(?:confirmed|verified)|確認(?:できません|できない|されていません)|電話.{0,12}(?:確認|問い合わせ)|无法确认|無法確認|未能确认|未能確認|电话.{0,12}(?:确认|詢問)|電話.{0,12}(?:確認|詢問))/i.test(answerText);
+  if (!explicitlyUnconfirmed && (!(knownPlace || spot) || hasConcreteHours)) return null;
+
   const name = knownPlace?.name || spot?.name;
   if (!name) return null;
   const labels = LINK_LABELS[language];
