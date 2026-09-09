@@ -181,10 +181,13 @@ function extractSources(data, language) {
   const seenDomains = new Set();
   return candidates.flatMap(source => {
     const url = trustedUrl(source?.url);
+    const parsed = url ? new URL(url) : null;
+    const host = parsed?.hostname.toLowerCase().replace(/^www\./, "") || "";
+    const unusableSearchPage = /^(?:pts|rtt)\.map\.naver\.com$/.test(host) || (/(?:^|\.)google\.com$/.test(host) && /^\/search\/?$/.test(parsed.pathname));
     const domainKey = sourceDomain(url);
-    if (!url || !domainKey || seenDomains.has(domainKey)) return [];
+    if (!url || unusableSearchPage || !domainKey || seenDomains.has(domainKey)) return [];
     seenDomains.add(domainKey);
-    const domain = new URL(url).hostname.replace(/^www\./, "");
+    const domain = parsed.hostname.replace(/^www\./, "");
     return [{ kind: "source", label: String(source?.title || `${LINK_LABELS[language].source} · ${domain}`).slice(0, 90), url }];
   }).slice(0, 3);
 }
@@ -222,6 +225,16 @@ function mapOfferText(language) {
     ja: "ご希望でしたら、この場所のNaver MapsとGoogle Mapsをすぐにご案内します。",
     zh: "如果您需要，我可以立即为您提供该地点的 Naver Maps 和 Google Maps 链接。",
     "zh-TW": "如果您需要，我可以立即提供這個地點的 Naver Maps 和 Google Maps 連結。"
+  }[language];
+}
+
+function mapChoiceOfferText(language) {
+  return {
+    ko: "원하시면 위 장소 중 하나를 말씀해 주세요. 네이버지도와 Google Maps 링크를 바로 연결해 드릴게요.",
+    en: "Tell me which place you prefer, and I’ll open it in Naver Maps and Google Maps for you.",
+    ja: "ご希望の場所を一つお知らせください。Naver MapsとGoogle Mapsをすぐにご案内します。",
+    zh: "请告诉我您想去的地点，我可以立即提供 Naver Maps 和 Google Maps 链接。",
+    "zh-TW": "請告訴我您想去的地點，我可以立即提供 Naver Maps 和 Google Maps 連結。"
   }[language];
 }
 
@@ -466,7 +479,10 @@ module.exports = async function handler(req, res) {
     const links = [...mapLinks(message, answer, language, searched, resolved.spot), ...sourceLinks].slice(0, 5);
     const hasMapLinks = links.some(link => link.kind === "map");
     const mapContext = placeSearch && resolved.spot ? resolved.spot : null;
-    if (mapContext && !hasMapLinks && !answer.includes(mapOfferText(language))) answer = `${answer}\n\n${mapOfferText(language)}`;
+    if (placeSearch && !hasMapLinks) {
+      const offer = mapContext ? mapOfferText(language) : mapChoiceOfferText(language);
+      if (!answer.includes(offer)) answer = `${answer}\n\n${offer}`;
+    }
     const meta = {
       searched,
       searchLevel: searched ? requestedSearchLevel : null,

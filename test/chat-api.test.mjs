@@ -189,6 +189,26 @@ test("place results offer maps only after an exact spot is resolved", async () =
   assert.equal(res.payload.links[1].url, "https://www.e-gen.or.kr/");
 });
 
+test("unresolved place results still offer a named follow-up and hide unusable search links", async () => {
+  const naverOutput = {
+    model: "gpt-5.4-mini",
+    output_text: "NAVER_MAP_NOT_CONFIRMED",
+    output: [{ type: "web_search_call", action: { sources: [{ title: "Naver tracking", url: "https://pts.map.naver.com/place/trace" }] } }],
+    usage: {}
+  };
+  const crossCheckOutput = {
+    model: "gpt-5.4-mini",
+    output_text: "교촌치킨과 타볼로 24를 후보로 확인했지만 정확한 주소는 확정하지 못했습니다.",
+    output: [{ type: "web_search_call", action: { sources: [{ title: "Google search", url: "https://www.google.com/search?q=dongdaemun+dinner" }] } }],
+    usage: {}
+  };
+  const { res } = await callApi({ message: "밤 9시 이후 아이와 식사 가능한 곳", language: "ko", history: [] }, [naverOutput, crossCheckOutput], "203.0.113.52");
+  assert.match(res.payload.answer, /위 장소 중 하나를 말씀해 주세요/);
+  assert.match(res.payload.answer, /네이버지도와 Google Maps 링크를 바로 연결해 드릴게요/);
+  assert.deepEqual(res.payload.links, []);
+  assert.equal(res.payload.mapContext, null);
+});
+
 test("map offer follow-up returns Naver and Google buttons without another AI call", async () => {
   const history = [
     { role: "user", text: "숙소 근처 약국 추천해줘" },
