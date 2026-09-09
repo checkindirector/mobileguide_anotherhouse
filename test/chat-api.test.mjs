@@ -14,16 +14,21 @@ async function callApi(body, output, ip) {
   const originalFetch = global.fetch;
   const originalKey = process.env.OPENAI_API_KEY;
   let request;
+  const requests = [];
+  const outputs = Array.isArray(output) ? output : [output];
+  let outputIndex = 0;
   process.env.OPENAI_API_KEY = "test-key";
   global.fetch = async (url, options) => {
     request = { url, options, body: JSON.parse(options.body) };
-    return { ok: true, status: 200, json: async () => output };
+    requests.push(request);
+    const currentOutput = outputs[Math.min(outputIndex++, outputs.length - 1)];
+    return { ok: true, status: 200, json: async () => currentOutput };
   };
   try {
     const req = { method: "POST", headers: { "x-forwarded-for": ip }, socket: {}, body };
     const res = responseRecorder();
     await handler(req, res);
-    return { res, request };
+    return { res, request, requests };
   } finally {
     global.fetch = originalFetch;
     if (originalKey === undefined) delete process.env.OPENAI_API_KEY;
@@ -123,6 +128,12 @@ test("limousine-only wording receives an official airport source fallback", asyn
 });
 
 test("time-specific dining requests force high-context web search", async () => {
+  const naverOutput = {
+    model: "gpt-5.4-mini",
+    output_text: "네이버지도에서 에그드랍 동대문점의 영업시간과 주소를 확인했습니다.",
+    output: [{ type: "web_search_call", action: { sources: [{ title: "에그드랍 동대문점 네이버지도", url: "https://m.place.naver.com/restaurant/123/home" }] } }],
+    usage: {}
+  };
   const output = {
     model: "gpt-5.4-mini",
     output_text: "에그드랍 동대문점은 공개 영업정보상 22:00까지 운영합니다.",
@@ -136,11 +147,58 @@ test("time-specific dining requests force high-context web search", async () => 
     ["에그드랍 동대문점은 몇 시까지 영업해?", "203.0.113.49"]
   ];
   for (const [message, ip] of cases) {
-    const { res, request } = await callApi({ message, language: message.startsWith("Find") ? "en" : "ko" }, output, ip);
+    const { res, request, requests } = await callApi({ message, language: message.startsWith("Find") ? "en" : "ko" }, [naverOutput, output], ip);
+    assert.equal(requests.length, 2);
+    assert.deepEqual(requests[0].body.tools[0].filters.allowed_domains, ["map.naver.com", "m.place.naver.com", "pcmap.place.naver.com", "naver.me"]);
+    assert.equal(requests[0].body.tool_choice, "required");
+    assert.equal(requests[0].body.tools[0].user_location.country, "KR");
+    assert.match(request.body.input.at(-1).content, /NAVER_MAP_PRIMARY_EVIDENCE/);
+    assert.match(request.body.input.at(-1).content, /네이버지도에서 에그드랍/);
+    assert.equal(request.body.tool_choice, "required");
     assert.equal(request.body.tools[0].search_context_size, "high");
     assert.match(request.body.instructions, /For dining recommendations tied to a stated time or current opening status, search before answering/);
+    assert.match(request.body.instructions, /Generic tourism pages such as VisitKorea must never replace Naver Map as the primary local source/);
     assert.equal(res.payload.meta.searched, true);
+    assert.equal(res.payload.meta.naverPrimarySearched, true);
+    assert.equal(res.payload.meta.crossCheckSearched, true);
+    assert.equal(res.payload.meta.searchCalls, 2);
+    assert.equal(res.payload.links[0].url, "https://m.place.naver.com/restaurant/123/home");
   }
+});
+
+test("place results offer maps only after an exact spot is resolved", async () => {
+  const naverOutput = {
+    model: "gpt-5.4-mini",
+    output_text: "네이버지도에서 종로온누리약국의 주소를 확인했습니다.",
+    output: [{ type: "web_search_call", action: { sources: [{ title: "종로온누리약국 네이버지도", url: "https://m.place.naver.com/place/321/home" }] } }],
+    usage: {}
+  };
+  const crossCheckOutput = {
+    model: "gpt-5.4-mini",
+    output_text: "종로온누리약국을 확인했습니다.\nMAP_SPOT: 종로온누리약국 | 서울특별시 종로구 종로 293",
+    output: [{ type: "web_search_call", action: { sources: [{ title: "공공 약국 정보", url: "https://www.e-gen.or.kr/" }] } }],
+    usage: {}
+  };
+  const { res } = await callApi({ message: "숙소 근처 약국 추천해줘", language: "ko", history: [] }, [naverOutput, crossCheckOutput], "203.0.113.50");
+  assert.match(res.payload.answer, /원하시면 이 장소의 네이버지도와 Google Maps 링크를 바로 연결해 드릴게요/);
+  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 0);
+  assert.deepEqual(res.payload.mapContext, { name: "종로온누리약국", address: "서울특별시 종로구 종로 293" });
+  assert.equal(res.payload.links[0].url, "https://m.place.naver.com/place/321/home");
+  assert.equal(res.payload.links[1].url, "https://www.e-gen.or.kr/");
+});
+
+test("map offer follow-up returns Naver and Google buttons without another AI call", async () => {
+  const history = [
+    { role: "user", text: "숙소 근처 약국 추천해줘" },
+    { role: "assistant", text: "종로온누리약국을 확인했습니다. 원하시면 지도 링크를 연결해 드릴게요.", mapContext: { name: "종로온누리약국", address: "서울특별시 종로구 종로 293" } }
+  ];
+  const { res, request, requests } = await callApi({ message: "네, 연결해줘", language: "ko", history }, { model: "unused" }, "203.0.113.51");
+  assert.equal(request, undefined);
+  assert.equal(requests.length, 0);
+  assert.equal(res.payload.meta.mapFollowup, true);
+  assert.deepEqual(res.payload.links.map(link => link.kind), ["map", "map"]);
+  assert.match(res.payload.links[0].label, /종로온누리약국 · 네이버 지도/);
+  assert.match(res.payload.links[1].label, /종로온누리약국 · Google Maps/);
 });
 
 test("a property check-in time question does not become a dining web search", async () => {
