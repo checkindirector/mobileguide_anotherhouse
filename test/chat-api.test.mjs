@@ -122,6 +122,18 @@ test("limousine-only wording receives an official airport source fallback", asyn
   assert.match(res.payload.links[0].label, /인천국제공항/);
 });
 
+test("airport boarding questions show no source or property map when the model did not search", async () => {
+  const output = {
+    model: "gpt-5.4-mini",
+    output_text: "현재 안내문에서는 정확한 탑승 정류장을 확인하지 못했습니다. 숙소 주소는 서울시 종로구 종로 294 선일빌딩 5층입니다.",
+    output: [],
+    usage: {}
+  };
+  const { res } = await callApi({ message: "공항리무진은 어디서 타나요?", language: "ko" }, output, "203.0.113.44");
+  assert.equal(res.payload.meta.searched, false);
+  assert.deepEqual(res.payload.links, []);
+});
+
 test("address answer includes two clickable map links", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "주소는 서울시 종로구 종로 294 선일빌딩 5층입니다.", output: [], usage: {} };
   const { res } = await callApi({ message: "숙소 주소가 어디야?", language: "ko" }, output, "203.0.113.23");

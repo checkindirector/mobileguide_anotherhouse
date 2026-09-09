@@ -210,8 +210,6 @@ function extractResolvedSpot(text) {
 }
 
 function asksForPropertyAddress(message, answer, language) {
-  const address = GUIDE_KNOWLEDGE.property[language].address;
-  if (answer.includes(address)) return true;
   const propertyReference = /(어나더\s*하우스|숙소|호스텔|another\s*house|property|hostel|当館|宿|住宿|旅舍)/i.test(message);
   const locationIntent = /(주소|위치|어디|address|location|where|住所|場所|どこ|地址|位置|哪里|哪裡)/i.test(message);
   const genericAddressQuestion = /^\s*(?:주소|위치)(?:가|는|를|을)?\s*(?:어디|알려|확인|뭐|주세요|좀|찾아)?[?.! ]*$/i.test(message);
@@ -335,7 +333,7 @@ module.exports = async function handler(req, res) {
     const searched = (data.output || []).some(item => item?.type === "web_search_call");
     if (searched && !answer.startsWith("※")) answer = `${publicNotice(language)}\n\n${answer}`;
     const extractedSources = searched ? extractSources(data, language) : [];
-    const sourceLinks = extractedSources.length ? extractedSources : fallbackOfficialSources(message, language);
+    const sourceLinks = searched ? (extractedSources.length ? extractedSources : fallbackOfficialSources(message, language)) : [];
     const links = [...mapLinks(message, answer, language, searched, resolved.spot), ...sourceLinks].slice(0, 5);
     const meta = {
       searched,
