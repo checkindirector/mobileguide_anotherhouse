@@ -226,6 +226,49 @@ test("unresolved place results still offer a named follow-up and hide unusable s
   assert.equal(res.payload.mapContext, null);
 });
 
+test("unconfirmed hours for a known guide venue show immediate Naver and Google map buttons", async () => {
+  assert.equal(handler._internals.unconfirmedHoursFallback("태극당 영업시간 알려줘", "태극당은 22:00까지 영업하는 것으로 확인했습니다.", "ko", null), null);
+  const naverOutput = {
+    model: "gpt-5.4-mini",
+    output_text: "NAVER_MAP_NOT_CONFIRMED: 영업시간 상세를 읽지 못했습니다.",
+    output: [{ type: "web_search_call", action: { sources: [{ title: "Naver tracking", url: "https://rtt.map.naver.com/trace" }] } }],
+    usage: {}
+  };
+  const crossCheckOutput = {
+    model: "gpt-5.4-mini",
+    output_text: "태극당의 정확한 영업시간은 확인할 수 없습니다. 매장에 전화로 문의해 주세요.",
+    output: [{ type: "web_search_call", action: { sources: [] } }],
+    usage: {}
+  };
+  const { res } = await callApi({ message: "태극당 영업시간 알려줘", language: "ko", history: [] }, [naverOutput, crossCheckOutput], "203.0.113.53");
+  assert.match(res.payload.answer, /네이버지도 또는 Google Maps에서 지금 바로/);
+  assert.doesNotMatch(res.payload.answer, /전화|문의/);
+  assert.deepEqual(res.payload.links.map(link => link.kind), ["map", "map"]);
+  assert.match(res.payload.links[0].label, /^태극당 · 네이버 지도$/);
+  assert.match(res.payload.links[1].label, /^태극당 · Google Maps$/);
+  assert.equal(res.payload.mapContext, null);
+});
+
+test("unconfirmed hours for an exact resolved venue also show immediate map buttons", async () => {
+  const naverOutput = {
+    model: "gpt-5.4-mini",
+    output_text: "NAVER_MAP_NOT_CONFIRMED: 영업시간을 읽지 못했습니다.",
+    output: [{ type: "web_search_call", action: { sources: [] } }],
+    usage: {}
+  };
+  const crossCheckOutput = {
+    model: "gpt-5.4-mini",
+    output_text: "종로온누리약국의 정확한 영업시간은 확인할 수 없어 전화 문의가 필요합니다.\nMAP_SPOT: 종로온누리약국 | 서울특별시 종로구 종로 293",
+    output: [{ type: "web_search_call", action: { sources: [] } }],
+    usage: {}
+  };
+  const { res } = await callApi({ message: "종로온누리약국 영업시간 알려줘", language: "ko", history: [] }, [naverOutput, crossCheckOutput], "203.0.113.54");
+  assert.match(res.payload.answer, /지금 바로 영업시간과 현재 영업 여부/);
+  assert.doesNotMatch(res.payload.answer, /전화|문의/);
+  assert.deepEqual(res.payload.links.map(link => link.kind), ["map", "map"]);
+  assert.deepEqual(res.payload.mapContext, { name: "종로온누리약국", address: "서울특별시 종로구 종로 293" });
+});
+
 test("map offer follow-up returns Naver and Google buttons without another AI call", async () => {
   const history = [
     { role: "user", text: "숙소 근처 약국 추천해줘" },

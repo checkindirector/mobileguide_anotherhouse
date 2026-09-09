@@ -248,6 +248,57 @@ function mapReadyText(language) {
   }[language];
 }
 
+function normalizePlaceText(value) {
+  return String(value || "").toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
+}
+
+function guidePlaceFromQuestion(message, language) {
+  const normalizedMessage = normalizePlaceText(message);
+  const restaurants = GUIDE_KNOWLEDGE.hostRecommendations?.[language]?.restaurants || [];
+  const exact = restaurants.filter(place => [place.name, ...(place.aliases || [])].some(alias => {
+    const normalizedAlias = normalizePlaceText(alias);
+    return normalizedAlias.length >= 3 && normalizedMessage.includes(normalizedAlias);
+  }));
+  if (exact.length === 1) return exact[0];
+  if (exact.length > 1) return null;
+
+  const partial = restaurants.filter(place => {
+    const leadingName = String(place.name || "").trim().split(/\s+/)[0];
+    const normalizedLeadingName = normalizePlaceText(leadingName);
+    return normalizedLeadingName.length >= 3 && normalizedMessage.includes(normalizedLeadingName);
+  });
+  return partial.length === 1 ? partial[0] : null;
+}
+
+function unconfirmedHoursFallback(message, answer, language, resolvedSpot) {
+  if (!BUSINESS_TIME_PATTERN.test(String(message || ""))) return null;
+  const unconfirmed = /(확인(?:할 수|이)?\s*(?:없|되지|어렵)|정확한.{0,24}(?:알 수 없|확인할 수 없|확인되지|확정하지 못)|전화.{0,18}(?:문의|확인)|직접.{0,18}(?:전화|문의)|cannot\s+(?:confirm|verify)|could(?:n't| not)\s+(?:confirm|verify)|call\s+(?:the|them|ahead)|not\s+(?:confirmed|verified)|確認(?:できません|できない|されていません)|電話.{0,12}(?:確認|問い合わせ)|无法确认|無法確認|未能确认|未能確認|电话.{0,12}(?:确认|詢問)|電話.{0,12}(?:確認|詢問))/i.test(String(answer || ""));
+  if (!unconfirmed) return null;
+
+  const knownPlace = guidePlaceFromQuestion(message, language);
+  const spot = validateResolvedSpot(resolvedSpot?.name, resolvedSpot?.address);
+  const name = knownPlace?.name || spot?.name;
+  if (!name) return null;
+  const labels = LINK_LABELS[language];
+  const knownMaps = knownPlace?.maps || {};
+  const links = knownPlace
+    ? [
+        { kind: "map", label: `${name} · ${labels.naver}`, url: knownMaps.naver },
+        { kind: "map", label: `${name} · ${labels.google}`, url: knownMaps.google }
+      ]
+    : spotMapLinks(spot, language);
+  const safeLinks = links.filter(link => trustedUrl(link.url));
+  if (safeLinks.length !== 2) return null;
+  const fallbackCopy = {
+    ko: `${name}의 정확한 최신 영업시간은 현재 검색 결과만으로 확정하지 못했습니다.\n\n아래 네이버지도 또는 Google Maps에서 지금 바로 영업시간과 현재 영업 여부를 확인해 주세요.`,
+    en: `I couldn't reliably confirm the latest hours for ${name}.\n\nUse the Naver Maps or Google Maps buttons below to check its current hours and open status now.`,
+    ja: `${name}の最新営業時間は、現在の検索結果だけでは正確に確認できませんでした。\n\n下のNaver MapsまたはGoogle Mapsから、営業時間と現在の営業状況をすぐに確認してください。`,
+    zh: `目前的搜索结果无法可靠确认${name}的最新营业时间。\n\n请使用下方的 Naver Maps 或 Google Maps 按钮，立即查看营业时间和当前营业状态。`,
+    "zh-TW": `目前的搜尋結果無法可靠確認${name}的最新營業時間。\n\n請使用下方的 Naver Maps 或 Google Maps 按鈕，立即查看營業時間和目前營業狀態。`
+  }[language];
+  return { answer: fallbackCopy, links: safeLinks, mapContext: spot || null };
+}
+
 function timeToMinutes(value) {
   const match = String(value || "").match(/^(\d{1,2}):(\d{2})$/);
   if (!match) return null;
@@ -264,11 +315,10 @@ function seoulMinutes(now = new Date()) {
 
 function verifiedPlaceHours(message, language, now = new Date()) {
   if (!BUSINESS_TIME_PATTERN.test(String(message || ""))) return null;
-  const normalize = value => String(value || "").toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
-  const normalizedMessage = normalize(message);
+  const normalizedMessage = normalizePlaceText(message);
   const restaurants = GUIDE_KNOWLEDGE.hostRecommendations?.[language]?.restaurants || [];
   const place = restaurants.find(item => item?.verifiedHours && [item.name, ...(item.aliases || [])].some(alias => {
-    const normalizedAlias = normalize(alias);
+    const normalizedAlias = normalizePlaceText(alias);
     return normalizedAlias.length >= 4 && normalizedMessage.includes(normalizedAlias);
   }));
   if (!place?.address || !place?.verifiedHours) return null;
@@ -400,6 +450,7 @@ PRIORITY C — GENERAL PUBLIC INFORMATION:
 - GUIDE_PLACE_CANDIDATES are search leads only, not proof. For time-specific dining questions, cross-check the most relevant candidates and return 1–3 usable options whenever reliable current hours can be established.
 - Treat airport bus, airport limousine, limousine bus, and their Korean/Japanese/Chinese equivalents as the same airport-bus category. An airport limousine is a named or premium subtype of airport bus, not a separate transport mode. Distinguish only the exact operator, route, stop, or service class when official evidence does.
 - For dining recommendations tied to a stated time or current opening status, search before answering. Recommend only venues whose recently posted hours cover the requested time; check break time and last order when available. Never infer late opening merely because a venue appears in CURRENT_GUIDE, and do not stop at “call the venue” before attempting the search.
+- If both searches still cannot confirm one exact venue's current hours, do not default to a phone-call instruction. Briefly say that the latest hours and current open status can be checked in Naver Maps or Google Maps. Do not print URLs; the server will attach map buttons when it can safely identify the venue.
 - Prefer official operators, governments, airports, public agencies, and official venue sources. Give the best practical answer instead of immediately deferring to the host.
 - State that this is public information checked outside the property guide. Note that service, hours, and fares can change and suggest confirming with the operator or host when relevant.
 - For routes, respect the user's stated date/time. For late-night or early-airport travel, cover route, departure time, fare, terminal, transfers, and the most realistic alternative when evidence supports them.
@@ -538,9 +589,11 @@ module.exports = async function handler(req, res) {
     const sourceData = { output: [...(naverData?.output || []), ...(data.output || [])] };
     const extractedSources = searched ? extractSources(sourceData, language) : [];
     const sourceLinks = searched ? (extractedSources.length ? extractedSources : fallbackOfficialSources(message, language)) : [];
-    const links = [...mapLinks(message, answer, language, searched, resolved.spot), ...sourceLinks].slice(0, 5);
+    const hoursFallback = unconfirmedHoursFallback(message, answer, language, resolved.spot);
+    if (hoursFallback) answer = hoursFallback.answer;
+    const links = [...(hoursFallback?.links || mapLinks(message, answer, language, searched, resolved.spot)), ...sourceLinks].slice(0, 5);
     const hasMapLinks = links.some(link => link.kind === "map");
-    const mapContext = placeSearch && resolved.spot ? resolved.spot : null;
+    const mapContext = hoursFallback?.mapContext || (placeSearch && resolved.spot ? resolved.spot : null);
     if (placeSearch && !hasMapLinks) {
       const offer = mapContext ? mapOfferText(language) : mapChoiceOfferText(language);
       if (!answer.includes(offer)) answer = `${answer}\n\n${offer}`;
@@ -566,4 +619,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, anotherHouseAccessSupport, verifiedPlaceHours, GUIDE_KNOWLEDGE };
+module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, GUIDE_KNOWLEDGE };
