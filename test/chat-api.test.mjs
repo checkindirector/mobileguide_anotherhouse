@@ -236,7 +236,7 @@ test("unconfirmed hours for a known guide venue show immediate Naver and Google 
   };
   const crossCheckOutput = {
     model: "gpt-5.4-mini",
-    output_text: "태극당의 정확한 영업시간은 확인할 수 없습니다. 매장에 전화로 문의해 주세요.",
+    output_text: "태극당은 지점에 따라 영업시간이 달라서 현재 공개 정보만으로 안전하게 확정하기 어렵습니다. 매장에 전화로 문의해 주세요.",
     output: [{ type: "web_search_call", action: { sources: [] } }],
     usage: {}
   };
