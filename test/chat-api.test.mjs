@@ -70,10 +70,10 @@ test("manual question uses server knowledge, gpt-5.4-mini, and no web search", a
   assert.equal(request.body.model, "gpt-5.4-mini");
   assert.equal(request.body.store, false);
   assert.equal(request.body.tools, undefined);
-  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-08\.1/);
+  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-09\.1/);
   assert.match(request.body.instructions, /MAP_SPOT: <canonical place name> \| <complete street address>/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-08.1-ko");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-09.1-ko");
   assert.equal(res.payload.meta.cachedTokens, 80);
   assert.equal(res.payload.meta.searched, false);
 });
@@ -143,8 +143,7 @@ test("time-specific dining requests force high-context web search", async () => 
   const cases = [
     ["밤 9시 이후 식사 가능한 곳", "203.0.113.45"],
     ["지금 문 연 식당 알려줘", "203.0.113.46"],
-    ["Find a restaurant open after 9 pm", "203.0.113.47"],
-    ["에그드랍 동대문점은 몇 시까지 영업해?", "203.0.113.49"]
+    ["Find a restaurant open after 9 pm", "203.0.113.47"]
   ];
   for (const [message, ip] of cases) {
     const { res, request, requests } = await callApi({ message, language: message.startsWith("Find") ? "en" : "ko" }, [naverOutput, output], ip);
@@ -166,6 +165,24 @@ test("time-specific dining requests force high-context web search", async () => 
     assert.equal(res.payload.meta.searchCalls, 2);
     assert.equal(res.payload.links[0].url, "https://m.place.naver.com/restaurant/123/home");
   }
+});
+
+test("verified Naver Place hours answer directly without an unreliable web-search pass", async () => {
+  const fixed = handler._internals.verifiedPlaceHours("에그드랍 동대문점은 지금 영업 중이야?", "ko", new Date("2026-09-09T09:45:00Z"));
+  assert.match(fixed.answer, /현재 영업 중/);
+  assert.match(fixed.answer, /매일 07:00–22:00/);
+  assert.match(fixed.answer, /오늘은 22:00에 영업 종료/);
+  assert.match(fixed.answer, /네이버지도와 Google Maps 링크/);
+  assert.equal(fixed.links.length, 1);
+  assert.equal(fixed.links[0].url, "https://map.naver.com/p/entry/place/1736990079");
+  assert.deepEqual(fixed.mapContext, { name: "에그드랍 동대문점", address: "서울 중구 을지로 255 기승빌딩 B동 에그드랍" });
+
+  const { res, requests } = await callApi({ message: "에그드랍은 몇 시까지 영업해?", language: "ko", history: [] }, { model: "unused" }, "203.0.113.49");
+  assert.equal(requests.length, 0);
+  assert.equal(res.payload.model, "another-house-verified-place");
+  assert.equal(res.payload.meta.verifiedPlaceHours, true);
+  assert.match(res.payload.answer, /매일 07:00–22:00/);
+  assert.doesNotMatch(res.payload.answer, /전화|문의/);
 });
 
 test("place results offer maps only after an exact spot is resolved", async () => {

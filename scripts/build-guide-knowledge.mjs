@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-08.1";
+const VERSION = "2026-09-09.1";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -57,7 +57,7 @@ const maps = {
 
 const knowledge = {
   version: VERSION,
-  generatedAt: "2026-09-08",
+  generatedAt: "2026-09-09",
   sourceOfTruth: "Current rendered site data",
   canonicalUrl: SITE_URL,
   languages,
@@ -131,7 +131,10 @@ const knowledge = {
       description: place.text,
       walk: place.walk,
       hostPick: Boolean(place.host),
-      maps: { naver: place.naver, google: place.google }
+      maps: { naver: place.naver, google: place.google },
+      ...(place.aliases ? { aliases: place.aliases } : {}),
+      ...(place.address ? { address: place.address } : {}),
+      ...(place.verifiedHours ? { verifiedHours: place.verifiedHours } : {})
     })),
     tours: localize(tours.places, language).map(place => ({
       name: place.name,

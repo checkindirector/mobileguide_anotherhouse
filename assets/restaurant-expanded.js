@@ -132,6 +132,17 @@
   add('eggdrop', 'eggdrop', {
     query: '에그드랍 동대문점',
     name: I('에그드랍 동대문점', 'Egg Drop Dongdaemun', 'エッグドロップ 東大門', 'Egg Drop 东大门店', "Egg Drop 東大門店"),
+    aliases: I(['에그드랍 동대문점', '에그드랍'], ['Egg Drop Dongdaemun', 'Egg Drop'], ['エッグドロップ 東大門', 'エッグドロップ'], ['Egg Drop 东大门店', 'Egg Drop'], ['Egg Drop 東大門店', 'Egg Drop']),
+    address: I('서울 중구 을지로 255 기승빌딩 B동 에그드랍', 'Egg Drop, Building B, Giseung Building, 255 Eulji-ro, Jung-gu, Seoul', 'ソウル特別市 中区 乙支路255 キスンビルB棟 エッグドロップ', '首尔特别市中区乙支路255号 Kiseung大厦B栋 Egg Drop', '首爾特別市中區乙支路255號 Kiseung大廈B棟 Egg Drop'),
+    verifiedHours: {
+      schedule: I('매일 07:00–22:00', 'Daily 07:00–22:00', '毎日 07:00–22:00', '每天 07:00–22:00', '每天 07:00–22:00'),
+      open: '07:00',
+      close: '22:00',
+      timezone: 'Asia/Seoul',
+      verifiedAt: '2026-09-09',
+      sourceName: 'Naver Place',
+      sourceUrl: 'https://map.naver.com/p/entry/place/1736990079'
+    },
     category: I('브런치·샌드위치', 'Brunch · Sandwich', 'ブランチ・サンド', '早午餐·三明治', "早午餐·三明治"),
     categories: ['brunch', 'breakfast'],
     rating: '4.3',

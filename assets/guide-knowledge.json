@@ -1,6 +1,6 @@
 {
-  "version": "2026-09-08.1",
-  "generatedAt": "2026-09-08",
+  "version": "2026-09-09.1",
+  "generatedAt": "2026-09-09",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
   "languages": [
@@ -1615,6 +1615,20 @@
           "maps": {
             "naver": "https://map.naver.com/p/search/%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90",
             "google": "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90"
+          },
+          "aliases": [
+            "에그드랍 동대문점",
+            "에그드랍"
+          ],
+          "address": "서울 중구 을지로 255 기승빌딩 B동 에그드랍",
+          "verifiedHours": {
+            "schedule": "매일 07:00–22:00",
+            "open": "07:00",
+            "close": "22:00",
+            "timezone": "Asia/Seoul",
+            "verifiedAt": "2026-09-09",
+            "sourceName": "Naver Place",
+            "sourceUrl": "https://map.naver.com/p/entry/place/1736990079"
           }
         },
         {
@@ -2132,6 +2146,20 @@
           "maps": {
             "naver": "https://map.naver.com/p/search/%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90",
             "google": "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90"
+          },
+          "aliases": [
+            "Egg Drop Dongdaemun",
+            "Egg Drop"
+          ],
+          "address": "Egg Drop, Building B, Giseung Building, 255 Eulji-ro, Jung-gu, Seoul",
+          "verifiedHours": {
+            "schedule": "Daily 07:00–22:00",
+            "open": "07:00",
+            "close": "22:00",
+            "timezone": "Asia/Seoul",
+            "verifiedAt": "2026-09-09",
+            "sourceName": "Naver Place",
+            "sourceUrl": "https://map.naver.com/p/entry/place/1736990079"
           }
         },
         {
@@ -2649,6 +2677,20 @@
           "maps": {
             "naver": "https://map.naver.com/p/search/%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90",
             "google": "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90"
+          },
+          "aliases": [
+            "エッグドロップ 東大門",
+            "エッグドロップ"
+          ],
+          "address": "ソウル特別市 中区 乙支路255 キスンビルB棟 エッグドロップ",
+          "verifiedHours": {
+            "schedule": "毎日 07:00–22:00",
+            "open": "07:00",
+            "close": "22:00",
+            "timezone": "Asia/Seoul",
+            "verifiedAt": "2026-09-09",
+            "sourceName": "Naver Place",
+            "sourceUrl": "https://map.naver.com/p/entry/place/1736990079"
           }
         },
         {
@@ -3166,6 +3208,20 @@
           "maps": {
             "naver": "https://map.naver.com/p/search/%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90",
             "google": "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90"
+          },
+          "aliases": [
+            "Egg Drop 东大门店",
+            "Egg Drop"
+          ],
+          "address": "首尔特别市中区乙支路255号 Kiseung大厦B栋 Egg Drop",
+          "verifiedHours": {
+            "schedule": "每天 07:00–22:00",
+            "open": "07:00",
+            "close": "22:00",
+            "timezone": "Asia/Seoul",
+            "verifiedAt": "2026-09-09",
+            "sourceName": "Naver Place",
+            "sourceUrl": "https://map.naver.com/p/entry/place/1736990079"
           }
         },
         {
@@ -3683,6 +3739,20 @@
           "maps": {
             "naver": "https://map.naver.com/p/search/%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90",
             "google": "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90"
+          },
+          "aliases": [
+            "Egg Drop 東大門店",
+            "Egg Drop"
+          ],
+          "address": "首爾特別市中區乙支路255號 Kiseung大廈B棟 Egg Drop",
+          "verifiedHours": {
+            "schedule": "每天 07:00–22:00",
+            "open": "07:00",
+            "close": "22:00",
+            "timezone": "Asia/Seoul",
+            "verifiedAt": "2026-09-09",
+            "sourceName": "Naver Place",
+            "sourceUrl": "https://map.naver.com/p/entry/place/1736990079"
           }
         },
         {
