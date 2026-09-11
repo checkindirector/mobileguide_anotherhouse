@@ -19,7 +19,9 @@ const AIRPORT_TO_PROPERTY_PATTERN = /(?:(?:인천|김포)\s*(?:국제)?공항\s*
 const DINING_INTENT_PATTERN = /(식사|밥|먹을|먹는|먹고|음식|식당|맛집|레스토랑|카페|치킨|국밥|분식|브런치|restaurant|food|meal|dinner|breakfast|lunch|eat|cafe|食事|ご飯|食べ|飲食店|レストラン|カフェ|餐厅|餐廳|吃饭|吃飯|美食|咖啡店)/i;
 const FAMILY_GUEST_PATTERN = /(아이|어린이|아기|유아|자녀|가족|child|children|kid|kids|baby|toddler|family|子ども|子供|こども|家族|儿童|兒童|孩子|宝宝|寶寶|亲子|親子|家庭)/i;
 const BUSINESS_TIME_PATTERN = /(몇\s*시\s*(?:까지|에|부터)?|(?:밤|저녁|새벽|오전|오후)?\s*\d{1,2}\s*시\s*(?:이후|전|까지|넘어|에도)?|늦게\s*까지|심야|지금\s*(?:영업|운영|열|먹|문\s*(?:열|연))|현재\s*(?:영업|운영)|영업\s*(?:시간|중|종료)|운영\s*시간|문\s*(?:열|연|닫)|마감|라스트\s*오더|after\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?|before\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?|open\s*(?:now|late|until)|late\s*night|closing\s*time|business\s*hours|last\s*order|\d{1,2}\s*時\s*(?:以降|まで|前)|深夜|遅くまで|営業時間|営業中|ラストオーダー|\d{1,2}\s*[点點时時]\s*(?:以后|以後|之前|前|营业|營業)?|深夜|营业时间|營業時間|现在营业|現在營業|打烊|最后点餐|最後點餐)/i;
-const PROPERTY_ONLY_PATTERN = /(어나더\s*하우스|숙소|호스텔|객실|도어|출입|현관|예약|승인|수수료|숙박비|조식|어메니티|반려동물|흡연|파티|체크인|체크아웃|와이파이|another\s*house|property|hostel|room|door|booking|fee|breakfast|amenit|pet|smoking|party|check.?in|check.?out|wifi|password|door code|当館|宿|客室|チェックイン|チェックアウト|予約|部屋|パスワード|住宿|旅舍|客房|入住|退房|预订|預訂|房间|房間|密码|密碼)/i;
+const PROPERTY_ONLY_PATTERN = /(어나더\s*하우스|숙소|호스텔|객실|도어|출입|현관|예약|승인|수수료|숙박비|조식|어메니티|반려동물|흡연|파티|체크인|체크아웃|와이파이|짐\s*보관|짐\s*맡|러기지\s*룸|another\s*house|property|hostel|room|door|booking|fee|breakfast|amenit|pet|smoking|party|check.?in|check.?out|wifi|password|door code|luggage\s*storage|store\s*luggage|leave\s*luggage|当館|宿|客室|チェックイン|チェックアウト|予約|部屋|パスワード|荷物(?:保管|預かり|を預)|住宿|旅舍|客房|入住|退房|预订|預訂|房间|房間|密码|密碼|行李(?:寄存|寄放|房)|寄(?:存|放)行李)/i;
+const EXPLICIT_PROPERTY_PATTERN = /(어나더\s*하우스|숙소|호스텔|another\s*house|property|hostel|当館|宿|住宿|旅舍)/i;
+const PUBLIC_LUGGAGE_PLACE_PATTERN = /(서울역|공항|터미널|코인\s*(?:락커|라커)|보관소\s*(?:찾|어디)|seoul\s*station|airport|terminal|coin\s*locker|luggage\s*locker|駅で|空港|コインロッカー|机场|機場|车站|車站|寄存处|寄放處)/i;
 const LOCAL_PLACE_PATTERN = /(식당|맛집|음식|카페|치킨|국밥|분식|브런치|술집|바\b|병원|약국|편의점|마트|시장|백화점|쇼핑|공원|박물관|미술관|관광지|명소|궁|성곽|주차장|공영주차장|역\b|정류장|터미널|공항|꽃집|세탁소|빨래방|코인세탁|은행|atm|환전소|우체국|경찰서|화장실|미용실|네일샵|서점|문구점|놀이터|키즈카페|restaurant|food|cafe|bar\b|hospital|clinic|pharmacy|convenience store|mart|market|department store|shopping|park|museum|gallery|attraction|palace|parking|station|stop|terminal|airport|florist|laundry|laundromat|bank|currency exchange|post office|police station|restroom|toilet|salon|bookstore|stationery|playground|kids cafe|飲食店|レストラン|カフェ|病院|薬局|コンビニ|市場|百貨店|公園|博物館|美術館|観光地|駐車場|駅|停留所|空港|花屋|洗濯店|コインランドリー|銀行|両替所|郵便局|警察署|トイレ|美容院|書店|文具店|遊び場|餐厅|餐廳|咖啡店|医院|醫院|药店|藥局|便利店|市场|市場|百货|百貨|公园|公園|博物馆|博物館|美术馆|美術館|景点|景點|停车场|停車場|车站|車站|机场|機場|花店|洗衣店|自助洗衣|银行|銀行|兑换处|兌換處|邮局|郵局|警察局|卫生间|洗手間|厕所|廁所|美容院|书店|書店|文具店|游乐场|遊樂場)/i;
 const PLACE_DISCOVERY_PATTERN = /(근처|주변|가까운|추천|찾아|어디|위치|주소|가는\s*길|가려면|지도|영업|문\s*(?:열|닫)|near|nearby|closest|recommend|find|where|location|address|directions?|map|open|hours|近く|周辺|おすすめ|探|どこ|場所|住所|地図|営業|附近|周边|周邊|最近|推荐|推薦|查找|哪里|哪裡|位置|地址|地图|地圖|营业|營業)/i;
 const PROPERTY_ARRIVAL_PATTERN = /(어나더\s*하우스|another\s*house|선일\s*빌딩|sunil\s*building|ソニルビル|동대문역\s*6번\s*출구|dongdaemun\s*(?:station\s*)?exit\s*6|東大門駅?\s*6番出口|东大门站?\s*6号出口|東大門站?\s*6號出口).{0,100}(입구|찾|어디|도착|가는\s*길|랜드마크|건물|리셉션|reception|entrance|find|arrive|directions?|landmark|building|入口|探|到着|行き方|建物|前台|櫃檯|怎么走|怎麼走)|(?:입구|찾|어디|도착|가는\s*길|랜드마크|건물|리셉션|reception|entrance|find|arrive|directions?|landmark|building|入口|探|到着|行き方|建物|前台|櫃檯|怎么走|怎麼走).{0,100}(어나더\s*하우스|another\s*house|선일\s*빌딩|sunil\s*building|ソニルビル|동대문역\s*6번\s*출구|dongdaemun\s*(?:station\s*)?exit\s*6|東大門駅?\s*6番出口|东大门站?\s*6号出口|東大門站?\s*6號出口)/i;
@@ -128,6 +130,7 @@ function localizeKnowledge(language) {
     return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, pick(item)]));
   };
   const localized = pick(GUIDE_KNOWLEDGE);
+  delete localized.quickGuide;
   const services = localized.verifiedAirportTransport?.gimpoLine5?.services;
   if (services) {
     localized.verifiedAirportTransport.gimpoLine5.serviceSummary = Object.fromEntries(Object.entries(services).map(([day, trains]) => [day, { departures: trains.length, first: trains[0], last: trains.at(-1) }]));
@@ -136,11 +139,28 @@ function localizeKnowledge(language) {
   return localized;
 }
 
+function normalizeGuideMatch(value) {
+  return String(value || "").normalize("NFKC").toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
+}
+
+function quickGuideFromQuestion(message, language) {
+  const topics = GUIDE_KNOWLEDGE.quickGuide?.[language] || GUIDE_KNOWLEDGE.quickGuide?.ko || [];
+  const normalized = normalizeGuideMatch(message);
+  const explicitProperty = EXPLICIT_PROPERTY_PATTERN.test(message);
+  const externalLuggagePlace = PUBLIC_LUGGAGE_PLACE_PATTERN.test(message);
+  for (const topic of topics) {
+    if (topic.id === "luggage" && externalLuggagePlace && !explicitProperty) continue;
+    if ((topic.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword)))) return topic;
+  }
+  return null;
+}
+
 function isPlaceSearchIntent(message) {
   const text = String(message || "").toLocaleLowerCase();
   if (MAP_APP_GUIDANCE_PATTERN.test(text) || NON_PLACE_TRAVEL_PATTERN.test(text)) return false;
   if (PROPERTY_ARRIVAL_PATTERN.test(text) && !BUSINESS_TIME_PATTERN.test(text)) return false;
-  const propertyOnly = PROPERTY_ONLY_PATTERN.test(text);
+  if (PUBLIC_LUGGAGE_PLACE_PATTERN.test(text) && PLACE_DISCOVERY_PATTERN.test(text) && !EXPLICIT_PROPERTY_PATTERN.test(text)) return true;
+  const propertyOnly = PROPERTY_ONLY_PATTERN.test(text) && !(PUBLIC_LUGGAGE_PLACE_PATTERN.test(text) && !EXPLICIT_PROPERTY_PATTERN.test(text));
   const hasPlaceCategory = LOCAL_PLACE_PATTERN.test(text) || DINING_INTENT_PATTERN.test(text);
   const asksToDiscover = PLACE_DISCOVERY_PATTERN.test(text);
   const asksVenueHours = BUSINESS_TIME_PATTERN.test(text) && !propertyOnly;
@@ -150,7 +170,7 @@ function isPlaceSearchIntent(message) {
 function searchLevelFor(message) {
   const text = message.toLocaleLowerCase();
   if (PROPERTY_ARRIVAL_PATTERN.test(text) && !/(공항|airport|空港|机场|機場)/i.test(text)) return null;
-  const propertyOnly = PROPERTY_ONLY_PATTERN.test(text);
+  const propertyOnly = PROPERTY_ONLY_PATTERN.test(text) && !(PUBLIC_LUGGAGE_PLACE_PATTERN.test(text) && !EXPLICIT_PROPERTY_PATTERN.test(text));
   const placeSearch = isPlaceSearchIntent(text);
   const timeSensitiveDining = DINING_INTENT_PATTERN.test(text) && BUSINESS_TIME_PATTERN.test(text);
   const timeSensitivePublicInfo = BUSINESS_TIME_PATTERN.test(text) && !propertyOnly;
@@ -887,6 +907,7 @@ function systemInstructions(language, guideText) {
 
 PRIORITY A — CURRENT PROPERTY GUIDE:
 - If CURRENT_GUIDE clearly answers the question, answer directly without a greeting or unnecessary introduction.
+- Treat every current site section—home profile, room facts, check-in, check-out, luggage, parking, arrival, Wi-Fi, appliances, laundry, waste, rules, restaurants and tours—as first-party property knowledge in all five supported languages. Never call it public web information or claim it is unavailable when the corresponding CURRENT_GUIDE field exists.
 - Preserve exact times, address, procedures, limits, and troubleshooting steps. Add one or two immediately useful details when appropriate.
 - For the final walk from Dongdaemun Station Exit 6, building entrance, landmarks, floor, or reception, use CURRENT_GUIDE.arrivalAndTransport.localArrival exactly. Never replace these property directions with booking listings, blogs, encyclopedias, or a web-search guess.
 - A venue being merely listed in CURRENT_GUIDE does not confirm its current business hours. A venue entry with verifiedHours is an exception: use that exact Naver Place-verified schedule directly. For all other dining questions with a stated time, “open now,” late-night availability, or last-order intent, continue to Priority C and use web search.
@@ -973,6 +994,11 @@ module.exports = async function handler(req, res) {
   if (mapFollowup) {
     console.log(JSON.stringify({ event: "concierge_map_followup", language, place: mapFollowup.mapContext.name, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ ...mapFollowup, model: "another-house-map-links", meta: { searched: false, mapFollowup: true, durationMs: Date.now() - startedAt } });
+  }
+  const quickGuide = quickGuideFromQuestion(message, language);
+  if (quickGuide) {
+    console.log(JSON.stringify({ event: "concierge_site_guide", topic: quickGuide.id, language, durationMs: Date.now() - startedAt }));
+    return res.status(200).json({ answer: quickGuide.answer, model: "another-house-site-guide", links: [], mapContext: null, meta: { searched: false, siteGuide: true, topic: quickGuide.id, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
   const airportTransport = verifiedAirportTransport(message, language);
   if (airportTransport) {
@@ -1112,4 +1138,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };
+module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, normalizeGuideMatch, quickGuideFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };

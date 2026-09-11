@@ -8,7 +8,7 @@ const root = resolve(import.meta.dirname, "..");
 test("generated knowledge mirrors current public guide content without secrets", async () => {
   const raw = await readFile(resolve(root, "assets/guide-knowledge.json"), "utf8");
   const knowledge = JSON.parse(raw);
-  assert.equal(knowledge.version, "2026-09-11.6");
+  assert.equal(knowledge.version, "2026-09-11.7");
   assert.deepEqual(knowledge.languages, ["ko", "en", "ja", "zh", "zh-TW"]);
   assert.equal(knowledge.property.ko.address, "서울시 종로구 종로 294 선일빌딩 5층");
   assert.equal(knowledge.stay.ko.checkin.summary.includes("15:00"), true);
@@ -40,6 +40,22 @@ test("generated knowledge mirrors current public guide content without secrets",
   assert.deepEqual(knowledge.verifiedAirportTransport.gimpoLine5.services.DAY[0], { departure: "05:37", arrival: "06:23" });
   assert.deepEqual(knowledge.verifiedAirportTransport.gimpoLine5.services.DAY.at(-1), { departure: "24:09", arrival: "24:55" });
   assert.match(knowledge.connectivity.ko.passwordPolicy, /공개 챗봇에서 제공하지 않습니다/);
+  const expectedQuickTopics = ["luggage", "checkin", "checkout", "wifi", "parking", "rules", "appliances", "laundry", "waste", "rooms", "contact"];
+  for (const language of knowledge.languages) {
+    assert.deepEqual(knowledge.quickGuide[language].map(topic => topic.id), expectedQuickTopics);
+    for (const topic of knowledge.quickGuide[language]) {
+      assert.ok(topic.keywords.length >= 3, `${language}/${topic.id} must have localized matching terms`);
+      assert.ok(topic.answer.length >= 10, `${language}/${topic.id} must have a current site answer`);
+      assert.match(topic.source, /^https:\/\/anotherhouse-guide\.vercel\.app\//);
+    }
+    assert.ok(knowledge.stay[language].profile.body.length > 40);
+    assert.equal(knowledge.stay[language].profile.facts.length, 3);
+  }
+  assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "luggage").answer, /503호 앞.*체크아웃 당일.*무료/s);
+  assert.match(knowledge.quickGuide.en.find(topic => topic.id === "luggage").answer, /Room 503.*day of checkout/s);
+  assert.match(knowledge.quickGuide.ja.find(topic => topic.id === "luggage").answer, /503号室.*チェックアウト当日/s);
+  assert.match(knowledge.quickGuide.zh.find(topic => topic.id === "luggage").answer, /503号房.*退房当天/s);
+  assert.match(knowledge.quickGuide["zh-TW"].find(topic => topic.id === "luggage").answer, /503號房.*退房當天/s);
   assert.doesNotMatch(raw, /another1234/);
   assert.doesNotMatch(raw, /doorlockImage|roomDoorlockImage/);
 });
@@ -49,6 +65,8 @@ test("server and browser both reference the same generated knowledge bundle", as
   const client = await readFile(resolve(root, "assets/master-app.js"), "utf8");
   assert.match(api, /require\("\.\.\/assets\/guide-knowledge\.json"\)/);
   assert.match(client, /fetch\('\/assets\/guide-knowledge\.json'/);
+  assert.match(api, /quickGuideFromQuestion/);
+  assert.match(client, /fallbackGuideTopic/);
   assert.doesNotMatch(client, /buildChatContext/);
   assert.match(client, /anchor\.target='_blank'/);
   assert.match(client, /anchor\.rel='noopener noreferrer'/);

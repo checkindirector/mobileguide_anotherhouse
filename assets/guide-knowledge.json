@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-11.6",
+  "version": "2026-09-11.7",
   "generatedAt": "2026-09-11",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -67,8 +67,654 @@
       }
     }
   },
+  "quickGuide": {
+    "ko": [
+      {
+        "id": "luggage",
+        "keywords": [
+          "짐보관",
+          "짐 맡",
+          "짐을 맡",
+          "러기지룸",
+          "캐리어 보관",
+          "수하물 보관"
+        ],
+        "answer": "네, 짐 보관이 가능합니다.\n503호 앞 러기지 룸\n체크인 전 이용에 필요한 출입 정보는 예약 플랫폼 메시지에서 확인해 주세요.\n체크아웃 당일에 한해 러기지룸에 무료로 보관할 수 있습니다.\n레이트 체크아웃은 불가합니다.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      {
+        "id": "checkin",
+        "keywords": [
+          "체크인",
+          "입실 시간",
+          "입실 방법"
+        ],
+        "answer": "체크인은 15:00부터입니다. 선일빌딩 5층 키오스크에서 예약자 정보로 셀프 체크인을 진행해 주세요.\n체크인 하루 전부터 당일 오전 9시 사이에 예약 플랫폼 메시지로 발송된 체크인 안내를 확인합니다.\n15:00 이후 5층 키오스크에서 예약 바우처에 적힌 예약자 이름 또는 예약 번호 뒤 4자리로 예약을 조회합니다.\n화면 안내에 따라 셀프 체크인을 완료하고 객실 번호와 카드키를 확인합니다.\n체크인 후에는 카드키를 출입구 옆 기기에 태그하여 문을 엽니다.\n짐은 503호 앞 러기지룸에 보관할 수 있습니다. 체크인 전 짐 보관을 위한 출입정보는 예약 메시지에서 확인해 주세요.\n예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴)을 통해 메시지로 호스트에게 연락해 주세요.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      {
+        "id": "checkout",
+        "keywords": [
+          "체크아웃",
+          "퇴실 시간",
+          "퇴실 방법"
+        ],
+        "answer": "체크아웃은 11:00까지입니다. 카드키 반납과 공용공간 정리를 마친 뒤 출입구 문이 완전히 닫혔는지 확인해 주세요.\n객실에 두고 가는 물건이 없는지 확인하고, 사용한 공용 물품은 원위치해 주세요.\n사용한 식기는 설거지 후 원위치하고, 쓰레기는 공용 주방에서 종류별로 분리해 주세요.\n사용한 수건은 샤워실 앞 파우더룸의 타월 바구니에 넣어 주세요.\n에너지 절약을 위해 객실 카드키를 뽑아 전원을 차단해 주세요.\n키오스크에서 체크아웃을 선택한 뒤 카드키를 반납해 주세요.\n나오실 때 다른 투숙객의 안전을 위해 출입구 문이 완전히 닫혔는지 확인해 주세요.\n체크아웃 당일에 한해 러기지룸에 무료로 보관할 수 있습니다.\n레이트 체크아웃은 불가합니다.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+      },
+      {
+        "id": "wifi",
+        "keywords": [
+          "와이파이",
+          "wifi",
+          "wi-fi",
+          "인터넷"
+        ],
+        "answer": "another\n복도 천장 및 라운지 테이블 위쪽\nWi-Fi 비밀번호는 현재 숙소 Wi-Fi 안내 화면 또는 예약 플랫폼 메시지에서 확인해 주세요.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=wifi"
+      },
+      {
+        "id": "parking",
+        "keywords": [
+          "숙소 주차",
+          "건물 주차",
+          "주차 가능",
+          "주차 안내"
+        ],
+        "answer": "건물 내 주차 불가\n차량 이용 시 아래 주변 유료 주차장을 이용해 주세요. 현장 운영 및 요금은 변경될 수 있으므로 입차 전 다시 확인해 주세요.\n동대문호텔 민영 주차장\n서울 종로구 창신동 444-1\n1시간 4,000원 · 하루 최대 20,000원",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      {
+        "id": "rules",
+        "keywords": [
+          "숙소 이용 규칙",
+          "숙소 규칙",
+          "이용 규칙",
+          "하우스 룰"
+        ],
+        "answer": "모두의 안전과 편안한 휴식을 위해 지켜 주세요.\n어나더하우스는 여성 전용 숙소이며, 예약 인원을 초과한 방문객의 출입은 불가합니다.\n숙소 전 구역은 금연이며 반려동물, 파티, 상업 촬영은 허용되지 않습니다.\n매너타임은 22:00부터 05:00까지입니다. 늦은 시간에는 소음에 특히 유의해 주세요.\n취사는 가능하지만 연기나 냄새가 강한 고기·생선류 조리는 삼가 주세요.\n냉장고에 음식물을 보관할 때는 포스트잇에 이름과 보관일 또는 퇴실일을 적어 붙여 주세요.\n게스트 박스의 공용 물품은 사용 후 원위치해 주세요. 일회용 소모품은 필요한 만큼만 이용해 주세요.\n기물이 파손된 경우 예약 플랫폼 메시지로 즉시 호스트에게 알려 주세요.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=rules"
+      },
+      {
+        "id": "appliances",
+        "keywords": [
+          "냉난방",
+          "에어컨",
+          "난방",
+          "인덕션",
+          "전자레인지",
+          "냉장고",
+          "기기 사용"
+        ],
+        "answer": "사진에서 확인한 모델명과 제조사 공식 자료를 대조해, 숙소에서 자주 쓰는 조작만 정리했습니다.\n객실 냉난방\n전자레인지\n하이라이트 전기쿡탑\n정수기\n공용 냉장고\n게스트박스",
+        "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+      },
+      {
+        "id": "laundry",
+        "keywords": [
+          "세탁",
+          "건조기",
+          "빨래"
+        ],
+        "answer": "밤 10시 이전에 사용을 마쳐 주세요. 건조 직후에는 내부와 세탁물이 매우 뜨거우므로 화상에 주의하고, 건조 후 먼지 필터를 정리해 주세요.\n세제와 섬유유연제는 세탁기 위 선반에 있습니다.\n세탁물을 넣고 문을 완전히 닫습니다.\n전원 버튼을 눌러 제품을 켭니다.\n코스 선택 버튼으로 세탁물에 맞는 코스를 선택합니다.\n필요하면 헹굼횟수·탈수세기·물온도를 조절한 뒤 시작/일시정지 버튼을 1초간 눌러 시작합니다. 밤 10시 이전에 이용을 마쳐 주세요.\n완료 후 세탁물을 바로 꺼내고 세제 투입구와 문을 열어 둡니다. 건조 후에는 먼지 필터를 정리해 주세요.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=laundry"
+      },
+      {
+        "id": "waste",
+        "keywords": [
+          "쓰레기",
+          "분리배출",
+          "분리수거"
+        ],
+        "answer": "일반 쓰레기와 재활용은 공용 주방 테이블 맞은편, 음식물 쓰레기는 인덕션 옆 전용 쓰레기통에 버려 주세요.\n일반 쓰레기는 공용 주방 테이블 맞은편의 일반 쓰레기통에 버립니다.\n캔·병·플라스틱 등 재활용품은 같은 공간의 표시에 맞춰 분리합니다.\n음식물 쓰레기는 인덕션 근처 구석에 마련된 음식물 전용 쓰레기통에 버립니다.\n용기의 내용물을 비우고 가볍게 헹군 뒤 분리배출해 주세요.\n대형 쓰레기나 처리 방법이 불분명한 물건은 임의로 버리지 말고 호스트에게 문의해 주세요.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=trash"
+      },
+      {
+        "id": "rooms",
+        "keywords": [
+          "객실 종류",
+          "방 종류",
+          "싱글룸",
+          "2인실",
+          "더블룸",
+          "샤워실",
+          "화장실 몇"
+        ],
+        "answer": "서울 여행의 하루를 조용히 마무리할 수 있는 작은 공간. 어나더하우스는 동대문역 인근에 위치한 여성 전용 스테이로, 개인 여행객을 위한 싱글룸과 친구 혹은 가족과 머물 수 있는 2인실을 운영하고 있습니다. 화려한 시설보다는 편안한 휴식과 실용적인 숙박에 집중했으며, 혼자 또는 함께 서울을 여행하는 여성 여행객에게 아늑한 쉼터가 되어드립니다.\n싱글룸 11실 · 더블룸 1실\n공용 샤워실 3칸 · 화장실 2칸\n동대문역 6번 출구 도보 30초",
+        "source": "https://anotherhouse-guide.vercel.app/?page=gallery"
+      },
+      {
+        "id": "contact",
+        "keywords": [
+          "호스트 연락",
+          "호스트한테 연락",
+          "도움 필요",
+          "문의 방법",
+          "연락 방법"
+        ],
+        "answer": "예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴)을 통해 메시지로 호스트에게 연락해 주세요.",
+        "source": "https://anotherhouse-guide.vercel.app/"
+      }
+    ],
+    "en": [
+      {
+        "id": "luggage",
+        "keywords": [
+          "luggage storage",
+          "store luggage",
+          "leave luggage",
+          "baggage storage",
+          "store my suitcase"
+        ],
+        "answer": "Yes, luggage storage is available.\nLuggage room in front of Room 503\nCheck your booking-platform message for the access information needed before check-in.\nFree luggage storage is available in the luggage room until later on the day of checkout.\nLate checkout is not available.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      {
+        "id": "checkin",
+        "keywords": [
+          "check in",
+          "check-in",
+          "arrival procedure"
+        ],
+        "answer": "Check-in begins at 15:00. Use the kiosk on the 5th floor of Sunil Building with the booking guest’s details.\nCheck the arrival instructions sent through your booking platform between the day before check-in and 09:00 on arrival day.\nAfter 15:00, use the kiosk on the 5th floor and search with the name shown on the booking voucher or the last four digits of the reservation number.\nComplete self check-in on screen and confirm your room number and key card.\nAfter check-in, tap the key card on the reader beside the entrance.\nLuggage can be stored in the luggage room in front of Room 503. For luggage access before check-in, use the access information in your booking message.\nPlease contact the host by message through the platform you booked with (Booking.com, Agoda, or Trip.com).",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      {
+        "id": "checkout",
+        "keywords": [
+          "check out",
+          "check-out",
+          "departure procedure"
+        ],
+        "answer": "Check out by 11:00. Return the key card, restore shared items, and make sure the entrance door is fully closed.\nCheck for personal belongings and return shared items to their original places.\nWash and return used dishes, then sort waste in the shared kitchen.\nPlace used towels in the towel basket in the powder room outside the showers.\nRemove the room key card to switch off the room power.\nSelect checkout at the kiosk and return the key card.\nFor everyone’s safety, make sure the entrance door is fully closed when you leave.\nFree luggage storage is available in the luggage room until later on the day of checkout.\nLate checkout is not available.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+      },
+      {
+        "id": "wifi",
+        "keywords": [
+          "wifi",
+          "wi-fi",
+          "internet"
+        ],
+        "answer": "another\nCorridor ceiling and above the lounge table\nCheck the current Wi-Fi guide screen or your booking-platform message for the password.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=wifi"
+      },
+      {
+        "id": "parking",
+        "keywords": [
+          "property parking",
+          "on-site parking",
+          "can i park",
+          "parking at the hostel"
+        ],
+        "answer": "No on-site parking\nPlease use the nearby paid parking lot below. Operations and rates may change, so confirm them before entering.\nDongdaemun Hotel private parking\n444-1 Changsin-dong, Jongno-gu, Seoul\n₩4,000 per hour · up to ₩20,000 per day",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      {
+        "id": "rules",
+        "keywords": [
+          "house rules",
+          "property rules",
+          "stay rules"
+        ],
+        "answer": "Please follow these rules for everyone’s safety and comfort.\nAnother House is women-only. Visitors beyond the booked guest count are not allowed.\nSmoking, pets, parties, and commercial filming are not permitted anywhere in the property.\nQuiet hours are 22:00–05:00. Please keep noise especially low late at night.\nCooking is allowed, but avoid meat, fish, or other foods that create strong smoke or odors.\nLabel refrigerator items with your name and the storage date or checkout date.\nReturn shared Guest Box items after use and take only the disposable supplies you need.\nReport any damaged item to the host immediately through your booking platform message.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=rules"
+      },
+      {
+        "id": "appliances",
+        "keywords": [
+          "heating",
+          "air conditioning",
+          "air conditioner",
+          "induction",
+          "microwave",
+          "refrigerator",
+          "appliance"
+        ],
+        "answer": "We matched the photographed models with manufacturer documentation and summarized the controls guests use most.\nRoom climate control\nMicrowave\nCeramic cooktop\nWater purifier\nShared refrigerator\nGuest Box",
+        "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+      },
+      {
+        "id": "laundry",
+        "keywords": [
+          "laundry",
+          "washing machine",
+          "dryer"
+        ],
+        "answer": "Finish using the machine before 22:00. The drum and laundry are very hot after drying; avoid burns and clean the lint filter.\nDetergent and fabric softener are on the shelf above the washer.\nLoad the laundry and close the door completely.\nPress Power.\nSelect the appropriate cycle.\nAdjust the rinse count, spin speed or water temperature if needed, then hold Start/Pause for one second. Finish before 22:00.\nRemove laundry promptly, leave the detergent drawer and door open, and clean the lint filter after drying.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=laundry"
+      },
+      {
+        "id": "waste",
+        "keywords": [
+          "trash",
+          "waste",
+          "recycling",
+          "garbage"
+        ],
+        "answer": "General waste and recycling are opposite the shared-kitchen table. Food waste goes in the dedicated bin beside the cooktop.\nPut general waste in the general-waste bin opposite the shared-kitchen table.\nSort cans, bottles, plastics, and other recycling according to the labels in the same area.\nPut food waste in the dedicated bin in the corner beside the cooktop.\nEmpty and lightly rinse containers before recycling.\nAsk the host before discarding bulky or unclear items.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=trash"
+      },
+      {
+        "id": "rooms",
+        "keywords": [
+          "room type",
+          "single room",
+          "double room",
+          "shared shower",
+          "how many rooms"
+        ],
+        "answer": "A small, quiet place to close out a day of exploring Seoul. Another House is a women-only stay near Dongdaemun Station, with single rooms for solo travelers and a double room for friends or family. Rather than elaborate facilities, it focuses on comfortable rest and practical hospitality—a warm retreat for women traveling through Seoul alone or together.\n11 single rooms · 1 double room\n3 shared showers · 2 toilets\n30 sec from Dongdaemun Exit 6",
+        "source": "https://anotherhouse-guide.vercel.app/?page=gallery"
+      },
+      {
+        "id": "contact",
+        "keywords": [
+          "contact host",
+          "contact the host",
+          "need help",
+          "how to contact"
+        ],
+        "answer": "Please contact the host by message through the platform you booked with (Booking.com, Agoda, or Trip.com).",
+        "source": "https://anotherhouse-guide.vercel.app/"
+      }
+    ],
+    "ja": [
+      {
+        "id": "luggage",
+        "keywords": [
+          "荷物保管",
+          "荷物を預",
+          "荷物預かり",
+          "ラゲッジルーム",
+          "スーツケース保管"
+        ],
+        "answer": "はい、荷物を保管できます。\n503号室前の荷物室\nチェックイン前の利用に必要な入館情報は予約プラットフォームのメッセージでご確認ください。\nチェックアウト当日に限り、ラゲッジルームで無料保管できます。\nレイトチェックアウトはできません。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      {
+        "id": "checkin",
+        "keywords": [
+          "チェックイン",
+          "入室時間",
+          "入室方法"
+        ],
+        "answer": "チェックインは15:00からです。ソニルビル5階のキオスクで予約者情報を使ってセルフチェックインしてください。\nチェックイン前日から当日9:00までに予約プラットフォームのメッセージで届く案内をご確認ください。\n15:00以降、5階のキオスクで予約バウチャー記載の予約者名、または予約番号の下4桁で予約を検索します。\n画面案内に従ってセルフチェックインを完了し、客室番号とカードキーをご確認ください。\nチェックイン後は入口横の端末にカードキーをかざして入館します。\n荷物は503号室前のラゲッジルームに保管できます。チェックイン前の荷物預かり用入館情報は予約メッセージでご確認ください。\n予約したプラットフォーム（Booking.com、Agoda、Trip.com）のメッセージを通じてホストへご連絡ください。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      {
+        "id": "checkout",
+        "keywords": [
+          "チェックアウト",
+          "退室時間",
+          "退室方法"
+        ],
+        "answer": "チェックアウトは11:00までです。カードキーを返却し、共用品を元に戻して入口の扉が完全に閉まったことをご確認ください。\n忘れ物がないか確認し、使用した共用品は元の場所へ戻してください。\n使用した食器は洗って元に戻し、ごみは共用キッチンで分別してください。\n使用済みタオルはシャワー室前パウダールームのタオルかごに入れてください。\n省エネのため客室のカードキーを抜いて電源を切ってください。\nキオスクでチェックアウトを選び、カードキーを返却してください。\n他のゲストの安全のため、退出時に入口の扉が完全に閉まったことをご確認ください。\nチェックアウト当日に限り、ラゲッジルームで無料保管できます。\nレイトチェックアウトはできません。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+      },
+      {
+        "id": "wifi",
+        "keywords": [
+          "wifi",
+          "wi-fi",
+          "インターネット"
+        ],
+        "answer": "another\n廊下の天井およびラウンジテーブルの上側\nWi-Fiパスワードは宿のWi-Fi案内画面または予約プラットフォームのメッセージで確認してください。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=wifi"
+      },
+      {
+        "id": "parking",
+        "keywords": [
+          "宿の駐車",
+          "館内駐車",
+          "駐車できます",
+          "駐車案内"
+        ],
+        "answer": "建物内駐車不可\nお車の場合は下記の周辺有料駐車場をご利用ください。運営状況・料金は変更される場合があるため、入庫前に再度ご確認ください。\n東大門ホテル民営駐車場\nソウル特別市 鍾路区 昌信洞 444-1\n1時間4,000ウォン · 1日最大20,000ウォン",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      {
+        "id": "rules",
+        "keywords": [
+          "宿泊ルール",
+          "利用規則",
+          "ハウスルール"
+        ],
+        "answer": "皆さまの安全と快適な滞在のためにご協力ください。\nAnother Houseは女性専用です。予約人数を超える訪問者の入館はできません。\n館内は全面禁煙で、ペット、パーティー、商業撮影は不可です。\nマナータイムは22:00〜05:00です。深夜は特に静かにお過ごしください。\n調理は可能ですが、煙やにおいの強い肉・魚料理はお控えください。\n冷蔵庫に食品を保管する際は、付箋に名前と保管日または退室日を書いて貼ってください。\nゲストボックスの共用品は使用後に元へ戻し、消耗品は必要な分だけご利用ください。\n備品を破損した場合は予約プラットフォームのメッセージで直ちにホストへお知らせください。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=rules"
+      },
+      {
+        "id": "appliances",
+        "keywords": [
+          "冷暖房",
+          "エアコン",
+          "暖房",
+          "IH",
+          "電子レンジ",
+          "冷蔵庫",
+          "家電"
+        ],
+        "answer": "写真の型番をメーカー公式資料と照合し、滞在中によく使う操作をまとめました。\n客室空調\n電子レンジ\n電気クッキングヒーター\n浄水器\n共用冷蔵庫\nゲストボックス",
+        "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+      },
+      {
+        "id": "laundry",
+        "keywords": [
+          "洗濯",
+          "洗濯機",
+          "乾燥機"
+        ],
+        "answer": "22時までに使用を終えてください。乾燥直後は内部と衣類が非常に熱いため、やけどに注意し、糸くずフィルターを掃除してください。\n洗剤と柔軟剤は洗濯機上の棚にあります。\n洗濯物を入れてドアを完全に閉めます。\n電源ボタンを押します。\n洗濯物に合うコースを選択します。\n必要に応じてすすぎ回数・脱水強さ・水温を調整し、スタート／一時停止を1秒押します。22時までに終えてください。\n終了後はすぐ取り出し、洗剤投入口とドアを開け、乾燥後は糸くずフィルターを掃除してください。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=laundry"
+      },
+      {
+        "id": "waste",
+        "keywords": [
+          "ごみ",
+          "ゴミ",
+          "分別",
+          "リサイクル"
+        ],
+        "answer": "一般ごみと資源ごみは共用キッチンのテーブル向かい、食品ごみはクックトップ横の専用ごみ箱へ捨ててください。\n一般ごみは共用キッチンのテーブル向かいにある一般ごみ箱へ捨てます。\n缶・瓶・プラスチックなどは同じ場所の表示に従って分別します。\n食品ごみはクックトップ横の隅にある専用ごみ箱へ捨てます。\n容器は中身を空にして軽くすすいでから分別してください。\n粗大ごみや処分方法が不明な物は、勝手に捨てずホストへお問い合わせください。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=trash"
+      },
+      {
+        "id": "rooms",
+        "keywords": [
+          "客室タイプ",
+          "シングルルーム",
+          "2人部屋",
+          "共用シャワー",
+          "部屋数"
+        ],
+        "answer": "ソウルの旅の一日を静かに締めくくるための、小さな場所。Another Houseは東大門駅近くの女性専用ステイです。一人旅のためのシングルルームと、友人や家族と滞在できる2人部屋をご用意しています。華やかさよりも心地よい休息と実用的な滞在に目を向け、ひとりでも一緒でも、ソウルを旅する女性のための温かな居場所を目指しています。\nシングル11室 · 2人部屋1室\n共用シャワー3室 · トイレ2室\n東大門駅6番出口から30秒",
+        "source": "https://anotherhouse-guide.vercel.app/?page=gallery"
+      },
+      {
+        "id": "contact",
+        "keywords": [
+          "ホストに連絡",
+          "問い合わせ方法",
+          "助けが必要"
+        ],
+        "answer": "予約したプラットフォーム（Booking.com、Agoda、Trip.com）のメッセージを通じてホストへご連絡ください。",
+        "source": "https://anotherhouse-guide.vercel.app/"
+      }
+    ],
+    "zh": [
+      {
+        "id": "luggage",
+        "keywords": [
+          "行李寄存",
+          "寄存行李",
+          "行李房",
+          "存放行李"
+        ],
+        "answer": "可以寄存行李。\n503号房前的行李房\n入住前使用寄存室所需的门禁信息，请在预订平台消息中确认。\n仅限退房当天可在行李室免费寄存。\n不提供延迟退房。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      {
+        "id": "checkin",
+        "keywords": [
+          "入住",
+          "入住时间",
+          "办理入住"
+        ],
+        "answer": "15:00起可办理入住。请在Sunil大厦5层使用预订人信息通过自助机办理入住。\n请查看入住前一天至入住当日上午9:00之间通过预订平台消息发送的入住说明。\n15:00后，在5层自助机上使用预订凭证中的姓名，或订单号后四位查询订单。\n按照屏幕提示完成自助入住，并确认房号和房卡。\n入住后请将房卡贴近入口旁的读卡器开门。\n行李可寄存在503号房前的行李室。入住前寄存行李所需的门禁信息请查看预订消息。\n请通过您预订的平台（Booking.com、Agoda或Trip.com）向房东发送消息。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      {
+        "id": "checkout",
+        "keywords": [
+          "退房",
+          "退房时间",
+          "办理退房"
+        ],
+        "answer": "请于11:00前退房。归还房卡、整理公共用品，并确认入口门已完全关闭。\n确认没有遗留个人物品，并将使用过的公共用品放回原位。\n使用过的餐具请清洗后放回原位，垃圾请在公共厨房分类投放。\n使用过的毛巾请放入淋浴间前化妆区的毛巾篮。\n为节约能源，请拔出客房房卡以切断电源。\n在自助机上选择退房后归还房卡。\n为保障其他住客安全，离开时请确认入口门已完全关闭。\n仅限退房当天可在行李室免费寄存。\n不提供延迟退房。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+      },
+      {
+        "id": "wifi",
+        "keywords": [
+          "wifi",
+          "wi-fi",
+          "无线网络"
+        ],
+        "answer": "another\n走廊天花板及休息区桌子上方\nWi-Fi 密码请查看住宿的 Wi-Fi 指南页面或预订平台消息。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=wifi"
+      },
+      {
+        "id": "parking",
+        "keywords": [
+          "住宿停车",
+          "楼内停车",
+          "可以停车",
+          "停车指南"
+        ],
+        "answer": "楼内不可停车\n驾车时请使用下方附近的收费停车场。营业情况及费用可能变更，请在入场前再次确认。\n东大门酒店私人停车场\n首尔特别市钟路区昌信洞444-1\n每小时4,000韩元 · 每天最高20,000韩元",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      {
+        "id": "rules",
+        "keywords": [
+          "住宿规则",
+          "入住规则",
+          "房屋守则"
+        ],
+        "answer": "为了所有人的安全与舒适，请遵守以下规则。\nAnother House为女性专用住宿，禁止超过预订人数的访客进入。\n全区域禁烟，禁止携带宠物、举办派对及商业拍摄。\n安静时段为22:00至05:00，夜间请特别注意控制噪音。\n可使用厨房，但请勿烹饪会产生大量油烟或强烈气味的肉类、鱼类食物。\n在冰箱存放食物时，请用便签标注姓名及存放日期或退房日期。\n使用Guest Box公共用品后请放回原位，一次性用品请按需取用。\n如有物品损坏，请立即通过预订平台消息联系房东。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=rules"
+      },
+      {
+        "id": "appliances",
+        "keywords": [
+          "空调",
+          "暖气",
+          "电磁炉",
+          "微波炉",
+          "冰箱",
+          "设备使用"
+        ],
+        "answer": "已将照片中的型号与制造商官方资料核对，并整理住客常用操作。\n房间空调\n微波炉\n电陶炉\n净水器\n公用冰箱\n住客用品箱",
+        "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+      },
+      {
+        "id": "laundry",
+        "keywords": [
+          "洗衣",
+          "洗衣机",
+          "烘干机"
+        ],
+        "answer": "请在22:00前结束使用。烘干后内筒和衣物非常烫，请谨防烫伤并清理绒毛过滤器。\n洗涤剂和柔顺剂位于洗衣机上方搁板。\n放入衣物并完全关好机门。\n按下电源键。\n选择适合衣物的程序。\n需要时调整漂洗次数、脱水强度或水温，然后长按启动／暂停1秒。请在22:00前结束。\n结束后及时取出衣物，敞开洗涤剂盒和机门，烘干后清理绒毛过滤器。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=laundry"
+      },
+      {
+        "id": "waste",
+        "keywords": [
+          "垃圾",
+          "垃圾分类",
+          "回收"
+        ],
+        "answer": "一般垃圾和可回收物请投放在公共厨房餐桌对面；厨余垃圾请放入灶台旁的专用垃圾桶。\n一般垃圾请投入公共厨房餐桌对面的普通垃圾桶。\n罐、瓶、塑料等可回收物请按照同一区域的标识分类。\n厨余垃圾请投入灶台旁角落的专用垃圾桶。\n容器请倒空并简单冲洗后再分类投放。\n大型垃圾或不确定如何处理的物品，请先咨询房东。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=trash"
+      },
+      {
+        "id": "rooms",
+        "keywords": [
+          "房型",
+          "单人房",
+          "双人房",
+          "公共淋浴",
+          "房间数量"
+        ],
+        "answer": "一个可以安静结束首尔旅行一天的小空间。Another House位于东大门站附近，是女性专用住宿，设有适合独自旅行者的单人房，以及可供朋友或家人入住的双人房。这里不追求华丽设施，而专注于舒适休息与实用住宿，为独自或结伴游览首尔的女性旅客提供温暖的落脚处。\n11间单人房 · 1间双人房\n3间公共淋浴间 · 2间卫生间\n距东大门站6号出口30秒",
+        "source": "https://anotherhouse-guide.vercel.app/?page=gallery"
+      },
+      {
+        "id": "contact",
+        "keywords": [
+          "联系房东",
+          "需要帮助",
+          "咨询方式"
+        ],
+        "answer": "请通过您预订的平台（Booking.com、Agoda或Trip.com）向房东发送消息。",
+        "source": "https://anotherhouse-guide.vercel.app/"
+      }
+    ],
+    "zh-TW": [
+      {
+        "id": "luggage",
+        "keywords": [
+          "行李寄放",
+          "寄放行李",
+          "行李房",
+          "寄存行李"
+        ],
+        "answer": "可以寄放行李。\n503號房前的行李房\n入住前使用寄存室所需的門禁資訊，請在預訂平台訊息中確認。\n僅限退房當天可在行李室免費寄存。\n不提供延遲退房。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      {
+        "id": "checkin",
+        "keywords": [
+          "入住",
+          "入住時間",
+          "辦理入住"
+        ],
+        "answer": "15:00起可辦理入住。請在Sunil大廈5層使用預訂人資訊通過自助機辦理入住。\n請檢視入住前一天至入住當日上午9:00之間通過預訂平台訊息傳送的入住說明。\n15:00後，在5層自助機上使用預訂憑證中的姓名，或訂單號後四位查詢訂單。\n按照螢幕提示完成自助入住，並確認房號和房卡。\n入住後請將房卡貼近入口旁的讀卡器開門。\n行李可寄存在503號房前的行李室。入住前寄存行李所需的門禁資訊請檢視預訂訊息。\n請通過您預訂的平台（Booking.com、Agoda或Trip.com）向房東傳送訊息。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      {
+        "id": "checkout",
+        "keywords": [
+          "退房",
+          "退房時間",
+          "辦理退房"
+        ],
+        "answer": "請於11:00前退房。歸還房卡、整理公共用品，並確認入口門已完全關閉。\n確認沒有遺留個人物品，並將使用過的公共用品放回原位。\n使用過的餐具請清洗後放回原位，垃圾請在公共廚房分類投放。\n使用過的毛巾請放入淋浴間前化妝區的毛巾籃。\n為節約能源，請拔出客房房卡以切斷電源。\n在自助機上選擇退房後歸還房卡。\n為保障其他住客安全，離開時請確認入口門已完全關閉。\n僅限退房當天可在行李室免費寄存。\n不提供延遲退房。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+      },
+      {
+        "id": "wifi",
+        "keywords": [
+          "wifi",
+          "wi-fi",
+          "無線網路"
+        ],
+        "answer": "another\n走廊天花板及休息區桌子上方\nWi-Fi 密碼請查看住宿的 Wi-Fi 指南頁面或預訂平台訊息。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=wifi"
+      },
+      {
+        "id": "parking",
+        "keywords": [
+          "住宿停車",
+          "樓內停車",
+          "可以停車",
+          "停車指南"
+        ],
+        "answer": "樓內不可停車\n駕車時請使用下方附近的收費停車場。營業情況及費用可能變更，請在入場前再次確認。\n東大門酒店私人停車場\n首爾特別市鍾路區昌信洞444-1\n每小時4,000韓元 · 每天最高20,000韓元",
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
+      },
+      {
+        "id": "rules",
+        "keywords": [
+          "住宿規則",
+          "入住規則",
+          "房屋守則"
+        ],
+        "answer": "為了所有人的安全與舒適，請遵守以下規則。\nAnother House為女性專用住宿，禁止超過預訂人數的訪客進入。\n全區域禁菸，禁止攜帶寵物、舉辦派對及商業拍攝。\n安靜時段為22:00至05:00，夜間請特別注意控制噪音。\n可使用廚房，但請勿烹飪會產生大量油煙或強烈氣味的肉類、魚類食物。\n在冰箱存放食物時，請用便籤標註姓名及存放日期或退房日期。\n使用Guest Box公共用品後請放回原位，一次性用品請按需取用。\n如有物品損壞，請立即通過預訂平台訊息聯絡房東。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=rules"
+      },
+      {
+        "id": "appliances",
+        "keywords": [
+          "空調",
+          "暖氣",
+          "電磁爐",
+          "微波爐",
+          "冰箱",
+          "設備使用"
+        ],
+        "answer": "已將照片中的型號與製造商官方資料核對，並整理住客常用操作。\n房間冷暖氣\n微波爐\n電陶爐\n淨水器\n公用冰箱\n住客用品箱",
+        "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+      },
+      {
+        "id": "laundry",
+        "keywords": [
+          "洗衣",
+          "洗衣機",
+          "烘乾機"
+        ],
+        "answer": "請在22:00前結束使用。烘乾後內筒和衣物非常燙，請謹防燙傷並清理絨毛過濾器。\n洗滌劑和柔順劑位於洗衣機上方擱板。\n放入衣物並完全關好機門。\n按下電源鍵。\n選擇適合衣物的程式。\n需要時調整漂洗次數、脫水強度或水溫，然後長按啟動／暫停1秒。請在22:00前結束。\n結束後及時取出衣物，敞開洗滌劑盒和機門，烘乾後清理絨毛過濾器。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=laundry"
+      },
+      {
+        "id": "waste",
+        "keywords": [
+          "垃圾",
+          "垃圾分類",
+          "回收"
+        ],
+        "answer": "一般垃圾和可回收物請投放在公共廚房餐桌對面；廚餘垃圾請放入灶臺旁的專用垃圾桶。\n一般垃圾請投入公共廚房餐桌對面的普通垃圾桶。\n罐、瓶、塑膠等可回收物請按照同一區域的標識分類。\n廚餘垃圾請投入灶臺旁角落的專用垃圾桶。\n容器請倒空並簡單沖洗後再分類投放。\n大型垃圾或不確定如何處理的物品，請先諮詢房東。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=trash"
+      },
+      {
+        "id": "rooms",
+        "keywords": [
+          "房型",
+          "單人房",
+          "雙人房",
+          "公共淋浴",
+          "房間數量"
+        ],
+        "answer": "一個可以安靜結束首爾旅行一天的小空間。Another House位於東大門站附近，是女性專用住宿，設有適合獨自旅行者的單人房，以及可供朋友或家人入住的雙人房。這裡不追求華麗設施，而專注於舒適休息與實用住宿，為獨自或結伴遊覽首爾的女性旅客提供溫暖的落腳處。\n11間單人房 · 1間雙人房\n3間公共淋浴間 · 2間洗手間\n距東大門站6號出口30秒",
+        "source": "https://anotherhouse-guide.vercel.app/?page=gallery"
+      },
+      {
+        "id": "contact",
+        "keywords": [
+          "聯絡房東",
+          "需要協助",
+          "詢問方式"
+        ],
+        "answer": "請通過您預訂的平台（Booking.com、Agoda或Trip.com）向房東傳送訊息。",
+        "source": "https://anotherhouse-guide.vercel.app/"
+      }
+    ]
+  },
   "stay": {
     "ko": {
+      "profile": {
+        "kicker": "STAY STORY",
+        "title": "A QUIET HOUSE,\nFOR ANOTHER LIFE.",
+        "body": "서울 여행의 하루를 조용히 마무리할 수 있는 작은 공간. 어나더하우스는 동대문역 인근에 위치한 여성 전용 스테이로, 개인 여행객을 위한 싱글룸과 친구 혹은 가족과 머물 수 있는 2인실을 운영하고 있습니다. 화려한 시설보다는 편안한 휴식과 실용적인 숙박에 집중했으며, 혼자 또는 함께 서울을 여행하는 여성 여행객에게 아늑한 쉼터가 되어드립니다.",
+        "facts": [
+          "싱글룸 11실 · 더블룸 1실",
+          "공용 샤워실 3칸 · 화장실 2칸",
+          "동대문역 6번 출구 도보 30초"
+        ]
+      },
+      "homeEditorial": {
+        "kicker": "ANOTHER HOUSE JOURNAL",
+        "meta": "SEOUL · DONGDAEMUN",
+        "title": "서울의 하루 끝,\n나를 위한 다른 집.",
+        "intro": "동대문 곁, 문을 닫으면 따뜻한 쉼이 시작됩니다. 서울을 여행하는 여성을 위한 프라이빗 스테이입니다.",
+        "privateKicker": "A ROOM OF YOUR OWN",
+        "privateTitle": "작지만 온전한,\n나만의 밤.",
+        "privateBody": "싱글룸과 2인실 모두 개별 도어락을 갖췄습니다. 작지만 안락하고 실용적인 프라이빗 공간입니다.",
+        "facts": [
+          {
+            "value": "30 SEC",
+            "label": "동대문역 6번 출구"
+          },
+          {
+            "value": "WOMEN",
+            "label": "여성 전용 프라이빗 스테이"
+          },
+          {
+            "value": "WARM",
+            "label": "따뜻함 · 부드러움 · 안락함"
+          }
+        ]
+      },
       "essentials": [
         {
           "label": "체크인",
@@ -185,6 +831,39 @@
       }
     },
     "en": {
+      "profile": {
+        "kicker": "STAY STORY",
+        "title": "A QUIET HOUSE,\nFOR ANOTHER LIFE.",
+        "body": "A small, quiet place to close out a day of exploring Seoul. Another House is a women-only stay near Dongdaemun Station, with single rooms for solo travelers and a double room for friends or family. Rather than elaborate facilities, it focuses on comfortable rest and practical hospitality—a warm retreat for women traveling through Seoul alone or together.",
+        "facts": [
+          "11 single rooms · 1 double room",
+          "3 shared showers · 2 toilets",
+          "30 sec from Dongdaemun Exit 6"
+        ]
+      },
+      "homeEditorial": {
+        "kicker": "ANOTHER HOUSE JOURNAL",
+        "meta": "SEOUL · DONGDAEMUN",
+        "title": "At the end of a day in Seoul,\na house that is entirely yours.",
+        "intro": "Step away from Dongdaemun into warm, quiet rest. A private stay for women exploring Seoul alone or together.",
+        "privateKicker": "A ROOM OF YOUR OWN",
+        "privateTitle": "Small in scale,\nfully yours for the night.",
+        "privateBody": "Single and double rooms each have a private door lock. A compact, comfortable space designed for practical rest.",
+        "facts": [
+          {
+            "value": "30 SEC",
+            "label": "Dongdaemun Station Exit 6"
+          },
+          {
+            "value": "WOMEN",
+            "label": "Private women-only stay"
+          },
+          {
+            "value": "WARM",
+            "label": "Warm · Gentle · Restful"
+          }
+        ]
+      },
       "essentials": [
         {
           "label": "Check-in",
@@ -301,6 +980,39 @@
       }
     },
     "ja": {
+      "profile": {
+        "kicker": "STAY STORY",
+        "title": "A QUIET HOUSE,\nFOR ANOTHER LIFE.",
+        "body": "ソウルの旅の一日を静かに締めくくるための、小さな場所。Another Houseは東大門駅近くの女性専用ステイです。一人旅のためのシングルルームと、友人や家族と滞在できる2人部屋をご用意しています。華やかさよりも心地よい休息と実用的な滞在に目を向け、ひとりでも一緒でも、ソウルを旅する女性のための温かな居場所を目指しています。",
+        "facts": [
+          "シングル11室 · 2人部屋1室",
+          "共用シャワー3室 · トイレ2室",
+          "東大門駅6番出口から30秒"
+        ]
+      },
+      "homeEditorial": {
+        "kicker": "ANOTHER HOUSE JOURNAL",
+        "meta": "SEOUL · DONGDAEMUN",
+        "title": "ソウルの一日の終わりに、\n私のためのもう一つの家。",
+        "intro": "東大門のすぐそばで、扉を閉めれば温かな休息が始まります。ソウルを旅する女性のためのプライベートステイです。",
+        "privateKicker": "A ROOM OF YOUR OWN",
+        "privateTitle": "小さくても、\n夜はまるごと私のもの。",
+        "privateBody": "シングルと2人部屋はすべて個別ドアロック付き。小さくても、心地よく実用的なプライベート空間です。",
+        "facts": [
+          {
+            "value": "30 SEC",
+            "label": "東大門駅6番出口"
+          },
+          {
+            "value": "WOMEN",
+            "label": "女性専用プライベートステイ"
+          },
+          {
+            "value": "WARM",
+            "label": "あたたかさ · やわらかさ · 安らぎ"
+          }
+        ]
+      },
       "essentials": [
         {
           "label": "チェックイン",
@@ -417,6 +1129,39 @@
       }
     },
     "zh": {
+      "profile": {
+        "kicker": "STAY STORY",
+        "title": "A QUIET HOUSE,\nFOR ANOTHER LIFE.",
+        "body": "一个可以安静结束首尔旅行一天的小空间。Another House位于东大门站附近，是女性专用住宿，设有适合独自旅行者的单人房，以及可供朋友或家人入住的双人房。这里不追求华丽设施，而专注于舒适休息与实用住宿，为独自或结伴游览首尔的女性旅客提供温暖的落脚处。",
+        "facts": [
+          "11间单人房 · 1间双人房",
+          "3间公共淋浴间 · 2间卫生间",
+          "距东大门站6号出口30秒"
+        ]
+      },
+      "homeEditorial": {
+        "kicker": "ANOTHER HOUSE JOURNAL",
+        "meta": "SEOUL · DONGDAEMUN",
+        "title": "在首尔一天的尽头，\n回到只属于自己的另一处家。",
+        "intro": "邻近东大门，关上门便开始温暖休息。为游览首尔的女性打造的私密住宿。",
+        "privateKicker": "A ROOM OF YOUR OWN",
+        "privateTitle": "空间虽小，\n这一夜完整属于自己。",
+        "privateBody": "单人房与双人房均配有独立门锁。空间小巧、舒适且实用。",
+        "facts": [
+          {
+            "value": "30 SEC",
+            "label": "东大门站6号出口"
+          },
+          {
+            "value": "WOMEN",
+            "label": "女性专用私密住宿"
+          },
+          {
+            "value": "WARM",
+            "label": "温暖 · 柔和 · 安适"
+          }
+        ]
+      },
       "essentials": [
         {
           "label": "入住",
@@ -533,6 +1278,39 @@
       }
     },
     "zh-TW": {
+      "profile": {
+        "kicker": "STAY STORY",
+        "title": "A QUIET HOUSE,\nFOR ANOTHER LIFE.",
+        "body": "一個可以安靜結束首爾旅行一天的小空間。Another House位於東大門站附近，是女性專用住宿，設有適合獨自旅行者的單人房，以及可供朋友或家人入住的雙人房。這裡不追求華麗設施，而專注於舒適休息與實用住宿，為獨自或結伴遊覽首爾的女性旅客提供溫暖的落腳處。",
+        "facts": [
+          "11間單人房 · 1間雙人房",
+          "3間公共淋浴間 · 2間洗手間",
+          "距東大門站6號出口30秒"
+        ]
+      },
+      "homeEditorial": {
+        "kicker": "ANOTHER HOUSE JOURNAL",
+        "meta": "SEOUL · DONGDAEMUN",
+        "title": "在首爾一天的盡頭，\n回到只屬於自己的另一個家。",
+        "intro": "鄰近東大門，關上門便開始溫暖休息。為遊覽首爾的女性打造的私密住宿。",
+        "privateKicker": "A ROOM OF YOUR OWN",
+        "privateTitle": "空間雖小，\n這一夜完整屬於自己。",
+        "privateBody": "單人房與雙人房均配有獨立門鎖。空間小巧、舒適且實用。",
+        "facts": [
+          {
+            "value": "30 SEC",
+            "label": "東大門站6號出口"
+          },
+          {
+            "value": "WOMEN",
+            "label": "女性專用私密住宿"
+          },
+          {
+            "value": "WARM",
+            "label": "溫暖 · 柔和 · 安適"
+          }
+        ]
+      },
       "essentials": [
         {
           "label": "入住",

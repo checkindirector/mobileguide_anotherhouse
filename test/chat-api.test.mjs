@@ -57,10 +57,10 @@ async function callAccess(body, entranceCode = "TESTACCESSCODE") {
   }
 }
 
-test("manual question uses server knowledge, gpt-5.4-mini, and no web search", async () => {
+test("non-indexed property question uses server knowledge, gpt-5.4-mini, and no web search", async () => {
   const { res, request } = await callApi(
-    { message: "체크인은 몇 시인가요?", language: "ko", context: { malicious: "ignored" }, history: [] },
-    { model: "gpt-5.4-mini", output_text: "체크인은 15:00부터입니다.", usage: { input_tokens: 100, output_tokens: 20, input_tokens_details: { cached_tokens: 80 } } },
+    { message: "조식이 제공되나요?", language: "ko", context: { malicious: "ignored" }, history: [] },
+    { model: "gpt-5.4-mini", output_text: "현재 안내에서는 조식 제공이 확인되지 않습니다.", usage: { input_tokens: 100, output_tokens: 20, input_tokens_details: { cached_tokens: 80 } } },
     "203.0.113.20"
   );
   assert.equal(res.statusCode, 200);
@@ -70,12 +70,60 @@ test("manual question uses server knowledge, gpt-5.4-mini, and no web search", a
   assert.equal(request.body.model, "gpt-5.4-mini");
   assert.equal(request.body.store, false);
   assert.equal(request.body.tools, undefined);
-  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.6/);
+  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.7/);
   assert.match(request.body.instructions, /MAP_SPOT: <canonical place name> \| <complete street address>/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.6-ko");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.7-ko");
   assert.equal(res.payload.meta.cachedTokens, 80);
   assert.equal(res.payload.meta.searched, false);
+});
+
+test("luggage storage is answered from the current site in all five languages without AI or web search", async () => {
+  const cases = [
+    ["짐보관 가능한지", "ko", /네, 짐 보관이 가능합니다.*503호 앞.*체크아웃 당일.*무료/s],
+    ["Can I store luggage?", "en", /Yes, luggage storage is available.*Room 503.*day of checkout/s],
+    ["荷物を預けられますか", "ja", /はい、荷物を保管できます.*503号室.*チェックアウト当日/s],
+    ["可以寄存行李吗", "zh", /可以寄存行李.*503号房.*退房当天/s],
+    ["可以寄放行李嗎", "zh-TW", /可以寄放行李.*503號房.*退房當天/s]
+  ];
+  for (let index = 0; index < cases.length; index += 1) {
+    const [message, language, expected] = cases[index];
+    const { res, requests } = await callApi({ message, language, history: [] }, { model: "unused" }, `203.0.113.${110 + index}`);
+    assert.equal(requests.length, 0);
+    assert.equal(res.statusCode, 200);
+    assert.equal(res.payload.model, "another-house-site-guide");
+    assert.equal(res.payload.meta.searched, false);
+    assert.equal(res.payload.meta.siteGuide, true);
+    assert.equal(res.payload.meta.topic, "luggage");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.7");
+    assert.match(res.payload.answer, expected);
+    assert.doesNotMatch(res.payload.answer, /최신 공개정보|public information|公开信息|公開資訊/);
+  }
+  assert.equal(handler._internals.searchLevelFor("짐보관 가능한지"), null);
+  assert.equal(handler._internals.searchLevelFor("서울역 짐보관 장소 어디야?"), "medium");
+});
+
+test("common questions across every current guide area use the generated site index", async () => {
+  const cases = [
+    ["Can I check in late?", "en", "checkin"],
+    ["チェックアウトの方法", "ja", "checkout"],
+    ["住宿可以停车吗", "zh", "parking"],
+    ["住宿規則是什麼？", "zh-TW", "rules"],
+    ["에어컨 사용법", "ko", "appliances"],
+    ["How do I use the washing machine?", "en", "laundry"],
+    ["쓰레기 분리수거", "ko", "waste"],
+    ["싱글룸이 몇 개야?", "ko", "rooms"],
+    ["How do I contact the host?", "en", "contact"],
+    ["Wi-Fiは使えますか", "ja", "wifi"]
+  ];
+  for (let index = 0; index < cases.length; index += 1) {
+    const [message, language, topic] = cases[index];
+    const { res, requests } = await callApi({ message, language, history: [] }, { model: "unused" }, `203.0.113.${120 + index}`);
+    assert.equal(requests.length, 0, `${topic} must not call AI`);
+    assert.equal(res.payload.model, "another-house-site-guide");
+    assert.equal(res.payload.meta.topic, topic);
+    assert.ok(res.payload.answer.length >= 10);
+  }
 });
 
 test("public information uses medium web search and returns trusted source links", async () => {
@@ -218,7 +266,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.mode, "night");
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.6");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.7");
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
@@ -297,7 +345,7 @@ test("family dining near Another House uses verified local places without a frag
   assert.equal(res.payload.model, "another-house-verified-family-dining");
   assert.equal(res.payload.meta.verifiedFamilyDining, true);
   assert.equal(res.payload.meta.searched, false);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.6");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.7");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);
@@ -480,8 +528,11 @@ test("map offer follow-up returns Naver and Google buttons without another AI ca
 
 test("a property check-in time question does not become a dining web search", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "현재 안내를 확인해 주세요.", output: [], usage: {} };
-  const { request } = await callApi({ message: "밤 9시 이후 체크인 가능한가요?", language: "ko" }, output, "203.0.113.48");
-  assert.equal(request.body.tools, undefined);
+  const { res, requests } = await callApi({ message: "밤 9시 이후 체크인 가능한가요?", language: "ko" }, output, "203.0.113.48");
+  assert.equal(requests.length, 0);
+  assert.equal(res.payload.meta.siteGuide, true);
+  assert.equal(res.payload.meta.topic, "checkin");
+  assert.match(res.payload.answer, /체크인은 15:00부터/);
 });
 
 test("airport boarding questions show no source or property map when the model did not search", async () => {
@@ -614,15 +665,15 @@ test("the photographed natural-language loop releases the server-only code after
 });
 
 test("duplicate current question is removed from recent history", async () => {
-  const output = { model: "gpt-5.4-mini", output_text: "15:00부터입니다.", output: [], usage: {} };
-  const { request } = await callApi({ message: "체크인은 몇 시야?", language: "ko", history: [{ role: "user", text: "체크인은 몇 시야?" }] }, output, "203.0.113.25");
+  const output = { model: "gpt-5.4-mini", output_text: "현재 안내에서는 조식 제공이 확인되지 않습니다.", output: [], usage: {} };
+  const { request } = await callApi({ message: "조식이 제공되나요?", language: "ko", history: [{ role: "user", text: "조식이 제공되나요?" }] }, output, "203.0.113.25");
   assert.equal(request.body.input.length, 1);
-  assert.match(request.body.input[0].content, /GUEST_QUESTION: 체크인은 몇 시야\?/);
+  assert.match(request.body.input[0].content, /GUEST_QUESTION: 조식이 제공되나요\?/);
 });
 
 test("raw URLs are removed from answer text", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "**공식 안내** https://example.com/page (example.com)를 확인하세요.", output: [], usage: {} };
-  const { res } = await callApi({ message: "체크인", language: "ko" }, output, "203.0.113.26");
+  const { res } = await callApi({ message: "조식 제공 여부를 알려줘", language: "ko" }, output, "203.0.113.26");
   assert.doesNotMatch(res.payload.answer, /https?:\/\//);
   assert.doesNotMatch(res.payload.answer, /\*\*|\(example\.com\)/);
 });

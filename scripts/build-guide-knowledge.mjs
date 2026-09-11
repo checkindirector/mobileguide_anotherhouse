@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-11.6";
+const VERSION = "2026-09-11.7";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -48,6 +48,63 @@ const pageText = (route, language) => {
     })),
     source: pageUrl(route)
   };
+};
+
+const QUICK_TOPIC_KEYWORDS = {
+  luggage: {
+    ko: ["짐보관", "짐 맡", "짐을 맡", "러기지룸", "캐리어 보관", "수하물 보관"],
+    en: ["luggage storage", "store luggage", "leave luggage", "baggage storage", "store my suitcase"],
+    ja: ["荷物保管", "荷物を預", "荷物預かり", "ラゲッジルーム", "スーツケース保管"],
+    zh: ["行李寄存", "寄存行李", "行李房", "存放行李"],
+    "zh-TW": ["行李寄放", "寄放行李", "行李房", "寄存行李"]
+  },
+  checkin: { ko: ["체크인", "입실 시간", "입실 방법"], en: ["check in", "check-in", "arrival procedure"], ja: ["チェックイン", "入室時間", "入室方法"], zh: ["入住", "入住时间", "办理入住"], "zh-TW": ["入住", "入住時間", "辦理入住"] },
+  checkout: { ko: ["체크아웃", "퇴실 시간", "퇴실 방법"], en: ["check out", "check-out", "departure procedure"], ja: ["チェックアウト", "退室時間", "退室方法"], zh: ["退房", "退房时间", "办理退房"], "zh-TW": ["退房", "退房時間", "辦理退房"] },
+  wifi: { ko: ["와이파이", "wifi", "wi-fi", "인터넷"], en: ["wifi", "wi-fi", "internet"], ja: ["wifi", "wi-fi", "インターネット"], zh: ["wifi", "wi-fi", "无线网络"], "zh-TW": ["wifi", "wi-fi", "無線網路"] },
+  parking: { ko: ["숙소 주차", "건물 주차", "주차 가능", "주차 안내"], en: ["property parking", "on-site parking", "can i park", "parking at the hostel"], ja: ["宿の駐車", "館内駐車", "駐車できます", "駐車案内"], zh: ["住宿停车", "楼内停车", "可以停车", "停车指南"], "zh-TW": ["住宿停車", "樓內停車", "可以停車", "停車指南"] },
+  rules: { ko: ["숙소 이용 규칙", "숙소 규칙", "이용 규칙", "하우스 룰"], en: ["house rules", "property rules", "stay rules"], ja: ["宿泊ルール", "利用規則", "ハウスルール"], zh: ["住宿规则", "入住规则", "房屋守则"], "zh-TW": ["住宿規則", "入住規則", "房屋守則"] },
+  appliances: { ko: ["냉난방", "에어컨", "난방", "인덕션", "전자레인지", "냉장고", "기기 사용"], en: ["heating", "air conditioning", "air conditioner", "induction", "microwave", "refrigerator", "appliance"], ja: ["冷暖房", "エアコン", "暖房", "IH", "電子レンジ", "冷蔵庫", "家電"], zh: ["空调", "暖气", "电磁炉", "微波炉", "冰箱", "设备使用"], "zh-TW": ["空調", "暖氣", "電磁爐", "微波爐", "冰箱", "設備使用"] },
+  laundry: { ko: ["세탁", "건조기", "빨래"], en: ["laundry", "washing machine", "dryer"], ja: ["洗濯", "洗濯機", "乾燥機"], zh: ["洗衣", "洗衣机", "烘干机"], "zh-TW": ["洗衣", "洗衣機", "烘乾機"] },
+  waste: { ko: ["쓰레기", "분리배출", "분리수거"], en: ["trash", "waste", "recycling", "garbage"], ja: ["ごみ", "ゴミ", "分別", "リサイクル"], zh: ["垃圾", "垃圾分类", "回收"], "zh-TW": ["垃圾", "垃圾分類", "回收"] },
+  rooms: { ko: ["객실 종류", "방 종류", "싱글룸", "2인실", "더블룸", "샤워실", "화장실 몇"], en: ["room type", "single room", "double room", "shared shower", "how many rooms"], ja: ["客室タイプ", "シングルルーム", "2人部屋", "共用シャワー", "部屋数"], zh: ["房型", "单人房", "双人房", "公共淋浴", "房间数量"], "zh-TW": ["房型", "單人房", "雙人房", "公共淋浴", "房間數量"] },
+  contact: { ko: ["호스트 연락", "호스트한테 연락", "도움 필요", "문의 방법", "연락 방법"], en: ["contact host", "contact the host", "need help", "how to contact"], ja: ["ホストに連絡", "問い合わせ方法", "助けが必要"], zh: ["联系房东", "需要帮助", "咨询方式"], "zh-TW": ["聯絡房東", "需要協助", "詢問方式"] }
+};
+
+const compactPageLines = page => [
+  page.summary,
+  ...(page.sections || []).flatMap(section => [section.body, section.value, ...(section.steps || [])])
+].filter(value => typeof value === "string" && value.trim());
+
+const quickGuideTopics = language => {
+  const stay = {
+    luggage: localize(data.luggage, language),
+    checkin: localize(data.pages.checkin, language),
+    checkout: localize(data.pages.checkout, language),
+    parking: localize(data.parking, language),
+    rules: localize(data.pages.rules, language)
+  };
+  const wifi = localize(data.pages.wifi, language);
+  const appliances = localize(data.pages.appliances, language);
+  const laundry = localize(data.pages.laundry, language);
+  const waste = localize(data.pages.trash, language);
+  const about = localize(data.about, language);
+  const luggageLead = { ko: "네, 짐 보관이 가능합니다.", en: "Yes, luggage storage is available.", ja: "はい、荷物を保管できます。", zh: "可以寄存行李。", "zh-TW": "可以寄放行李。" }[language];
+  const wifiPolicy = { ko: "Wi-Fi 비밀번호는 현재 숙소 Wi-Fi 안내 화면 또는 예약 플랫폼 메시지에서 확인해 주세요.", en: "Check the current Wi-Fi guide screen or your booking-platform message for the password.", ja: "Wi-Fiパスワードは宿のWi-Fi案内画面または予約プラットフォームのメッセージで確認してください。", zh: "Wi-Fi 密码请查看住宿的 Wi-Fi 指南页面或预订平台消息。", "zh-TW": "Wi-Fi 密碼請查看住宿的 Wi-Fi 指南頁面或預訂平台訊息。" }[language];
+  const checkoutLuggage = (stay.checkout.sections || []).at(-1)?.steps || [];
+  const answer = lines => lines.filter(value => typeof value === "string" && value.trim()).join("\n");
+  return [
+    { id: "luggage", keywords: QUICK_TOPIC_KEYWORDS.luggage[language], answer: answer([luggageLead, stay.luggage.value, stay.luggage.note, ...checkoutLuggage]), source: pageUrl("checkin") },
+    { id: "checkin", keywords: QUICK_TOPIC_KEYWORDS.checkin[language], answer: answer(compactPageLines(stay.checkin)), source: pageUrl("checkin") },
+    { id: "checkout", keywords: QUICK_TOPIC_KEYWORDS.checkout[language], answer: answer(compactPageLines(stay.checkout)), source: pageUrl("checkout") },
+    { id: "wifi", keywords: QUICK_TOPIC_KEYWORDS.wifi[language], answer: answer([wifi.sections?.[0]?.value, wifi.sections?.[2]?.body, wifiPolicy]), source: pageUrl("wifi") },
+    { id: "parking", keywords: QUICK_TOPIC_KEYWORDS.parking[language], answer: answer([stay.parking.onSite, stay.parking.intro, stay.parking.places?.[0]?.name, stay.parking.places?.[0]?.address, stay.parking.places?.[0]?.note]), source: pageUrl("checkin") },
+    { id: "rules", keywords: QUICK_TOPIC_KEYWORDS.rules[language], answer: answer(compactPageLines(stay.rules)), source: pageUrl("rules") },
+    { id: "appliances", keywords: QUICK_TOPIC_KEYWORDS.appliances[language], answer: answer([appliances.summary, ...(appliances.devices || []).map(device => device.name)]), source: pageUrl("appliances") },
+    { id: "laundry", keywords: QUICK_TOPIC_KEYWORDS.laundry[language], answer: answer([laundry.summary, laundry.caution, ...compactPageLines(laundry)]), source: pageUrl("laundry") },
+    { id: "waste", keywords: QUICK_TOPIC_KEYWORDS.waste[language], answer: answer(compactPageLines(waste)), source: pageUrl("trash") },
+    { id: "rooms", keywords: QUICK_TOPIC_KEYWORDS.rooms[language], answer: answer([about.body, ...(about.facts || [])]), source: pageUrl("gallery") },
+    { id: "contact", keywords: QUICK_TOPIC_KEYWORDS.contact[language], answer: String(localize(data.contact, language) || ""), source: SITE_URL }
+  ];
 };
 
 const transportKnowledge = language => {
@@ -298,7 +355,10 @@ const knowledge = {
     contact: localize(data.contact, language),
     maps
   })),
+  quickGuide: localized(language => quickGuideTopics(language)),
   stay: localized(language => ({
+    profile: localize(data.about, language),
+    homeEditorial: localize(data.homeEditorial, language),
     essentials: localize(data.essentials, language).map(({ label, value, route }) => ({ label, value, source: pageUrl(route) })),
     checkin: pageText("checkin", language),
     checkout: pageText("checkout", language),
@@ -424,7 +484,7 @@ const json = `${JSON.stringify(knowledge, null, 2)}\n`;
 if (/another1234/.test(json)) throw new Error("Sensitive Wi-Fi password leaked into guide knowledge");
 await writeFile(resolve(root, "assets/guide-knowledge.json"), json);
 
-const audit = `# Concierge knowledge audit\n\nVersion: ${VERSION}\n\n| Area | Current page source | Previous chatbot state | Unified result |\n|---|---|---|---|\n| Address, check-in/out, transport, parking, luggage, rules | Current rendered page data | Sent ad hoc from the browser | Generated into one server-owned knowledge bundle |\n| Appliances, laundry, waste | Current page instructions; official manuals are secondary | Sent ad hoc from the browser | Current page text is primary; manual links remain supporting sources |\n| Nearby essentials | Naver Maps plus official venue/public sources | Depended on live search even for common needs | Six property-specific places are pre-verified with exact addresses and map links |\n| Restaurants and tours | 26 restaurant cards and 21 tour cards | Loaded only for matching browser keywords | Included as clearly labeled host recommendations |\n| Wi-Fi | Network and password are visible on the Wi-Fi screen | Password could be sent to the model | Network retained; password deliberately excluded as sensitive |\n| Door/access and reservation data | Page tells guests where to retrieve guest-specific information | Could be mixed into browser context | Codes, room assignment, booking status and guest-specific details are prohibited |\n| General public information | Not part of the property manual | Previously rejected | Official-source web search is permitted only for non-property public questions |\n| Emergency | Booking-platform contact plus Korean public emergency services | No dedicated normalized section | 112/119 and official agency sources added; property-specific issues still use the booking platform |\n\nThe generator executes the same ordered data scripts as the website. Tests regenerate the bundle and fail if it is stale or contains the known Wi-Fi password.\n`;
+const audit = `# Concierge knowledge audit\n\nVersion: ${VERSION}\n\n| Area | Current page source | Previous chatbot state | Unified result |\n|---|---|---|---|\n| Address, check-in/out, transport, parking, luggage, rules | Current rendered page data | Sent ad hoc from the browser | Generated into one server-owned knowledge bundle |\n| Five-language quick guide | The same current page data in Korean, English, Japanese, Simplified Chinese and Traditional Chinese | Browser fallback omitted several property topics and the server could misclassify them as public search | Eleven common property topics are generated once and shared by the server and browser fallback |\n| Appliances, laundry, waste | Current page instructions; official manuals are secondary | Sent ad hoc from the browser | Current page text is primary; manual links remain supporting sources |\n| Nearby essentials | Naver Maps plus official venue/public sources | Depended on live search even for common needs | Seven property-specific places are pre-verified with exact addresses and map links |\n| Restaurants and tours | 26 restaurant cards and 21 tour cards | Loaded only for matching browser keywords | Included as clearly labeled host recommendations |\n| Wi-Fi | Network and password are visible on the Wi-Fi screen | Password could be sent to the model | Network retained; password deliberately excluded as sensitive |\n| Door/access and reservation data | Page tells guests where to retrieve guest-specific information | Could be mixed into browser context | Codes, room assignment, booking status and guest-specific details are prohibited |\n| General public information | Not part of the property manual | Previously rejected | Official-source web search is permitted only for non-property public questions |\n| Emergency | Booking-platform contact plus Korean public emergency services | No dedicated normalized section | 112/119 and official agency sources added; property-specific issues still use the booking platform |\n\nThe generator executes the same ordered data scripts as the website. Tests regenerate the bundle and fail if it is stale or contains the known Wi-Fi password.\n`;
 const auditWithAirport = audit.replace(
   "| General public information |",
   "| Airport departures | Official K Airport Limousine, Incheon Airport and Seoul Metro timetables | Depended on live search and often missed embedded timetable rows | Every 6702/N6701 departure and every relevant Line 5 train to Gimpo Airport are pre-verified and selected deterministically |\n| General public information |"
