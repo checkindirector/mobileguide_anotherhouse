@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-09.1";
+const VERSION = "2026-09-11.1";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -46,6 +46,44 @@ const pageText = (route, language) => {
       ...(section.steps ? { steps: section.steps } : {})
     })),
     source: pageUrl(route)
+  };
+};
+
+const transportKnowledge = language => {
+  const page = localize(data.pages.transport, language);
+  return {
+    title: page.title,
+    summary: page.summary,
+    destination: page.destination,
+    localArrival: {
+      station: page.destination?.station,
+      landmark: page.destination?.landmark,
+      lastMile: page.destination?.lastMile,
+      building: localize(data.address, language),
+      instruction: language === "ko"
+        ? "동대문역 6번 출구 바로 앞, 1층 교촌치킨 동대문 1호점과 치과 간판이 보이는 선일빌딩으로 들어가 엘리베이터를 타고 5층으로 올라오세요. 엘리베이터에서 내려 반층 아래 유리문 안쪽이 ANOTHER HOUSE 리셉션입니다."
+        : language === "ja"
+          ? "東大門駅6番出口のすぐ前、1階のキョチョンチキン東大門1号店と歯科の看板があるソニルビルに入り、エレベーターで5階へ上がってください。エレベーターを降りて半階下り、ガラス扉の内側がANOTHER HOUSEの受付です。"
+          : language === "zh"
+            ? "从东大门站6号出口出来，进入正前方一层有桥村炸鸡东大门1号店和牙科招牌的Sunil大厦，乘电梯到5层。出电梯后下半层，玻璃门内即为ANOTHER HOUSE前台。"
+            : language === "zh-TW"
+              ? "從東大門站6號出口出來，進入正前方一樓有橋村炸雞東大門1號店和牙科招牌的Sunil大廈，搭電梯到5樓。出電梯後往下半層，玻璃門內就是ANOTHER HOUSE櫃檯。"
+              : "From Dongdaemun Station Exit 6, enter Sunil Building directly ahead—the 1st floor has Kyochon Chicken Dongdaemun No. 1 and a dental-clinic sign. Take the elevator to 5F, go down half a floor, and enter the ANOTHER HOUSE reception through the glass door."
+    },
+    sections: (page.sections || []).map(section => ({
+      title: section.title,
+      summary: section.summary,
+      officialSource: section.sourceUrl ? { label: section.sourceLabel, url: section.sourceUrl } : null,
+      routes: (section.routes || []).map(route => ({
+        title: route.title,
+        badge: route.badge,
+        tags: route.tags,
+        path: route.path,
+        note: route.note,
+        steps: (route.steps || []).map(({ label, title, body }) => ({ label, title, body }))
+      }))
+    })),
+    source: pageUrl("transport")
   };
 };
 
@@ -96,7 +134,7 @@ const knowledge = {
       source: pageUrl("wifi")
     };
   }),
-  arrivalAndTransport: localized(language => pageText("transport", language)),
+  arrivalAndTransport: localized(transportKnowledge),
   appliances: localized(language => {
     const page = localize(data.pages.appliances, language);
     return {

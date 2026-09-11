@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-09.1",
+  "version": "2026-09-11.1",
   "generatedAt": "2026-09-09",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -690,12 +690,207 @@
     "ko": {
       "title": "찾아오는 길",
       "summary": "동대문역 6번 출구에서 도보 약 30초, 선일빌딩 5층입니다.",
+      "destination": {
+        "name": "어나더하우스",
+        "landmark": "교촌치킨 동대문 1호점",
+        "station": "동대문역 6번 출구",
+        "lastMile": "도보 약 30초 · 엘리베이터로 5층"
+      },
+      "localArrival": {
+        "station": "동대문역 6번 출구",
+        "landmark": "교촌치킨 동대문 1호점",
+        "lastMile": "도보 약 30초 · 엘리베이터로 5층",
+        "building": "서울시 종로구 종로 294 선일빌딩 5층",
+        "instruction": "동대문역 6번 출구 바로 앞, 1층 교촌치킨 동대문 1호점과 치과 간판이 보이는 선일빌딩으로 들어가 엘리베이터를 타고 5층으로 올라오세요. 엘리베이터에서 내려 반층 아래 유리문 안쪽이 ANOTHER HOUSE 리셉션입니다."
+      },
       "sections": [
         {
-          "title": "인천공항에서 오시는 길"
+          "title": "인천공항에서 오시는 길",
+          "summary": "공항철도·리무진·택시 경로 보기",
+          "officialSource": {
+            "label": "인천공항 공식 교통정보 확인",
+            "url": "https://www.airport.kr/ap_en/1512/subview.do"
+          },
+          "routes": [
+            {
+              "title": "공항철도 AREX + 지하철 4호선",
+              "badge": "추천",
+              "tags": [
+                "약 75–90분",
+                "환승 1회",
+                "교통체증 없음"
+              ],
+              "path": "인천공항 → 서울역 → 동대문역",
+              "note": "짐이 가벼울 때 가장 안정적인 추천 경로입니다.",
+              "steps": [
+                {
+                  "label": "START",
+                  "title": "인천공항 제1·2터미널",
+                  "body": "공항철도 AREX 표지판을 따라갑니다."
+                },
+                {
+                  "label": "공항철도 AREX",
+                  "title": "서울역까지 이동",
+                  "body": "일반열차 또는 직통열차를 이용합니다."
+                },
+                {
+                  "label": "LINE 4",
+                  "title": "4호선 진접 방면 환승",
+                  "body": "서울역에서 동대문역까지 이동합니다."
+                },
+                {
+                  "label": "EXIT 6",
+                  "title": "동대문역 6번 출구",
+                  "body": "출구 앞 선일빌딩으로 들어가 5층으로 올라옵니다."
+                }
+              ]
+            },
+            {
+              "title": "공항리무진 6002",
+              "badge": "짐이 많을 때",
+              "tags": [
+                "약 90–120분",
+                "환승 적음",
+                "교통상황 영향"
+              ],
+              "path": "인천공항 → 6002번 → 동대문종합시장·종로6가",
+              "note": "탑승 전 전광판에서 당일 정류장과 운행시간을 확인하세요.",
+              "steps": [
+                {
+                  "label": "TICKET",
+                  "title": "6002번 승차권 확인",
+                  "body": "공항 버스 매표소·무인발권기에서 안내를 확인합니다."
+                },
+                {
+                  "label": "BUS 6002",
+                  "title": "동대문종합시장·종로6가(01771) 하차",
+                  "body": "숙소 바로 앞 중앙차로 정류장에서 하차합니다."
+                },
+                {
+                  "label": "LAST MILE",
+                  "title": "동대문역 6번 출구 방향",
+                  "body": "실시간 하차 정류장을 확인한 뒤 선일빌딩 5층으로 이동합니다."
+                }
+              ]
+            },
+            {
+              "title": "공항 택시",
+              "badge": "가장 편리",
+              "tags": [
+                "약 70–100분",
+                "환승 없음",
+                "심야 추천"
+              ],
+              "path": "인천공항 → 선일빌딩",
+              "note": "소요시간과 요금은 교통상황에 따라 달라집니다.",
+              "steps": [
+                {
+                  "label": "TAXI",
+                  "title": "공식 택시 승강장 탑승",
+                  "body": "호객 차량 대신 지정 승강장을 이용합니다."
+                },
+                {
+                  "label": "ADDRESS",
+                  "title": "서울시 종로구 종로 294",
+                  "body": "택시 하차 위치는 “교촌치킨 동대문 1호점”으로 요청해 주세요."
+                }
+              ]
+            }
+          ]
         },
         {
-          "title": "김포공항에서 오시는 길"
+          "title": "김포공항에서 오시는 길",
+          "summary": "공항철도·지하철·택시 경로 보기",
+          "officialSource": {
+            "label": "김포공항 공식 교통정보 확인",
+            "url": "https://www.airport.co.kr/gimpo/cms/frCon/index.do?CONTENTS_NO=5&MENU_ID=1290"
+          },
+          "routes": [
+            {
+              "title": "공항철도 AREX + 지하철 4호선",
+              "badge": "추천",
+              "tags": [
+                "약 45–60분",
+                "환승 1회",
+                "빠른 경로"
+              ],
+              "path": "김포공항 → 서울역 → 동대문역",
+              "note": "이동 동선이 단순한 추천 경로입니다.",
+              "steps": [
+                {
+                  "label": "START",
+                  "title": "김포공항",
+                  "body": "공항철도 AREX 표지판을 따라갑니다."
+                },
+                {
+                  "label": "공항철도 AREX",
+                  "title": "서울역까지 이동",
+                  "body": "공항철도 일반열차를 이용합니다."
+                },
+                {
+                  "label": "LINE 4",
+                  "title": "4호선 진접 방면 환승",
+                  "body": "동대문역에서 내려 6번 출구로 나옵니다."
+                },
+                {
+                  "label": "30 SEC",
+                  "title": "선일빌딩 5층",
+                  "body": "6번 출구 앞 건물, 엘리베이터로 5층입니다."
+                }
+              ]
+            },
+            {
+              "title": "지하철 5호선 + 4호선",
+              "badge": "대안 경로",
+              "tags": [
+                "약 55–70분",
+                "환승 1회",
+                "일반 지하철"
+              ],
+              "path": "김포공항 → 동대문역사문화공원 → 동대문역",
+              "note": "서울역을 거치지 않는 지하철 대안입니다.",
+              "steps": [
+                {
+                  "label": "LINE 5",
+                  "title": "5호선 방화역 방향 반대편",
+                  "body": "동대문역사문화공원역까지 이동합니다."
+                },
+                {
+                  "label": "TRANSFER",
+                  "title": "4호선 진접 방면 환승",
+                  "body": "한 정거장 뒤 동대문역에서 내립니다."
+                },
+                {
+                  "label": "EXIT 6",
+                  "title": "동대문역 6번 출구",
+                  "body": "출구 앞 선일빌딩 5층으로 올라옵니다."
+                }
+              ]
+            },
+            {
+              "title": "공항 택시",
+              "badge": "직행",
+              "tags": [
+                "약 60–70분",
+                "환승 없음",
+                "교통상황 영향"
+              ],
+              "path": "김포공항 → 선일빌딩",
+              "note": "교통상황에 따라 소요시간과 요금이 달라집니다.",
+              "steps": [
+                {
+                  "label": "TAXI",
+                  "title": "공식 택시 승강장 탑승",
+                  "body": "국제선·국내선 청사 밖 지정 승강장을 이용합니다."
+                },
+                {
+                  "label": "ADDRESS",
+                  "title": "서울시 종로구 종로 294",
+                  "body": "택시 하차 위치는 “교촌치킨 동대문 1호점”으로 요청해 주세요."
+                }
+              ]
+            }
+          ]
         }
       ],
       "source": "https://anotherhouse-guide.vercel.app/?page=transport"
@@ -703,12 +898,207 @@
     "en": {
       "title": "Getting here",
       "summary": "We are on the 5th floor of Sunil Building, about 30 seconds from Dongdaemun Station Exit 6.",
+      "destination": {
+        "name": "Another House",
+        "landmark": "Kyochon Chicken Dongdaemun No. 1",
+        "station": "Dongdaemun Station Exit 6",
+        "lastMile": "About 30 sec on foot · Elevator to 5F"
+      },
+      "localArrival": {
+        "station": "Dongdaemun Station Exit 6",
+        "landmark": "Kyochon Chicken Dongdaemun No. 1",
+        "lastMile": "About 30 sec on foot · Elevator to 5F",
+        "building": "5F, Sunil Building, 294 Jong-ro, Jongno-gu, Seoul",
+        "instruction": "From Dongdaemun Station Exit 6, enter Sunil Building directly ahead—the 1st floor has Kyochon Chicken Dongdaemun No. 1 and a dental-clinic sign. Take the elevator to 5F, go down half a floor, and enter the ANOTHER HOUSE reception through the glass door."
+      },
       "sections": [
         {
-          "title": "From Incheon Airport"
+          "title": "From Incheon Airport",
+          "summary": "See AREX, limousine, and taxi routes",
+          "officialSource": {
+            "label": "Check Incheon Airport official transport info",
+            "url": "https://www.airport.kr/ap_en/1512/subview.do"
+          },
+          "routes": [
+            {
+              "title": "AREX + Subway Line 4",
+              "badge": "RECOMMENDED",
+              "tags": [
+                "About 75–90 min",
+                "1 transfer",
+                "Traffic-free"
+              ],
+              "path": "Incheon Airport → Seoul Station → Dongdaemun",
+              "note": "The most predictable route when traveling light.",
+              "steps": [
+                {
+                  "label": "START",
+                  "title": "Incheon Airport T1 or T2",
+                  "body": "Follow signs for Airport Railroad AREX."
+                },
+                {
+                  "label": "AREX",
+                  "title": "Ride to Seoul Station",
+                  "body": "Take an all-stop or express train."
+                },
+                {
+                  "label": "LINE 4",
+                  "title": "Transfer to Line 4 toward Jinjeop",
+                  "body": "Ride from Seoul Station to Dongdaemun."
+                },
+                {
+                  "label": "EXIT 6",
+                  "title": "Dongdaemun Station Exit 6",
+                  "body": "Enter Sunil Building by the exit and take the elevator to 5F."
+                }
+              ]
+            },
+            {
+              "title": "Airport Limousine 6002",
+              "badge": "LUGGAGE",
+              "tags": [
+                "About 90–120 min",
+                "Fewer transfers",
+                "Traffic dependent"
+              ],
+              "path": "Incheon Airport → Bus 6002 → Dongdaemun Shopping Complex · Jongno 6-ga",
+              "note": "Confirm the operating stop and time on the airport display before boarding.",
+              "steps": [
+                {
+                  "label": "TICKET",
+                  "title": "Check Bus 6002 ticket",
+                  "body": "Check the airport bus counter or ticket machine."
+                },
+                {
+                  "label": "BUS 6002",
+                  "title": "Get off at Dongdaemun Shopping Complex · Jongno 6-ga (01771)",
+                  "body": "Get off at the center-lane stop directly in front of the house."
+                },
+                {
+                  "label": "LAST MILE",
+                  "title": "Head toward Dongdaemun Exit 6",
+                  "body": "Check your live stop, then continue to Sunil Building 5F."
+                }
+              ]
+            },
+            {
+              "title": "Airport taxi",
+              "badge": "EASIEST",
+              "tags": [
+                "About 70–100 min",
+                "Direct",
+                "Good late at night"
+              ],
+              "path": "Incheon Airport → Sunil Building",
+              "note": "Time and fare vary with traffic.",
+              "steps": [
+                {
+                  "label": "TAXI",
+                  "title": "Use the official taxi stand",
+                  "body": "Use a designated stand rather than solicited vehicles."
+                },
+                {
+                  "label": "ADDRESS",
+                  "title": "294 Jong-ro, Jongno-gu, Seoul",
+                  "body": "Ask to be dropped off at “Kyochon Chicken Dongdaemun No. 1.”"
+                }
+              ]
+            }
+          ]
         },
         {
-          "title": "From Gimpo Airport"
+          "title": "From Gimpo Airport",
+          "summary": "See AREX, subway, and taxi routes",
+          "officialSource": {
+            "label": "Check Gimpo Airport official transport info",
+            "url": "https://www.airport.co.kr/gimpo/cms/frCon/index.do?CONTENTS_NO=5&MENU_ID=1290"
+          },
+          "routes": [
+            {
+              "title": "AREX + Subway Line 4",
+              "badge": "RECOMMENDED",
+              "tags": [
+                "About 45–60 min",
+                "1 transfer",
+                "Fast route"
+              ],
+              "path": "Gimpo Airport → Seoul Station → Dongdaemun",
+              "note": "A straightforward recommended route.",
+              "steps": [
+                {
+                  "label": "START",
+                  "title": "Gimpo Airport",
+                  "body": "Follow signs for Airport Railroad AREX."
+                },
+                {
+                  "label": "AREX",
+                  "title": "Ride to Seoul Station",
+                  "body": "Take the AREX all-stop train."
+                },
+                {
+                  "label": "LINE 4",
+                  "title": "Transfer to Line 4 toward Jinjeop",
+                  "body": "Get off at Dongdaemun and use Exit 6."
+                },
+                {
+                  "label": "30 SEC",
+                  "title": "Sunil Building 5F",
+                  "body": "The building is by Exit 6; take the elevator to 5F."
+                }
+              ]
+            },
+            {
+              "title": "Subway Line 5 + Line 4",
+              "badge": "ALTERNATIVE",
+              "tags": [
+                "About 55–70 min",
+                "1 transfer",
+                "Regular subway"
+              ],
+              "path": "Gimpo Airport → DDP Station → Dongdaemun",
+              "note": "A subway alternative that bypasses Seoul Station.",
+              "steps": [
+                {
+                  "label": "LINE 5",
+                  "title": "Line 5 away from Banghwa",
+                  "body": "Ride to Dongdaemun History & Culture Park."
+                },
+                {
+                  "label": "TRANSFER",
+                  "title": "Transfer to Line 4 toward Jinjeop",
+                  "body": "Ride one stop to Dongdaemun."
+                },
+                {
+                  "label": "EXIT 6",
+                  "title": "Dongdaemun Station Exit 6",
+                  "body": "Go to Sunil Building 5F by the exit."
+                }
+              ]
+            },
+            {
+              "title": "Airport taxi",
+              "badge": "DIRECT",
+              "tags": [
+                "About 60–70 min",
+                "Direct",
+                "Traffic dependent"
+              ],
+              "path": "Gimpo Airport → Sunil Building",
+              "note": "Time and fare vary with traffic.",
+              "steps": [
+                {
+                  "label": "TAXI",
+                  "title": "Use the official taxi stand",
+                  "body": "Use the designated stand outside your terminal."
+                },
+                {
+                  "label": "ADDRESS",
+                  "title": "294 Jong-ro, Jongno-gu, Seoul",
+                  "body": "Ask to be dropped off at “Kyochon Chicken Dongdaemun No. 1.”"
+                }
+              ]
+            }
+          ]
         }
       ],
       "source": "https://anotherhouse-guide.vercel.app/?page=transport"
@@ -716,12 +1106,207 @@
     "ja": {
       "title": "アクセス",
       "summary": "東大門駅6番出口から徒歩約30秒、ソニルビル5階です。",
+      "destination": {
+        "name": "アナザーハウス",
+        "landmark": "キョチョンチキン東大門1号店",
+        "station": "東大門駅6番出口",
+        "lastMile": "徒歩約30秒 · エレベーターで5階"
+      },
+      "localArrival": {
+        "station": "東大門駅6番出口",
+        "landmark": "キョチョンチキン東大門1号店",
+        "lastMile": "徒歩約30秒 · エレベーターで5階",
+        "building": "ソウル特別市鍾路区鍾路294 ソニルビル5階",
+        "instruction": "東大門駅6番出口のすぐ前、1階のキョチョンチキン東大門1号店と歯科の看板があるソニルビルに入り、エレベーターで5階へ上がってください。エレベーターを降りて半階下り、ガラス扉の内側がANOTHER HOUSEの受付です。"
+      },
       "sections": [
         {
-          "title": "仁川空港からのアクセス"
+          "title": "仁川空港からのアクセス",
+          "summary": "空港鉄道・リムジン・タクシー",
+          "officialSource": {
+            "label": "仁川空港の公式交通情報",
+            "url": "https://www.airport.kr/ap_en/1512/subview.do"
+          },
+          "routes": [
+            {
+              "title": "AREX + 地下鉄4号線",
+              "badge": "おすすめ",
+              "tags": [
+                "約75〜90分",
+                "乗換1回",
+                "渋滞なし"
+              ],
+              "path": "仁川空港 → ソウル駅 → 東大門駅",
+              "note": "荷物が軽い場合に最も安定したルートです。",
+              "steps": [
+                {
+                  "label": "START",
+                  "title": "仁川空港 第1・第2ターミナル",
+                  "body": "空港鉄道AREXの表示に従います。"
+                },
+                {
+                  "label": "AREX",
+                  "title": "ソウル駅まで移動",
+                  "body": "一般列車または直通列車を利用します。"
+                },
+                {
+                  "label": "LINE 4",
+                  "title": "4号線・榛接方面へ乗換",
+                  "body": "ソウル駅から東大門駅へ移動します。"
+                },
+                {
+                  "label": "EXIT 6",
+                  "title": "東大門駅6番出口",
+                  "body": "出口前のソニルビルに入り、5階へ上がります。"
+                }
+              ]
+            },
+            {
+              "title": "空港リムジン6002",
+              "badge": "荷物が多い方",
+              "tags": [
+                "約90〜120分",
+                "乗換少なめ",
+                "交通状況による"
+              ],
+              "path": "仁川空港 → 6002番 → 東大門総合市場・鍾路6街",
+              "note": "乗車前に当日の停留所と運行時刻をご確認ください。",
+              "steps": [
+                {
+                  "label": "TICKET",
+                  "title": "6002番の乗車券を確認",
+                  "body": "空港バス案内所または券売機で確認します。"
+                },
+                {
+                  "label": "BUS 6002",
+                  "title": "東大門総合市場・鍾路6街（01771）で下車",
+                  "body": "宿のすぐ前にある中央車線の停留所で下車します。"
+                },
+                {
+                  "label": "LAST MILE",
+                  "title": "東大門駅6番出口方面へ",
+                  "body": "当日の降車停留所を確認し、ソニルビル5階へ移動します。"
+                }
+              ]
+            },
+            {
+              "title": "空港タクシー",
+              "badge": "最も便利",
+              "tags": [
+                "約70〜100分",
+                "乗換なし",
+                "深夜に便利"
+              ],
+              "path": "仁川空港 → ソニルビル",
+              "note": "所要時間と料金は交通状況により変わります。",
+              "steps": [
+                {
+                  "label": "TAXI",
+                  "title": "公式タクシー乗り場を利用",
+                  "body": "客引き車両ではなく指定乗り場をご利用ください。"
+                },
+                {
+                  "label": "ADDRESS",
+                  "title": "ソウル市鍾路区鍾路294",
+                  "body": "降車場所は「キョチョンチキン東大門1号店」とお伝えください。"
+                }
+              ]
+            }
+          ]
         },
         {
-          "title": "金浦空港からのアクセス"
+          "title": "金浦空港からのアクセス",
+          "summary": "空港鉄道・地下鉄・タクシー",
+          "officialSource": {
+            "label": "金浦空港の公式交通情報",
+            "url": "https://www.airport.co.kr/gimpo/cms/frCon/index.do?CONTENTS_NO=5&MENU_ID=1290"
+          },
+          "routes": [
+            {
+              "title": "AREX + 地下鉄4号線",
+              "badge": "おすすめ",
+              "tags": [
+                "約45〜60分",
+                "乗換1回",
+                "速いルート"
+              ],
+              "path": "金浦空港 → ソウル駅 → 東大門駅",
+              "note": "移動動線がシンプルなおすすめルートです。",
+              "steps": [
+                {
+                  "label": "START",
+                  "title": "金浦空港",
+                  "body": "空港鉄道AREXの表示に従います。"
+                },
+                {
+                  "label": "AREX",
+                  "title": "ソウル駅まで移動",
+                  "body": "空港鉄道の一般列車を利用します。"
+                },
+                {
+                  "label": "LINE 4",
+                  "title": "4号線・榛接方面へ乗換",
+                  "body": "東大門駅で下車し、6番出口へ。"
+                },
+                {
+                  "label": "30 SEC",
+                  "title": "ソニルビル5階",
+                  "body": "6番出口前の建物、エレベーターで5階です。"
+                }
+              ]
+            },
+            {
+              "title": "地下鉄5号線 + 4号線",
+              "badge": "別ルート",
+              "tags": [
+                "約55〜70分",
+                "乗換1回",
+                "一般地下鉄"
+              ],
+              "path": "金浦空港 → 東大門歴史文化公園 → 東大門",
+              "note": "ソウル駅を経由しない地下鉄ルートです。",
+              "steps": [
+                {
+                  "label": "LINE 5",
+                  "title": "5号線・傍花方面の反対方向",
+                  "body": "東大門歴史文化公園駅まで移動します。"
+                },
+                {
+                  "label": "TRANSFER",
+                  "title": "4号線・榛接方面へ乗換",
+                  "body": "1駅先の東大門駅で下車します。"
+                },
+                {
+                  "label": "EXIT 6",
+                  "title": "東大門駅6番出口",
+                  "body": "出口前のソニルビル5階へ上がります。"
+                }
+              ]
+            },
+            {
+              "title": "空港タクシー",
+              "badge": "直行",
+              "tags": [
+                "約60〜70分",
+                "乗換なし",
+                "交通状況による"
+              ],
+              "path": "金浦空港 → ソニルビル",
+              "note": "所要時間と料金は交通状況により変わります。",
+              "steps": [
+                {
+                  "label": "TAXI",
+                  "title": "公式タクシー乗り場を利用",
+                  "body": "国際線・国内線ターミナル外の指定乗り場をご利用ください。"
+                },
+                {
+                  "label": "ADDRESS",
+                  "title": "ソウル市鍾路区鍾路294",
+                  "body": "降車場所は「キョチョンチキン東大門1号店」とお伝えください。"
+                }
+              ]
+            }
+          ]
         }
       ],
       "source": "https://anotherhouse-guide.vercel.app/?page=transport"
@@ -729,12 +1314,207 @@
     "zh": {
       "title": "交通路线",
       "summary": "从东大门站6号出口步行约30秒，位于Sunil大厦5层。",
+      "destination": {
+        "name": "Another House",
+        "landmark": "桥村炸鸡东大门1号店",
+        "station": "东大门站6号出口",
+        "lastMile": "步行约30秒 · 乘电梯至5层"
+      },
+      "localArrival": {
+        "station": "东大门站6号出口",
+        "landmark": "桥村炸鸡东大门1号店",
+        "lastMile": "步行约30秒 · 乘电梯至5层",
+        "building": "首尔特别市钟路区钟路294，Sunil大厦5层",
+        "instruction": "从东大门站6号出口出来，进入正前方一层有桥村炸鸡东大门1号店和牙科招牌的Sunil大厦，乘电梯到5层。出电梯后下半层，玻璃门内即为ANOTHER HOUSE前台。"
+      },
       "sections": [
         {
-          "title": "从仁川机场前往"
+          "title": "从仁川机场前往",
+          "summary": "查看机场铁路、巴士和出租车路线",
+          "officialSource": {
+            "label": "查看仁川机场官方交通信息",
+            "url": "https://www.airport.kr/ap_en/1512/subview.do"
+          },
+          "routes": [
+            {
+              "title": "AREX + 地铁4号线",
+              "badge": "推荐",
+              "tags": [
+                "约75–90分钟",
+                "换乘1次",
+                "不受堵车影响"
+              ],
+              "path": "仁川机场 → 首尔站 → 东大门站",
+              "note": "行李较轻时最稳定的推荐路线。",
+              "steps": [
+                {
+                  "label": "START",
+                  "title": "仁川机场T1或T2",
+                  "body": "跟随机场铁路AREX标识。"
+                },
+                {
+                  "label": "AREX",
+                  "title": "前往首尔站",
+                  "body": "乘普通列车或直达列车。"
+                },
+                {
+                  "label": "LINE 4",
+                  "title": "换乘4号线榛接方向",
+                  "body": "从首尔站前往东大门站。"
+                },
+                {
+                  "label": "EXIT 6",
+                  "title": "东大门站6号出口",
+                  "body": "进入出口前的Sunil大厦，乘电梯到5层。"
+                }
+              ]
+            },
+            {
+              "title": "机场大巴6002",
+              "badge": "行李较多",
+              "tags": [
+                "约90–120分钟",
+                "少换乘",
+                "受路况影响"
+              ],
+              "path": "仁川机场 → 6002路 → 东大门综合市场·钟路6街",
+              "note": "上车前请在机场屏幕确认当天停靠站和班次。",
+              "steps": [
+                {
+                  "label": "TICKET",
+                  "title": "确认6002路车票",
+                  "body": "在机场巴士售票处或售票机确认。"
+                },
+                {
+                  "label": "BUS 6002",
+                  "title": "在东大门综合市场·钟路6街（01771）下车",
+                  "body": "在住宿正前方的中央车道站点下车。"
+                },
+                {
+                  "label": "LAST MILE",
+                  "title": "前往东大门站6号出口",
+                  "body": "确认实时下车站后前往Sunil大厦5层。"
+                }
+              ]
+            },
+            {
+              "title": "机场出租车",
+              "badge": "最方便",
+              "tags": [
+                "约70–100分钟",
+                "直达",
+                "适合深夜"
+              ],
+              "path": "仁川机场 → Sunil大厦",
+              "note": "时间和费用视路况而定。",
+              "steps": [
+                {
+                  "label": "TAXI",
+                  "title": "使用官方出租车乘车点",
+                  "body": "请使用指定乘车点，勿乘揽客车辆。"
+                },
+                {
+                  "label": "ADDRESS",
+                  "title": "首尔市钟路区钟路294",
+                  "body": "请告知司机在“桥村炸鸡东大门1号店”下车。"
+                }
+              ]
+            }
+          ]
         },
         {
-          "title": "从金浦机场前往"
+          "title": "从金浦机场前往",
+          "summary": "查看机场铁路、地铁和出租车路线",
+          "officialSource": {
+            "label": "查看金浦机场官方交通信息",
+            "url": "https://www.airport.co.kr/gimpo/cms/frCon/index.do?CONTENTS_NO=5&MENU_ID=1290"
+          },
+          "routes": [
+            {
+              "title": "AREX + 地铁4号线",
+              "badge": "推荐",
+              "tags": [
+                "约45–60分钟",
+                "换乘1次",
+                "快捷路线"
+              ],
+              "path": "金浦机场 → 首尔站 → 东大门站",
+              "note": "换乘动线简单的推荐路线。",
+              "steps": [
+                {
+                  "label": "START",
+                  "title": "金浦机场",
+                  "body": "跟随机场铁路AREX标识。"
+                },
+                {
+                  "label": "AREX",
+                  "title": "前往首尔站",
+                  "body": "乘AREX普通列车。"
+                },
+                {
+                  "label": "LINE 4",
+                  "title": "换乘4号线榛接方向",
+                  "body": "在东大门站下车，从6号出口出站。"
+                },
+                {
+                  "label": "30 SEC",
+                  "title": "Sunil大厦5层",
+                  "body": "大厦在6号出口前，乘电梯到5层。"
+                }
+              ]
+            },
+            {
+              "title": "地铁5号线 + 4号线",
+              "badge": "备选路线",
+              "tags": [
+                "约55–70分钟",
+                "换乘1次",
+                "普通地铁"
+              ],
+              "path": "金浦机场 → 东大门历史文化公园 → 东大门",
+              "note": "不经过首尔站的地铁备选路线。",
+              "steps": [
+                {
+                  "label": "LINE 5",
+                  "title": "5号线往傍花反方向",
+                  "body": "前往东大门历史文化公园站。"
+                },
+                {
+                  "label": "TRANSFER",
+                  "title": "换乘4号线榛接方向",
+                  "body": "乘一站到东大门站下车。"
+                },
+                {
+                  "label": "EXIT 6",
+                  "title": "东大门站6号出口",
+                  "body": "前往出口前Sunil大厦5层。"
+                }
+              ]
+            },
+            {
+              "title": "机场出租车",
+              "badge": "直达",
+              "tags": [
+                "约60–70分钟",
+                "直达",
+                "受路况影响"
+              ],
+              "path": "金浦机场 → Sunil大厦",
+              "note": "时间和费用视路况而定。",
+              "steps": [
+                {
+                  "label": "TAXI",
+                  "title": "使用官方出租车乘车点",
+                  "body": "使用航站楼外指定乘车点。"
+                },
+                {
+                  "label": "ADDRESS",
+                  "title": "首尔市钟路区钟路294",
+                  "body": "请告知司机在“桥村炸鸡东大门1号店”下车。"
+                }
+              ]
+            }
+          ]
         }
       ],
       "source": "https://anotherhouse-guide.vercel.app/?page=transport"
@@ -742,12 +1522,207 @@
     "zh-TW": {
       "title": "交通路線",
       "summary": "從東大門站6號出口步行約30秒，位於Sunil大廈5層。",
+      "destination": {
+        "name": "Another House",
+        "landmark": "橋村炸雞東大門1號店",
+        "station": "東大門站6號出口",
+        "lastMile": "步行約30秒 · 乘電梯至5層"
+      },
+      "localArrival": {
+        "station": "東大門站6號出口",
+        "landmark": "橋村炸雞東大門1號店",
+        "lastMile": "步行約30秒 · 乘電梯至5層",
+        "building": "首爾特別市鍾路區鍾路294，Sunil大廈5層",
+        "instruction": "從東大門站6號出口出來，進入正前方一樓有橋村炸雞東大門1號店和牙科招牌的Sunil大廈，搭電梯到5樓。出電梯後往下半層，玻璃門內就是ANOTHER HOUSE櫃檯。"
+      },
       "sections": [
         {
-          "title": "從仁川機場前往"
+          "title": "從仁川機場前往",
+          "summary": "檢視機場鐵路、巴士和計程車路線",
+          "officialSource": {
+            "label": "檢視仁川機場官方交通資訊",
+            "url": "https://www.airport.kr/ap_en/1512/subview.do"
+          },
+          "routes": [
+            {
+              "title": "AREX + 地鐵4號線",
+              "badge": "推薦",
+              "tags": [
+                "約75–90分鐘",
+                "轉乘1次",
+                "不受塞車影響"
+              ],
+              "path": "仁川機場 → 首爾站 → 東大門站",
+              "note": "行李較輕時最穩定的推薦路線。",
+              "steps": [
+                {
+                  "label": "START",
+                  "title": "仁川機場T1或T2",
+                  "body": "跟隨機場鐵路AREX標識。"
+                },
+                {
+                  "label": "AREX",
+                  "title": "前往首爾站",
+                  "body": "乘普通列車或直達列車。"
+                },
+                {
+                  "label": "LINE 4",
+                  "title": "轉乘4號線榛接方向",
+                  "body": "從首爾站前往東大門站。"
+                },
+                {
+                  "label": "EXIT 6",
+                  "title": "東大門站6號出口",
+                  "body": "進入出口前的Sunil大廈，乘電梯到5層。"
+                }
+              ]
+            },
+            {
+              "title": "機場大巴6002",
+              "badge": "行李較多",
+              "tags": [
+                "約90–120分鐘",
+                "少轉乘",
+                "受路況影響"
+              ],
+              "path": "仁川機場 → 6002路 → 東大門綜合市場·鍾路6街",
+              "note": "上車前請在機場螢幕確認當天停靠站和班次。",
+              "steps": [
+                {
+                  "label": "TICKET",
+                  "title": "確認6002路車票",
+                  "body": "在機場巴士售票處或售票機確認。"
+                },
+                {
+                  "label": "BUS 6002",
+                  "title": "在東大門綜合市場·鍾路6街（01771）下車",
+                  "body": "在住宿正前方的中央車道站點下車。"
+                },
+                {
+                  "label": "LAST MILE",
+                  "title": "前往東大門站6號出口",
+                  "body": "確認即時下車站後前往Sunil大廈5層。"
+                }
+              ]
+            },
+            {
+              "title": "機場計程車",
+              "badge": "最方便",
+              "tags": [
+                "約70–100分鐘",
+                "直達",
+                "適合深夜"
+              ],
+              "path": "仁川機場 → Sunil大廈",
+              "note": "時間和費用視路況而定。",
+              "steps": [
+                {
+                  "label": "TAXI",
+                  "title": "使用官方計程車乘車點",
+                  "body": "請使用指定乘車點，勿乘攬客車輛。"
+                },
+                {
+                  "label": "ADDRESS",
+                  "title": "首爾市鍾路區鍾路294",
+                  "body": "請告知司機在“橋村炸雞東大門1號店”下車。"
+                }
+              ]
+            }
+          ]
         },
         {
-          "title": "從金浦機場前往"
+          "title": "從金浦機場前往",
+          "summary": "檢視機場鐵路、地鐵和計程車路線",
+          "officialSource": {
+            "label": "檢視金浦機場官方交通資訊",
+            "url": "https://www.airport.co.kr/gimpo/cms/frCon/index.do?CONTENTS_NO=5&MENU_ID=1290"
+          },
+          "routes": [
+            {
+              "title": "AREX + 地鐵4號線",
+              "badge": "推薦",
+              "tags": [
+                "約45–60分鐘",
+                "轉乘1次",
+                "快捷路線"
+              ],
+              "path": "金浦機場 → 首爾站 → 東大門站",
+              "note": "轉乘動線簡單的推薦路線。",
+              "steps": [
+                {
+                  "label": "START",
+                  "title": "金浦機場",
+                  "body": "跟隨機場鐵路AREX標識。"
+                },
+                {
+                  "label": "AREX",
+                  "title": "前往首爾站",
+                  "body": "乘AREX普通列車。"
+                },
+                {
+                  "label": "LINE 4",
+                  "title": "轉乘4號線榛接方向",
+                  "body": "在東大門站下車，從6號出口出站。"
+                },
+                {
+                  "label": "30 SEC",
+                  "title": "Sunil大廈5層",
+                  "body": "大廈在6號出口前，乘電梯到5層。"
+                }
+              ]
+            },
+            {
+              "title": "地鐵5號線 + 4號線",
+              "badge": "備選路線",
+              "tags": [
+                "約55–70分鐘",
+                "轉乘1次",
+                "普通地鐵"
+              ],
+              "path": "金浦機場 → 東大門歷史文化公園 → 東大門",
+              "note": "不經過首爾站的地鐵備選路線。",
+              "steps": [
+                {
+                  "label": "LINE 5",
+                  "title": "5號線往傍花反方向",
+                  "body": "前往東大門歷史文化公園站。"
+                },
+                {
+                  "label": "TRANSFER",
+                  "title": "轉乘4號線榛接方向",
+                  "body": "乘一站到東大門站下車。"
+                },
+                {
+                  "label": "EXIT 6",
+                  "title": "東大門站6號出口",
+                  "body": "前往出口前Sunil大廈5層。"
+                }
+              ]
+            },
+            {
+              "title": "機場計程車",
+              "badge": "直達",
+              "tags": [
+                "約60–70分鐘",
+                "直達",
+                "受路況影響"
+              ],
+              "path": "金浦機場 → Sunil大廈",
+              "note": "時間和費用視路況而定。",
+              "steps": [
+                {
+                  "label": "TAXI",
+                  "title": "使用官方計程車乘車點",
+                  "body": "使用航站樓外指定乘車點。"
+                },
+                {
+                  "label": "ADDRESS",
+                  "title": "首爾市鍾路區鍾路294",
+                  "body": "請告知司機在“橋村炸雞東大門1號店”下車。"
+                }
+              ]
+            }
+          ]
         }
       ],
       "source": "https://anotherhouse-guide.vercel.app/?page=transport"

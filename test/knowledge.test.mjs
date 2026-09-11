@@ -8,12 +8,16 @@ const root = resolve(import.meta.dirname, "..");
 test("generated knowledge mirrors current public guide content without secrets", async () => {
   const raw = await readFile(resolve(root, "assets/guide-knowledge.json"), "utf8");
   const knowledge = JSON.parse(raw);
-  assert.equal(knowledge.version, "2026-09-09.1");
+  assert.equal(knowledge.version, "2026-09-11.1");
   assert.deepEqual(knowledge.languages, ["ko", "en", "ja", "zh", "zh-TW"]);
   assert.equal(knowledge.property.ko.address, "서울시 종로구 종로 294 선일빌딩 5층");
   assert.equal(knowledge.stay.ko.checkin.summary.includes("15:00"), true);
   assert.equal(knowledge.stay.ko.checkout.summary.includes("11:00"), true);
   assert.equal(knowledge.stay.ko.parking.onSite, "건물 내 주차 불가");
+  assert.match(knowledge.arrivalAndTransport.en.localArrival.instruction, /Kyochon Chicken Dongdaemun No\. 1/);
+  assert.equal(knowledge.arrivalAndTransport.en.sections[0].routes.length, 3);
+  assert.match(knowledge.arrivalAndTransport.en.sections[0].routes[1].path, /Bus 6002/);
+  assert.match(knowledge.arrivalAndTransport["zh-TW"].localArrival.instruction, /6號出口/);
   assert.equal(knowledge.hostRecommendations.ko.restaurants.length, 26);
   const eggdrop = knowledge.hostRecommendations.ko.restaurants.find(place => place.name === "에그드랍 동대문점");
   assert.equal(eggdrop.address, "서울 중구 을지로 255 기승빌딩 B동 에그드랍");

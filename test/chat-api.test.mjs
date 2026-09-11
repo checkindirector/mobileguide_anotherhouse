@@ -70,10 +70,10 @@ test("manual question uses server knowledge, gpt-5.4-mini, and no web search", a
   assert.equal(request.body.model, "gpt-5.4-mini");
   assert.equal(request.body.store, false);
   assert.equal(request.body.tools, undefined);
-  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-09\.1/);
+  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.1/);
   assert.match(request.body.instructions, /MAP_SPOT: <canonical place name> \| <complete street address>/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-09.1-ko");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.1-ko");
   assert.equal(res.payload.meta.cachedTokens, 80);
   assert.equal(res.payload.meta.searched, false);
 });
@@ -96,7 +96,45 @@ test("public information uses medium web search and returns trusted source links
   assert.equal(res.payload.meta.searchLevel, "medium");
   assert.match(res.payload.answer, /^※ 숙소 안내가 아닌 공개 자료/);
   assert.equal(res.payload.links.length, 1);
-  assert.equal(res.payload.links[0].label, "기상청");
+  assert.equal(res.payload.links[0].label, "확인한 출처 · weather.go.kr");
+});
+
+test("first-time traveler topics search current public information without a Naver place pass", async () => {
+  const output = { model: "gpt-5.4-mini", output_text: "Use the current official guidance.", output: [{ type: "web_search_call", action: { sources: [] } }], usage: {} };
+  const cases = [
+    "Can I use a Visa card to buy a subway ticket?",
+    "Where should I buy an eSIM for Korea?",
+    "What power plug and voltage does Korea use?",
+    "Which map app should I use in Seoul?"
+  ];
+  for (let index = 0; index < cases.length; index += 1) {
+    const { request, requests } = await callApi({ message: cases[index], language: "en" }, output, `203.0.113.${60 + index}`);
+    assert.equal(requests.length, 1);
+    assert.equal(request.body.tools[0].type, "web_search");
+    assert.equal(request.body.tools[0].search_context_size, "medium");
+  }
+});
+
+test("exact last-mile property directions use guide knowledge without public web search", async () => {
+  const output = { model: "gpt-5.4-mini", output_text: "From Exit 6, look for Kyochon Chicken and the dental sign at Sunil Building, take the elevator to 5F, then go down half a floor to the glass-door reception.", output: [], usage: {} };
+  const { request, requests } = await callApi({ message: "I am at Dongdaemun Station Exit 6 but cannot find the building entrance. What landmarks should I look for?", language: "en" }, output, "203.0.113.64");
+  assert.equal(requests.length, 1);
+  assert.equal(request.body.tools, undefined);
+  assert.match(request.body.instructions, /CURRENT_GUIDE\.arrivalAndTransport\.localArrival/);
+});
+
+test("source links prioritize Naver and official domains over aggregators", () => {
+  const data = { output: [{ type: "web_search_call", action: { sources: [
+    { url: "https://en.wikipedia.org/wiki/Test" },
+    { url: "https://www.diningcode.com/profile.php?rid=1" },
+    { url: "https://www.airport.kr/example" },
+    { url: "https://m.place.naver.com/place/123/home" }
+  ] } }] };
+  const links = handler._internals.extractSources(data, "en");
+  assert.deepEqual(links.map(link => link.label), [
+    "Verified source · m.place.naver.com",
+    "Verified source · airport.kr"
+  ]);
 });
 
 test("late-night transport uses high search context", async () => {
