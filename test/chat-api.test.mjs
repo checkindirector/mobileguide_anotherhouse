@@ -127,6 +127,19 @@ test("common questions across every current guide area use the generated site in
   }
 });
 
+test("ordinary kiosk check-in questions stay in the guide instead of key-card recovery", async () => {
+  const { res, requests } = await callApi(
+    { message: "키오스크로 체크인 어떻게 해?", language: "ko", history: [] },
+    { model: "unused" },
+    "203.0.113.139"
+  );
+  assert.equal(requests.length, 0);
+  assert.equal(res.payload.model, "another-house-site-guide");
+  assert.equal(res.payload.meta.topic, "checkin");
+  assert.match(res.payload.answer, /셀프 체크인|키오스크/);
+  assert.doesNotMatch(res.payload.answer, /새 키카드/);
+});
+
 test("public information uses medium web search and returns trusted source links", async () => {
   const output = {
     model: "gpt-5.4-mini",

@@ -75,7 +75,7 @@ const ACCESS_SUPPORT_COPY = {
     code: value => `公共入口密碼為 ${value} → ENT。\n請依序輸入，進入後務必領取新房卡。`
   }
 };
-const ACCESS_ISSUE_PATTERN = /(키\s*카드|카드키|키오스크|공동\s*현관|못\s*들어|잠겼|key\s*card|keycard|kiosk|locked\s*out|shared\s*entrance|キーカード|キオスク|共同玄関|入れない|房卡|自助机|自助機|公共入口|无法进入|無法進入)/i;
+const ACCESS_ISSUE_PATTERN = /((키\s*카드|카드키|공동\s*현관).{0,40}(놓고|두고|없|분실|잃|못\s*들어|안\s*열|잠겼|발급.{0,12}(안|못|실패))|(놓고|두고|없|분실|잃|못\s*들어|안\s*열|잠겼).{0,40}(키\s*카드|카드키|공동\s*현관)|(key\s*card|keycard|shared\s*entrance).{0,48}(left|lost|missing|don'?t\s*have|do\s*not\s*have|locked\s*out|can'?t\s*(get\s*in|enter)|cannot\s*(get\s*in|enter)|not\s*issued)|(left|lost|missing|locked\s*out|can'?t\s*(get\s*in|enter)|cannot\s*(get\s*in|enter)).{0,48}(key\s*card|keycard|shared\s*entrance)|(キーカード|共同玄関).{0,40}(忘れ|紛失|ない|入れない|開かない|発行されない)|(忘れ|紛失|入れない|開かない).{0,40}(キーカード|共同玄関)|(房卡|公共入口).{0,40}(忘带|忘帶|丢失|遺失|没有|沒有|无法进入|無法進入|打不开|打不開|未发卡|未發卡)|(忘带|忘帶|丢失|遺失|无法进入|無法進入|打不开|打不開).{0,40}(房卡|公共入口))/i;
 const ACCESS_CODE_REQUEST_PATTERN = /(공동\s*현관.{0,24}(비밀번호|비번|암호|코드)|(비밀번호|비번|암호|코드).{0,24}공동\s*현관|(?:shared\s*)?entrance.{0,24}(password|code)|(password|code).{0,24}(?:shared\s*)?entrance|共同玄関.{0,24}(暗証番号|パスワード)|公共入口.{0,24}(密码|密碼)|(?:密码|密碼).{0,24}公共入口)/i;
 const ACCESS_ANY_PASSWORD_REQUEST_PATTERN = /(비밀번호|비번|암호|코드|password|passcode|暗証番号|パスワード|密码|密碼)/i;
 const ACCESS_RECOVERY_FAILED_PATTERN = /(전화.{0,32}(했|걸|연락|안\s*(되|돼|됩|받)|연결.{0,12}(안|못)|불통|응답.{0,8}(없|안))|호스트.{0,32}(전화|연락).{0,24}(안\s*받|연결.{0,12}(안|못)|응답.{0,8}(없|안)|답.{0,8}(없|안))|통화.{0,24}(안\s*(되|돼|됩)|못|불통)|키오스크.{0,32}(안|못|실패)|카드.{0,32}(안\s*나|못\s*받|발급.{0,12}(안|못|실패))|called|tried|phone.{0,32}(not\s*work|no\s*answer|unanswered|couldn|can't)|host.{0,32}(not\s*answer|unreachable)|kiosk.{0,32}(failed|didn|not)|card.{0,32}(not\s*issued|didn|failed)|電話.{0,32}(した|連絡|つながら|繋がら|出ない)|ホスト.{0,24}(出ない|応答しない)|キオスク.{0,32}(出ない|失敗)|打了电话|打了電話|电话.{0,24}(不通|没人接|沒人接)|電話.{0,24}(不通|没人接|沒人接)|房东.{0,24}(不接|没回应)|房東.{0,24}(不接|沒回應)|联系过|聯絡過|没有出卡|沒有出卡|发卡失败|發卡失敗)/i;
@@ -103,7 +103,7 @@ function parseBody(req) {
 function anotherHouseAccessSupport(message, history, language) {
   const current = String(message || "").trim();
   const priorUserMessages = history.filter(item => item.role === "user").map(item => item.content);
-  const firstIssueIndex = priorUserMessages.findIndex(text => ACCESS_ISSUE_PATTERN.test(text));
+  const firstIssueIndex = priorUserMessages.findIndex(text => ACCESS_ISSUE_PATTERN.test(text) || ACCESS_RECOVERY_FAILED_PATTERN.test(text));
   const hasIssueContext = firstIssueIndex >= 0;
   const accessContext = hasIssueContext ? priorUserMessages.slice(firstIssueIndex) : [];
   const asksForCode = ACCESS_CODE_REQUEST_PATTERN.test(current);
@@ -111,7 +111,7 @@ function anotherHouseAccessSupport(message, history, language) {
   const currentReportsFailure = ACCESS_RECOVERY_FAILED_PATTERN.test(current);
   const recoveryAlreadyFailed = accessContext.some(text => ACCESS_RECOVERY_FAILED_PATTERN.test(text));
   const accessConversationTurns = accessContext.filter(text => ACCESS_ISSUE_PATTERN.test(text) || ACCESS_RECOVERY_FAILED_PATTERN.test(text) || ACCESS_ANY_PASSWORD_REQUEST_PATTERN.test(text)).length;
-  const related = ACCESS_ISSUE_PATTERN.test(current) || asksForCode || (hasIssueContext && (currentReportsFailure || asksForAnyPassword));
+  const related = ACCESS_ISSUE_PATTERN.test(current) || currentReportsFailure || asksForCode || (hasIssueContext && asksForAnyPassword);
   if (!related) return null;
   if (asksForCode && hasIssueContext && recoveryAlreadyFailed && accessConversationTurns >= 2) {
     const entranceCode = String(process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE || "").trim();
