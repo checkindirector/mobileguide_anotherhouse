@@ -70,10 +70,10 @@ test("manual question uses server knowledge, gpt-5.4-mini, and no web search", a
   assert.equal(request.body.model, "gpt-5.4-mini");
   assert.equal(request.body.store, false);
   assert.equal(request.body.tools, undefined);
-  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.2/);
+  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.3/);
   assert.match(request.body.instructions, /MAP_SPOT: <canonical place name> \| <complete street address>/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.2-ko");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.3-ko");
   assert.equal(res.payload.meta.cachedTokens, 80);
   assert.equal(res.payload.meta.searched, false);
 });
@@ -215,7 +215,7 @@ test("family dining near Another House uses verified local places without a frag
   assert.equal(res.payload.model, "another-house-verified-family-dining");
   assert.equal(res.payload.meta.verifiedFamilyDining, true);
   assert.equal(res.payload.meta.searched, false);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.2");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.3");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);
@@ -229,6 +229,49 @@ test("family dining near Another House uses verified local places without a frag
   assert.equal(res.payload.links[0].url, "https://map.naver.com/p/entry/place/2046166635");
   assert.equal(res.payload.links[2].url, "https://map.naver.com/p/entry/place/1384336990");
   assert.equal(res.payload.links[4].url, "https://map.naver.com/p/entry/place/11801976");
+});
+
+test("common nearby essentials use the pre-verified directory across wording and languages", async () => {
+  const cases = [
+    ["숙소 근처 늦게까지 하는 약국 어디야?", "ko", /두타몰레디영약국/, /10:30–24:00/],
+    ["Where is the nearest convenience store?", "en", /CU Dongdaemun Station/, /2–3 minute walk/],
+    ["가장 가까운 응급실 어디야?", "ko", /국립중앙의료원 응급실/, /119/],
+    ["近くで中国語の観光案内を受けられる場所は？", "ja", /東大門観光案内所/, /英語・日本語・中国語/],
+    ["附近哪里可以买洗漱用品？", "zh", /Olive Young DOOTA Mall店/, /洗漱用品/]
+  ];
+  for (let index = 0; index < cases.length; index += 1) {
+    const [message, language, namePattern, detailPattern] = cases[index];
+    const { res, requests } = await callApi({ message, language, history: [] }, { model: "unused" }, `203.0.113.${70 + index}`);
+    assert.equal(requests.length, 0);
+    assert.equal(res.payload.model, "another-house-verified-nearby");
+    assert.equal(res.payload.meta.verifiedNearby, true);
+    assert.match(res.payload.answer, namePattern);
+    assert.match(res.payload.answer, detailPattern);
+    assert.equal(res.payload.links.filter(link => link.kind === "map").length, 2);
+  }
+});
+
+test("ordinary restaurant and attraction recommendations use the curated local guide without web search", async () => {
+  const cases = [
+    ["숙소 근처 카페 추천해줘", "ko", /주변 맛집 가이드/],
+    ["What nearby attractions are good for a walk?", "en", /Another House/]
+  ];
+  for (let index = 0; index < cases.length; index += 1) {
+    const [message, language, answerPattern] = cases[index];
+    const { res, requests } = await callApi({ message, language, history: [] }, { model: "unused" }, `203.0.113.${80 + index}`);
+    assert.equal(requests.length, 0);
+    assert.equal(res.payload.model, "another-house-curated-local-guide");
+    assert.equal(res.payload.meta.curatedLocalGuide, true);
+    assert.match(res.payload.answer, answerPattern);
+    assert.ok(res.payload.links.filter(link => link.kind === "map").length >= 2);
+  }
+});
+
+test("an unknown named venue hours question is not replaced by a different directory venue", () => {
+  assert.equal(handler._internals.verifiedNearbyPlaces("종로온누리약국 영업시간 알려줘", "ko"), null);
+  assert.equal(handler._internals.isPlaceSearchIntent("숙소 근처 ATM 어디야?"), true);
+  assert.equal(handler._internals.isPlaceSearchIntent("숙소 근처 코인세탁소 추천해줘"), true);
+  assert.equal(handler._internals.isPlaceSearchIntent("Where is a laundromat near the hostel?"), true);
 });
 
 test("property address used only as a nearby-search origin never creates property map buttons", () => {
@@ -256,20 +299,20 @@ test("verified Naver Place hours answer directly without an unreliable web-searc
 test("place results offer maps only after an exact spot is resolved", async () => {
   const naverOutput = {
     model: "gpt-5.4-mini",
-    output_text: "네이버지도에서 종로온누리약국의 주소를 확인했습니다.",
-    output: [{ type: "web_search_call", action: { sources: [{ title: "종로온누리약국 네이버지도", url: "https://m.place.naver.com/place/321/home" }] } }],
+    output_text: "네이버지도에서 동대문라운지바의 주소를 확인했습니다.",
+    output: [{ type: "web_search_call", action: { sources: [{ title: "동대문라운지바 네이버지도", url: "https://m.place.naver.com/place/321/home" }] } }],
     usage: {}
   };
   const crossCheckOutput = {
     model: "gpt-5.4-mini",
-    output_text: "종로온누리약국을 확인했습니다.\nMAP_SPOT: 종로온누리약국 | 서울특별시 종로구 종로 293",
+    output_text: "동대문라운지바를 확인했습니다.\nMAP_SPOT: 동대문라운지바 | 서울특별시 종로구 종로 293",
     output: [{ type: "web_search_call", action: { sources: [{ title: "공공 약국 정보", url: "https://www.e-gen.or.kr/" }] } }],
     usage: {}
   };
-  const { res } = await callApi({ message: "숙소 근처 약국 추천해줘", language: "ko", history: [] }, [naverOutput, crossCheckOutput], "203.0.113.50");
+  const { res } = await callApi({ message: "숙소 근처 술집 추천해줘", language: "ko", history: [] }, [naverOutput, crossCheckOutput], "203.0.113.50");
   assert.match(res.payload.answer, /원하시면 이 장소의 네이버지도와 Google Maps 링크를 바로 연결해 드릴게요/);
   assert.equal(res.payload.links.filter(link => link.kind === "map").length, 0);
-  assert.deepEqual(res.payload.mapContext, { name: "종로온누리약국", address: "서울특별시 종로구 종로 293" });
+  assert.deepEqual(res.payload.mapContext, { name: "동대문라운지바", address: "서울특별시 종로구 종로 293" });
   assert.equal(res.payload.links[0].url, "https://m.place.naver.com/place/321/home");
   assert.equal(res.payload.links[1].url, "https://www.e-gen.or.kr/");
 });

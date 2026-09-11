@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-11.2";
+const VERSION = "2026-09-11.3";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -93,6 +93,11 @@ const maps = {
   google: `https://www.google.com/maps/search/?api=1&query=${addressQuery}`
 };
 
+const placeMaps = query => ({
+  naver: `https://map.naver.com/p/search/${encodeURIComponent(query)}`,
+  google: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
+});
+
 const familyDiningPlaces = [
   {
     id: "bonuribansang-doota",
@@ -137,6 +142,80 @@ const familyDiningPlaces = [
     priority: 4,
     hours: { schedule: "07:00–22:00", open: "07:00", close: "22:00", verifiedAt: "2026-09-11", sourceName: "Naver Place", sourceUrl: "https://map.naver.com/p/entry/place/1736990079" },
     maps: { naver: "https://map.naver.com/p/entry/place/1736990079", google: "https://www.google.com/maps/search/?api=1&query=%EC%97%90%EA%B7%B8%EB%93%9C%EB%9E%8D+%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A0%90" }
+  }
+];
+
+// Another House-specific, pre-verified neighborhood directory. These are intentionally
+// kept with the property knowledge rather than a shared concierge prompt.
+const verifiedNearbyPlaces = [
+  {
+    id: "cu-dongdaemun-station",
+    name: { ko: "CU 동대문역점", en: "CU Dongdaemun Station", ja: "CU 東大門駅店", zh: "CU 东大门站店", "zh-TW": "CU 東大門站店" },
+    aliases: { ko: ["씨유 동대문역점", "동대문역 편의점"], en: ["CU Dongdaemun", "nearby convenience store"], ja: ["東大門駅 コンビニ"], zh: ["东大门站便利店"], "zh-TW": ["東大門站便利商店"] },
+    categories: ["convenience", "groceries", "snacks", "daily-needs"],
+    address: { ko: "서울 종로구 종로46길 5 1층", en: "1F, 5 Jong-ro 46-gil, Jongno-gu, Seoul", ja: "ソウル特別市 鍾路区 鍾路46キル5 1階", zh: "首尔特别市钟路区钟路46街5号 1层", "zh-TW": "首爾特別市鐘路區鐘路46街5號 1樓" },
+    walk: { ko: "도보 약 2–3분", en: "About a 2–3 minute walk", ja: "徒歩約2〜3分", zh: "步行约2–3分钟", "zh-TW": "步行約2–3分鐘" },
+    summary: { ko: "물, 간식과 기본 생필품을 가장 가깝게 구입하기 좋은 편의점입니다.", en: "The most practical nearby stop for water, snacks and basic daily supplies.", ja: "水、軽食、基本的な日用品を近くで購入できます。", zh: "可就近购买饮用水、零食和基本日用品。", "zh-TW": "可就近購買飲用水、零食和基本日用品。" },
+    verification: { verifiedAt: "2026-09-11", sourceName: "Naver Maps + public business registry", sourceUrl: "https://map.naver.com/p/search/CU%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%97%AD%EC%A0%90" },
+    maps: placeMaps("CU 동대문역점 서울 종로구 종로46길 5")
+  },
+  {
+    id: "doota-ready-young-pharmacy",
+    name: { ko: "두타몰레디영약국", en: "Doota Mall Ready Young Pharmacy", ja: "DOOTAモール レディヤング薬局", zh: "DOOTA Mall Ready Young 药店", "zh-TW": "DOOTA Mall Ready Young 藥局" },
+    aliases: { ko: ["두타몰 약국", "레디영약국", "동대문 약국"], en: ["Doota pharmacy", "nearby pharmacy"], ja: ["DOOTA 薬局", "東大門 薬局"], zh: ["DOOTA 药店", "东大门药店"], "zh-TW": ["DOOTA 藥局", "東大門藥局"] },
+    categories: ["pharmacy", "medicine", "beauty", "daily-needs"],
+    address: { ko: "서울 중구 장충단로 275 두산타워빌딩 B2층 2·3호", en: "Units 2–3, B2, Doosan Tower, 275 Jangchungdan-ro, Jung-gu, Seoul", ja: "ソウル特別市 中区 奨忠壇路275 斗山タワーB2階2・3号", zh: "首尔特别市中区奖忠坛路275号 斗山大厦B2层2、3号", "zh-TW": "首爾特別市中區獎忠壇路275號 斗山大廈B2樓2、3號" },
+    walk: { ko: "도보 약 5–7분", en: "About a 5–7 minute walk", ja: "徒歩約5〜7分", zh: "步行约5–7分钟", "zh-TW": "步行約5–7分鐘" },
+    summary: { ko: "두타몰 지하 2층에 있으며 영어·일본어·중국어 상담이 가능한 늦은 시간 약국입니다.", en: "A late-opening pharmacy on Doota Mall B2 with English, Japanese and Chinese assistance.", ja: "DOOTAモールB2階。英語・日本語・中国語で相談できる夜遅くまで営業する薬局です。", zh: "位于DOOTA Mall地下2层，可使用英语、日语和中文咨询，营业至深夜。", "zh-TW": "位於DOOTA Mall地下2樓，可使用英語、日語和中文諮詢，營業至深夜。" },
+    hours: { schedule: "10:30–24:00", open: "10:30", close: "24:00", daily: true },
+    verification: { verifiedAt: "2026-09-11", sourceName: "Naver Maps + venue listing", sourceUrl: "https://map.naver.com/p/search/%EB%91%90%ED%83%80%EB%AA%B0%EB%A0%88%EB%94%94%EC%98%81%EC%95%BD%EA%B5%AD" },
+    maps: placeMaps("두타몰레디영약국 서울 중구 장충단로 275")
+  },
+  {
+    id: "national-medical-center-er",
+    name: { ko: "국립중앙의료원 응급실", en: "National Medical Center Emergency Room", ja: "国立中央医療院 救急外来", zh: "国立中央医疗院急诊室", "zh-TW": "國立中央醫療院急診室" },
+    aliases: { ko: ["국립중앙의료원", "가까운 응급실", "응급 병원"], en: ["National Medical Center", "nearest emergency room", "ER"], ja: ["国立中央医療院", "近くの救急外来"], zh: ["国立中央医疗院", "附近急诊室"], "zh-TW": ["國立中央醫療院", "附近急診室"] },
+    categories: ["hospital", "emergency", "medical"],
+    address: { ko: "서울 중구 을지로 245 국립중앙의료원", en: "National Medical Center, 245 Eulji-ro, Jung-gu, Seoul", ja: "ソウル特別市 中区 乙支路245 国立中央医療院", zh: "首尔特别市中区乙支路245号 国立中央医疗院", "zh-TW": "首爾特別市中區乙支路245號 國立中央醫療院" },
+    walk: { ko: "도보 약 12–15분", en: "About a 12–15 minute walk", ja: "徒歩約12〜15分", zh: "步行约12–15分钟", "zh-TW": "步行約12–15分鐘" },
+    summary: { ko: "공식 지역응급의료센터입니다. 위급하면 이동 전에 119로 먼저 연락하세요.", en: "This is the official regional emergency medical center. Call 119 first if the situation is urgent.", ja: "公式の地域救急医療センターです。緊急時は移動前に119へ電話してください。", zh: "这是官方地区急救医疗中心。情况紧急时请先拨打119。", "zh-TW": "這是官方地區急救醫療中心。情況緊急時請先撥打119。" },
+    verification: { verifiedAt: "2026-09-11", sourceName: "National Medical Center", sourceUrl: "https://www.nmc.or.kr/nmc/emergencyRoom" },
+    maps: placeMaps("국립중앙의료원 응급실 서울 중구 을지로 245")
+  },
+  {
+    id: "doota-mall",
+    name: { ko: "두타몰", en: "Doota Mall", ja: "DOOTAモール", zh: "DOOTA Mall", "zh-TW": "DOOTA Mall" },
+    aliases: { ko: ["두산타워", "가까운 쇼핑몰", "동대문 쇼핑"], en: ["Doosan Tower", "nearby mall", "Dongdaemun shopping"], ja: ["斗山タワー", "東大門 ショッピング"], zh: ["斗山大厦", "东大门购物"], "zh-TW": ["斗山大廈", "東大門購物"] },
+    categories: ["shopping", "mall", "beauty", "dining", "tax-refund", "daily-needs"],
+    address: { ko: "서울 중구 장충단로 275 두산타워", en: "Doosan Tower, 275 Jangchungdan-ro, Jung-gu, Seoul", ja: "ソウル特別市 中区 奨忠壇路275 斗山タワー", zh: "首尔特别市中区奖忠坛路275号 斗山大厦", "zh-TW": "首爾特別市中區獎忠壇路275號 斗山大廈" },
+    walk: { ko: "도보 약 5–7분", en: "About a 5–7 minute walk", ja: "徒歩約5〜7分", zh: "步行约5–7分钟", "zh-TW": "步行約5–7分鐘" },
+    summary: { ko: "패션·뷰티·식당·약국·택스리펀을 한 건물에서 해결하기 편한 쇼핑몰입니다.", en: "A convenient one-stop mall for fashion, beauty, dining, a pharmacy and tax refunds.", ja: "ファッション、ビューティー、食事、薬局、免税手続きを一か所で利用できます。", zh: "可在同一栋楼内解决时尚、美妆、餐饮、药店和退税需求。", "zh-TW": "可在同一棟樓內解決時尚、美妝、餐飲、藥局和退稅需求。" },
+    hours: { schedule: "10:30–24:00", open: "10:30", close: "24:00", daily: true },
+    verification: { verifiedAt: "2026-09-11", sourceName: "Doota Mall official website", sourceUrl: "https://www.doota-mall.com/store/location.do" },
+    maps: placeMaps("두타몰 서울 중구 장충단로 275")
+  },
+  {
+    id: "olive-young-doota",
+    name: { ko: "올리브영 두타몰점", en: "Olive Young Doota Mall", ja: "オリーブヤング DOOTAモール店", zh: "Olive Young DOOTA Mall店", "zh-TW": "Olive Young DOOTA Mall店" },
+    aliases: { ko: ["두타몰 올리브영", "화장품", "세면도구"], en: ["Olive Young", "toiletries", "K-beauty"], ja: ["オリーブヤング", "洗面用品", "韓国コスメ"], zh: ["Olive Young", "洗漱用品", "韩国美妆"], "zh-TW": ["Olive Young", "盥洗用品", "韓國美妝"] },
+    categories: ["beauty", "toiletries", "daily-needs", "shopping"],
+    address: { ko: "서울 중구 장충단로 275 두타몰 B2층", en: "B2, Doota Mall, 275 Jangchungdan-ro, Jung-gu, Seoul", ja: "ソウル特別市 中区 奨忠壇路275 DOOTAモールB2階", zh: "首尔特别市中区奖忠坛路275号 DOOTA Mall B2层", "zh-TW": "首爾特別市中區獎忠壇路275號 DOOTA Mall B2樓" },
+    walk: { ko: "도보 약 5–7분", en: "About a 5–7 minute walk", ja: "徒歩約5〜7分", zh: "步行约5–7分钟", "zh-TW": "步行約5–7分鐘" },
+    summary: { ko: "세면도구, 위생용품과 K-뷰티 제품을 구입하기 편합니다.", en: "Useful for toiletries, personal-care items and K-beauty products.", ja: "洗面用品、衛生用品、韓国コスメの購入に便利です。", zh: "方便购买洗漱用品、卫生用品和韩国美妆产品。", "zh-TW": "方便購買盥洗用品、衛生用品和韓國美妝產品。" },
+    verification: { verifiedAt: "2026-09-11", sourceName: "Doota Mall official floor guide", sourceUrl: "https://www.doota-mall.com/" },
+    maps: placeMaps("올리브영 두타몰점 서울 중구 장충단로 275")
+  },
+  {
+    id: "dongdaemun-tourist-information",
+    name: { ko: "동대문 관광안내소", en: "Dongdaemun Tourist Information Center", ja: "東大門観光案内所", zh: "东大门旅游咨询中心", "zh-TW": "東大門旅遊諮詢中心" },
+    aliases: { ko: ["관광 안내소", "외국어 안내"], en: ["tourist information", "English help"], ja: ["観光案内所", "外国語案内"], zh: ["旅游咨询中心", "外语服务"], "zh-TW": ["旅遊諮詢中心", "外語服務"] },
+    categories: ["tourist-info", "translation", "maps", "tickets"],
+    address: { ko: "서울 중구 장충단로 247", en: "247 Jangchungdan-ro, Jung-gu, Seoul", ja: "ソウル特別市 中区 奨忠壇路247", zh: "首尔特别市中区奖忠坛路247号", "zh-TW": "首爾特別市中區獎忠壇路247號" },
+    walk: { ko: "도보 약 8–10분", en: "About an 8–10 minute walk", ja: "徒歩約8〜10分", zh: "步行约8–10分钟", "zh-TW": "步行約8–10分鐘" },
+    summary: { ko: "영어·일본어·중국어 통역, 서울 지도·가이드북과 여행 정보를 무료로 안내합니다.", en: "Free travel information, maps and guidebooks with English, Japanese and Chinese assistance.", ja: "英語・日本語・中国語で、旅行情報、地図、ガイドブックを無料で案内します。", zh: "免费提供英语、日语和中文咨询，以及首尔地图和旅游手册。", "zh-TW": "免費提供英語、日語和中文諮詢，以及首爾地圖和旅遊手冊。" },
+    hours: { schedule: "10:00–01:00", open: "10:00", close: "01:00", daily: true, holidayNote: "Lunar New Year and Chuseok closed" },
+    verification: { verifiedAt: "2026-09-11", sourceName: "Official Seoul Tourism Guide", sourceUrl: "https://english.visitseoul.net/area/Dongdaemun-Tourist-Information-Center/ENP027215" },
+    maps: placeMaps("동대문 관광안내소 서울 중구 장충단로 247")
   }
 ];
 
@@ -185,6 +264,7 @@ const knowledge = {
   publicLocalDirectory: localized(language => ({
     origin: localize(data.address, language),
     familyDining: familyDiningPlaces.map(place => localize(place, language)),
+    verifiedNearby: verifiedNearbyPlaces.map(place => localize(place, language)),
     verificationPolicy: language === "ko"
       ? "영업시간은 네이버 플레이스에서 2026-09-11 확인했습니다. 임시휴무와 당일 변경은 각 지도 링크에서 다시 확인합니다."
       : language === "ja"
@@ -226,9 +306,11 @@ const knowledge = {
     restaurants: localize(data.pages.nearby.places, language).map(place => ({
       name: place.name,
       category: place.category,
+      categories: place.categories || [],
       description: place.text,
       walk: place.walk,
       hostPick: Boolean(place.host),
+      tags: place.tags || [],
       maps: { naver: place.naver, google: place.google },
       ...(place.aliases ? { aliases: place.aliases } : {}),
       ...(place.address ? { address: place.address } : {}),
@@ -239,6 +321,8 @@ const knowledge = {
       description: place.text,
       travel: place.travel,
       hostPick: Boolean(place.host),
+      categories: place.categories || [],
+      tags: place.tags || [],
       maps: { naver: place.naver, google: place.google },
       ...(place.official ? { official: place.official } : {})
     })),
@@ -271,7 +355,7 @@ const json = `${JSON.stringify(knowledge, null, 2)}\n`;
 if (/another1234/.test(json)) throw new Error("Sensitive Wi-Fi password leaked into guide knowledge");
 await writeFile(resolve(root, "assets/guide-knowledge.json"), json);
 
-const audit = `# Concierge knowledge audit\n\nVersion: ${VERSION}\n\n| Area | Current page source | Previous chatbot state | Unified result |\n|---|---|---|---|\n| Address, check-in/out, transport, parking, luggage, rules | Current rendered page data | Sent ad hoc from the browser | Generated into one server-owned knowledge bundle |\n| Appliances, laundry, waste | Current page instructions; official manuals are secondary | Sent ad hoc from the browser | Current page text is primary; manual links remain supporting sources |\n| Restaurants and tours | 26 restaurant cards and 21 tour cards | Loaded only for matching browser keywords | Included as clearly labeled host recommendations |\n| Wi-Fi | Network and password are visible on the Wi-Fi screen | Password could be sent to the model | Network retained; password deliberately excluded as sensitive |\n| Door/access and reservation data | Page tells guests where to retrieve guest-specific information | Could be mixed into browser context | Codes, room assignment, booking status and guest-specific details are prohibited |\n| General public information | Not part of the property manual | Previously rejected | Official-source web search is permitted only for non-property public questions |\n| Emergency | Booking-platform contact plus Korean public emergency services | No dedicated normalized section | 112/119 and official agency sources added; property-specific issues still use the booking platform |\n\nThe generator executes the same ordered data scripts as the website. Tests regenerate the bundle and fail if it is stale or contains the known Wi-Fi password.\n`;
+const audit = `# Concierge knowledge audit\n\nVersion: ${VERSION}\n\n| Area | Current page source | Previous chatbot state | Unified result |\n|---|---|---|---|\n| Address, check-in/out, transport, parking, luggage, rules | Current rendered page data | Sent ad hoc from the browser | Generated into one server-owned knowledge bundle |\n| Appliances, laundry, waste | Current page instructions; official manuals are secondary | Sent ad hoc from the browser | Current page text is primary; manual links remain supporting sources |\n| Nearby essentials | Naver Maps plus official venue/public sources | Depended on live search even for common needs | Six property-specific places are pre-verified with exact addresses and map links |\n| Restaurants and tours | 26 restaurant cards and 21 tour cards | Loaded only for matching browser keywords | Included as clearly labeled host recommendations |\n| Wi-Fi | Network and password are visible on the Wi-Fi screen | Password could be sent to the model | Network retained; password deliberately excluded as sensitive |\n| Door/access and reservation data | Page tells guests where to retrieve guest-specific information | Could be mixed into browser context | Codes, room assignment, booking status and guest-specific details are prohibited |\n| General public information | Not part of the property manual | Previously rejected | Official-source web search is permitted only for non-property public questions |\n| Emergency | Booking-platform contact plus Korean public emergency services | No dedicated normalized section | 112/119 and official agency sources added; property-specific issues still use the booking platform |\n\nThe generator executes the same ordered data scripts as the website. Tests regenerate the bundle and fail if it is stale or contains the known Wi-Fi password.\n`;
 await writeFile(resolve(root, "docs/concierge-knowledge-audit.md"), audit);
 
 console.log(`Generated guide knowledge ${VERSION} (${Buffer.byteLength(json)} bytes)`);

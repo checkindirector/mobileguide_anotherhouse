@@ -1,11 +1,12 @@
 # Concierge knowledge audit
 
-Version: 2026-09-11.2
+Version: 2026-09-11.3
 
 | Area | Current page source | Previous chatbot state | Unified result |
 |---|---|---|---|
 | Address, check-in/out, transport, parking, luggage, rules | Current rendered page data | Sent ad hoc from the browser | Generated into one server-owned knowledge bundle |
 | Appliances, laundry, waste | Current page instructions; official manuals are secondary | Sent ad hoc from the browser | Current page text is primary; manual links remain supporting sources |
+| Nearby essentials | Naver Maps plus official venue/public sources | Depended on live search even for common needs | Six property-specific places are pre-verified with exact addresses and map links |
 | Restaurants and tours | 26 restaurant cards and 21 tour cards | Loaded only for matching browser keywords | Included as clearly labeled host recommendations |
 | Wi-Fi | Network and password are visible on the Wi-Fi screen | Password could be sent to the model | Network retained; password deliberately excluded as sensitive |
 | Door/access and reservation data | Page tells guests where to retrieve guest-specific information | Could be mixed into browser context | Codes, room assignment, booking status and guest-specific details are prohibited |
