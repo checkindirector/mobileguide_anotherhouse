@@ -70,10 +70,10 @@ test("non-indexed property question uses server knowledge, gpt-5.4-mini, and no 
   assert.equal(request.body.model, "gpt-5.4-mini");
   assert.equal(request.body.store, false);
   assert.equal(request.body.tools, undefined);
-  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.7/);
+  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.8/);
   assert.match(request.body.instructions, /MAP_SPOT: <canonical place name> \| <complete street address>/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.7-ko");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.8-ko");
   assert.equal(res.payload.meta.cachedTokens, 80);
   assert.equal(res.payload.meta.searched, false);
 });
@@ -95,7 +95,7 @@ test("luggage storage is answered from the current site in all five languages wi
     assert.equal(res.payload.meta.searched, false);
     assert.equal(res.payload.meta.siteGuide, true);
     assert.equal(res.payload.meta.topic, "luggage");
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.7");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.8");
     assert.match(res.payload.answer, expected);
     assert.doesNotMatch(res.payload.answer, /최신 공개정보|public information|公开信息|公開資訊/);
   }
@@ -113,6 +113,7 @@ test("common questions across every current guide area use the generated site in
     ["How do I use the washing machine?", "en", "laundry"],
     ["쓰레기 분리수거", "ko", "waste"],
     ["싱글룸이 몇 개야?", "ko", "rooms"],
+    ["TV 있어요?", "ko", "tv"],
     ["How do I contact the host?", "en", "contact"],
     ["Wi-Fiは使えますか", "ja", "wifi"]
   ];
@@ -266,7 +267,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.mode, "night");
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.7");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.8");
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
@@ -345,7 +346,7 @@ test("family dining near Another House uses verified local places without a frag
   assert.equal(res.payload.model, "another-house-verified-family-dining");
   assert.equal(res.payload.meta.verifiedFamilyDining, true);
   assert.equal(res.payload.meta.searched, false);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.7");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.8");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);

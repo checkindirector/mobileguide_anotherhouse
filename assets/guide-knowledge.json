@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-11.7",
+  "version": "2026-09-11.8",
   "generatedAt": "2026-09-11",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -87,7 +87,10 @@
         "keywords": [
           "체크인",
           "입실 시간",
-          "입실 방법"
+          "입실 방법",
+          "셀프 체크인",
+          "키오스크",
+          "객실 도어락"
         ],
         "answer": "체크인은 15:00부터입니다. 선일빌딩 5층 키오스크에서 예약자 정보로 셀프 체크인을 진행해 주세요.\n체크인 하루 전부터 당일 오전 9시 사이에 예약 플랫폼 메시지로 발송된 체크인 안내를 확인합니다.\n15:00 이후 5층 키오스크에서 예약 바우처에 적힌 예약자 이름 또는 예약 번호 뒤 4자리로 예약을 조회합니다.\n화면 안내에 따라 셀프 체크인을 완료하고 객실 번호와 카드키를 확인합니다.\n체크인 후에는 카드키를 출입구 옆 기기에 태그하여 문을 엽니다.\n짐은 503호 앞 러기지룸에 보관할 수 있습니다. 체크인 전 짐 보관을 위한 출입정보는 예약 메시지에서 확인해 주세요.\n예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴)을 통해 메시지로 호스트에게 연락해 주세요.",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
@@ -130,7 +133,12 @@
           "숙소 이용 규칙",
           "숙소 규칙",
           "이용 규칙",
-          "하우스 룰"
+          "하우스 룰",
+          "흡연",
+          "소음",
+          "파티",
+          "반려동물",
+          "외부인"
         ],
         "answer": "모두의 안전과 편안한 휴식을 위해 지켜 주세요.\n어나더하우스는 여성 전용 숙소이며, 예약 인원을 초과한 방문객의 출입은 불가합니다.\n숙소 전 구역은 금연이며 반려동물, 파티, 상업 촬영은 허용되지 않습니다.\n매너타임은 22:00부터 05:00까지입니다. 늦은 시간에는 소음에 특히 유의해 주세요.\n취사는 가능하지만 연기나 냄새가 강한 고기·생선류 조리는 삼가 주세요.\n냉장고에 음식물을 보관할 때는 포스트잇에 이름과 보관일 또는 퇴실일을 적어 붙여 주세요.\n게스트 박스의 공용 물품은 사용 후 원위치해 주세요. 일회용 소모품은 필요한 만큼만 이용해 주세요.\n기물이 파손된 경우 예약 플랫폼 메시지로 즉시 호스트에게 알려 주세요.",
         "source": "https://anotherhouse-guide.vercel.app/?page=rules"
@@ -146,7 +154,7 @@
           "냉장고",
           "기기 사용"
         ],
-        "answer": "사진에서 확인한 모델명과 제조사 공식 자료를 대조해, 숙소에서 자주 쓰는 조작만 정리했습니다.\n객실 냉난방\n전자레인지\n하이라이트 전기쿡탑\n정수기\n공용 냉장고\n게스트박스",
+        "answer": "사진에서 확인한 모델명과 제조사 공식 자료를 대조해, 숙소에서 자주 쓰는 조작만 정리했습니다.\n객실 냉난방\n왼쪽 아래 전원 버튼을 눌러 켭니다.\n화면에서 운전 모드를 선택한 뒤 냉방 또는 난방을 고릅니다.\n위·아래 버튼으로 희망 온도를 맞춥니다.\n필요하면 풍량 메뉴에서 바람 세기를 조절합니다.\n외출할 때는 전원을 꺼 주세요. 중앙 제어 중에는 일부 모드가 제한될 수 있습니다.\n전자레인지\n금속·포일은 넣지 말고 전자레인지용 용기를 사용합니다.\n음식을 넣고 문을 완전히 닫습니다.\n빠른 가열은 시작/+30초 버튼을 누르며 시간을 늘립니다.\n세부 설정은 파워조절 또는 해동 무게/시간 버튼을 누르고 다이얼로 값을 맞춘 뒤 시작합니다.\n정지/취소로 멈추고, 가열 중에는 자리를 비우지 마세요.\n하이라이트 전기쿡탑\n평평한 바닥의 조리 용기를 올립니다.\n전원 버튼을 1초간 눌러 대기 상태로 켭니다.\n하이라이트 + 버튼을 누르면 1단으로 시작하며, + / −로 1–9단 화력을 조절합니다.\n사용 후 전원 버튼을 1초간 눌러 끕니다.\n잔열 표시 H가 사라질 때까지 상판을 만지지 마세요. 잠금 해제는 잠금 버튼을 2초간 누릅니다.\n정수기\n컵을 출수구 아래에 놓습니다.\n정수·냉수·온수 버튼 중 원하는 물을 선택합니다.\n용량 버튼으로 120 mL, 500 mL 또는 연속을 선택합니다.\n출수 버튼을 눌러 물을 받습니다.\n온수 사용 시 잠금 버튼을 약 5초 눌러 해제하고, 빨간 출수 버튼이 켜진 상태에서 화상에 주의하세요.\n공용 냉장고\n음식과 음료마다 포스트잇에 이름(또는 객실)과 보관 시작일 또는 체크아웃일을 적어 붙입니다.\n냄새가 강한 음식은 완전히 밀봉해 주세요.\n유통기한이 지났거나 장기 보관되었거나 표기가 없는 식품은 위생 관리를 위해 폐기될 수 있습니다.\n다른 게스트의 음식과 음료는 절대 드시지 마세요.\n체크아웃할 때 남은 음식은 직접 정리해 주세요.\n게스트박스\n공용 공간의 GUEST BOX에서 필요한 물품을 확인합니다.\n여분 수건·일회용 칫솔 세트·밴드·여행용 어댑터·고데기·물티슈·비닐봉투가 준비되어 있습니다.\n여행용 어댑터와 고데기 등 재사용 물품은 사용 직후 제자리에 돌려놓습니다.\n일회용품은 필요한 수량만 가져가 주세요.",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
       },
       {
@@ -184,6 +192,18 @@
         "source": "https://anotherhouse-guide.vercel.app/?page=gallery"
       },
       {
+        "id": "tv",
+        "keywords": [
+          "tv",
+          "티비",
+          "텔레비전",
+          "ott",
+          "넷플릭스"
+        ],
+        "answer": "TV · OTT 안내\n객실과 공용공간에 TV는 설치되어 있지 않습니다. 개인 모바일 기기에서 콘텐츠를 이용해 주세요.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+      },
+      {
         "id": "contact",
         "keywords": [
           "호스트 연락",
@@ -214,7 +234,10 @@
         "keywords": [
           "check in",
           "check-in",
-          "arrival procedure"
+          "arrival procedure",
+          "self check-in",
+          "kiosk",
+          "room door lock"
         ],
         "answer": "Check-in begins at 15:00. Use the kiosk on the 5th floor of Sunil Building with the booking guest’s details.\nCheck the arrival instructions sent through your booking platform between the day before check-in and 09:00 on arrival day.\nAfter 15:00, use the kiosk on the 5th floor and search with the name shown on the booking voucher or the last four digits of the reservation number.\nComplete self check-in on screen and confirm your room number and key card.\nAfter check-in, tap the key card on the reader beside the entrance.\nLuggage can be stored in the luggage room in front of Room 503. For luggage access before check-in, use the access information in your booking message.\nPlease contact the host by message through the platform you booked with (Booking.com, Agoda, or Trip.com).",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
@@ -255,7 +278,12 @@
         "keywords": [
           "house rules",
           "property rules",
-          "stay rules"
+          "stay rules",
+          "smoking",
+          "noise",
+          "party",
+          "pet",
+          "outside guest"
         ],
         "answer": "Please follow these rules for everyone’s safety and comfort.\nAnother House is women-only. Visitors beyond the booked guest count are not allowed.\nSmoking, pets, parties, and commercial filming are not permitted anywhere in the property.\nQuiet hours are 22:00–05:00. Please keep noise especially low late at night.\nCooking is allowed, but avoid meat, fish, or other foods that create strong smoke or odors.\nLabel refrigerator items with your name and the storage date or checkout date.\nReturn shared Guest Box items after use and take only the disposable supplies you need.\nReport any damaged item to the host immediately through your booking platform message.",
         "source": "https://anotherhouse-guide.vercel.app/?page=rules"
@@ -271,7 +299,7 @@
           "refrigerator",
           "appliance"
         ],
-        "answer": "We matched the photographed models with manufacturer documentation and summarized the controls guests use most.\nRoom climate control\nMicrowave\nCeramic cooktop\nWater purifier\nShared refrigerator\nGuest Box",
+        "answer": "We matched the photographed models with manufacturer documentation and summarized the controls guests use most.\nRoom climate control\nPress the lower-left power button.\nOpen Operation Mode and choose Cool or Heat.\nUse up/down to set the target temperature.\nAdjust fan speed from the fan menu if needed.\nTurn it off when leaving. Some modes may be restricted by central control.\nMicrowave\nUse microwave-safe containers; never use metal or foil.\nPlace food inside and close the door fully.\nFor quick heating, press Start/+30 sec repeatedly.\nFor detailed settings, choose Power, Weight Defrost, or Time Defrost, set with the dial, then press Start.\nPress Stop/Cancel to stop, and never leave heating unattended.\nCeramic cooktop\nUse flat-bottom cookware.\nHold Power for 1 second to enter standby.\nPress the Highlight + button to start at level 1, then use + / − for levels 1–9.\nHold Power for 1 second after use.\nDo not touch while H is shown. To unlock, hold Lock for 2 seconds.\nWater purifier\nPlace a cup under the spout.\nChoose ambient, cold, or hot water.\nSelect 120 mL, 500 mL, or Continuous.\nPress Dispense.\nFor hot water, hold Lock for about 5 seconds to unlock; take care when the dispense button turns red.\nShared refrigerator\nLabel every food and drink with your name or room plus the storage date or checkout date.\nSeal strong-smelling food completely.\nExpired, long-stored, or unlabelled items may be discarded for hygiene.\nNever consume food or drinks belonging to another guest.\nRemove all of your remaining food at checkout.\nGuest Box\nFind the GUEST BOX in the shared area.\nIt contains extra towels, disposable dental kits, bandages, travel adapters, a hair straightener, wet wipes, and plastic bags.\nReturn reusable items such as the adapter and hair straightener immediately after use.\nTake only the quantity of disposable items you need.",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
       },
       {
@@ -308,6 +336,18 @@
         "source": "https://anotherhouse-guide.vercel.app/?page=gallery"
       },
       {
+        "id": "tv",
+        "keywords": [
+          "tv",
+          "television",
+          "ott",
+          "netflix",
+          "streaming"
+        ],
+        "answer": "TV · OTT notice\nThere is no TV in the rooms or shared areas. Please use your personal mobile device for streaming.",
+        "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+      },
+      {
         "id": "contact",
         "keywords": [
           "contact host",
@@ -337,7 +377,10 @@
         "keywords": [
           "チェックイン",
           "入室時間",
-          "入室方法"
+          "入室方法",
+          "セルフチェックイン",
+          "キオスク",
+          "客室ドアロック"
         ],
         "answer": "チェックインは15:00からです。ソニルビル5階のキオスクで予約者情報を使ってセルフチェックインしてください。\nチェックイン前日から当日9:00までに予約プラットフォームのメッセージで届く案内をご確認ください。\n15:00以降、5階のキオスクで予約バウチャー記載の予約者名、または予約番号の下4桁で予約を検索します。\n画面案内に従ってセルフチェックインを完了し、客室番号とカードキーをご確認ください。\nチェックイン後は入口横の端末にカードキーをかざして入館します。\n荷物は503号室前のラゲッジルームに保管できます。チェックイン前の荷物預かり用入館情報は予約メッセージでご確認ください。\n予約したプラットフォーム（Booking.com、Agoda、Trip.com）のメッセージを通じてホストへご連絡ください。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
@@ -378,7 +421,12 @@
         "keywords": [
           "宿泊ルール",
           "利用規則",
-          "ハウスルール"
+          "ハウスルール",
+          "喫煙",
+          "騒音",
+          "パーティー",
+          "ペット",
+          "部外者"
         ],
         "answer": "皆さまの安全と快適な滞在のためにご協力ください。\nAnother Houseは女性専用です。予約人数を超える訪問者の入館はできません。\n館内は全面禁煙で、ペット、パーティー、商業撮影は不可です。\nマナータイムは22:00〜05:00です。深夜は特に静かにお過ごしください。\n調理は可能ですが、煙やにおいの強い肉・魚料理はお控えください。\n冷蔵庫に食品を保管する際は、付箋に名前と保管日または退室日を書いて貼ってください。\nゲストボックスの共用品は使用後に元へ戻し、消耗品は必要な分だけご利用ください。\n備品を破損した場合は予約プラットフォームのメッセージで直ちにホストへお知らせください。",
         "source": "https://anotherhouse-guide.vercel.app/?page=rules"
@@ -394,7 +442,7 @@
           "冷蔵庫",
           "家電"
         ],
-        "answer": "写真の型番をメーカー公式資料と照合し、滞在中によく使う操作をまとめました。\n客室空調\n電子レンジ\n電気クッキングヒーター\n浄水器\n共用冷蔵庫\nゲストボックス",
+        "answer": "写真の型番をメーカー公式資料と照合し、滞在中によく使う操作をまとめました。\n客室空調\n左下の電源を押します。\n運転モードから冷房または暖房を選びます。\n上下で設定温度を調節します。\n必要に応じて風量を調節します。\n外出時は電源を切ってください。集中制御中は一部モードが制限されます。\n電子レンジ\n金属やアルミホイルは使わず、電子レンジ対応容器を使います。\n食品を入れ、扉を完全に閉めます。\nすぐに温める場合は「スタート/+30秒」を押します。\n出力・重量解凍・時間解凍を選び、ダイヤルで設定してスタートします。\n停止/取消で止め、加熱中は離れないでください。\n電気クッキングヒーター\n底が平らな調理器具を置きます。\n電源を1秒長押しして待機状態にします。\nハイライトの＋で1段から開始し、＋／−で1〜9段を調節します。\n使用後は電源を1秒長押しします。\n余熱表示Hが消えるまで触れないでください。ロック解除は2秒長押しです。\n浄水器\nコップを注水口の下に置きます。\n常温水・冷水・温水を選びます。\n120 mL・500 mL・連続を選びます。\n出水ボタンを押します。\n温水はロックを約5秒長押しして解除し、赤い出水ボタン点灯中はやけどに注意してください。\n共用冷蔵庫\n食品・飲料ごとに名前または客室と、保管開始日またはチェックアウト日を記入してください。\nにおいの強い食品は完全に密封してください。\n期限切れ・長期保管・無記名の食品は衛生管理のため処分されることがあります。\n他のゲストの食品や飲料は絶対に口にしないでください。\nチェックアウト時に残った食品を片付けてください。\nゲストボックス\n共用スペースのGUEST BOXをご利用ください。\n予備タオル、使い捨て歯ブラシ、絆創膏、旅行用アダプター、ヘアアイロン、ウェットティッシュ、ビニール袋があります。\nアダプターやヘアアイロンなど再利用品は使用後すぐ元の場所に戻してください。\n使い捨て用品は必要な分だけお取りください。",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
       },
       {
@@ -431,6 +479,17 @@
         "source": "https://anotherhouse-guide.vercel.app/?page=gallery"
       },
       {
+        "id": "tv",
+        "keywords": [
+          "テレビ",
+          "tv",
+          "netflix",
+          "動画視聴"
+        ],
+        "answer": "TV・OTT案内\n客室および共用スペースにテレビはありません。動画視聴はご自身のモバイル端末をご利用ください。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+      },
+      {
         "id": "contact",
         "keywords": [
           "ホストに連絡",
@@ -458,7 +517,10 @@
         "keywords": [
           "入住",
           "入住时间",
-          "办理入住"
+          "办理入住",
+          "自助入住",
+          "自助机",
+          "房门锁"
         ],
         "answer": "15:00起可办理入住。请在Sunil大厦5层使用预订人信息通过自助机办理入住。\n请查看入住前一天至入住当日上午9:00之间通过预订平台消息发送的入住说明。\n15:00后，在5层自助机上使用预订凭证中的姓名，或订单号后四位查询订单。\n按照屏幕提示完成自助入住，并确认房号和房卡。\n入住后请将房卡贴近入口旁的读卡器开门。\n行李可寄存在503号房前的行李室。入住前寄存行李所需的门禁信息请查看预订消息。\n请通过您预订的平台（Booking.com、Agoda或Trip.com）向房东发送消息。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
@@ -499,7 +561,12 @@
         "keywords": [
           "住宿规则",
           "入住规则",
-          "房屋守则"
+          "房屋守则",
+          "吸烟",
+          "噪音",
+          "派对",
+          "宠物",
+          "外来人员"
         ],
         "answer": "为了所有人的安全与舒适，请遵守以下规则。\nAnother House为女性专用住宿，禁止超过预订人数的访客进入。\n全区域禁烟，禁止携带宠物、举办派对及商业拍摄。\n安静时段为22:00至05:00，夜间请特别注意控制噪音。\n可使用厨房，但请勿烹饪会产生大量油烟或强烈气味的肉类、鱼类食物。\n在冰箱存放食物时，请用便签标注姓名及存放日期或退房日期。\n使用Guest Box公共用品后请放回原位，一次性用品请按需取用。\n如有物品损坏，请立即通过预订平台消息联系房东。",
         "source": "https://anotherhouse-guide.vercel.app/?page=rules"
@@ -514,7 +581,7 @@
           "冰箱",
           "设备使用"
         ],
-        "answer": "已将照片中的型号与制造商官方资料核对，并整理住客常用操作。\n房间空调\n微波炉\n电陶炉\n净水器\n公用冰箱\n住客用品箱",
+        "answer": "已将照片中的型号与制造商官方资料核对，并整理住客常用操作。\n房间空调\n按左下角电源键。\n在运行模式中选择制冷或制热。\n用上下键设定温度。\n需要时调节风量。\n离开时请关闭。中央控制时部分模式可能受限。\n微波炉\n请使用微波炉专用容器，勿放入金属或锡纸。\n放入食物并关好门。\n快速加热时反复按“启动/+30秒”。\n选择功率、重量解冻或时间解冻，用旋钮设定后启动。\n按停止/取消结束，加热时请勿离开。\n电陶炉\n使用平底锅具。\n长按电源1秒进入待机。\n按加热区＋从1档启动，再用＋／−调节1至9档。\n使用后长按电源1秒关闭。\n显示H时请勿触摸。长按锁定键2秒可解锁。\n净水器\n将杯子放在出水口下。\n选择常温、冷水或热水。\n选择120 mL、500 mL或连续出水。\n按出水键。\n热水需长按锁定键约5秒解锁；出水键亮红色时谨防烫伤。\n公用冰箱\n每份食品和饮料请标注姓名或房间以及存放日期或退房日期。\n气味较重的食品请完全密封。\n过期、长期存放或无标签食品可能因卫生管理被清理。\n请勿食用其他住客的食品或饮料。\n退房时请自行清理剩余食品。\n住客用品箱\n请在公共区域使用GUEST BOX。\n内有备用毛巾、一次性牙具、创可贴、旅行转换插头、直发器、湿巾和塑料袋。\n转换插头和直发器等可重复使用物品请在使用后立即归还原位。\n一次性用品请只取所需数量。",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
       },
       {
@@ -550,6 +617,17 @@
         "source": "https://anotherhouse-guide.vercel.app/?page=gallery"
       },
       {
+        "id": "tv",
+        "keywords": [
+          "电视",
+          "tv",
+          "netflix",
+          "流媒体"
+        ],
+        "answer": "电视与OTT说明\n客房和公共区域均未安装电视。观看内容时请使用个人移动设备。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
+      },
+      {
         "id": "contact",
         "keywords": [
           "联系房东",
@@ -577,7 +655,10 @@
         "keywords": [
           "入住",
           "入住時間",
-          "辦理入住"
+          "辦理入住",
+          "自助入住",
+          "自助機",
+          "房門鎖"
         ],
         "answer": "15:00起可辦理入住。請在Sunil大廈5層使用預訂人資訊通過自助機辦理入住。\n請檢視入住前一天至入住當日上午9:00之間通過預訂平台訊息傳送的入住說明。\n15:00後，在5層自助機上使用預訂憑證中的姓名，或訂單號後四位查詢訂單。\n按照螢幕提示完成自助入住，並確認房號和房卡。\n入住後請將房卡貼近入口旁的讀卡器開門。\n行李可寄存在503號房前的行李室。入住前寄存行李所需的門禁資訊請檢視預訂訊息。\n請通過您預訂的平台（Booking.com、Agoda或Trip.com）向房東傳送訊息。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
@@ -618,7 +699,12 @@
         "keywords": [
           "住宿規則",
           "入住規則",
-          "房屋守則"
+          "房屋守則",
+          "吸菸",
+          "噪音",
+          "派對",
+          "寵物",
+          "外來人員"
         ],
         "answer": "為了所有人的安全與舒適，請遵守以下規則。\nAnother House為女性專用住宿，禁止超過預訂人數的訪客進入。\n全區域禁菸，禁止攜帶寵物、舉辦派對及商業拍攝。\n安靜時段為22:00至05:00，夜間請特別注意控制噪音。\n可使用廚房，但請勿烹飪會產生大量油煙或強烈氣味的肉類、魚類食物。\n在冰箱存放食物時，請用便籤標註姓名及存放日期或退房日期。\n使用Guest Box公共用品後請放回原位，一次性用品請按需取用。\n如有物品損壞，請立即通過預訂平台訊息聯絡房東。",
         "source": "https://anotherhouse-guide.vercel.app/?page=rules"
@@ -633,7 +719,7 @@
           "冰箱",
           "設備使用"
         ],
-        "answer": "已將照片中的型號與製造商官方資料核對，並整理住客常用操作。\n房間冷暖氣\n微波爐\n電陶爐\n淨水器\n公用冰箱\n住客用品箱",
+        "answer": "已將照片中的型號與製造商官方資料核對，並整理住客常用操作。\n房間冷暖氣\n按左下角電源鍵。\n在執行模式中選擇製冷或制熱。\n用上下鍵設定溫度。\n需要時調節風量。\n離開時請關閉。中央控制時部分模式可能受限。\n微波爐\n請使用微波爐專用容器，勿放入金屬或錫紙。\n放入食物並關好門。\n快速加熱時反覆按“啟動/+30秒”。\n選擇功率、重量解凍或時間解凍，用旋鈕設定後啟動。\n按停止/取消結束，加熱時請勿離開。\n電陶爐\n使用平底鍋具。\n長按電源1秒進入待機。\n按加熱區＋從1檔啟動，再用＋／−調節1至9檔。\n使用後長按電源1秒關閉。\n顯示H時請勿觸控。長按鎖定鍵2秒可解鎖。\n淨水器\n將杯子放在出水口下。\n選擇常溫、冷水或熱水。\n選擇120 mL、500 mL或連續出水。\n按出水鍵。\n熱水需長按鎖定鍵約5秒解鎖；出水鍵亮紅色時謹防燙傷。\n公用冰箱\n每份食品和飲料請標註姓名或房間以及存放日期或退房日期。\n氣味較重的食品請完全密封。\n過期、長期存放或無標籤食品可能因衛生管理被清理。\n請勿食用其他住客的食品或飲料。\n退房時請自行清理剩餘食品。\n住客用品箱\n請在公共區域使用GUEST BOX。\n內有備用毛巾、一次性牙具、創可貼、旅行轉換插頭、直髮器、溼巾和塑膠袋。\n轉換插頭和直髮器等可重複使用物品請在使用後立即歸還原位。\n一次性用品請只取所需數量。",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
       },
       {
@@ -667,6 +753,17 @@
         ],
         "answer": "一個可以安靜結束首爾旅行一天的小空間。Another House位於東大門站附近，是女性專用住宿，設有適合獨自旅行者的單人房，以及可供朋友或家人入住的雙人房。這裡不追求華麗設施，而專注於舒適休息與實用住宿，為獨自或結伴遊覽首爾的女性旅客提供溫暖的落腳處。\n11間單人房 · 1間雙人房\n3間公共淋浴間 · 2間洗手間\n距東大門站6號出口30秒",
         "source": "https://anotherhouse-guide.vercel.app/?page=gallery"
+      },
+      {
+        "id": "tv",
+        "keywords": [
+          "電視",
+          "tv",
+          "netflix",
+          "串流"
+        ],
+        "answer": "電視與OTT說明\n客房和公共區域均未安裝電視。觀看內容時請使用個人行動裝置。",
+        "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
       },
       {
         "id": "contact",

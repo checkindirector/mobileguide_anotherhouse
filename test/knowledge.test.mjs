@@ -8,7 +8,7 @@ const root = resolve(import.meta.dirname, "..");
 test("generated knowledge mirrors current public guide content without secrets", async () => {
   const raw = await readFile(resolve(root, "assets/guide-knowledge.json"), "utf8");
   const knowledge = JSON.parse(raw);
-  assert.equal(knowledge.version, "2026-09-11.7");
+  assert.equal(knowledge.version, "2026-09-11.8");
   assert.deepEqual(knowledge.languages, ["ko", "en", "ja", "zh", "zh-TW"]);
   assert.equal(knowledge.property.ko.address, "서울시 종로구 종로 294 선일빌딩 5층");
   assert.equal(knowledge.stay.ko.checkin.summary.includes("15:00"), true);
@@ -40,7 +40,7 @@ test("generated knowledge mirrors current public guide content without secrets",
   assert.deepEqual(knowledge.verifiedAirportTransport.gimpoLine5.services.DAY[0], { departure: "05:37", arrival: "06:23" });
   assert.deepEqual(knowledge.verifiedAirportTransport.gimpoLine5.services.DAY.at(-1), { departure: "24:09", arrival: "24:55" });
   assert.match(knowledge.connectivity.ko.passwordPolicy, /공개 챗봇에서 제공하지 않습니다/);
-  const expectedQuickTopics = ["luggage", "checkin", "checkout", "wifi", "parking", "rules", "appliances", "laundry", "waste", "rooms", "contact"];
+  const expectedQuickTopics = ["luggage", "checkin", "checkout", "wifi", "parking", "rules", "appliances", "laundry", "waste", "rooms", "tv", "contact"];
   for (const language of knowledge.languages) {
     assert.deepEqual(knowledge.quickGuide[language].map(topic => topic.id), expectedQuickTopics);
     for (const topic of knowledge.quickGuide[language]) {

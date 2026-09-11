@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-11.7";
+const VERSION = "2026-09-11.8";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -58,15 +58,16 @@ const QUICK_TOPIC_KEYWORDS = {
     zh: ["行李寄存", "寄存行李", "行李房", "存放行李"],
     "zh-TW": ["行李寄放", "寄放行李", "行李房", "寄存行李"]
   },
-  checkin: { ko: ["체크인", "입실 시간", "입실 방법"], en: ["check in", "check-in", "arrival procedure"], ja: ["チェックイン", "入室時間", "入室方法"], zh: ["入住", "入住时间", "办理入住"], "zh-TW": ["入住", "入住時間", "辦理入住"] },
+  checkin: { ko: ["체크인", "입실 시간", "입실 방법", "셀프 체크인", "키오스크", "객실 도어락"], en: ["check in", "check-in", "arrival procedure", "self check-in", "kiosk", "room door lock"], ja: ["チェックイン", "入室時間", "入室方法", "セルフチェックイン", "キオスク", "客室ドアロック"], zh: ["入住", "入住时间", "办理入住", "自助入住", "自助机", "房门锁"], "zh-TW": ["入住", "入住時間", "辦理入住", "自助入住", "自助機", "房門鎖"] },
   checkout: { ko: ["체크아웃", "퇴실 시간", "퇴실 방법"], en: ["check out", "check-out", "departure procedure"], ja: ["チェックアウト", "退室時間", "退室方法"], zh: ["退房", "退房时间", "办理退房"], "zh-TW": ["退房", "退房時間", "辦理退房"] },
   wifi: { ko: ["와이파이", "wifi", "wi-fi", "인터넷"], en: ["wifi", "wi-fi", "internet"], ja: ["wifi", "wi-fi", "インターネット"], zh: ["wifi", "wi-fi", "无线网络"], "zh-TW": ["wifi", "wi-fi", "無線網路"] },
   parking: { ko: ["숙소 주차", "건물 주차", "주차 가능", "주차 안내"], en: ["property parking", "on-site parking", "can i park", "parking at the hostel"], ja: ["宿の駐車", "館内駐車", "駐車できます", "駐車案内"], zh: ["住宿停车", "楼内停车", "可以停车", "停车指南"], "zh-TW": ["住宿停車", "樓內停車", "可以停車", "停車指南"] },
-  rules: { ko: ["숙소 이용 규칙", "숙소 규칙", "이용 규칙", "하우스 룰"], en: ["house rules", "property rules", "stay rules"], ja: ["宿泊ルール", "利用規則", "ハウスルール"], zh: ["住宿规则", "入住规则", "房屋守则"], "zh-TW": ["住宿規則", "入住規則", "房屋守則"] },
+  rules: { ko: ["숙소 이용 규칙", "숙소 규칙", "이용 규칙", "하우스 룰", "흡연", "소음", "파티", "반려동물", "외부인"], en: ["house rules", "property rules", "stay rules", "smoking", "noise", "party", "pet", "outside guest"], ja: ["宿泊ルール", "利用規則", "ハウスルール", "喫煙", "騒音", "パーティー", "ペット", "部外者"], zh: ["住宿规则", "入住规则", "房屋守则", "吸烟", "噪音", "派对", "宠物", "外来人员"], "zh-TW": ["住宿規則", "入住規則", "房屋守則", "吸菸", "噪音", "派對", "寵物", "外來人員"] },
   appliances: { ko: ["냉난방", "에어컨", "난방", "인덕션", "전자레인지", "냉장고", "기기 사용"], en: ["heating", "air conditioning", "air conditioner", "induction", "microwave", "refrigerator", "appliance"], ja: ["冷暖房", "エアコン", "暖房", "IH", "電子レンジ", "冷蔵庫", "家電"], zh: ["空调", "暖气", "电磁炉", "微波炉", "冰箱", "设备使用"], "zh-TW": ["空調", "暖氣", "電磁爐", "微波爐", "冰箱", "設備使用"] },
   laundry: { ko: ["세탁", "건조기", "빨래"], en: ["laundry", "washing machine", "dryer"], ja: ["洗濯", "洗濯機", "乾燥機"], zh: ["洗衣", "洗衣机", "烘干机"], "zh-TW": ["洗衣", "洗衣機", "烘乾機"] },
   waste: { ko: ["쓰레기", "분리배출", "분리수거"], en: ["trash", "waste", "recycling", "garbage"], ja: ["ごみ", "ゴミ", "分別", "リサイクル"], zh: ["垃圾", "垃圾分类", "回收"], "zh-TW": ["垃圾", "垃圾分類", "回收"] },
   rooms: { ko: ["객실 종류", "방 종류", "싱글룸", "2인실", "더블룸", "샤워실", "화장실 몇"], en: ["room type", "single room", "double room", "shared shower", "how many rooms"], ja: ["客室タイプ", "シングルルーム", "2人部屋", "共用シャワー", "部屋数"], zh: ["房型", "单人房", "双人房", "公共淋浴", "房间数量"], "zh-TW": ["房型", "單人房", "雙人房", "公共淋浴", "房間數量"] },
+  tv: { ko: ["tv", "티비", "텔레비전", "ott", "넷플릭스"], en: ["tv", "television", "ott", "netflix", "streaming"], ja: ["テレビ", "tv", "netflix", "動画視聴"], zh: ["电视", "tv", "netflix", "流媒体"], "zh-TW": ["電視", "tv", "netflix", "串流"] },
   contact: { ko: ["호스트 연락", "호스트한테 연락", "도움 필요", "문의 방법", "연락 방법"], en: ["contact host", "contact the host", "need help", "how to contact"], ja: ["ホストに連絡", "問い合わせ方法", "助けが必要"], zh: ["联系房东", "需要帮助", "咨询方式"], "zh-TW": ["聯絡房東", "需要協助", "詢問方式"] }
 };
 
@@ -88,6 +89,7 @@ const quickGuideTopics = language => {
   const laundry = localize(data.pages.laundry, language);
   const waste = localize(data.pages.trash, language);
   const about = localize(data.about, language);
+  const tv = localize(data.applianceNotice, language);
   const luggageLead = { ko: "네, 짐 보관이 가능합니다.", en: "Yes, luggage storage is available.", ja: "はい、荷物を保管できます。", zh: "可以寄存行李。", "zh-TW": "可以寄放行李。" }[language];
   const wifiPolicy = { ko: "Wi-Fi 비밀번호는 현재 숙소 Wi-Fi 안내 화면 또는 예약 플랫폼 메시지에서 확인해 주세요.", en: "Check the current Wi-Fi guide screen or your booking-platform message for the password.", ja: "Wi-Fiパスワードは宿のWi-Fi案内画面または予約プラットフォームのメッセージで確認してください。", zh: "Wi-Fi 密码请查看住宿的 Wi-Fi 指南页面或预订平台消息。", "zh-TW": "Wi-Fi 密碼請查看住宿的 Wi-Fi 指南頁面或預訂平台訊息。" }[language];
   const checkoutLuggage = (stay.checkout.sections || []).at(-1)?.steps || [];
@@ -99,10 +101,11 @@ const quickGuideTopics = language => {
     { id: "wifi", keywords: QUICK_TOPIC_KEYWORDS.wifi[language], answer: answer([wifi.sections?.[0]?.value, wifi.sections?.[2]?.body, wifiPolicy]), source: pageUrl("wifi") },
     { id: "parking", keywords: QUICK_TOPIC_KEYWORDS.parking[language], answer: answer([stay.parking.onSite, stay.parking.intro, stay.parking.places?.[0]?.name, stay.parking.places?.[0]?.address, stay.parking.places?.[0]?.note]), source: pageUrl("checkin") },
     { id: "rules", keywords: QUICK_TOPIC_KEYWORDS.rules[language], answer: answer(compactPageLines(stay.rules)), source: pageUrl("rules") },
-    { id: "appliances", keywords: QUICK_TOPIC_KEYWORDS.appliances[language], answer: answer([appliances.summary, ...(appliances.devices || []).map(device => device.name)]), source: pageUrl("appliances") },
-    { id: "laundry", keywords: QUICK_TOPIC_KEYWORDS.laundry[language], answer: answer([laundry.summary, laundry.caution, ...compactPageLines(laundry)]), source: pageUrl("laundry") },
+    { id: "appliances", keywords: QUICK_TOPIC_KEYWORDS.appliances[language], answer: answer([appliances.summary, ...(appliances.devices || []).flatMap(device => [device.name, ...(device.steps || [])])]), source: pageUrl("appliances") },
+    { id: "laundry", keywords: QUICK_TOPIC_KEYWORDS.laundry[language], answer: answer([laundry.caution, ...compactPageLines(laundry)]), source: pageUrl("laundry") },
     { id: "waste", keywords: QUICK_TOPIC_KEYWORDS.waste[language], answer: answer(compactPageLines(waste)), source: pageUrl("trash") },
     { id: "rooms", keywords: QUICK_TOPIC_KEYWORDS.rooms[language], answer: answer([about.body, ...(about.facts || [])]), source: pageUrl("gallery") },
+    { id: "tv", keywords: QUICK_TOPIC_KEYWORDS.tv[language], answer: answer([tv.title, tv.body]), source: pageUrl("appliances") },
     { id: "contact", keywords: QUICK_TOPIC_KEYWORDS.contact[language], answer: String(localize(data.contact, language) || ""), source: SITE_URL }
   ];
 };
