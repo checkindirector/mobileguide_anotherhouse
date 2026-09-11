@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-11.3",
+  "version": "2026-09-11.4",
   "generatedAt": "2026-09-11",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -1962,6 +1962,32 @@
           }
         },
         {
+          "id": "nh-bank-line1-dongdaemun-atm",
+          "name": "농협은행 1호선 동대문역 ATM",
+          "aliases": [
+            "동대문역 ATM",
+            "가까운 ATM",
+            "현금인출기"
+          ],
+          "categories": [
+            "atm",
+            "cash",
+            "bank"
+          ],
+          "address": "서울 종로구 종로 299-1, 동대문역 1호선 1번 출구 인근",
+          "walk": "도보 약 2–4분",
+          "summary": "네이버 플레이스에 개별 장소로 등록된 역 인근 현금인출기입니다. 해외 발급 카드 지원과 수수료는 카드사·기기별로 다를 수 있습니다.",
+          "verification": {
+            "verifiedAt": "2026-09-11",
+            "sourceName": "Naver Place",
+            "sourceUrl": "https://pcmap.place.naver.com/place/1744939767/home"
+          },
+          "maps": {
+            "naver": "https://map.naver.com/p/entry/place/1744939767",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%86%8D%ED%98%91%EC%9D%80%ED%96%89%201%ED%98%B8%EC%84%A0%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%97%AD%20ATM"
+          }
+        },
+        {
           "id": "dongdaemun-tourist-information",
           "name": "동대문 관광안내소",
           "aliases": [
@@ -2229,6 +2255,32 @@
           }
         },
         {
+          "id": "nh-bank-line1-dongdaemun-atm",
+          "name": "NH Bank ATM at Dongdaemun Station (Line 1)",
+          "aliases": [
+            "Dongdaemun Station ATM",
+            "nearby ATM",
+            "cash machine"
+          ],
+          "categories": [
+            "atm",
+            "cash",
+            "bank"
+          ],
+          "address": "299-1 Jong-ro, Jongno-gu, Seoul, near Exit 1 of Dongdaemun Station Line 1",
+          "walk": "About a 2–4 minute walk",
+          "summary": "A separately listed cash machine near the station. Foreign-card support and fees vary by card issuer and machine.",
+          "verification": {
+            "verifiedAt": "2026-09-11",
+            "sourceName": "Naver Place",
+            "sourceUrl": "https://pcmap.place.naver.com/place/1744939767/home"
+          },
+          "maps": {
+            "naver": "https://map.naver.com/p/entry/place/1744939767",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%86%8D%ED%98%91%EC%9D%80%ED%96%89%201%ED%98%B8%EC%84%A0%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%97%AD%20ATM"
+          }
+        },
+        {
           "id": "dongdaemun-tourist-information",
           "name": "Dongdaemun Tourist Information Center",
           "aliases": [
@@ -2490,6 +2542,32 @@
           "maps": {
             "naver": "https://map.naver.com/p/search/%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81%20%EB%91%90%ED%83%80%EB%AA%B0%EC%A0%90%20%EC%84%9C%EC%9A%B8%20%EC%A4%91%EA%B5%AC%20%EC%9E%A5%EC%B6%A9%EB%8B%A8%EB%A1%9C%20275",
             "google": "https://www.google.com/maps/search/?api=1&query=%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81%20%EB%91%90%ED%83%80%EB%AA%B0%EC%A0%90%20%EC%84%9C%EC%9A%B8%20%EC%A4%91%EA%B5%AC%20%EC%9E%A5%EC%B6%A9%EB%8B%A8%EB%A1%9C%20275"
+          }
+        },
+        {
+          "id": "nh-bank-line1-dongdaemun-atm",
+          "name": "NH農協銀行 1号線東大門駅ATM",
+          "aliases": [
+            "東大門駅ATM",
+            "近くのATM",
+            "現金自動預け払い機"
+          ],
+          "categories": [
+            "atm",
+            "cash",
+            "bank"
+          ],
+          "address": "ソウル特別市 鍾路区 鍾路299-1、東大門駅1号線1番出口付近",
+          "walk": "徒歩約2〜4分",
+          "summary": "駅近くに個別登録されたATMです。海外発行カードの対応と手数料はカード会社・端末により異なります。",
+          "verification": {
+            "verifiedAt": "2026-09-11",
+            "sourceName": "Naver Place",
+            "sourceUrl": "https://pcmap.place.naver.com/place/1744939767/home"
+          },
+          "maps": {
+            "naver": "https://map.naver.com/p/entry/place/1744939767",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%86%8D%ED%98%91%EC%9D%80%ED%96%89%201%ED%98%B8%EC%84%A0%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%97%AD%20ATM"
           }
         },
         {
@@ -2757,6 +2835,32 @@
           }
         },
         {
+          "id": "nh-bank-line1-dongdaemun-atm",
+          "name": "NH农协银行 1号线东大门站ATM",
+          "aliases": [
+            "东大门站ATM",
+            "附近ATM",
+            "取款机"
+          ],
+          "categories": [
+            "atm",
+            "cash",
+            "bank"
+          ],
+          "address": "首尔特别市钟路区钟路299-1，东大门站1号线1号出口附近",
+          "walk": "步行约2–4分钟",
+          "summary": "这是车站附近单独登记的ATM。境外银行卡支持和手续费会因发卡行及设备而异。",
+          "verification": {
+            "verifiedAt": "2026-09-11",
+            "sourceName": "Naver Place",
+            "sourceUrl": "https://pcmap.place.naver.com/place/1744939767/home"
+          },
+          "maps": {
+            "naver": "https://map.naver.com/p/entry/place/1744939767",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%86%8D%ED%98%91%EC%9D%80%ED%96%89%201%ED%98%B8%EC%84%A0%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%97%AD%20ATM"
+          }
+        },
+        {
           "id": "dongdaemun-tourist-information",
           "name": "东大门旅游咨询中心",
           "aliases": [
@@ -3018,6 +3122,32 @@
           "maps": {
             "naver": "https://map.naver.com/p/search/%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81%20%EB%91%90%ED%83%80%EB%AA%B0%EC%A0%90%20%EC%84%9C%EC%9A%B8%20%EC%A4%91%EA%B5%AC%20%EC%9E%A5%EC%B6%A9%EB%8B%A8%EB%A1%9C%20275",
             "google": "https://www.google.com/maps/search/?api=1&query=%EC%98%AC%EB%A6%AC%EB%B8%8C%EC%98%81%20%EB%91%90%ED%83%80%EB%AA%B0%EC%A0%90%20%EC%84%9C%EC%9A%B8%20%EC%A4%91%EA%B5%AC%20%EC%9E%A5%EC%B6%A9%EB%8B%A8%EB%A1%9C%20275"
+          }
+        },
+        {
+          "id": "nh-bank-line1-dongdaemun-atm",
+          "name": "NH農協銀行 1號線東大門站ATM",
+          "aliases": [
+            "東大門站ATM",
+            "附近ATM",
+            "提款機"
+          ],
+          "categories": [
+            "atm",
+            "cash",
+            "bank"
+          ],
+          "address": "首爾特別市鐘路區鐘路299-1，東大門站1號線1號出口附近",
+          "walk": "步行約2–4分鐘",
+          "summary": "這是車站附近單獨登記的ATM。境外金融卡支援和手續費會因發卡行及設備而異。",
+          "verification": {
+            "verifiedAt": "2026-09-11",
+            "sourceName": "Naver Place",
+            "sourceUrl": "https://pcmap.place.naver.com/place/1744939767/home"
+          },
+          "maps": {
+            "naver": "https://map.naver.com/p/entry/place/1744939767",
+            "google": "https://www.google.com/maps/search/?api=1&query=%EB%86%8D%ED%98%91%EC%9D%80%ED%96%89%201%ED%98%B8%EC%84%A0%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%97%AD%20ATM"
           }
         },
         {

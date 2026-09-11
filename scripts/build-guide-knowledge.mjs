@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-11.3";
+const VERSION = "2026-09-11.4";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -204,6 +204,17 @@ const verifiedNearbyPlaces = [
     summary: { ko: "세면도구, 위생용품과 K-뷰티 제품을 구입하기 편합니다.", en: "Useful for toiletries, personal-care items and K-beauty products.", ja: "洗面用品、衛生用品、韓国コスメの購入に便利です。", zh: "方便购买洗漱用品、卫生用品和韩国美妆产品。", "zh-TW": "方便購買盥洗用品、衛生用品和韓國美妝產品。" },
     verification: { verifiedAt: "2026-09-11", sourceName: "Doota Mall official floor guide", sourceUrl: "https://www.doota-mall.com/" },
     maps: placeMaps("올리브영 두타몰점 서울 중구 장충단로 275")
+  },
+  {
+    id: "nh-bank-line1-dongdaemun-atm",
+    name: { ko: "농협은행 1호선 동대문역 ATM", en: "NH Bank ATM at Dongdaemun Station (Line 1)", ja: "NH農協銀行 1号線東大門駅ATM", zh: "NH农协银行 1号线东大门站ATM", "zh-TW": "NH農協銀行 1號線東大門站ATM" },
+    aliases: { ko: ["동대문역 ATM", "가까운 ATM", "현금인출기"], en: ["Dongdaemun Station ATM", "nearby ATM", "cash machine"], ja: ["東大門駅ATM", "近くのATM", "現金自動預け払い機"], zh: ["东大门站ATM", "附近ATM", "取款机"], "zh-TW": ["東大門站ATM", "附近ATM", "提款機"] },
+    categories: ["atm", "cash", "bank"],
+    address: { ko: "서울 종로구 종로 299-1, 동대문역 1호선 1번 출구 인근", en: "299-1 Jong-ro, Jongno-gu, Seoul, near Exit 1 of Dongdaemun Station Line 1", ja: "ソウル特別市 鍾路区 鍾路299-1、東大門駅1号線1番出口付近", zh: "首尔特别市钟路区钟路299-1，东大门站1号线1号出口附近", "zh-TW": "首爾特別市鐘路區鐘路299-1，東大門站1號線1號出口附近" },
+    walk: { ko: "도보 약 2–4분", en: "About a 2–4 minute walk", ja: "徒歩約2〜4分", zh: "步行约2–4分钟", "zh-TW": "步行約2–4分鐘" },
+    summary: { ko: "네이버 플레이스에 개별 장소로 등록된 역 인근 현금인출기입니다. 해외 발급 카드 지원과 수수료는 카드사·기기별로 다를 수 있습니다.", en: "A separately listed cash machine near the station. Foreign-card support and fees vary by card issuer and machine.", ja: "駅近くに個別登録されたATMです。海外発行カードの対応と手数料はカード会社・端末により異なります。", zh: "这是车站附近单独登记的ATM。境外银行卡支持和手续费会因发卡行及设备而异。", "zh-TW": "這是車站附近單獨登記的ATM。境外金融卡支援和手續費會因發卡行及設備而異。" },
+    verification: { verifiedAt: "2026-09-11", sourceName: "Naver Place", sourceUrl: "https://pcmap.place.naver.com/place/1744939767/home" },
+    maps: { naver: "https://map.naver.com/p/entry/place/1744939767", google: "https://www.google.com/maps/search/?api=1&query=%EB%86%8D%ED%98%91%EC%9D%80%ED%96%89%201%ED%98%B8%EC%84%A0%20%EB%8F%99%EB%8C%80%EB%AC%B8%EC%97%AD%20ATM" }
   },
   {
     id: "dongdaemun-tourist-information",

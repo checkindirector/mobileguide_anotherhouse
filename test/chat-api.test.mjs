@@ -70,10 +70,10 @@ test("manual question uses server knowledge, gpt-5.4-mini, and no web search", a
   assert.equal(request.body.model, "gpt-5.4-mini");
   assert.equal(request.body.store, false);
   assert.equal(request.body.tools, undefined);
-  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.3/);
+  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.4/);
   assert.match(request.body.instructions, /MAP_SPOT: <canonical place name> \| <complete street address>/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.3-ko");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.4-ko");
   assert.equal(res.payload.meta.cachedTokens, 80);
   assert.equal(res.payload.meta.searched, false);
 });
@@ -215,7 +215,7 @@ test("family dining near Another House uses verified local places without a frag
   assert.equal(res.payload.model, "another-house-verified-family-dining");
   assert.equal(res.payload.meta.verifiedFamilyDining, true);
   assert.equal(res.payload.meta.searched, false);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.3");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.4");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);
@@ -236,6 +236,7 @@ test("common nearby essentials use the pre-verified directory across wording and
     ["숙소 근처 늦게까지 하는 약국 어디야?", "ko", /두타몰레디영약국/, /10:30–24:00/],
     ["Where is the nearest convenience store?", "en", /CU Dongdaemun Station/, /2–3 minute walk/],
     ["가장 가까운 응급실 어디야?", "ko", /국립중앙의료원 응급실/, /119/],
+    ["숙소 근처 ATM 어디야?", "ko", /농협은행 1호선 동대문역 ATM/, /해외 발급 카드/],
     ["近くで中国語の観光案内を受けられる場所は？", "ja", /東大門観光案内所/, /英語・日本語・中国語/],
     ["附近哪里可以买洗漱用品？", "zh", /Olive Young DOOTA Mall店/, /洗漱用品/]
   ];
