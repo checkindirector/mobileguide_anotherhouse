@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-11.4";
+const VERSION = "2026-09-11.5";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -23,6 +23,7 @@ for (const file of sourceScripts) {
 
 const data = context.window.ANOTHER_HOUSE_DATA;
 const tours = context.window.ANOTHER_HOUSE_TOURS;
+const gimpoLine5Timetable = JSON.parse(await readFile(resolve(root, "assets/gimpo-line5-timetable.json"), "utf8"));
 if (!data?.pages || !tours?.places) throw new Error("Current site data did not load");
 
 const pageUrl = route => `${SITE_URL}?page=${route}`;
@@ -97,6 +98,59 @@ const placeMaps = query => ({
   naver: `https://map.naver.com/p/search/${encodeURIComponent(query)}`,
   google: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
 });
+
+const airportTransport = {
+  verifiedAt: "2026-09-11",
+  calendarPolicy: {
+    ko: "6702와 N6701은 운영사가 평일·주말·공휴일 구분 없이 하나의 매일 시간표를 게시합니다. 임시 변경·우회 공지가 있으면 운영사 공지가 우선입니다.",
+    en: "The operator publishes one daily timetable for 6702 and N6701 without separate weekday, weekend, or holiday tables. Temporary operator notices take priority.",
+    ja: "6702とN6701は、平日・週末・祝日の区別がない毎日の時刻表として公開されています。臨時変更は運行会社のお知らせが優先されます。",
+    zh: "运营方为6702和N6701发布同一份每日时刻表，不另分工作日、周末或节假日；临时调整以运营方公告为准。",
+    "zh-TW": "營運方為6702和N6701發布同一份每日時刻表，不另分平日、週末或國定假日；臨時調整以營運方公告為準。"
+  },
+  incheon: {
+    daytimeBus: {
+      route: "6702",
+      stopId: "01901",
+      stop: { ko: "동대문역(JW메리어트호텔동대문) 정류장", en: "Dongdaemun Station (JW Marriott Dongdaemun) stop", ja: "東大門駅（JWマリオット東大門）停留所", zh: "东大门站（JW万豪东大门）站", "zh-TW": "東大門站（JW萬豪東大門）站" },
+      departures: ["04:07", "04:37", "05:17", "06:02", "06:42", "07:27", "08:02", "08:47", "09:32", "10:17", "11:02", "11:47", "12:17", "12:57", "13:47", "14:17", "14:42", "15:22", "15:57", "16:42", "17:27", "18:02", "18:47", "19:22", "19:52"],
+      fare: { adult: 18000, child: 12000, childAge: "6–12" },
+      maps: placeMaps("동대문역 JW메리어트호텔동대문 공항버스 정류장 01901"),
+      officialSource: { label: "K Airport Limousine 6702", url: "https://www.klimousine.com/bus/limousine.php?bus_no=6702" },
+      timetableNotice: { label: "6702 timetable effective 2026-05-01", url: "https://www.klimousine.com/center/notice_view.php?code=&idx=6418&page=1&ptype=view" }
+    },
+    nightBus: {
+      route: "N6701",
+      stopId: "02711",
+      stop: { ko: "동대문디자인플라자(DDP) 정류장", en: "Dongdaemun Design Plaza (DDP) stop", ja: "東大門デザインプラザ（DDP）停留所", zh: "东大门设计广场（DDP）站", "zh-TW": "東大門設計廣場（DDP）站" },
+      trips: [
+        { departure: "23:00", terminal1Arrival: "00:20", terminal2Arrival: "00:40" },
+        { departure: "01:05", terminal1Arrival: "02:25", terminal2Arrival: "02:45" },
+        { departure: "01:55", terminal1Arrival: "03:15", terminal2Arrival: "03:35" },
+        { departure: "02:55", terminal1Arrival: "04:15", terminal2Arrival: "04:35" }
+      ],
+      fare: { adult: 18000, child: 12000, childAge: "6–12" },
+      maps: placeMaps("동대문디자인플라자 DDP 공항버스 정류장 02711"),
+      officialSource: { label: "K Airport Limousine N6701", url: "https://www.klimousine.com/bus/limousine.php?bus_no=N6701" },
+      airportSource: { label: "Incheon Airport night bus timetable", url: "https://business.airport.kr/ap_ko/979/subview.do" }
+    }
+  },
+  gimpo: {
+    route: "Seoul Subway Line 5",
+    boardingStation: { ko: "동대문역사문화공원역 5호선 방화 방면", en: "Dongdaemun History & Culture Park Station, Line 5 toward Banghwa", ja: "東大門歴史文化公園駅・5号線・傍花方面", zh: "东大门历史文化公园站，5号线往傍花方向", "zh-TW": "東大門歷史文化公園站，5號線往傍花方向" },
+    fromProperty: {
+      ko: "숙소 앞 동대문역에서 4호선을 한 정거장 타고 동대문역사문화공원역에서 5호선 방화 방면으로 환승하세요.",
+      en: "From Dongdaemun Station by the property, take Line 4 one stop, then transfer at Dongdaemun History & Culture Park to Line 5 toward Banghwa.",
+      ja: "宿の前の東大門駅から4号線で1駅進み、東大門歴史文化公園駅で5号線の傍花方面に乗り換えてください。",
+      zh: "从住宿旁的东大门站乘4号线一站，在东大门历史文化公园站换乘5号线傍花方向。",
+      "zh-TW": "從住宿旁的東大門站搭4號線一站，在東大門歷史文化公園站轉乘5號線傍花方向。"
+    },
+    directRideMinutes: "46–48",
+    maps: placeMaps("동대문역사문화공원역 5호선"),
+    officialSource: { label: gimpoLine5Timetable.dataset, url: gimpoLine5Timetable.sourceUrl },
+    basisDate: gimpoLine5Timetable.basisDate
+  }
+};
 
 const familyDiningPlaces = [
   {
@@ -272,6 +326,10 @@ const knowledge = {
     };
   }),
   arrivalAndTransport: localized(transportKnowledge),
+  verifiedAirportTransport: {
+    locales: localized(language => localize(airportTransport, language)),
+    gimpoLine5: gimpoLine5Timetable
+  },
   publicLocalDirectory: localized(language => ({
     origin: localize(data.address, language),
     familyDining: familyDiningPlaces.map(place => localize(place, language)),
@@ -359,7 +417,7 @@ const knowledge = {
     publicInformationMustBeSearched: true,
     accommodationFactsMustComeFromThisKnowledge: true
   },
-  provenance: sourceScripts
+  provenance: [...sourceScripts, "assets/gimpo-line5-timetable.json"]
 };
 
 const json = `${JSON.stringify(knowledge, null, 2)}\n`;
@@ -367,6 +425,10 @@ if (/another1234/.test(json)) throw new Error("Sensitive Wi-Fi password leaked i
 await writeFile(resolve(root, "assets/guide-knowledge.json"), json);
 
 const audit = `# Concierge knowledge audit\n\nVersion: ${VERSION}\n\n| Area | Current page source | Previous chatbot state | Unified result |\n|---|---|---|---|\n| Address, check-in/out, transport, parking, luggage, rules | Current rendered page data | Sent ad hoc from the browser | Generated into one server-owned knowledge bundle |\n| Appliances, laundry, waste | Current page instructions; official manuals are secondary | Sent ad hoc from the browser | Current page text is primary; manual links remain supporting sources |\n| Nearby essentials | Naver Maps plus official venue/public sources | Depended on live search even for common needs | Six property-specific places are pre-verified with exact addresses and map links |\n| Restaurants and tours | 26 restaurant cards and 21 tour cards | Loaded only for matching browser keywords | Included as clearly labeled host recommendations |\n| Wi-Fi | Network and password are visible on the Wi-Fi screen | Password could be sent to the model | Network retained; password deliberately excluded as sensitive |\n| Door/access and reservation data | Page tells guests where to retrieve guest-specific information | Could be mixed into browser context | Codes, room assignment, booking status and guest-specific details are prohibited |\n| General public information | Not part of the property manual | Previously rejected | Official-source web search is permitted only for non-property public questions |\n| Emergency | Booking-platform contact plus Korean public emergency services | No dedicated normalized section | 112/119 and official agency sources added; property-specific issues still use the booking platform |\n\nThe generator executes the same ordered data scripts as the website. Tests regenerate the bundle and fail if it is stale or contains the known Wi-Fi password.\n`;
-await writeFile(resolve(root, "docs/concierge-knowledge-audit.md"), audit);
+const auditWithAirport = audit.replace(
+  "| General public information |",
+  "| Airport departures | Official K Airport Limousine, Incheon Airport and Seoul Metro timetables | Depended on live search and often missed embedded timetable rows | Every 6702/N6701 departure and every relevant Line 5 train to Gimpo Airport are pre-verified and selected deterministically |\n| General public information |"
+);
+await writeFile(resolve(root, "docs/concierge-knowledge-audit.md"), auditWithAirport);
 
 console.log(`Generated guide knowledge ${VERSION} (${Buffer.byteLength(json)} bytes)`);

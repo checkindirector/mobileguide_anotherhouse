@@ -70,10 +70,10 @@ test("manual question uses server knowledge, gpt-5.4-mini, and no web search", a
   assert.equal(request.body.model, "gpt-5.4-mini");
   assert.equal(request.body.store, false);
   assert.equal(request.body.tools, undefined);
-  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.4/);
+  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.5/);
   assert.match(request.body.instructions, /MAP_SPOT: <canonical place name> \| <complete street address>/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.4-ko");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.5-ko");
   assert.equal(res.payload.meta.cachedTokens, 80);
   assert.equal(res.payload.meta.searched, false);
 });
@@ -137,10 +137,13 @@ test("source links prioritize Naver and official domains over aggregators", () =
   ]);
 });
 
-test("late-night transport uses high search context", async () => {
+test("late-night Incheon transport uses the pre-verified timetable without web search", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "공개 운행 자료를 확인한 정보입니다.", output: [{ type: "web_search_call", action: { sources: [] } }], usage: {} };
-  const { request } = await callApi({ message: "새벽 4시에 인천공항 가는 정확한 교통편", language: "ko" }, output, "203.0.113.22");
-  assert.equal(request.body.tools[0].search_context_size, "high");
+  const { res, requests } = await callApi({ message: "새벽 4시에 인천공항 가는 정확한 교통편", language: "ko" }, output, "203.0.113.22");
+  assert.equal(requests.length, 0);
+  assert.equal(res.payload.model, "another-house-verified-airport-transport");
+  assert.equal(res.payload.meta.mode, "night-overview");
+  assert.match(res.payload.answer, /N6701/);
 });
 
 test("airport bus and airport limousine wording share one searched transport intent", async () => {
@@ -205,6 +208,67 @@ test("time-specific dining requests force high-context web search", async () => 
   }
 });
 
+test("pre-verified Incheon airport timetable answers exact early departures without web search", async () => {
+  const { res, requests } = await callApi(
+    { message: "인천공항에 새벽 6시까지 가야함", language: "ko", history: [] },
+    { model: "unused" },
+    "203.0.113.90"
+  );
+  assert.equal(requests.length, 0);
+  assert.equal(res.payload.model, "another-house-verified-airport-transport");
+  assert.equal(res.payload.meta.searched, false);
+  assert.equal(res.payload.meta.mode, "night");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.5");
+  assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
+  assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
+  assert.match(res.payload.answer, /평일·주말·공휴일/);
+  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 2);
+  assert.equal(res.payload.links.filter(link => link.kind === "source").length, 2);
+});
+
+test("airport overview contains every published 6702 and N6701 departure", () => {
+  const result = handler._internals.verifiedAirportTransport("숙소에서 인천공항 가는 법", "ko");
+  assert.equal(result.mode, "overview");
+  assert.match(result.answer, /04:07 · 04:37 · 05:17/);
+  assert.match(result.answer, /19:22 · 19:52/);
+  assert.match(result.answer, /23:00 → T1 00:20 \/ T2 00:40/);
+  assert.match(result.answer, /02:55 → T1 04:15 \/ T2 04:35/);
+});
+
+test("Gimpo airport selects exact trains by service day and rejects impossible early rail arrivals", () => {
+  const weekday = handler._internals.verifiedAirportTransport("김포공항에 평일 오전 8시까지 도착해야 해", "ko", new Date("2026-09-11T03:00:00Z"));
+  assert.equal(weekday.mode, "selected-train");
+  assert.equal(weekday.serviceDay, "DAY");
+  assert.match(weekday.answer, /07:12.*07:58/);
+  assert.match(weekday.answer, /평일 05:37→06:23 \/ 24:09→24:55/);
+
+  const holiday = handler._internals.verifiedAirportTransport("공휴일 김포공항에 새벽 6시까지", "ko", new Date("2026-09-11T03:00:00Z"));
+  assert.equal(holiday.mode, "taxi-required");
+  assert.equal(holiday.serviceDay, "END");
+  assert.match(holiday.answer, /지하철로 도착할 수 없습니다/);
+  assert.match(holiday.answer, /택시/);
+  assert.match(holiday.answer, /일요일·공휴일 05:37→06:23 \/ 23:20→24:06/);
+});
+
+test("verified airport selections work in every supported guest language", () => {
+  const cases = [
+    ["I need to arrive at Incheon Airport by 6 am", "en", /02:55.*T1.*04:15.*T2.*04:35/s],
+    ["平日の午前8時までに金浦空港へ到着したい", "ja", /07:12.*07:58/s],
+    ["工作日早上8点前抵达金浦机场", "zh", /07:12.*07:58/s],
+    ["國定假日凌晨6點前抵達金浦機場", "zh-TW", /無法.*地鐵.*06:23/s]
+  ];
+  for (const [message, language, expected] of cases) {
+    const result = handler._internals.verifiedAirportTransport(message, language, new Date("2026-09-11T03:00:00Z"));
+    assert.ok(result);
+    assert.match(result.answer, expected);
+  }
+});
+
+test("airport-to-property questions remain with the arrival guide", () => {
+  assert.equal(handler._internals.verifiedAirportTransport("인천공항에서 숙소까지 어떻게 와?", "ko"), null);
+  assert.equal(handler._internals.verifiedAirportTransport("How do I get from Gimpo Airport to Another House?", "en"), null);
+});
+
 test("family dining near Another House uses verified local places without a fragile web-search pass", async () => {
   const { res, requests } = await callApi(
     { message: "밤 8시 이후에 아이와 식사 가능한 곳 주변에 있어? 어나더하우스 주소 기준", language: "ko", history: [] },
@@ -215,7 +279,7 @@ test("family dining near Another House uses verified local places without a frag
   assert.equal(res.payload.model, "another-house-verified-family-dining");
   assert.equal(res.payload.meta.verifiedFamilyDining, true);
   assert.equal(res.payload.meta.searched, false);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.4");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.5");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);
@@ -455,10 +519,11 @@ test("a place name without a complete street address never creates map buttons",
   assert.doesNotMatch(res.payload.answer, /MAP_SPOT/);
 });
 
-test("route advice never turns a broad airport destination into map buttons", async () => {
+test("pre-verified route advice links only to the exact airport-bus boarding stop", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "심야에는 공항버스 운행 시간부터 확인해야 합니다.\nMAP_SPOT: 인천국제공항 제1여객터미널 | 인천광역시 중구 공항로 272", output: [{ type: "web_search_call", action: { sources: [{ title: "인천국제공항", url: "https://www.airport.kr/" }] } }], usage: {} };
   const { res } = await callApi({ message: "심야에는 공항철도보다 심야버스가 더 현실적인가요? 어나더하우스에서 인천공항까지 가고 싶어요.", language: "ko" }, output, "203.0.113.32");
-  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 0);
+  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 2);
+  assert.equal(res.payload.links.filter(link => link.kind === "map").every(link => /DDP|동대문디자인플라자/.test(link.label)), true);
   assert.doesNotMatch(res.payload.answer, /MAP_SPOT/);
 });
 

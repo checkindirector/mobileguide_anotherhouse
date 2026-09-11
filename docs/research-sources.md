@@ -1,6 +1,6 @@
 # Another House research sources
 
-Updated: 2026-07-27
+Updated: 2026-09-11
 
 ## Transport
 
@@ -9,6 +9,13 @@ Updated: 2026-07-27
 - Gimpo Airport public transportation (Korea Airports Corporation official): https://www.airport.co.kr/gimpo/cms/frCon/index.do?CONTENTS_NO=4&MENU_ID=1290
 - Gimpo Airport travel guide (Korea Airports Corporation official): https://www.airport.co.kr/gimpo/cms/frCon/index.do?CONTENTS_NO=2&MENU_ID=1440
 - Dongdaemun (Heunginjimun) bus stop IDs 01-037 / 01-233 (Seoul Museum official PDF): https://museum.seoul.go.kr/www/down/pdf/seoulcitywall.pdf
+- K Airport Limousine 6702 official route and timetable: https://www.klimousine.com/bus/limousine.php?bus_no=6702
+- K Airport Limousine 6702 timetable notice effective 2026-05-01: https://www.klimousine.com/center/notice_view.php?code=&idx=6418&page=1&ptype=view
+- K Airport Limousine N6701 official route and timetable: https://www.klimousine.com/bus/limousine.php?bus_no=N6701
+- Incheon Airport official night-bus timetable: https://business.airport.kr/ap_ko/979/subview.do
+- Seoul Metro train-operation timetable dataset, basis date 2026-09-01: https://www.data.go.kr/data/15098251/fileData.do
+
+The concierge stores all 25 published 6702 departures from stop 01901, all four N6701 departures from stop 02711 with official T1/T2 arrivals, and all 516 Line 5 Dongdaemun History & Culture Park-to-Gimpo Airport trains split into DAY, SAT, and END (Sunday/public holiday) service.
 
 The guest route is intentionally conservative: AREX to Seoul Station, transfer to Seoul Subway Line 4, Dongdaemun Station Exit 6, then the client-provided 30-second walk to Sunil Building.
 
