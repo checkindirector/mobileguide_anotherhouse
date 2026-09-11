@@ -70,10 +70,10 @@ test("manual question uses server knowledge, gpt-5.4-mini, and no web search", a
   assert.equal(request.body.model, "gpt-5.4-mini");
   assert.equal(request.body.store, false);
   assert.equal(request.body.tools, undefined);
-  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.1/);
+  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.2/);
   assert.match(request.body.instructions, /MAP_SPOT: <canonical place name> \| <complete street address>/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.1-ko");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.2-ko");
   assert.equal(res.payload.meta.cachedTokens, 80);
   assert.equal(res.payload.meta.searched, false);
 });
@@ -205,6 +205,36 @@ test("time-specific dining requests force high-context web search", async () => 
   }
 });
 
+test("family dining near Another House uses verified local places without a fragile web-search pass", async () => {
+  const { res, requests } = await callApi(
+    { message: "밤 8시 이후에 아이와 식사 가능한 곳 주변에 있어? 어나더하우스 주소 기준", language: "ko", history: [] },
+    { model: "unused" },
+    "203.0.113.57"
+  );
+  assert.equal(requests.length, 0);
+  assert.equal(res.payload.model, "another-house-verified-family-dining");
+  assert.equal(res.payload.meta.verifiedFamilyDining, true);
+  assert.equal(res.payload.meta.searched, false);
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.2");
+  assert.match(res.payload.answer, /본우리반상 동대문두타점/);
+  assert.match(res.payload.answer, /라스트오더 21:00/);
+  assert.match(res.payload.answer, /포메인RED 두타몰직영점/);
+  assert.match(res.payload.answer, /교촌치킨 동대문1호점/);
+  assert.match(res.payload.answer, /24시간·연중무휴/);
+  assert.match(res.payload.answer, /에그드랍 동대문점/);
+  assert.doesNotMatch(res.payload.answer, /확정하기 어렵|전화.*문의|원하시면.*좁혀/);
+  assert.equal(res.payload.links.length, 8);
+  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 8);
+  assert.equal(res.payload.links.some(link => /%EC%84%9C%EC%9A%B8%EC%8B%9C.*294/.test(link.url)), false);
+  assert.equal(res.payload.links[0].url, "https://map.naver.com/p/entry/place/2046166635");
+  assert.equal(res.payload.links[2].url, "https://map.naver.com/p/entry/place/1384336990");
+  assert.equal(res.payload.links[4].url, "https://map.naver.com/p/entry/place/11801976");
+});
+
+test("property address used only as a nearby-search origin never creates property map buttons", () => {
+  assert.equal(handler._internals.asksForPropertyAddress("아이와 식사할 곳을 어나더하우스 주소 기준으로 찾아줘", "", "ko"), false);
+});
+
 test("verified Naver Place hours answer directly without an unreliable web-search pass", async () => {
   const fixed = handler._internals.verifiedPlaceHours("에그드랍 동대문점은 지금 영업 중이야?", "ko", new Date("2026-09-09T09:45:00Z"));
   assert.match(fixed.answer, /현재 영업 중/);
@@ -257,7 +287,7 @@ test("unresolved place results still offer a named follow-up and hide unusable s
     output: [{ type: "web_search_call", action: { sources: [{ title: "Google search", url: "https://www.google.com/search?q=dongdaemun+dinner" }] } }],
     usage: {}
   };
-  const { res } = await callApi({ message: "밤 9시 이후 아이와 식사 가능한 곳", language: "ko", history: [] }, [naverOutput, crossCheckOutput], "203.0.113.52");
+  const { res } = await callApi({ message: "밤 9시 이후 혼자 식사 가능한 곳", language: "ko", history: [] }, [naverOutput, crossCheckOutput], "203.0.113.52");
   assert.match(res.payload.answer, /위 장소 중 하나를 말씀해 주세요/);
   assert.match(res.payload.answer, /네이버지도와 Google Maps 링크를 바로 연결해 드릴게요/);
   assert.deepEqual(res.payload.links, []);

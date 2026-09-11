@@ -8,7 +8,7 @@ const root = resolve(import.meta.dirname, "..");
 test("generated knowledge mirrors current public guide content without secrets", async () => {
   const raw = await readFile(resolve(root, "assets/guide-knowledge.json"), "utf8");
   const knowledge = JSON.parse(raw);
-  assert.equal(knowledge.version, "2026-09-11.1");
+  assert.equal(knowledge.version, "2026-09-11.2");
   assert.deepEqual(knowledge.languages, ["ko", "en", "ja", "zh", "zh-TW"]);
   assert.equal(knowledge.property.ko.address, "서울시 종로구 종로 294 선일빌딩 5층");
   assert.equal(knowledge.stay.ko.checkin.summary.includes("15:00"), true);
@@ -24,6 +24,9 @@ test("generated knowledge mirrors current public guide content without secrets",
   assert.equal(eggdrop.verifiedHours.schedule, "매일 07:00–22:00");
   assert.equal(eggdrop.verifiedHours.sourceUrl, "https://map.naver.com/p/entry/place/1736990079");
   assert.equal(knowledge.hostRecommendations.ko.tours.length, 21);
+  assert.equal(knowledge.publicLocalDirectory.ko.familyDining.length, 4);
+  assert.equal(knowledge.publicLocalDirectory.ko.familyDining[0].hours.lastOrder, "21:00");
+  assert.equal(knowledge.publicLocalDirectory.en.familyDining[2].hours.sourceUrl, "https://map.naver.com/p/entry/place/11801976");
   assert.match(knowledge.connectivity.ko.passwordPolicy, /공개 챗봇에서 제공하지 않습니다/);
   assert.doesNotMatch(raw, /another1234/);
   assert.doesNotMatch(raw, /doorlockImage|roomDoorlockImage/);

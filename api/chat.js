@@ -14,6 +14,7 @@ const LINK_LABELS = {
 const recentRequests = new Map();
 const AIRPORT_BUS_PATTERN = /(공항\s*(?:버스|리무진)|리무진\s*버스|공항리무진|airport\s*(?:bus|limousine|coach|shuttle)|limousine\s*bus|空港\s*(?:バス|リムジン)|リムジン\s*バス|机场\s*(?:巴士|大巴)|機場\s*(?:巴士|客運)|机场大巴|機場巴士)/i;
 const DINING_INTENT_PATTERN = /(식사|밥|먹을|먹는|먹고|음식|식당|맛집|레스토랑|카페|치킨|국밥|분식|브런치|restaurant|food|meal|dinner|breakfast|lunch|eat|cafe|食事|ご飯|食べ|飲食店|レストラン|カフェ|餐厅|餐廳|吃饭|吃飯|美食|咖啡店)/i;
+const FAMILY_GUEST_PATTERN = /(아이|어린이|아기|유아|자녀|가족|child|children|kid|kids|baby|toddler|family|子ども|子供|こども|家族|儿童|兒童|孩子|宝宝|寶寶|亲子|親子|家庭)/i;
 const BUSINESS_TIME_PATTERN = /(몇\s*시\s*(?:까지|에|부터)?|(?:밤|저녁|새벽|오전|오후)?\s*\d{1,2}\s*시\s*(?:이후|전|까지|넘어|에도)?|늦게\s*까지|심야|지금\s*(?:영업|운영|열|먹|문\s*(?:열|연))|현재\s*(?:영업|운영)|영업\s*(?:시간|중|종료)|운영\s*시간|문\s*(?:열|연|닫)|마감|라스트\s*오더|after\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?|before\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?|open\s*(?:now|late|until)|late\s*night|closing\s*time|business\s*hours|last\s*order|\d{1,2}\s*時\s*(?:以降|まで|前)|深夜|遅くまで|営業時間|営業中|ラストオーダー|\d{1,2}\s*[点點时時]\s*(?:以后|以後|之前|前|营业|營業)?|深夜|营业时间|營業時間|现在营业|現在營業|打烊|最后点餐|最後點餐)/i;
 const PROPERTY_ONLY_PATTERN = /(어나더\s*하우스|숙소|호스텔|객실|도어|출입|현관|예약|승인|수수료|숙박비|조식|어메니티|반려동물|흡연|파티|체크인|체크아웃|와이파이|another\s*house|property|hostel|room|door|booking|fee|breakfast|amenit|pet|smoking|party|check.?in|check.?out|wifi|password|door code|当館|宿|客室|チェックイン|チェックアウト|予約|部屋|パスワード|住宿|旅舍|客房|入住|退房|预订|預訂|房间|房間|密码|密碼)/i;
 const LOCAL_PLACE_PATTERN = /(식당|맛집|음식|카페|치킨|국밥|분식|브런치|술집|바\b|병원|약국|편의점|마트|시장|백화점|쇼핑|공원|박물관|미술관|관광지|명소|궁|성곽|주차장|공영주차장|역\b|정류장|터미널|공항|restaurant|food|cafe|bar\b|hospital|clinic|pharmacy|convenience store|mart|market|department store|shopping|park|museum|gallery|attraction|palace|parking|station|stop|terminal|airport|飲食店|レストラン|カフェ|病院|薬局|コンビニ|市場|百貨店|公園|博物館|美術館|観光地|駐車場|駅|停留所|空港|餐厅|餐廳|咖啡店|医院|醫院|药店|藥局|便利店|市场|市場|百货|百貨|公园|公園|博物馆|博物館|美术馆|美術館|景点|景點|停车场|停車場|车站|車站|机场|機場)/i;
@@ -378,6 +379,89 @@ function verifiedPlaceHours(message, language, now = new Date()) {
   };
 }
 
+function requestedDiningMinutes(message) {
+  const text = String(message || "");
+  let match = text.match(/(?:밤|저녁|오후|晚上|晚間|夜(?:の)?|午後)\s*(\d{1,2})(?:[:：](\d{2}))?\s*(?:시|時|点|點)?/i);
+  if (match) {
+    let hour = Number(match[1]);
+    const minute = Number(match[2] || 0);
+    if (hour < 12) hour += 12;
+    return Math.min(1440, hour * 60 + minute);
+  }
+  match = text.match(/(\d{1,2})(?::(\d{2}))?\s*(pm|p\.m\.)/i);
+  if (match) {
+    let hour = Number(match[1]) % 12;
+    hour += 12;
+    return hour * 60 + Number(match[2] || 0);
+  }
+  match = text.match(/(?:^|\D)([01]?\d|2[0-3])[:：](\d{2})(?:\D|$)/);
+  return match ? Number(match[1]) * 60 + Number(match[2]) : null;
+}
+
+function diningHoursText(place, language) {
+  const hours = place?.hours || {};
+  const alwaysOpen = hours.open === "00:00" && hours.close === "24:00";
+  if (alwaysOpen) return { ko: "24시간·연중무휴", en: "Open 24 hours daily", ja: "24時間・年中無休", zh: "24小时营业、全年无休", "zh-TW": "24小時營業、全年無休" }[language];
+  if (hours.lastOrder) return {
+    ko: `라스트오더 ${hours.lastOrder}`,
+    en: `Last order ${hours.lastOrder}`,
+    ja: `ラストオーダー ${hours.lastOrder}`,
+    zh: `最后点餐 ${hours.lastOrder}`,
+    "zh-TW": `最後點餐 ${hours.lastOrder}`
+  }[language];
+  if (hours.close) return {
+    ko: `${hours.close} 영업 종료`,
+    en: `Closes at ${hours.close}`,
+    ja: `${hours.close}閉店`,
+    zh: `${hours.close}结束营业`,
+    "zh-TW": `${hours.close}結束營業`
+  }[language];
+  return "";
+}
+
+function verifiedFamilyDining(message, language) {
+  const text = String(message || "");
+  if (!DINING_INTENT_PATTERN.test(text) || !FAMILY_GUEST_PATTERN.test(text)) return null;
+  if (!PLACE_DISCOVERY_PATTERN.test(text) && !BUSINESS_TIME_PATTERN.test(text)) return null;
+  const directory = GUIDE_KNOWLEDGE.publicLocalDirectory?.[language] || GUIDE_KNOWLEDGE.publicLocalDirectory?.ko;
+  const requestedMinutes = requestedDiningMinutes(text);
+  const places = (directory?.familyDining || [])
+    .filter(place => {
+      if (requestedMinutes === null) return true;
+      const cutoff = timeToMinutes(place?.hours?.lastOrder || place?.hours?.close);
+      return cutoff === null || requestedMinutes < cutoff;
+    })
+    .sort((a, b) => Number(a.priority || 99) - Number(b.priority || 99));
+  if (!places.length) return null;
+
+  const lines = places.map((place, index) => `${index + 1}. ${place.name} — ${place.walk}\n${place.food}. ${place.childNote} ${diningHoursText(place, language)}`);
+  const opening = {
+    ko: `있어요. 어나더하우스(서울 종로구 종로 294)에서 아이와 이동하기 편하고, ${requestedMinutes !== null ? `${String(Math.floor(requestedMinutes / 60)).padStart(2, "0")}:${String(requestedMinutes % 60).padStart(2, "0")} 이후 주문 가능한 곳` : "아이와 식사하기 편한 곳"}을 네이버 플레이스 확인 기준으로 골랐습니다.`,
+    en: `Yes. From Another House (294 Jong-ro), these are practical places for dining with children${requestedMinutes !== null ? ` after ${String(Math.floor(requestedMinutes / 60)).padStart(2, "0")}:${String(requestedMinutes % 60).padStart(2, "0")}` : ""}, based on verified Naver Place details.`,
+    ja: `あります。Another House（鍾路294）からお子様と移動しやすく、${requestedMinutes !== null ? `${String(Math.floor(requestedMinutes / 60)).padStart(2, "0")}:${String(requestedMinutes % 60).padStart(2, "0")}以降も注文できる` : "お子様と食事しやすい"}店をNaver Placeの確認情報から選びました。`,
+    zh: `有。以下地点从 Another House（钟路294号）出发，适合带孩子前往${requestedMinutes !== null ? `，并可在${String(Math.floor(requestedMinutes / 60)).padStart(2, "0")}:${String(requestedMinutes % 60).padStart(2, "0")}以后点餐` : ""}，信息已通过 Naver Place 核实。`,
+    "zh-TW": `有。以下地點從 Another House（鐘路294號）出發，適合帶孩子前往${requestedMinutes !== null ? `，並可在${String(Math.floor(requestedMinutes / 60)).padStart(2, "0")}:${String(requestedMinutes % 60).padStart(2, "0")}以後點餐` : ""}，資訊已透過 Naver Place 核實。`
+  }[language];
+  const closing = {
+    ko: "20~21시에는 본우리반상, 21시 이후에는 포메인RED, 21시 30분 이후에는 같은 건물의 교촌치킨이 가장 현실적입니다.",
+    en: "Bonuribansang is best around 20:00–21:00, Phomein RED after 21:00, and Kyochon in the same building after 21:30.",
+    ja: "20〜21時は本ウリ膳、21時以降はフォーメインRED、21時30分以降は同じ建物のキョチョンチキンが現実的です。",
+    zh: "20:00–21:00优先本味韩食，21:00以后可选 PhoMein RED，21:30以后最实际的是同楼的桥村炸鸡。",
+    "zh-TW": "20:00–21:00優先本味韓食，21:00以後可選 PhoMein RED，21:30以後最實際的是同樓的橋村炸雞。"
+  }[language];
+  const labels = LINK_LABELS[language];
+  const links = places.flatMap(place => [
+    { kind: "map", label: `${place.name} · ${labels.naver}`, url: place.maps?.naver },
+    { kind: "map", label: `${place.name} · ${labels.google}`, url: place.maps?.google }
+  ]).filter(link => trustedUrl(link.url));
+  return {
+    answer: `${opening}\n\n${lines.join("\n\n")}\n\n${closing}\n\n${directory.verificationPolicy}`,
+    links,
+    mapContext: null,
+    verifiedAt: places.reduce((latest, place) => place.hours?.verifiedAt > latest ? place.hours.verifiedAt : latest, "")
+  };
+}
+
 function validateResolvedSpot(nameValue, addressValue) {
   const name = String(nameValue || "").trim().slice(0, 100);
   const address = String(addressValue || "").trim().slice(0, 180);
@@ -396,6 +480,9 @@ function extractResolvedSpot(text) {
 }
 
 function asksForPropertyAddress(message, answer, language) {
+  const publicPlaceOriginReference = (DINING_INTENT_PATTERN.test(message) || LOCAL_PLACE_PATTERN.test(message))
+    && (PLACE_DISCOVERY_PATTERN.test(message) || BUSINESS_TIME_PATTERN.test(message));
+  if (publicPlaceOriginReference) return false;
   const propertyReference = /(어나더\s*하우스|숙소|호스텔|another\s*house|property|hostel|当館|宿|住宿|旅舍)/i.test(message);
   const locationIntent = /(주소|위치|어디|address|location|where|住所|場所|どこ|地址|位置|哪里|哪裡)/i.test(message);
   const genericAddressQuestion = /^\s*(?:주소|위치)(?:가|는|를|을)?\s*(?:어디|알려|확인|뭐|주세요|좀|찾아)?[?.! ]*$/i.test(message);
@@ -536,6 +623,11 @@ module.exports = async function handler(req, res) {
     console.log(JSON.stringify({ event: "concierge_map_followup", language, place: mapFollowup.mapContext.name, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ ...mapFollowup, model: "another-house-map-links", meta: { searched: false, mapFollowup: true, durationMs: Date.now() - startedAt } });
   }
+  const familyDining = verifiedFamilyDining(message, language);
+  if (familyDining) {
+    console.log(JSON.stringify({ event: "concierge_verified_family_dining", language, places: familyDining.links.length / 2, verifiedAt: familyDining.verifiedAt, durationMs: Date.now() - startedAt }));
+    return res.status(200).json({ answer: familyDining.answer, model: "another-house-verified-family-dining", links: familyDining.links, mapContext: null, meta: { searched: false, verifiedFamilyDining: true, verifiedAt: familyDining.verifiedAt, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+  }
   const verifiedHours = verifiedPlaceHours(message, language);
   if (verifiedHours) {
     console.log(JSON.stringify({ event: "concierge_verified_place_hours", language, place: verifiedHours.mapContext?.name, verifiedAt: verifiedHours.verifiedAt, durationMs: Date.now() - startedAt }));
@@ -654,4 +746,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, GUIDE_KNOWLEDGE };
+module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, GUIDE_KNOWLEDGE };
