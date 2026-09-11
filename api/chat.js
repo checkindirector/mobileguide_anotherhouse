@@ -407,7 +407,7 @@ function verifiedAirportTransport(message, language, now = new Date()) {
   const text = String(message || "").trim();
   const isIncheon = INCHEON_AIRPORT_PATTERN.test(text);
   const isGimpo = GIMPO_AIRPORT_PATTERN.test(text);
-  const outboundIntent = /(가는\s*법|가야|가려|가고\s*싶|갈\s*때|교통편|공항\s*(?:버스|리무진|철도)|심야\s*버스|지하철|택시|출발|도착|까지|how\s+(?:do|can|should)\s+i\s+(?:get|go)|get\s+to|go\s+to|arriv|need\s+to.{0,20}(?:incheon|gimpo)|transport|airport\s*(?:bus|limousine)|subway|train|taxi|行き方|行く|到着|交通|バス|地下鉄|タクシー|怎么\s*(?:去|到)|怎麼\s*(?:去|到)|前往|抵达|抵達|巴士|客運|地铁|地鐵|出租车|計程車)/i.test(text);
+  const outboundIntent = /((?:인천|김포)\s*(?:국제)?공항(?:으로|에|까지).{0,20}(?:가|갈|가는|가려|가야|이동)|가는\s*(?:길|법|방법|교통편|공항\s*)?(?:버스|리무진)|가는\s*리무진\s*버스|가는\s*공항\s*버스|가는\s*법|가야|가려|가고\s*싶|갈\s*때|교통편|공항\s*(?:버스|리무진|철도)|심야\s*버스|지하철|택시|출발|도착|까지|how\s+(?:do|can|should)\s+i\s+(?:get|go)|get\s+to|go\s+to|arriv|need\s+to.{0,20}(?:incheon|gimpo)|transport|airport\s*(?:bus|limousine)|subway|train|taxi|行き方|行く|到着|交通|バス|地下鉄|タクシー|怎么\s*(?:去|到)|怎麼\s*(?:去|到)|前往|抵达|抵達|巴士|客運|地铁|地鐵|出租车|計程車)/i.test(text);
   if ((!isIncheon && !isGimpo) || !outboundIntent || AIRPORT_TO_PROPERTY_PATTERN.test(text)) return null;
   const rootKnowledge = GUIDE_KNOWLEDGE.verifiedAirportTransport;
   const knowledge = rootKnowledge?.locales?.[language] || rootKnowledge?.locales?.ko;
@@ -421,6 +421,16 @@ function verifiedAirportTransport(message, language, now = new Date()) {
     { kind: "map", label: `${item.stop || item.boardingStation} · ${labels.naver}`, url: item.maps.naver },
     { kind: "map", label: `${item.stop || item.boardingStation} · ${labels.google}`, url: item.maps.google }
   ];
+  const departureGuide = item => {
+    const stopName = String(item.stop || item.boardingStation || "").replace(/\s*정류장$/, "");
+    return ({
+      ko: `숙소에서 정류장까지: 5층 리셉션에서 엘리베이터로 1층에 내려가 선일빌딩 밖으로 나오세요. 아래 지도 버튼을 열어 ${stopName}${item.stopId ? ` 정류장 ${item.stopId}` : ""}까지 이동하면 됩니다.`,
+      en: `From the property to the stop: take the elevator from the 5F reception to 1F and exit Sunil Building. Open either map button below and walk to ${stopName}${item.stopId ? `, stop ${item.stopId}` : ""}.`,
+      ja: `宿から停留所まで：5階の受付からエレベーターで1階へ下り、ソニルビルの外へ出てください。下の地図ボタンを開き、${stopName}${item.stopId ? `（停留所番号 ${item.stopId}）` : ""}まで移動します。`,
+      zh: `从住宿前往车站：从5楼前台乘电梯到1楼，走出Sunil大厦。打开下方地图按钮，步行前往${stopName}${item.stopId ? `（站号 ${item.stopId}）` : ""}。`,
+      "zh-TW": `從住宿前往站牌：從5樓櫃檯搭電梯到1樓，走出Sunil大廈。開啟下方地圖按鈕，步行前往${stopName}${item.stopId ? `（站牌編號 ${item.stopId}）` : ""}。`
+    }[language]);
+  };
 
   if (isIncheon) {
     const day = knowledge.incheon.daytimeBus;
@@ -456,7 +466,7 @@ function verifiedAirportTransport(message, language, now = new Date()) {
       { kind: "source", label: `${sourceLabel} · ${selected.officialSource.label}`, url: selected.officialSource.url },
       { kind: "source", label: `${sourceLabel} · ${(selected.airportSource || selected.timetableNotice).label}`, url: (selected.airportSource || selected.timetableNotice).url }
     ];
-    return { answer: copy, links, verifiedAt: knowledge.verifiedAt, mode: selectedNight ? "night" : nightRequested ? "night-overview" : "overview" };
+    return { answer: `${copy}\n\n${departureGuide(selected)}`, links, verifiedAt: knowledge.verifiedAt, mode: selectedNight ? "night" : nightRequested ? "night-overview" : "overview" };
   }
 
   const gimpo = { ...knowledge.gimpo, services: rootKnowledge.gimpoLine5.services };
@@ -920,7 +930,8 @@ NEVER:
 FOREIGN GUEST USABILITY:
 - Assume the guest may be in Korea for the first time and may not know local geography, transit conventions, or Korean place names.
 - Lead with the best practical choice for the guest's stated time, terminal, luggage, mobility, companions, and urgency. Then give the minimum steps needed to act.
-- For arrivals, always finish the route at Dongdaemun Station Exit 6 or the exact bus stop, then continue to Sunil Building 5F using CURRENT_GUIDE.arrivalAndTransport.localArrival. Do not leave the guest at DDP or a broad neighborhood without a clear final leg.
+- Only for airport → Another House arrival questions, finish the route at Dongdaemun Station Exit 6 or the exact arrival bus stop, then continue to Sunil Building 5F using CURRENT_GUIDE.arrivalAndTransport.localArrival.
+- For Another House → airport, check-out, or departure questions, never append the inbound Exit 6 → Sunil Building → 5F reception instructions. Start by leaving the 5F reception for 1F, exiting Sunil Building, and moving to the exact outbound boarding stop or station. Attach that stop's Naver Maps and Google Maps buttons whenever the verified airport route is used.
 - When useful, include the exact Korean place, station, stop, exit, or landmark name in parentheses so the guest can search it or show it to a driver. Keep the rest of the answer in the selected language.
 - Distinguish AREX all-stop and express trains, subway line/direction, airport-bus route and stop, and official taxi stands whenever those details matter. Treat airport bus and airport limousine as the same category unless the operator names a specific service class.
 - Never assume a payment method, card acceptance, operating time, fare, or last train. Search and state only what the current source supports.

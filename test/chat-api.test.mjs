@@ -70,10 +70,10 @@ test("manual question uses server knowledge, gpt-5.4-mini, and no web search", a
   assert.equal(request.body.model, "gpt-5.4-mini");
   assert.equal(request.body.store, false);
   assert.equal(request.body.tools, undefined);
-  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.5/);
+  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.6/);
   assert.match(request.body.instructions, /MAP_SPOT: <canonical place name> \| <complete street address>/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.5-ko");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.6-ko");
   assert.equal(res.payload.meta.cachedTokens, 80);
   assert.equal(res.payload.meta.searched, false);
 });
@@ -218,7 +218,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.mode, "night");
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.5");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.6");
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
@@ -233,6 +233,24 @@ test("airport overview contains every published 6702 and N6701 departure", () =>
   assert.match(result.answer, /19:22 · 19:52/);
   assert.match(result.answer, /23:00 → T1 00:20 \/ T2 00:40/);
   assert.match(result.answer, /02:55 → T1 04:15 \/ T2 04:35/);
+});
+
+test("Korean outbound limousine wording stays in departure mode and exposes the exact stop maps", async () => {
+  const { res, requests } = await callApi(
+    { message: "인천공항으로 가는 리무진버스", language: "ko", history: [] },
+    { model: "unused" },
+    "203.0.113.91"
+  );
+  assert.equal(requests.length, 0);
+  assert.equal(res.payload.model, "another-house-verified-airport-transport");
+  assert.equal(res.payload.meta.mode, "overview");
+  assert.match(res.payload.answer, /숙소에서 정류장까지/);
+  assert.match(res.payload.answer, /5층 리셉션에서 엘리베이터로 1층/);
+  assert.match(res.payload.answer, /정류장 01901/);
+  assert.doesNotMatch(res.payload.answer, /6번 출구.*5층|리셉션으로 들어/);
+  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 2);
+  assert.match(res.payload.links[0].label, /동대문역\(JW메리어트호텔동대문\).*네이버 지도/);
+  assert.match(res.payload.links[1].label, /동대문역\(JW메리어트호텔동대문\).*Google Maps/);
 });
 
 test("Gimpo airport selects exact trains by service day and rejects impossible early rail arrivals", () => {
@@ -279,7 +297,7 @@ test("family dining near Another House uses verified local places without a frag
   assert.equal(res.payload.model, "another-house-verified-family-dining");
   assert.equal(res.payload.meta.verifiedFamilyDining, true);
   assert.equal(res.payload.meta.searched, false);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.5");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.6");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);
