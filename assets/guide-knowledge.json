@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-12.3",
+  "version": "2026-09-12.4",
   "generatedAt": "2026-09-11",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -211,7 +211,14 @@
           "인덕션",
           "전자레인지",
           "냉장고",
-          "기기 사용"
+          "기기 사용",
+          "게스트박스",
+          "수건",
+          "칫솔",
+          "어댑터",
+          "고데기",
+          "물티슈",
+          "비닐봉투"
         ],
         "answer": "사진에서 확인한 모델명과 제조사 공식 자료를 대조해, 숙소에서 자주 쓰는 조작만 정리했습니다.\n객실 냉난방\n왼쪽 아래 전원 버튼을 눌러 켭니다.\n화면에서 운전 모드를 선택한 뒤 냉방 또는 난방을 고릅니다.\n위·아래 버튼으로 희망 온도를 맞춥니다.\n필요하면 풍량 메뉴에서 바람 세기를 조절합니다.\n외출할 때는 전원을 꺼 주세요. 중앙 제어 중에는 일부 모드가 제한될 수 있습니다.\n전자레인지\n금속·포일은 넣지 말고 전자레인지용 용기를 사용합니다.\n음식을 넣고 문을 완전히 닫습니다.\n빠른 가열은 시작/+30초 버튼을 누르며 시간을 늘립니다.\n세부 설정은 파워조절 또는 해동 무게/시간 버튼을 누르고 다이얼로 값을 맞춘 뒤 시작합니다.\n정지/취소로 멈추고, 가열 중에는 자리를 비우지 마세요.\n하이라이트 전기쿡탑\n평평한 바닥의 조리 용기를 올립니다.\n전원 버튼을 1초간 눌러 대기 상태로 켭니다.\n하이라이트 + 버튼을 누르면 1단으로 시작하며, + / −로 1–9단 화력을 조절합니다.\n사용 후 전원 버튼을 1초간 눌러 끕니다.\n잔열 표시 H가 사라질 때까지 상판을 만지지 마세요. 잠금 해제는 잠금 버튼을 2초간 누릅니다.\n정수기\n컵을 출수구 아래에 놓습니다.\n정수·냉수·온수 버튼 중 원하는 물을 선택합니다.\n용량 버튼으로 120 mL, 500 mL 또는 연속을 선택합니다.\n출수 버튼을 눌러 물을 받습니다.\n온수 사용 시 잠금 버튼을 약 5초 눌러 해제하고, 빨간 출수 버튼이 켜진 상태에서 화상에 주의하세요.\n공용 냉장고\n음식과 음료마다 포스트잇에 이름(또는 객실)과 보관 시작일 또는 체크아웃일을 적어 붙입니다.\n냄새가 강한 음식은 완전히 밀봉해 주세요.\n유통기한이 지났거나 장기 보관되었거나 표기가 없는 식품은 위생 관리를 위해 폐기될 수 있습니다.\n다른 게스트의 음식과 음료는 절대 드시지 마세요.\n체크아웃할 때 남은 음식은 직접 정리해 주세요.\n게스트박스\n공용 공간의 GUEST BOX에서 필요한 물품을 확인합니다.\n여분 수건·일회용 칫솔 세트·밴드·여행용 어댑터·고데기·물티슈·비닐봉투가 준비되어 있습니다.\n여행용 어댑터와 고데기 등 재사용 물품은 사용 직후 제자리에 돌려놓습니다.\n일회용품은 필요한 수량만 가져가 주세요.",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
@@ -301,7 +308,18 @@
         "answer": "TV · OTT 안내\n객실과 공용공간에 TV는 설치되어 있지 않습니다. 개인 모바일 기기에서 콘텐츠를 이용해 주세요.",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
         "lead": "아니요, 객실과 공용공간에 TV는 없습니다.",
-        "directAnswers": []
+        "directAnswers": [
+          {
+            "keywords": [
+              "tv",
+              "티비",
+              "텔레비전",
+              "ott",
+              "넷플릭스"
+            ],
+            "answer": "아니요, 객실과 공용공간에 TV는 없습니다."
+          }
+        ]
       },
       {
         "id": "contact",
@@ -461,7 +479,14 @@
           "induction",
           "microwave",
           "refrigerator",
-          "appliance"
+          "appliance",
+          "guest box",
+          "towel",
+          "toothbrush",
+          "travel adapter",
+          "hair straightener",
+          "wet wipes",
+          "plastic bag"
         ],
         "answer": "We matched the photographed models with manufacturer documentation and summarized the controls guests use most.\nRoom climate control\nPress the lower-left power button.\nOpen Operation Mode and choose Cool or Heat.\nUse up/down to set the target temperature.\nAdjust fan speed from the fan menu if needed.\nTurn it off when leaving. Some modes may be restricted by central control.\nMicrowave\nUse microwave-safe containers; never use metal or foil.\nPlace food inside and close the door fully.\nFor quick heating, press Start/+30 sec repeatedly.\nFor detailed settings, choose Power, Weight Defrost, or Time Defrost, set with the dial, then press Start.\nPress Stop/Cancel to stop, and never leave heating unattended.\nCeramic cooktop\nUse flat-bottom cookware.\nHold Power for 1 second to enter standby.\nPress the Highlight + button to start at level 1, then use + / − for levels 1–9.\nHold Power for 1 second after use.\nDo not touch while H is shown. To unlock, hold Lock for 2 seconds.\nWater purifier\nPlace a cup under the spout.\nChoose ambient, cold, or hot water.\nSelect 120 mL, 500 mL, or Continuous.\nPress Dispense.\nFor hot water, hold Lock for about 5 seconds to unlock; take care when the dispense button turns red.\nShared refrigerator\nLabel every food and drink with your name or room plus the storage date or checkout date.\nSeal strong-smelling food completely.\nExpired, long-stored, or unlabelled items may be discarded for hygiene.\nNever consume food or drinks belonging to another guest.\nRemove all of your remaining food at checkout.\nGuest Box\nFind the GUEST BOX in the shared area.\nIt contains extra towels, disposable dental kits, bandages, travel adapters, a hair straightener, wet wipes, and plastic bags.\nReturn reusable items such as the adapter and hair straightener immediately after use.\nTake only the quantity of disposable items you need.",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
@@ -551,7 +576,18 @@
         "answer": "TV · OTT notice\nThere is no TV in the rooms or shared areas. Please use your personal mobile device for streaming.",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
         "lead": "No, there is no TV in the rooms or shared areas.",
-        "directAnswers": []
+        "directAnswers": [
+          {
+            "keywords": [
+              "tv",
+              "television",
+              "ott",
+              "netflix",
+              "streaming"
+            ],
+            "answer": "No, there is no TV in the rooms or shared areas."
+          }
+        ]
       },
       {
         "id": "contact",
@@ -706,7 +742,14 @@
           "IH",
           "電子レンジ",
           "冷蔵庫",
-          "家電"
+          "家電",
+          "ゲストボックス",
+          "タオル",
+          "歯ブラシ",
+          "変換アダプター",
+          "ヘアアイロン",
+          "ウェットティッシュ",
+          "ビニール袋"
         ],
         "answer": "写真の型番をメーカー公式資料と照合し、滞在中によく使う操作をまとめました。\n客室空調\n左下の電源を押します。\n運転モードから冷房または暖房を選びます。\n上下で設定温度を調節します。\n必要に応じて風量を調節します。\n外出時は電源を切ってください。集中制御中は一部モードが制限されます。\n電子レンジ\n金属やアルミホイルは使わず、電子レンジ対応容器を使います。\n食品を入れ、扉を完全に閉めます。\nすぐに温める場合は「スタート/+30秒」を押します。\n出力・重量解凍・時間解凍を選び、ダイヤルで設定してスタートします。\n停止/取消で止め、加熱中は離れないでください。\n電気クッキングヒーター\n底が平らな調理器具を置きます。\n電源を1秒長押しして待機状態にします。\nハイライトの＋で1段から開始し、＋／−で1〜9段を調節します。\n使用後は電源を1秒長押しします。\n余熱表示Hが消えるまで触れないでください。ロック解除は2秒長押しです。\n浄水器\nコップを注水口の下に置きます。\n常温水・冷水・温水を選びます。\n120 mL・500 mL・連続を選びます。\n出水ボタンを押します。\n温水はロックを約5秒長押しして解除し、赤い出水ボタン点灯中はやけどに注意してください。\n共用冷蔵庫\n食品・飲料ごとに名前または客室と、保管開始日またはチェックアウト日を記入してください。\nにおいの強い食品は完全に密封してください。\n期限切れ・長期保管・無記名の食品は衛生管理のため処分されることがあります。\n他のゲストの食品や飲料は絶対に口にしないでください。\nチェックアウト時に残った食品を片付けてください。\nゲストボックス\n共用スペースのGUEST BOXをご利用ください。\n予備タオル、使い捨て歯ブラシ、絆創膏、旅行用アダプター、ヘアアイロン、ウェットティッシュ、ビニール袋があります。\nアダプターやヘアアイロンなど再利用品は使用後すぐ元の場所に戻してください。\n使い捨て用品は必要な分だけお取りください。",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
@@ -793,7 +836,17 @@
         "answer": "TV・OTT案内\n客室および共用スペースにテレビはありません。動画視聴はご自身のモバイル端末をご利用ください。",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
         "lead": "いいえ、客室と共用スペースにテレビはありません。",
-        "directAnswers": []
+        "directAnswers": [
+          {
+            "keywords": [
+              "テレビ",
+              "tv",
+              "netflix",
+              "動画視聴"
+            ],
+            "answer": "いいえ、客室と共用スペースにテレビはありません。"
+          }
+        ]
       },
       {
         "id": "contact",
@@ -944,7 +997,14 @@
           "电磁炉",
           "微波炉",
           "冰箱",
-          "设备使用"
+          "设备使用",
+          "住客用品箱",
+          "毛巾",
+          "牙刷",
+          "转换插头",
+          "直发器",
+          "湿巾",
+          "塑料袋"
         ],
         "answer": "已将照片中的型号与制造商官方资料核对，并整理住客常用操作。\n房间空调\n按左下角电源键。\n在运行模式中选择制冷或制热。\n用上下键设定温度。\n需要时调节风量。\n离开时请关闭。中央控制时部分模式可能受限。\n微波炉\n请使用微波炉专用容器，勿放入金属或锡纸。\n放入食物并关好门。\n快速加热时反复按“启动/+30秒”。\n选择功率、重量解冻或时间解冻，用旋钮设定后启动。\n按停止/取消结束，加热时请勿离开。\n电陶炉\n使用平底锅具。\n长按电源1秒进入待机。\n按加热区＋从1档启动，再用＋／−调节1至9档。\n使用后长按电源1秒关闭。\n显示H时请勿触摸。长按锁定键2秒可解锁。\n净水器\n将杯子放在出水口下。\n选择常温、冷水或热水。\n选择120 mL、500 mL或连续出水。\n按出水键。\n热水需长按锁定键约5秒解锁；出水键亮红色时谨防烫伤。\n公用冰箱\n每份食品和饮料请标注姓名或房间以及存放日期或退房日期。\n气味较重的食品请完全密封。\n过期、长期存放或无标签食品可能因卫生管理被清理。\n请勿食用其他住客的食品或饮料。\n退房时请自行清理剩余食品。\n住客用品箱\n请在公共区域使用GUEST BOX。\n内有备用毛巾、一次性牙具、创可贴、旅行转换插头、直发器、湿巾和塑料袋。\n转换插头和直发器等可重复使用物品请在使用后立即归还原位。\n一次性用品请只取所需数量。",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
@@ -1031,7 +1091,17 @@
         "answer": "电视与OTT说明\n客房和公共区域均未安装电视。观看内容时请使用个人移动设备。",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
         "lead": "没有，客房及公共区域均不设电视。",
-        "directAnswers": []
+        "directAnswers": [
+          {
+            "keywords": [
+              "电视",
+              "tv",
+              "netflix",
+              "流媒体"
+            ],
+            "answer": "没有，客房及公共区域均不设电视。"
+          }
+        ]
       },
       {
         "id": "contact",
@@ -1182,7 +1252,14 @@
           "電磁爐",
           "微波爐",
           "冰箱",
-          "設備使用"
+          "設備使用",
+          "住客用品箱",
+          "毛巾",
+          "牙刷",
+          "轉換插頭",
+          "直髮器",
+          "溼巾",
+          "塑膠袋"
         ],
         "answer": "已將照片中的型號與製造商官方資料核對，並整理住客常用操作。\n房間冷暖氣\n按左下角電源鍵。\n在執行模式中選擇製冷或制熱。\n用上下鍵設定溫度。\n需要時調節風量。\n離開時請關閉。中央控制時部分模式可能受限。\n微波爐\n請使用微波爐專用容器，勿放入金屬或錫紙。\n放入食物並關好門。\n快速加熱時反覆按“啟動/+30秒”。\n選擇功率、重量解凍或時間解凍，用旋鈕設定後啟動。\n按停止/取消結束，加熱時請勿離開。\n電陶爐\n使用平底鍋具。\n長按電源1秒進入待機。\n按加熱區＋從1檔啟動，再用＋／−調節1至9檔。\n使用後長按電源1秒關閉。\n顯示H時請勿觸控。長按鎖定鍵2秒可解鎖。\n淨水器\n將杯子放在出水口下。\n選擇常溫、冷水或熱水。\n選擇120 mL、500 mL或連續出水。\n按出水鍵。\n熱水需長按鎖定鍵約5秒解鎖；出水鍵亮紅色時謹防燙傷。\n公用冰箱\n每份食品和飲料請標註姓名或房間以及存放日期或退房日期。\n氣味較重的食品請完全密封。\n過期、長期存放或無標籤食品可能因衛生管理被清理。\n請勿食用其他住客的食品或飲料。\n退房時請自行清理剩餘食品。\n住客用品箱\n請在公共區域使用GUEST BOX。\n內有備用毛巾、一次性牙具、創可貼、旅行轉換插頭、直髮器、溼巾和塑膠袋。\n轉換插頭和直髮器等可重複使用物品請在使用後立即歸還原位。\n一次性用品請只取所需數量。",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
@@ -1269,7 +1346,17 @@
         "answer": "電視與OTT說明\n客房和公共區域均未安裝電視。觀看內容時請使用個人行動裝置。",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
         "lead": "沒有，客房及公共區域均不設電視。",
-        "directAnswers": []
+        "directAnswers": [
+          {
+            "keywords": [
+              "電視",
+              "tv",
+              "netflix",
+              "串流"
+            ],
+            "answer": "沒有，客房及公共區域均不設電視。"
+          }
+        ]
       },
       {
         "id": "contact",

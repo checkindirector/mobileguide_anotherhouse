@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-12.3";
+const VERSION = "2026-09-12.4";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -63,7 +63,7 @@ const QUICK_TOPIC_KEYWORDS = {
   wifi: { ko: ["와이파이", "wifi", "wi-fi", "인터넷"], en: ["wifi", "wi-fi", "internet"], ja: ["wifi", "wi-fi", "インターネット"], zh: ["wifi", "wi-fi", "无线网络"], "zh-TW": ["wifi", "wi-fi", "無線網路"] },
   parking: { ko: ["숙소 주차", "건물 주차", "주차 가능", "주차 안내"], en: ["property parking", "on-site parking", "can i park", "parking at the hostel"], ja: ["宿の駐車", "館内駐車", "駐車できます", "駐車案内"], zh: ["住宿停车", "楼内停车", "可以停车", "停车指南"], "zh-TW": ["住宿停車", "樓內停車", "可以停車", "停車指南"] },
   rules: { ko: ["숙소 이용 규칙", "숙소 규칙", "이용 규칙", "하우스 룰", "흡연", "소음", "파티", "반려동물", "외부인"], en: ["house rules", "property rules", "stay rules", "smoking", "noise", "party", "pet", "outside guest"], ja: ["宿泊ルール", "利用規則", "ハウスルール", "喫煙", "騒音", "パーティー", "ペット", "部外者"], zh: ["住宿规则", "入住规则", "房屋守则", "吸烟", "噪音", "派对", "宠物", "外来人员"], "zh-TW": ["住宿規則", "入住規則", "房屋守則", "吸菸", "噪音", "派對", "寵物", "外來人員"] },
-  appliances: { ko: ["냉난방", "에어컨", "난방", "인덕션", "전자레인지", "냉장고", "기기 사용"], en: ["heating", "air conditioning", "air conditioner", "induction", "microwave", "refrigerator", "appliance"], ja: ["冷暖房", "エアコン", "暖房", "IH", "電子レンジ", "冷蔵庫", "家電"], zh: ["空调", "暖气", "电磁炉", "微波炉", "冰箱", "设备使用"], "zh-TW": ["空調", "暖氣", "電磁爐", "微波爐", "冰箱", "設備使用"] },
+  appliances: { ko: ["냉난방", "에어컨", "난방", "인덕션", "전자레인지", "냉장고", "기기 사용", "게스트박스", "수건", "칫솔", "어댑터", "고데기", "물티슈", "비닐봉투"], en: ["heating", "air conditioning", "air conditioner", "induction", "microwave", "refrigerator", "appliance", "guest box", "towel", "toothbrush", "travel adapter", "hair straightener", "wet wipes", "plastic bag"], ja: ["冷暖房", "エアコン", "暖房", "IH", "電子レンジ", "冷蔵庫", "家電", "ゲストボックス", "タオル", "歯ブラシ", "変換アダプター", "ヘアアイロン", "ウェットティッシュ", "ビニール袋"], zh: ["空调", "暖气", "电磁炉", "微波炉", "冰箱", "设备使用", "住客用品箱", "毛巾", "牙刷", "转换插头", "直发器", "湿巾", "塑料袋"], "zh-TW": ["空調", "暖氣", "電磁爐", "微波爐", "冰箱", "設備使用", "住客用品箱", "毛巾", "牙刷", "轉換插頭", "直髮器", "溼巾", "塑膠袋"] },
   laundry: { ko: ["세탁", "건조기", "빨래", "세제", "섬유유연제"], en: ["laundry", "washing machine", "dryer", "detergent", "fabric softener"], ja: ["洗濯", "洗濯機", "乾燥機", "洗剤", "柔軟剤"], zh: ["洗衣", "洗衣机", "烘干机", "洗涤剂", "柔顺剂"], "zh-TW": ["洗衣", "洗衣機", "烘乾機", "洗滌劑", "柔軟精"] },
   waste: { ko: ["쓰레기", "분리배출", "분리수거"], en: ["trash", "waste", "recycling", "garbage"], ja: ["ごみ", "ゴミ", "分別", "リサイクル"], zh: ["垃圾", "垃圾分类", "回收"], "zh-TW": ["垃圾", "垃圾分類", "回收"] },
   rooms: { ko: ["객실 종류", "방 종류", "싱글룸", "2인실", "더블룸", "샤워실", "화장실 몇"], en: ["room type", "single room", "double room", "shared shower", "how many rooms"], ja: ["客室タイプ", "シングルルーム", "2人部屋", "共用シャワー", "部屋数"], zh: ["房型", "单人房", "双人房", "公共淋浴", "房间数量"], "zh-TW": ["房型", "單人房", "雙人房", "公共淋浴", "房間數量"] },
@@ -107,6 +107,13 @@ const quickDirectAnswers = (topic, language) => ({
     ja: [{ keywords: ["喫煙", "タバコ"], answer: "いいえ、客室・共用スペースはすべて禁煙です。" }, { keywords: ["ペット"], answer: "いいえ、ペットの同伴はできません。" }, { keywords: ["パーティー"], answer: "いいえ、館内でのパーティーは禁止です。" }, { keywords: ["部外者", "訪問者"], answer: "いいえ、予約者以外の入館はできません。" }],
     zh: [{ keywords: ["吸烟", "抽烟"], answer: "不可以，客房及公共区域均全面禁烟。" }, { keywords: ["宠物"], answer: "不可以，不允许携带宠物。" }, { keywords: ["派对"], answer: "不可以，住宿内禁止举办派对。" }, { keywords: ["外来人员", "访客"], answer: "不可以，未登记访客不得进入住宿。" }],
     "zh-TW": [{ keywords: ["吸菸", "抽菸"], answer: "不可以，客房及公共區域均全面禁菸。" }, { keywords: ["寵物"], answer: "不可以，不允許攜帶寵物。" }, { keywords: ["派對"], answer: "不可以，住宿內禁止舉辦派對。" }, { keywords: ["外來人員", "訪客"], answer: "不可以，未登記訪客不得進入住宿。" }]
+  },
+  tv: {
+    ko: [{ keywords: ["tv", "티비", "텔레비전", "ott", "넷플릭스"], answer: "아니요, 객실과 공용공간에 TV는 없습니다." }],
+    en: [{ keywords: ["tv", "television", "ott", "netflix", "streaming"], answer: "No, there is no TV in the rooms or shared areas." }],
+    ja: [{ keywords: ["テレビ", "tv", "netflix", "動画視聴"], answer: "いいえ、客室と共用スペースにテレビはありません。" }],
+    zh: [{ keywords: ["电视", "tv", "netflix", "流媒体"], answer: "没有，客房及公共区域均不设电视。" }],
+    "zh-TW": [{ keywords: ["電視", "tv", "netflix", "串流"], answer: "沒有，客房及公共區域均不設電視。" }]
   },
   laundry: {
     ko: [{ keywords: ["세탁세제", "세제", "섬유유연제"], answer: "네, 세탁세제와 섬유유연제가 준비되어 있습니다. 세탁기 위 선반에 있어요." }, { keywords: ["건조기"], answer: "네, 숙소에 건조기가 있습니다. 밤 10시 이전에 사용을 마쳐 주세요." }, { keywords: ["세탁기"], answer: "네, 숙소에 세탁기가 있습니다. 세제와 섬유유연제는 위 선반에 있어요." }, { keywords: ["몇시까지", "이용시간", "사용시간"], answer: "세탁기와 건조기는 밤 10시 이전에 사용을 마쳐 주세요." }],
