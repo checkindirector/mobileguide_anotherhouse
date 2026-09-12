@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-12.1";
+const VERSION = "2026-09-12.2";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -71,6 +71,45 @@ const QUICK_TOPIC_KEYWORDS = {
   contact: { ko: ["호스트 연락", "호스트한테 연락", "도움 필요", "문의 방법", "연락 방법"], en: ["contact host", "contact the host", "need help", "how to contact"], ja: ["ホストに連絡", "問い合わせ方法", "助けが必要"], zh: ["联系房东", "需要帮助", "咨询方式"], "zh-TW": ["聯絡房東", "需要協助", "詢問方式"] }
 };
 
+const QUICK_TOPIC_LEADS = {
+  luggage: { ko: "네, 짐 보관이 가능합니다.", en: "Yes, luggage storage is available.", ja: "はい、荷物を保管できます。", zh: "可以，住宿提供行李寄存。", "zh-TW": "可以，住宿提供行李寄放。" },
+  checkin: { ko: "체크인은 15:00부터이며 셀프 체크인으로 진행합니다.", en: "Check-in starts at 15:00 and is self-service.", ja: "チェックインは15:00からで、セルフチェックインです。", zh: "入住时间为15:00起，采用自助入住。", "zh-TW": "入住時間為15:00起，採自助入住。" },
+  checkout: { ko: "체크아웃은 11:00까지이며 레이트 체크아웃은 불가합니다.", en: "Check-out is by 11:00, and late check-out is not available.", ja: "チェックアウトは11:00までで、レイトチェックアウトはできません。", zh: "退房时间为11:00前，不提供延迟退房。", "zh-TW": "退房時間為11:00前，不提供延遲退房。" },
+  wifi: { ko: "네, 숙소에서 Wi-Fi를 이용할 수 있습니다.", en: "Yes, Wi-Fi is available at the property.", ja: "はい、館内でWi-Fiを利用できます。", zh: "可以，住宿内提供 Wi-Fi。", "zh-TW": "可以，住宿內提供 Wi-Fi。" },
+  parking: { ko: "아니요, 건물 내 주차는 불가합니다.", en: "No, on-site parking is not available.", ja: "いいえ、建物内には駐車できません。", zh: "不可以，大楼内不提供停车位。", "zh-TW": "不可以，大樓內不提供停車位。" },
+  rules: { ko: "숙소 이용 규칙은 다음과 같습니다.", en: "These are the property rules.", ja: "宿泊ルールは次のとおりです。", zh: "住宿规则如下。", "zh-TW": "住宿規則如下。" },
+  appliances: { ko: "네, 숙소에 냉난방·주방 기기가 마련되어 있습니다.", en: "Yes, climate-control and kitchen appliances are available.", ja: "はい、冷暖房・キッチン家電を利用できます。", zh: "可以，住宿内配有冷暖设备及厨房电器。", "zh-TW": "可以，住宿內配有冷暖設備及廚房電器。" },
+  laundry: { ko: "네, 숙소에 세탁기와 건조기가 있습니다.", en: "Yes, a washing machine and dryer are available at the property.", ja: "はい、館内に洗濯機と乾燥機があります。", zh: "有，住宿内配有洗衣机和烘干机。", "zh-TW": "有，住宿內配有洗衣機和烘乾機。" },
+  waste: { ko: "쓰레기는 숙소 내 공용 분리수거함에 분리배출할 수 있습니다.", en: "You can sort and dispose of waste in the shared recycling bins.", ja: "ごみは館内の共用分別ボックスに捨てられます。", zh: "垃圾可分类投放至住宿内的公共分类垃圾桶。", "zh-TW": "垃圾可分類投放至住宿內的公共分類垃圾桶。" },
+  rooms: { ko: "싱글룸 11실과 더블룸 1실을 운영합니다.", en: "The property has 11 single rooms and 1 double room.", ja: "シングルルーム11室とダブルルーム1室があります。", zh: "住宿设有11间单人房和1间双人房。", "zh-TW": "住宿設有11間單人房和1間雙人房。" },
+  tv: { ko: "아니요, 객실과 공용공간에 TV는 없습니다.", en: "No, there is no TV in the rooms or shared areas.", ja: "いいえ、客室と共用スペースにテレビはありません。", zh: "没有，客房及公共区域均不设电视。", "zh-TW": "沒有，客房及公共區域均不設電視。" },
+  contact: { ko: "호스트에게는 예약 플랫폼 메시지로 연락할 수 있습니다.", en: "You can contact the host through your booking-platform messages.", ja: "予約プラットフォームのメッセージからホストに連絡できます。", zh: "您可以通过预订平台消息联系房东。", "zh-TW": "您可以透過預訂平台訊息聯絡房東。" }
+};
+
+const quickDirectAnswers = (topic, language) => ({
+  checkout: {
+    ko: [{ keywords: ["레이트 체크아웃", "늦게 체크아웃", "체크아웃 연장"], answer: "아니요, 레이트 체크아웃과 체크아웃 시간 연장은 불가합니다." }],
+    en: [{ keywords: ["late checkout", "late check-out", "extend checkout"], answer: "No, late check-out and check-out extensions are not available." }],
+    ja: [{ keywords: ["レイトチェックアウト", "チェックアウト延長"], answer: "いいえ、レイトチェックアウトや時間延長はできません。" }],
+    zh: [{ keywords: ["延迟退房", "延长退房"], answer: "不可以，不提供延迟退房或退房时间延长。" }],
+    "zh-TW": [{ keywords: ["延遲退房", "延長退房"], answer: "不可以，不提供延遲退房或退房時間延長。" }]
+  },
+  rules: {
+    ko: [{ keywords: ["흡연", "담배"], answer: "아니요, 객실과 공용공간은 모두 금연입니다." }, { keywords: ["반려동물", "애완동물"], answer: "아니요, 반려동물 동반은 허용되지 않습니다." }, { keywords: ["파티"], answer: "아니요, 숙소에서 파티는 허용되지 않습니다." }, { keywords: ["외부인", "방문객"], answer: "아니요, 예약하지 않은 외부인의 출입은 허용되지 않습니다." }],
+    en: [{ keywords: ["smoking", "smoke", "cigarette"], answer: "No, smoking is not allowed in the rooms or shared areas." }, { keywords: ["pet", "dog", "cat"], answer: "No, pets are not allowed." }, { keywords: ["party"], answer: "No, parties are not allowed at the property." }, { keywords: ["outside guest", "visitor"], answer: "No, unregistered visitors are not allowed inside." }],
+    ja: [{ keywords: ["喫煙", "タバコ"], answer: "いいえ、客室・共用スペースはすべて禁煙です。" }, { keywords: ["ペット"], answer: "いいえ、ペットの同伴はできません。" }, { keywords: ["パーティー"], answer: "いいえ、館内でのパーティーは禁止です。" }, { keywords: ["部外者", "訪問者"], answer: "いいえ、予約者以外の入館はできません。" }],
+    zh: [{ keywords: ["吸烟", "抽烟"], answer: "不可以，客房及公共区域均全面禁烟。" }, { keywords: ["宠物"], answer: "不可以，不允许携带宠物。" }, { keywords: ["派对"], answer: "不可以，住宿内禁止举办派对。" }, { keywords: ["外来人员", "访客"], answer: "不可以，未登记访客不得进入住宿。" }],
+    "zh-TW": [{ keywords: ["吸菸", "抽菸"], answer: "不可以，客房及公共區域均全面禁菸。" }, { keywords: ["寵物"], answer: "不可以，不允許攜帶寵物。" }, { keywords: ["派對"], answer: "不可以，住宿內禁止舉辦派對。" }, { keywords: ["外來人員", "訪客"], answer: "不可以，未登記訪客不得進入住宿。" }]
+  },
+  laundry: {
+    ko: [{ keywords: ["건조기"], answer: "네, 숙소에 건조기가 있습니다." }, { keywords: ["세탁기"], answer: "네, 숙소에 세탁기가 있습니다." }],
+    en: [{ keywords: ["dryer", "tumble dryer"], answer: "Yes, a dryer is available at the property." }, { keywords: ["washing machine", "washer"], answer: "Yes, a washing machine is available at the property." }],
+    ja: [{ keywords: ["乾燥機"], answer: "はい、館内に乾燥機があります。" }, { keywords: ["洗濯機"], answer: "はい、館内に洗濯機があります。" }],
+    zh: [{ keywords: ["烘干机"], answer: "有，住宿内配有烘干机。" }, { keywords: ["洗衣机"], answer: "有，住宿内配有洗衣机。" }],
+    "zh-TW": [{ keywords: ["烘乾機"], answer: "有，住宿內配有烘乾機。" }, { keywords: ["洗衣機"], answer: "有，住宿內配有洗衣機。" }]
+  }
+}[topic]?.[language] || []);
+
 const compactPageLines = page => [
   page.summary,
   ...(page.sections || []).flatMap(section => [section.body, section.value, ...(section.steps || [])])
@@ -107,7 +146,11 @@ const quickGuideTopics = language => {
     { id: "rooms", keywords: QUICK_TOPIC_KEYWORDS.rooms[language], answer: answer([about.body, ...(about.facts || [])]), source: pageUrl("gallery") },
     { id: "tv", keywords: QUICK_TOPIC_KEYWORDS.tv[language], answer: answer([tv.title, tv.body]), source: pageUrl("appliances") },
     { id: "contact", keywords: QUICK_TOPIC_KEYWORDS.contact[language], answer: String(localize(data.contact, language) || ""), source: SITE_URL }
-  ];
+  ].map(topic => ({
+    ...topic,
+    lead: QUICK_TOPIC_LEADS[topic.id][language],
+    directAnswers: quickDirectAnswers(topic.id, language)
+  }));
 };
 
 const transportKnowledge = language => {

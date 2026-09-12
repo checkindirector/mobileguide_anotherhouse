@@ -165,6 +165,18 @@ function quickGuideFromQuestion(message, language) {
   return null;
 }
 
+function quickGuideAnswer(topic, message) {
+  const normalized = normalizeGuideMatch(message);
+  const direct = (topic.directAnswers || []).find(item =>
+    (item.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword)))
+  );
+  const lead = String(direct?.answer || topic.lead || "").trim();
+  const detail = String(topic.answer || "").trim();
+  if (!lead) return detail;
+  if (!detail || normalizeGuideMatch(detail).startsWith(normalizeGuideMatch(lead))) return detail || lead;
+  return `${lead}\n\n${detail}`;
+}
+
 function guidePageLink(route, language) {
   const safeRoute = GUIDE_PAGE_ROUTES.has(route) ? route : "home";
   const labels = GUIDE_PAGE_LABELS[language] || GUIDE_PAGE_LABELS.ko;
@@ -942,6 +954,9 @@ function systemInstructions(language, guideText) {
 
 PRIORITY A — CURRENT PROPERTY GUIDE:
 - If CURRENT_GUIDE clearly answers the question, answer directly without a greeting or unnecessary introduction.
+- The very first sentence must give the conclusion to the exact question. For yes/no, existence, availability, or permission questions, begin with an explicit localized equivalent of “Yes, it is available” or “No, it is not available,” and name the subject. For time questions, state the exact time first. For where questions, state the exact place first. For how-to questions, state the action or method first.
+- Never begin with cautions, background, related rules, or a long procedure before answering what was asked. Put those useful details after the clear conclusion.
+- If the guide does not establish the answer, begin with the localized equivalent of “The current guide does not confirm this.” Do not imply yes or no.
 - Treat every current site section—home profile, room facts, check-in, check-out, luggage, parking, arrival, Wi-Fi, appliances, laundry, waste, rules, restaurants and tours—as first-party property knowledge in all five supported languages. Never call it public web information or claim it is unavailable when the corresponding CURRENT_GUIDE field exists.
 - Preserve exact times, address, procedures, limits, and troubleshooting steps. Add one or two immediately useful details when appropriate.
 - For the final walk from Dongdaemun Station Exit 6, building entrance, landmarks, floor, or reception, use CURRENT_GUIDE.arrivalAndTransport.localArrival exactly. Never replace these property directions with booking listings, blogs, encyclopedias, or a web-search guess.
@@ -1034,7 +1049,7 @@ module.exports = async function handler(req, res) {
   if (quickGuide) {
     console.log(JSON.stringify({ event: "concierge_site_guide", topic: quickGuide.id, language, durationMs: Date.now() - startedAt }));
     const route = GUIDE_TOPIC_ROUTES[quickGuide.id] || "home";
-    return res.status(200).json({ answer: quickGuide.answer, model: "another-house-site-guide", links: [guidePageLink(route, language)], mapContext: null, meta: { searched: false, siteGuide: true, topic: quickGuide.id, guideRoute: route, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+    return res.status(200).json({ answer: quickGuideAnswer(quickGuide, message), model: "another-house-site-guide", links: [guidePageLink(route, language)], mapContext: null, meta: { searched: false, siteGuide: true, topic: quickGuide.id, guideRoute: route, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
   const airportTransport = verifiedAirportTransport(message, language);
   if (airportTransport) {
@@ -1178,4 +1193,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, normalizeGuideMatch, quickGuideFromQuestion, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };
+module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, normalizeGuideMatch, quickGuideFromQuestion, quickGuideAnswer, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };
