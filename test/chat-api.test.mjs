@@ -318,6 +318,13 @@ test("an outbound transit answer retries instead of exposing a max-token fragmen
   assert.equal(handler._internals.guideRouteFromQuestion("숙소에서 청량리역 가는방법", "ko"), "transport");
 });
 
+test("known Dongdaemun to Cheongnyangni stop count is corrected after generation", () => {
+  const wrong = "숙소에서 동대문역 1호선을 타면 청량리역까지 1정거장입니다.";
+  const corrected = handler._internals.correctKnownTransitMetrics("숙소에서 청량리역 가는방법", wrong);
+  assert.match(corrected, /청량리역까지 4정거장입니다/);
+  assert.doesNotMatch(corrected, /1정거장/);
+});
+
 test("exact last-mile property directions use guide knowledge without public web search", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "From Exit 6, look for Kyochon Chicken and the dental sign at Sunil Building, take the elevator to 5F, then go down half a floor to the glass-door reception.\nGUIDE_PAGE: transport", output: [], usage: {} };
   const { request, requests } = await callApi({ message: "I am at Dongdaemun Station Exit 6 but cannot find the building entrance. What landmarks should I look for?", language: "en" }, output, "203.0.113.64");

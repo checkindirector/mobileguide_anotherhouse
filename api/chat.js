@@ -268,6 +268,23 @@ function sourceDomain(value) {
   return compoundSuffixes.has(suffix) ? parts.slice(-3).join(".") : parts.slice(-2).join(".");
 }
 
+function correctKnownTransitMetrics(question, answer) {
+  const text = String(question || "");
+  const response = String(answer || "");
+  const fromProperty = /(숙소|어나더\s*하우스|another\s*house|東大門|东大门|동대문)/i.test(text);
+  const toCheongnyangni = /(청량리|cheongnyangni|チョンニャンニ|清涼里|清凉里)/i.test(text);
+  if (!fromProperty || !toCheongnyangni) return response;
+
+  // Dongdaemun (128) → Cheongnyangni (124) is four stops on Line 1.
+  // Keep this deterministic guard because model-written public-route prose can
+  // otherwise attach an unsupported stop count even after a web search.
+  return response
+    .replace(/(?:1|한)\s*정거장/g, "4정거장")
+    .replace(/(?:one|1)\s+stops?/gi, "4 stops")
+    .replace(/(?:1|一)\s*駅/g, "4駅")
+    .replace(/(?:1|一)\s*站/g, "4站");
+}
+
 function hitOutputLimit(data, limit) {
   return data?.incomplete_details?.reason === "max_output_tokens"
     || data?.status === "incomplete"
@@ -1192,7 +1209,7 @@ module.exports = async function handler(req, res) {
       modelOutputs.push(...(data.output || []));
     }
     const resolved = extractResolvedSpot(extractOutputText(data));
-    let answer = cleanAnswer(resolved.answerText);
+    let answer = correctKnownTransitMetrics(message, cleanAnswer(resolved.answerText));
     if (!answer) return res.status(502).json({ error: "AI returned an empty response" });
     const naverPrimarySearched = (naverData?.output || []).some(item => item?.type === "web_search_call");
     const crossCheckSearched = modelOutputs.some(item => item?.type === "web_search_call");
@@ -1239,4 +1256,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };
+module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };
