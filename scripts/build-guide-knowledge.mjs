@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-12.2";
+const VERSION = "2026-09-12.3";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -64,7 +64,7 @@ const QUICK_TOPIC_KEYWORDS = {
   parking: { ko: ["숙소 주차", "건물 주차", "주차 가능", "주차 안내"], en: ["property parking", "on-site parking", "can i park", "parking at the hostel"], ja: ["宿の駐車", "館内駐車", "駐車できます", "駐車案内"], zh: ["住宿停车", "楼内停车", "可以停车", "停车指南"], "zh-TW": ["住宿停車", "樓內停車", "可以停車", "停車指南"] },
   rules: { ko: ["숙소 이용 규칙", "숙소 규칙", "이용 규칙", "하우스 룰", "흡연", "소음", "파티", "반려동물", "외부인"], en: ["house rules", "property rules", "stay rules", "smoking", "noise", "party", "pet", "outside guest"], ja: ["宿泊ルール", "利用規則", "ハウスルール", "喫煙", "騒音", "パーティー", "ペット", "部外者"], zh: ["住宿规则", "入住规则", "房屋守则", "吸烟", "噪音", "派对", "宠物", "外来人员"], "zh-TW": ["住宿規則", "入住規則", "房屋守則", "吸菸", "噪音", "派對", "寵物", "外來人員"] },
   appliances: { ko: ["냉난방", "에어컨", "난방", "인덕션", "전자레인지", "냉장고", "기기 사용"], en: ["heating", "air conditioning", "air conditioner", "induction", "microwave", "refrigerator", "appliance"], ja: ["冷暖房", "エアコン", "暖房", "IH", "電子レンジ", "冷蔵庫", "家電"], zh: ["空调", "暖气", "电磁炉", "微波炉", "冰箱", "设备使用"], "zh-TW": ["空調", "暖氣", "電磁爐", "微波爐", "冰箱", "設備使用"] },
-  laundry: { ko: ["세탁", "건조기", "빨래"], en: ["laundry", "washing machine", "dryer"], ja: ["洗濯", "洗濯機", "乾燥機"], zh: ["洗衣", "洗衣机", "烘干机"], "zh-TW": ["洗衣", "洗衣機", "烘乾機"] },
+  laundry: { ko: ["세탁", "건조기", "빨래", "세제", "섬유유연제"], en: ["laundry", "washing machine", "dryer", "detergent", "fabric softener"], ja: ["洗濯", "洗濯機", "乾燥機", "洗剤", "柔軟剤"], zh: ["洗衣", "洗衣机", "烘干机", "洗涤剂", "柔顺剂"], "zh-TW": ["洗衣", "洗衣機", "烘乾機", "洗滌劑", "柔軟精"] },
   waste: { ko: ["쓰레기", "분리배출", "분리수거"], en: ["trash", "waste", "recycling", "garbage"], ja: ["ごみ", "ゴミ", "分別", "リサイクル"], zh: ["垃圾", "垃圾分类", "回收"], "zh-TW": ["垃圾", "垃圾分類", "回收"] },
   rooms: { ko: ["객실 종류", "방 종류", "싱글룸", "2인실", "더블룸", "샤워실", "화장실 몇"], en: ["room type", "single room", "double room", "shared shower", "how many rooms"], ja: ["客室タイプ", "シングルルーム", "2人部屋", "共用シャワー", "部屋数"], zh: ["房型", "单人房", "双人房", "公共淋浴", "房间数量"], "zh-TW": ["房型", "單人房", "雙人房", "公共淋浴", "房間數量"] },
   tv: { ko: ["tv", "티비", "텔레비전", "ott", "넷플릭스"], en: ["tv", "television", "ott", "netflix", "streaming"], ja: ["テレビ", "tv", "netflix", "動画視聴"], zh: ["电视", "tv", "netflix", "流媒体"], "zh-TW": ["電視", "tv", "netflix", "串流"] },
@@ -87,6 +87,13 @@ const QUICK_TOPIC_LEADS = {
 };
 
 const quickDirectAnswers = (topic, language) => ({
+  luggage: {
+    ko: [{ keywords: ["짐보관", "짐맡", "캐리어보관", "수하물보관"], answer: "네, 짐 보관이 가능합니다. 503호 앞 러기지룸에 체크아웃 당일 밤 11시까지 무료로 보관할 수 있어요." }],
+    en: [{ keywords: ["luggage storage", "store luggage", "leave luggage", "baggage storage", "store my suitcase"], answer: "Yes, luggage storage is available. You can use the luggage room in front of Room 503 free of charge until 23:00 on the day of checkout." }],
+    ja: [{ keywords: ["荷物保管", "荷物を預", "荷物預かり", "ラゲッジルーム", "スーツケース保管"], answer: "はい、荷物を保管できます。503号室前のラゲッジルームをチェックアウト当日の23時まで無料で利用できます。" }],
+    zh: [{ keywords: ["行李寄存", "寄存行李", "行李房", "存放行李"], answer: "可以寄存行李。可免费存放在503号房前的行李房，使用至退房当天23:00。" }],
+    "zh-TW": [{ keywords: ["行李寄放", "寄放行李", "行李房", "寄存行李"], answer: "可以寄放行李。可免費寄放在503號房前的行李房，使用至退房當天23:00。" }]
+  },
   checkout: {
     ko: [{ keywords: ["레이트 체크아웃", "늦게 체크아웃", "체크아웃 연장"], answer: "아니요, 레이트 체크아웃과 체크아웃 시간 연장은 불가합니다." }],
     en: [{ keywords: ["late checkout", "late check-out", "extend checkout"], answer: "No, late check-out and check-out extensions are not available." }],
@@ -102,11 +109,11 @@ const quickDirectAnswers = (topic, language) => ({
     "zh-TW": [{ keywords: ["吸菸", "抽菸"], answer: "不可以，客房及公共區域均全面禁菸。" }, { keywords: ["寵物"], answer: "不可以，不允許攜帶寵物。" }, { keywords: ["派對"], answer: "不可以，住宿內禁止舉辦派對。" }, { keywords: ["外來人員", "訪客"], answer: "不可以，未登記訪客不得進入住宿。" }]
   },
   laundry: {
-    ko: [{ keywords: ["건조기"], answer: "네, 숙소에 건조기가 있습니다." }, { keywords: ["세탁기"], answer: "네, 숙소에 세탁기가 있습니다." }],
-    en: [{ keywords: ["dryer", "tumble dryer"], answer: "Yes, a dryer is available at the property." }, { keywords: ["washing machine", "washer"], answer: "Yes, a washing machine is available at the property." }],
-    ja: [{ keywords: ["乾燥機"], answer: "はい、館内に乾燥機があります。" }, { keywords: ["洗濯機"], answer: "はい、館内に洗濯機があります。" }],
-    zh: [{ keywords: ["烘干机"], answer: "有，住宿内配有烘干机。" }, { keywords: ["洗衣机"], answer: "有，住宿内配有洗衣机。" }],
-    "zh-TW": [{ keywords: ["烘乾機"], answer: "有，住宿內配有烘乾機。" }, { keywords: ["洗衣機"], answer: "有，住宿內配有洗衣機。" }]
+    ko: [{ keywords: ["세탁세제", "세제", "섬유유연제"], answer: "네, 세탁세제와 섬유유연제가 준비되어 있습니다. 세탁기 위 선반에 있어요." }, { keywords: ["건조기"], answer: "네, 숙소에 건조기가 있습니다. 밤 10시 이전에 사용을 마쳐 주세요." }, { keywords: ["세탁기"], answer: "네, 숙소에 세탁기가 있습니다. 세제와 섬유유연제는 위 선반에 있어요." }, { keywords: ["몇시까지", "이용시간", "사용시간"], answer: "세탁기와 건조기는 밤 10시 이전에 사용을 마쳐 주세요." }],
+    en: [{ keywords: ["detergent", "fabric softener"], answer: "Yes, laundry detergent and fabric softener are provided. You’ll find them on the shelf above the machine." }, { keywords: ["dryer", "tumble dryer"], answer: "Yes, a dryer is available. Please finish using it before 22:00." }, { keywords: ["washing machine", "washer"], answer: "Yes, a washing machine is available. Detergent and fabric softener are on the shelf above it." }, { keywords: ["laundry hours", "what time", "until when"], answer: "Please finish using the washing machine and dryer before 22:00." }],
+    ja: [{ keywords: ["洗剤", "柔軟剤"], answer: "はい、洗濯洗剤と柔軟剤をご用意しています。洗濯機の上の棚にあります。" }, { keywords: ["乾燥機"], answer: "はい、館内に乾燥機があります。22時までに使用を終えてください。" }, { keywords: ["洗濯機"], answer: "はい、館内に洗濯機があります。洗剤と柔軟剤は上の棚にあります。" }, { keywords: ["何時まで", "利用時間", "使用時間"], answer: "洗濯機と乾燥機は22時までに使用を終えてください。" }],
+    zh: [{ keywords: ["洗涤剂", "洗衣液", "柔顺剂"], answer: "有，住宿备有洗涤剂和柔顺剂，放在洗衣机上方的搁板上。" }, { keywords: ["烘干机"], answer: "有，住宿内配有烘干机。请在22:00前结束使用。" }, { keywords: ["洗衣机"], answer: "有，住宿内配有洗衣机。洗涤剂和柔顺剂放在上方搁板上。" }, { keywords: ["几点结束", "使用时间", "到几点"], answer: "请在22:00前结束使用洗衣机和烘干机。" }],
+    "zh-TW": [{ keywords: ["洗滌劑", "洗衣精", "柔軟精"], answer: "有，住宿備有洗滌劑和柔軟精，放在洗衣機上方的層架上。" }, { keywords: ["烘乾機"], answer: "有，住宿內配有烘乾機。請在22:00前結束使用。" }, { keywords: ["洗衣機"], answer: "有，住宿內配有洗衣機。洗滌劑和柔軟精放在上方層架上。" }, { keywords: ["幾點結束", "使用時間", "到幾點"], answer: "請在22:00前結束使用洗衣機和烘乾機。" }]
   }
 }[topic]?.[language] || []);
 

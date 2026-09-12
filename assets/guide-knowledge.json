@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-12.2",
+  "version": "2026-09-12.3",
   "generatedAt": "2026-09-11",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -82,7 +82,17 @@
         "answer": "네, 짐 보관이 가능합니다.\n503호 앞 러기지 룸\n체크인 전 이용에 필요한 출입 정보는 예약 플랫폼 메시지에서 확인해 주세요.\n체크아웃 당일에 한해 러기지룸에 무료로 보관할 수 있습니다.\n레이트 체크아웃은 불가합니다.",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "네, 짐 보관이 가능합니다.",
-        "directAnswers": []
+        "directAnswers": [
+          {
+            "keywords": [
+              "짐보관",
+              "짐맡",
+              "캐리어보관",
+              "수하물보관"
+            ],
+            "answer": "네, 짐 보관이 가능합니다. 503호 앞 러기지룸에 체크아웃 당일 밤 11시까지 무료로 보관할 수 있어요."
+          }
+        ]
       },
       {
         "id": "checkin",
@@ -213,7 +223,9 @@
         "keywords": [
           "세탁",
           "건조기",
-          "빨래"
+          "빨래",
+          "세제",
+          "섬유유연제"
         ],
         "answer": "밤 10시 이전에 사용을 마쳐 주세요. 건조 직후에는 내부와 세탁물이 매우 뜨거우므로 화상에 주의하고, 건조 후 먼지 필터를 정리해 주세요.\n세제와 섬유유연제는 세탁기 위 선반에 있습니다.\n세탁물을 넣고 문을 완전히 닫습니다.\n전원 버튼을 눌러 제품을 켭니다.\n코스 선택 버튼으로 세탁물에 맞는 코스를 선택합니다.\n필요하면 헹굼횟수·탈수세기·물온도를 조절한 뒤 시작/일시정지 버튼을 1초간 눌러 시작합니다. 밤 10시 이전에 이용을 마쳐 주세요.\n완료 후 세탁물을 바로 꺼내고 세제 투입구와 문을 열어 둡니다. 건조 후에는 먼지 필터를 정리해 주세요.",
         "source": "https://anotherhouse-guide.vercel.app/?page=laundry",
@@ -221,15 +233,31 @@
         "directAnswers": [
           {
             "keywords": [
+              "세탁세제",
+              "세제",
+              "섬유유연제"
+            ],
+            "answer": "네, 세탁세제와 섬유유연제가 준비되어 있습니다. 세탁기 위 선반에 있어요."
+          },
+          {
+            "keywords": [
               "건조기"
             ],
-            "answer": "네, 숙소에 건조기가 있습니다."
+            "answer": "네, 숙소에 건조기가 있습니다. 밤 10시 이전에 사용을 마쳐 주세요."
           },
           {
             "keywords": [
               "세탁기"
             ],
-            "answer": "네, 숙소에 세탁기가 있습니다."
+            "answer": "네, 숙소에 세탁기가 있습니다. 세제와 섬유유연제는 위 선반에 있어요."
+          },
+          {
+            "keywords": [
+              "몇시까지",
+              "이용시간",
+              "사용시간"
+            ],
+            "answer": "세탁기와 건조기는 밤 10시 이전에 사용을 마쳐 주세요."
           }
         ]
       },
@@ -303,7 +331,18 @@
         "answer": "Yes, luggage storage is available.\nLuggage room in front of Room 503\nCheck your booking-platform message for the access information needed before check-in.\nFree luggage storage is available in the luggage room until later on the day of checkout.\nLate checkout is not available.",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "Yes, luggage storage is available.",
-        "directAnswers": []
+        "directAnswers": [
+          {
+            "keywords": [
+              "luggage storage",
+              "store luggage",
+              "leave luggage",
+              "baggage storage",
+              "store my suitcase"
+            ],
+            "answer": "Yes, luggage storage is available. You can use the luggage room in front of Room 503 free of charge until 23:00 on the day of checkout."
+          }
+        ]
       },
       {
         "id": "checkin",
@@ -434,7 +473,9 @@
         "keywords": [
           "laundry",
           "washing machine",
-          "dryer"
+          "dryer",
+          "detergent",
+          "fabric softener"
         ],
         "answer": "Finish using the machine before 22:00. The drum and laundry are very hot after drying; avoid burns and clean the lint filter.\nDetergent and fabric softener are on the shelf above the washer.\nLoad the laundry and close the door completely.\nPress Power.\nSelect the appropriate cycle.\nAdjust the rinse count, spin speed or water temperature if needed, then hold Start/Pause for one second. Finish before 22:00.\nRemove laundry promptly, leave the detergent drawer and door open, and clean the lint filter after drying.",
         "source": "https://anotherhouse-guide.vercel.app/?page=laundry",
@@ -442,17 +483,32 @@
         "directAnswers": [
           {
             "keywords": [
+              "detergent",
+              "fabric softener"
+            ],
+            "answer": "Yes, laundry detergent and fabric softener are provided. You’ll find them on the shelf above the machine."
+          },
+          {
+            "keywords": [
               "dryer",
               "tumble dryer"
             ],
-            "answer": "Yes, a dryer is available at the property."
+            "answer": "Yes, a dryer is available. Please finish using it before 22:00."
           },
           {
             "keywords": [
               "washing machine",
               "washer"
             ],
-            "answer": "Yes, a washing machine is available at the property."
+            "answer": "Yes, a washing machine is available. Detergent and fabric softener are on the shelf above it."
+          },
+          {
+            "keywords": [
+              "laundry hours",
+              "what time",
+              "until when"
+            ],
+            "answer": "Please finish using the washing machine and dryer before 22:00."
           }
         ]
       },
@@ -524,7 +580,18 @@
         "answer": "はい、荷物を保管できます。\n503号室前の荷物室\nチェックイン前の利用に必要な入館情報は予約プラットフォームのメッセージでご確認ください。\nチェックアウト当日に限り、ラゲッジルームで無料保管できます。\nレイトチェックアウトはできません。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "はい、荷物を保管できます。",
-        "directAnswers": []
+        "directAnswers": [
+          {
+            "keywords": [
+              "荷物保管",
+              "荷物を預",
+              "荷物預かり",
+              "ラゲッジルーム",
+              "スーツケース保管"
+            ],
+            "answer": "はい、荷物を保管できます。503号室前のラゲッジルームをチェックアウト当日の23時まで無料で利用できます。"
+          }
+        ]
       },
       {
         "id": "checkin",
@@ -651,7 +718,9 @@
         "keywords": [
           "洗濯",
           "洗濯機",
-          "乾燥機"
+          "乾燥機",
+          "洗剤",
+          "柔軟剤"
         ],
         "answer": "22時までに使用を終えてください。乾燥直後は内部と衣類が非常に熱いため、やけどに注意し、糸くずフィルターを掃除してください。\n洗剤と柔軟剤は洗濯機上の棚にあります。\n洗濯物を入れてドアを完全に閉めます。\n電源ボタンを押します。\n洗濯物に合うコースを選択します。\n必要に応じてすすぎ回数・脱水強さ・水温を調整し、スタート／一時停止を1秒押します。22時までに終えてください。\n終了後はすぐ取り出し、洗剤投入口とドアを開け、乾燥後は糸くずフィルターを掃除してください。",
         "source": "https://anotherhouse-guide.vercel.app/?page=laundry",
@@ -659,15 +728,30 @@
         "directAnswers": [
           {
             "keywords": [
+              "洗剤",
+              "柔軟剤"
+            ],
+            "answer": "はい、洗濯洗剤と柔軟剤をご用意しています。洗濯機の上の棚にあります。"
+          },
+          {
+            "keywords": [
               "乾燥機"
             ],
-            "answer": "はい、館内に乾燥機があります。"
+            "answer": "はい、館内に乾燥機があります。22時までに使用を終えてください。"
           },
           {
             "keywords": [
               "洗濯機"
             ],
-            "answer": "はい、館内に洗濯機があります。"
+            "answer": "はい、館内に洗濯機があります。洗剤と柔軟剤は上の棚にあります。"
+          },
+          {
+            "keywords": [
+              "何時まで",
+              "利用時間",
+              "使用時間"
+            ],
+            "answer": "洗濯機と乾燥機は22時までに使用を終えてください。"
           }
         ]
       },
@@ -736,7 +820,17 @@
         "answer": "可以寄存行李。\n503号房前的行李房\n入住前使用寄存室所需的门禁信息，请在预订平台消息中确认。\n仅限退房当天可在行李室免费寄存。\n不提供延迟退房。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "可以，住宿提供行李寄存。",
-        "directAnswers": []
+        "directAnswers": [
+          {
+            "keywords": [
+              "行李寄存",
+              "寄存行李",
+              "行李房",
+              "存放行李"
+            ],
+            "answer": "可以寄存行李。可免费存放在503号房前的行李房，使用至退房当天23:00。"
+          }
+        ]
       },
       {
         "id": "checkin",
@@ -862,7 +956,9 @@
         "keywords": [
           "洗衣",
           "洗衣机",
-          "烘干机"
+          "烘干机",
+          "洗涤剂",
+          "柔顺剂"
         ],
         "answer": "请在22:00前结束使用。烘干后内筒和衣物非常烫，请谨防烫伤并清理绒毛过滤器。\n洗涤剂和柔顺剂位于洗衣机上方搁板。\n放入衣物并完全关好机门。\n按下电源键。\n选择适合衣物的程序。\n需要时调整漂洗次数、脱水强度或水温，然后长按启动／暂停1秒。请在22:00前结束。\n结束后及时取出衣物，敞开洗涤剂盒和机门，烘干后清理绒毛过滤器。",
         "source": "https://anotherhouse-guide.vercel.app/?page=laundry",
@@ -870,15 +966,31 @@
         "directAnswers": [
           {
             "keywords": [
+              "洗涤剂",
+              "洗衣液",
+              "柔顺剂"
+            ],
+            "answer": "有，住宿备有洗涤剂和柔顺剂，放在洗衣机上方的搁板上。"
+          },
+          {
+            "keywords": [
               "烘干机"
             ],
-            "answer": "有，住宿内配有烘干机。"
+            "answer": "有，住宿内配有烘干机。请在22:00前结束使用。"
           },
           {
             "keywords": [
               "洗衣机"
             ],
-            "answer": "有，住宿内配有洗衣机。"
+            "answer": "有，住宿内配有洗衣机。洗涤剂和柔顺剂放在上方搁板上。"
+          },
+          {
+            "keywords": [
+              "几点结束",
+              "使用时间",
+              "到几点"
+            ],
+            "answer": "请在22:00前结束使用洗衣机和烘干机。"
           }
         ]
       },
@@ -946,7 +1058,17 @@
         "answer": "可以寄放行李。\n503號房前的行李房\n入住前使用寄存室所需的門禁資訊，請在預訂平台訊息中確認。\n僅限退房當天可在行李室免費寄存。\n不提供延遲退房。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "可以，住宿提供行李寄放。",
-        "directAnswers": []
+        "directAnswers": [
+          {
+            "keywords": [
+              "行李寄放",
+              "寄放行李",
+              "行李房",
+              "寄存行李"
+            ],
+            "answer": "可以寄放行李。可免費寄放在503號房前的行李房，使用至退房當天23:00。"
+          }
+        ]
       },
       {
         "id": "checkin",
@@ -1072,7 +1194,9 @@
         "keywords": [
           "洗衣",
           "洗衣機",
-          "烘乾機"
+          "烘乾機",
+          "洗滌劑",
+          "柔軟精"
         ],
         "answer": "請在22:00前結束使用。烘乾後內筒和衣物非常燙，請謹防燙傷並清理絨毛過濾器。\n洗滌劑和柔順劑位於洗衣機上方擱板。\n放入衣物並完全關好機門。\n按下電源鍵。\n選擇適合衣物的程式。\n需要時調整漂洗次數、脫水強度或水溫，然後長按啟動／暫停1秒。請在22:00前結束。\n結束後及時取出衣物，敞開洗滌劑盒和機門，烘乾後清理絨毛過濾器。",
         "source": "https://anotherhouse-guide.vercel.app/?page=laundry",
@@ -1080,15 +1204,31 @@
         "directAnswers": [
           {
             "keywords": [
+              "洗滌劑",
+              "洗衣精",
+              "柔軟精"
+            ],
+            "answer": "有，住宿備有洗滌劑和柔軟精，放在洗衣機上方的層架上。"
+          },
+          {
+            "keywords": [
               "烘乾機"
             ],
-            "answer": "有，住宿內配有烘乾機。"
+            "answer": "有，住宿內配有烘乾機。請在22:00前結束使用。"
           },
           {
             "keywords": [
               "洗衣機"
             ],
-            "answer": "有，住宿內配有洗衣機。"
+            "answer": "有，住宿內配有洗衣機。洗滌劑和柔軟精放在上方層架上。"
+          },
+          {
+            "keywords": [
+              "幾點結束",
+              "使用時間",
+              "到幾點"
+            ],
+            "answer": "請在22:00前結束使用洗衣機和烘乾機。"
           }
         ]
       },

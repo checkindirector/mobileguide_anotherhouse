@@ -167,12 +167,17 @@ function quickGuideFromQuestion(message, language) {
 
 function quickGuideAnswer(topic, message) {
   const normalized = normalizeGuideMatch(message);
+  const issue = /(고장|작동\s*(?:이\s*)?안|안\s*돼|없어(?:요|졌|졌어|졌습니다)|찾을\s*수\s*없|문제|not\s+working|doesn'?t\s+work|can'?t\s+find|missing|broken|故障|動かない|見つからない|没有了|找不到|坏了|壞了|無法使用)/i.test(message);
+  if (issue) return null;
+  const asksForFullGuide = /(전체\s*(?:안내|방법)|사용법|이용법|절차|순서|어떻게|안내해|알려줘|guide|instructions?|how\s+(?:do|can|should)|steps?|procedure|使い方|方法|手順|教えて|怎么|如何|步驟|步骤|指南)/i.test(message);
   const direct = (topic.directAnswers || []).find(item =>
     (item.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword)))
   );
-  const lead = String(direct?.answer || topic.lead || "").trim();
+  const lead = String(topic.lead || "").trim();
   const detail = String(topic.answer || "").trim();
+  if (!asksForFullGuide && direct?.answer) return String(direct.answer).trim();
   if (!lead) return detail;
+  if (!asksForFullGuide) return lead;
   if (!detail || normalizeGuideMatch(detail).startsWith(normalizeGuideMatch(lead))) return detail || lead;
   return `${lead}\n\n${detail}`;
 }
@@ -957,6 +962,7 @@ PRIORITY A — CURRENT PROPERTY GUIDE:
 - The very first sentence must give the conclusion to the exact question. For yes/no, existence, availability, or permission questions, begin with an explicit localized equivalent of “Yes, it is available” or “No, it is not available,” and name the subject. For time questions, state the exact time first. For where questions, state the exact place first. For how-to questions, state the action or method first.
 - Never begin with cautions, background, related rules, or a long procedure before answering what was asked. Put those useful details after the clear conclusion.
 - If the guide does not establish the answer, begin with the localized equivalent of “The current guide does not confirm this.” Do not imply yes or no.
+- Never paste or paraphrase an entire guide section merely because it contains a matching word. For a narrow factual question, answer only that fact plus at most one or two directly useful details. Give the complete procedure only when the guest explicitly asks for instructions, steps, or the full guide.
 - Treat every current site section—home profile, room facts, check-in, check-out, luggage, parking, arrival, Wi-Fi, appliances, laundry, waste, rules, restaurants and tours—as first-party property knowledge in all five supported languages. Never call it public web information or claim it is unavailable when the corresponding CURRENT_GUIDE field exists.
 - Preserve exact times, address, procedures, limits, and troubleshooting steps. Add one or two immediately useful details when appropriate.
 - For the final walk from Dongdaemun Station Exit 6, building entrance, landmarks, floor, or reception, use CURRENT_GUIDE.arrivalAndTransport.localArrival exactly. Never replace these property directions with booking listings, blogs, encyclopedias, or a web-search guess.
@@ -1046,10 +1052,11 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({ ...mapFollowup, model: "another-house-map-links", meta: { searched: false, mapFollowup: true, durationMs: Date.now() - startedAt } });
   }
   const quickGuide = quickGuideFromQuestion(message, language);
-  if (quickGuide) {
+  const quickAnswer = quickGuide ? quickGuideAnswer(quickGuide, message) : null;
+  if (quickGuide && quickAnswer) {
     console.log(JSON.stringify({ event: "concierge_site_guide", topic: quickGuide.id, language, durationMs: Date.now() - startedAt }));
     const route = GUIDE_TOPIC_ROUTES[quickGuide.id] || "home";
-    return res.status(200).json({ answer: quickGuideAnswer(quickGuide, message), model: "another-house-site-guide", links: [guidePageLink(route, language)], mapContext: null, meta: { searched: false, siteGuide: true, topic: quickGuide.id, guideRoute: route, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+    return res.status(200).json({ answer: quickAnswer, model: "another-house-site-guide", links: [guidePageLink(route, language)], mapContext: null, meta: { searched: false, siteGuide: true, topic: quickGuide.id, guideRoute: route, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
   const airportTransport = verifiedAirportTransport(message, language);
   if (airportTransport) {

@@ -70,11 +70,12 @@ test("non-indexed property question uses server knowledge, gpt-5.4-mini, and no 
   assert.equal(request.body.model, "gpt-5.4-mini");
   assert.equal(request.body.store, false);
   assert.equal(request.body.tools, undefined);
-  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-12\.2/);
+  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-12\.3/);
   assert.match(request.body.instructions, /The very first sentence must give the conclusion/);
+  assert.match(request.body.instructions, /Never paste or paraphrase an entire guide section/);
   assert.match(request.body.instructions, /MAP_SPOT: <canonical place name> \| <complete street address>/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-12.2-ko");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-12.3-ko");
   assert.equal(res.payload.meta.cachedTokens, 80);
   assert.equal(res.payload.meta.searched, false);
   assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "home"]]);
@@ -98,7 +99,7 @@ test("luggage storage is answered from the current site in all five languages wi
     assert.equal(res.payload.meta.searched, false);
     assert.equal(res.payload.meta.siteGuide, true);
     assert.equal(res.payload.meta.topic, "luggage");
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.2");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.3");
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
     assert.equal(res.payload.links[0].url, "https://anotherhouse-guide.vercel.app/?page=checkin");
     assert.match(res.payload.answer, expected);
@@ -131,14 +132,14 @@ test("common questions across every current guide area use the generated site in
     assert.equal(res.payload.links.length, 1);
     assert.equal(res.payload.links[0].kind, "guide");
     assert.equal(res.payload.links[0].route, ({ checkin: "checkin", checkout: "checkin", parking: "checkin", rules: "rules", appliances: "appliances", laundry: "laundry", waste: "trash", rooms: "gallery", tv: "appliances", contact: "home", wifi: "wifi" })[topic]);
-    assert.ok(res.payload.answer.length >= 10);
+    assert.ok(res.payload.answer.length >= 5);
   }
 });
 
 test("availability questions start with a clear conclusion in all five languages", async () => {
   const cases = [
     ["건조기 있나요?", "ko", "laundry", /^네, 숙소에 건조기가 있습니다\./],
-    ["Is there a dryer?", "en", "laundry", /^Yes, a dryer is available at the property\./],
+    ["Is there a dryer?", "en", "laundry", /^Yes, a dryer is available\./],
     ["乾燥機はありますか？", "ja", "laundry", /^はい、館内に乾燥機があります。/],
     ["有烘干机吗？", "zh", "laundry", /^有，住宿内配有烘干机。/],
     ["有烘乾機嗎？", "zh-TW", "laundry", /^有，住宿內配有烘乾機。/],
@@ -154,6 +155,37 @@ test("availability questions start with a clear conclusion in all five languages
     assert.match(res.payload.answer, expected);
     assert.equal(res.payload.links[0].kind, "guide");
   }
+});
+
+test("a detergent question returns only the requested fact instead of dumping the laundry guide", async () => {
+  const cases = [
+    ["세탁세제가 있나요?", "ko", /네, 세탁세제와 섬유유연제가 준비되어 있습니다.*세탁기 위 선반/s],
+    ["Is detergent provided?", "en", /Yes, laundry detergent and fabric softener are provided.*shelf above the machine/s],
+    ["洗剤はありますか？", "ja", /はい、洗濯洗剤と柔軟剤をご用意しています.*洗濯機の上の棚/s],
+    ["有洗涤剂吗？", "zh", /有，住宿备有洗涤剂和柔顺剂.*洗衣机上方/s],
+    ["有洗衣精嗎？", "zh-TW", /有，住宿備有洗滌劑和柔軟精.*洗衣機上方/s]
+  ];
+  for (let index = 0; index < cases.length; index += 1) {
+    const [message, language, expected] = cases[index];
+    const { res, requests } = await callApi({ message, language, history: [] }, { model: "unused" }, `198.51.100.${170 + index}`);
+    assert.equal(requests.length, 0);
+    assert.equal(res.payload.meta.topic, "laundry");
+    assert.match(res.payload.answer, expected);
+    assert.doesNotMatch(res.payload.answer, /밤 10시|화상|먼지 필터|Press Power|22時まで|绒毛过滤器|絨毛過濾器/);
+    assert.ok(res.payload.answer.length < 180);
+  }
+});
+
+test("a laundry problem is handled by the AI instead of a generic keyword dump", async () => {
+  const { res, request } = await callApi(
+    { message: "세탁세제가 선반에 없어요. 어떻게 해야 하나요?", language: "ko", history: [] },
+    { model: "gpt-5.4-mini", output_text: "현재 선반에서 세탁세제를 찾을 수 없다면 예약 플랫폼 메시지로 호스트에게 알려 주세요.", usage: { input_tokens: 90, output_tokens: 24, input_tokens_details: { cached_tokens: 70 } } },
+    "198.51.100.180"
+  );
+  assert.equal(res.payload.model, "gpt-5.4-mini");
+  assert.equal(request.body.tools, undefined);
+  assert.match(request.body.instructions, /complete procedure only when the guest explicitly asks/i);
+  assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "laundry"]]);
 });
 
 test("late checkout answers link to the combined check-in page instead of a nonexistent route", async () => {
@@ -329,7 +361,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.mode, "night");
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.2");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.3");
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
@@ -408,7 +440,7 @@ test("family dining near Another House uses verified local places without a frag
   assert.equal(res.payload.model, "another-house-verified-family-dining");
   assert.equal(res.payload.meta.verifiedFamilyDining, true);
   assert.equal(res.payload.meta.searched, false);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.2");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.3");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);
