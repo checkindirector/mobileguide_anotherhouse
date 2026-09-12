@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-12.5",
+  "version": "2026-09-12.6",
   "generatedAt": "2026-09-11",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -7749,7 +7749,14 @@
   "laundry": {
     "ko": {
       "title": "세탁 안내",
-      "model": "LG FY9WTB · wash 9 kg / dry 4.5 kg",
+      "equipment": {
+        "type": "세탁·건조 겸용기",
+        "model": "LG FY9WTB",
+        "washCapacityKg": 9,
+        "dryCapacityKg": 4.5,
+        "capacityMeaning": "세탁 용량은 9kg이고 건조 용량은 4.5kg입니다."
+      },
+      "displayModel": "LG FY9WTB · wash 9 kg / dry 4.5 kg",
       "summary": "",
       "caution": "밤 10시 이전에 사용을 마쳐 주세요. 건조 직후에는 내부와 세탁물이 매우 뜨거우므로 화상에 주의하고, 건조 후 먼지 필터를 정리해 주세요.",
       "sections": [
@@ -7773,7 +7780,14 @@
     },
     "en": {
       "title": "Laundry guide",
-      "model": "LG FY9WTB · wash 9 kg / dry 4.5 kg",
+      "equipment": {
+        "type": "washer-dryer combination machine",
+        "model": "LG FY9WTB",
+        "washCapacityKg": 9,
+        "dryCapacityKg": 4.5,
+        "capacityMeaning": "The wash capacity is 9 kg and the drying capacity is 4.5 kg."
+      },
+      "displayModel": "LG FY9WTB · wash 9 kg / dry 4.5 kg",
       "summary": "",
       "caution": "Finish using the machine before 22:00. The drum and laundry are very hot after drying; avoid burns and clean the lint filter.",
       "sections": [
@@ -7797,7 +7811,14 @@
     },
     "ja": {
       "title": "洗濯案内",
-      "model": "LG FY9WTB · wash 9 kg / dry 4.5 kg",
+      "equipment": {
+        "type": "洗濯乾燥一体型",
+        "model": "LG FY9WTB",
+        "washCapacityKg": 9,
+        "dryCapacityKg": 4.5,
+        "capacityMeaning": "洗濯容量は9kg、乾燥容量は4.5kgです。"
+      },
+      "displayModel": "LG FY9WTB · wash 9 kg / dry 4.5 kg",
       "summary": "",
       "caution": "22時までに使用を終えてください。乾燥直後は内部と衣類が非常に熱いため、やけどに注意し、糸くずフィルターを掃除してください。",
       "sections": [
@@ -7821,7 +7842,14 @@
     },
     "zh": {
       "title": "洗衣指南",
-      "model": "LG FY9WTB · wash 9 kg / dry 4.5 kg",
+      "equipment": {
+        "type": "洗烘一体机",
+        "model": "LG FY9WTB",
+        "washCapacityKg": 9,
+        "dryCapacityKg": 4.5,
+        "capacityMeaning": "洗涤容量为9公斤，烘干容量为4.5公斤。"
+      },
+      "displayModel": "LG FY9WTB · wash 9 kg / dry 4.5 kg",
       "summary": "",
       "caution": "请在22:00前结束使用。烘干后内筒和衣物非常烫，请谨防烫伤并清理绒毛过滤器。",
       "sections": [
@@ -7845,7 +7873,14 @@
     },
     "zh-TW": {
       "title": "洗衣指南",
-      "model": "LG FY9WTB · wash 9 kg / dry 4.5 kg",
+      "equipment": {
+        "type": "洗脫烘一體機",
+        "model": "LG FY9WTB",
+        "washCapacityKg": 9,
+        "dryCapacityKg": 4.5,
+        "capacityMeaning": "洗滌容量為9公斤，烘乾容量為4.5公斤。"
+      },
+      "displayModel": "LG FY9WTB · wash 9 kg / dry 4.5 kg",
       "summary": "",
       "caution": "請在22:00前結束使用。烘乾後內筒和衣物非常燙，請謹防燙傷並清理絨毛過濾器。",
       "sections": [

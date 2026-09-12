@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-12.5";
+const VERSION = "2026-09-12.6";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -480,9 +480,29 @@ const knowledge = {
   }),
   laundry: localized(language => {
     const page = localize(data.pages.laundry, language);
+    const equipmentType = {
+      ko: "세탁·건조 겸용기",
+      en: "washer-dryer combination machine",
+      ja: "洗濯乾燥一体型",
+      zh: "洗烘一体机",
+      "zh-TW": "洗脫烘一體機"
+    }[language];
     return {
       title: page.title,
-      model: page.model,
+      equipment: {
+        type: equipmentType,
+        model: "LG FY9WTB",
+        washCapacityKg: 9,
+        dryCapacityKg: 4.5,
+        capacityMeaning: {
+          ko: "세탁 용량은 9kg이고 건조 용량은 4.5kg입니다.",
+          en: "The wash capacity is 9 kg and the drying capacity is 4.5 kg.",
+          ja: "洗濯容量は9kg、乾燥容量は4.5kgです。",
+          zh: "洗涤容量为9公斤，烘干容量为4.5公斤。",
+          "zh-TW": "洗滌容量為9公斤，烘乾容量為4.5公斤。"
+        }[language]
+      },
+      displayModel: page.model,
       summary: page.summary,
       caution: page.caution,
       sections: page.sections,

@@ -71,17 +71,18 @@ test("every ordinary question reaches the model with the complete current guide"
   assert.equal(request.body.store, false);
   assert.equal(request.body.tools[0].type, "web_search");
   assert.equal(request.body.tool_choice, "auto");
-  assert.match(request.body.instructions, /FULL_CURRENT_GUIDE version 2026-09-12\.5/);
+  assert.match(request.body.instructions, /FULL_CURRENT_GUIDE version 2026-09-12\.6/);
   assert.match(request.body.instructions, /The very first sentence must give the conclusion/);
   assert.match(request.body.instructions, /Never paste or paraphrase an entire guide section/);
   assert.match(request.body.instructions, /capacity must answer the capacity/);
   assert.match(request.body.instructions, /MAP_SPOT: <canonical place name> \| <complete street address>/);
   assert.match(request.body.instructions, /GUIDE_PAGE: <route>/);
   assert.match(request.body.instructions, /LG FY9WTB · wash 9 kg \/ dry 4\.5 kg/);
+  assert.match(request.body.instructions, /"dryCapacityKg":4\.5/);
   assert.match(request.body.instructions, /싱글룸 11실 · 더블룸 1실/);
   assert.match(request.body.instructions, /503호 앞 러기지룸/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-12.5-ko");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-12.6-ko");
   assert.doesNotMatch(request.body.input.at(-1).content, /GUIDE_KNOWLEDGE|FULL_CURRENT_GUIDE/);
   assert.ok(request.body.instructions.length > 40000);
   assert.equal(res.payload.meta.cachedTokens, 80);
@@ -106,7 +107,7 @@ test("site knowledge is answered naturally through the model in all five languag
     assert.equal(res.payload.model, "gpt-5.4-mini");
     assert.equal(res.payload.meta.searched, false);
     assert.equal(request.body.tool_choice, "auto");
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.5");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.6");
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
     assert.match(res.payload.answer, expected);
     assert.doesNotMatch(res.payload.answer, /최신 공개정보|public information|公开信息|公開資訊/);
@@ -375,7 +376,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.mode, "night");
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.5");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.6");
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
@@ -456,7 +457,7 @@ test("time-specific family dining combines current search with the complete loca
   assert.equal(request.body.tool_choice, "required");
   assert.equal(res.payload.model, "gpt-5.4-mini");
   assert.equal(res.payload.meta.searched, true);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.5");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.6");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더(?:가)? 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);

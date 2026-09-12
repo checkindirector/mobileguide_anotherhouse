@@ -232,6 +232,7 @@ function extractOutputText(data) {
 
 function cleanAnswer(text) {
   return String(text || "")
+    .replace(/cite[^]+/g, "")
     .replace(/\[([^\]]+)\]\(https?:\/\/[^)]+\)/gi, "$1")
     .replace(/https?:\/\/[^\s)\]]+/gi, "")
     .replace(/\s*\((?:https?:\/\/)?(?:www\.)?[a-z0-9.-]+\.[a-z]{2,}(?:\/[^)]*)?\)/gi, "")
@@ -966,6 +967,7 @@ PRIORITY A — CURRENT PROPERTY GUIDE:
 - If the guide does not establish the answer, begin with the localized equivalent of “The current guide does not confirm this.” Do not imply yes or no.
 - Never paste or paraphrase an entire guide section merely because it contains a matching word. For a narrow factual question, answer only that fact plus at most one or two directly useful details. Give the complete procedure only when the guest explicitly asks for instructions, steps, or the full guide.
 - Read the whole relevant record before answering. Distinguish the subject from the attribute being requested: existence, quantity, capacity, model, location, time, permission, price and procedure are different questions. A question about capacity must answer the capacity, not merely confirm that the device exists.
+- Treat explicit structured values such as *CapacityKg, counts, booleans, times and addresses as conclusive first-party facts. Do not call them unclear merely because a display label combines multiple values; answer the requested field exactly.
 - Compose every ordinary response for the guest's exact wording and recent conversation. Do not emit a canned topic summary or copy a matching paragraph.
 - Treat every current site section—home profile, room facts, check-in, check-out, luggage, parking, arrival, Wi-Fi, appliances, laundry, waste, rules, restaurants and tours—as first-party property knowledge in all five supported languages. Never call it public web information or claim it is unavailable when the corresponding CURRENT_GUIDE field exists.
 - Preserve exact times, address, procedures, limits, and troubleshooting steps. Add one or two immediately useful details when appropriate.
