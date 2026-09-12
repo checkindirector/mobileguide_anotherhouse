@@ -599,6 +599,9 @@ test("chat guide links open the matching in-site page and survive API fallback",
   assert.match(app,/event\.preventDefault\(\);closeChat\(\);show\(link\.route\)/);
   assert.match(app,/links:\[fallbackGuideLink\(guideRoute\)\]/);
   assert.match(app,/fallbackGuideLink\('transport'\)/);
+  assert.match(app,/function fallbackPropertyRouteResult/);
+  assert.match(app,/어나더하우스에서 출발하는 기준입니다/);
+  assert.match(app,/const propertyRoute=fallbackPropertyRouteResult\(knowledge,q\);if\(propertyRoute\)return propertyRoute/);
   for(const label of ['체크인 · 체크아웃 안내 바로가기','Open check-in & check-out guide','チェックイン・アウト案内を開く','打开入住与退房指南','開啟入住與退房指南']) assert.ok(app.includes(label));
 });
 

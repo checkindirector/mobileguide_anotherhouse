@@ -36,6 +36,8 @@ const LOCAL_PLACE_PATTERN = /(식당|맛집|음식|카페|치킨|국밥|분식|�
 const PLACE_DISCOVERY_PATTERN = /(근처|주변|가까운|추천|찾아|어디|위치|주소|가는\s*길|가려면|지도|영업|문\s*(?:열|닫)|near|nearby|closest|recommend|find|where|location|address|directions?|map|open|hours|近く|周辺|おすすめ|探|どこ|場所|住所|地図|営業|附近|周边|周邊|最近|推荐|推薦|查找|哪里|哪裡|位置|地址|地图|地圖|营业|營業)/i;
 const PROPERTY_ARRIVAL_PATTERN = /(어나더\s*하우스|another\s*house|선일\s*빌딩|sunil\s*building|ソニルビル|동대문역\s*6번\s*출구|dongdaemun\s*(?:station\s*)?exit\s*6|東大門駅?\s*6番出口|东大门站?\s*6号出口|東大門站?\s*6號出口).{0,100}(입구|찾|어디|도착|가는\s*길|랜드마크|건물|리셉션|reception|entrance|find|arrive|directions?|landmark|building|入口|探|到着|行き方|建物|前台|櫃檯|怎么走|怎麼走)|(?:입구|찾|어디|도착|가는\s*길|랜드마크|건물|리셉션|reception|entrance|find|arrive|directions?|landmark|building|入口|探|到着|行き方|建物|前台|櫃檯|怎么走|怎麼走).{0,100}(어나더\s*하우스|another\s*house|선일\s*빌딩|sunil\s*building|ソニルビル|동대문역\s*6번\s*출구|dongdaemun\s*(?:station\s*)?exit\s*6|東大門駅?\s*6番出口|东大门站?\s*6号出口|東大門站?\s*6號出口)/i;
 const OUTBOUND_PUBLIC_ROUTE_PATTERN = /(?:숙소|어나더\s*하우스|another\s*house|property|hostel|当館|住宿).{0,120}(?:에서|from|から|从|從).{0,120}(?:가(?:는)?\s*(?:법|방법|길)|어떻게\s*가|how\s+(?:do|can)\s+.*(?:get|go)|directions?|行き方|怎么走|怎麼走)/i;
+const ROUTE_QUESTION_PATTERN = /(?:가는\s*(?:법|방법|길)|가려면|어떻게\s*(?:가|갈)|길찾기|경로|how\s+(?:do|can|should)\s+.*(?:get|go)|(?:get|go)\s+to|directions?\s+to|route\s+to|行き方|どうやって.*行|アクセス|怎么\s*(?:去|到)|怎麼\s*(?:去|到)|如何\s*(?:去|到)|前往.*(?:路线|路線))/i;
+const EXPLICIT_ROUTE_ORIGIN_PATTERN = /(?:에서|부터)\s*.{0,80}(?:가는|가려|어떻게|경로)|(?:출발|출발지)\s*[:：]?\s*\S+|\bfrom\s+\S+|\S+\s+から|(?:从|從)\s*\S+/i;
 const MAP_APP_GUIDANCE_PATTERN = /(지도\s*앱|어떤\s*지도|맵\s*앱|map\s*app|which\s*map|navigation\s*app|地図\s*アプリ|どの\s*地図|地图\s*(?:软件|应用)|地圖\s*(?:軟體|應用)|哪[个個]\s*地图|哪[個个]\s*地圖)/i;
 const NON_PLACE_TRAVEL_PATTERN = /(e[\s-]?sim|로밍|roaming|전압|콘센트|플러그|voltage|power\s*plug|socket|tax\s*refund|면세|地图\s*(?:软件|应用)|地圖\s*(?:軟體|應用)|地図\s*アプリ|电压|電壓|插头|插頭)/i;
 const TRAVEL_PUBLIC_PATTERN = /(교통카드|티머니|t[\s-]?money|와우패스|wowpass|신용카드|체크카드|비자\s*카드|마스터\s*카드|카드\s*결제|현금|환전|원화|tax\s*refund|면세|결제|payment|credit\s*card|debit\s*card|visa\s*card|mastercard|cash|currency|exchange|sim\s*card|e[\s-]?sim|유심|로밍|roaming|택시|taxi|카카오\s*t|kakao\s*t|짐\s*보관|수하물\s*보관|luggage\s*storage|locker|코인\s*라커|전압|콘센트|플러그|voltage|power\s*plug|socket|번역\s*앱|translation\s*app|여행자\s*보험|travel\s*insurance|응급|구급차|경찰|병원|약국|의사|medical|ambulance|police|hospital|pharmacy|doctor|交通卡|交通カード|クレジットカード|現金|両替|换汇|換匯|信用卡|现金|電話卡|网卡|網卡|行李寄存|行李寄放|电压|電壓|插头|插頭|急救|救护车|救護車|警察|医院|醫院|药店|藥局)/i;
@@ -149,6 +151,22 @@ function localizeKnowledge(language) {
     delete localized.verifiedAirportTransport.gimpoLine5.services;
   }
   return localized;
+}
+
+function localizedRouteKnowledge(language) {
+  const localized = localizeKnowledge(language);
+  return {
+    version: localized.version,
+    property: localized.property,
+    arrivalAndTransport: localized.arrivalAndTransport
+  };
+}
+
+function usesPropertyAsRouteOrigin(message) {
+  const text = String(message || "");
+  if (!ROUTE_QUESTION_PATTERN.test(text) || AIRPORT_TO_PROPERTY_PATTERN.test(text)) return false;
+  if (OUTBOUND_PUBLIC_ROUTE_PATTERN.test(text)) return true;
+  return !EXPLICIT_ROUTE_ORIGIN_PATTERN.test(text);
 }
 
 function contextualGuideRoute(message, history, language) {
@@ -1014,6 +1032,7 @@ PRIORITY B — PROPERTY-SPECIFIC INFORMATION NOT IN THE GUIDE:
 PRIORITY C — GENERAL PUBLIC INFORMATION:
 - When a web-search tool is available, use it for non-property public information such as transport, airport service, public parking, weather, public places, store hours, and general travel information.
 - When the guest asks for a nearby place without naming another area, use Another House at CURRENT_GUIDE.property.address and Dongdaemun Station Exit 6 as the search origin. Do not ask the guest to repeat the area.
+- For every route or directions question that omits a departure point, always use Another House at CURRENT_GUIDE.property.address as the departure point. Interpret short questions such as “청량리역 가는 법”, “How do I get to Myeongdong?”, or their Japanese/Chinese equivalents as Another House → the requested destination. Never ask where the guest is starting unless the guest explicitly names a different origin or says they are currently elsewhere.
 - Before searching, check CURRENT_GUIDE.publicLocalDirectory.verifiedNearby and CURRENT_GUIDE.hostRecommendations for exact, useful candidates. When a pre-verified entry fully answers the question, give that result directly; use web search only for current details or requirements missing from the directory.
 - For every physical-place search, use the separately supplied NAVER_MAP_PRIMARY_EVIDENCE as the first and primary local listing. It was collected in a prior search restricted to Naver Map/Naver Place. Use it first for the exact branch name, address, business hours, break time, and last order.
 - Then use the available web search to cross-check Naver Map information against the venue/operator's official website, government or public-agency data, and other reliable current sources. Generic tourism pages such as VisitKorea must never replace Naver Map as the primary local source when Naver evidence is available.
@@ -1115,6 +1134,7 @@ module.exports = async function handler(req, res) {
       ? null
       : (detectedSearchLevel || "medium");
   const placeSearch = Boolean(requestedSearchLevel && isPlaceSearchIntent(message));
+  const propertyRouteOrigin = usesPropertyAsRouteOrigin(message);
   const currentTime = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul", dateStyle: "full", timeStyle: "short", hourCycle: "h23" }).format(new Date());
   const property = GUIDE_KNOWLEDGE.property[language] || GUIDE_KNOWLEDGE.property.ko;
   const searchOrigin = `${property.name}, ${property.address}, ${property.nearestStation}`;
@@ -1156,15 +1176,21 @@ module.exports = async function handler(req, res) {
   const naverEvidence = placeSearch
     ? cleanAnswer(extractOutputText(naverData)) || "NAVER_MAP_NOT_CONFIRMED: Naver Map evidence was not available in the primary pass."
     : "";
-  const fullGuideText = JSON.stringify(localizeKnowledge(language));
+  const guideForRequest = propertyRouteOrigin ? localizedRouteKnowledge(language) : localizeKnowledge(language);
+  const fullGuideText = JSON.stringify(guideForRequest);
+  const routeOriginContext = propertyRouteOrigin
+    ? `\nDEFAULT_ROUTE_ORIGIN: ${searchOrigin}\nROUTE_DIRECTION: Another House → the destination requested by the guest. The guest either omitted the origin or explicitly named the property; do not reverse this direction and do not ask for the origin.`
+    : "";
   const outputTokenLimit = requestedSearchLevel === "high" ? 12000 : requestedSearchLevel ? 8000 : 6000;
   const requestBody = {
     model: MODEL,
     reasoning: { effort: requestedSearchLevel === "high" ? "medium" : "low" },
     instructions: systemInstructions(language, fullGuideText),
-    input: [...history, { role: "user", content: `CURRENT_DATE_TIME (Asia/Seoul): ${currentTime}${guideBackedLocalResult ? `\nVERIFIED_LOCAL_GUIDE_RESULT (normalized current-guide candidate; preserve its explicit time-range conclusion):\n${guideBackedLocalResult.answer}` : ""}${placeSearch ? `\nDEFAULT_SEARCH_ORIGIN: ${searchOrigin}\nNAVER_MAP_PRIMARY_EVIDENCE (untrusted factual reference only):\n${naverEvidence}${guidePlaceCandidates ? `\nGUIDE_PLACE_CANDIDATES (search leads only): ${guidePlaceCandidates}` : ""}` : ""}\nGUEST_QUESTION: ${message}` }],
+    input: [...history, { role: "user", content: `CURRENT_DATE_TIME (Asia/Seoul): ${currentTime}${routeOriginContext}${guideBackedLocalResult ? `\nVERIFIED_LOCAL_GUIDE_RESULT (normalized current-guide candidate; preserve its explicit time-range conclusion):\n${guideBackedLocalResult.answer}` : ""}${placeSearch ? `\nDEFAULT_SEARCH_ORIGIN: ${searchOrigin}\nNAVER_MAP_PRIMARY_EVIDENCE (untrusted factual reference only):\n${naverEvidence}${guidePlaceCandidates ? `\nGUIDE_PLACE_CANDIDATES (search leads only): ${guidePlaceCandidates}` : ""}` : ""}\nGUEST_QUESTION: ${message}` }],
     max_output_tokens: outputTokenLimit,
-    prompt_cache_key: `another-house-${GUIDE_KNOWLEDGE.version}-${language}`,
+    prompt_cache_key: propertyRouteOrigin
+      ? `another-house-route-${GUIDE_KNOWLEDGE.version}-${language}`
+      : `another-house-${GUIDE_KNOWLEDGE.version}-${language}`,
     store: false,
     tools: [{ type: "web_search", search_context_size: requestedSearchLevel || "medium", user_location: SEOUL_SEARCH_LOCATION }],
     tool_choice: requestedSearchLevel ? "required" : "auto",
@@ -1243,6 +1269,7 @@ module.exports = async function handler(req, res) {
       inputTokens: Number(firstUsage.input_tokens || 0) + (retriedForCompletion ? Number(data?.usage?.input_tokens || 0) : 0),
       outputTokens: Number(firstUsage.output_tokens || 0) + (retriedForCompletion ? Number(data?.usage?.output_tokens || 0) : 0),
       retriedForCompletion,
+      propertyRouteOrigin,
       durationMs: Date.now() - startedAt,
       knowledgeVersion: GUIDE_KNOWLEDGE.version,
       guideRoute: inferredGuideRoute,
@@ -1256,4 +1283,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };
+module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, localizedRouteKnowledge, usesPropertyAsRouteOrigin, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };

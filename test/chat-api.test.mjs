@@ -325,6 +325,31 @@ test("known Dongdaemun to Cheongnyangni stop count is corrected after generation
   assert.doesNotMatch(corrected, /1정거장/);
 });
 
+test("a route with no origin defaults to Another House and uses compact route knowledge", async () => {
+  const output = {
+    model: "gpt-5.4-mini",
+    output_text: "어나더하우스에서 청량리역까지는 동대문역 1호선을 이용하세요.\nGUIDE_PAGE: transport",
+    output: [{ type: "web_search_call", action: { sources: [{ title: "서울교통공사", url: "https://smss.seoulmetro.co.kr/traininfo/traininfoUserView.do" }] } }],
+    usage: { input_tokens: 5000, output_tokens: 200, input_tokens_details: { cached_tokens: 3000 } }
+  };
+  const { res, request } = await callApi({ message: "청량리역 가는 법", language: "ko", history: [] }, output, "203.0.113.63");
+  assert.equal(handler._internals.usesPropertyAsRouteOrigin("청량리역 가는 법"), true);
+  assert.match(request.body.input.at(-1).content, /DEFAULT_ROUTE_ORIGIN: ANOTHER HOUSE, 서울시 종로구 종로 294 선일빌딩 5층/);
+  assert.match(request.body.input.at(-1).content, /ROUTE_DIRECTION: Another House →/);
+  assert.match(request.body.instructions, /For every route or directions question that omits a departure point/);
+  assert.match(request.body.instructions, /동대문역 6번 출구/);
+  assert.doesNotMatch(request.body.instructions, /LG FY9WTB/);
+  assert.ok(request.body.instructions.length < 25000);
+  assert.equal(request.body.prompt_cache_key, "another-house-route-2026-09-12.6-ko");
+  assert.equal(res.payload.meta.guideRoute, "transport");
+});
+
+test("an explicitly named non-property route origin is never overwritten", () => {
+  assert.equal(handler._internals.usesPropertyAsRouteOrigin("서울역에서 청량리역 가는 법"), false);
+  assert.equal(handler._internals.usesPropertyAsRouteOrigin("How do I get from Myeongdong to Hongdae?"), false);
+  assert.equal(handler._internals.usesPropertyAsRouteOrigin("How do I get to Myeongdong?"), true);
+});
+
 test("exact last-mile property directions use guide knowledge without public web search", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "From Exit 6, look for Kyochon Chicken and the dental sign at Sunil Building, take the elevator to 5F, then go down half a floor to the glass-door reception.\nGUIDE_PAGE: transport", output: [], usage: {} };
   const { request, requests } = await callApi({ message: "I am at Dongdaemun Station Exit 6 but cannot find the building entrance. What landmarks should I look for?", language: "en" }, output, "203.0.113.64");
