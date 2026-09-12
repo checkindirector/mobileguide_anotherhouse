@@ -1251,7 +1251,7 @@ module.exports = async function handler(req, res) {
     const links = [...(resolvedMapLinks.length ? resolvedMapLinks : verifiedGuideMapLinks), ...sourceLinks].slice(0, 5);
     const inferredGuideRoute = resolved.guideRoute || directGuideRoute || (contextualRoute !== "home" ? contextualRoute : null);
     const exactGuidePlace = guidePlaceFromQuestion(message, language);
-    if (inferredGuideRoute && (!searched || exactGuidePlace || resolved.guideRoute)) links.push(guidePageLink(inferredGuideRoute, language));
+    if (inferredGuideRoute && (!searched || exactGuidePlace || resolved.guideRoute || propertyRouteOrigin)) links.push(guidePageLink(inferredGuideRoute, language));
     const hasMapLinks = links.some(link => link.kind === "map");
     const mapContext = hoursFallback?.mapContext || (placeSearch && resolved.spot ? resolved.spot : null) || guideBackedLocalResult?.mapContext || null;
     if (placeSearch && !hasMapLinks) {

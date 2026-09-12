@@ -342,6 +342,7 @@ test("a route with no origin defaults to Another House and uses compact route kn
   assert.ok(request.body.instructions.length < 25000);
   assert.equal(request.body.prompt_cache_key, "another-house-route-2026-09-12.6-ko");
   assert.equal(res.payload.meta.guideRoute, "transport");
+  assert.deepEqual(res.payload.links.at(-1), handler._internals.guidePageLink("transport", "ko"));
 });
 
 test("an explicitly named non-property route origin is never overwritten", () => {
