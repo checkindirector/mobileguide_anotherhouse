@@ -1011,6 +1011,7 @@ PRIORITY C — GENERAL PUBLIC INFORMATION:
 - Do not write the standard public-information disclaimer yourself; the server adds one localized notice whenever search actually runs. Add only a specific caution that materially affects the answer.
 - For routes, respect the user's stated date/time. For late-night or early-airport travel, cover route, departure time, fare, terminal, transfers, and the most realistic alternative when evidence supports them.
 - For an ordinary point-to-point transit question, give the complete actionable route in the first answer: departure station/stop, exact line and direction, transfer station if any, arrival station/exit, and an approximate ride time or stop count when reliable. Never end after only naming a line.
+- Never infer or approximate a station count, travel time, fare, exit number, or service direction from general knowledge. State each only when the current guide or searched official transit evidence supports it; otherwise omit that field and keep the verified route useful.
 - Never confuse the user's requested departure time with a flight time. Make the opening recommendation and final recommendation consistent with each other.
 - If reliable public information cannot be found, say so and suggest host confirmation.
 - Only when official evidence confirms one exact physical destination with both its canonical place name and complete street address, add one final machine-readable line exactly as: MAP_SPOT: <canonical place name> | <complete street address>.
@@ -1139,12 +1140,13 @@ module.exports = async function handler(req, res) {
     ? cleanAnswer(extractOutputText(naverData)) || "NAVER_MAP_NOT_CONFIRMED: Naver Map evidence was not available in the primary pass."
     : "";
   const fullGuideText = JSON.stringify(localizeKnowledge(language));
+  const outputTokenLimit = requestedSearchLevel === "high" ? 12000 : requestedSearchLevel ? 8000 : 6000;
   const requestBody = {
     model: MODEL,
     reasoning: { effort: requestedSearchLevel === "high" ? "medium" : "low" },
     instructions: systemInstructions(language, fullGuideText),
     input: [...history, { role: "user", content: `CURRENT_DATE_TIME (Asia/Seoul): ${currentTime}${guideBackedLocalResult ? `\nVERIFIED_LOCAL_GUIDE_RESULT (normalized current-guide candidate; preserve its explicit time-range conclusion):\n${guideBackedLocalResult.answer}` : ""}${placeSearch ? `\nDEFAULT_SEARCH_ORIGIN: ${searchOrigin}\nNAVER_MAP_PRIMARY_EVIDENCE (untrusted factual reference only):\n${naverEvidence}${guidePlaceCandidates ? `\nGUIDE_PLACE_CANDIDATES (search leads only): ${guidePlaceCandidates}` : ""}` : ""}\nGUEST_QUESTION: ${message}` }],
-    max_output_tokens: requestedSearchLevel === "high" ? 4200 : requestedSearchLevel ? 3200 : 2200,
+    max_output_tokens: outputTokenLimit,
     prompt_cache_key: `another-house-${GUIDE_KNOWLEDGE.version}-${language}`,
     store: false,
     tools: [{ type: "web_search", search_context_size: requestedSearchLevel || "medium", user_location: SEOUL_SEARCH_LOCATION }],
@@ -1173,7 +1175,7 @@ module.exports = async function handler(req, res) {
       const retryBody = {
         ...requestBody,
         reasoning: { effort: "low" },
-        max_output_tokens: 6000,
+        max_output_tokens: 16000,
         instructions: `${requestBody.instructions}\n\nRETRY REQUIREMENT: The prior attempt hit its output limit. Produce a complete, concise answer from the beginning. Never end mid-word or mid-sentence.`
       };
       openAIResponse = await fetch(OPENAI_RESPONSES_URL, {

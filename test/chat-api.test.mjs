@@ -297,7 +297,7 @@ test("an outbound transit answer retries instead of exposing a max-token fragmen
     incomplete_details: { reason: "max_output_tokens" },
     output_text: "숙소에서 가장 쉬운 방법은 동대문역 1호",
     output: [{ type: "web_search_call", action: { sources: [{ title: "KORAIL", url: "https://www.korail.com/" }] } }],
-    usage: { input_tokens: 38000, output_tokens: 3200, input_tokens_details: { cached_tokens: 28800 } }
+    usage: { input_tokens: 38000, output_tokens: 8000, input_tokens_details: { cached_tokens: 28800 } }
   };
   const complete = {
     model: "gpt-5.4-mini",
@@ -308,8 +308,8 @@ test("an outbound transit answer retries instead of exposing a max-token fragmen
   };
   const { res, requests } = await callApi({ message: "숙소에서 청량리역 가는방법", language: "ko", history: [] }, [incomplete, complete], "203.0.113.62");
   assert.equal(requests.length, 2);
-  assert.equal(requests[0].body.max_output_tokens, 3200);
-  assert.equal(requests[1].body.max_output_tokens, 6000);
+  assert.equal(requests[0].body.max_output_tokens, 8000);
+  assert.equal(requests[1].body.max_output_tokens, 16000);
   assert.equal(requests[1].body.reasoning.effort, "low");
   assert.equal(res.payload.meta.retriedForCompletion, true);
   assert.match(res.payload.answer, /1호선.*환승 없이.*청량리역/s);
