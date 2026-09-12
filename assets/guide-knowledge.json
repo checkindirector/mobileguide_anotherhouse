@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-12.4",
+  "version": "2026-09-12.5",
   "generatedAt": "2026-09-11",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -234,7 +234,7 @@
           "세제",
           "섬유유연제"
         ],
-        "answer": "밤 10시 이전에 사용을 마쳐 주세요. 건조 직후에는 내부와 세탁물이 매우 뜨거우므로 화상에 주의하고, 건조 후 먼지 필터를 정리해 주세요.\n세제와 섬유유연제는 세탁기 위 선반에 있습니다.\n세탁물을 넣고 문을 완전히 닫습니다.\n전원 버튼을 눌러 제품을 켭니다.\n코스 선택 버튼으로 세탁물에 맞는 코스를 선택합니다.\n필요하면 헹굼횟수·탈수세기·물온도를 조절한 뒤 시작/일시정지 버튼을 1초간 눌러 시작합니다. 밤 10시 이전에 이용을 마쳐 주세요.\n완료 후 세탁물을 바로 꺼내고 세제 투입구와 문을 열어 둡니다. 건조 후에는 먼지 필터를 정리해 주세요.",
+        "answer": "LG FY9WTB · wash 9 kg / dry 4.5 kg\n밤 10시 이전에 사용을 마쳐 주세요. 건조 직후에는 내부와 세탁물이 매우 뜨거우므로 화상에 주의하고, 건조 후 먼지 필터를 정리해 주세요.\n세제와 섬유유연제는 세탁기 위 선반에 있습니다.\n세탁물을 넣고 문을 완전히 닫습니다.\n전원 버튼을 눌러 제품을 켭니다.\n코스 선택 버튼으로 세탁물에 맞는 코스를 선택합니다.\n필요하면 헹굼횟수·탈수세기·물온도를 조절한 뒤 시작/일시정지 버튼을 1초간 눌러 시작합니다. 밤 10시 이전에 이용을 마쳐 주세요.\n완료 후 세탁물을 바로 꺼내고 세제 투입구와 문을 열어 둡니다. 건조 후에는 먼지 필터를 정리해 주세요.",
         "source": "https://anotherhouse-guide.vercel.app/?page=laundry",
         "lead": "네, 숙소에 세탁기와 건조기가 있습니다.",
         "directAnswers": [
@@ -502,7 +502,7 @@
           "detergent",
           "fabric softener"
         ],
-        "answer": "Finish using the machine before 22:00. The drum and laundry are very hot after drying; avoid burns and clean the lint filter.\nDetergent and fabric softener are on the shelf above the washer.\nLoad the laundry and close the door completely.\nPress Power.\nSelect the appropriate cycle.\nAdjust the rinse count, spin speed or water temperature if needed, then hold Start/Pause for one second. Finish before 22:00.\nRemove laundry promptly, leave the detergent drawer and door open, and clean the lint filter after drying.",
+        "answer": "LG FY9WTB · wash 9 kg / dry 4.5 kg\nFinish using the machine before 22:00. The drum and laundry are very hot after drying; avoid burns and clean the lint filter.\nDetergent and fabric softener are on the shelf above the washer.\nLoad the laundry and close the door completely.\nPress Power.\nSelect the appropriate cycle.\nAdjust the rinse count, spin speed or water temperature if needed, then hold Start/Pause for one second. Finish before 22:00.\nRemove laundry promptly, leave the detergent drawer and door open, and clean the lint filter after drying.",
         "source": "https://anotherhouse-guide.vercel.app/?page=laundry",
         "lead": "Yes, a washing machine and dryer are available at the property.",
         "directAnswers": [
@@ -765,7 +765,7 @@
           "洗剤",
           "柔軟剤"
         ],
-        "answer": "22時までに使用を終えてください。乾燥直後は内部と衣類が非常に熱いため、やけどに注意し、糸くずフィルターを掃除してください。\n洗剤と柔軟剤は洗濯機上の棚にあります。\n洗濯物を入れてドアを完全に閉めます。\n電源ボタンを押します。\n洗濯物に合うコースを選択します。\n必要に応じてすすぎ回数・脱水強さ・水温を調整し、スタート／一時停止を1秒押します。22時までに終えてください。\n終了後はすぐ取り出し、洗剤投入口とドアを開け、乾燥後は糸くずフィルターを掃除してください。",
+        "answer": "LG FY9WTB · wash 9 kg / dry 4.5 kg\n22時までに使用を終えてください。乾燥直後は内部と衣類が非常に熱いため、やけどに注意し、糸くずフィルターを掃除してください。\n洗剤と柔軟剤は洗濯機上の棚にあります。\n洗濯物を入れてドアを完全に閉めます。\n電源ボタンを押します。\n洗濯物に合うコースを選択します。\n必要に応じてすすぎ回数・脱水強さ・水温を調整し、スタート／一時停止を1秒押します。22時までに終えてください。\n終了後はすぐ取り出し、洗剤投入口とドアを開け、乾燥後は糸くずフィルターを掃除してください。",
         "source": "https://anotherhouse-guide.vercel.app/?page=laundry",
         "lead": "はい、館内に洗濯機と乾燥機があります。",
         "directAnswers": [
@@ -1020,7 +1020,7 @@
           "洗涤剂",
           "柔顺剂"
         ],
-        "answer": "请在22:00前结束使用。烘干后内筒和衣物非常烫，请谨防烫伤并清理绒毛过滤器。\n洗涤剂和柔顺剂位于洗衣机上方搁板。\n放入衣物并完全关好机门。\n按下电源键。\n选择适合衣物的程序。\n需要时调整漂洗次数、脱水强度或水温，然后长按启动／暂停1秒。请在22:00前结束。\n结束后及时取出衣物，敞开洗涤剂盒和机门，烘干后清理绒毛过滤器。",
+        "answer": "LG FY9WTB · wash 9 kg / dry 4.5 kg\n请在22:00前结束使用。烘干后内筒和衣物非常烫，请谨防烫伤并清理绒毛过滤器。\n洗涤剂和柔顺剂位于洗衣机上方搁板。\n放入衣物并完全关好机门。\n按下电源键。\n选择适合衣物的程序。\n需要时调整漂洗次数、脱水强度或水温，然后长按启动／暂停1秒。请在22:00前结束。\n结束后及时取出衣物，敞开洗涤剂盒和机门，烘干后清理绒毛过滤器。",
         "source": "https://anotherhouse-guide.vercel.app/?page=laundry",
         "lead": "有，住宿内配有洗衣机和烘干机。",
         "directAnswers": [
@@ -1275,7 +1275,7 @@
           "洗滌劑",
           "柔軟精"
         ],
-        "answer": "請在22:00前結束使用。烘乾後內筒和衣物非常燙，請謹防燙傷並清理絨毛過濾器。\n洗滌劑和柔順劑位於洗衣機上方擱板。\n放入衣物並完全關好機門。\n按下電源鍵。\n選擇適合衣物的程式。\n需要時調整漂洗次數、脫水強度或水溫，然後長按啟動／暫停1秒。請在22:00前結束。\n結束後及時取出衣物，敞開洗滌劑盒和機門，烘乾後清理絨毛過濾器。",
+        "answer": "LG FY9WTB · wash 9 kg / dry 4.5 kg\n請在22:00前結束使用。烘乾後內筒和衣物非常燙，請謹防燙傷並清理絨毛過濾器。\n洗滌劑和柔順劑位於洗衣機上方擱板。\n放入衣物並完全關好機門。\n按下電源鍵。\n選擇適合衣物的程式。\n需要時調整漂洗次數、脫水強度或水溫，然後長按啟動／暫停1秒。請在22:00前結束。\n結束後及時取出衣物，敞開洗滌劑盒和機門，烘乾後清理絨毛過濾器。",
         "source": "https://anotherhouse-guide.vercel.app/?page=laundry",
         "lead": "有，住宿內配有洗衣機和烘乾機。",
         "directAnswers": [

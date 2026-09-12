@@ -8,7 +8,7 @@ const root = resolve(import.meta.dirname, "..");
 test("generated knowledge mirrors current public guide content without secrets", async () => {
   const raw = await readFile(resolve(root, "assets/guide-knowledge.json"), "utf8");
   const knowledge = JSON.parse(raw);
-  assert.equal(knowledge.version, "2026-09-12.4");
+  assert.equal(knowledge.version, "2026-09-12.5");
   assert.deepEqual(knowledge.languages, ["ko", "en", "ja", "zh", "zh-TW"]);
   assert.equal(knowledge.property.ko.address, "서울시 종로구 종로 294 선일빌딩 5층");
   assert.equal(knowledge.stay.ko.checkin.summary.includes("15:00"), true);
@@ -58,18 +58,21 @@ test("generated knowledge mirrors current public guide content without secrets",
   assert.match(knowledge.quickGuide.zh.find(topic => topic.id === "luggage").answer, /503号房.*退房当天/s);
   assert.match(knowledge.quickGuide["zh-TW"].find(topic => topic.id === "luggage").answer, /503號房.*退房當天/s);
   assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "laundry").directAnswers[0].answer, /세탁세제와 섬유유연제.*위 선반/);
+  assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "laundry").answer, /LG FY9WTB · wash 9 kg \/ dry 4\.5 kg/);
   assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "checkout").source, /\?page=checkin$/);
   assert.doesNotMatch(raw, /another1234/);
   assert.doesNotMatch(raw, /doorlockImage|roomDoorlockImage/);
 });
 
-test("server and browser both reference the same generated knowledge bundle", async () => {
+test("server model and browser outage fallback reference the same generated knowledge bundle", async () => {
   const api = await readFile(resolve(root, "api/chat.js"), "utf8");
   const client = await readFile(resolve(root, "assets/master-app.js"), "utf8");
   assert.match(api, /require\("\.\.\/assets\/guide-knowledge\.json"\)/);
   assert.match(client, /fetch\('\/assets\/guide-knowledge\.json'/);
   assert.match(api, /quickGuideFromQuestion/);
   assert.match(client, /fallbackGuideTopic/);
+  assert.match(client, /specific=.*용량/);
+  assert.doesNotMatch(api, /const quickAnswer|another-house-site-guide/);
   assert.doesNotMatch(client, /buildChatContext/);
   assert.match(client, /anchor\.target='_blank'/);
   assert.match(client, /anchor\.rel='noopener noreferrer'/);

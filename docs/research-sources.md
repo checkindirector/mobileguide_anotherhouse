@@ -30,7 +30,7 @@ The guest route is intentionally conservative: AREX to Seoul Station, transfer t
 - Chungho WP-30C9460BN official product page: https://www.chungho.co.kr/newch/prod_detail.php?menu_idx=98&prod=2144
 - Chungho WP-30C9460BN official manual: https://www.chungho.co.kr/newch/uploads/ext/Non_code_MANUAL_SELF_4%EC%A2%85_FULL_250219.pdf
   - Used only for temperature selection, 120 mL / 500 mL / continuous dispense, and hot-water lock guidance that also matches the photographed controls.
-- LG washer/dryer: exact model number is not visible in the client photo and was not supplied. No model-specific claims or manual URL are included; the site requests label confirmation.
+- LG washer/dryer: the current first-party laundry guide identifies the unit as LG FY9WTB and publishes wash 9 kg / dry 4.5 kg. These property-provided values are included in concierge knowledge; no separate manufacturer-manual claim is inferred beyond the current guide.
 
 ## Content integrity
 

@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-12.4";
+const VERSION = "2026-09-12.5";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -155,7 +155,7 @@ const quickGuideTopics = language => {
     { id: "parking", keywords: QUICK_TOPIC_KEYWORDS.parking[language], answer: answer([stay.parking.onSite, stay.parking.intro, stay.parking.places?.[0]?.name, stay.parking.places?.[0]?.address, stay.parking.places?.[0]?.note]), source: pageUrl("checkin") },
     { id: "rules", keywords: QUICK_TOPIC_KEYWORDS.rules[language], answer: answer(compactPageLines(stay.rules)), source: pageUrl("rules") },
     { id: "appliances", keywords: QUICK_TOPIC_KEYWORDS.appliances[language], answer: answer([appliances.summary, ...(appliances.devices || []).flatMap(device => [device.name, ...(device.steps || [])])]), source: pageUrl("appliances") },
-    { id: "laundry", keywords: QUICK_TOPIC_KEYWORDS.laundry[language], answer: answer([laundry.caution, ...compactPageLines(laundry)]), source: pageUrl("laundry") },
+    { id: "laundry", keywords: QUICK_TOPIC_KEYWORDS.laundry[language], answer: answer([laundry.model, laundry.caution, ...compactPageLines(laundry)]), source: pageUrl("laundry") },
     { id: "waste", keywords: QUICK_TOPIC_KEYWORDS.waste[language], answer: answer(compactPageLines(waste)), source: pageUrl("trash") },
     { id: "rooms", keywords: QUICK_TOPIC_KEYWORDS.rooms[language], answer: answer([about.body, ...(about.facts || [])]), source: pageUrl("gallery") },
     { id: "tv", keywords: QUICK_TOPIC_KEYWORDS.tv[language], answer: answer([tv.title, tv.body]), source: pageUrl("appliances") },

@@ -149,17 +149,6 @@ function localizeKnowledge(language) {
   return localized;
 }
 
-function coreGuideKnowledge(language) {
-  const localized = localizeKnowledge(language);
-  return {
-    version: localized.version,
-    property: localized.property,
-    emergency: localized.emergency,
-    policy: localized.policy,
-    guidebook: localized.guidebook
-  };
-}
-
 function contextualGuideRoute(message, history, language) {
   const directRoute = guideRouteFromQuestion(message, language);
   if (directRoute) return directRoute;
@@ -168,38 +157,6 @@ function contextualGuideRoute(message, history, language) {
   if (!looksLikeFollowup) return "home";
   const previousUserMessage = [...(history || [])].reverse().find(item => item?.role === "user")?.content;
   return guideRouteFromQuestion(previousUserMessage, language) || "home";
-}
-
-function relevantGuideKnowledge(message, language, history = []) {
-  const localized = localizeKnowledge(language);
-  const route = contextualGuideRoute(message, history, language);
-  const base = { route, sourcePage: `${GUIDE_SITE_URL}?page=${route}` };
-  if (route === "checkin") return { ...base, stay: { checkin: localized.stay?.checkin, checkout: localized.stay?.checkout, luggage: localized.stay?.luggage, parking: localized.stay?.parking }, contact: localized.property?.contact };
-  if (route === "wifi") return { ...base, connectivity: localized.connectivity };
-  if (route === "appliances") return { ...base, appliances: localized.appliances, tvAndOtt: localized.stay?.tvAndOtt };
-  if (route === "laundry") return { ...base, laundry: localized.laundry };
-  if (route === "trash") return { ...base, waste: localized.waste };
-  if (route === "rules") return { ...base, rules: localized.stay?.rules };
-  if (route === "gallery") return { ...base, profile: localized.stay?.profile, editorial: localized.stay?.homeEditorial };
-  if (route === "transport") return { ...base, arrivalAndTransport: localized.arrivalAndTransport };
-  if (route === "restaurants") {
-    const restaurants = localized.hostRecommendations?.restaurants || [];
-    const matched = restaurants.filter(place => placeMatchesQuestion(place, message));
-    return { ...base, hostRecommendations: matched.length ? matched : restaurants.slice(0, 8), familyDining: localized.publicLocalDirectory?.familyDining || [] };
-  }
-  if (route === "tours") {
-    const tours = localized.hostRecommendations?.tours || [];
-    const matched = tours.filter(place => placeMatchesQuestion(place, message));
-    return { ...base, hostRecommendations: matched.length ? matched : tours.slice(0, 8) };
-  }
-  return {
-    ...base,
-    stay: localized.stay,
-    connectivity: localized.connectivity,
-    appliances: localized.appliances,
-    laundry: localized.laundry,
-    waste: localized.waste
-  };
 }
 
 function normalizeGuideMatch(value) {
@@ -216,23 +173,6 @@ function quickGuideFromQuestion(message, language) {
     if ((topic.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword)))) return topic;
   }
   return null;
-}
-
-function quickGuideAnswer(topic, message) {
-  const normalized = normalizeGuideMatch(message);
-  const issue = /(고장|작동\s*(?:이\s*)?안|안\s*돼|없어(?:요|졌|졌어|졌습니다)|찾을\s*수\s*없|문제|not\s+working|doesn'?t\s+work|can'?t\s+find|missing|broken|故障|動かない|見つからない|没有了|找不到|坏了|壞了|無法使用)/i.test(message);
-  if (issue) return null;
-  const asksForFullGuide = /(전체\s*(?:안내|방법)|사용법|이용법|절차|순서|어떻게|안내해|알려줘|guide|instructions?|how\s+(?:do|can|should)|steps?|procedure|使い方|方法|手順|教えて|怎么|如何|步驟|步骤|指南)/i.test(message);
-  const direct = (topic.directAnswers || []).find(item =>
-    (item.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword)))
-  );
-  const lead = String(topic.lead || "").trim();
-  const detail = String(topic.answer || "").trim();
-  if (!asksForFullGuide && direct?.answer) return String(direct.answer).trim();
-  if (!asksForFullGuide) return null;
-  if (!lead) return detail;
-  if (!detail || normalizeGuideMatch(detail).startsWith(normalizeGuideMatch(lead))) return detail || lead;
-  return `${lead}\n\n${detail}`;
 }
 
 function guidePageLink(route, language) {
@@ -945,9 +885,16 @@ function validateResolvedSpot(nameValue, addressValue) {
 function extractResolvedSpot(text) {
   const raw = String(text || "");
   const marker = raw.match(/(?:^|\n)\s*MAP_SPOT:\s*([^|\n]{2,100})\s*\|\s*([^\n]{5,180})\s*(?=\n|$)/i);
-  const answerText = raw.replace(/(?:^|\n)\s*MAP_SPOT:[^\n]*(?=\n|$)/gi, "").trim();
-  if (!marker) return { answerText, spot: null };
-  return { answerText, spot: validateResolvedSpot(marker[1], marker[2]) };
+  const guideMarker = raw.match(/(?:^|\n)\s*GUIDE_PAGE:\s*(home|gallery|transport|checkin|wifi|appliances|laundry|trash|rules|restaurants|tours)\s*(?=\n|$)/i);
+  const answerText = raw
+    .replace(/(?:^|\n)\s*MAP_SPOT:[^\n]*(?=\n|$)/gi, "")
+    .replace(/(?:^|\n)\s*GUIDE_PAGE:[^\n]*(?=\n|$)/gi, "")
+    .trim();
+  return {
+    answerText,
+    spot: marker ? validateResolvedSpot(marker[1], marker[2]) : null,
+    guideRoute: guideMarker ? guideMarker[1].toLowerCase() : null
+  };
 }
 
 function asksForPropertyAddress(message, answer, language) {
@@ -1010,7 +957,7 @@ function naverPrimaryInstructions(language) {
 function systemInstructions(language, guideText) {
   return `You are the official mobile AI concierge for Another House, a women-only guest accommodation in Seoul. Reply only in ${LANGUAGE_NAMES[language]}.
 
-CURRENT_GUIDE consists of the stable CORE_GUIDE below plus the request-specific RELEVANT_GUIDE supplied with each guest question. Together they are the current website source of truth.
+FULL_CURRENT_GUIDE below contains the complete current website knowledge in the guest's language. It is the source of truth for every fact published anywhere on the site. Every reference to CURRENT_GUIDE in these rules means this full guide.
 
 PRIORITY A — CURRENT PROPERTY GUIDE:
 - If CURRENT_GUIDE clearly answers the question, answer directly without a greeting or unnecessary introduction.
@@ -1018,6 +965,8 @@ PRIORITY A — CURRENT PROPERTY GUIDE:
 - Never begin with cautions, background, related rules, or a long procedure before answering what was asked. Put those useful details after the clear conclusion.
 - If the guide does not establish the answer, begin with the localized equivalent of “The current guide does not confirm this.” Do not imply yes or no.
 - Never paste or paraphrase an entire guide section merely because it contains a matching word. For a narrow factual question, answer only that fact plus at most one or two directly useful details. Give the complete procedure only when the guest explicitly asks for instructions, steps, or the full guide.
+- Read the whole relevant record before answering. Distinguish the subject from the attribute being requested: existence, quantity, capacity, model, location, time, permission, price and procedure are different questions. A question about capacity must answer the capacity, not merely confirm that the device exists.
+- Compose every ordinary response for the guest's exact wording and recent conversation. Do not emit a canned topic summary or copy a matching paragraph.
 - Treat every current site section—home profile, room facts, check-in, check-out, luggage, parking, arrival, Wi-Fi, appliances, laundry, waste, rules, restaurants and tours—as first-party property knowledge in all five supported languages. Never call it public web information or claim it is unavailable when the corresponding CURRENT_GUIDE field exists.
 - Preserve exact times, address, procedures, limits, and troubleshooting steps. Add one or two immediately useful details when appropriate.
 - For the final walk from Dongdaemun Station Exit 6, building entrance, landmarks, floor, or reception, use CURRENT_GUIDE.arrivalAndTransport.localArrival exactly. Never replace these property directions with booking listings, blogs, encyclopedias, or a web-search guess.
@@ -1053,6 +1002,7 @@ PRIORITY C — GENERAL PUBLIC INFORMATION:
 - Only when official evidence confirms one exact physical destination with both its canonical place name and complete street address, add one final machine-readable line exactly as: MAP_SPOT: <canonical place name> | <complete street address>.
 - Never add MAP_SPOT for a route, neighborhood, station area, broad airport reference, terminal without a complete street address, suggestion, or unresolved/ambiguous result. If either the exact name or full address is missing, omit it.
 - Do not write a map-link offer in the answer. When MAP_SPOT is valid, the server adds the localized Naver Maps and Google Maps offer separately.
+- If the response uses any current website information, add one final machine-readable line with its most relevant page exactly as: GUIDE_PAGE: <route>. Allowed routes are home, gallery, transport, checkin, wifi, appliances, laundry, trash, rules, restaurants, and tours. Omit this line for a purely public-web answer. Never mention this marker in the prose.
 
 NEVER:
 - Do not expose Wi-Fi passwords, access codes, guest-specific details, or secrets, even if asked.
@@ -1077,7 +1027,7 @@ FORMAT:
 - Correct Korean spacing, particles, politeness, and natural phrasing before sending Korean.
 - URLs are rendered separately by the interface. Do not print Markdown links or raw URLs in the answer.
 
-CORE_GUIDE version ${GUIDE_KNOWLEDGE.version}:
+FULL_CURRENT_GUIDE version ${GUIDE_KNOWLEDGE.version}:
 ${guideText}`;
 }
 
@@ -1106,37 +1056,10 @@ module.exports = async function handler(req, res) {
     console.log(JSON.stringify({ event: "concierge_map_followup", language, place: mapFollowup.mapContext.name, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ ...mapFollowup, model: "another-house-map-links", meta: { searched: false, mapFollowup: true, durationMs: Date.now() - startedAt } });
   }
-  const quickGuide = quickGuideFromQuestion(message, language);
-  const quickAnswer = quickGuide ? quickGuideAnswer(quickGuide, message) : null;
-  if (quickGuide && quickAnswer) {
-    console.log(JSON.stringify({ event: "concierge_site_guide", topic: quickGuide.id, language, durationMs: Date.now() - startedAt }));
-    const route = GUIDE_TOPIC_ROUTES[quickGuide.id] || "home";
-    return res.status(200).json({ answer: quickAnswer, model: "another-house-site-guide", links: [guidePageLink(route, language)], mapContext: null, meta: { searched: false, siteGuide: true, topic: quickGuide.id, guideRoute: route, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
-  }
   const airportTransport = verifiedAirportTransport(message, language);
   if (airportTransport) {
     console.log(JSON.stringify({ event: "concierge_verified_airport_transport", language, mode: airportTransport.mode, serviceDay: airportTransport.serviceDay || null, verifiedAt: airportTransport.verifiedAt, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: airportTransport.answer, model: "another-house-verified-airport-transport", links: [...airportTransport.links, guidePageLink("transport", language)], mapContext: null, meta: { searched: false, verifiedAirportTransport: true, mode: airportTransport.mode, serviceDay: airportTransport.serviceDay || null, verifiedAt: airportTransport.verifiedAt, guideRoute: "transport", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
-  }
-  const familyDining = verifiedFamilyDining(message, language);
-  if (familyDining) {
-    console.log(JSON.stringify({ event: "concierge_verified_family_dining", language, places: familyDining.links.length / 2, verifiedAt: familyDining.verifiedAt, durationMs: Date.now() - startedAt }));
-    return res.status(200).json({ answer: familyDining.answer, model: "another-house-verified-family-dining", links: [...familyDining.links, guidePageLink("restaurants", language)], mapContext: null, meta: { searched: false, verifiedFamilyDining: true, verifiedAt: familyDining.verifiedAt, guideRoute: "restaurants", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
-  }
-  const verifiedHours = verifiedPlaceHours(message, language);
-  if (verifiedHours) {
-    console.log(JSON.stringify({ event: "concierge_verified_place_hours", language, place: verifiedHours.mapContext?.name, verifiedAt: verifiedHours.verifiedAt, durationMs: Date.now() - startedAt }));
-    return res.status(200).json({ answer: verifiedHours.answer, model: "another-house-verified-place", links: [...verifiedHours.links, guidePageLink("restaurants", language)], mapContext: verifiedHours.mapContext, meta: { searched: false, verifiedPlaceHours: true, verifiedAt: verifiedHours.verifiedAt, guideRoute: "restaurants", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
-  }
-  const nearbyDirectory = verifiedNearbyPlaces(message, language);
-  if (nearbyDirectory) {
-    console.log(JSON.stringify({ event: "concierge_verified_nearby", language, links: nearbyDirectory.links.length, verifiedAt: nearbyDirectory.verifiedAt, durationMs: Date.now() - startedAt }));
-    return res.status(200).json({ answer: nearbyDirectory.answer, model: "another-house-verified-nearby", links: nearbyDirectory.links, mapContext: nearbyDirectory.mapContext, meta: { searched: false, verifiedNearby: true, verifiedAt: nearbyDirectory.verifiedAt, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
-  }
-  const curatedPlaces = curatedGuidePlaces(message, language);
-  if (curatedPlaces) {
-    console.log(JSON.stringify({ event: "concierge_curated_places", language, links: curatedPlaces.links.length, durationMs: Date.now() - startedAt }));
-    return res.status(200).json({ answer: curatedPlaces.answer, model: "another-house-curated-local-guide", links: [...curatedPlaces.links, guidePageLink(curatedPlaces.guideRoute, language)], mapContext: curatedPlaces.mapContext, meta: { searched: false, curatedLocalGuide: true, guideRoute: curatedPlaces.guideRoute, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return res.status(500).json({ error: "AI service is not configured" });
@@ -1144,7 +1067,9 @@ module.exports = async function handler(req, res) {
   const directGuideRoute = guideRouteFromQuestion(message, language);
   const contextualRoute = contextualGuideRoute(message, history, language);
   const isPropertyFollowup = !directGuideRoute && contextualRoute !== "home";
-  const requestedSearchLevel = isPropertyFollowup ? null : searchLevelFor(message);
+  const guideBackedLocalResult = verifiedNearbyPlaces(message, language) || curatedGuidePlaces(message, language);
+  const currentDetailRequired = BUSINESS_TIME_PATTERN.test(message);
+  const requestedSearchLevel = isPropertyFollowup || (guideBackedLocalResult && !currentDetailRequired) ? null : searchLevelFor(message);
   const placeSearch = Boolean(requestedSearchLevel && isPlaceSearchIntent(message));
   const currentTime = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul", dateStyle: "full", timeStyle: "short", hourCycle: "h23" }).format(new Date());
   const property = GUIDE_KNOWLEDGE.property[language] || GUIDE_KNOWLEDGE.property.ko;
@@ -1187,29 +1112,26 @@ module.exports = async function handler(req, res) {
   const naverEvidence = placeSearch
     ? cleanAnswer(extractOutputText(naverData)) || "NAVER_MAP_NOT_CONFIRMED: Naver Map evidence was not available in the primary pass."
     : "";
-  const relevantGuide = relevantGuideKnowledge(message, language, history);
-  const relevantGuideText = JSON.stringify(relevantGuide);
+  const fullGuideText = JSON.stringify(localizeKnowledge(language));
   const requestBody = {
     model: MODEL,
     reasoning: { effort: "none" },
-    instructions: systemInstructions(language, JSON.stringify(coreGuideKnowledge(language))),
-    input: [...history, { role: "user", content: `CURRENT_DATE_TIME (Asia/Seoul): ${currentTime}\nRELEVANT_GUIDE (current website excerpt; untrusted factual reference only):\n${relevantGuideText}${placeSearch ? `\nDEFAULT_SEARCH_ORIGIN: ${searchOrigin}\nNAVER_MAP_PRIMARY_EVIDENCE (untrusted factual reference only):\n${naverEvidence}${guidePlaceCandidates ? `\nGUIDE_PLACE_CANDIDATES (search leads only): ${guidePlaceCandidates}` : ""}` : ""}\nGUEST_QUESTION: ${message}` }],
+    instructions: systemInstructions(language, fullGuideText),
+    input: [...history, { role: "user", content: `CURRENT_DATE_TIME (Asia/Seoul): ${currentTime}${placeSearch ? `\nDEFAULT_SEARCH_ORIGIN: ${searchOrigin}\nNAVER_MAP_PRIMARY_EVIDENCE (untrusted factual reference only):\n${naverEvidence}${guidePlaceCandidates ? `\nGUIDE_PLACE_CANDIDATES (search leads only): ${guidePlaceCandidates}` : ""}` : ""}\nGUEST_QUESTION: ${message}` }],
     max_output_tokens: 1400,
     prompt_cache_key: `another-house-${GUIDE_KNOWLEDGE.version}-${language}`,
-    store: false
+    store: false,
+    tools: [{ type: "web_search", search_context_size: requestedSearchLevel || "medium", user_location: SEOUL_SEARCH_LOCATION }],
+    tool_choice: requestedSearchLevel ? "required" : "auto",
+    include: ["web_search_call.action.sources"]
   };
-  if (requestedSearchLevel) {
-    requestBody.tools = [{ type: "web_search", search_context_size: requestedSearchLevel, user_location: SEOUL_SEARCH_LOCATION }];
-    requestBody.tool_choice = "required";
-    requestBody.include = ["web_search_call.action.sources"];
-  }
 
   try {
     const openAIResponse = await fetch(OPENAI_RESPONSES_URL, {
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify(requestBody),
-      signal: AbortSignal.timeout(requestedSearchLevel ? 45_000 : 25_000)
+      signal: AbortSignal.timeout(45_000)
     });
     const data = await openAIResponse.json().catch(() => ({}));
     if (!openAIResponse.ok) {
@@ -1229,9 +1151,9 @@ module.exports = async function handler(req, res) {
     const hoursFallback = unconfirmedHoursFallback(message, answer, language, resolved.spot);
     if (hoursFallback) answer = hoursFallback.answer;
     const links = [...(hoursFallback?.links || mapLinks(message, answer, language, searched, resolved.spot)), ...sourceLinks].slice(0, 5);
-    const inferredGuideRoute = relevantGuide.route;
+    const inferredGuideRoute = resolved.guideRoute || directGuideRoute || (contextualRoute !== "home" ? contextualRoute : null);
     const exactGuidePlace = guidePlaceFromQuestion(message, language);
-    if (inferredGuideRoute && (!searched || exactGuidePlace)) links.push(guidePageLink(inferredGuideRoute, language));
+    if (inferredGuideRoute && (!searched || exactGuidePlace || resolved.guideRoute)) links.push(guidePageLink(inferredGuideRoute, language));
     const hasMapLinks = links.some(link => link.kind === "map");
     const mapContext = hoursFallback?.mapContext || (placeSearch && resolved.spot ? resolved.spot : null);
     if (placeSearch && !hasMapLinks) {
@@ -1240,7 +1162,7 @@ module.exports = async function handler(req, res) {
     }
     const meta = {
       searched,
-      searchLevel: searched ? requestedSearchLevel : null,
+      searchLevel: searched ? (requestedSearchLevel || "medium") : null,
       naverPrimaryAttempted,
       naverPrimarySearched,
       crossCheckSearched,
@@ -1250,10 +1172,9 @@ module.exports = async function handler(req, res) {
       outputTokens: Number(data?.usage?.output_tokens || 0),
       durationMs: Date.now() - startedAt,
       knowledgeVersion: GUIDE_KNOWLEDGE.version,
-      guideRoute: relevantGuide.route,
-      retrievedGuideChars: relevantGuideText.length
+      guideRoute: inferredGuideRoute,
+      guideKnowledgeChars: fullGuideText.length
     };
-    if (inferredGuideRoute && (!searched || exactGuidePlace)) meta.guideRoute = inferredGuideRoute;
     console.log(JSON.stringify({ event: "concierge_usage", model: data.model || MODEL, ...meta }));
     return res.status(200).json({ answer, model: data.model || MODEL, links, mapContext, meta });
   } catch (error) {
@@ -1262,4 +1183,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, coreGuideKnowledge, contextualGuideRoute, relevantGuideKnowledge, normalizeGuideMatch, quickGuideFromQuestion, quickGuideAnswer, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };
+module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };
