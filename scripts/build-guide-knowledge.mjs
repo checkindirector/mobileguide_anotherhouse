@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-12.6";
+const VERSION = "2026-09-12.7";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -63,7 +63,7 @@ const QUICK_TOPIC_KEYWORDS = {
   wifi: { ko: ["와이파이", "wifi", "wi-fi", "인터넷"], en: ["wifi", "wi-fi", "internet"], ja: ["wifi", "wi-fi", "インターネット"], zh: ["wifi", "wi-fi", "无线网络"], "zh-TW": ["wifi", "wi-fi", "無線網路"] },
   parking: { ko: ["숙소 주차", "건물 주차", "주차 가능", "주차 안내"], en: ["property parking", "on-site parking", "can i park", "parking at the hostel"], ja: ["宿の駐車", "館内駐車", "駐車できます", "駐車案内"], zh: ["住宿停车", "楼内停车", "可以停车", "停车指南"], "zh-TW": ["住宿停車", "樓內停車", "可以停車", "停車指南"] },
   rules: { ko: ["숙소 이용 규칙", "숙소 규칙", "이용 규칙", "하우스 룰", "흡연", "소음", "파티", "반려동물", "외부인"], en: ["house rules", "property rules", "stay rules", "smoking", "noise", "party", "pet", "outside guest"], ja: ["宿泊ルール", "利用規則", "ハウスルール", "喫煙", "騒音", "パーティー", "ペット", "部外者"], zh: ["住宿规则", "入住规则", "房屋守则", "吸烟", "噪音", "派对", "宠物", "外来人员"], "zh-TW": ["住宿規則", "入住規則", "房屋守則", "吸菸", "噪音", "派對", "寵物", "外來人員"] },
-  appliances: { ko: ["냉난방", "에어컨", "난방", "인덕션", "전자레인지", "냉장고", "기기 사용", "게스트박스", "수건", "칫솔", "어댑터", "고데기", "물티슈", "비닐봉투"], en: ["heating", "air conditioning", "air conditioner", "induction", "microwave", "refrigerator", "appliance", "guest box", "towel", "toothbrush", "travel adapter", "hair straightener", "wet wipes", "plastic bag"], ja: ["冷暖房", "エアコン", "暖房", "IH", "電子レンジ", "冷蔵庫", "家電", "ゲストボックス", "タオル", "歯ブラシ", "変換アダプター", "ヘアアイロン", "ウェットティッシュ", "ビニール袋"], zh: ["空调", "暖气", "电磁炉", "微波炉", "冰箱", "设备使用", "住客用品箱", "毛巾", "牙刷", "转换插头", "直发器", "湿巾", "塑料袋"], "zh-TW": ["空調", "暖氣", "電磁爐", "微波爐", "冰箱", "設備使用", "住客用品箱", "毛巾", "牙刷", "轉換插頭", "直髮器", "溼巾", "塑膠袋"] },
+  appliances: { ko: ["냉난방", "에어컨", "난방", "인덕션", "전자레인지", "냉장고", "기기 사용", "게스트박스", "수건", "칫솔", "어댑터", "고데기", "헤어드라이어", "헤어드라이기", "드라이어", "드라이기", "물티슈", "비닐봉투"], en: ["heating", "air conditioning", "air conditioner", "induction", "microwave", "refrigerator", "appliance", "guest box", "towel", "toothbrush", "travel adapter", "hair straightener", "hair dryer", "hairdryer", "blow dryer", "blowdryer", "wet wipes", "plastic bag"], ja: ["冷暖房", "エアコン", "暖房", "IH", "電子レンジ", "冷蔵庫", "家電", "ゲストボックス", "タオル", "歯ブラシ", "変換アダプター", "ヘアアイロン", "ヘアドライヤー", "ドライヤー", "ウェットティッシュ", "ビニール袋"], zh: ["空调", "暖气", "电磁炉", "微波炉", "冰箱", "设备使用", "住客用品箱", "毛巾", "牙刷", "转换插头", "直发器", "吹风机", "电吹风", "湿巾", "塑料袋"], "zh-TW": ["空調", "暖氣", "電磁爐", "微波爐", "冰箱", "設備使用", "住客用品箱", "毛巾", "牙刷", "轉換插頭", "直髮器", "吹風機", "電吹風", "溼巾", "塑膠袋"] },
   laundry: { ko: ["세탁", "건조기", "빨래", "세제", "섬유유연제"], en: ["laundry", "washing machine", "dryer", "detergent", "fabric softener"], ja: ["洗濯", "洗濯機", "乾燥機", "洗剤", "柔軟剤"], zh: ["洗衣", "洗衣机", "烘干机", "洗涤剂", "柔顺剂"], "zh-TW": ["洗衣", "洗衣機", "烘乾機", "洗滌劑", "柔軟精"] },
   waste: { ko: ["쓰레기", "분리배출", "분리수거"], en: ["trash", "waste", "recycling", "garbage"], ja: ["ごみ", "ゴミ", "分別", "リサイクル"], zh: ["垃圾", "垃圾分类", "回收"], "zh-TW": ["垃圾", "垃圾分類", "回收"] },
   rooms: { ko: ["객실 종류", "방 종류", "싱글룸", "2인실", "더블룸", "샤워실", "화장실 몇"], en: ["room type", "single room", "double room", "shared shower", "how many rooms"], ja: ["客室タイプ", "シングルルーム", "2人部屋", "共用シャワー", "部屋数"], zh: ["房型", "单人房", "双人房", "公共淋浴", "房间数量"], "zh-TW": ["房型", "單人房", "雙人房", "公共淋浴", "房間數量"] },
@@ -114,6 +114,13 @@ const quickDirectAnswers = (topic, language) => ({
     ja: [{ keywords: ["テレビ", "tv", "netflix", "動画視聴"], answer: "いいえ、客室と共用スペースにテレビはありません。" }],
     zh: [{ keywords: ["电视", "tv", "netflix", "流媒体"], answer: "没有，客房及公共区域均不设电视。" }],
     "zh-TW": [{ keywords: ["電視", "tv", "netflix", "串流"], answer: "沒有，客房及公共區域均不設電視。" }]
+  },
+  appliances: {
+    ko: [{ keywords: ["헤어드라이어", "헤어드라이기", "드라이어", "드라이기"], answer: "현재 숙소 안내에는 헤어드라이어 제공 여부가 확인되지 않습니다. 게스트박스에는 헤어 고데기만 안내되어 있습니다. 필요하면 예약 플랫폼 메시지로 호스트에게 확인해 주세요." }, { keywords: ["고데기"], answer: "네, 헤어 고데기는 공용 공간의 게스트박스에 준비되어 있습니다. 사용 후에는 제자리에 돌려놓아 주세요." }],
+    en: [{ keywords: ["hair dryer", "hairdryer", "blow dryer", "blowdryer"], answer: "The current property guide does not confirm that a hair dryer is provided. It lists only a hair straightener in the shared Guest Box. Please confirm with the host through your booking-platform messages if needed." }, { keywords: ["hair straightener", "flat iron"], answer: "Yes, a hair straightener is available in the shared Guest Box. Please return it after use." }],
+    ja: [{ keywords: ["ヘアドライヤー", "ドライヤー"], answer: "現在の宿泊案内ではヘアドライヤーの用意は確認できません。共用ゲストボックスにはヘアアイロンのみ記載されています。必要な場合は予約プラットフォームのメッセージでホストに確認してください。" }, { keywords: ["ヘアアイロン"], answer: "はい、ヘアアイロンは共用スペースのゲストボックスにあります。使用後は元の場所へ戻してください。" }],
+    zh: [{ keywords: ["吹风机", "电吹风"], answer: "当前住宿指南未确认提供吹风机。公共区域的住客用品箱中仅明确列有直发器。如有需要，请通过预订平台消息向房东确认。" }, { keywords: ["直发器", "夹板"], answer: "有，公共区域的住客用品箱内备有直发器。使用后请放回原位。" }],
+    "zh-TW": [{ keywords: ["吹風機", "電吹風"], answer: "目前住宿指南未確認提供吹風機。公共區域的住客用品箱中僅明確列有直髮器。如有需要，請透過預訂平台訊息向房東確認。" }, { keywords: ["直髮器", "離子夾"], answer: "有，公共區域的住客用品箱內備有直髮器。使用後請放回原位。" }]
   },
   laundry: {
     ko: [{ keywords: ["세탁세제", "세제", "섬유유연제"], answer: "네, 세탁세제와 섬유유연제가 준비되어 있습니다. 세탁기 위 선반에 있어요." }, { keywords: ["건조기"], answer: "네, 숙소에 건조기가 있습니다. 밤 10시 이전에 사용을 마쳐 주세요." }, { keywords: ["세탁기"], answer: "네, 숙소에 세탁기가 있습니다. 세제와 섬유유연제는 위 선반에 있어요." }, { keywords: ["몇시까지", "이용시간", "사용시간"], answer: "세탁기와 건조기는 밤 10시 이전에 사용을 마쳐 주세요." }],
