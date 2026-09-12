@@ -290,6 +290,34 @@ test("questions outside the property guide force a current public search", async
   assert.match(res.payload.answer, /아니요.*팁/s);
 });
 
+test("an outbound transit answer retries instead of exposing a max-token fragment", async () => {
+  const incomplete = {
+    model: "gpt-5.4-mini",
+    status: "incomplete",
+    incomplete_details: { reason: "max_output_tokens" },
+    output_text: "숙소에서 가장 쉬운 방법은 동대문역 1호",
+    output: [{ type: "web_search_call", action: { sources: [{ title: "KORAIL", url: "https://www.korail.com/" }] } }],
+    usage: { input_tokens: 38000, output_tokens: 3200, input_tokens_details: { cached_tokens: 28800 } }
+  };
+  const complete = {
+    model: "gpt-5.4-mini",
+    status: "completed",
+    output_text: "숙소에서 청량리역까지는 동대문역에서 1호선 소요산·의정부 방면 열차를 타고 환승 없이 청량리역에서 내리면 됩니다. 이동은 약 10분입니다.",
+    output: [{ type: "web_search_call", action: { sources: [{ title: "서울교통공사", url: "https://www.seoulmetro.co.kr/" }] } }],
+    usage: { input_tokens: 38000, output_tokens: 160, input_tokens_details: { cached_tokens: 28800 } }
+  };
+  const { res, requests } = await callApi({ message: "숙소에서 청량리역 가는방법", language: "ko", history: [] }, [incomplete, complete], "203.0.113.62");
+  assert.equal(requests.length, 2);
+  assert.equal(requests[0].body.max_output_tokens, 3200);
+  assert.equal(requests[1].body.max_output_tokens, 6000);
+  assert.equal(requests[1].body.reasoning.effort, "low");
+  assert.equal(res.payload.meta.retriedForCompletion, true);
+  assert.match(res.payload.answer, /1호선.*환승 없이.*청량리역/s);
+  assert.doesNotMatch(res.payload.answer, /동대문역 1호$/);
+  assert.equal(res.payload.links.filter(link => link.kind === "source").length, 2);
+  assert.equal(handler._internals.guideRouteFromQuestion("숙소에서 청량리역 가는방법", "ko"), "transport");
+});
+
 test("exact last-mile property directions use guide knowledge without public web search", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "From Exit 6, look for Kyochon Chicken and the dental sign at Sunil Building, take the elevator to 5F, then go down half a floor to the glass-door reception.\nGUIDE_PAGE: transport", output: [], usage: {} };
   const { request, requests } = await callApi({ message: "I am at Dongdaemun Station Exit 6 but cannot find the building entrance. What landmarks should I look for?", language: "en" }, output, "203.0.113.64");

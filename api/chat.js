@@ -35,6 +35,7 @@ const PUBLIC_LUGGAGE_PLACE_PATTERN = /(서울역|공항|터미널|코인\s*(?:�
 const LOCAL_PLACE_PATTERN = /(식당|맛집|음식|카페|치킨|국밥|분식|브런치|술집|바\b|병원|약국|편의점|마트|시장|백화점|쇼핑|공원|박물관|미술관|관광지|명소|궁|성곽|주차장|공영주차장|역\b|정류장|터미널|공항|꽃집|세탁소|빨래방|코인세탁|은행|atm|환전소|우체국|경찰서|화장실|미용실|네일샵|서점|문구점|놀이터|키즈카페|restaurant|food|cafe|bar\b|hospital|clinic|pharmacy|convenience store|mart|market|department store|shopping|park|museum|gallery|attraction|palace|parking|station|stop|terminal|airport|florist|laundry|laundromat|bank|currency exchange|post office|police station|restroom|toilet|salon|bookstore|stationery|playground|kids cafe|飲食店|レストラン|カフェ|病院|薬局|コンビニ|市場|百貨店|公園|博物館|美術館|観光地|駐車場|駅|停留所|空港|花屋|洗濯店|コインランドリー|銀行|両替所|郵便局|警察署|トイレ|美容院|書店|文具店|遊び場|餐厅|餐廳|咖啡店|医院|醫院|药店|藥局|便利店|市场|市場|百货|百貨|公园|公園|博物馆|博物館|美术馆|美術館|景点|景點|停车场|停車場|车站|車站|机场|機場|花店|洗衣店|自助洗衣|银行|銀行|兑换处|兌換處|邮局|郵局|警察局|卫生间|洗手間|厕所|廁所|美容院|书店|書店|文具店|游乐场|遊樂場)/i;
 const PLACE_DISCOVERY_PATTERN = /(근처|주변|가까운|추천|찾아|어디|위치|주소|가는\s*길|가려면|지도|영업|문\s*(?:열|닫)|near|nearby|closest|recommend|find|where|location|address|directions?|map|open|hours|近く|周辺|おすすめ|探|どこ|場所|住所|地図|営業|附近|周边|周邊|最近|推荐|推薦|查找|哪里|哪裡|位置|地址|地图|地圖|营业|營業)/i;
 const PROPERTY_ARRIVAL_PATTERN = /(어나더\s*하우스|another\s*house|선일\s*빌딩|sunil\s*building|ソニルビル|동대문역\s*6번\s*출구|dongdaemun\s*(?:station\s*)?exit\s*6|東大門駅?\s*6番出口|东大门站?\s*6号出口|東大門站?\s*6號出口).{0,100}(입구|찾|어디|도착|가는\s*길|랜드마크|건물|리셉션|reception|entrance|find|arrive|directions?|landmark|building|入口|探|到着|行き方|建物|前台|櫃檯|怎么走|怎麼走)|(?:입구|찾|어디|도착|가는\s*길|랜드마크|건물|리셉션|reception|entrance|find|arrive|directions?|landmark|building|入口|探|到着|行き方|建物|前台|櫃檯|怎么走|怎麼走).{0,100}(어나더\s*하우스|another\s*house|선일\s*빌딩|sunil\s*building|ソニルビル|동대문역\s*6번\s*출구|dongdaemun\s*(?:station\s*)?exit\s*6|東大門駅?\s*6番出口|东大门站?\s*6号出口|東大門站?\s*6號出口)/i;
+const OUTBOUND_PUBLIC_ROUTE_PATTERN = /(?:숙소|어나더\s*하우스|another\s*house|property|hostel|当館|住宿).{0,120}(?:에서|from|から|从|從).{0,120}(?:가(?:는)?\s*(?:법|방법|길)|어떻게\s*가|how\s+(?:do|can)\s+.*(?:get|go)|directions?|行き方|怎么走|怎麼走)/i;
 const MAP_APP_GUIDANCE_PATTERN = /(지도\s*앱|어떤\s*지도|맵\s*앱|map\s*app|which\s*map|navigation\s*app|地図\s*アプリ|どの\s*地図|地图\s*(?:软件|应用)|地圖\s*(?:軟體|應用)|哪[个個]\s*地图|哪[個个]\s*地圖)/i;
 const NON_PLACE_TRAVEL_PATTERN = /(e[\s-]?sim|로밍|roaming|전압|콘센트|플러그|voltage|power\s*plug|socket|tax\s*refund|면세|地图\s*(?:软件|应用)|地圖\s*(?:軟體|應用)|地図\s*アプリ|电压|電壓|插头|插頭)/i;
 const TRAVEL_PUBLIC_PATTERN = /(교통카드|티머니|t[\s-]?money|와우패스|wowpass|신용카드|체크카드|비자\s*카드|마스터\s*카드|카드\s*결제|현금|환전|원화|tax\s*refund|면세|결제|payment|credit\s*card|debit\s*card|visa\s*card|mastercard|cash|currency|exchange|sim\s*card|e[\s-]?sim|유심|로밍|roaming|택시|taxi|카카오\s*t|kakao\s*t|짐\s*보관|수하물\s*보관|luggage\s*storage|locker|코인\s*라커|전압|콘센트|플러그|voltage|power\s*plug|socket|번역\s*앱|translation\s*app|여행자\s*보험|travel\s*insurance|응급|구급차|경찰|병원|약국|의사|medical|ambulance|police|hospital|pharmacy|doctor|交通卡|交通カード|クレジットカード|現金|両替|换汇|換匯|信用卡|现金|電話卡|网卡|網卡|行李寄存|行李寄放|电压|電壓|插头|插頭|急救|救护车|救護車|警察|医院|醫院|药店|藥局)/i;
@@ -190,7 +191,7 @@ function guideRouteFromQuestion(message, language) {
   const tours = GUIDE_KNOWLEDGE.hostRecommendations?.[language]?.tours || GUIDE_KNOWLEDGE.hostRecommendations?.ko?.tours || [];
   if (restaurants.some(place => placeMatchesQuestion(place, text)) || DINING_INTENT_PATTERN.test(text)) return "restaurants";
   if (tours.some(place => placeMatchesQuestion(place, text)) || /(투어|tour|ツアー|行程)/i.test(text) || CURATED_TOUR_PATTERN.test(text)) return "tours";
-  if (/(공항|리무진|교통|찾아오|오는\s*길|가는\s*길|동대문역|6번\s*출구|선일\s*빌딩|주소|위치|airport|limousine|transport|directions?|dongdaemun|exit\s*6|sunil|address|location|空港|アクセス|行き方|東大門|6番出口|住所|交通|机场|機場|交通|路线|路線|东大门|東大門|6号出口|6號出口|地址|位置)/i.test(text)) return "transport";
+  if (/(공항|리무진|교통|찾아오|오는\s*길|가는\s*(?:길|법|방법)|동대문역|6번\s*출구|선일\s*빌딩|주소|위치|airport|limousine|transport|directions?|how\s+(?:do|can)\s+.*(?:get|go)|dongdaemun|exit\s*6|sunil|address|location|空港|アクセス|行き方|東大門|6番出口|住所|交通|机场|機場|交通|路线|路線|东大门|東大門|6号出口|6號出口|地址|位置)/i.test(text)) return "transport";
   if (/(체크인|체크아웃|입실|퇴실|키오스크|키\s*카드|카드키|짐\s*보관|러기지|주차|예약\s*플랫폼|호스트\s*연락|check.?in|check.?out|kiosk|key\s*card|luggage|parking|booking\s*platform|contact\s*(?:the\s*)?host|チェックイン|チェックアウト|キオスク|キーカード|荷物|駐車|入住|退房|自助机|自助機|房卡|行李|停车|停車)/i.test(text)) return "checkin";
   if (/(와이파이|wi-?fi|인터넷|無線網路|无线网络)/i.test(text)) return "wifi";
   if (/(세탁|건조기|빨래|laundry|washing\s*machine|dryer|洗濯|乾燥機|洗衣|烘干机|烘乾機)/i.test(text)) return "laundry";
@@ -265,6 +266,12 @@ function sourceDomain(value) {
   const suffix = parts.slice(-2).join(".");
   const compoundSuffixes = new Set(["co.kr", "go.kr", "or.kr", "ac.kr", "co.jp", "go.jp", "com.cn", "gov.cn", "com.tw", "gov.tw"]);
   return compoundSuffixes.has(suffix) ? parts.slice(-3).join(".") : parts.slice(-2).join(".");
+}
+
+function hitOutputLimit(data, limit) {
+  return data?.incomplete_details?.reason === "max_output_tokens"
+    || data?.status === "incomplete"
+    || Number(data?.usage?.output_tokens || 0) >= Number(limit || 0);
 }
 
 function sourcePriority(value) {
@@ -1003,6 +1010,7 @@ PRIORITY C — GENERAL PUBLIC INFORMATION:
 - Do not rely on community-edited encyclopedias, personal blogs, or listing aggregators when Naver Place, an operator, government, airport, transit agency, or venue's official source is available.
 - Do not write the standard public-information disclaimer yourself; the server adds one localized notice whenever search actually runs. Add only a specific caution that materially affects the answer.
 - For routes, respect the user's stated date/time. For late-night or early-airport travel, cover route, departure time, fare, terminal, transfers, and the most realistic alternative when evidence supports them.
+- For an ordinary point-to-point transit question, give the complete actionable route in the first answer: departure station/stop, exact line and direction, transfer station if any, arrival station/exit, and an approximate ride time or stop count when reliable. Never end after only naming a line.
 - Never confuse the user's requested departure time with a flight time. Make the opening recommendation and final recommendation consistent with each other.
 - If reliable public information cannot be found, say so and suggest host confirmation.
 - Only when official evidence confirms one exact physical destination with both its canonical place name and complete street address, add one final machine-readable line exactly as: MAP_SPOT: <canonical place name> | <complete street address>.
@@ -1081,6 +1089,8 @@ module.exports = async function handler(req, res) {
   const placeIntent = isPlaceSearchIntent(message);
   const requestedSearchLevel = isPropertyFollowup
     ? null
+    : OUTBOUND_PUBLIC_ROUTE_PATTERN.test(message)
+      ? (detectedSearchLevel || "medium")
     : placeIntent
     ? (detectedSearchLevel || (currentDetailRequired ? "high" : "medium"))
     : guideBackedLocalResult || guideBackedPropertyQuestion || SMALL_TALK_PATTERN.test(message)
@@ -1134,7 +1144,7 @@ module.exports = async function handler(req, res) {
     reasoning: { effort: requestedSearchLevel === "high" ? "medium" : "low" },
     instructions: systemInstructions(language, fullGuideText),
     input: [...history, { role: "user", content: `CURRENT_DATE_TIME (Asia/Seoul): ${currentTime}${guideBackedLocalResult ? `\nVERIFIED_LOCAL_GUIDE_RESULT (normalized current-guide candidate; preserve its explicit time-range conclusion):\n${guideBackedLocalResult.answer}` : ""}${placeSearch ? `\nDEFAULT_SEARCH_ORIGIN: ${searchOrigin}\nNAVER_MAP_PRIMARY_EVIDENCE (untrusted factual reference only):\n${naverEvidence}${guidePlaceCandidates ? `\nGUIDE_PLACE_CANDIDATES (search leads only): ${guidePlaceCandidates}` : ""}` : ""}\nGUEST_QUESTION: ${message}` }],
-    max_output_tokens: 1400,
+    max_output_tokens: requestedSearchLevel === "high" ? 4200 : requestedSearchLevel ? 3200 : 2200,
     prompt_cache_key: `another-house-${GUIDE_KNOWLEDGE.version}-${language}`,
     store: false,
     tools: [{ type: "web_search", search_context_size: requestedSearchLevel || "medium", user_location: SEOUL_SEARCH_LOCATION }],
@@ -1143,25 +1153,50 @@ module.exports = async function handler(req, res) {
   };
 
   try {
-    const openAIResponse = await fetch(OPENAI_RESPONSES_URL, {
+    let openAIResponse = await fetch(OPENAI_RESPONSES_URL, {
       method: "POST",
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify(requestBody),
       signal: AbortSignal.timeout(45_000)
     });
-    const data = await openAIResponse.json().catch(() => ({}));
+    let data = await openAIResponse.json().catch(() => ({}));
     if (!openAIResponse.ok) {
       console.error(JSON.stringify({ event: "concierge_error", status: openAIResponse.status, code: data?.error?.code || "unknown", durationMs: Date.now() - startedAt }));
       return res.status(502).json({ error: "AI response failed" });
+    }
+    const modelOutputs = [...(data.output || [])];
+    const firstUsage = data.usage || {};
+    let retriedForCompletion = false;
+    if (hitOutputLimit(data, requestBody.max_output_tokens)) {
+      retriedForCompletion = true;
+      console.warn(JSON.stringify({ event: "concierge_incomplete_retry", reason: data?.incomplete_details?.reason || "output_limit", outputTokens: Number(data?.usage?.output_tokens || 0), initialLimit: requestBody.max_output_tokens }));
+      const retryBody = {
+        ...requestBody,
+        reasoning: { effort: "low" },
+        max_output_tokens: 6000,
+        instructions: `${requestBody.instructions}\n\nRETRY REQUIREMENT: The prior attempt hit its output limit. Produce a complete, concise answer from the beginning. Never end mid-word or mid-sentence.`
+      };
+      openAIResponse = await fetch(OPENAI_RESPONSES_URL, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify(retryBody),
+        signal: AbortSignal.timeout(45_000)
+      });
+      data = await openAIResponse.json().catch(() => ({}));
+      if (!openAIResponse.ok || hitOutputLimit(data, retryBody.max_output_tokens)) {
+        console.error(JSON.stringify({ event: "concierge_incomplete_failure", status: openAIResponse.status, reason: data?.incomplete_details?.reason || "output_limit", durationMs: Date.now() - startedAt }));
+        return res.status(502).json({ error: "AI response was incomplete" });
+      }
+      modelOutputs.push(...(data.output || []));
     }
     const resolved = extractResolvedSpot(extractOutputText(data));
     let answer = cleanAnswer(resolved.answerText);
     if (!answer) return res.status(502).json({ error: "AI returned an empty response" });
     const naverPrimarySearched = (naverData?.output || []).some(item => item?.type === "web_search_call");
-    const crossCheckSearched = (data.output || []).some(item => item?.type === "web_search_call");
+    const crossCheckSearched = modelOutputs.some(item => item?.type === "web_search_call");
     const searched = naverPrimarySearched || crossCheckSearched;
     if (searched && !answer.startsWith("※")) answer = `${publicNotice(language)}\n\n${answer}`;
-    const sourceData = { output: [...(naverData?.output || []), ...(data.output || [])] };
+    const sourceData = { output: [...(naverData?.output || []), ...modelOutputs] };
     const extractedSources = searched ? extractSources(sourceData, language) : [];
     const sourceLinks = searched ? (extractedSources.length ? extractedSources : fallbackOfficialSources(message, language)) : [];
     const hoursFallback = unconfirmedHoursFallback(message, answer, language, resolved.spot);
@@ -1186,8 +1221,9 @@ module.exports = async function handler(req, res) {
       crossCheckSearched,
       searchCalls: Number(naverPrimarySearched) + Number(crossCheckSearched),
       cachedTokens: Number(data?.usage?.input_tokens_details?.cached_tokens || 0),
-      inputTokens: Number(data?.usage?.input_tokens || 0),
-      outputTokens: Number(data?.usage?.output_tokens || 0),
+      inputTokens: Number(firstUsage.input_tokens || 0) + (retriedForCompletion ? Number(data?.usage?.input_tokens || 0) : 0),
+      outputTokens: Number(firstUsage.output_tokens || 0) + (retriedForCompletion ? Number(data?.usage?.output_tokens || 0) : 0),
+      retriedForCompletion,
       durationMs: Date.now() - startedAt,
       knowledgeVersion: GUIDE_KNOWLEDGE.version,
       guideRoute: inferredGuideRoute,
@@ -1201,4 +1237,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };
+module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };
