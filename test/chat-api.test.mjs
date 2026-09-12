@@ -273,6 +273,22 @@ test("first-time traveler topics search current public information without a Nav
   }
 });
 
+test("questions outside the property guide force a current public search", async () => {
+  const output = {
+    model: "gpt-5.4-mini",
+    output_text: "아니요, 한국 식당에서는 일반적으로 팁을 주지 않습니다.",
+    output: [{ type: "web_search_call", action: { sources: [{ title: "Korea travel etiquette", url: "https://english.visitkorea.or.kr/" }] } }],
+    usage: {}
+  };
+  const { res, request, requests } = await callApi({ message: "한국 식당에서는 팁을 줘야 하나요?", language: "ko", history: [] }, output, "203.0.113.63");
+  assert.equal(requests.length, 1);
+  assert.equal(request.body.tool_choice, "required");
+  assert.equal(res.payload.meta.searched, true);
+  assert.equal(res.payload.links.some(link => link.kind === "source"), true);
+  assert.equal(res.payload.links.some(link => link.kind === "guide"), false);
+  assert.match(res.payload.answer, /아니요.*팁/s);
+});
+
 test("exact last-mile property directions use guide knowledge without public web search", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "From Exit 6, look for Kyochon Chicken and the dental sign at Sunil Building, take the elevator to 5F, then go down half a floor to the glass-door reception.\nGUIDE_PAGE: transport", output: [], usage: {} };
   const { request, requests } = await callApi({ message: "I am at Dongdaemun Station Exit 6 but cannot find the building entrance. What landmarks should I look for?", language: "en" }, output, "203.0.113.64");
@@ -465,27 +481,31 @@ test("time-specific family dining combines current search with the complete loca
   assert.match(request.body.instructions, /유아의자/);
 });
 
-test("pre-verified nearby essentials remain available to natural model answers", async () => {
-  const output = { model: "gpt-5.4-mini", output_text: "가장 가까운 편의점은 CU 동대문역점이며 숙소에서 도보 약 2~3분입니다.", output: [], usage: {} };
-  const { res, request, requests } = await callApi({ message: "가장 가까운 편의점 어디야?", language: "ko", history: [] }, output, "203.0.113.70");
-  assert.equal(requests.length, 1);
-  assert.equal(request.body.tool_choice, "auto");
-  assert.equal(res.payload.meta.searched, false);
+test("pre-verified nearby essentials remain available while local place search runs Naver first", async () => {
+  const naverOutput = { model: "gpt-5.4-mini", output_text: "네이버지도에서 CU 동대문역점을 확인했습니다.", output: [{ type: "web_search_call", action: { sources: [{ title: "CU 동대문역점", url: "https://map.naver.com/p/entry/place/20166740" }] } }], usage: {} };
+  const finalOutput = { model: "gpt-5.4-mini", output_text: "가장 가까운 편의점은 CU 동대문역점이며 숙소에서 도보 약 2~3분입니다.", output: [{ type: "web_search_call", action: { sources: [] } }], usage: {} };
+  const { res, request, requests } = await callApi({ message: "가장 가까운 편의점 어디야?", language: "ko", history: [] }, [naverOutput, finalOutput], "203.0.113.70");
+  assert.equal(requests.length, 2);
+  assert.equal(request.body.tool_choice, "required");
+  assert.equal(res.payload.meta.searched, true);
   assert.match(request.body.instructions, /CU 동대문역점/);
   assert.match(res.payload.answer, /도보 약 2~3분/);
+  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 2);
 });
 
-test("ordinary restaurant and attraction recommendations are composed from the curated guide", async () => {
+test("restaurant and attraction recommendations combine curated guide knowledge with live place search", async () => {
   const cases = [
     ["숙소 근처 카페 추천해줘", "ko", "커피한약방과 어니언 안국점을 추천합니다. 두 곳 모두 숙소의 주변 맛집 가이드에 있는 카페입니다.\nGUIDE_PAGE: restaurants", "restaurants"],
     ["What nearby attractions are good for a walk?", "en", "Try Heunginjimun and the Seoul City Wall trail for an easy walk from Another House.\nGUIDE_PAGE: tours", "tours"]
   ];
   for (let index = 0; index < cases.length; index += 1) {
     const [message, language, outputText, route] = cases[index];
-    const { res, request, requests } = await callApi({ message, language, history: [] }, { model: "gpt-5.4-mini", output_text: outputText, output: [], usage: {} }, `203.0.113.${80 + index}`);
-    assert.equal(requests.length, 1);
-    assert.equal(request.body.tool_choice, "auto");
-    assert.equal(res.payload.meta.searched, false);
+    const naverOutput = { model: "gpt-5.4-mini", output_text: "Naver place evidence found.", output: [{ type: "web_search_call", action: { sources: [{ title: "Naver Maps", url: `https://map.naver.com/p/entry/place/${800 + index}` }] } }], usage: {} };
+    const finalOutput = { model: "gpt-5.4-mini", output_text: outputText, output: [{ type: "web_search_call", action: { sources: [] } }], usage: {} };
+    const { res, request, requests } = await callApi({ message, language, history: [] }, [naverOutput, finalOutput], `203.0.113.${80 + index}`);
+    assert.equal(requests.length, 2);
+    assert.equal(request.body.tool_choice, "required");
+    assert.equal(res.payload.meta.searched, true);
     assert.equal(res.payload.links.at(-1).route, route);
   }
 });
