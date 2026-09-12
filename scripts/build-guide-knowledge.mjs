@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-11.8";
+const VERSION = "2026-09-12.1";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -97,7 +97,7 @@ const quickGuideTopics = language => {
   return [
     { id: "luggage", keywords: QUICK_TOPIC_KEYWORDS.luggage[language], answer: answer([luggageLead, stay.luggage.value, stay.luggage.note, ...checkoutLuggage]), source: pageUrl("checkin") },
     { id: "checkin", keywords: QUICK_TOPIC_KEYWORDS.checkin[language], answer: answer(compactPageLines(stay.checkin)), source: pageUrl("checkin") },
-    { id: "checkout", keywords: QUICK_TOPIC_KEYWORDS.checkout[language], answer: answer(compactPageLines(stay.checkout)), source: pageUrl("checkout") },
+    { id: "checkout", keywords: QUICK_TOPIC_KEYWORDS.checkout[language], answer: answer(compactPageLines(stay.checkout)), source: pageUrl("checkin") },
     { id: "wifi", keywords: QUICK_TOPIC_KEYWORDS.wifi[language], answer: answer([wifi.sections?.[0]?.value, wifi.sections?.[2]?.body, wifiPolicy]), source: pageUrl("wifi") },
     { id: "parking", keywords: QUICK_TOPIC_KEYWORDS.parking[language], answer: answer([stay.parking.onSite, stay.parking.intro, stay.parking.places?.[0]?.name, stay.parking.places?.[0]?.address, stay.parking.places?.[0]?.note]), source: pageUrl("checkin") },
     { id: "rules", keywords: QUICK_TOPIC_KEYWORDS.rules[language], answer: answer(compactPageLines(stay.rules)), source: pageUrl("rules") },

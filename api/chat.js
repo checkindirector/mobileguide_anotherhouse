@@ -11,6 +11,16 @@ const LINK_LABELS = {
   zh: { source: "已核实来源", naver: "Naver Maps", google: "Google Maps", place: "查询地点" },
   "zh-TW": { source: "已核實來源", naver: "Naver Maps", google: "Google Maps", place: "查詢地點" }
 };
+const GUIDE_SITE_URL = "https://anotherhouse-guide.vercel.app/";
+const GUIDE_PAGE_ROUTES = new Set(["home", "gallery", "transport", "checkin", "wifi", "appliances", "laundry", "trash", "rules", "restaurants", "tours"]);
+const GUIDE_TOPIC_ROUTES = { luggage: "checkin", checkin: "checkin", checkout: "checkin", wifi: "wifi", parking: "checkin", rules: "rules", appliances: "appliances", laundry: "laundry", waste: "trash", rooms: "gallery", tv: "appliances", contact: "home" };
+const GUIDE_PAGE_LABELS = {
+  ko: { home: "숙소 안내 바로가기", gallery: "객실 둘러보기", transport: "찾아오는 길 바로가기", checkin: "체크인 · 체크아웃 안내 바로가기", wifi: "Wi-Fi 안내 바로가기", appliances: "냉난방 · 주방기기 사용법 보기", laundry: "세탁 안내 바로가기", trash: "쓰레기 배출 안내 바로가기", rules: "숙소 이용 규칙 보기", restaurants: "주변 맛집 전체 보기", tours: "추천 근교 투어 전체 보기" },
+  en: { home: "Open the property guide", gallery: "Explore the rooms", transport: "Open directions guide", checkin: "Open check-in & check-out guide", wifi: "Open Wi-Fi guide", appliances: "Open appliance guide", laundry: "Open laundry guide", trash: "Open waste guide", rules: "Open house rules", restaurants: "View all nearby dining", tours: "View all recommended tours" },
+  ja: { home: "宿泊案内を開く", gallery: "客室を見る", transport: "アクセス案内を開く", checkin: "チェックイン・アウト案内を開く", wifi: "Wi-Fi案内を開く", appliances: "設備・家電案内を開く", laundry: "洗濯案内を開く", trash: "ごみ分別案内を開く", rules: "宿泊ルールを見る", restaurants: "周辺グルメをすべて見る", tours: "おすすめ観光地をすべて見る" },
+  zh: { home: "打开住宿指南", gallery: "查看客房", transport: "打开交通指南", checkin: "打开入住与退房指南", wifi: "打开 Wi-Fi 指南", appliances: "打开设备使用指南", laundry: "打开洗衣指南", trash: "打开垃圾分类指南", rules: "查看住宿规则", restaurants: "查看全部周边美食", tours: "查看全部推荐行程" },
+  "zh-TW": { home: "開啟住宿指南", gallery: "查看客房", transport: "開啟交通指南", checkin: "開啟入住與退房指南", wifi: "開啟 Wi-Fi 指南", appliances: "開啟設備使用指南", laundry: "開啟洗衣指南", trash: "開啟垃圾分類指南", rules: "查看住宿規則", restaurants: "查看全部周邊美食", tours: "查看全部推薦行程" }
+};
 const recentRequests = new Map();
 const AIRPORT_BUS_PATTERN = /(공항\s*(?:버스|리무진)|리무진\s*버스|공항리무진|airport\s*(?:bus|limousine|coach|shuttle)|limousine\s*bus|空港\s*(?:バス|リムジン)|リムジン\s*バス|机场\s*(?:巴士|大巴)|機場\s*(?:巴士|客運)|机场大巴|機場巴士)/i;
 const INCHEON_AIRPORT_PATTERN = /(인천\s*(?:국제)?공항|incheon\s*(?:international\s*)?airport|仁川(?:国際|國際)?空港|仁川(?:国际|國際)?机场|仁川(?:國際)?機場)/i;
@@ -153,6 +163,31 @@ function quickGuideFromQuestion(message, language) {
     if ((topic.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword)))) return topic;
   }
   return null;
+}
+
+function guidePageLink(route, language) {
+  const safeRoute = GUIDE_PAGE_ROUTES.has(route) ? route : "home";
+  const labels = GUIDE_PAGE_LABELS[language] || GUIDE_PAGE_LABELS.ko;
+  return { kind: "guide", label: labels[safeRoute], url: `${GUIDE_SITE_URL}?page=${safeRoute}`, route: safeRoute };
+}
+
+function guideRouteFromQuestion(message, language) {
+  const quickTopic = quickGuideFromQuestion(message, language);
+  if (quickTopic) return GUIDE_TOPIC_ROUTES[quickTopic.id] || "home";
+  const text = String(message || "");
+  const restaurants = GUIDE_KNOWLEDGE.hostRecommendations?.[language]?.restaurants || GUIDE_KNOWLEDGE.hostRecommendations?.ko?.restaurants || [];
+  const tours = GUIDE_KNOWLEDGE.hostRecommendations?.[language]?.tours || GUIDE_KNOWLEDGE.hostRecommendations?.ko?.tours || [];
+  if (restaurants.some(place => placeMatchesQuestion(place, text)) || DINING_INTENT_PATTERN.test(text)) return "restaurants";
+  if (tours.some(place => placeMatchesQuestion(place, text)) || /(투어|tour|ツアー|行程)/i.test(text) || CURATED_TOUR_PATTERN.test(text)) return "tours";
+  if (/(공항|리무진|교통|찾아오|오는\s*길|가는\s*길|동대문역|6번\s*출구|선일\s*빌딩|주소|위치|airport|limousine|transport|directions?|dongdaemun|exit\s*6|sunil|address|location|空港|アクセス|行き方|東大門|6番出口|住所|交通|机场|機場|交通|路线|路線|东大门|東大門|6号出口|6號出口|地址|位置)/i.test(text)) return "transport";
+  if (/(체크인|체크아웃|입실|퇴실|키오스크|키\s*카드|카드키|짐\s*보관|러기지|주차|예약\s*플랫폼|호스트\s*연락|check.?in|check.?out|kiosk|key\s*card|luggage|parking|booking\s*platform|contact\s*(?:the\s*)?host|チェックイン|チェックアウト|キオスク|キーカード|荷物|駐車|入住|退房|自助机|自助機|房卡|行李|停车|停車)/i.test(text)) return "checkin";
+  if (/(와이파이|wi-?fi|인터넷|無線網路|无线网络)/i.test(text)) return "wifi";
+  if (/(세탁|건조기|빨래|laundry|washing\s*machine|dryer|洗濯|乾燥機|洗衣|烘干机|烘乾機)/i.test(text)) return "laundry";
+  if (/(쓰레기|분리수거|분리배출|trash|waste|recycl|garbage|ごみ|ゴミ|分別|垃圾|回收)/i.test(text)) return "trash";
+  if (/(숙소\s*규칙|이용\s*규칙|흡연|금연|소음|파티|반려동물|외부인|house\s*rules?|smoking|noise|party|pet|outside\s*guest|宿泊ルール|利用規則|喫煙|騒音|ペット|住宿规则|住宿規則|吸烟|吸菸|噪音|派对|派對|宠物|寵物)/i.test(text)) return "rules";
+  if (/(냉난방|에어컨|난방|인덕션|전자레인지|냉장고|tv|티비|텔레비전|ott|넷플릭스|air\s*condition|heating|induction|microwave|refrigerator|television|netflix|冷暖房|エアコン|電子レンジ|冷蔵庫|テレビ|空调|空調|暖气|暖氣|电磁炉|電磁爐|微波炉|微波爐|冰箱|电视|電視)/i.test(text)) return "appliances";
+  if (/(객실|방\s*종류|싱글룸|2인실|더블룸|샤워실|여성\s*전용|프라이빗|room|single|double|shower|women.?only|private\s*stay|客室|シングル|2人部屋|シャワー|女性専用|房型|单人房|單人房|双人房|雙人房|淋浴|女性专用|女性專用)/i.test(text)) return "gallery";
+  return PROPERTY_ONLY_PATTERN.test(text) ? "home" : null;
 }
 
 function isPlaceSearchIntent(message) {
@@ -825,7 +860,7 @@ function curatedGuidePlaces(message, language) {
     { kind: "map", label: `${place.name} · ${labels.naver}`, url: place.maps?.naver },
     { kind: "map", label: `${place.name} · ${labels.google}`, url: place.maps?.google }
   ]).filter(link => trustedUrl(link.url));
-  return { answer: `${opening}\n\n${lines.join("\n\n")}\n\n${closing}`, links, mapContext: null };
+  return { answer: `${opening}\n\n${lines.join("\n\n")}\n\n${closing}`, links, mapContext: null, guideRoute: type === "restaurant" ? "restaurants" : "tours" };
 }
 
 function validateResolvedSpot(nameValue, addressValue) {
@@ -988,7 +1023,7 @@ module.exports = async function handler(req, res) {
   const accessSupport = anotherHouseAccessSupport(message, history, language);
   if (accessSupport) {
     console.log(JSON.stringify({ event: "concierge_access_support", stage: accessSupport.stage, language, durationMs: Date.now() - startedAt }));
-    return res.status(200).json({ answer: accessSupport.answer, model: "another-house-access-support", links: [], meta: { searched: false, accessSupport: true, durationMs: Date.now() - startedAt } });
+    return res.status(200).json({ answer: accessSupport.answer, model: "another-house-access-support", links: [guidePageLink("checkin", language)], meta: { searched: false, accessSupport: true, durationMs: Date.now() - startedAt } });
   }
   const mapFollowup = mapFollowupFromHistory(message, rawHistory, language);
   if (mapFollowup) {
@@ -998,22 +1033,23 @@ module.exports = async function handler(req, res) {
   const quickGuide = quickGuideFromQuestion(message, language);
   if (quickGuide) {
     console.log(JSON.stringify({ event: "concierge_site_guide", topic: quickGuide.id, language, durationMs: Date.now() - startedAt }));
-    return res.status(200).json({ answer: quickGuide.answer, model: "another-house-site-guide", links: [], mapContext: null, meta: { searched: false, siteGuide: true, topic: quickGuide.id, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+    const route = GUIDE_TOPIC_ROUTES[quickGuide.id] || "home";
+    return res.status(200).json({ answer: quickGuide.answer, model: "another-house-site-guide", links: [guidePageLink(route, language)], mapContext: null, meta: { searched: false, siteGuide: true, topic: quickGuide.id, guideRoute: route, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
   const airportTransport = verifiedAirportTransport(message, language);
   if (airportTransport) {
     console.log(JSON.stringify({ event: "concierge_verified_airport_transport", language, mode: airportTransport.mode, serviceDay: airportTransport.serviceDay || null, verifiedAt: airportTransport.verifiedAt, durationMs: Date.now() - startedAt }));
-    return res.status(200).json({ answer: airportTransport.answer, model: "another-house-verified-airport-transport", links: airportTransport.links, mapContext: null, meta: { searched: false, verifiedAirportTransport: true, mode: airportTransport.mode, serviceDay: airportTransport.serviceDay || null, verifiedAt: airportTransport.verifiedAt, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+    return res.status(200).json({ answer: airportTransport.answer, model: "another-house-verified-airport-transport", links: [...airportTransport.links, guidePageLink("transport", language)], mapContext: null, meta: { searched: false, verifiedAirportTransport: true, mode: airportTransport.mode, serviceDay: airportTransport.serviceDay || null, verifiedAt: airportTransport.verifiedAt, guideRoute: "transport", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
   const familyDining = verifiedFamilyDining(message, language);
   if (familyDining) {
     console.log(JSON.stringify({ event: "concierge_verified_family_dining", language, places: familyDining.links.length / 2, verifiedAt: familyDining.verifiedAt, durationMs: Date.now() - startedAt }));
-    return res.status(200).json({ answer: familyDining.answer, model: "another-house-verified-family-dining", links: familyDining.links, mapContext: null, meta: { searched: false, verifiedFamilyDining: true, verifiedAt: familyDining.verifiedAt, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+    return res.status(200).json({ answer: familyDining.answer, model: "another-house-verified-family-dining", links: [...familyDining.links, guidePageLink("restaurants", language)], mapContext: null, meta: { searched: false, verifiedFamilyDining: true, verifiedAt: familyDining.verifiedAt, guideRoute: "restaurants", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
   const verifiedHours = verifiedPlaceHours(message, language);
   if (verifiedHours) {
     console.log(JSON.stringify({ event: "concierge_verified_place_hours", language, place: verifiedHours.mapContext?.name, verifiedAt: verifiedHours.verifiedAt, durationMs: Date.now() - startedAt }));
-    return res.status(200).json({ answer: verifiedHours.answer, model: "another-house-verified-place", links: verifiedHours.links, mapContext: verifiedHours.mapContext, meta: { searched: false, verifiedPlaceHours: true, verifiedAt: verifiedHours.verifiedAt, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+    return res.status(200).json({ answer: verifiedHours.answer, model: "another-house-verified-place", links: [...verifiedHours.links, guidePageLink("restaurants", language)], mapContext: verifiedHours.mapContext, meta: { searched: false, verifiedPlaceHours: true, verifiedAt: verifiedHours.verifiedAt, guideRoute: "restaurants", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
   const nearbyDirectory = verifiedNearbyPlaces(message, language);
   if (nearbyDirectory) {
@@ -1023,7 +1059,7 @@ module.exports = async function handler(req, res) {
   const curatedPlaces = curatedGuidePlaces(message, language);
   if (curatedPlaces) {
     console.log(JSON.stringify({ event: "concierge_curated_places", language, links: curatedPlaces.links.length, durationMs: Date.now() - startedAt }));
-    return res.status(200).json({ answer: curatedPlaces.answer, model: "another-house-curated-local-guide", links: curatedPlaces.links, mapContext: curatedPlaces.mapContext, meta: { searched: false, curatedLocalGuide: true, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+    return res.status(200).json({ answer: curatedPlaces.answer, model: "another-house-curated-local-guide", links: [...curatedPlaces.links, guidePageLink(curatedPlaces.guideRoute, language)], mapContext: curatedPlaces.mapContext, meta: { searched: false, curatedLocalGuide: true, guideRoute: curatedPlaces.guideRoute, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return res.status(500).json({ error: "AI service is not configured" });
@@ -1111,6 +1147,9 @@ module.exports = async function handler(req, res) {
     const hoursFallback = unconfirmedHoursFallback(message, answer, language, resolved.spot);
     if (hoursFallback) answer = hoursFallback.answer;
     const links = [...(hoursFallback?.links || mapLinks(message, answer, language, searched, resolved.spot)), ...sourceLinks].slice(0, 5);
+    const inferredGuideRoute = guideRouteFromQuestion(message, language);
+    const exactGuidePlace = guidePlaceFromQuestion(message, language);
+    if (inferredGuideRoute && (!searched || exactGuidePlace)) links.push(guidePageLink(inferredGuideRoute, language));
     const hasMapLinks = links.some(link => link.kind === "map");
     const mapContext = hoursFallback?.mapContext || (placeSearch && resolved.spot ? resolved.spot : null);
     if (placeSearch && !hasMapLinks) {
@@ -1130,6 +1169,7 @@ module.exports = async function handler(req, res) {
       durationMs: Date.now() - startedAt,
       knowledgeVersion: GUIDE_KNOWLEDGE.version
     };
+    if (inferredGuideRoute && (!searched || exactGuidePlace)) meta.guideRoute = inferredGuideRoute;
     console.log(JSON.stringify({ event: "concierge_usage", model: data.model || MODEL, ...meta }));
     return res.status(200).json({ answer, model: data.model || MODEL, links, mapContext, meta });
   } catch (error) {
@@ -1138,4 +1178,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, normalizeGuideMatch, quickGuideFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };
+module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, normalizeGuideMatch, quickGuideFromQuestion, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };

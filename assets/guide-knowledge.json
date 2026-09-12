@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-11.8",
+  "version": "2026-09-12.1",
   "generatedAt": "2026-09-11",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -103,7 +103,7 @@
           "퇴실 방법"
         ],
         "answer": "체크아웃은 11:00까지입니다. 카드키 반납과 공용공간 정리를 마친 뒤 출입구 문이 완전히 닫혔는지 확인해 주세요.\n객실에 두고 가는 물건이 없는지 확인하고, 사용한 공용 물품은 원위치해 주세요.\n사용한 식기는 설거지 후 원위치하고, 쓰레기는 공용 주방에서 종류별로 분리해 주세요.\n사용한 수건은 샤워실 앞 파우더룸의 타월 바구니에 넣어 주세요.\n에너지 절약을 위해 객실 카드키를 뽑아 전원을 차단해 주세요.\n키오스크에서 체크아웃을 선택한 뒤 카드키를 반납해 주세요.\n나오실 때 다른 투숙객의 안전을 위해 출입구 문이 완전히 닫혔는지 확인해 주세요.\n체크아웃 당일에 한해 러기지룸에 무료로 보관할 수 있습니다.\n레이트 체크아웃은 불가합니다.",
-        "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
       },
       {
         "id": "wifi",
@@ -250,7 +250,7 @@
           "departure procedure"
         ],
         "answer": "Check out by 11:00. Return the key card, restore shared items, and make sure the entrance door is fully closed.\nCheck for personal belongings and return shared items to their original places.\nWash and return used dishes, then sort waste in the shared kitchen.\nPlace used towels in the towel basket in the powder room outside the showers.\nRemove the room key card to switch off the room power.\nSelect checkout at the kiosk and return the key card.\nFor everyone’s safety, make sure the entrance door is fully closed when you leave.\nFree luggage storage is available in the luggage room until later on the day of checkout.\nLate checkout is not available.",
-        "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
       },
       {
         "id": "wifi",
@@ -393,7 +393,7 @@
           "退室方法"
         ],
         "answer": "チェックアウトは11:00までです。カードキーを返却し、共用品を元に戻して入口の扉が完全に閉まったことをご確認ください。\n忘れ物がないか確認し、使用した共用品は元の場所へ戻してください。\n使用した食器は洗って元に戻し、ごみは共用キッチンで分別してください。\n使用済みタオルはシャワー室前パウダールームのタオルかごに入れてください。\n省エネのため客室のカードキーを抜いて電源を切ってください。\nキオスクでチェックアウトを選び、カードキーを返却してください。\n他のゲストの安全のため、退出時に入口の扉が完全に閉まったことをご確認ください。\nチェックアウト当日に限り、ラゲッジルームで無料保管できます。\nレイトチェックアウトはできません。",
-        "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
       },
       {
         "id": "wifi",
@@ -533,7 +533,7 @@
           "办理退房"
         ],
         "answer": "请于11:00前退房。归还房卡、整理公共用品，并确认入口门已完全关闭。\n确认没有遗留个人物品，并将使用过的公共用品放回原位。\n使用过的餐具请清洗后放回原位，垃圾请在公共厨房分类投放。\n使用过的毛巾请放入淋浴间前化妆区的毛巾篮。\n为节约能源，请拔出客房房卡以切断电源。\n在自助机上选择退房后归还房卡。\n为保障其他住客安全，离开时请确认入口门已完全关闭。\n仅限退房当天可在行李室免费寄存。\n不提供延迟退房。",
-        "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
       },
       {
         "id": "wifi",
@@ -671,7 +671,7 @@
           "辦理退房"
         ],
         "answer": "請於11:00前退房。歸還房卡、整理公共用品，並確認入口門已完全關閉。\n確認沒有遺留個人物品，並將使用過的公共用品放回原位。\n使用過的餐具請清洗後放回原位，垃圾請在公共廚房分類投放。\n使用過的毛巾請放入淋浴間前化妝區的毛巾籃。\n為節約能源，請拔出客房房卡以切斷電源。\n在自助機上選擇退房後歸還房卡。\n為保障其他住客安全，離開時請確認入口門已完全關閉。\n僅限退房當天可在行李室免費寄存。\n不提供延遲退房。",
-        "source": "https://anotherhouse-guide.vercel.app/?page=checkout"
+        "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
       },
       {
         "id": "wifi",

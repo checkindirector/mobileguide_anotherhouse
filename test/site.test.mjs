@@ -590,6 +590,18 @@ test("floating concierge speech bubble is visible, clickable, and localized",asy
   }
 });
 
+test("chat guide links open the matching in-site page and survive API fallback",async()=>{
+  const html=await read("index.html");
+  const app=await read("assets/master-app.js");
+  assert.match(html,/\.msg-link\.is-guide\{[^}]*background:var\(--signature\)[^}]*color:#fff/);
+  assert.match(app,/kind=link\.kind==='map'\?'map':link\.kind==='guide'\?'guide':'source'/);
+  assert.match(app,/kind==='guide'&&link\.route/);
+  assert.match(app,/event\.preventDefault\(\);closeChat\(\);show\(link\.route\)/);
+  assert.match(app,/links:\[fallbackGuideLink\(guideRoute\)\]/);
+  assert.match(app,/fallbackGuideLink\('transport'\)/);
+  for(const label of ['체크인 · 체크아웃 안내 바로가기','Open check-in & check-out guide','チェックイン・アウト案内を開く','打开入住与退房指南','開啟入住與退房指南']) assert.ok(app.includes(label));
+});
+
 test("greeting waits for intro, closes after five seconds, and stays dismissed",async()=>{
   const source=await read("assets/master-app.js");
   const block=source.slice(source.indexOf('let chatGreetingTimer='),source.indexOf('\nfunction renderAll(){'));

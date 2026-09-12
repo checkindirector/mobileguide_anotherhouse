@@ -70,12 +70,14 @@ test("non-indexed property question uses server knowledge, gpt-5.4-mini, and no 
   assert.equal(request.body.model, "gpt-5.4-mini");
   assert.equal(request.body.store, false);
   assert.equal(request.body.tools, undefined);
-  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-11\.8/);
+  assert.match(request.body.instructions, /CURRENT_GUIDE version 2026-09-12\.1/);
   assert.match(request.body.instructions, /MAP_SPOT: <canonical place name> \| <complete street address>/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-11.8-ko");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-12.1-ko");
   assert.equal(res.payload.meta.cachedTokens, 80);
   assert.equal(res.payload.meta.searched, false);
+  assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "home"]]);
+  assert.equal(res.payload.links[0].url, "https://anotherhouse-guide.vercel.app/?page=home");
 });
 
 test("luggage storage is answered from the current site in all five languages without AI or web search", async () => {
@@ -95,7 +97,9 @@ test("luggage storage is answered from the current site in all five languages wi
     assert.equal(res.payload.meta.searched, false);
     assert.equal(res.payload.meta.siteGuide, true);
     assert.equal(res.payload.meta.topic, "luggage");
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.8");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.1");
+    assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
+    assert.equal(res.payload.links[0].url, "https://anotherhouse-guide.vercel.app/?page=checkin");
     assert.match(res.payload.answer, expected);
     assert.doesNotMatch(res.payload.answer, /최신 공개정보|public information|公开信息|公開資訊/);
   }
@@ -123,8 +127,30 @@ test("common questions across every current guide area use the generated site in
     assert.equal(requests.length, 0, `${topic} must not call AI`);
     assert.equal(res.payload.model, "another-house-site-guide");
     assert.equal(res.payload.meta.topic, topic);
+    assert.equal(res.payload.links.length, 1);
+    assert.equal(res.payload.links[0].kind, "guide");
+    assert.equal(res.payload.links[0].route, ({ checkin: "checkin", checkout: "checkin", parking: "checkin", rules: "rules", appliances: "appliances", laundry: "laundry", waste: "trash", rooms: "gallery", tv: "appliances", contact: "home", wifi: "wifi" })[topic]);
     assert.ok(res.payload.answer.length >= 10);
   }
+});
+
+test("late checkout answers link to the combined check-in page instead of a nonexistent route", async () => {
+  const { res, requests } = await callApi({ message: "레이트 체크아웃", language: "ko", history: [] }, { model: "unused" }, "203.0.113.140");
+  assert.equal(requests.length, 0);
+  assert.equal(res.payload.meta.topic, "checkout");
+  assert.equal(res.payload.links[0].route, "checkin");
+  assert.equal(res.payload.links[0].label, "체크인 · 체크아웃 안내 바로가기");
+  assert.match(res.payload.links[0].url, /\?page=checkin$/);
+});
+
+test("every site section can resolve to its own guide page", () => {
+  const cases = [
+    ["숙소 소개와 여성 전용 여부", "ko", "gallery"], ["주소와 찾아오는 길", "ko", "transport"],
+    ["체크인 시간", "ko", "checkin"], ["Wi-Fi 안내", "en", "wifi"], ["전자레인지 사용법", "ko", "appliances"],
+    ["세탁기 사용법", "ko", "laundry"], ["분리수거", "ko", "trash"], ["흡연 규칙", "ko", "rules"],
+    ["주변 맛집 추천", "ko", "restaurants"], ["추천 근교 투어", "ko", "tours"], ["조식 제공 여부", "ko", "home"]
+  ];
+  for (const [message, language, route] of cases) assert.equal(handler._internals.guideRouteFromQuestion(message, language), route, message);
 });
 
 test("ordinary kiosk check-in questions stay in the guide instead of key-card recovery", async () => {
@@ -136,6 +162,7 @@ test("ordinary kiosk check-in questions stay in the guide instead of key-card re
   assert.equal(requests.length, 0);
   assert.equal(res.payload.model, "another-house-site-guide");
   assert.equal(res.payload.meta.topic, "checkin");
+  assert.equal(res.payload.links[0].route, "checkin");
   assert.match(res.payload.answer, /셀프 체크인|키오스크/);
   assert.doesNotMatch(res.payload.answer, /새 키카드/);
 });
@@ -280,7 +307,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.mode, "night");
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.8");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.1");
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
@@ -359,7 +386,7 @@ test("family dining near Another House uses verified local places without a frag
   assert.equal(res.payload.model, "another-house-verified-family-dining");
   assert.equal(res.payload.meta.verifiedFamilyDining, true);
   assert.equal(res.payload.meta.searched, false);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-11.8");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.1");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);
@@ -367,8 +394,9 @@ test("family dining near Another House uses verified local places without a frag
   assert.match(res.payload.answer, /24시간·연중무휴/);
   assert.match(res.payload.answer, /에그드랍 동대문점/);
   assert.doesNotMatch(res.payload.answer, /확정하기 어렵|전화.*문의|원하시면.*좁혀/);
-  assert.equal(res.payload.links.length, 8);
+  assert.equal(res.payload.links.length, 9);
   assert.equal(res.payload.links.filter(link => link.kind === "map").length, 8);
+  assert.equal(res.payload.links.at(-1).route, "restaurants");
   assert.equal(res.payload.links.some(link => /%EC%84%9C%EC%9A%B8%EC%8B%9C.*294/.test(link.url)), false);
   assert.equal(res.payload.links[0].url, "https://map.naver.com/p/entry/place/2046166635");
   assert.equal(res.payload.links[2].url, "https://map.naver.com/p/entry/place/1384336990");
@@ -500,7 +528,8 @@ test("unconfirmed hours for a known guide venue show immediate Naver and Google 
   const { res } = await callApi({ message: "태극당 영업시간 알려줘", language: "ko", history: [] }, [naverOutput, crossCheckOutput], "203.0.113.53");
   assert.match(res.payload.answer, /네이버지도 또는 Google Maps에서 지금 바로/);
   assert.doesNotMatch(res.payload.answer, /전화|문의/);
-  assert.deepEqual(res.payload.links.map(link => link.kind), ["map", "map"]);
+  assert.deepEqual(res.payload.links.map(link => link.kind), ["map", "map", "guide"]);
+  assert.equal(res.payload.links[2].route, "restaurants");
   assert.match(res.payload.links[0].label, /^태극당 · 네이버 지도$/);
   assert.match(res.payload.links[1].label, /^태극당 · Google Maps$/);
   assert.equal(res.payload.mapContext, null);
@@ -558,14 +587,15 @@ test("airport boarding questions show no source or property map when the model d
   };
   const { res } = await callApi({ message: "공항리무진은 어디서 타나요?", language: "ko" }, output, "203.0.113.44");
   assert.equal(res.payload.meta.searched, false);
-  assert.deepEqual(res.payload.links, []);
+  assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "transport"]]);
 });
 
 test("address answer includes two clickable map links", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "주소는 서울시 종로구 종로 294 선일빌딩 5층입니다.", output: [], usage: {} };
   const { res } = await callApi({ message: "숙소 주소가 어디야?", language: "ko" }, output, "203.0.113.23");
-  assert.deepEqual(res.payload.links.map(link => link.label), ["네이버 지도", "Google Maps"]);
-  assert.ok(res.payload.links.every(link => link.kind === "map" && /^https:/.test(link.url)));
+  assert.deepEqual(res.payload.links.slice(0, 2).map(link => link.label), ["네이버 지도", "Google Maps"]);
+  assert.ok(res.payload.links.slice(0, 2).every(link => link.kind === "map" && /^https:/.test(link.url)));
+  assert.deepEqual([res.payload.links[2].kind, res.payload.links[2].route], ["guide", "transport"]);
 });
 
 test("specific public parking map links come before source links", async () => {
@@ -635,7 +665,7 @@ test("the server-only code is released only after repeated key-card failure cont
   const res = await callAccess({ message: "그래도 안 됩니다. 공동현관 비밀번호 알려주세요", language: "ko", history });
   assert.match(res.payload.answer, /TESTACCESSCODE → ENT/);
   assert.equal(res.payload.meta.accessSupport, true);
-  assert.deepEqual(res.payload.links, []);
+  assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
 });
 
 test("natural phone failure wording stays inside the Another House recovery flow", async () => {
@@ -675,7 +705,7 @@ test("the photographed natural-language loop releases the server-only code after
   const res = await callAccess({ message: "공동현관 비밀번호", language: "ko", history });
   assert.match(res.payload.answer, /TESTACCESSCODE → ENT/);
   assert.equal(res.payload.meta.accessSupport, true);
-  assert.deepEqual(res.payload.links, []);
+  assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
 });
 
 test("duplicate current question is removed from recent history", async () => {
