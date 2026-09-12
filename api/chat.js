@@ -43,6 +43,7 @@ const NON_PLACE_TRAVEL_PATTERN = /(e[\s-]?sim|로밍|roaming|전압|콘센트|�
 const TRAVEL_PUBLIC_PATTERN = /(교통카드|티머니|t[\s-]?money|와우패스|wowpass|신용카드|체크카드|비자\s*카드|마스터\s*카드|카드\s*결제|현금|환전|원화|tax\s*refund|면세|결제|payment|credit\s*card|debit\s*card|visa\s*card|mastercard|cash|currency|exchange|sim\s*card|e[\s-]?sim|유심|로밍|roaming|택시|taxi|카카오\s*t|kakao\s*t|짐\s*보관|수하물\s*보관|luggage\s*storage|locker|코인\s*라커|전압|콘센트|플러그|voltage|power\s*plug|socket|번역\s*앱|translation\s*app|여행자\s*보험|travel\s*insurance|응급|구급차|경찰|병원|약국|의사|medical|ambulance|police|hospital|pharmacy|doctor|交通卡|交通カード|クレジットカード|現金|両替|换汇|換匯|信用卡|现金|電話卡|网卡|網卡|行李寄存|行李寄放|电压|電壓|插头|插頭|急救|救护车|救護車|警察|医院|醫院|药店|藥局)/i;
 const HAIR_DRYER_PATTERN = /(헤어\s*드라이(?:어|기)|드라이(?:어|기)|hair\s*dryers?|hairdryers?|blow\s*dryers?|blowdryers?|ヘアドライヤー|ドライヤー|吹风机|吹風機|电吹风|電吹風)/i;
 const HAIR_STRAIGHTENER_PATTERN = /(고데기|hair\s*straightener|flat\s*iron|ヘアアイロン|直发器|直髮器|夹板|離子夾)/i;
+const GUEST_BOX_ITEM_PATTERN = /(여분\s*(?:수건|타월)|수건|타월|칫솔|치약|밴드|반창고|여행용\s*어댑터|변환\s*어댑터|물티슈|비닐\s*봉투|extra\s*towels?|spare\s*towels?|towels?|toothbrush|toothpaste|dental\s*kit|band-?aids?|bandages?|plasters?|travel\s*adapter|plug\s*adapter|power\s*adapter|wet\s*wipes?|plastic\s*bags?|予備タオル|タオル|歯ブラシ|歯磨き|歯みがき|絆創膏|ばんそうこう|旅行用アダプター|変換アダプター|電源アダプター|ウェットティッシュ|ビニール袋|ポリ袋|备用毛巾|備用毛巾|额外毛巾|額外毛巾|毛巾|牙刷|牙膏|牙具|创可贴|創可貼|止血贴|OK繃|旅行转换插头|旅行轉接頭|转换插头|轉換插頭|转换器|轉接頭|湿巾|溼巾|湿紙巾|溼紙巾|塑料袋|塑膠袋)/i;
 const MAP_FOLLOWUP_PATTERN = /(?:^|\s)(?:네|예|응|그래|좋아|주세요|보여\s*줘|열어\s*줘|연결(?:해\s*줘|해주세요|해)?|지도(?:\s*링크)?|네이버\s*지도|구글\s*맵|yes|sure|please|show|open|connect|map(?:s)?|はい|お願い|見せて|開いて|地図|好的|可以|请|請|地图|地圖)(?:\s|$|[,.!?])/i;
 const SMALL_TALK_PATTERN = /^(?:안녕(?:하세요)?|감사(?:합니다|해요)?|고마워(?:요)?|괜찮아(?:요)?|좋아(?:요)?|hello|hi|hey|thanks?|thank\s+you|okay|ok|こんにちは|こんばんは|ありがとう|你好|您好|谢谢|謝謝)[\s.!?~]*$/i;
 const NAVER_MAP_DOMAINS = ["map.naver.com", "m.place.naver.com", "pcmap.place.naver.com", "naver.me"];
@@ -200,10 +201,16 @@ function quickGuideFromQuestion(message, language) {
 function verifiedHairTool(message, language) {
   const text = String(message || "");
   if (!HAIR_DRYER_PATTERN.test(text) && !HAIR_STRAIGHTENER_PATTERN.test(text)) return null;
+  return verifiedGuestBoxItem(text, language);
+}
+
+function verifiedGuestBoxItem(message, language) {
+  const text = String(message || "");
+  if (!HAIR_DRYER_PATTERN.test(text) && !HAIR_STRAIGHTENER_PATTERN.test(text) && !GUEST_BOX_ITEM_PATTERN.test(text)) return null;
   const topic = (GUIDE_KNOWLEDGE.quickGuide?.[language] || GUIDE_KNOWLEDGE.quickGuide?.ko || []).find(item => item.id === "appliances");
   const normalized = normalizeGuideMatch(text);
   const direct = (topic?.directAnswers || []).find(item => (item.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword))));
-  return direct?.answer ? { answer: direct.answer, item: HAIR_DRYER_PATTERN.test(text) ? "hair-dryer" : "hair-straightener" } : null;
+  return direct?.answer ? { answer: direct.answer, item: direct.item || null, returnPolicy: direct.returnPolicy || null } : null;
 }
 
 function guidePageLink(route, language) {
@@ -1021,6 +1028,7 @@ PRIORITY A — CURRENT PROPERTY GUIDE:
 - If the guide does not establish the answer, begin with the localized equivalent of “The current guide does not confirm this.” Do not imply yes or no.
 - Before saying that the guide does not confirm something, check every matching record and synonym in the full guide. The opening conclusion must never contradict a fact stated later in the same answer.
 - A hair straightener (고데기 / hair straightener / ヘアアイロン / 直发器 / 直髮器) and a hair dryer are different appliances. CURRENT_GUIDE confirms only a shared hair straightener. It does not confirm a hair dryer, so never say that a hair dryer is available or describe its location.
+- In the Guest Box, only the travel adapter and hair straightener are loaned items that must be returned after use. Extra towels, disposable dental kits, bandages, wet wipes, and plastic bags are guest-use supplies. Never tell a guest to return a used towel or any other guest-use supply to the Guest Box.
 - Never paste or paraphrase an entire guide section merely because it contains a matching word. For a narrow factual question, answer only that fact plus at most one or two directly useful details. Give the complete procedure only when the guest explicitly asks for instructions, steps, or the full guide.
 - Read the whole relevant record before answering. Distinguish the subject from the attribute being requested: existence, quantity, capacity, model, location, time, permission, price and procedure are different questions. A question about capacity must answer the capacity, not merely confirm that the device exists.
 - Treat explicit structured values such as *CapacityKg, counts, booleans, times and addresses as conclusive first-party facts. Do not call them unclear merely because a display label combines multiple values; answer the requested field exactly.
@@ -1119,10 +1127,10 @@ module.exports = async function handler(req, res) {
     console.log(JSON.stringify({ event: "concierge_map_followup", language, place: mapFollowup.mapContext.name, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ ...mapFollowup, model: "another-house-map-links", meta: { searched: false, mapFollowup: true, durationMs: Date.now() - startedAt } });
   }
-  const hairTool = verifiedHairTool(message, language);
-  if (hairTool) {
-    console.log(JSON.stringify({ event: "concierge_verified_amenity", item: hairTool.item, language, durationMs: Date.now() - startedAt }));
-    return res.status(200).json({ answer: hairTool.answer, model: "another-house-verified-amenity", links: [guidePageLink("appliances", language)], mapContext: null, meta: { searched: false, verifiedAmenity: true, item: hairTool.item, guideRoute: "appliances", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+  const verifiedAmenity = verifiedGuestBoxItem(message, language);
+  if (verifiedAmenity) {
+    console.log(JSON.stringify({ event: "concierge_verified_amenity", item: verifiedAmenity.item, returnPolicy: verifiedAmenity.returnPolicy, language, durationMs: Date.now() - startedAt }));
+    return res.status(200).json({ answer: verifiedAmenity.answer, model: "another-house-verified-amenity", links: [guidePageLink("appliances", language)], mapContext: null, meta: { searched: false, verifiedAmenity: true, item: verifiedAmenity.item, returnPolicy: verifiedAmenity.returnPolicy, guideRoute: "appliances", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
   const airportTransport = verifiedAirportTransport(message, language);
   if (airportTransport) {
@@ -1300,4 +1308,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, localizedRouteKnowledge, usesPropertyAsRouteOrigin, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, verifiedHairTool, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };
+module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, localizedRouteKnowledge, usesPropertyAsRouteOrigin, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, verifiedHairTool, verifiedGuestBoxItem, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };

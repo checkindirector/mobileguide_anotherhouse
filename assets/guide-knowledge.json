@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-12.7",
+  "version": "2026-09-12.8",
   "generatedAt": "2026-09-11",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -229,6 +229,8 @@
         "lead": "네, 숙소에 냉난방·주방 기기가 마련되어 있습니다.",
         "directAnswers": [
           {
+            "item": "hair-dryer",
+            "returnPolicy": "unconfirmed",
             "keywords": [
               "헤어드라이어",
               "헤어드라이기",
@@ -238,10 +240,71 @@
             "answer": "현재 숙소 안내에는 헤어드라이어 제공 여부가 확인되지 않습니다. 게스트박스에는 헤어 고데기만 안내되어 있습니다. 필요하면 예약 플랫폼 메시지로 호스트에게 확인해 주세요."
           },
           {
+            "item": "hair-straightener",
+            "returnPolicy": "return",
             "keywords": [
               "고데기"
             ],
             "answer": "네, 헤어 고데기는 공용 공간의 게스트박스에 준비되어 있습니다. 사용 후에는 제자리에 돌려놓아 주세요."
+          },
+          {
+            "item": "extra-towel",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "여분수건",
+              "여분 수건",
+              "수건",
+              "타월"
+            ],
+            "answer": "네, 여분 수건은 공용 공간의 게스트박스에 준비되어 있습니다. 필요한 수량만 꺼내 사용하시고, 사용한 수건은 게스트박스에 다시 넣지 마세요."
+          },
+          {
+            "item": "dental-kit",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "칫솔",
+              "치약",
+              "일회용칫솔",
+              "일회용 칫솔"
+            ],
+            "answer": "네, 일회용 칫솔 세트는 공용 공간의 게스트박스에 준비되어 있습니다. 필요한 수량만 가져가 주세요."
+          },
+          {
+            "item": "bandage",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "밴드",
+              "반창고"
+            ],
+            "answer": "네, 밴드는 공용 공간의 게스트박스에 준비되어 있습니다. 필요한 수량만 가져가 주세요."
+          },
+          {
+            "item": "travel-adapter",
+            "returnPolicy": "return",
+            "keywords": [
+              "여행용어댑터",
+              "여행용 어댑터",
+              "변환어댑터",
+              "변환 어댑터"
+            ],
+            "answer": "네, 여행용 어댑터는 공용 공간의 게스트박스에 준비되어 있습니다. 사용 후에는 제자리에 돌려놓아 주세요."
+          },
+          {
+            "item": "wet-wipes",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "물티슈"
+            ],
+            "answer": "네, 물티슈는 공용 공간의 게스트박스에 준비되어 있습니다. 필요한 수량만 가져가 주세요."
+          },
+          {
+            "item": "plastic-bag",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "비닐봉투",
+              "비닐 봉투"
+            ],
+            "answer": "네, 비닐봉투는 공용 공간의 게스트박스에 준비되어 있습니다. 필요한 수량만 가져가 주세요."
           }
         ]
       },
@@ -517,6 +580,8 @@
         "lead": "Yes, climate-control and kitchen appliances are available.",
         "directAnswers": [
           {
+            "item": "hair-dryer",
+            "returnPolicy": "unconfirmed",
             "keywords": [
               "hair dryer",
               "hairdryer",
@@ -526,11 +591,71 @@
             "answer": "The current property guide does not confirm that a hair dryer is provided. It lists only a hair straightener in the shared Guest Box. Please confirm with the host through your booking-platform messages if needed."
           },
           {
+            "item": "hair-straightener",
+            "returnPolicy": "return",
             "keywords": [
               "hair straightener",
               "flat iron"
             ],
             "answer": "Yes, a hair straightener is available in the shared Guest Box. Please return it after use."
+          },
+          {
+            "item": "extra-towel",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "extra towel",
+              "spare towel",
+              "towel"
+            ],
+            "answer": "Yes, extra towels are available in the shared Guest Box. Take only what you need for your stay, and do not put used towels back in the Guest Box."
+          },
+          {
+            "item": "dental-kit",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "toothbrush",
+              "toothpaste",
+              "dental kit"
+            ],
+            "answer": "Yes, disposable dental kits are available in the shared Guest Box. Please take only what you need."
+          },
+          {
+            "item": "bandage",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "bandage",
+              "band-aid",
+              "plaster"
+            ],
+            "answer": "Yes, bandages are available in the shared Guest Box. Please take only what you need."
+          },
+          {
+            "item": "travel-adapter",
+            "returnPolicy": "return",
+            "keywords": [
+              "travel adapter",
+              "plug adapter",
+              "power adapter"
+            ],
+            "answer": "Yes, travel adapters are available in the shared Guest Box. Please return the adapter after use."
+          },
+          {
+            "item": "wet-wipes",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "wet wipes",
+              "wet wipe"
+            ],
+            "answer": "Yes, wet wipes are available in the shared Guest Box. Please take only what you need."
+          },
+          {
+            "item": "plastic-bag",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "plastic bag",
+              "plastic bags"
+            ],
+            "answer": "Yes, plastic bags are available in the shared Guest Box. Please take only what you need."
           }
         ]
       },
@@ -799,6 +924,8 @@
         "lead": "はい、冷暖房・キッチン家電を利用できます。",
         "directAnswers": [
           {
+            "item": "hair-dryer",
+            "returnPolicy": "unconfirmed",
             "keywords": [
               "ヘアドライヤー",
               "ドライヤー"
@@ -806,10 +933,67 @@
             "answer": "現在の宿泊案内ではヘアドライヤーの用意は確認できません。共用ゲストボックスにはヘアアイロンのみ記載されています。必要な場合は予約プラットフォームのメッセージでホストに確認してください。"
           },
           {
+            "item": "hair-straightener",
+            "returnPolicy": "return",
             "keywords": [
               "ヘアアイロン"
             ],
             "answer": "はい、ヘアアイロンは共用スペースのゲストボックスにあります。使用後は元の場所へ戻してください。"
+          },
+          {
+            "item": "extra-towel",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "予備タオル",
+              "タオル"
+            ],
+            "answer": "はい、予備のタオルは共用スペースのゲストボックスにあります。滞在中に必要な枚数だけ取り、使用済みのタオルはゲストボックスへ戻さないでください。"
+          },
+          {
+            "item": "dental-kit",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "歯ブラシ",
+              "歯磨き",
+              "歯みがき"
+            ],
+            "answer": "はい、使い捨て歯ブラシセットは共用スペースのゲストボックスにあります。必要な分だけお取りください。"
+          },
+          {
+            "item": "bandage",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "絆創膏",
+              "ばんそうこう"
+            ],
+            "answer": "はい、絆創膏は共用スペースのゲストボックスにあります。必要な分だけお取りください。"
+          },
+          {
+            "item": "travel-adapter",
+            "returnPolicy": "return",
+            "keywords": [
+              "旅行用アダプター",
+              "変換アダプター",
+              "電源アダプター"
+            ],
+            "answer": "はい、旅行用アダプターは共用スペースのゲストボックスにあります。使用後は元の場所へ戻してください。"
+          },
+          {
+            "item": "wet-wipes",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "ウェットティッシュ"
+            ],
+            "answer": "はい、ウェットティッシュは共用スペースのゲストボックスにあります。必要な分だけお取りください。"
+          },
+          {
+            "item": "plastic-bag",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "ビニール袋",
+              "ポリ袋"
+            ],
+            "answer": "はい、ビニール袋は共用スペースのゲストボックスにあります。必要な分だけお取りください。"
           }
         ]
       },
@@ -1070,6 +1254,8 @@
         "lead": "可以，住宿内配有冷暖设备及厨房电器。",
         "directAnswers": [
           {
+            "item": "hair-dryer",
+            "returnPolicy": "unconfirmed",
             "keywords": [
               "吹风机",
               "电吹风"
@@ -1077,11 +1263,68 @@
             "answer": "当前住宿指南未确认提供吹风机。公共区域的住客用品箱中仅明确列有直发器。如有需要，请通过预订平台消息向房东确认。"
           },
           {
+            "item": "hair-straightener",
+            "returnPolicy": "return",
             "keywords": [
               "直发器",
               "夹板"
             ],
             "answer": "有，公共区域的住客用品箱内备有直发器。使用后请放回原位。"
+          },
+          {
+            "item": "extra-towel",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "备用毛巾",
+              "额外毛巾",
+              "毛巾"
+            ],
+            "answer": "有，公共区域的住客用品箱内备有备用毛巾。请按住宿期间所需数量取用，使用过的毛巾请勿放回住客用品箱。"
+          },
+          {
+            "item": "dental-kit",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "牙刷",
+              "牙膏",
+              "牙具"
+            ],
+            "answer": "有，公共区域的住客用品箱内备有一次性牙具。请按需取用。"
+          },
+          {
+            "item": "bandage",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "创可贴",
+              "止血贴"
+            ],
+            "answer": "有，公共区域的住客用品箱内备有创可贴。请按需取用。"
+          },
+          {
+            "item": "travel-adapter",
+            "returnPolicy": "return",
+            "keywords": [
+              "旅行转换插头",
+              "转换插头",
+              "转换器"
+            ],
+            "answer": "有，公共区域的住客用品箱内备有旅行转换插头。使用后请放回原位。"
+          },
+          {
+            "item": "wet-wipes",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "湿巾"
+            ],
+            "answer": "有，公共区域的住客用品箱内备有湿巾。请按需取用。"
+          },
+          {
+            "item": "plastic-bag",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "塑料袋"
+            ],
+            "answer": "有，公共区域的住客用品箱内备有塑料袋。请按需取用。"
           }
         ]
       },
@@ -1342,6 +1585,8 @@
         "lead": "可以，住宿內配有冷暖設備及廚房電器。",
         "directAnswers": [
           {
+            "item": "hair-dryer",
+            "returnPolicy": "unconfirmed",
             "keywords": [
               "吹風機",
               "電吹風"
@@ -1349,11 +1594,70 @@
             "answer": "目前住宿指南未確認提供吹風機。公共區域的住客用品箱中僅明確列有直髮器。如有需要，請透過預訂平台訊息向房東確認。"
           },
           {
+            "item": "hair-straightener",
+            "returnPolicy": "return",
             "keywords": [
               "直髮器",
               "離子夾"
             ],
             "answer": "有，公共區域的住客用品箱內備有直髮器。使用後請放回原位。"
+          },
+          {
+            "item": "extra-towel",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "備用毛巾",
+              "額外毛巾",
+              "毛巾"
+            ],
+            "answer": "有，公共區域的住客用品箱內備有備用毛巾。請按住宿期間所需數量取用，使用過的毛巾請勿放回住客用品箱。"
+          },
+          {
+            "item": "dental-kit",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "牙刷",
+              "牙膏",
+              "牙具"
+            ],
+            "answer": "有，公共區域的住客用品箱內備有一次性牙具。請按需取用。"
+          },
+          {
+            "item": "bandage",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "OK繃",
+              "創可貼"
+            ],
+            "answer": "有，公共區域的住客用品箱內備有OK繃。請按需取用。"
+          },
+          {
+            "item": "travel-adapter",
+            "returnPolicy": "return",
+            "keywords": [
+              "旅行轉接頭",
+              "轉接頭",
+              "轉換插頭"
+            ],
+            "answer": "有，公共區域的住客用品箱內備有旅行轉接頭。使用後請放回原位。"
+          },
+          {
+            "item": "wet-wipes",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "溼紙巾",
+              "濕紙巾",
+              "溼巾"
+            ],
+            "answer": "有，公共區域的住客用品箱內備有溼紙巾。請按需取用。"
+          },
+          {
+            "item": "plastic-bag",
+            "returnPolicy": "guest-use",
+            "keywords": [
+              "塑膠袋"
+            ],
+            "answer": "有，公共區域的住客用品箱內備有塑膠袋。請按需取用。"
           }
         ]
       },
