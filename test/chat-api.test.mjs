@@ -71,6 +71,7 @@ test("every ordinary question reaches the model with the complete current guide"
   assert.equal(request.body.store, false);
   assert.equal(request.body.tools[0].type, "web_search");
   assert.equal(request.body.tool_choice, "auto");
+  assert.equal(request.body.reasoning.effort, "low");
   assert.match(request.body.instructions, /FULL_CURRENT_GUIDE version 2026-09-12\.6/);
   assert.match(request.body.instructions, /The very first sentence must give the conclusion/);
   assert.match(request.body.instructions, /Never paste or paraphrase an entire guide section/);
@@ -471,6 +472,7 @@ test("time-specific family dining combines current search with the complete loca
   );
   assert.equal(requests.length, 2);
   assert.equal(request.body.tool_choice, "required");
+  assert.equal(request.body.reasoning.effort, "medium");
   assert.equal(res.payload.model, "gpt-5.4-mini");
   assert.equal(res.payload.meta.searched, true);
   assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.6");
@@ -487,6 +489,7 @@ test("pre-verified nearby essentials remain available while local place search r
   const { res, request, requests } = await callApi({ message: "가장 가까운 편의점 어디야?", language: "ko", history: [] }, [naverOutput, finalOutput], "203.0.113.70");
   assert.equal(requests.length, 2);
   assert.equal(request.body.tool_choice, "required");
+  assert.match(request.body.input.at(-1).content, /VERIFIED_LOCAL_GUIDE_RESULT/);
   assert.equal(res.payload.meta.searched, true);
   assert.match(request.body.instructions, /CU 동대문역점/);
   assert.match(res.payload.answer, /도보 약 2~3분/);
