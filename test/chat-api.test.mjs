@@ -72,7 +72,7 @@ test("every ordinary question reaches the model with the complete current guide"
   assert.equal(request.body.tools[0].type, "web_search");
   assert.equal(request.body.tool_choice, "auto");
   assert.equal(request.body.reasoning.effort, "low");
-  assert.match(request.body.instructions, /FULL_CURRENT_GUIDE version 2026-09-12\.8/);
+  assert.match(request.body.instructions, /FULL_CURRENT_GUIDE version 2026-09-12\.9/);
   assert.match(request.body.instructions, /The very first sentence must give the conclusion/);
   assert.match(request.body.instructions, /Never paste or paraphrase an entire guide section/);
   assert.match(request.body.instructions, /capacity must answer the capacity/);
@@ -83,7 +83,7 @@ test("every ordinary question reaches the model with the complete current guide"
   assert.match(request.body.instructions, /싱글룸 11실 · 더블룸 1실/);
   assert.match(request.body.instructions, /503호 앞 러기지룸/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-12.8-ko");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-12.9-ko");
   assert.doesNotMatch(request.body.input.at(-1).content, /GUIDE_KNOWLEDGE|FULL_CURRENT_GUIDE/);
   assert.ok(request.body.instructions.length > 40000);
   assert.equal(res.payload.meta.cachedTokens, 80);
@@ -108,7 +108,7 @@ test("site knowledge is answered naturally through the model in all five languag
     assert.equal(res.payload.model, "gpt-5.4-mini");
     assert.equal(res.payload.meta.searched, false);
     assert.equal(request.body.tool_choice, "auto");
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.8");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.9");
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
     assert.match(res.payload.answer, expected);
     assert.doesNotMatch(res.payload.answer, /최신 공개정보|public information|公开信息|公開資訊/);
@@ -245,6 +245,41 @@ test("Guest Box return rules are attached to each item rather than generalized",
   assert.equal(adapter.payload.meta.item, "travel-adapter");
   assert.equal(adapter.payload.meta.returnPolicy, "return");
   assert.match(adapter.payload.answer, /사용 후에는 제자리에/);
+});
+
+test("property emergency-medicine questions are answered from the guide without public search in all five languages", async () => {
+  const cases = [
+    ["비상약이 있나요?", "ko", /비상약이나 상비약이 준비되어 있다는 내용이 없습니다/, /게스트박스에는 밴드만/],
+    ["Do you have emergency medicine?", "en", /does not confirm that emergency medicines/, /Only bandages/],
+    ["常備薬はありますか", "ja", /常備薬や救急箱の用意は確認できません/, /絆創膏のみ/],
+    ["有常备药吗？", "zh", /未确认提供常备药/, /仅明确列有创可贴/],
+    ["有常備藥嗎？", "zh-TW", /未確認提供常備藥/, /僅明確列有OK繃/]
+  ];
+  for (const [message, language, expected, distinction] of cases) {
+    const res = await callAccess({ message, language, history: [] });
+    assert.equal(res.statusCode, 200);
+    assert.equal(res.payload.model, "another-house-verified-amenity");
+    assert.equal(res.payload.meta.item, "emergency-medicine");
+    assert.equal(res.payload.meta.returnPolicy, "unconfirmed");
+    assert.equal(res.payload.meta.searched, false);
+    assert.match(res.payload.answer, expected);
+    assert.match(res.payload.answer, distinction);
+    assert.doesNotMatch(res.payload.answer, /최신 공개정보|public information|公開情報|公开信息|公開資訊/);
+    assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "appliances"]]);
+  }
+  for (const message of ["비상 약 있어요?", "약 있나요?"]) {
+    const res = await callAccess({ message, language: "ko", history: [] });
+    assert.equal(res.payload.meta.item, "emergency-medicine");
+    assert.equal(res.payload.meta.searched, false);
+  }
+});
+
+test("medicine availability stays property-specific while medicine purchase requests still search nearby pharmacies", () => {
+  assert.equal(handler._internals.searchLevelFor("비상약이 있나요?"), null);
+  assert.equal(handler._internals.searchLevelFor("Do you have a first aid kit?"), null);
+  assert.equal(handler._internals.verifiedGuestBoxItem("비상약 어디서 살 수 있어?", "ko"), null);
+  assert.equal(handler._internals.searchLevelFor("비상약 어디서 살 수 있어?"), "medium");
+  assert.equal(handler._internals.searchLevelFor("가까운 약국 어디야?"), "medium");
 });
 
 test("a detergent question returns only the requested fact instead of dumping the laundry guide", async () => {
@@ -408,7 +443,7 @@ test("a route with no origin defaults to Another House and uses compact route kn
   assert.match(request.body.instructions, /동대문역 6번 출구/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB/);
   assert.ok(request.body.instructions.length < 25000);
-  assert.equal(request.body.prompt_cache_key, "another-house-route-2026-09-12.8-ko");
+  assert.equal(request.body.prompt_cache_key, "another-house-route-2026-09-12.9-ko");
   assert.equal(res.payload.meta.guideRoute, "transport");
   assert.deepEqual(res.payload.links.at(-1), handler._internals.guidePageLink("transport", "ko"));
 });
@@ -522,7 +557,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.mode, "night");
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.8");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.9");
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
@@ -604,7 +639,7 @@ test("time-specific family dining combines current search with the complete loca
   assert.equal(request.body.reasoning.effort, "medium");
   assert.equal(res.payload.model, "gpt-5.4-mini");
   assert.equal(res.payload.meta.searched, true);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.8");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.9");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더(?:가)? 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);

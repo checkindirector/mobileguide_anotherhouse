@@ -44,6 +44,8 @@ const TRAVEL_PUBLIC_PATTERN = /(교통카드|티머니|t[\s-]?money|와우패스
 const HAIR_DRYER_PATTERN = /(헤어\s*드라이(?:어|기)|드라이(?:어|기)|hair\s*dryers?|hairdryers?|blow\s*dryers?|blowdryers?|ヘアドライヤー|ドライヤー|吹风机|吹風機|电吹风|電吹風)/i;
 const HAIR_STRAIGHTENER_PATTERN = /(고데기|hair\s*straightener|flat\s*iron|ヘアアイロン|直发器|直髮器|夹板|離子夾)/i;
 const GUEST_BOX_ITEM_PATTERN = /(여분\s*(?:수건|타월)|수건|타월|칫솔|치약|밴드|반창고|여행용\s*어댑터|변환\s*어댑터|물티슈|비닐\s*봉투|extra\s*towels?|spare\s*towels?|towels?|toothbrush|toothpaste|dental\s*kit|band-?aids?|bandages?|plasters?|travel\s*adapter|plug\s*adapter|power\s*adapter|wet\s*wipes?|plastic\s*bags?|予備タオル|タオル|歯ブラシ|歯磨き|歯みがき|絆創膏|ばんそうこう|旅行用アダプター|変換アダプター|電源アダプター|ウェットティッシュ|ビニール袋|ポリ袋|备用毛巾|備用毛巾|额外毛巾|額外毛巾|毛巾|牙刷|牙膏|牙具|创可贴|創可貼|止血贴|OK繃|旅行转换插头|旅行轉接頭|转换插头|轉換插頭|转换器|轉接頭|湿巾|溼巾|湿紙巾|溼紙巾|塑料袋|塑膠袋)/i;
+const PROPERTY_MEDICINE_PATTERN = /((?:비상|상비|구급|응급)\s*(?:용\s*)?약|구급\s*함|진통제|소화제|감기약|해열제|약(?:이|은|도)?\s*(?:있|없|준비|비치|제공)|emergency\s+medicines?|first[\s-]*aid\s+(?:medicines?|kits?)|pain\s*(?:killers?|relievers?)|cold\s+medicine|digestive\s+medicine|fever\s+medicine|(?:do\s+you\s+have|is\s+there|are\s+there).{0,24}(?:medicines?|medications?)|常備薬|救急薬|救急箱|痛み止め|風邪薬|胃腸薬|解熱剤|薬(?:は|が|も)?\s*(?:あります|ある|用意)|常备药|常備藥|急救药|急救藥|急救箱|止痛药|止痛藥|感冒药|感冒藥|消化药|腸胃藥|退烧药|退燒藥|有(?:没有|沒有)?(?:药|藥)(?:吗|嗎)?)/i;
+const MEDICINE_PURCHASE_PATTERN = /(약국|어디서.{0,20}(?:사|살|구입|구해)|(?:사|살|구입|구해).{0,20}(?:곳|어디)|pharmacy|drugstore|where.{0,30}(?:buy|get|find)|(?:buy|get|find).{0,30}medicine|薬局|どこ.{0,20}(?:買|手に入)|(?:買|手に入).{0,20}どこ|药店|藥局|哪里.{0,20}(?:买|買|获得|獲得)|哪裡.{0,20}(?:買|獲得))/i;
 const MAP_FOLLOWUP_PATTERN = /(?:^|\s)(?:네|예|응|그래|좋아|주세요|보여\s*줘|열어\s*줘|연결(?:해\s*줘|해주세요|해)?|지도(?:\s*링크)?|네이버\s*지도|구글\s*맵|yes|sure|please|show|open|connect|map(?:s)?|はい|お願い|見せて|開いて|地図|好的|可以|请|請|地图|地圖)(?:\s|$|[,.!?])/i;
 const SMALL_TALK_PATTERN = /^(?:안녕(?:하세요)?|감사(?:합니다|해요)?|고마워(?:요)?|괜찮아(?:요)?|좋아(?:요)?|hello|hi|hey|thanks?|thank\s+you|okay|ok|こんにちは|こんばんは|ありがとう|你好|您好|谢谢|謝謝)[\s.!?~]*$/i;
 const NAVER_MAP_DOMAINS = ["map.naver.com", "m.place.naver.com", "pcmap.place.naver.com", "naver.me"];
@@ -206,10 +208,13 @@ function verifiedHairTool(message, language) {
 
 function verifiedGuestBoxItem(message, language) {
   const text = String(message || "");
-  if (!HAIR_DRYER_PATTERN.test(text) && !HAIR_STRAIGHTENER_PATTERN.test(text) && !GUEST_BOX_ITEM_PATTERN.test(text)) return null;
+  if (PROPERTY_MEDICINE_PATTERN.test(text) && MEDICINE_PURCHASE_PATTERN.test(text)) return null;
+  if (!HAIR_DRYER_PATTERN.test(text) && !HAIR_STRAIGHTENER_PATTERN.test(text) && !GUEST_BOX_ITEM_PATTERN.test(text) && !PROPERTY_MEDICINE_PATTERN.test(text)) return null;
   const topic = (GUIDE_KNOWLEDGE.quickGuide?.[language] || GUIDE_KNOWLEDGE.quickGuide?.ko || []).find(item => item.id === "appliances");
   const normalized = normalizeGuideMatch(text);
-  const direct = (topic?.directAnswers || []).find(item => (item.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword))));
+  const direct = PROPERTY_MEDICINE_PATTERN.test(text)
+    ? (topic?.directAnswers || []).find(item => item.item === "emergency-medicine")
+    : (topic?.directAnswers || []).find(item => (item.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword))));
   return direct?.answer ? { answer: direct.answer, item: direct.item || null, returnPolicy: direct.returnPolicy || null } : null;
 }
 
@@ -252,6 +257,7 @@ function isPlaceSearchIntent(message) {
 
 function searchLevelFor(message) {
   const text = message.toLocaleLowerCase();
+  if (PROPERTY_MEDICINE_PATTERN.test(text) && !MEDICINE_PURCHASE_PATTERN.test(text)) return null;
   if (PROPERTY_ARRIVAL_PATTERN.test(text) && !/(공항|airport|空港|机场|機場)/i.test(text)) return null;
   const propertyOnly = PROPERTY_ONLY_PATTERN.test(text) && !(PUBLIC_LUGGAGE_PLACE_PATTERN.test(text) && !EXPLICIT_PROPERTY_PATTERN.test(text));
   const placeSearch = isPlaceSearchIntent(text);
@@ -1029,6 +1035,7 @@ PRIORITY A — CURRENT PROPERTY GUIDE:
 - Before saying that the guide does not confirm something, check every matching record and synonym in the full guide. The opening conclusion must never contradict a fact stated later in the same answer.
 - A hair straightener (고데기 / hair straightener / ヘアアイロン / 直发器 / 直髮器) and a hair dryer are different appliances. CURRENT_GUIDE confirms only a shared hair straightener. It does not confirm a hair dryer, so never say that a hair dryer is available or describe its location.
 - In the Guest Box, only the travel adapter and hair straightener are loaned items that must be returned after use. Extra towels, disposable dental kits, bandages, wet wipes, and plastic bags are guest-use supplies. Never tell a guest to return a used towel or any other guest-use supply to the Guest Box.
+- CURRENT_GUIDE confirms bandages in the Guest Box, but it does not confirm emergency medicine, regular medicine, painkillers, cold medicine, or a first-aid kit. Treat questions asking whether the property provides medicine as property amenity questions, never as public pharmacy searches. State the distinction directly; search for a pharmacy only when the guest asks where to buy or obtain medicine or asks for a nearby pharmacy.
 - Never paste or paraphrase an entire guide section merely because it contains a matching word. For a narrow factual question, answer only that fact plus at most one or two directly useful details. Give the complete procedure only when the guest explicitly asks for instructions, steps, or the full guide.
 - Read the whole relevant record before answering. Distinguish the subject from the attribute being requested: existence, quantity, capacity, model, location, time, permission, price and procedure are different questions. A question about capacity must answer the capacity, not merely confirm that the device exists.
 - Treat explicit structured values such as *CapacityKg, counts, booleans, times and addresses as conclusive first-party facts. Do not call them unclear merely because a display label combines multiple values; answer the requested field exactly.
@@ -1303,9 +1310,9 @@ module.exports = async function handler(req, res) {
     console.log(JSON.stringify({ event: "concierge_usage", model: data.model || MODEL, ...meta }));
     return res.status(200).json({ answer, model: data.model || MODEL, links, mapContext, meta });
   } catch (error) {
-    console.error(JSON.stringify({ event: "concierge_failure", name: error?.name || "Error", durationMs: Date.now() - startedAt }));
+    console.error(JSON.stringify({ event: "concierge_failure", name: error?.name || "Error", code: error?.code || error?.cause?.code || null, message: String(error?.message || "").slice(0, 180), durationMs: Date.now() - startedAt }));
     return res.status(502).json({ error: "AI request failed" });
   }
 };
 
-module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, localizedRouteKnowledge, usesPropertyAsRouteOrigin, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, verifiedHairTool, verifiedGuestBoxItem, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, GUIDE_KNOWLEDGE };
+module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, localizedRouteKnowledge, usesPropertyAsRouteOrigin, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, verifiedHairTool, verifiedGuestBoxItem, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, PROPERTY_MEDICINE_PATTERN, GUIDE_KNOWLEDGE };

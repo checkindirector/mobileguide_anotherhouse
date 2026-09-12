@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-12.8",
+  "version": "2026-09-12.9",
   "generatedAt": "2026-09-11",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -221,6 +221,13 @@
           "헤어드라이기",
           "드라이어",
           "드라이기",
+          "비상약",
+          "상비약",
+          "구급약",
+          "응급약",
+          "구급함",
+          "약 있나요",
+          "약 있어요",
           "물티슈",
           "비닐봉투"
         ],
@@ -228,6 +235,24 @@
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
         "lead": "네, 숙소에 냉난방·주방 기기가 마련되어 있습니다.",
         "directAnswers": [
+          {
+            "item": "emergency-medicine",
+            "returnPolicy": "unconfirmed",
+            "keywords": [
+              "비상약",
+              "상비약",
+              "구급약",
+              "응급약",
+              "구급함",
+              "진통제",
+              "소화제",
+              "감기약",
+              "해열제",
+              "약 있나요",
+              "약 있어요"
+            ],
+            "answer": "현재 숙소 안내에는 비상약이나 상비약이 준비되어 있다는 내용이 없습니다. 게스트박스에는 밴드만 있어요. 복용할 약이 필요하면 가까운 약국을 이용해 주세요."
+          },
           {
             "item": "hair-dryer",
             "returnPolicy": "unconfirmed",
@@ -572,6 +597,14 @@
           "hairdryer",
           "blow dryer",
           "blowdryer",
+          "emergency medicine",
+          "first aid medicine",
+          "first aid kit",
+          "painkiller",
+          "pain reliever",
+          "cold medicine",
+          "do you have medicine",
+          "is there medicine",
           "wet wipes",
           "plastic bag"
         ],
@@ -579,6 +612,23 @@
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
         "lead": "Yes, climate-control and kitchen appliances are available.",
         "directAnswers": [
+          {
+            "item": "emergency-medicine",
+            "returnPolicy": "unconfirmed",
+            "keywords": [
+              "emergency medicine",
+              "first aid medicine",
+              "first aid kit",
+              "painkiller",
+              "pain reliever",
+              "cold medicine",
+              "digestive medicine",
+              "fever medicine",
+              "do you have medicine",
+              "is there medicine"
+            ],
+            "answer": "The current property guide does not confirm that emergency medicines or a first-aid kit are provided. Only bandages are listed in the shared Guest Box. If you need medicine, please use a nearby pharmacy."
+          },
           {
             "item": "hair-dryer",
             "returnPolicy": "unconfirmed",
@@ -916,6 +966,12 @@
           "ヘアアイロン",
           "ヘアドライヤー",
           "ドライヤー",
+          "常備薬",
+          "救急薬",
+          "救急箱",
+          "痛み止め",
+          "風邪薬",
+          "薬はありますか",
           "ウェットティッシュ",
           "ビニール袋"
         ],
@@ -923,6 +979,21 @@
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
         "lead": "はい、冷暖房・キッチン家電を利用できます。",
         "directAnswers": [
+          {
+            "item": "emergency-medicine",
+            "returnPolicy": "unconfirmed",
+            "keywords": [
+              "常備薬",
+              "救急薬",
+              "救急箱",
+              "痛み止め",
+              "風邪薬",
+              "胃腸薬",
+              "解熱剤",
+              "薬はありますか"
+            ],
+            "answer": "現在の宿泊案内では、常備薬や救急箱の用意は確認できません。共用ゲストボックスに記載されている救急用品は絆創膏のみです。薬が必要な場合は近くの薬局をご利用ください。"
+          },
           {
             "item": "hair-dryer",
             "returnPolicy": "unconfirmed",
@@ -1246,6 +1317,12 @@
           "直发器",
           "吹风机",
           "电吹风",
+          "常备药",
+          "急救药",
+          "急救箱",
+          "止痛药",
+          "感冒药",
+          "有药吗",
           "湿巾",
           "塑料袋"
         ],
@@ -1253,6 +1330,21 @@
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
         "lead": "可以，住宿内配有冷暖设备及厨房电器。",
         "directAnswers": [
+          {
+            "item": "emergency-medicine",
+            "returnPolicy": "unconfirmed",
+            "keywords": [
+              "常备药",
+              "急救药",
+              "急救箱",
+              "止痛药",
+              "感冒药",
+              "消化药",
+              "退烧药",
+              "有药吗"
+            ],
+            "answer": "当前住宿指南未确认提供常备药或急救箱。公共区域的住客用品箱中仅明确列有创可贴。如需药品，请前往附近药店购买。"
+          },
           {
             "item": "hair-dryer",
             "returnPolicy": "unconfirmed",
@@ -1577,6 +1669,12 @@
           "直髮器",
           "吹風機",
           "電吹風",
+          "常備藥",
+          "急救藥",
+          "急救箱",
+          "止痛藥",
+          "感冒藥",
+          "有藥嗎",
           "溼巾",
           "塑膠袋"
         ],
@@ -1584,6 +1682,21 @@
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
         "lead": "可以，住宿內配有冷暖設備及廚房電器。",
         "directAnswers": [
+          {
+            "item": "emergency-medicine",
+            "returnPolicy": "unconfirmed",
+            "keywords": [
+              "常備藥",
+              "急救藥",
+              "急救箱",
+              "止痛藥",
+              "感冒藥",
+              "腸胃藥",
+              "退燒藥",
+              "有藥嗎"
+            ],
+            "answer": "目前住宿指南未確認提供常備藥或急救箱。公共區域的住客用品箱中僅明確列有OK繃。如需藥品，請前往附近藥局購買。"
+          },
           {
             "item": "hair-dryer",
             "returnPolicy": "unconfirmed",

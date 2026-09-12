@@ -1,6 +1,6 @@
 # Concierge knowledge audit
 
-Version: 2026-09-12.8
+Version: 2026-09-12.9
 
 | Area | Current page source | Previous chatbot state | Unified result |
 |---|---|---|---|

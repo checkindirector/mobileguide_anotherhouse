@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-12.8";
+const VERSION = "2026-09-12.9";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -63,7 +63,7 @@ const QUICK_TOPIC_KEYWORDS = {
   wifi: { ko: ["와이파이", "wifi", "wi-fi", "인터넷"], en: ["wifi", "wi-fi", "internet"], ja: ["wifi", "wi-fi", "インターネット"], zh: ["wifi", "wi-fi", "无线网络"], "zh-TW": ["wifi", "wi-fi", "無線網路"] },
   parking: { ko: ["숙소 주차", "건물 주차", "주차 가능", "주차 안내"], en: ["property parking", "on-site parking", "can i park", "parking at the hostel"], ja: ["宿の駐車", "館内駐車", "駐車できます", "駐車案内"], zh: ["住宿停车", "楼内停车", "可以停车", "停车指南"], "zh-TW": ["住宿停車", "樓內停車", "可以停車", "停車指南"] },
   rules: { ko: ["숙소 이용 규칙", "숙소 규칙", "이용 규칙", "하우스 룰", "흡연", "소음", "파티", "반려동물", "외부인"], en: ["house rules", "property rules", "stay rules", "smoking", "noise", "party", "pet", "outside guest"], ja: ["宿泊ルール", "利用規則", "ハウスルール", "喫煙", "騒音", "パーティー", "ペット", "部外者"], zh: ["住宿规则", "入住规则", "房屋守则", "吸烟", "噪音", "派对", "宠物", "外来人员"], "zh-TW": ["住宿規則", "入住規則", "房屋守則", "吸菸", "噪音", "派對", "寵物", "外來人員"] },
-  appliances: { ko: ["냉난방", "에어컨", "난방", "인덕션", "전자레인지", "냉장고", "기기 사용", "게스트박스", "수건", "칫솔", "어댑터", "고데기", "헤어드라이어", "헤어드라이기", "드라이어", "드라이기", "물티슈", "비닐봉투"], en: ["heating", "air conditioning", "air conditioner", "induction", "microwave", "refrigerator", "appliance", "guest box", "towel", "toothbrush", "travel adapter", "hair straightener", "hair dryer", "hairdryer", "blow dryer", "blowdryer", "wet wipes", "plastic bag"], ja: ["冷暖房", "エアコン", "暖房", "IH", "電子レンジ", "冷蔵庫", "家電", "ゲストボックス", "タオル", "歯ブラシ", "変換アダプター", "ヘアアイロン", "ヘアドライヤー", "ドライヤー", "ウェットティッシュ", "ビニール袋"], zh: ["空调", "暖气", "电磁炉", "微波炉", "冰箱", "设备使用", "住客用品箱", "毛巾", "牙刷", "转换插头", "直发器", "吹风机", "电吹风", "湿巾", "塑料袋"], "zh-TW": ["空調", "暖氣", "電磁爐", "微波爐", "冰箱", "設備使用", "住客用品箱", "毛巾", "牙刷", "轉換插頭", "直髮器", "吹風機", "電吹風", "溼巾", "塑膠袋"] },
+  appliances: { ko: ["냉난방", "에어컨", "난방", "인덕션", "전자레인지", "냉장고", "기기 사용", "게스트박스", "수건", "칫솔", "어댑터", "고데기", "헤어드라이어", "헤어드라이기", "드라이어", "드라이기", "비상약", "상비약", "구급약", "응급약", "구급함", "약 있나요", "약 있어요", "물티슈", "비닐봉투"], en: ["heating", "air conditioning", "air conditioner", "induction", "microwave", "refrigerator", "appliance", "guest box", "towel", "toothbrush", "travel adapter", "hair straightener", "hair dryer", "hairdryer", "blow dryer", "blowdryer", "emergency medicine", "first aid medicine", "first aid kit", "painkiller", "pain reliever", "cold medicine", "do you have medicine", "is there medicine", "wet wipes", "plastic bag"], ja: ["冷暖房", "エアコン", "暖房", "IH", "電子レンジ", "冷蔵庫", "家電", "ゲストボックス", "タオル", "歯ブラシ", "変換アダプター", "ヘアアイロン", "ヘアドライヤー", "ドライヤー", "常備薬", "救急薬", "救急箱", "痛み止め", "風邪薬", "薬はありますか", "ウェットティッシュ", "ビニール袋"], zh: ["空调", "暖气", "电磁炉", "微波炉", "冰箱", "设备使用", "住客用品箱", "毛巾", "牙刷", "转换插头", "直发器", "吹风机", "电吹风", "常备药", "急救药", "急救箱", "止痛药", "感冒药", "有药吗", "湿巾", "塑料袋"], "zh-TW": ["空調", "暖氣", "電磁爐", "微波爐", "冰箱", "設備使用", "住客用品箱", "毛巾", "牙刷", "轉換插頭", "直髮器", "吹風機", "電吹風", "常備藥", "急救藥", "急救箱", "止痛藥", "感冒藥", "有藥嗎", "溼巾", "塑膠袋"] },
   laundry: { ko: ["세탁", "건조기", "빨래", "세제", "섬유유연제"], en: ["laundry", "washing machine", "dryer", "detergent", "fabric softener"], ja: ["洗濯", "洗濯機", "乾燥機", "洗剤", "柔軟剤"], zh: ["洗衣", "洗衣机", "烘干机", "洗涤剂", "柔顺剂"], "zh-TW": ["洗衣", "洗衣機", "烘乾機", "洗滌劑", "柔軟精"] },
   waste: { ko: ["쓰레기", "분리배출", "분리수거"], en: ["trash", "waste", "recycling", "garbage"], ja: ["ごみ", "ゴミ", "分別", "リサイクル"], zh: ["垃圾", "垃圾分类", "回收"], "zh-TW": ["垃圾", "垃圾分類", "回收"] },
   rooms: { ko: ["객실 종류", "방 종류", "싱글룸", "2인실", "더블룸", "샤워실", "화장실 몇"], en: ["room type", "single room", "double room", "shared shower", "how many rooms"], ja: ["客室タイプ", "シングルルーム", "2人部屋", "共用シャワー", "部屋数"], zh: ["房型", "单人房", "双人房", "公共淋浴", "房间数量"], "zh-TW": ["房型", "單人房", "雙人房", "公共淋浴", "房間數量"] },
@@ -86,7 +86,16 @@ const QUICK_TOPIC_LEADS = {
   contact: { ko: "호스트에게는 예약 플랫폼 메시지로 연락할 수 있습니다.", en: "You can contact the host through your booking-platform messages.", ja: "予約プラットフォームのメッセージからホストに連絡できます。", zh: "您可以通过预订平台消息联系房东。", "zh-TW": "您可以透過預訂平台訊息聯絡房東。" }
 };
 
-const quickDirectAnswers = (topic, language) => ({
+const PROPERTY_MEDICINE_DIRECT_ANSWERS = {
+  ko: { item: "emergency-medicine", returnPolicy: "unconfirmed", keywords: ["비상약", "상비약", "구급약", "응급약", "구급함", "진통제", "소화제", "감기약", "해열제", "약 있나요", "약 있어요"], answer: "현재 숙소 안내에는 비상약이나 상비약이 준비되어 있다는 내용이 없습니다. 게스트박스에는 밴드만 있어요. 복용할 약이 필요하면 가까운 약국을 이용해 주세요." },
+  en: { item: "emergency-medicine", returnPolicy: "unconfirmed", keywords: ["emergency medicine", "first aid medicine", "first aid kit", "painkiller", "pain reliever", "cold medicine", "digestive medicine", "fever medicine", "do you have medicine", "is there medicine"], answer: "The current property guide does not confirm that emergency medicines or a first-aid kit are provided. Only bandages are listed in the shared Guest Box. If you need medicine, please use a nearby pharmacy." },
+  ja: { item: "emergency-medicine", returnPolicy: "unconfirmed", keywords: ["常備薬", "救急薬", "救急箱", "痛み止め", "風邪薬", "胃腸薬", "解熱剤", "薬はありますか"], answer: "現在の宿泊案内では、常備薬や救急箱の用意は確認できません。共用ゲストボックスに記載されている救急用品は絆創膏のみです。薬が必要な場合は近くの薬局をご利用ください。" },
+  zh: { item: "emergency-medicine", returnPolicy: "unconfirmed", keywords: ["常备药", "急救药", "急救箱", "止痛药", "感冒药", "消化药", "退烧药", "有药吗"], answer: "当前住宿指南未确认提供常备药或急救箱。公共区域的住客用品箱中仅明确列有创可贴。如需药品，请前往附近药店购买。" },
+  "zh-TW": { item: "emergency-medicine", returnPolicy: "unconfirmed", keywords: ["常備藥", "急救藥", "急救箱", "止痛藥", "感冒藥", "腸胃藥", "退燒藥", "有藥嗎"], answer: "目前住宿指南未確認提供常備藥或急救箱。公共區域的住客用品箱中僅明確列有OK繃。如需藥品，請前往附近藥局購買。" }
+};
+
+const quickDirectAnswers = (topic, language) => {
+  const answers = ({
   luggage: {
     ko: [{ keywords: ["짐보관", "짐맡", "캐리어보관", "수하물보관"], answer: "네, 짐 보관이 가능합니다. 503호 앞 러기지룸에 체크아웃 당일 밤 11시까지 무료로 보관할 수 있어요." }],
     en: [{ keywords: ["luggage storage", "store luggage", "leave luggage", "baggage storage", "store my suitcase"], answer: "Yes, luggage storage is available. You can use the luggage room in front of Room 503 free of charge until 23:00 on the day of checkout." }],
@@ -129,7 +138,9 @@ const quickDirectAnswers = (topic, language) => ({
     zh: [{ keywords: ["洗涤剂", "洗衣液", "柔顺剂"], answer: "有，住宿备有洗涤剂和柔顺剂，放在洗衣机上方的搁板上。" }, { keywords: ["烘干机"], answer: "有，住宿内配有烘干机。请在22:00前结束使用。" }, { keywords: ["洗衣机"], answer: "有，住宿内配有洗衣机。洗涤剂和柔顺剂放在上方搁板上。" }, { keywords: ["几点结束", "使用时间", "到几点"], answer: "请在22:00前结束使用洗衣机和烘干机。" }],
     "zh-TW": [{ keywords: ["洗滌劑", "洗衣精", "柔軟精"], answer: "有，住宿備有洗滌劑和柔軟精，放在洗衣機上方的層架上。" }, { keywords: ["烘乾機"], answer: "有，住宿內配有烘乾機。請在22:00前結束使用。" }, { keywords: ["洗衣機"], answer: "有，住宿內配有洗衣機。洗滌劑和柔軟精放在上方層架上。" }, { keywords: ["幾點結束", "使用時間", "到幾點"], answer: "請在22:00前結束使用洗衣機和烘乾機。" }]
   }
-}[topic]?.[language] || []);
+  }[topic]?.[language] || []);
+  return topic === "appliances" ? [PROPERTY_MEDICINE_DIRECT_ANSWERS[language], ...answers] : answers;
+};
 
 const compactPageLines = page => [
   page.summary,

@@ -8,7 +8,7 @@ const root = resolve(import.meta.dirname, "..");
 test("generated knowledge mirrors current public guide content without secrets", async () => {
   const raw = await readFile(resolve(root, "assets/guide-knowledge.json"), "utf8");
   const knowledge = JSON.parse(raw);
-  assert.equal(knowledge.version, "2026-09-12.8");
+  assert.equal(knowledge.version, "2026-09-12.9");
   assert.deepEqual(knowledge.languages, ["ko", "en", "ja", "zh", "zh-TW"]);
   assert.equal(knowledge.property.ko.address, "서울시 종로구 종로 294 선일빌딩 5층");
   assert.equal(knowledge.stay.ko.checkin.summary.includes("15:00"), true);
@@ -58,6 +58,19 @@ test("generated knowledge mirrors current public guide content without secrets",
   assert.match(knowledge.quickGuide.zh.find(topic => topic.id === "luggage").answer, /503号房.*退房当天/s);
   assert.match(knowledge.quickGuide["zh-TW"].find(topic => topic.id === "luggage").answer, /503號房.*退房當天/s);
   assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "laundry").directAnswers[0].answer, /세탁세제와 섬유유연제.*위 선반/);
+  const medicineAnswers = {
+    ko: /비상약이나 상비약.*밴드만/,
+    en: /does not confirm.*Only bandages/s,
+    ja: /常備薬や救急箱.*絆創膏のみ/s,
+    zh: /未确认提供常备药.*仅明确列有创可贴/s,
+    "zh-TW": /未確認提供常備藥.*僅明確列有OK繃/s
+  };
+  for (const language of knowledge.languages) {
+    const appliances = knowledge.quickGuide[language].find(topic => topic.id === "appliances");
+    const medicine = appliances.directAnswers.find(answer => answer.item === "emergency-medicine");
+    assert.equal(medicine.returnPolicy, "unconfirmed");
+    assert.match(medicine.answer, medicineAnswers[language]);
+  }
   assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "laundry").answer, /LG FY9WTB · wash 9 kg \/ dry 4\.5 kg/);
   assert.deepEqual(knowledge.laundry.ko.equipment, {
     type: "세탁·건조 겸용기",
