@@ -8,13 +8,15 @@ const root = resolve(import.meta.dirname, "..");
 test("generated knowledge mirrors current public guide content without secrets", async () => {
   const raw = await readFile(resolve(root, "assets/guide-knowledge.json"), "utf8");
   const knowledge = JSON.parse(raw);
-  assert.equal(knowledge.version, "2026-09-14.1");
+  assert.equal(knowledge.version, "2026-09-14.2");
   assert.deepEqual(knowledge.languages, ["ko", "en", "ja", "zh", "zh-TW"]);
   assert.equal(knowledge.property.ko.address, "서울시 종로구 종로 294 선일빌딩 5층");
   assert.equal(knowledge.stay.ko.checkin.summary.includes("15:00"), true);
   assert.equal(knowledge.stay.ko.checkout.summary.includes("11:00"), true);
   assert.equal(knowledge.stay.ko.parking.onSite, "건물 내 주차 불가");
   assert.match(knowledge.arrivalAndTransport.en.localArrival.instruction, /Kyochon Chicken Dongdaemun No\. 1/);
+  assert.match(knowledge.arrivalAndTransport.ko.localArrival.instruction, /화장품 가게들을 지나/);
+  assert.match(knowledge.arrivalAndTransport.en.localArrival.instruction, /pass the cosmetics shops/);
   assert.equal(knowledge.arrivalAndTransport.en.sections[0].routes.length, 3);
   assert.match(knowledge.arrivalAndTransport.en.sections[0].routes[1].path, /Bus 6002/);
   assert.match(knowledge.arrivalAndTransport["zh-TW"].localArrival.instruction, /6號出口/);

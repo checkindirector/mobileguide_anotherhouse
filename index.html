@@ -1074,6 +1074,19 @@ html[lang="ko"] p,html[lang="ko"] small,html[lang="ko"] li,html[lang="ko"] input
 .station-walk-step figcaption{padding:15px}
 .station-walk-step figcaption strong{display:block;color:#2A211D;font-size:16px;line-height:1.35}
 .station-walk-step figcaption p{margin:7px 0 0;color:#665646;font-size:13px;line-height:1.65}
+.station-route-overview{border-color:#754836;box-shadow:0 14px 30px rgba(69,42,29,.14)}
+.station-route-overview .entrance-route-photo{position:relative;overflow:hidden;background:#2a211d}
+.station-route-overview .entrance-route-photo img{aspect-ratio:164/53;object-fit:cover;filter:brightness(.82) saturate(.9)}
+.entrance-sign{position:absolute;z-index:2;display:flex;align-items:center;gap:4px;border-radius:999px;background:#fffaf4;color:#2a211d;border:2px solid #fff;padding:6px 9px;font-size:10px;font-weight:900;line-height:1.1;box-shadow:0 5px 16px rgba(0,0,0,.34);white-space:nowrap;pointer-events:none}
+.entrance-sign-start{right:13%;top:20%;background:#2a211d;color:#fff}
+.entrance-sign-turn{left:47%;top:45%;background:#f4c45c;color:#2a211d}
+.entrance-sign-turn b{font-size:18px;line-height:.7}
+.entrance-sign-destination{left:19%;bottom:15%;background:#b65c3d;color:#fff}
+.station-route-kicker{display:block;margin-bottom:7px;color:#b65c3d;font-size:10px;font-weight:900;letter-spacing:.08em}
+.entrance-route-steps{counter-reset:entrance-route;display:grid;gap:8px;margin:13px 0 0;padding:0;list-style:none}
+.entrance-route-steps li{counter-increment:entrance-route;display:grid;grid-template-columns:26px 1fr;gap:9px;align-items:center;color:#3f332b;font-size:13px;font-weight:750;line-height:1.45}
+.entrance-route-steps li:before{content:counter(entrance-route);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#754836;color:#fff;font-size:11px;font-weight:900}
+@media(max-width:430px){.entrance-sign{padding:5px 7px;font-size:8px}.entrance-sign-start{right:8%;top:15%}.entrance-sign-turn{left:43%;top:42%}.entrance-sign-destination{left:9%;bottom:10%}}
 .device-model{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px;margin:16px 18px 0;padding:13px 14px;border:1px solid color-mix(in srgb,var(--secondary) 24%,#d9c5b8);border-radius:8px;background:color-mix(in srgb,var(--secondary) 7%,#fffaf4);color:#4f4034;font-size:13px;line-height:1.5}
 .device-model span{color:var(--secondary);font-weight:800}
 .device-model strong{font-weight:700;overflow-wrap:anywhere}

@@ -25,7 +25,7 @@ const recentRequests = new Map();
 const AIRPORT_BUS_PATTERN = /(공항\s*(?:버스|리무진)|리무진\s*버스|공항리무진|airport\s*(?:bus|limousine|coach|shuttle)|limousine\s*bus|空港\s*(?:バス|リムジン)|リムジン\s*バス|机场\s*(?:巴士|大巴)|機場\s*(?:巴士|客運)|机场大巴|機場巴士)/i;
 const INCHEON_AIRPORT_PATTERN = /(인천\s*(?:국제)?공항|incheon\s*(?:international\s*)?airport|仁川(?:国際|國際)?空港|仁川(?:国际|國際)?机场|仁川(?:國際)?機場)/i;
 const GIMPO_AIRPORT_PATTERN = /(김포\s*(?:국제)?공항|gimpo\s*(?:international\s*)?airport|金浦(?:国際|國際)?空港|金浦(?:国际|國際)?机场|金浦(?:國際)?機場)/i;
-const AIRPORT_TO_PROPERTY_PATTERN = /(?:(?:인천|김포)\s*(?:국제)?공항\s*에서.{0,80}(?:숙소|어나더\s*하우스|오는\s*법|어떻게\s*와)|from\s+(?:incheon|gimpo)\s*(?:international\s*)?airport|(?:仁川|金浦)(?:国際|國際)?空港から|从(?:仁川|金浦)(?:国际|國際)?机场|從(?:仁川|金浦)(?:國際)?機場)/i;
+const AIRPORT_TO_PROPERTY_PATTERN = /(?:(?:인천|김포)\s*(?:국제)?공항\s*(?:에서|부터)|from\s+(?:incheon|gimpo)\s*(?:international\s*)?airport|(?:仁川|金浦)(?:国際|國際)?空港から|从(?:仁川|金浦)(?:国际|國際)?机场|從(?:仁川|金浦)(?:國際)?機場)/i;
 const DINING_INTENT_PATTERN = /(식사|밥|먹을|먹는|먹고|음식|식당|맛집|레스토랑|카페|치킨|국밥|분식|브런치|restaurant|food|meal|dinner|breakfast|lunch|eat|cafe|食事|ご飯|食べ|飲食店|レストラン|カフェ|餐厅|餐廳|吃饭|吃飯|美食|咖啡店)/i;
 const FAMILY_GUEST_PATTERN = /(아이|어린이|아기|유아|자녀|가족|child|children|kid|kids|baby|toddler|family|子ども|子供|こども|家族|儿童|兒童|孩子|宝宝|寶寶|亲子|親子|家庭)/i;
 const BUSINESS_TIME_PATTERN = /(몇\s*시\s*(?:까지|에|부터)?|(?:밤|저녁|새벽|오전|오후)?\s*\d{1,2}\s*시\s*(?:이후|전|까지|넘어|에도)?|늦게\s*까지|심야|지금\s*(?:영업|운영|열|먹|문\s*(?:열|연))|현재\s*(?:영업|운영)|영업\s*(?:시간|중|종료)|운영\s*시간|문\s*(?:열|연|닫)|마감|라스트\s*오더|after\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?|before\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?|open\s*(?:now|late|until)|late\s*night|closing\s*time|business\s*hours|last\s*order|\d{1,2}\s*時\s*(?:以降|まで|前)|深夜|遅くまで|営業時間|営業中|ラストオーダー|\d{1,2}\s*[点點时時]\s*(?:以后|以後|之前|前|营业|營業)?|深夜|营业时间|營業時間|现在营业|現在營業|打烊|最后点餐|最後點餐)/i;
@@ -617,6 +617,43 @@ function airportServiceDay(message, now = new Date()) {
   if (/(평일|주중|weekday|平日|工作日)/i.test(text)) return "DAY";
   const weekday = new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Seoul", weekday: "short" }).format(now);
   return weekday === "Sat" ? "SAT" : weekday === "Sun" ? "END" : "DAY";
+}
+
+function hasExplicitNonPropertyAirportDestination(message) {
+  const text = String(message || "");
+  const propertyNamed = /(?:어나더\s*하우스|숙소|선일\s*빌딩|동대문역\s*6번\s*출구|another\s*house|property|sunil\s*building|dongdaemun\s*(?:station\s*)?exit\s*6|当館|宿|ソニルビル|住宿|旅舍|Sunil大[厦廈])/i.test(text);
+  if (propertyNamed) return false;
+  return /(?:인천|김포)\s*(?:국제)?공항\s*(?:에서|부터).{1,70}(?:서울역|명동|홍대|강남|부산|청량리|성수|경복궁|시청|종로)(?:으로|로|까지|에)|from\s+(?:incheon|gimpo)\s*(?:international\s*)?airport\s+to\s+(?!another\s*house|the\s*property|sunil\s*building|dongdaemun\s*(?:station\s*)?exit\s*6)\S+|(?:仁川|金浦)(?:国際|國際)?空港から.{1,50}(?:ソウル駅|明洞|弘大|江南|釜山|清凉里|清涼里)(?:へ|まで)|(?:从|從)(?:仁川|金浦)(?:国际|國際)?(?:机场|機場).{1,50}(?:首尔站|首爾站|明洞|弘大|江南|釜山|清凉里|清涼里)/i.test(text);
+}
+
+function verifiedAirportArrival(message, language) {
+  const text = String(message || "").trim();
+  if (!AIRPORT_TO_PROPERTY_PATTERN.test(text) || hasExplicitNonPropertyAirportDestination(text)) return null;
+  const isIncheon = INCHEON_AIRPORT_PATTERN.test(text);
+  const isGimpo = GIMPO_AIRPORT_PATTERN.test(text);
+  if (!isIncheon && !isGimpo) return null;
+  const transport = GUIDE_KNOWLEDGE.arrivalAndTransport?.[language] || GUIDE_KNOWLEDGE.arrivalAndTransport?.ko;
+  const property = GUIDE_KNOWLEDGE.property?.[language] || GUIDE_KNOWLEDGE.property?.ko;
+  const section = transport?.sections?.[isIncheon ? 0 : 1];
+  const recommended = section?.routes?.[0];
+  const bus = section?.routes?.[1];
+  const taxi = section?.routes?.[2];
+  if (!recommended || !property?.maps) return null;
+  const lines = recommended.steps.map(step => `${step.title}: ${step.body}`).join("\n");
+  const copy = {
+    ko: `네. ${isIncheon ? "인천공항" : "김포공항"}에서 어나더하우스로 오는 가장 안정적인 방법은 ${recommended.title}입니다.\n\n${recommended.path}\n${recommended.tags.join(" · ")}\n\n${lines}\n\n짐이 많다면 ${bus?.title || "공항버스"}, 심야이거나 환승 없이 오려면 ${taxi?.title || "공항 택시"}가 편합니다.\n\n${transport.localArrival.instruction}`,
+    en: `Yes. The most predictable way from ${isIncheon ? "Incheon Airport" : "Gimpo Airport"} to Another House is ${recommended.title}.\n\n${recommended.path}\n${recommended.tags.join(" · ")}\n\n${lines}\n\nWith heavy luggage, consider ${bus?.title || "the airport bus"}; late at night or for a direct ride, use ${taxi?.title || "an airport taxi"}.\n\n${transport.localArrival.instruction}`,
+    ja: `はい。${isIncheon ? "仁川空港" : "金浦空港"}からAnother Houseへ最も安定した方法は「${recommended.title}」です。\n\n${recommended.path}\n${recommended.tags.join(" · ")}\n\n${lines}\n\n荷物が多い場合は${bus?.title || "空港バス"}、深夜や乗換なしをご希望なら${taxi?.title || "空港タクシー"}が便利です。\n\n${transport.localArrival.instruction}`,
+    zh: `可以。从${isIncheon ? "仁川机场" : "金浦机场"}前往 Another House，最稳定的路线是${recommended.title}。\n\n${recommended.path}\n${recommended.tags.join(" · ")}\n\n${lines}\n\n行李较多可选择${bus?.title || "机场巴士"}；深夜或希望直达可选择${taxi?.title || "机场出租车"}。\n\n${transport.localArrival.instruction}`,
+    "zh-TW": `可以。從${isIncheon ? "仁川機場" : "金浦機場"}前往 Another House，最穩定的路線是${recommended.title}。\n\n${recommended.path}\n${recommended.tags.join(" · ")}\n\n${lines}\n\n行李較多可選擇${bus?.title || "機場巴士"}；深夜或希望直達可選擇${taxi?.title || "機場計程車"}。\n\n${transport.localArrival.instruction}`
+  }[language] || "";
+  const labels = LINK_LABELS[language] || LINK_LABELS.ko;
+  const links = [
+    { kind: "map", label: `ANOTHER HOUSE · ${labels.naver}`, url: property.maps.naver },
+    { kind: "map", label: `ANOTHER HOUSE · ${labels.google}`, url: property.maps.google }
+  ];
+  if (section.officialSource?.url) links.push({ kind: "source", label: `${labels.source} · ${section.officialSource.label}`, url: section.officialSource.url });
+  return { answer: copy, links, mode: "arrival", verifiedAt: GUIDE_KNOWLEDGE.version };
 }
 
 function verifiedAirportTransport(message, language, now = new Date()) {
@@ -1222,6 +1259,11 @@ module.exports = async function handler(req, res) {
     console.log(JSON.stringify({ event: "concierge_verified_amenity", item: verifiedAmenity.item, returnPolicy: verifiedAmenity.returnPolicy, language, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: verifiedAmenity.answer, model: "another-house-verified-amenity", links: [guidePageLink("appliances", language)], mapContext: null, meta: { searched: false, verifiedAmenity: true, item: verifiedAmenity.item, returnPolicy: verifiedAmenity.returnPolicy, guideRoute: "appliances", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
+  const airportArrival = verifiedAirportArrival(message, language);
+  if (airportArrival) {
+    console.log(JSON.stringify({ event: "concierge_verified_airport_arrival", language, mode: airportArrival.mode, durationMs: Date.now() - startedAt }));
+    return res.status(200).json({ answer: airportArrival.answer, model: "another-house-verified-airport-arrival", links: [...airportArrival.links, guidePageLink("transport", language)], mapContext: null, meta: { searched: false, verifiedAirportArrival: true, mode: airportArrival.mode, guideRoute: "transport", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+  }
   const airportTransport = verifiedAirportTransport(message, language);
   if (airportTransport) {
     console.log(JSON.stringify({ event: "concierge_verified_airport_transport", language, mode: airportTransport.mode, serviceDay: airportTransport.serviceDay || null, verifiedAt: airportTransport.verifiedAt, durationMs: Date.now() - startedAt }));
@@ -1401,4 +1443,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, localizedRouteKnowledge, relevantGuideKnowledge, usesPropertyAsRouteOrigin, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, verifiedHairTool, verifiedGuestBoxItem, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, verifiedAirportTransport, PROPERTY_MEDICINE_PATTERN, GUIDE_KNOWLEDGE };
+module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, localizedRouteKnowledge, relevantGuideKnowledge, usesPropertyAsRouteOrigin, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, verifiedHairTool, verifiedGuestBoxItem, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, hasExplicitNonPropertyAirportDestination, verifiedAirportArrival, verifiedAirportTransport, PROPERTY_MEDICINE_PATTERN, GUIDE_KNOWLEDGE };

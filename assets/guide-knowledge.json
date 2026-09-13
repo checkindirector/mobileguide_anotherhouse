@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-14.1",
+  "version": "2026-09-14.2",
   "generatedAt": "2026-09-11",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -2679,7 +2679,7 @@
         "landmark": "교촌치킨 동대문 1호점",
         "lastMile": "도보 약 30초 · 엘리베이터로 5층",
         "building": "서울시 종로구 종로 294 선일빌딩 5층",
-        "instruction": "동대문역 6번 출구 바로 앞, 1층 교촌치킨 동대문 1호점과 치과 간판이 보이는 선일빌딩으로 들어가 엘리베이터를 타고 5층으로 올라오세요. 엘리베이터에서 내려 반층 아래 유리문 안쪽이 ANOTHER HOUSE 리셉션입니다."
+        "instruction": "동대문역 6번 출구 계단으로 올라와 왼쪽으로 꺾으세요. 화장품 가게들을 지나 교촌치킨 동대문 1호점 간판이 있는 선일빌딩 입구로 들어가 엘리베이터를 타고 5층으로 올라오세요. 엘리베이터에서 내려 반층 아래 유리문 안쪽이 ANOTHER HOUSE 리셉션입니다."
       },
       "sections": [
         {
@@ -2887,7 +2887,7 @@
         "landmark": "Kyochon Chicken Dongdaemun No. 1",
         "lastMile": "About 30 sec on foot · Elevator to 5F",
         "building": "5F, Sunil Building, 294 Jong-ro, Jongno-gu, Seoul",
-        "instruction": "From Dongdaemun Station Exit 6, enter Sunil Building directly ahead—the 1st floor has Kyochon Chicken Dongdaemun No. 1 and a dental-clinic sign. Take the elevator to 5F, go down half a floor, and enter the ANOTHER HOUSE reception through the glass door."
+        "instruction": "Walk up the stairs at Dongdaemun Station Exit 6, turn left, and pass the cosmetics shops. Enter Sunil Building beneath the Kyochon Chicken Dongdaemun No. 1 sign, take the elevator to 5F, go down half a floor, and enter the ANOTHER HOUSE reception through the glass door."
       },
       "sections": [
         {
@@ -3095,7 +3095,7 @@
         "landmark": "キョチョンチキン東大門1号店",
         "lastMile": "徒歩約30秒 · エレベーターで5階",
         "building": "ソウル特別市鍾路区鍾路294 ソニルビル5階",
-        "instruction": "東大門駅6番出口のすぐ前、1階のキョチョンチキン東大門1号店と歯科の看板があるソニルビルに入り、エレベーターで5階へ上がってください。エレベーターを降りて半階下り、ガラス扉の内側がANOTHER HOUSEの受付です。"
+        "instruction": "東大門駅6番出口の階段を上がって左へ曲がり、化粧品店を通り過ぎてください。キョチョンチキン東大門1号店の看板があるソニルビル入口へ入り、エレベーターで5階へ上がります。エレベーターを降りて半階下り、ガラス扉の内側がANOTHER HOUSEの受付です。"
       },
       "sections": [
         {
@@ -3303,7 +3303,7 @@
         "landmark": "桥村炸鸡东大门1号店",
         "lastMile": "步行约30秒 · 乘电梯至5层",
         "building": "首尔特别市钟路区钟路294，Sunil大厦5层",
-        "instruction": "从东大门站6号出口出来，进入正前方一层有桥村炸鸡东大门1号店和牙科招牌的Sunil大厦，乘电梯到5层。出电梯后下半层，玻璃门内即为ANOTHER HOUSE前台。"
+        "instruction": "走上东大门站6号出口楼梯后左转，经过化妆品店，从桥村炸鸡东大门1号店招牌所在的Sunil大厦入口进入，乘电梯到5层。出电梯后下半层，玻璃门内即为ANOTHER HOUSE前台。"
       },
       "sections": [
         {
@@ -3511,7 +3511,7 @@
         "landmark": "橋村炸雞東大門1號店",
         "lastMile": "步行約30秒 · 乘電梯至5層",
         "building": "首爾特別市鍾路區鍾路294，Sunil大廈5層",
-        "instruction": "從東大門站6號出口出來，進入正前方一樓有橋村炸雞東大門1號店和牙科招牌的Sunil大廈，搭電梯到5樓。出電梯後往下半層，玻璃門內就是ANOTHER HOUSE櫃檯。"
+        "instruction": "走上東大門站6號出口樓梯後左轉，經過化妝品店，從橋村炸雞東大門1號店招牌所在的Sunil大廈入口進入，搭電梯到5樓。出電梯後往下半層，玻璃門內就是ANOTHER HOUSE櫃檯。"
       },
       "sections": [
         {

@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-14.1";
+const VERSION = "2026-09-14.2";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -197,14 +197,14 @@ const transportKnowledge = language => {
       lastMile: page.destination?.lastMile,
       building: localize(data.address, language),
       instruction: language === "ko"
-        ? "동대문역 6번 출구 바로 앞, 1층 교촌치킨 동대문 1호점과 치과 간판이 보이는 선일빌딩으로 들어가 엘리베이터를 타고 5층으로 올라오세요. 엘리베이터에서 내려 반층 아래 유리문 안쪽이 ANOTHER HOUSE 리셉션입니다."
+        ? "동대문역 6번 출구 계단으로 올라와 왼쪽으로 꺾으세요. 화장품 가게들을 지나 교촌치킨 동대문 1호점 간판이 있는 선일빌딩 입구로 들어가 엘리베이터를 타고 5층으로 올라오세요. 엘리베이터에서 내려 반층 아래 유리문 안쪽이 ANOTHER HOUSE 리셉션입니다."
         : language === "ja"
-          ? "東大門駅6番出口のすぐ前、1階のキョチョンチキン東大門1号店と歯科の看板があるソニルビルに入り、エレベーターで5階へ上がってください。エレベーターを降りて半階下り、ガラス扉の内側がANOTHER HOUSEの受付です。"
+          ? "東大門駅6番出口の階段を上がって左へ曲がり、化粧品店を通り過ぎてください。キョチョンチキン東大門1号店の看板があるソニルビル入口へ入り、エレベーターで5階へ上がります。エレベーターを降りて半階下り、ガラス扉の内側がANOTHER HOUSEの受付です。"
           : language === "zh"
-            ? "从东大门站6号出口出来，进入正前方一层有桥村炸鸡东大门1号店和牙科招牌的Sunil大厦，乘电梯到5层。出电梯后下半层，玻璃门内即为ANOTHER HOUSE前台。"
+            ? "走上东大门站6号出口楼梯后左转，经过化妆品店，从桥村炸鸡东大门1号店招牌所在的Sunil大厦入口进入，乘电梯到5层。出电梯后下半层，玻璃门内即为ANOTHER HOUSE前台。"
             : language === "zh-TW"
-              ? "從東大門站6號出口出來，進入正前方一樓有橋村炸雞東大門1號店和牙科招牌的Sunil大廈，搭電梯到5樓。出電梯後往下半層，玻璃門內就是ANOTHER HOUSE櫃檯。"
-              : "From Dongdaemun Station Exit 6, enter Sunil Building directly ahead—the 1st floor has Kyochon Chicken Dongdaemun No. 1 and a dental-clinic sign. Take the elevator to 5F, go down half a floor, and enter the ANOTHER HOUSE reception through the glass door."
+              ? "走上東大門站6號出口樓梯後左轉，經過化妝品店，從橋村炸雞東大門1號店招牌所在的Sunil大廈入口進入，搭電梯到5樓。出電梯後往下半層，玻璃門內就是ANOTHER HOUSE櫃檯。"
+              : "Walk up the stairs at Dongdaemun Station Exit 6, turn left, and pass the cosmetics shops. Enter Sunil Building beneath the Kyochon Chicken Dongdaemun No. 1 sign, take the elevator to 5F, go down half a floor, and enter the ANOTHER HOUSE reception through the glass door."
     },
     sections: (page.sections || []).map(section => ({
       title: section.title,

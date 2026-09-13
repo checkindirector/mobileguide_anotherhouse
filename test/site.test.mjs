@@ -12,6 +12,19 @@ test("single lodging data source contains all guide routes and five languages",a
   assert.doesNotMatch(data,/FAQ|faq|EXTAY|guide-extay/);
 });
 
+test("directions page shows the Exit 6 entrance route photo with prominent multilingual signage",async()=>{
+  const app=await read("assets/master-app.js");
+  const html=await read("guide-anotherhouse.html");
+  await access(resolve(root,"assets/images/exit6-entrance-route.webp"));
+  assert.match(app,/exit6-entrance-route\.webp/);
+  assert.match(app,/6번 출구 계단으로 올라오기/);
+  assert.match(app,/Walk up the Exit 6 stairs/);
+  assert.match(app,/6番出口の階段を上がる/);
+  assert.match(app,/走上6號出口樓梯/);
+  assert.match(html,/\.entrance-sign-destination/);
+  assert.match(html,/\.entrance-route-steps/);
+});
+
 
 test("logo chat opens, closes and restores focus without a delayed focus leak",async()=>{
   const source=await read("assets/master-app.js");
