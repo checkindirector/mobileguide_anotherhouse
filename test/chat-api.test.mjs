@@ -57,7 +57,7 @@ async function callAccess(body, entranceCode = "TESTACCESSCODE") {
   }
 }
 
-test("every ordinary question reaches the model with the complete current guide", async () => {
+test("a property question reaches the model with only its relevant guide and no search tool", async () => {
   const { res, request } = await callApi(
     { message: "조식이 제공되나요?", language: "ko", context: { malicious: "ignored" }, history: [] },
     { model: "gpt-5.4-mini", output_text: "현재 홈페이지 안내에서는 조식 제공 여부가 확인되지 않습니다. 예약 플랫폼 메시지로 호스트에게 확인해 주세요.\nGUIDE_PAGE: home", usage: { input_tokens: 100, output_tokens: 20, input_tokens_details: { cached_tokens: 80 } } },
@@ -69,23 +69,23 @@ test("every ordinary question reaches the model with the complete current guide"
   assert.equal(request.options.headers.Authorization, "Bearer test-key");
   assert.equal(request.body.model, "gpt-5.4-mini");
   assert.equal(request.body.store, false);
-  assert.equal(request.body.tools[0].type, "web_search");
-  assert.equal(request.body.tool_choice, "auto");
+  assert.equal(request.body.tools, undefined);
+  assert.equal(request.body.tool_choice, undefined);
+  assert.equal(request.body.include, undefined);
   assert.equal(request.body.reasoning.effort, "low");
-  assert.match(request.body.instructions, /FULL_CURRENT_GUIDE version 2026-09-12\.9/);
+  assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-09-14\.1/);
   assert.match(request.body.instructions, /The very first sentence must give the conclusion/);
   assert.match(request.body.instructions, /Never paste or paraphrase an entire guide section/);
   assert.match(request.body.instructions, /capacity must answer the capacity/);
   assert.match(request.body.instructions, /MAP_SPOT: <canonical place name> \| <complete street address>/);
   assert.match(request.body.instructions, /GUIDE_PAGE: <route>/);
-  assert.match(request.body.instructions, /LG FY9WTB · wash 9 kg \/ dry 4\.5 kg/);
-  assert.match(request.body.instructions, /"dryCapacityKg":4\.5/);
   assert.match(request.body.instructions, /싱글룸 11실 · 더블룸 1실/);
   assert.match(request.body.instructions, /503호 앞 러기지룸/);
+  assert.doesNotMatch(request.body.instructions, /LG FY9WTB|"dryCapacityKg":4\.5/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-12.9-ko");
-  assert.doesNotMatch(request.body.input.at(-1).content, /GUIDE_KNOWLEDGE|FULL_CURRENT_GUIDE/);
-  assert.ok(request.body.instructions.length > 40000);
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-14.1-ko-home");
+  assert.doesNotMatch(request.body.input.at(-1).content, /GUIDE_KNOWLEDGE|CURRENT_GUIDE/);
+  assert.ok(request.body.instructions.length < 30000);
   assert.equal(res.payload.meta.cachedTokens, 80);
   assert.equal(res.payload.meta.searched, false);
   assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "home"]]);
@@ -107,8 +107,9 @@ test("site knowledge is answered naturally through the model in all five languag
     assert.equal(res.statusCode, 200);
     assert.equal(res.payload.model, "gpt-5.4-mini");
     assert.equal(res.payload.meta.searched, false);
-    assert.equal(request.body.tool_choice, "auto");
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.9");
+    assert.equal(request.body.tool_choice, undefined);
+    assert.equal(request.body.tools, undefined);
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.1");
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
     assert.match(res.payload.answer, expected);
     assert.doesNotMatch(res.payload.answer, /최신 공개정보|public information|公开信息|公開資訊/);
@@ -132,12 +133,12 @@ test("nuanced property questions use the complete guide without a forced search"
       `198.51.100.${190 + index}`
     );
     assert.equal(requests.length, 1);
-    assert.equal(request.body.tool_choice, "auto");
+    assert.equal(request.body.tool_choice, undefined);
+    assert.equal(request.body.tools, undefined);
     assert.equal(res.payload.model, "gpt-5.4-mini");
     assert.equal(res.payload.meta.guideRoute, route);
     assert.equal(res.payload.meta.searched, false);
-    assert.ok(res.payload.meta.guideKnowledgeChars > 40000);
-    assert.match(request.body.instructions, /LG FY9WTB/);
+    assert.ok(res.payload.meta.guideKnowledgeChars < 20000);
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", route]]);
   }
 });
@@ -156,7 +157,8 @@ test("short follow-up questions inherit the previous guide topic", async () => {
     "198.51.100.199"
   );
   assert.equal(requests.length, 1);
-  assert.equal(request.body.tool_choice, "auto");
+  assert.equal(request.body.tool_choice, undefined);
+  assert.equal(request.body.tools, undefined);
   assert.equal(res.payload.meta.guideRoute, "appliances");
   assert.match(request.body.instructions, /GUEST BOX/);
   assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "appliances"]]);
@@ -171,7 +173,8 @@ test("device capacity questions answer the requested attribute rather than exist
     const [message, outputText, expected] = cases[index];
     const { res, request, requests } = await callApi({ message, language: "ko", history: [] }, { model: "gpt-5.4-mini", output_text: outputText, output: [], usage: {} }, `198.51.100.${150 + index}`);
     assert.equal(requests.length, 1);
-    assert.equal(request.body.tool_choice, "auto");
+    assert.equal(request.body.tool_choice, undefined);
+    assert.equal(request.body.tools, undefined);
     assert.match(res.payload.answer, expected);
     assert.doesNotMatch(res.payload.answer, /건조기가 있습니다|세탁기가 있습니다/);
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "laundry"]]);
@@ -304,7 +307,8 @@ test("a laundry problem is handled by the AI instead of a generic keyword dump",
     "198.51.100.180"
   );
   assert.equal(res.payload.model, "gpt-5.4-mini");
-  assert.equal(request.body.tool_choice, "auto");
+  assert.equal(request.body.tool_choice, undefined);
+  assert.equal(request.body.tools, undefined);
   assert.match(request.body.instructions, /complete procedure only when the guest explicitly asks/i);
   assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "laundry"]]);
 });
@@ -443,7 +447,7 @@ test("a route with no origin defaults to Another House and uses compact route kn
   assert.match(request.body.instructions, /동대문역 6번 출구/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB/);
   assert.ok(request.body.instructions.length < 25000);
-  assert.equal(request.body.prompt_cache_key, "another-house-route-2026-09-12.9-ko");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-14.1-ko-route");
   assert.equal(res.payload.meta.guideRoute, "transport");
   assert.deepEqual(res.payload.links.at(-1), handler._internals.guidePageLink("transport", "ko"));
 });
@@ -458,7 +462,8 @@ test("exact last-mile property directions use guide knowledge without public web
   const output = { model: "gpt-5.4-mini", output_text: "From Exit 6, look for Kyochon Chicken and the dental sign at Sunil Building, take the elevator to 5F, then go down half a floor to the glass-door reception.\nGUIDE_PAGE: transport", output: [], usage: {} };
   const { request, requests } = await callApi({ message: "I am at Dongdaemun Station Exit 6 but cannot find the building entrance. What landmarks should I look for?", language: "en" }, output, "203.0.113.64");
   assert.equal(requests.length, 1);
-  assert.equal(request.body.tool_choice, "auto");
+  assert.equal(request.body.tool_choice, undefined);
+  assert.equal(request.body.tools, undefined);
   assert.match(request.body.instructions, /CURRENT_GUIDE\.arrivalAndTransport\.localArrival/);
 });
 
@@ -557,7 +562,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.mode, "night");
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.9");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.1");
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
@@ -639,7 +644,7 @@ test("time-specific family dining combines current search with the complete loca
   assert.equal(request.body.reasoning.effort, "medium");
   assert.equal(res.payload.model, "gpt-5.4-mini");
   assert.equal(res.payload.meta.searched, true);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-12.9");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.1");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더(?:가)? 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);
@@ -812,7 +817,8 @@ test("a property check-in time question does not become a dining web search", as
   const output = { model: "gpt-5.4-mini", output_text: "체크인은 15:00 이후 5층 키오스크에서 셀프로 진행합니다. 다만 현재 안내에는 밤 9시 이후의 별도 마감 시간이 명시되어 있지 않습니다.", output: [], usage: {} };
   const { res, request, requests } = await callApi({ message: "밤 9시 이후 체크인 가능한가요?", language: "ko" }, output, "203.0.113.48");
   assert.equal(requests.length, 1);
-  assert.equal(request.body.tool_choice, "auto");
+  assert.equal(request.body.tool_choice, undefined);
+  assert.equal(request.body.tools, undefined);
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.guideRoute, "checkin");
   assert.match(request.body.instructions, /셀프 체크인/);
