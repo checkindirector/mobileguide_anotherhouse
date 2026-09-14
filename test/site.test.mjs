@@ -29,7 +29,8 @@ test("directions page shows the Exit 6 entrance route photo with prominent multi
   assert.match(app,/data-photo-signage="anotherhouse"/);
   assert.match(app,/photoSignageMarkup\('exit6',tc\.startLabel\)/);
   assert.doesNotMatch(app,/entrance-sign entrance-sign-start/);
-  assert.match(app,/entrance-sign entrance-sign-exit6">EXIT 6/);
+  assert.match(app,/type==='exit6'\?'EXIT 6':label/);
+  assert.doesNotMatch(app,/entrance-sign entrance-sign-exit6/);
   assert.doesNotMatch(app,/entrance-sign entrance-sign-turn/);
   assert.doesNotMatch(app,/data-photo-turn-label/);
   assert.match(html,/\.photo-signage-ring/);
@@ -312,7 +313,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(app,/zoom\.dataset\.photoSignage/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20260914-09/);
+  assert.match(html,/master-app\.js\?v=20260914-10/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
