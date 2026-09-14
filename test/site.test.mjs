@@ -313,7 +313,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(app,/zoom\.dataset\.photoSignage/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20260914-13/);
+  assert.match(html,/master-app\.js\?v=20260914-15/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{

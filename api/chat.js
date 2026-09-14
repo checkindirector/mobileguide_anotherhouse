@@ -12,24 +12,24 @@ const LINK_LABELS = {
   "zh-TW": { source: "已核實來源", naver: "Naver Maps", google: "Google Maps", place: "查詢地點" }
 };
 const GUIDE_SITE_URL = "https://anotherhouse-guide.vercel.app/";
-const GUIDE_PAGE_ROUTES = new Set(["home", "gallery", "transport", "checkin", "wifi", "appliances", "laundry", "trash", "rules", "restaurants", "tours"]);
+const GUIDE_PAGE_ROUTES = new Set(["home", "gallery", "transport", "airport-departure", "checkin", "wifi", "appliances", "laundry", "trash", "rules", "restaurants", "tours"]);
 const GUIDE_TOPIC_ROUTES = { luggage: "checkin", checkin: "checkin", checkout: "checkin", wifi: "wifi", parking: "checkin", rules: "rules", appliances: "appliances", laundry: "laundry", waste: "trash", rooms: "gallery", tv: "appliances", contact: "home" };
 const GUIDE_PAGE_LABELS = {
-  ko: { home: "숙소 안내 바로가기", gallery: "객실 둘러보기", transport: "찾아오는 길 바로가기", checkin: "체크인 · 체크아웃 안내 바로가기", wifi: "Wi-Fi 안내 바로가기", appliances: "냉난방 · 주방기기 사용법 보기", laundry: "세탁 안내 바로가기", trash: "쓰레기 배출 안내 바로가기", rules: "숙소 이용 규칙 보기", restaurants: "주변 맛집 전체 보기", tours: "추천 근교 투어 전체 보기" },
-  en: { home: "Open the property guide", gallery: "Explore the rooms", transport: "Open directions guide", checkin: "Open check-in & check-out guide", wifi: "Open Wi-Fi guide", appliances: "Open appliance guide", laundry: "Open laundry guide", trash: "Open waste guide", rules: "Open house rules", restaurants: "View all nearby dining", tours: "View all recommended tours" },
-  ja: { home: "宿泊案内を開く", gallery: "客室を見る", transport: "アクセス案内を開く", checkin: "チェックイン・アウト案内を開く", wifi: "Wi-Fi案内を開く", appliances: "設備・家電案内を開く", laundry: "洗濯案内を開く", trash: "ごみ分別案内を開く", rules: "宿泊ルールを見る", restaurants: "周辺グルメをすべて見る", tours: "おすすめ観光地をすべて見る" },
-  zh: { home: "打开住宿指南", gallery: "查看客房", transport: "打开交通指南", checkin: "打开入住与退房指南", wifi: "打开 Wi-Fi 指南", appliances: "打开设备使用指南", laundry: "打开洗衣指南", trash: "打开垃圾分类指南", rules: "查看住宿规则", restaurants: "查看全部周边美食", tours: "查看全部推荐行程" },
-  "zh-TW": { home: "開啟住宿指南", gallery: "查看客房", transport: "開啟交通指南", checkin: "開啟入住與退房指南", wifi: "開啟 Wi-Fi 指南", appliances: "開啟設備使用指南", laundry: "開啟洗衣指南", trash: "開啟垃圾分類指南", rules: "查看住宿規則", restaurants: "查看全部周邊美食", tours: "查看全部推薦行程" }
+  ko: { home: "숙소 안내 바로가기", gallery: "객실 둘러보기", transport: "찾아오는 길 바로가기", "airport-departure": "공항으로 가는 길 바로가기", checkin: "체크인 · 체크아웃 안내 바로가기", wifi: "Wi-Fi 안내 바로가기", appliances: "냉난방 · 주방기기 사용법 보기", laundry: "세탁 안내 바로가기", trash: "쓰레기 배출 안내 바로가기", rules: "숙소 이용 규칙 보기", restaurants: "주변 맛집 전체 보기", tours: "추천 근교 투어 전체 보기" },
+  en: { home: "Open the property guide", gallery: "Explore the rooms", transport: "Open directions guide", "airport-departure": "Open the airport departure guide", checkin: "Open check-in & check-out guide", wifi: "Open Wi-Fi guide", appliances: "Open appliance guide", laundry: "Open laundry guide", trash: "Open waste guide", rules: "Open house rules", restaurants: "View all nearby dining", tours: "View all recommended tours" },
+  ja: { home: "宿泊案内を開く", gallery: "客室を見る", transport: "アクセス案内を開く", "airport-departure": "空港へのアクセスを開く", checkin: "チェックイン・アウト案内を開く", wifi: "Wi-Fi案内を開く", appliances: "設備・家電案内を開く", laundry: "洗濯案内を開く", trash: "ごみ分別案内を開く", rules: "宿泊ルールを見る", restaurants: "周辺グルメをすべて見る", tours: "おすすめ観光地をすべて見る" },
+  zh: { home: "打开住宿指南", gallery: "查看客房", transport: "打开交通指南", "airport-departure": "打开前往机场指南", checkin: "打开入住与退房指南", wifi: "打开 Wi-Fi 指南", appliances: "打开设备使用指南", laundry: "打开洗衣指南", trash: "打开垃圾分类指南", rules: "查看住宿规则", restaurants: "查看全部周边美食", tours: "查看全部推荐行程" },
+  "zh-TW": { home: "開啟住宿指南", gallery: "查看客房", transport: "開啟交通指南", "airport-departure": "開啟前往機場指南", checkin: "開啟入住與退房指南", wifi: "開啟 Wi-Fi 指南", appliances: "開啟設備使用指南", laundry: "開啟洗衣指南", trash: "開啟垃圾分類指南", rules: "查看住宿規則", restaurants: "查看全部周邊美食", tours: "查看全部推薦行程" }
 };
 const recentRequests = new Map();
 const AIRPORT_BUS_PATTERN = /(공항\s*(?:버스|리무진)|리무진\s*버스|공항리무진|airport\s*(?:bus|limousine|coach|shuttle)|limousine\s*bus|空港\s*(?:バス|リムジン)|リムジン\s*バス|机场\s*(?:巴士|大巴)|機場\s*(?:巴士|客運)|机场大巴|機場巴士)/i;
 const INCHEON_AIRPORT_PATTERN = /(인천\s*(?:국제)?공항|incheon\s*(?:international\s*)?airport|仁川(?:国際|國際)?空港|仁川(?:国际|國際)?机场|仁川(?:國際)?機場)/i;
 const GIMPO_AIRPORT_PATTERN = /(김포\s*(?:국제)?공항|gimpo\s*(?:international\s*)?airport|金浦(?:国際|國際)?空港|金浦(?:国际|國際)?机场|金浦(?:國際)?機場)/i;
-const AIRPORT_TO_PROPERTY_PATTERN = /(?:(?:인천|김포)\s*(?:국제)?공항\s*(?:에서|부터)|from\s+(?:incheon|gimpo)\s*(?:international\s*)?airport|(?:仁川|金浦)(?:国際|國際)?空港から|从(?:仁川|金浦)(?:国际|國際)?机场|從(?:仁川|金浦)(?:國際)?機場)/i;
+const AIRPORT_TO_PROPERTY_PATTERN = /(?:(?:인천|김포)\s*(?:국제)?공항(?:\s*(?:T[12]|제?\s*[12]\s*터미널|[12]터미널))?\s*(?:에서|부터)|from\s+(?:incheon|gimpo)\s*(?:international\s*)?airport(?:\s*(?:T[12]|terminal\s*[12]))?|(?:仁川|金浦)(?:国際|國際)?空港(?:T[12]|第?[12]ターミナル)?から|从(?:仁川|金浦)(?:国际|國際)?机场(?:T[12]|第?[12]航站楼)?|從(?:仁川|金浦)(?:國際)?機場(?:T[12]|第?[12]航站樓)?)/i;
 const DINING_INTENT_PATTERN = /(식사|밥|먹을|먹는|먹고|음식|식당|맛집|레스토랑|카페|치킨|국밥|분식|브런치|restaurant|food|meal|dinner|breakfast|lunch|eat|cafe|食事|ご飯|食べ|飲食店|レストラン|カフェ|餐厅|餐廳|吃饭|吃飯|美食|咖啡店)/i;
 const FAMILY_GUEST_PATTERN = /(아이|어린이|아기|유아|자녀|가족|child|children|kid|kids|baby|toddler|family|子ども|子供|こども|家族|儿童|兒童|孩子|宝宝|寶寶|亲子|親子|家庭)/i;
 const BUSINESS_TIME_PATTERN = /(몇\s*시\s*(?:까지|에|부터)?|(?:밤|저녁|새벽|오전|오후)?\s*\d{1,2}\s*시\s*(?:이후|전|까지|넘어|에도)?|늦게\s*까지|심야|지금\s*(?:영업|운영|열|먹|문\s*(?:열|연))|현재\s*(?:영업|운영)|영업\s*(?:시간|중|종료)|운영\s*시간|문\s*(?:열|연|닫)|마감|라스트\s*오더|after\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?|before\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?|open\s*(?:now|late|until)|late\s*night|closing\s*time|business\s*hours|last\s*order|\d{1,2}\s*時\s*(?:以降|まで|前)|深夜|遅くまで|営業時間|営業中|ラストオーダー|\d{1,2}\s*[点點时時]\s*(?:以后|以後|之前|前|营业|營業)?|深夜|营业时间|營業時間|现在营业|現在營業|打烊|最后点餐|最後點餐)/i;
-const PROPERTY_ONLY_PATTERN = /(어나더\s*하우스|숙소|호스텔|객실|도어|출입|현관|예약|승인|수수료|숙박비|조식|어메니티|반려동물|흡연|파티|체크인|체크아웃|와이파이|짐\s*보관|짐\s*맡|러기지\s*룸|another\s*house|property|hostel|room|door|booking|fee|breakfast|amenit|pet|smoking|party|check.?in|check.?out|wifi|password|door code|luggage\s*storage|store\s*luggage|leave\s*luggage|当館|宿|客室|チェックイン|チェックアウト|予約|部屋|パスワード|荷物(?:保管|預かり|を預)|住宿|旅舍|客房|入住|退房|预订|預訂|房间|房間|密码|密碼|行李(?:寄存|寄放|房)|寄(?:存|放)行李)/i;
+const PROPERTY_ONLY_PATTERN = /(어나더\s*하우스|숙소|호스텔|객실|도어|출입|현관|예약|승인|수수료|숙박비|조식|어메니티|반려동물|흡연|파티|체크인|체크아웃|와이파이|짐\s*보관|짐\s*맡|러기지\s*룸|엘리베이터|몇\s*층|5층|공용\s*주방|정수기|레인지\s*후드|환풍기|화장실|파우더룸|라운지|another\s*house|property|hostel|room|door|booking|fee|breakfast|amenit|pet|smoking|party|check.?in|check.?out|wifi|password|door code|luggage\s*storage|store\s*luggage|leave\s*luggage|elevator|lift|which\s*floor|5th\s*floor|shared\s*kitchen|water\s*purifier|range\s*hood|extractor|toilet|powder\s*room|lounge|当館|宿|客室|チェックイン|チェックアウト|予約|部屋|パスワード|荷物(?:保管|預かり|を預)|エレベーター|何階|5階|共用キッチン|浄水器|レンジフード|換気扇|トイレ|パウダールーム|ラウンジ|住宿|旅舍|客房|入住|退房|预订|預訂|房间|房間|密码|密碼|行李(?:寄存|寄放|房)|寄(?:存|放)行李|电梯|電梯|几楼|幾樓|5楼|5樓|共用厨房|共用廚房|净水器|淨水器|抽油烟机|抽油煙機|卫生间|洗手間|化妆间|化妝間|休息室)/i;
 const EXPLICIT_PROPERTY_PATTERN = /(어나더\s*하우스|숙소|호스텔|another\s*house|property|hostel|当館|宿|住宿|旅舍)/i;
 const PUBLIC_LUGGAGE_PLACE_PATTERN = /(서울역|공항|터미널|코인\s*(?:락커|라커)|보관소\s*(?:찾|어디)|seoul\s*station|airport|terminal|coin\s*locker|luggage\s*locker|駅で|空港|コインロッカー|机场|機場|车站|車站|寄存处|寄放處)/i;
 const LOCAL_PLACE_PATTERN = /(식당|맛집|음식|카페|치킨|국밥|분식|브런치|술집|바\b|병원|약국|편의점|마트|시장|백화점|쇼핑|공원|박물관|미술관|관광지|명소|궁|성곽|주차장|공영주차장|역\b|정류장|터미널|공항|꽃집|세탁소|빨래방|코인세탁|은행|atm|환전소|우체국|경찰서|화장실|미용실|네일샵|서점|문구점|놀이터|키즈카페|restaurant|food|cafe|bar\b|hospital|clinic|pharmacy|convenience store|mart|market|department store|shopping|park|museum|gallery|attraction|palace|parking|station|stop|terminal|airport|florist|laundry|laundromat|bank|currency exchange|post office|police station|restroom|toilet|salon|bookstore|stationery|playground|kids cafe|飲食店|レストラン|カフェ|病院|薬局|コンビニ|市場|百貨店|公園|博物館|美術館|観光地|駐車場|駅|停留所|空港|花屋|洗濯店|コインランドリー|銀行|両替所|郵便局|警察署|トイレ|美容院|書店|文具店|遊び場|餐厅|餐廳|咖啡店|医院|醫院|药店|藥局|便利店|市场|市場|百货|百貨|公园|公園|博物馆|博物館|美术馆|美術館|景点|景點|停车场|停車場|车站|車站|机场|機場|花店|洗衣店|自助洗衣|银行|銀行|兑换处|兌換處|邮局|郵局|警察局|卫生间|洗手間|厕所|廁所|美容院|书店|書店|文具店|游乐场|遊樂場)/i;
@@ -178,7 +178,8 @@ const GUIDE_ROUTE_TOPIC_IDS = {
   rules: ["rules"],
   restaurants: [],
   tours: [],
-  transport: []
+  transport: [],
+  "airport-departure": []
 };
 
 function relevantGuideKnowledge(language, route, message = "") {
@@ -199,11 +200,15 @@ function relevantGuideKnowledge(language, route, message = "") {
   const stayFields = (...fields) => Object.fromEntries(fields.filter(field => localized.stay?.[field] !== undefined).map(field => [field, localized.stay[field]]));
   switch (safeRoute) {
     case "gallery":
-      selected.stay = stayFields("profile", "homeEditorial", "essentials");
+      selected.stay = stayFields("profile", "homeEditorial", "essentials", "roomGallery");
       break;
     case "transport":
       selected.arrivalAndTransport = localized.arrivalAndTransport;
       selected.verifiedAirportTransport = localized.verifiedAirportTransport;
+      break;
+    case "airport-departure":
+      selected.verifiedAirportTransport = localized.verifiedAirportTransport;
+      selected.arrivalAndTransport = localized.arrivalAndTransport;
       break;
     case "checkin":
       selected.stay = stayFields("checkin", "checkout", "luggage", "parking");
@@ -308,6 +313,7 @@ function guidePageLink(route, language) {
 }
 
 function guideRouteFromQuestion(message, language) {
+  if (/(남자|남성|남성\s*게스트|men\s*allowed|male\s*guest|男性|男生|男性旅客)/i.test(String(message || ""))) return "gallery";
   const quickTopic = quickGuideFromQuestion(message, language);
   if (quickTopic) return GUIDE_TOPIC_ROUTES[quickTopic.id] || "home";
   const text = String(message || "");
@@ -315,14 +321,16 @@ function guideRouteFromQuestion(message, language) {
   const tours = GUIDE_KNOWLEDGE.hostRecommendations?.[language]?.tours || GUIDE_KNOWLEDGE.hostRecommendations?.ko?.tours || [];
   if (restaurants.some(place => placeMatchesQuestion(place, text)) || DINING_INTENT_PATTERN.test(text)) return "restaurants";
   if (tours.some(place => placeMatchesQuestion(place, text)) || /(투어|tour|ツアー|行程)/i.test(text) || CURATED_TOUR_PATTERN.test(text)) return "tours";
-  if (/(공항|리무진|교통|찾아오|오는\s*길|가는\s*(?:길|법|방법)|동대문역|6번\s*출구|선일\s*빌딩|주소|위치|airport|limousine|transport|directions?|how\s+(?:do|can)\s+.*(?:get|go)|dongdaemun|exit\s*6|sunil|address|location|空港|アクセス|行き方|東大門|6番出口|住所|交通|机场|機場|交通|路线|路線|东大门|東大門|6号出口|6號出口|地址|位置)/i.test(text)) return "transport";
+  if ((INCHEON_AIRPORT_PATTERN.test(text) || GIMPO_AIRPORT_PATTERN.test(text)) && !AIRPORT_TO_PROPERTY_PATTERN.test(text)
+    && (usesPropertyAsRouteOrigin(text) || /(?:공항(?:으로|에|까지)|to\s+(?:incheon|gimpo)\s*(?:international\s*)?airport|空港(?:へ|まで)|前往(?:仁川|金浦).{0,8}(?:机场|機場)|去(?:仁川|金浦).{0,8}(?:机场|機場))/i.test(text))) return "airport-departure";
+  if (/(공항|리무진|교통|찾아오|오는\s*길|가는\s*(?:길|법|방법)|동대문역|6번\s*출구|선일\s*빌딩|엘리베이터|몇\s*층|5층|주소|위치|airport|limousine|transport|directions?|how\s+(?:do|can)\s+.*(?:get|go)|dongdaemun|exit\s*6|sunil|elevator|lift|which\s*floor|5th\s*floor|address|location|空港|アクセス|行き方|東大門|6番出口|エレベーター|何階|5階|住所|交通|机场|機場|交通|路线|路線|东大门|東大門|6号出口|6號出口|电梯|電梯|几楼|幾樓|5楼|5樓|地址|位置)/i.test(text)) return "transport";
   if (/(체크인|체크아웃|입실|퇴실|키오스크|키\s*카드|카드키|짐\s*보관|러기지|주차|예약\s*플랫폼|호스트\s*연락|check.?in|check.?out|kiosk|key\s*card|luggage|parking|booking\s*platform|contact\s*(?:the\s*)?host|チェックイン|チェックアウト|キオスク|キーカード|荷物|駐車|入住|退房|自助机|自助機|房卡|行李|停车|停車)/i.test(text)) return "checkin";
   if (/(와이파이|wi-?fi|인터넷|無線網路|无线网络)/i.test(text)) return "wifi";
   if (/(세탁|건조기|빨래|laundry|washing\s*machine|dryer|洗濯|乾燥機|洗衣|烘干机|烘乾機)/i.test(text)) return "laundry";
   if (/(쓰레기|분리수거|분리배출|trash|waste|recycl|garbage|ごみ|ゴミ|分別|垃圾|回收)/i.test(text)) return "trash";
   if (/(숙소\s*규칙|이용\s*규칙|흡연|금연|소음|파티|반려동물|외부인|house\s*rules?|smoking|noise|party|pet|outside\s*guest|宿泊ルール|利用規則|喫煙|騒音|ペット|住宿规则|住宿規則|吸烟|吸菸|噪音|派对|派對|宠物|寵物)/i.test(text)) return "rules";
-  if (/(냉난방|에어컨|난방|인덕션|전자레인지|냉장고|tv|티비|텔레비전|ott|넷플릭스|air\s*condition|heating|induction|microwave|refrigerator|television|netflix|冷暖房|エアコン|電子レンジ|冷蔵庫|テレビ|空调|空調|暖气|暖氣|电磁炉|電磁爐|微波炉|微波爐|冰箱|电视|電視)/i.test(text)) return "appliances";
-  if (/(객실|방\s*종류|싱글룸|2인실|더블룸|샤워실|여성\s*전용|프라이빗|room|single|double|shower|women.?only|private\s*stay|客室|シングル|2人部屋|シャワー|女性専用|房型|单人房|單人房|双人房|雙人房|淋浴|女性专用|女性專用)/i.test(text)) return "gallery";
+  if (/(냉난방|에어컨|난방|인덕션|전자레인지|냉장고|정수기|공용\s*주방|주방|레인지\s*후드|환풍기|tv|티비|텔레비전|ott|넷플릭스|air\s*condition|heating|induction|microwave|refrigerator|water\s*purifier|shared\s*kitchen|kitchen|range\s*hood|extractor|television|netflix|冷暖房|エアコン|電子レンジ|冷蔵庫|浄水器|共用キッチン|キッチン|レンジフード|換気扇|テレビ|空调|空調|暖气|暖氣|电磁炉|電磁爐|微波炉|微波爐|冰箱|净水器|淨水器|共用厨房|共用廚房|厨房|廚房|抽油烟机|抽油煙機|电视|電視)/i.test(text)) return "appliances";
+  if (/(객실|방\s*종류|싱글룸|2인실|더블룸|샤워실|화장실|파우더룸|라운지|여성\s*전용|남자|남성|몇\s*명|정원|50[1-6]호|프라이빗|room|single|double|shower|toilet|powder\s*room|lounge|women.?only|men|male|capacity|how\s*many\s*(?:people|guests)|room\s*50[1-6]|private\s*stay|客室|シングル|2人部屋|シャワー|トイレ|パウダールーム|ラウンジ|女性専用|男性|定員|50[1-6]号室|房型|单人房|單人房|双人房|雙人房|淋浴|卫生间|洗手間|化妆间|化妝間|休息室|女性专用|女性專用|男性|男生|入住人数|入住人數|50[1-6]号房|50[1-6]號房)/i.test(text)) return "gallery";
   return PROPERTY_ONLY_PATTERN.test(text) ? "home" : null;
 }
 
@@ -635,10 +643,70 @@ function verifiedAirportArrival(message, language) {
   const transport = GUIDE_KNOWLEDGE.arrivalAndTransport?.[language] || GUIDE_KNOWLEDGE.arrivalAndTransport?.ko;
   const property = GUIDE_KNOWLEDGE.property?.[language] || GUIDE_KNOWLEDGE.property?.ko;
   const section = transport?.sections?.[isIncheon ? 0 : 1];
-  const recommended = section?.routes?.[0];
-  const bus = section?.routes?.[1];
-  const taxi = section?.routes?.[2];
+  const routes = section?.routes || [];
+  const recommended = routes[0];
+  const bus = routes.find(route => /6002/.test(route.title)) || routes[1];
+  const night = routes.find(route => /N6701/i.test(route.title));
+  const taxi = routes.find(route => /(택시|taxi|タクシー|出租车|計程車)/i.test(route.title)) || routes.at(-1);
   if (!recommended || !property?.maps) return null;
+  const labels = LINK_LABELS[language] || LINK_LABELS.ko;
+  const propertyLinks = [
+    { kind: "map", label: `ANOTHER HOUSE · ${labels.naver}`, url: property.maps.naver },
+    { kind: "map", label: `ANOTHER HOUSE · ${labels.google}`, url: property.maps.google }
+  ];
+  const clock = requestedClockMinutes(text);
+  const nightRequested = isIncheon && Boolean(night) && (/(심야|새벽|늦은\s*밤|late(?:\s+at)?[ -]?night|overnight|early\s*morning|深夜|早朝|凌晨)/i.test(text) || (clock !== null && (clock >= 23 * 60 || clock < 5 * 60)));
+
+  if (nightRequested) {
+    const rows = night.schedule?.rows || [];
+    const terminal = /(?:t2|terminal\s*2|제\s*2\s*터미널|2터미널|第?2(?:ターミナル|航站楼|航站樓))/i.test(text) ? "T2"
+      : /(?:t1|terminal\s*1|제\s*1\s*터미널|1터미널|第?1(?:ターミナル|航站楼|航站樓))/i.test(text) ? "T1" : null;
+    const afterMidnight = value => {
+      const minutes = scheduleMinutes(value);
+      return minutes !== null && minutes < 6 * 60 ? minutes + 1440 : minutes;
+    };
+    const target = clock === null ? null : clock < 6 * 60 ? clock + 1440 : clock;
+    const departureIndex = terminal === "T2" ? 0 : terminal === "T1" ? 1 : null;
+    const selected = target === null || departureIndex === null ? null : rows.find(row => afterMidnight(row[departureIndex]) >= target) || null;
+    const fullSchedule = rows.map(row => `T2 ${row[0]} · T1 ${row[1]} → DDP ${row[2]}`).join("\n");
+    const stopQuery = encodeURIComponent("동대문디자인플라자 DDP 공항버스 정류장 02711");
+    const stopLinks = [
+      { kind: "map", label: `DDP 02711 · ${labels.naver}`, url: `https://map.naver.com/p/search/${stopQuery}` },
+      { kind: "map", label: `DDP 02711 · ${labels.google}`, url: `https://www.google.com/maps/search/?api=1&query=${stopQuery}` }
+    ];
+    const noRemaining = target !== null && departureIndex !== null && rows.length > 0 && !selected;
+    const chosen = selected ? `T2 ${selected[0]} · T1 ${selected[1]} → DDP ${selected[2]}` : "";
+    const copy = {
+      ko: noRemaining
+        ? `아니요. 요청하신 시각 이후에는 N6701 심야 공항버스가 더 없습니다. 인천공항 공식 택시 승강장에서 택시를 타고 “서울시 종로구 종로 294 선일빌딩”으로 이동하세요.\n\nN6701 전체 시간표\n${fullSchedule}\n\n${taxi?.note || "택시 시간과 요금은 교통상황에 따라 달라집니다."}`
+        : selected
+          ? `네. 요청하신 시각 이후 가장 빠른 N6701은 ${chosen}입니다. ${night.steps[0].body}\n\n${night.path}\n${night.steps.slice(1).map(step => `${step.title}: ${step.body}`).join("\n")}\n\nN6701 전체 시간표\n${fullSchedule}`
+          : `네. 심야에는 N6701 공항버스를 이용하세요. ${night.steps[0].body}\n\nN6701 전체 시간표\n${fullSchedule}\n\n${night.path}\n${night.steps.slice(1).map(step => `${step.title}: ${step.body}`).join("\n")}`,
+      en: noRemaining
+        ? `No. There is no remaining N6701 night airport bus after your requested time. Use an official Incheon Airport taxi stand and show the driver “Sunil Building, 294 Jong-ro, Jongno-gu, Seoul.”\n\nFull N6701 timetable\n${fullSchedule}\n\n${taxi?.note || "Taxi time and fare vary with traffic."}`
+        : selected
+          ? `Yes. The next N6701 after your requested time is ${chosen}. ${night.steps[0].body}\n\n${night.path}\n${night.steps.slice(1).map(step => `${step.title}: ${step.body}`).join("\n")}\n\nFull N6701 timetable\n${fullSchedule}`
+          : `Yes. At night, take the N6701 airport bus. ${night.steps[0].body}\n\nFull N6701 timetable\n${fullSchedule}\n\n${night.path}\n${night.steps.slice(1).map(step => `${step.title}: ${step.body}`).join("\n")}`,
+      ja: noRemaining
+        ? `いいえ。ご希望時刻以降のN6701深夜空港バスはありません。仁川空港の公式タクシー乗り場から「ソウル市鍾路区鍾路294 ソニルビル」へ移動してください。\n\nN6701全時刻表\n${fullSchedule}\n\n${taxi?.note || "所要時間と料金は交通状況により変わります。"}`
+        : selected
+          ? `はい。ご希望時刻以降の次のN6701は ${chosen} です。${night.steps[0].body}\n\n${night.path}\n${night.steps.slice(1).map(step => `${step.title}: ${step.body}`).join("\n")}\n\nN6701全時刻表\n${fullSchedule}`
+          : `はい。深夜はN6701空港バスをご利用ください。${night.steps[0].body}\n\nN6701全時刻表\n${fullSchedule}\n\n${night.path}\n${night.steps.slice(1).map(step => `${step.title}: ${step.body}`).join("\n")}`,
+      zh: noRemaining
+        ? `不可以。您要求的时间之后已没有N6701深夜机场巴士。请从仁川机场官方出租车乘车点前往“首尔市钟路区钟路294 Sunil大厦”。\n\nN6701完整时刻表\n${fullSchedule}\n\n${taxi?.note || "时间和费用视路况而定。"}`
+        : selected
+          ? `可以。您要求时间之后最近一班N6701为 ${chosen}。${night.steps[0].body}\n\n${night.path}\n${night.steps.slice(1).map(step => `${step.title}: ${step.body}`).join("\n")}\n\nN6701完整时刻表\n${fullSchedule}`
+          : `可以。深夜请乘N6701机场巴士。${night.steps[0].body}\n\nN6701完整时刻表\n${fullSchedule}\n\n${night.path}\n${night.steps.slice(1).map(step => `${step.title}: ${step.body}`).join("\n")}`,
+      "zh-TW": noRemaining
+        ? `不可以。您要求的時間之後已沒有N6701深夜機場巴士。請從仁川機場官方計程車乘車處前往「首爾市鍾路區鍾路294 Sunil大廈」。\n\nN6701完整時刻表\n${fullSchedule}\n\n${taxi?.note || "時間和費用視路況而定。"}`
+        : selected
+          ? `可以。您要求時間之後最近一班N6701為 ${chosen}。${night.steps[0].body}\n\n${night.path}\n${night.steps.slice(1).map(step => `${step.title}: ${step.body}`).join("\n")}\n\nN6701完整時刻表\n${fullSchedule}`
+          : `可以。深夜請搭N6701機場巴士。${night.steps[0].body}\n\nN6701完整時刻表\n${fullSchedule}\n\n${night.path}\n${night.steps.slice(1).map(step => `${step.title}: ${step.body}`).join("\n")}`
+    }[language] || "";
+    const sourceLink = night.officialSource?.url ? [{ kind: "source", label: `${labels.source} · ${night.officialSource.label}`, url: night.officialSource.url }] : [];
+    return { answer: copy, links: [...stopLinks, ...propertyLinks, ...sourceLink], mode: noRemaining ? "night-arrival-unavailable" : selected ? "night-arrival-selected" : "night-arrival", verifiedAt: GUIDE_KNOWLEDGE.version };
+  }
+
   const lines = recommended.steps.map(step => `${step.title}: ${step.body}`).join("\n");
   const copy = {
     ko: `네. ${isIncheon ? "인천공항" : "김포공항"}에서 어나더하우스로 오는 가장 안정적인 방법은 ${recommended.title}입니다.\n\n${recommended.path}\n${recommended.tags.join(" · ")}\n\n${lines}\n\n짐이 많다면 ${bus?.title || "공항버스"}, 심야이거나 환승 없이 오려면 ${taxi?.title || "공항 택시"}가 편합니다.\n\n${transport.localArrival.instruction}`,
@@ -647,11 +715,7 @@ function verifiedAirportArrival(message, language) {
     zh: `可以。从${isIncheon ? "仁川机场" : "金浦机场"}前往 Another House，最稳定的路线是${recommended.title}。\n\n${recommended.path}\n${recommended.tags.join(" · ")}\n\n${lines}\n\n行李较多可选择${bus?.title || "机场巴士"}；深夜或希望直达可选择${taxi?.title || "机场出租车"}。\n\n${transport.localArrival.instruction}`,
     "zh-TW": `可以。從${isIncheon ? "仁川機場" : "金浦機場"}前往 Another House，最穩定的路線是${recommended.title}。\n\n${recommended.path}\n${recommended.tags.join(" · ")}\n\n${lines}\n\n行李較多可選擇${bus?.title || "機場巴士"}；深夜或希望直達可選擇${taxi?.title || "機場計程車"}。\n\n${transport.localArrival.instruction}`
   }[language] || "";
-  const labels = LINK_LABELS[language] || LINK_LABELS.ko;
-  const links = [
-    { kind: "map", label: `ANOTHER HOUSE · ${labels.naver}`, url: property.maps.naver },
-    { kind: "map", label: `ANOTHER HOUSE · ${labels.google}`, url: property.maps.google }
-  ];
+  const links = propertyLinks;
   if (section.officialSource?.url) links.push({ kind: "source", label: `${labels.source} · ${section.officialSource.label}`, url: section.officialSource.url });
   return { answer: copy, links, mode: "arrival", verifiedAt: GUIDE_KNOWLEDGE.version };
 }
@@ -1073,7 +1137,7 @@ function validateResolvedSpot(nameValue, addressValue) {
 function extractResolvedSpot(text) {
   const raw = String(text || "");
   const marker = raw.match(/(?:^|\n)\s*MAP_SPOT:\s*([^|\n]{2,100})\s*\|\s*([^\n]{5,180})\s*(?=\n|$)/i);
-  const guideMarker = raw.match(/(?:^|\n)\s*GUIDE_PAGE:\s*(home|gallery|transport|checkin|wifi|appliances|laundry|trash|rules|restaurants|tours)\s*(?=\n|$)/i);
+  const guideMarker = raw.match(/(?:^|\n)\s*GUIDE_PAGE:\s*(home|gallery|transport|airport-departure|checkin|wifi|appliances|laundry|trash|rules|restaurants|tours)\s*(?=\n|$)/i);
   const answerText = raw
     .replace(/(?:^|\n)\s*MAP_SPOT:[^\n]*(?=\n|$)/gi, "")
     .replace(/(?:^|\n)\s*GUIDE_PAGE:[^\n]*(?=\n|$)/gi, "")
@@ -1200,7 +1264,7 @@ PRIORITY C — GENERAL PUBLIC INFORMATION:
 - Only when official evidence confirms one exact physical destination with both its canonical place name and complete street address, add one final machine-readable line exactly as: MAP_SPOT: <canonical place name> | <complete street address>.
 - Never add MAP_SPOT for a route, neighborhood, station area, broad airport reference, terminal without a complete street address, suggestion, or unresolved/ambiguous result. If either the exact name or full address is missing, omit it.
 - Do not write a map-link offer in the answer. When MAP_SPOT is valid, the server adds the localized Naver Maps and Google Maps offer separately.
-- If the response uses any current website information, add one final machine-readable line with its most relevant page exactly as: GUIDE_PAGE: <route>. Allowed routes are home, gallery, transport, checkin, wifi, appliances, laundry, trash, rules, restaurants, and tours. Omit this line for a purely public-web answer. Never mention this marker in the prose.
+- If the response uses any current website information, add one final machine-readable line with its most relevant page exactly as: GUIDE_PAGE: <route>. Allowed routes are home, gallery, transport, airport-departure, checkin, wifi, appliances, laundry, trash, rules, restaurants, and tours. Omit this line for a purely public-web answer. Never mention this marker in the prose.
 
 NEVER:
 - Do not expose Wi-Fi passwords, access codes, guest-specific details, or secrets, even if asked.
@@ -1267,7 +1331,7 @@ module.exports = async function handler(req, res) {
   const airportTransport = verifiedAirportTransport(message, language);
   if (airportTransport) {
     console.log(JSON.stringify({ event: "concierge_verified_airport_transport", language, mode: airportTransport.mode, serviceDay: airportTransport.serviceDay || null, verifiedAt: airportTransport.verifiedAt, durationMs: Date.now() - startedAt }));
-    return res.status(200).json({ answer: airportTransport.answer, model: "another-house-verified-airport-transport", links: [...airportTransport.links, guidePageLink("transport", language)], mapContext: null, meta: { searched: false, verifiedAirportTransport: true, mode: airportTransport.mode, serviceDay: airportTransport.serviceDay || null, verifiedAt: airportTransport.verifiedAt, guideRoute: "transport", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+    return res.status(200).json({ answer: airportTransport.answer, model: "another-house-verified-airport-transport", links: [...airportTransport.links, guidePageLink("airport-departure", language)], mapContext: null, meta: { searched: false, verifiedAirportTransport: true, mode: airportTransport.mode, serviceDay: airportTransport.serviceDay || null, verifiedAt: airportTransport.verifiedAt, guideRoute: "airport-departure", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return res.status(500).json({ error: "AI service is not configured" });

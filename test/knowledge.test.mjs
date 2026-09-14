@@ -8,7 +8,7 @@ const root = resolve(import.meta.dirname, "..");
 test("generated knowledge mirrors current public guide content without secrets", async () => {
   const raw = await readFile(resolve(root, "assets/guide-knowledge.json"), "utf8");
   const knowledge = JSON.parse(raw);
-  assert.equal(knowledge.version, "2026-09-14.2");
+  assert.equal(knowledge.version, "2026-09-14.3");
   assert.deepEqual(knowledge.languages, ["ko", "en", "ja", "zh", "zh-TW"]);
   assert.equal(knowledge.property.ko.address, "서울시 종로구 종로 294 선일빌딩 5층");
   assert.equal(knowledge.stay.ko.checkin.summary.includes("15:00"), true);
@@ -20,10 +20,14 @@ test("generated knowledge mirrors current public guide content without secrets",
   assert.equal(knowledge.arrivalAndTransport.en.sections[0].routes.length, 4);
   assert.match(knowledge.arrivalAndTransport.en.sections[0].routes[1].path, /Bus 6002/);
   assert.match(knowledge.arrivalAndTransport.en.sections[0].routes[2].path, /N6701/);
+  assert.equal(knowledge.arrivalAndTransport.ko.sections[0].routes[2].schedule.rows.length, 5);
+  assert.match(knowledge.arrivalAndTransport.ko.sections[0].routes[2].officialSource.url, /bus_no=N6701/);
   assert.match(knowledge.stay.ko.checkin.sections[0].steps[5], /얼리 체크인은 객실 준비 사정상 불가능합니다/);
+  assert.equal(knowledge.stay.ko.roomGallery.find(category => category.id === "single").items.length, 4);
   assert.match(knowledge.arrivalAndTransport["zh-TW"].localArrival.instruction, /6號出口/);
   assert.equal(knowledge.hostRecommendations.ko.restaurants.length, 26);
   const eggdrop = knowledge.hostRecommendations.ko.restaurants.find(place => place.name === "에그드랍 동대문점");
+  assert.equal(typeof eggdrop.rating, "string");
   assert.equal(eggdrop.address, "서울 중구 을지로 255 기승빌딩 B동 에그드랍");
   assert.equal(eggdrop.verifiedHours.schedule, "매일 07:00–22:00");
   assert.equal(eggdrop.verifiedHours.sourceUrl, "https://map.naver.com/p/entry/place/1736990079");
@@ -55,6 +59,20 @@ test("generated knowledge mirrors current public guide content without secrets",
     }
     assert.ok(knowledge.stay[language].profile.body.length > 40);
     assert.equal(knowledge.stay[language].profile.facts.length, 3);
+    assert.ok(knowledge.stay[language].checkin.sections.length >= 2);
+    assert.ok(knowledge.stay[language].checkout.sections.length >= 2);
+    assert.ok(knowledge.stay[language].roomGallery.length >= 3);
+    assert.ok(knowledge.stay[language].roomGallery.every(category => category.items.length > 0));
+    assert.ok(knowledge.appliances[language].devices.length >= 6);
+    assert.ok(knowledge.laundry[language].equipment.washCapacityKg === 9);
+    assert.ok(knowledge.waste[language].sections.length >= 1);
+    assert.ok(knowledge.waste[language].sections[0].steps.length >= 5);
+    assert.ok(knowledge.hostRecommendations[language].restaurants.every(place => typeof place.rating === "string"));
+    const inboundNight = knowledge.arrivalAndTransport[language].sections[0].routes.find(route => /N6701/.test(route.title));
+    assert.equal(inboundNight.schedule.rows.length, 5);
+    assert.match(inboundNight.officialSource.url, /bus_no=N6701/);
+    const earlyCheckin = knowledge.quickGuide[language].find(topic => topic.id === "checkin").directAnswers[0];
+    assert.ok(earlyCheckin.answer.length > 20);
   }
   assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "luggage").answer, /503호 앞.*체크아웃 당일.*무료/s);
   assert.match(knowledge.quickGuide.en.find(topic => topic.id === "luggage").answer, /Room 503.*day of checkout/s);

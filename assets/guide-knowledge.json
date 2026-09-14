@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-14.2",
+  "version": "2026-09-14.3",
   "generatedAt": "2026-09-11",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -101,13 +101,25 @@
           "입실 시간",
           "입실 방법",
           "셀프 체크인",
+          "얼리 체크인",
+          "조기 체크인",
+          "일찍 체크인",
           "키오스크",
           "객실 도어락"
         ],
         "answer": "체크인은 15:00부터입니다. 선일빌딩 5층 키오스크에서 예약자 정보로 셀프 체크인을 진행해 주세요.\n체크인 하루 전부터 당일 오전 9시 사이에 예약 플랫폼 메시지로 발송된 체크인 안내를 확인합니다.\n15:00 이후 5층 키오스크에서 예약 바우처에 적힌 예약자 이름 또는 예약 번호 뒤 4자리로 예약을 조회합니다.\n화면 안내에 따라 셀프 체크인을 완료하고 객실 번호와 카드키를 확인합니다.\n체크인 후에는 카드키를 출입구 옆 기기에 태그하여 문을 엽니다.\n짐은 503호 앞 러기지룸에 보관할 수 있습니다. 체크인 전 짐 보관을 위한 출입정보는 예약 메시지에서 확인해 주세요.\n얼리 체크인은 객실 준비 사정상 불가능합니다.\n예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴)을 통해 메시지로 호스트에게 연락해 주세요.",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "체크인은 15:00부터이며 셀프 체크인으로 진행합니다.",
-        "directAnswers": []
+        "directAnswers": [
+          {
+            "keywords": [
+              "얼리 체크인",
+              "조기 체크인",
+              "일찍 체크인"
+            ],
+            "answer": "아니요, 얼리 체크인은 객실 준비 사정상 불가능합니다. 체크인은 15:00부터입니다."
+          }
+        ]
       },
       {
         "id": "checkout",
@@ -211,6 +223,12 @@
           "인덕션",
           "전자레인지",
           "냉장고",
+          "정수기",
+          "주방 후드",
+          "레인지 후드",
+          "환풍기",
+          "공용 주방",
+          "공용주방",
           "기기 사용",
           "게스트박스",
           "수건",
@@ -394,10 +412,26 @@
           "객실 종류",
           "방 종류",
           "싱글룸",
+          "1인실",
           "2인실",
           "더블룸",
           "샤워실",
-          "화장실 몇"
+          "화장실",
+          "파우더룸",
+          "라운지",
+          "공용 주방",
+          "공용주방",
+          "남자",
+          "남성",
+          "몇 명",
+          "정원",
+          "최대 인원",
+          "501호",
+          "502호",
+          "503호",
+          "504호",
+          "505호",
+          "506호"
         ],
         "answer": "서울 여행의 하루를 조용히 마무리할 수 있는 작은 공간. 어나더하우스는 동대문역 인근에 위치한 여성 전용 스테이로, 개인 여행객을 위한 싱글룸과 친구 혹은 가족과 머물 수 있는 2인실을 운영하고 있습니다. 화려한 시설보다는 편안한 휴식과 실용적인 숙박에 집중했으며, 혼자 또는 함께 서울을 여행하는 여성 여행객에게 아늑한 쉼터가 되어드립니다.\n싱글룸 11실 · 더블룸 1실\n공용 샤워실 3칸 · 화장실 2칸\n동대문역 6번 출구 도보 30초",
         "source": "https://anotherhouse-guide.vercel.app/?page=gallery",
@@ -477,13 +511,23 @@
           "check-in",
           "arrival procedure",
           "self check-in",
+          "early check-in",
+          "early check in",
           "kiosk",
           "room door lock"
         ],
         "answer": "Check-in begins at 15:00. Use the kiosk on the 5th floor of Sunil Building with the booking guest’s details.\nCheck the arrival instructions sent through your booking platform between the day before check-in and 09:00 on arrival day.\nAfter 15:00, use the kiosk on the 5th floor and search with the name shown on the booking voucher or the last four digits of the reservation number.\nComplete self check-in on screen and confirm your room number and key card.\nAfter check-in, tap the key card on the reader beside the entrance.\nLuggage can be stored in the luggage room in front of Room 503. For luggage access before check-in, use the access information in your booking message.\nEarly check-in is not available because rooms need time to be prepared.\nPlease contact the host by message through the platform you booked with (Booking.com, Agoda, or Trip.com).",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "Check-in starts at 15:00 and is self-service.",
-        "directAnswers": []
+        "directAnswers": [
+          {
+            "keywords": [
+              "early check-in",
+              "early check in"
+            ],
+            "answer": "No, early check-in is not available because rooms need preparation. Check-in starts at 15:00."
+          }
+        ]
       },
       {
         "id": "checkout",
@@ -587,6 +631,10 @@
           "induction",
           "microwave",
           "refrigerator",
+          "water purifier",
+          "range hood",
+          "extractor fan",
+          "shared kitchen",
           "appliance",
           "guest box",
           "towel",
@@ -773,7 +821,21 @@
           "single room",
           "double room",
           "shared shower",
-          "how many rooms"
+          "toilet",
+          "powder room",
+          "lounge",
+          "shared kitchen",
+          "men allowed",
+          "male guest",
+          "how many rooms",
+          "how many guests",
+          "capacity",
+          "room 501",
+          "room 502",
+          "room 503",
+          "room 504",
+          "room 505",
+          "room 506"
         ],
         "answer": "A small, quiet place to close out a day of exploring Seoul. Another House is a women-only stay near Dongdaemun Station, with single rooms for solo travelers and a double room for friends or family. Rather than elaborate facilities, it focuses on comfortable rest and practical hospitality—a warm retreat for women traveling through Seoul alone or together.\n11 single rooms · 1 double room\n3 shared showers · 2 toilets\n30 sec from Dongdaemun Exit 6",
         "source": "https://anotherhouse-guide.vercel.app/?page=gallery",
@@ -852,13 +914,23 @@
           "入室時間",
           "入室方法",
           "セルフチェックイン",
+          "アーリーチェックイン",
+          "早めのチェックイン",
           "キオスク",
           "客室ドアロック"
         ],
         "answer": "チェックインは15:00からです。ソニルビル5階のキオスクで予約者情報を使ってセルフチェックインしてください。\nチェックイン前日から当日9:00までに予約プラットフォームのメッセージで届く案内をご確認ください。\n15:00以降、5階のキオスクで予約バウチャー記載の予約者名、または予約番号の下4桁で予約を検索します。\n画面案内に従ってセルフチェックインを完了し、客室番号とカードキーをご確認ください。\nチェックイン後は入口横の端末にカードキーをかざして入館します。\n荷物は503号室前のラゲッジルームに保管できます。チェックイン前の荷物預かり用入館情報は予約メッセージでご確認ください。\n客室準備の都合上、アーリーチェックインはご利用いただけません。\n予約したプラットフォーム（Booking.com、Agoda、Trip.com）のメッセージを通じてホストへご連絡ください。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "チェックインは15:00からで、セルフチェックインです。",
-        "directAnswers": []
+        "directAnswers": [
+          {
+            "keywords": [
+              "アーリーチェックイン",
+              "早めのチェックイン"
+            ],
+            "answer": "いいえ、客室準備のためアーリーチェックインはできません。チェックインは15:00からです。"
+          }
+        ]
       },
       {
         "id": "checkout",
@@ -958,6 +1030,10 @@
           "IH",
           "電子レンジ",
           "冷蔵庫",
+          "浄水器",
+          "レンジフード",
+          "換気扇",
+          "共用キッチン",
           "家電",
           "ゲストボックス",
           "タオル",
@@ -1128,9 +1204,22 @@
         "keywords": [
           "客室タイプ",
           "シングルルーム",
+          "1人部屋",
           "2人部屋",
           "共用シャワー",
-          "部屋数"
+          "トイレ",
+          "パウダールーム",
+          "ラウンジ",
+          "共用キッチン",
+          "男性",
+          "定員",
+          "部屋数",
+          "501号室",
+          "502号室",
+          "503号室",
+          "504号室",
+          "505号室",
+          "506号室"
         ],
         "answer": "ソウルの旅の一日を静かに締めくくるための、小さな場所。Another Houseは東大門駅近くの女性専用ステイです。一人旅のためのシングルルームと、友人や家族と滞在できる2人部屋をご用意しています。華やかさよりも心地よい休息と実用的な滞在に目を向け、ひとりでも一緒でも、ソウルを旅する女性のための温かな居場所を目指しています。\nシングル11室 · 2人部屋1室\n共用シャワー3室 · トイレ2室\n東大門駅6番出口から30秒",
         "source": "https://anotherhouse-guide.vercel.app/?page=gallery",
@@ -1204,13 +1293,23 @@
           "入住时间",
           "办理入住",
           "自助入住",
+          "提前入住",
+          "早到入住",
           "自助机",
           "房门锁"
         ],
         "answer": "15:00起可办理入住。请在Sunil大厦5层使用预订人信息通过自助机办理入住。\n请查看入住前一天至入住当日上午9:00之间通过预订平台消息发送的入住说明。\n15:00后，在5层自助机上使用预订凭证中的姓名，或订单号后四位查询订单。\n按照屏幕提示完成自助入住，并确认房号和房卡。\n入住后请将房卡贴近入口旁的读卡器开门。\n行李可寄存在503号房前的行李室。入住前寄存行李所需的门禁信息请查看预订消息。\n因客房准备需要时间，无法提前入住。\n请通过您预订的平台（Booking.com、Agoda或Trip.com）向房东发送消息。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "入住时间为15:00起，采用自助入住。",
-        "directAnswers": []
+        "directAnswers": [
+          {
+            "keywords": [
+              "提前入住",
+              "早到入住"
+            ],
+            "answer": "不可以，由于需要准备客房，无法提前入住。入住时间从15:00开始。"
+          }
+        ]
       },
       {
         "id": "checkout",
@@ -1309,6 +1408,10 @@
           "电磁炉",
           "微波炉",
           "冰箱",
+          "净水器",
+          "抽油烟机",
+          "换气扇",
+          "公共厨房",
           "设备使用",
           "住客用品箱",
           "毛巾",
@@ -1482,7 +1585,19 @@
           "单人房",
           "双人房",
           "公共淋浴",
-          "房间数量"
+          "卫生间",
+          "化妆间",
+          "休息区",
+          "公共厨房",
+          "男性",
+          "可住几人",
+          "房间数量",
+          "501号房",
+          "502号房",
+          "503号房",
+          "504号房",
+          "505号房",
+          "506号房"
         ],
         "answer": "一个可以安静结束首尔旅行一天的小空间。Another House位于东大门站附近，是女性专用住宿，设有适合独自旅行者的单人房，以及可供朋友或家人入住的双人房。这里不追求华丽设施，而专注于舒适休息与实用住宿，为独自或结伴游览首尔的女性旅客提供温暖的落脚处。\n11间单人房 · 1间双人房\n3间公共淋浴间 · 2间卫生间\n距东大门站6号出口30秒",
         "source": "https://anotherhouse-guide.vercel.app/?page=gallery",
@@ -1556,13 +1671,23 @@
           "入住時間",
           "辦理入住",
           "自助入住",
+          "提前入住",
+          "提早入住",
           "自助機",
           "房門鎖"
         ],
         "answer": "15:00起可辦理入住。請在Sunil大廈5層使用預訂人資訊通過自助機辦理入住。\n請檢視入住前一天至入住當日上午9:00之間通過預訂平台訊息傳送的入住說明。\n15:00後，在5層自助機上使用預訂憑證中的姓名，或訂單號後四位查詢訂單。\n按照螢幕提示完成自助入住，並確認房號和房卡。\n入住後請將房卡貼近入口旁的讀卡器開門。\n行李可寄存在503號房前的行李室。入住前寄存行李所需的門禁資訊請檢視預訂訊息。\n因客房準備需要時間，無法提早入住。\n請通過您預訂的平台（Booking.com、Agoda或Trip.com）向房東傳送訊息。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "入住時間為15:00起，採自助入住。",
-        "directAnswers": []
+        "directAnswers": [
+          {
+            "keywords": [
+              "提前入住",
+              "提早入住"
+            ],
+            "answer": "不可以，由於需要準備客房，無法提前入住。入住時間從15:00開始。"
+          }
+        ]
       },
       {
         "id": "checkout",
@@ -1661,6 +1786,10 @@
           "電磁爐",
           "微波爐",
           "冰箱",
+          "淨水器",
+          "抽油煙機",
+          "換氣扇",
+          "公共廚房",
           "設備使用",
           "住客用品箱",
           "毛巾",
@@ -1836,7 +1965,19 @@
           "單人房",
           "雙人房",
           "公共淋浴",
-          "房間數量"
+          "洗手間",
+          "化妝間",
+          "休息區",
+          "公共廚房",
+          "男性",
+          "可住幾人",
+          "房間數量",
+          "501號房",
+          "502號房",
+          "503號房",
+          "504號房",
+          "505號房",
+          "506號房"
         ],
         "answer": "一個可以安靜結束首爾旅行一天的小空間。Another House位於東大門站附近，是女性專用住宿，設有適合獨自旅行者的單人房，以及可供朋友或家人入住的雙人房。這裡不追求華麗設施，而專注於舒適休息與實用住宿，為獨自或結伴遊覽首爾的女性旅客提供溫暖的落腳處。\n11間單人房 · 1間雙人房\n3間公共淋浴間 · 2間洗手間\n距東大門站6號出口30秒",
         "source": "https://anotherhouse-guide.vercel.app/?page=gallery",
@@ -1915,6 +2056,79 @@
           }
         ]
       },
+      "roomGallery": [
+        {
+          "id": "exterior",
+          "label": "전경",
+          "items": [
+            "어나더하우스 메인 공간",
+            "어나더하우스 라운지",
+            "입구 2",
+            "입구 방향 1",
+            "입구 코너 1",
+            "입구 코너 3",
+            "복도 입구 방향 1",
+            "복도 입구 방향 2",
+            "복도 방문 1",
+            "복도 512호 방향 2"
+          ]
+        },
+        {
+          "id": "lounge",
+          "label": "라운지",
+          "items": [
+            "주방 6",
+            "주방 4",
+            "주방 2",
+            "주방 1",
+            "주방 3",
+            "주방 게스트박스 + 냉장고 1",
+            "주방 선반"
+          ]
+        },
+        {
+          "id": "bath",
+          "label": "샤워실 & 파우더룸",
+          "items": [
+            "공용WC 샤워실 파우더룸 1",
+            "공용WC 샤워실 2",
+            "공용WC 샤워실 파우더룸 2",
+            "공용WC 샤워실 1",
+            "공용WC 샤워실 파우더룸 3",
+            "공용WC 세면대 1",
+            "공용WC 사이니지",
+            "공용WC 화장실 1",
+            "공용WC 화장실 2"
+          ]
+        },
+        {
+          "id": "single",
+          "label": "1인실",
+          "items": [
+            "1인실 503호 1",
+            "1인실 503호 2",
+            "1인실 506호 1",
+            "1인실 506호 2"
+          ]
+        },
+        {
+          "id": "double",
+          "label": "2인실",
+          "items": [
+            "2인실 창가 2",
+            "2인실 화장대 1",
+            "2인실 옷장 1",
+            "2인실 침대 4"
+          ]
+        },
+        {
+          "id": "luggage",
+          "label": "러기지룸",
+          "items": [
+            "러기지룸 1"
+          ]
+        }
+      ],
       "essentials": [
         {
           "label": "체크인",
@@ -2065,6 +2279,79 @@
           }
         ]
       },
+      "roomGallery": [
+        {
+          "id": "exterior",
+          "label": "Exterior",
+          "items": [
+            "Another House main space",
+            "Another House lounge",
+            "Shared space 04",
+            "Shared space 06",
+            "Shared space 08",
+            "Shared space 10",
+            "Shared space 11",
+            "Shared space 12",
+            "Shared space 13",
+            "Shared space 15"
+          ]
+        },
+        {
+          "id": "lounge",
+          "label": "Lounge",
+          "items": [
+            "Shared space 22",
+            "Shared space 20",
+            "Shared space 18",
+            "Shared space 17",
+            "Shared space 19",
+            "Shared space 24",
+            "Shared space 26"
+          ]
+        },
+        {
+          "id": "bath",
+          "label": "Shower & powder",
+          "items": [
+            "Shared space 30",
+            "Shared space 29",
+            "Shared space 31",
+            "Shared space 28",
+            "Shared space 32",
+            "Shared space 33",
+            "Shared space 27",
+            "Shared space 35",
+            "Shared space 36"
+          ]
+        },
+        {
+          "id": "single",
+          "label": "Single rooms",
+          "items": [
+            "Single room 01",
+            "Single room 02",
+            "Single room 03",
+            "Single room 04"
+          ]
+        },
+        {
+          "id": "double",
+          "label": "Double rooms",
+          "items": [
+            "Double room 04",
+            "Double room 09",
+            "Double room 01",
+            "Double room 08"
+          ]
+        },
+        {
+          "id": "luggage",
+          "label": "Luggage room",
+          "items": [
+            "Shared space 37"
+          ]
+        }
+      ],
       "essentials": [
         {
           "label": "Check-in",
@@ -2215,6 +2502,79 @@
           }
         ]
       },
+      "roomGallery": [
+        {
+          "id": "exterior",
+          "label": "外観",
+          "items": [
+            "アナザーハウスのメイン空間",
+            "アナザーハウスのラウンジ",
+            "共用スペース 04",
+            "共用スペース 06",
+            "共用スペース 08",
+            "共用スペース 10",
+            "共用スペース 11",
+            "共用スペース 12",
+            "共用スペース 13",
+            "共用スペース 15"
+          ]
+        },
+        {
+          "id": "lounge",
+          "label": "ラウンジ",
+          "items": [
+            "共用スペース 22",
+            "共用スペース 20",
+            "共用スペース 18",
+            "共用スペース 17",
+            "共用スペース 19",
+            "共用スペース 24",
+            "共用スペース 26"
+          ]
+        },
+        {
+          "id": "bath",
+          "label": "シャワー＆パウダールーム",
+          "items": [
+            "共用スペース 30",
+            "共用スペース 29",
+            "共用スペース 31",
+            "共用スペース 28",
+            "共用スペース 32",
+            "共用スペース 33",
+            "共用スペース 27",
+            "共用スペース 35",
+            "共用スペース 36"
+          ]
+        },
+        {
+          "id": "single",
+          "label": "1人部屋",
+          "items": [
+            "1名室 01",
+            "1名室 02",
+            "1名室 03",
+            "1名室 04"
+          ]
+        },
+        {
+          "id": "double",
+          "label": "2人部屋",
+          "items": [
+            "2名室 04",
+            "2名室 09",
+            "2名室 01",
+            "2名室 08"
+          ]
+        },
+        {
+          "id": "luggage",
+          "label": "荷物室",
+          "items": [
+            "共用スペース 37"
+          ]
+        }
+      ],
       "essentials": [
         {
           "label": "チェックイン",
@@ -2365,6 +2725,79 @@
           }
         ]
       },
+      "roomGallery": [
+        {
+          "id": "exterior",
+          "label": "外景",
+          "items": [
+            "Another House主空间",
+            "Another House休息区",
+            "公共空间 04",
+            "公共空间 06",
+            "公共空间 08",
+            "公共空间 10",
+            "公共空间 11",
+            "公共空间 12",
+            "公共空间 13",
+            "公共空间 15"
+          ]
+        },
+        {
+          "id": "lounge",
+          "label": "休息区",
+          "items": [
+            "公共空间 22",
+            "公共空间 20",
+            "公共空间 18",
+            "公共空间 17",
+            "公共空间 19",
+            "公共空间 24",
+            "公共空间 26"
+          ]
+        },
+        {
+          "id": "bath",
+          "label": "淋浴间与化妆间",
+          "items": [
+            "公共空间 30",
+            "公共空间 29",
+            "公共空间 31",
+            "公共空间 28",
+            "公共空间 32",
+            "公共空间 33",
+            "公共空间 27",
+            "公共空间 35",
+            "公共空间 36"
+          ]
+        },
+        {
+          "id": "single",
+          "label": "单人房",
+          "items": [
+            "单人房 01",
+            "单人房 02",
+            "单人房 03",
+            "单人房 04"
+          ]
+        },
+        {
+          "id": "double",
+          "label": "双人房",
+          "items": [
+            "双人房 04",
+            "双人房 09",
+            "双人房 01",
+            "双人房 08"
+          ]
+        },
+        {
+          "id": "luggage",
+          "label": "行李房",
+          "items": [
+            "公共空间 37"
+          ]
+        }
+      ],
       "essentials": [
         {
           "label": "入住",
@@ -2515,6 +2948,79 @@
           }
         ]
       },
+      "roomGallery": [
+        {
+          "id": "exterior",
+          "label": "外景",
+          "items": [
+            "Another House主空間",
+            "Another House休息區",
+            "公共空間 04",
+            "公共空間 06",
+            "公共空間 08",
+            "公共空間 10",
+            "公共空間 11",
+            "公共空間 12",
+            "公共空間 13",
+            "公共空間 15"
+          ]
+        },
+        {
+          "id": "lounge",
+          "label": "休息區",
+          "items": [
+            "公共空間 22",
+            "公共空間 20",
+            "公共空間 18",
+            "公共空間 17",
+            "公共空間 19",
+            "公共空間 24",
+            "公共空間 26"
+          ]
+        },
+        {
+          "id": "bath",
+          "label": "淋浴間與化妝間",
+          "items": [
+            "公共空間 30",
+            "公共空間 29",
+            "公共空間 31",
+            "公共空間 28",
+            "公共空間 32",
+            "公共空間 33",
+            "公共空間 27",
+            "公共空間 35",
+            "公共空間 36"
+          ]
+        },
+        {
+          "id": "single",
+          "label": "單人房",
+          "items": [
+            "單人房 01",
+            "單人房 02",
+            "單人房 03",
+            "單人房 04"
+          ]
+        },
+        {
+          "id": "double",
+          "label": "雙人房",
+          "items": [
+            "雙人房 04",
+            "雙人房 09",
+            "雙人房 01",
+            "雙人房 08"
+          ]
+        },
+        {
+          "id": "luggage",
+          "label": "行李房",
+          "items": [
+            "公共空間 37"
+          ]
+        }
+      ],
       "essentials": [
         {
           "label": "入住",
@@ -2782,7 +3288,45 @@
                   "title": "동대문역 6번 출구 방향",
                   "body": "동대문역 6번 출구 앞 선일빌딩으로 이동해 5층으로 올라옵니다."
                 }
-              ]
+              ],
+              "schedule": {
+                "headers": [
+                  "T2 출발",
+                  "T1 출발",
+                  "DDP 도착"
+                ],
+                "rows": [
+                  [
+                    "23:30",
+                    "23:50",
+                    "01:00"
+                  ],
+                  [
+                    "00:20",
+                    "00:40",
+                    "01:50"
+                  ],
+                  [
+                    "01:20",
+                    "01:40",
+                    "02:50"
+                  ],
+                  [
+                    "03:25",
+                    "03:45",
+                    "04:55"
+                  ],
+                  [
+                    "04:20",
+                    "04:40",
+                    "05:50"
+                  ]
+                ]
+              },
+              "officialSource": {
+                "label": "N6701 공식 시간표",
+                "url": "https://www.klimousine.com/bus/limousine.php?bus_no=N6701"
+              }
             },
             {
               "title": "공항 택시",
@@ -3018,7 +3562,45 @@
                   "title": "Head toward Dongdaemun Exit 6",
                   "body": "Continue to Sunil Building by Dongdaemun Station Exit 6 and take the elevator to 5F."
                 }
-              ]
+              ],
+              "schedule": {
+                "headers": [
+                  "T2 departure",
+                  "T1 departure",
+                  "DDP arrival"
+                ],
+                "rows": [
+                  [
+                    "23:30",
+                    "23:50",
+                    "01:00"
+                  ],
+                  [
+                    "00:20",
+                    "00:40",
+                    "01:50"
+                  ],
+                  [
+                    "01:20",
+                    "01:40",
+                    "02:50"
+                  ],
+                  [
+                    "03:25",
+                    "03:45",
+                    "04:55"
+                  ],
+                  [
+                    "04:20",
+                    "04:40",
+                    "05:50"
+                  ]
+                ]
+              },
+              "officialSource": {
+                "label": "N6701 official timetable",
+                "url": "https://www.klimousine.com/bus/limousine.php?bus_no=N6701"
+              }
             },
             {
               "title": "Airport taxi",
@@ -3254,7 +3836,45 @@
                   "title": "東大門駅6番出口方面へ",
                   "body": "東大門駅6番出口前のソニルビルへ進み、5階へ上がります。"
                 }
-              ]
+              ],
+              "schedule": {
+                "headers": [
+                  "T2発",
+                  "T1発",
+                  "DDP着"
+                ],
+                "rows": [
+                  [
+                    "23:30",
+                    "23:50",
+                    "01:00"
+                  ],
+                  [
+                    "00:20",
+                    "00:40",
+                    "01:50"
+                  ],
+                  [
+                    "01:20",
+                    "01:40",
+                    "02:50"
+                  ],
+                  [
+                    "03:25",
+                    "03:45",
+                    "04:55"
+                  ],
+                  [
+                    "04:20",
+                    "04:40",
+                    "05:50"
+                  ]
+                ]
+              },
+              "officialSource": {
+                "label": "N6701公式時刻表",
+                "url": "https://www.klimousine.com/bus/limousine.php?bus_no=N6701"
+              }
             },
             {
               "title": "空港タクシー",
@@ -3490,7 +4110,45 @@
                   "title": "前往东大门站6号出口",
                   "body": "前往东大门站6号出口前的Sunil大厦，乘电梯到5层。"
                 }
-              ]
+              ],
+              "schedule": {
+                "headers": [
+                  "T2出发",
+                  "T1出发",
+                  "抵达DDP"
+                ],
+                "rows": [
+                  [
+                    "23:30",
+                    "23:50",
+                    "01:00"
+                  ],
+                  [
+                    "00:20",
+                    "00:40",
+                    "01:50"
+                  ],
+                  [
+                    "01:20",
+                    "01:40",
+                    "02:50"
+                  ],
+                  [
+                    "03:25",
+                    "03:45",
+                    "04:55"
+                  ],
+                  [
+                    "04:20",
+                    "04:40",
+                    "05:50"
+                  ]
+                ]
+              },
+              "officialSource": {
+                "label": "N6701官方时刻表",
+                "url": "https://www.klimousine.com/bus/limousine.php?bus_no=N6701"
+              }
             },
             {
               "title": "机场出租车",
@@ -3726,7 +4384,45 @@
                   "title": "前往東大門站6號出口",
                   "body": "前往東大門站6號出口前的Sunil大廈，搭電梯到5樓。"
                 }
-              ]
+              ],
+              "schedule": {
+                "headers": [
+                  "T2出發",
+                  "T1出發",
+                  "抵達DDP"
+                ],
+                "rows": [
+                  [
+                    "23:30",
+                    "23:50",
+                    "01:00"
+                  ],
+                  [
+                    "00:20",
+                    "00:40",
+                    "01:50"
+                  ],
+                  [
+                    "01:20",
+                    "01:40",
+                    "02:50"
+                  ],
+                  [
+                    "03:25",
+                    "03:45",
+                    "04:55"
+                  ],
+                  [
+                    "04:20",
+                    "04:40",
+                    "05:50"
+                  ]
+                ]
+              },
+              "officialSource": {
+                "label": "N6701官方時刻表",
+                "url": "https://www.klimousine.com/bus/limousine.php?bus_no=N6701"
+              }
             },
             {
               "title": "機場計程車",
@@ -8655,6 +9351,8 @@
             "late"
           ],
           "description": "동네 단골이 두툼하게 쌓인 오리요리 전문점. 여럿이 푸짐하게 먹는 첫 저녁으로 추천합니다.",
+          "rating": "4.9",
+          "reviews": "2,739",
           "walk": "도보 약 5분",
           "hostPick": true,
           "tags": [
@@ -8675,6 +9373,8 @@
             "late"
           ],
           "description": "닭한마리 골목을 대표하는 오래된 이름. 맑은 닭 육수에 떡과 칼국수까지 이어지는 동대문식 한 끼입니다.",
+          "rating": "4.1",
+          "reviews": "8,350",
           "walk": "도보 약 8분",
           "hostPick": true,
           "tags": [
@@ -8696,6 +9396,8 @@
             "special"
           ],
           "description": "광장시장 육회의 기준점. 미쉐린 빕 구르망에 이름을 올린 곳으로 산낙지와 함께 주문하기 좋습니다.",
+          "rating": "4.4",
+          "reviews": "2,193",
           "walk": "도보 약 20분",
           "hostPick": true,
           "tags": [
@@ -8716,6 +9418,8 @@
             "special"
           ],
           "description": "동대문에서 오래 사랑받은 네팔 음식점. 커리, 탄두리, 모모를 채식 옵션과 함께 즐길 수 있습니다.",
+          "rating": "4.3",
+          "reviews": "1,474",
           "walk": "도보 약 5분",
           "hostPick": true,
           "tags": [
@@ -8736,6 +9440,8 @@
             "special"
           ],
           "description": "을지로 골목 안, 오래된 가구와 손글씨 메뉴가 만드는 독보적인 분위기. 핸드드립과 디저트로 마무리하기 좋습니다.",
+          "rating": "4.5",
+          "reviews": "2,378",
           "walk": "도보 약 25분",
           "hostPick": true,
           "tags": [
@@ -8756,6 +9462,8 @@
             "late"
           ],
           "description": "숯향과 매운맛이 강렬한 창신동 대표 야식. 맵기를 즐기는 여행자에게 기억에 남을 한 접시입니다.",
+          "rating": "4.1",
+          "reviews": "917",
           "walk": "도보 약 8분",
           "hostPick": true,
           "tags": [
@@ -8776,6 +9484,8 @@
             "breakfast"
           ],
           "description": "동대문 생선구이 골목의 정석. 숯불에 구운 생선과 따뜻한 밥상으로 혼자서도 편안합니다.",
+          "rating": "4.3",
+          "reviews": "587",
           "walk": "도보 약 9분",
           "hostPick": true,
           "tags": [
@@ -8797,6 +9507,8 @@
             "western"
           ],
           "description": "DDP와 을지로 사이에서 즐기는 세련된 저녁. 가벼운 와인과 함께 분위기 있는 식사를 원할 때 좋습니다.",
+          "rating": "4.7",
+          "reviews": "479",
           "walk": "도보 약 15분",
           "hostPick": false,
           "tags": [
@@ -8817,6 +9529,8 @@
             "late"
           ],
           "description": "현지 향신료와 진한 육수가 살아 있는 베트남 식당. 늦은 시간 따뜻한 국물이 필요할 때 유용합니다.",
+          "rating": "4.2",
+          "reviews": "254",
           "walk": "도보 약 5분",
           "hostPick": false,
           "tags": [
@@ -8837,6 +9551,8 @@
             "korean"
           ],
           "description": "광장시장의 바삭한 빈대떡을 가장 활기찬 분위기에서 경험하는 곳. 막걸리 한 잔과 잘 어울립니다.",
+          "rating": "4.0",
+          "reviews": "1,718",
           "walk": "도보 약 20분",
           "hostPick": false,
           "tags": [
@@ -8858,6 +9574,8 @@
             "late"
           ],
           "description": "이른 시간 든든한 국밥이 필요할 때 가까운 선택. 진한 국물과 빠른 한 끼로 현지 직장인도 찾습니다.",
+          "rating": "4.2",
+          "reviews": "760",
           "walk": "도보 약 4분",
           "hostPick": false,
           "tags": [
@@ -8878,6 +9596,8 @@
             "special"
           ],
           "description": "JW 메리어트 동대문 안의 클래식 스테이크하우스. 기념일이나 격식 있는 저녁에 잘 맞습니다.",
+          "rating": "4.3",
+          "reviews": "696",
           "walk": "도보 약 3분",
           "hostPick": false,
           "tags": [
@@ -8900,6 +9620,8 @@
             "special"
           ],
           "description": "동대문 전망과 함께 즐기는 호텔 올데이다이닝. 아침 식사부터 여유로운 주말 브런치까지 편합니다.",
+          "rating": "4.1",
+          "reviews": "317",
           "walk": "도보 약 3분",
           "hostPick": false,
           "tags": [
@@ -8919,6 +9641,8 @@
             "western"
           ],
           "description": "대학로에서 리뷰가 특히 많은 화덕 피자 전문점. 여러 명이 피자와 파스타를 나누기 좋습니다.",
+          "rating": "4.8",
+          "reviews": "7,232",
           "walk": "택시 약 10분",
           "hostPick": false,
           "tags": [
@@ -8938,6 +9662,8 @@
             "western"
           ],
           "description": "광화문에서 접근하기 쉬운 캐주얼 이탈리안. 궁궐 투어 전후 파스타와 피자를 먹기 좋습니다.",
+          "rating": "4.2",
+          "reviews": "282",
           "walk": "대중교통 약 20분",
           "hostPick": false,
           "tags": [
@@ -8959,6 +9685,8 @@
             "breakfast"
           ],
           "description": "한옥 공간에서 빵과 커피를 즐기는 서울 대표 카페. 이른 시간 방문하면 비교적 여유롭습니다.",
+          "rating": "4.2",
+          "reviews": "4,582",
           "walk": "대중교통 약 20분",
           "hostPick": false,
           "tags": [
@@ -8980,6 +9708,8 @@
             "breakfast"
           ],
           "description": "두툼한 베이글과 크림치즈로 유명한 안국의 대표 브런치 스폿. 대기가 긴 편입니다.",
+          "rating": "4.1",
+          "reviews": "2,305",
           "walk": "대중교통 약 20분",
           "hostPick": false,
           "tags": [
@@ -9001,6 +9731,8 @@
             "breakfast"
           ],
           "description": "익선동 한옥에서 수플레 토스트와 스팀 식빵을 맛보는 곳. 가벼운 아침 산책 코스와 잘 어울립니다.",
+          "rating": "3.9",
+          "reviews": "1,214",
           "walk": "대중교통 약 15분",
           "hostPick": false,
           "tags": [
@@ -9021,6 +9753,8 @@
             "cafe"
           ],
           "description": "스콘과 케이크가 가득한 북촌 베이커리 카페. 안국과 북촌 산책 중 쉬어가기 좋습니다.",
+          "rating": "4.2",
+          "reviews": "1,350",
           "walk": "대중교통 약 20분",
           "hostPick": false,
           "tags": [
@@ -9041,6 +9775,8 @@
             "breakfast"
           ],
           "description": "짧은 시간에 계란 샌드위치와 커피를 챙기기 좋은 가까운 브런치 선택입니다.",
+          "rating": "4.3",
+          "reviews": "594",
           "walk": "도보 약 9분",
           "hostPick": false,
           "tags": [
@@ -9074,6 +9810,8 @@
             "cafe"
           ],
           "description": "대나무와 물길이 만든 익선동의 몰입형 카페. 수플레 카스텔라와 야간 분위기가 인기입니다.",
+          "rating": "4.3",
+          "reviews": "1,607",
           "walk": "대중교통 약 15분",
           "hostPick": false,
           "tags": [
@@ -9093,6 +9831,8 @@
             "cafe"
           ],
           "description": "창덕궁 옆 오래된 공간을 살린 로스터리 카페. 커피 품질과 베이커리 모두 안정적입니다.",
+          "rating": "4.4",
+          "reviews": "876",
           "walk": "대중교통 약 20분",
           "hostPick": false,
           "tags": [
@@ -9113,6 +9853,8 @@
             "special"
           ],
           "description": "미래의 나에게 편지를 쓰는 체험형 카페. 경복궁·서촌 일정에 감성적인 휴식을 더합니다.",
+          "rating": "4.4",
+          "reviews": "303",
           "walk": "대중교통 약 25분",
           "hostPick": false,
           "tags": [
@@ -9133,6 +9875,8 @@
             "special"
           ],
           "description": "창신동 절벽마을 전망과 한국식 도넛을 함께 즐기는 목적지형 카페입니다.",
+          "rating": "4.7",
+          "reviews": "288",
           "walk": "마을버스 약 15분",
           "hostPick": false,
           "tags": [
@@ -9153,6 +9897,8 @@
             "breakfast"
           ],
           "description": "1946년부터 이어진 서울의 대표 노포 빵집. 모나카 아이스크림과 클래식한 빵을 맛보기 좋습니다.",
+          "rating": "4.2",
+          "reviews": "3,911",
           "walk": "대중교통 약 15분",
           "hostPick": false,
           "tags": [
@@ -9173,6 +9919,8 @@
             "late"
           ],
           "description": "숙소와 같은 선일빌딩 1층의 24시간 치킨 매장. 늦은 체크인이나 심야 포장에 가장 편합니다.",
+          "rating": "4.3",
+          "reviews": "3,373",
           "walk": "같은 건물 · 1층",
           "hostPick": false,
           "tags": [
@@ -9619,6 +10367,8 @@
             "late"
           ],
           "description": "A deeply local duck specialist with an exceptional review record—ideal for a generous first dinner with friends.",
+          "rating": "4.9",
+          "reviews": "2,739",
           "walk": "About 5 min walk",
           "hostPick": true,
           "tags": [
@@ -9639,6 +10389,8 @@
             "late"
           ],
           "description": "The defining name of Dakhanmari Alley: whole chicken broth followed by rice cakes and knife-cut noodles.",
+          "rating": "4.1",
+          "reviews": "8,350",
           "walk": "About 8 min walk",
           "hostPick": true,
           "tags": [
@@ -9660,6 +10412,8 @@
             "special"
           ],
           "description": "A benchmark for Gwangjang Market yukhoe and a MICHELIN Bib Gourmand selection; pair it with live octopus.",
+          "rating": "4.4",
+          "reviews": "2,193",
           "walk": "About 20 min walk",
           "hostPick": true,
           "tags": [
@@ -9680,6 +10434,8 @@
             "special"
           ],
           "description": "A long-loved Dongdaemun Nepali restaurant for curry, tandoori, momo, and vegetarian-friendly choices.",
+          "rating": "4.3",
+          "reviews": "1,474",
           "walk": "About 5 min walk",
           "hostPick": true,
           "tags": [
@@ -9700,6 +10456,8 @@
             "special"
           ],
           "description": "A singular Euljiro alley cafe of antique furniture and handwritten menus—perfect for hand-drip coffee and dessert.",
+          "rating": "4.5",
+          "reviews": "2,378",
           "walk": "About 25 min walk",
           "hostPick": true,
           "tags": [
@@ -9720,6 +10478,8 @@
             "late"
           ],
           "description": "Changsin-dong’s smoky, fiercely spicy late-night signature for travelers who enjoy serious heat.",
+          "rating": "4.1",
+          "reviews": "917",
           "walk": "About 8 min walk",
           "hostPick": true,
           "tags": [
@@ -9740,6 +10500,8 @@
             "breakfast"
           ],
           "description": "A classic of Dongdaemun’s grilled-fish alley, serving charcoal-grilled fish and a comforting set meal suitable for solo diners.",
+          "rating": "4.3",
+          "reviews": "587",
           "walk": "About 9 min walk",
           "hostPick": true,
           "tags": [
@@ -9761,6 +10523,8 @@
             "western"
           ],
           "description": "A polished dinner between DDP and Euljiro, well suited to a relaxed meal with wine.",
+          "rating": "4.7",
+          "reviews": "479",
           "walk": "About 15 min walk",
           "hostPick": false,
           "tags": [
@@ -9781,6 +10545,8 @@
             "late"
           ],
           "description": "Vietnamese comfort food with fragrant herbs and a deep broth, especially welcome later at night.",
+          "rating": "4.2",
+          "reviews": "254",
           "walk": "About 5 min walk",
           "hostPick": false,
           "tags": [
@@ -9801,6 +10567,8 @@
             "korean"
           ],
           "description": "One of the liveliest ways to experience Gwangjang Market’s crisp mung-bean pancakes, ideally with makgeolli.",
+          "rating": "4.0",
+          "reviews": "1,718",
           "walk": "About 20 min walk",
           "hostPick": false,
           "tags": [
@@ -9822,6 +10590,8 @@
             "late"
           ],
           "description": "A nearby, satisfying bowl for an early start, known for deep broth and a quick local-style meal.",
+          "rating": "4.2",
+          "reviews": "760",
           "walk": "About 4 min walk",
           "hostPick": false,
           "tags": [
@@ -9842,6 +10612,8 @@
             "special"
           ],
           "description": "A classic steakhouse inside JW Marriott Dongdaemun, best for celebrations and polished dinners.",
+          "rating": "4.3",
+          "reviews": "696",
           "walk": "About 3 min walk",
           "hostPick": false,
           "tags": [
@@ -9864,6 +10636,8 @@
             "special"
           ],
           "description": "Hotel all-day dining with Dongdaemun views, from breakfast to an easy weekend brunch.",
+          "rating": "4.1",
+          "reviews": "317",
           "walk": "About 3 min walk",
           "hostPick": false,
           "tags": [
@@ -9883,6 +10657,8 @@
             "western"
           ],
           "description": "A heavily reviewed Daehakro destination for wood-fired pizza and pasta to share.",
+          "rating": "4.8",
+          "reviews": "7,232",
           "walk": "About 10 min by taxi",
           "hostPick": false,
           "tags": [
@@ -9902,6 +10678,8 @@
             "western"
           ],
           "description": "An approachable Italian stop in Gwanghwamun, convenient before or after a palace tour.",
+          "rating": "4.2",
+          "reviews": "282",
           "walk": "About 20 min by transit",
           "hostPick": false,
           "tags": [
@@ -9923,6 +10701,8 @@
             "breakfast"
           ],
           "description": "A signature Seoul hanok cafe for bread and coffee; earlier visits are usually calmer.",
+          "rating": "4.2",
+          "reviews": "4,582",
           "walk": "About 20 min by transit",
           "hostPick": false,
           "tags": [
@@ -9944,6 +10724,8 @@
             "breakfast"
           ],
           "description": "Anguk’s famous brunch stop for substantial bagels and cream cheese; expect a queue.",
+          "rating": "4.1",
+          "reviews": "2,305",
           "walk": "About 20 min by transit",
           "hostPick": false,
           "tags": [
@@ -9965,6 +10747,8 @@
             "breakfast"
           ],
           "description": "A hanok brunch stop in Ikseon-dong for souffle toast and steamed bread.",
+          "rating": "3.9",
+          "reviews": "1,214",
           "walk": "About 15 min by transit",
           "hostPick": false,
           "tags": [
@@ -9985,6 +10769,8 @@
             "cafe"
           ],
           "description": "A Bukchon bakery cafe filled with scones and cakes, ideal during an Anguk walk.",
+          "rating": "4.2",
+          "reviews": "1,350",
           "walk": "About 20 min by transit",
           "hostPick": false,
           "tags": [
@@ -10005,6 +10791,8 @@
             "breakfast"
           ],
           "description": "A nearby, efficient stop for an egg sandwich and coffee when time is short.",
+          "rating": "4.3",
+          "reviews": "594",
           "walk": "About 9 min walk",
           "hostPick": false,
           "tags": [
@@ -10038,6 +10826,8 @@
             "cafe"
           ],
           "description": "An immersive Ikseon-dong cafe of bamboo and water, known for souffle castella and evening ambience.",
+          "rating": "4.3",
+          "reviews": "1,607",
           "walk": "About 15 min by transit",
           "hostPick": false,
           "tags": [
@@ -10057,6 +10847,8 @@
             "cafe"
           ],
           "description": "A roastery in a restored old space beside Changdeokgung, reliable for both coffee and bread.",
+          "rating": "4.4",
+          "reviews": "876",
           "walk": "About 20 min by transit",
           "hostPick": false,
           "tags": [
@@ -10077,6 +10869,8 @@
             "special"
           ],
           "description": "An experience cafe where you write a letter to your future self, ideal with a Seochon itinerary.",
+          "rating": "4.4",
+          "reviews": "303",
           "walk": "About 25 min by transit",
           "hostPick": false,
           "tags": [
@@ -10097,6 +10891,8 @@
             "special"
           ],
           "description": "A destination cafe pairing Korean-style donuts with Changsin-dong hill views.",
+          "rating": "4.7",
+          "reviews": "288",
           "walk": "About 15 min by local bus",
           "hostPick": false,
           "tags": [
@@ -10117,6 +10913,8 @@
             "breakfast"
           ],
           "description": "A landmark Seoul bakery dating to 1946, known for monaka ice cream and classic breads.",
+          "rating": "4.2",
+          "reviews": "3,911",
           "walk": "About 15 min by transit",
           "hostPick": false,
           "tags": [
@@ -10137,6 +10935,8 @@
             "late"
           ],
           "description": "A 24-hour chicken shop on the first floor of the same Sunil Building—ideal for late arrival or takeaway.",
+          "rating": "4.3",
+          "reviews": "3,373",
           "walk": "Same building · 1F",
           "hostPick": false,
           "tags": [
@@ -10583,6 +11383,8 @@
             "late"
           ],
           "description": "地元客に愛される鴨料理専門店。仲間との初日の夕食におすすめです。",
+          "rating": "4.9",
+          "reviews": "2,739",
           "walk": "徒歩約5分",
           "hostPick": true,
           "tags": [
@@ -10603,6 +11405,8 @@
             "late"
           ],
           "description": "タッカンマリ横丁を代表する老舗。鶏スープから餅、カルグクスまで楽しめます。",
+          "rating": "4.1",
+          "reviews": "8,350",
           "walk": "徒歩約8分",
           "hostPick": true,
           "tags": [
@@ -10624,6 +11428,8 @@
             "special"
           ],
           "description": "広蔵市場ユッケの定番。ミシュラン・ビブグルマン掲載店で、サンナクチとの組み合わせも人気です。",
+          "rating": "4.4",
+          "reviews": "2,193",
           "walk": "徒歩約20分",
           "hostPick": true,
           "tags": [
@@ -10644,6 +11450,8 @@
             "special"
           ],
           "description": "東大門で長く愛されるネパール料理店。カレー、タンドリー、モモ、ベジ対応もあります。",
+          "rating": "4.3",
+          "reviews": "1,474",
           "walk": "徒歩約5分",
           "hostPick": true,
           "tags": [
@@ -10664,6 +11472,8 @@
             "special"
           ],
           "description": "乙支路の路地にあるアンティークな名物カフェ。ハンドドリップとデザートに。",
+          "rating": "4.5",
+          "reviews": "2,378",
           "walk": "徒歩約25分",
           "hostPick": true,
           "tags": [
@@ -10684,6 +11494,8 @@
             "late"
           ],
           "description": "炭火の香りと辛さが強烈な昌信洞の夜食名物。辛党におすすめです。",
+          "rating": "4.1",
+          "reviews": "917",
           "walk": "徒歩約8分",
           "hostPick": true,
           "tags": [
@@ -10704,6 +11516,8 @@
             "breakfast"
           ],
           "description": "東大門焼き魚横丁の定番。炭火焼きの魚定食は一人でも気軽です。",
+          "rating": "4.3",
+          "reviews": "587",
           "walk": "徒歩約9分",
           "hostPick": true,
           "tags": [
@@ -10725,6 +11539,8 @@
             "western"
           ],
           "description": "DDPと乙支路の間で楽しむ洗練されたディナー。ワインと雰囲気を楽しみたい夜に。",
+          "rating": "4.7",
+          "reviews": "479",
           "walk": "徒歩約15分",
           "hostPick": false,
           "tags": [
@@ -10745,6 +11561,8 @@
             "late"
           ],
           "description": "香草と濃いスープが魅力のベトナム料理店。遅い時間の温かい一杯に。",
+          "rating": "4.2",
+          "reviews": "254",
           "walk": "徒歩約5分",
           "hostPick": false,
           "tags": [
@@ -10765,6 +11583,8 @@
             "korean"
           ],
           "description": "広蔵市場の活気の中で味わうカリッとしたピンデトッ。マッコリと好相性です。",
+          "rating": "4.0",
+          "reviews": "1,718",
           "walk": "徒歩約20分",
           "hostPick": false,
           "tags": [
@@ -10786,6 +11606,8 @@
             "late"
           ],
           "description": "早い時間にしっかり食べたい時の近場の一杯。濃いスープで地元客にも人気です。",
+          "rating": "4.2",
+          "reviews": "760",
           "walk": "徒歩約4分",
           "hostPick": false,
           "tags": [
@@ -10806,6 +11628,8 @@
             "special"
           ],
           "description": "JWマリオット東大門内のクラシックなステーキハウス。記念日のディナーに。",
+          "rating": "4.3",
+          "reviews": "696",
           "walk": "徒歩約3分",
           "hostPick": false,
           "tags": [
@@ -10828,6 +11652,8 @@
             "special"
           ],
           "description": "東大門を望むホテルのオールデイダイニング。朝食や週末ブランチに便利です。",
+          "rating": "4.1",
+          "reviews": "317",
           "walk": "徒歩約3分",
           "hostPick": false,
           "tags": [
@@ -10847,6 +11673,8 @@
             "western"
           ],
           "description": "大学路で口コミの多い薪窯ピザ店。ピザとパスタのシェアに。",
+          "rating": "4.8",
+          "reviews": "7,232",
           "walk": "タクシー約10分",
           "hostPick": false,
           "tags": [
@@ -10866,6 +11694,8 @@
             "western"
           ],
           "description": "光化門のカジュアルイタリアン。宮殿観光の前後に便利です。",
+          "rating": "4.2",
+          "reviews": "282",
           "walk": "公共交通約20分",
           "hostPick": false,
           "tags": [
@@ -10887,6 +11717,8 @@
             "breakfast"
           ],
           "description": "韓屋でパンとコーヒーを楽しむソウルの人気店。早めの訪問がおすすめです。",
+          "rating": "4.2",
+          "reviews": "4,582",
           "walk": "公共交通約20分",
           "hostPick": false,
           "tags": [
@@ -10908,6 +11740,8 @@
             "breakfast"
           ],
           "description": "厚いベーグルとクリームチーズで有名。待ち時間を見込んでください。",
+          "rating": "4.1",
+          "reviews": "2,305",
           "walk": "公共交通約20分",
           "hostPick": false,
           "tags": [
@@ -10929,6 +11763,8 @@
             "breakfast"
           ],
           "description": "益善洞の韓屋でスフレトーストと蒸しパンを楽しめます。",
+          "rating": "3.9",
+          "reviews": "1,214",
           "walk": "公共交通約15分",
           "hostPick": false,
           "tags": [
@@ -10949,6 +11785,8 @@
             "cafe"
           ],
           "description": "スコーンとケーキが並ぶ北村のベーカリーカフェです。",
+          "rating": "4.2",
+          "reviews": "1,350",
           "walk": "公共交通約20分",
           "hostPick": false,
           "tags": [
@@ -10969,6 +11807,8 @@
             "breakfast"
           ],
           "description": "短時間で卵サンドとコーヒーを楽しめる近場の選択です。",
+          "rating": "4.3",
+          "reviews": "594",
           "walk": "徒歩約9分",
           "hostPick": false,
           "tags": [
@@ -11002,6 +11842,8 @@
             "cafe"
           ],
           "description": "竹と水の演出が印象的な益善洞のカフェ。夜の雰囲気も人気です。",
+          "rating": "4.3",
+          "reviews": "1,607",
           "walk": "公共交通約15分",
           "hostPick": false,
           "tags": [
@@ -11021,6 +11863,8 @@
             "cafe"
           ],
           "description": "昌徳宮近くの古い建物を活かしたロースタリーです。",
+          "rating": "4.4",
+          "reviews": "876",
           "walk": "公共交通約20分",
           "hostPick": false,
           "tags": [
@@ -11041,6 +11885,8 @@
             "special"
           ],
           "description": "未来の自分へ手紙を書く体験型カフェです。",
+          "rating": "4.4",
+          "reviews": "303",
           "walk": "公共交通約25分",
           "hostPick": false,
           "tags": [
@@ -11061,6 +11907,8 @@
             "special"
           ],
           "description": "昌信洞の丘の景色と韓国式ドーナツを楽しめます。",
+          "rating": "4.7",
+          "reviews": "288",
           "walk": "マウルバス約15分",
           "hostPick": false,
           "tags": [
@@ -11081,6 +11929,8 @@
             "breakfast"
           ],
           "description": "1946年創業のソウルを代表する老舗パン屋です。",
+          "rating": "4.2",
+          "reviews": "3,911",
           "walk": "公共交通約15分",
           "hostPick": false,
           "tags": [
@@ -11101,6 +11951,8 @@
             "late"
           ],
           "description": "宿と同じソニルビル1階の24時間営業店。深夜のテイクアウトに便利です。",
+          "rating": "4.3",
+          "reviews": "3,373",
           "walk": "同じ建物・1階",
           "hostPick": false,
           "tags": [
@@ -11547,6 +12399,8 @@
             "late"
           ],
           "description": "本地常客众多的鸭肉专门店，适合多人丰盛聚餐。",
+          "rating": "4.9",
+          "reviews": "2,739",
           "walk": "步行约5分钟",
           "hostPick": true,
           "tags": [
@@ -11567,6 +12421,8 @@
             "late"
           ],
           "description": "一只鸡胡同的代表老店，清鸡汤配年糕，最后以刀切面收尾。",
+          "rating": "4.1",
+          "reviews": "8,350",
           "walk": "步行约8分钟",
           "hostPick": true,
           "tags": [
@@ -11588,6 +12444,8 @@
             "special"
           ],
           "description": "广藏市场生拌牛肉代表店，入选米其林必比登，适合搭配活章鱼。",
+          "rating": "4.4",
+          "reviews": "2,193",
           "walk": "步行约20分钟",
           "hostPick": true,
           "tags": [
@@ -11608,6 +12466,8 @@
             "special"
           ],
           "description": "东大门老牌尼泊尔餐厅，可品尝咖喱、坦都里和蒸饺，并有素食选择。",
+          "rating": "4.3",
+          "reviews": "1,474",
           "walk": "步行约5分钟",
           "hostPick": true,
           "tags": [
@@ -11628,6 +12488,8 @@
             "special"
           ],
           "description": "藏在乙支路小巷的复古名店，适合以手冲咖啡和甜点收尾。",
+          "rating": "4.5",
+          "reviews": "2,378",
           "walk": "步行约25分钟",
           "hostPick": true,
           "tags": [
@@ -11648,6 +12510,8 @@
             "late"
           ],
           "description": "炭香与辣味鲜明的昌信洞夜宵代表，适合嗜辣旅客。",
+          "rating": "4.1",
+          "reviews": "917",
           "walk": "步行约8分钟",
           "hostPick": true,
           "tags": [
@@ -11668,6 +12532,8 @@
             "breakfast"
           ],
           "description": "东大门烤鱼胡同经典店，炭火烤鱼套餐也适合独自用餐。",
+          "rating": "4.3",
+          "reviews": "587",
           "walk": "步行约9分钟",
           "hostPick": true,
           "tags": [
@@ -11689,6 +12555,8 @@
             "western"
           ],
           "description": "位于DDP与乙支路之间，适合搭配葡萄酒享受精致晚餐。",
+          "rating": "4.7",
+          "reviews": "479",
           "walk": "步行约15分钟",
           "hostPick": false,
           "tags": [
@@ -11709,6 +12577,8 @@
             "late"
           ],
           "description": "香草与浓郁汤底突出的越南餐厅，晚间想喝热汤时很合适。",
+          "rating": "4.2",
+          "reviews": "254",
           "walk": "步行约5分钟",
           "hostPick": false,
           "tags": [
@@ -11729,6 +12599,8 @@
             "korean"
           ],
           "description": "在广藏市场热闹氛围中品尝酥脆绿豆煎饼，适合搭配米酒。",
+          "rating": "4.0",
+          "reviews": "1,718",
           "walk": "步行约20分钟",
           "hostPick": false,
           "tags": [
@@ -11750,6 +12622,8 @@
             "late"
           ],
           "description": "清早想吃饱时的近距离选择，浓郁汤底也深受本地上班族喜爱。",
+          "rating": "4.2",
+          "reviews": "760",
           "walk": "步行约4分钟",
           "hostPick": false,
           "tags": [
@@ -11770,6 +12644,8 @@
             "special"
           ],
           "description": "位于东大门JW万豪酒店内，适合纪念日及正式晚餐。",
+          "rating": "4.3",
+          "reviews": "696",
           "walk": "步行约3分钟",
           "hostPick": false,
           "tags": [
@@ -11792,6 +12668,8 @@
             "special"
           ],
           "description": "可欣赏东大门景观的酒店全日餐厅，适合早餐和周末早午餐。",
+          "rating": "4.1",
+          "reviews": "317",
           "walk": "步行约3分钟",
           "hostPick": false,
           "tags": [
@@ -11811,6 +12689,8 @@
             "western"
           ],
           "description": "大学路高评论量柴火披萨店，适合多人分享披萨与意面。",
+          "rating": "4.8",
+          "reviews": "7,232",
           "walk": "出租车约10分钟",
           "hostPick": false,
           "tags": [
@@ -11830,6 +12710,8 @@
             "western"
           ],
           "description": "光化门交通便利的意大利餐厅，适合宫殿游览前后用餐。",
+          "rating": "4.2",
+          "reviews": "282",
           "walk": "公共交通约20分钟",
           "hostPick": false,
           "tags": [
@@ -11851,6 +12733,8 @@
             "breakfast"
           ],
           "description": "在韩屋空间享用面包和咖啡的首尔人气店，建议较早到访。",
+          "rating": "4.2",
+          "reviews": "4,582",
           "walk": "公共交通约20分钟",
           "hostPick": false,
           "tags": [
@@ -11872,6 +12756,8 @@
             "breakfast"
           ],
           "description": "以厚实贝果和奶油奶酪闻名，通常需要排队。",
+          "rating": "4.1",
+          "reviews": "2,305",
           "walk": "公共交通约20分钟",
           "hostPick": false,
           "tags": [
@@ -11893,6 +12779,8 @@
             "breakfast"
           ],
           "description": "在益善洞韩屋品尝舒芙蕾吐司和蒸面包。",
+          "rating": "3.9",
+          "reviews": "1,214",
           "walk": "公共交通约15分钟",
           "hostPick": false,
           "tags": [
@@ -11913,6 +12801,8 @@
             "cafe"
           ],
           "description": "北村人气烘焙咖啡馆，司康与蛋糕选择丰富。",
+          "rating": "4.2",
+          "reviews": "1,350",
           "walk": "公共交通约20分钟",
           "hostPick": false,
           "tags": [
@@ -11933,6 +12823,8 @@
             "breakfast"
           ],
           "description": "时间紧张时可快速享用鸡蛋三明治和咖啡。",
+          "rating": "4.3",
+          "reviews": "594",
           "walk": "步行约9分钟",
           "hostPick": false,
           "tags": [
@@ -11966,6 +12858,8 @@
             "cafe"
           ],
           "description": "以竹林与水景著称的益善洞沉浸式咖啡馆。",
+          "rating": "4.3",
+          "reviews": "1,607",
           "walk": "公共交通约15分钟",
           "hostPick": false,
           "tags": [
@@ -11985,6 +12879,8 @@
             "cafe"
           ],
           "description": "位于昌德宫旁的复古烘焙咖啡馆，咖啡和面包品质稳定。",
+          "rating": "4.4",
+          "reviews": "876",
           "walk": "公共交通约20分钟",
           "hostPick": false,
           "tags": [
@@ -12005,6 +12901,8 @@
             "special"
           ],
           "description": "可给未来的自己写信的体验型咖啡馆。",
+          "rating": "4.4",
+          "reviews": "303",
           "walk": "公共交通约25分钟",
           "hostPick": false,
           "tags": [
@@ -12025,6 +12923,8 @@
             "special"
           ],
           "description": "可同时享受昌信洞山坡景观与韩式甜甜圈。",
+          "rating": "4.7",
+          "reviews": "288",
           "walk": "社区巴士约15分钟",
           "hostPick": false,
           "tags": [
@@ -12045,6 +12945,8 @@
             "breakfast"
           ],
           "description": "创立于1946年的首尔老字号面包店，以最中冰淇淋闻名。",
+          "rating": "4.2",
+          "reviews": "3,911",
           "walk": "公共交通约15分钟",
           "hostPick": false,
           "tags": [
@@ -12065,6 +12967,8 @@
             "late"
           ],
           "description": "位于住宿同一栋Sunil大厦1层，24小时营业，适合深夜外带。",
+          "rating": "4.3",
+          "reviews": "3,373",
           "walk": "同一栋楼·1层",
           "hostPick": false,
           "tags": [
@@ -12511,6 +13415,8 @@
             "late"
           ],
           "description": "本地常客眾多的鴨肉專門店，適合多人豐盛聚餐。",
+          "rating": "4.9",
+          "reviews": "2,739",
           "walk": "步行約5分鐘",
           "hostPick": true,
           "tags": [
@@ -12531,6 +13437,8 @@
             "late"
           ],
           "description": "一隻雞衚衕的代表老店，清雞湯配年糕，最後以刀切面收尾。",
+          "rating": "4.1",
+          "reviews": "8,350",
           "walk": "步行約8分鐘",
           "hostPick": true,
           "tags": [
@@ -12552,6 +13460,8 @@
             "special"
           ],
           "description": "廣藏市場生拌牛肉代表店，入選米其林必比登，適合搭配活章魚。",
+          "rating": "4.4",
+          "reviews": "2,193",
           "walk": "步行約20分鐘",
           "hostPick": true,
           "tags": [
@@ -12572,6 +13482,8 @@
             "special"
           ],
           "description": "東大門老牌尼泊爾餐廳，可品嚐咖哩、坦都裡和蒸餃，並有素食選擇。",
+          "rating": "4.3",
+          "reviews": "1,474",
           "walk": "步行約5分鐘",
           "hostPick": true,
           "tags": [
@@ -12592,6 +13504,8 @@
             "special"
           ],
           "description": "藏在乙支路小巷的復古名店，適合以手衝咖啡和甜點收尾。",
+          "rating": "4.5",
+          "reviews": "2,378",
           "walk": "步行約25分鐘",
           "hostPick": true,
           "tags": [
@@ -12612,6 +13526,8 @@
             "late"
           ],
           "description": "炭香與辣味鮮明的昌信洞夜宵代表，適合嗜辣旅客。",
+          "rating": "4.1",
+          "reviews": "917",
           "walk": "步行約8分鐘",
           "hostPick": true,
           "tags": [
@@ -12632,6 +13548,8 @@
             "breakfast"
           ],
           "description": "東大門烤魚衚衕經典店，炭火烤魚套餐也適合獨自用餐。",
+          "rating": "4.3",
+          "reviews": "587",
           "walk": "步行約9分鐘",
           "hostPick": true,
           "tags": [
@@ -12653,6 +13571,8 @@
             "western"
           ],
           "description": "位於DDP與乙支路之間，適合搭配葡萄酒享受精緻晚餐。",
+          "rating": "4.7",
+          "reviews": "479",
           "walk": "步行約15分鐘",
           "hostPick": false,
           "tags": [
@@ -12673,6 +13593,8 @@
             "late"
           ],
           "description": "香草與濃郁湯底突出的越南餐廳，晚間想喝熱湯時很合適。",
+          "rating": "4.2",
+          "reviews": "254",
           "walk": "步行約5分鐘",
           "hostPick": false,
           "tags": [
@@ -12693,6 +13615,8 @@
             "korean"
           ],
           "description": "在廣藏市場熱鬧氛圍中品嚐酥脆綠豆煎餅，適合搭配米酒。",
+          "rating": "4.0",
+          "reviews": "1,718",
           "walk": "步行約20分鐘",
           "hostPick": false,
           "tags": [
@@ -12714,6 +13638,8 @@
             "late"
           ],
           "description": "清早想吃飽時的近距離選擇，濃郁湯底也深受本地上班族喜愛。",
+          "rating": "4.2",
+          "reviews": "760",
           "walk": "步行約4分鐘",
           "hostPick": false,
           "tags": [
@@ -12734,6 +13660,8 @@
             "special"
           ],
           "description": "位於東大門JW萬豪酒店內，適合紀念日及正式晚餐。",
+          "rating": "4.3",
+          "reviews": "696",
           "walk": "步行約3分鐘",
           "hostPick": false,
           "tags": [
@@ -12756,6 +13684,8 @@
             "special"
           ],
           "description": "可欣賞東大門景觀的酒店全日餐廳，適合早餐和週末早午餐。",
+          "rating": "4.1",
+          "reviews": "317",
           "walk": "步行約3分鐘",
           "hostPick": false,
           "tags": [
@@ -12775,6 +13705,8 @@
             "western"
           ],
           "description": "大學路高評論量柴火披薩店，適合多人分享披薩與意麵。",
+          "rating": "4.8",
+          "reviews": "7,232",
           "walk": "計程車約10分鐘",
           "hostPick": false,
           "tags": [
@@ -12794,6 +13726,8 @@
             "western"
           ],
           "description": "光化門交通便利的義大利餐廳，適合宮殿遊覽前後用餐。",
+          "rating": "4.2",
+          "reviews": "282",
           "walk": "公共交通約20分鐘",
           "hostPick": false,
           "tags": [
@@ -12815,6 +13749,8 @@
             "breakfast"
           ],
           "description": "在韓屋空間享用麵包和咖啡的首爾人氣店，建議較早到訪。",
+          "rating": "4.2",
+          "reviews": "4,582",
           "walk": "公共交通約20分鐘",
           "hostPick": false,
           "tags": [
@@ -12836,6 +13772,8 @@
             "breakfast"
           ],
           "description": "以厚實貝果和奶油乳酪聞名，通常需要排隊。",
+          "rating": "4.1",
+          "reviews": "2,305",
           "walk": "公共交通約20分鐘",
           "hostPick": false,
           "tags": [
@@ -12857,6 +13795,8 @@
             "breakfast"
           ],
           "description": "在益善洞韓屋品嚐舒芙蕾吐司和蒸麵包。",
+          "rating": "3.9",
+          "reviews": "1,214",
           "walk": "公共交通約15分鐘",
           "hostPick": false,
           "tags": [
@@ -12877,6 +13817,8 @@
             "cafe"
           ],
           "description": "北村人氣烘焙咖啡館，司康與蛋糕選擇豐富。",
+          "rating": "4.2",
+          "reviews": "1,350",
           "walk": "公共交通約20分鐘",
           "hostPick": false,
           "tags": [
@@ -12897,6 +13839,8 @@
             "breakfast"
           ],
           "description": "時間緊張時可快速享用雞蛋三明治和咖啡。",
+          "rating": "4.3",
+          "reviews": "594",
           "walk": "步行約9分鐘",
           "hostPick": false,
           "tags": [
@@ -12930,6 +13874,8 @@
             "cafe"
           ],
           "description": "以竹林與水景著稱的益善洞沉浸式咖啡館。",
+          "rating": "4.3",
+          "reviews": "1,607",
           "walk": "公共交通約15分鐘",
           "hostPick": false,
           "tags": [
@@ -12949,6 +13895,8 @@
             "cafe"
           ],
           "description": "位於昌德宮旁的復古烘焙咖啡館，咖啡和麵包品質穩定。",
+          "rating": "4.4",
+          "reviews": "876",
           "walk": "公共交通約20分鐘",
           "hostPick": false,
           "tags": [
@@ -12969,6 +13917,8 @@
             "special"
           ],
           "description": "可給未來的自己寫信的體驗型咖啡館。",
+          "rating": "4.4",
+          "reviews": "303",
           "walk": "公共交通約25分鐘",
           "hostPick": false,
           "tags": [
@@ -12989,6 +13939,8 @@
             "special"
           ],
           "description": "可同時享受昌信洞山坡景觀與韓式甜甜圈。",
+          "rating": "4.7",
+          "reviews": "288",
           "walk": "社群巴士約15分鐘",
           "hostPick": false,
           "tags": [
@@ -13009,6 +13961,8 @@
             "breakfast"
           ],
           "description": "創立於1946年的首爾老字號麵包店，以最中冰淇淋聞名。",
+          "rating": "4.2",
+          "reviews": "3,911",
           "walk": "公共交通約15分鐘",
           "hostPick": false,
           "tags": [
@@ -13029,6 +13983,8 @@
             "late"
           ],
           "description": "位於住宿同一棟Sunil大廈1層，24小時營業，適合深夜外帶。",
+          "rating": "4.3",
+          "reviews": "3,373",
           "walk": "同一棟樓·1層",
           "hostPick": false,
           "tags": [

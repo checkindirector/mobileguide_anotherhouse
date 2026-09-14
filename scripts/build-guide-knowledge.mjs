@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-14.2";
+const VERSION = "2026-09-14.3";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -58,15 +58,15 @@ const QUICK_TOPIC_KEYWORDS = {
     zh: ["行李寄存", "寄存行李", "行李房", "存放行李"],
     "zh-TW": ["行李寄放", "寄放行李", "行李房", "寄存行李"]
   },
-  checkin: { ko: ["체크인", "입실 시간", "입실 방법", "셀프 체크인", "키오스크", "객실 도어락"], en: ["check in", "check-in", "arrival procedure", "self check-in", "kiosk", "room door lock"], ja: ["チェックイン", "入室時間", "入室方法", "セルフチェックイン", "キオスク", "客室ドアロック"], zh: ["入住", "入住时间", "办理入住", "自助入住", "自助机", "房门锁"], "zh-TW": ["入住", "入住時間", "辦理入住", "自助入住", "自助機", "房門鎖"] },
+  checkin: { ko: ["체크인", "입실 시간", "입실 방법", "셀프 체크인", "얼리 체크인", "조기 체크인", "일찍 체크인", "키오스크", "객실 도어락"], en: ["check in", "check-in", "arrival procedure", "self check-in", "early check-in", "early check in", "kiosk", "room door lock"], ja: ["チェックイン", "入室時間", "入室方法", "セルフチェックイン", "アーリーチェックイン", "早めのチェックイン", "キオスク", "客室ドアロック"], zh: ["入住", "入住时间", "办理入住", "自助入住", "提前入住", "早到入住", "自助机", "房门锁"], "zh-TW": ["入住", "入住時間", "辦理入住", "自助入住", "提前入住", "提早入住", "自助機", "房門鎖"] },
   checkout: { ko: ["체크아웃", "퇴실 시간", "퇴실 방법"], en: ["check out", "check-out", "departure procedure"], ja: ["チェックアウト", "退室時間", "退室方法"], zh: ["退房", "退房时间", "办理退房"], "zh-TW": ["退房", "退房時間", "辦理退房"] },
   wifi: { ko: ["와이파이", "wifi", "wi-fi", "인터넷"], en: ["wifi", "wi-fi", "internet"], ja: ["wifi", "wi-fi", "インターネット"], zh: ["wifi", "wi-fi", "无线网络"], "zh-TW": ["wifi", "wi-fi", "無線網路"] },
   parking: { ko: ["숙소 주차", "건물 주차", "주차 가능", "주차 안내"], en: ["property parking", "on-site parking", "can i park", "parking at the hostel"], ja: ["宿の駐車", "館内駐車", "駐車できます", "駐車案内"], zh: ["住宿停车", "楼内停车", "可以停车", "停车指南"], "zh-TW": ["住宿停車", "樓內停車", "可以停車", "停車指南"] },
   rules: { ko: ["숙소 이용 규칙", "숙소 규칙", "이용 규칙", "하우스 룰", "흡연", "소음", "파티", "반려동물", "외부인"], en: ["house rules", "property rules", "stay rules", "smoking", "noise", "party", "pet", "outside guest"], ja: ["宿泊ルール", "利用規則", "ハウスルール", "喫煙", "騒音", "パーティー", "ペット", "部外者"], zh: ["住宿规则", "入住规则", "房屋守则", "吸烟", "噪音", "派对", "宠物", "外来人员"], "zh-TW": ["住宿規則", "入住規則", "房屋守則", "吸菸", "噪音", "派對", "寵物", "外來人員"] },
-  appliances: { ko: ["냉난방", "에어컨", "난방", "인덕션", "전자레인지", "냉장고", "기기 사용", "게스트박스", "수건", "칫솔", "어댑터", "고데기", "헤어드라이어", "헤어드라이기", "드라이어", "드라이기", "비상약", "상비약", "구급약", "응급약", "구급함", "약 있나요", "약 있어요", "물티슈", "비닐봉투"], en: ["heating", "air conditioning", "air conditioner", "induction", "microwave", "refrigerator", "appliance", "guest box", "towel", "toothbrush", "travel adapter", "hair straightener", "hair dryer", "hairdryer", "blow dryer", "blowdryer", "emergency medicine", "first aid medicine", "first aid kit", "painkiller", "pain reliever", "cold medicine", "do you have medicine", "is there medicine", "wet wipes", "plastic bag"], ja: ["冷暖房", "エアコン", "暖房", "IH", "電子レンジ", "冷蔵庫", "家電", "ゲストボックス", "タオル", "歯ブラシ", "変換アダプター", "ヘアアイロン", "ヘアドライヤー", "ドライヤー", "常備薬", "救急薬", "救急箱", "痛み止め", "風邪薬", "薬はありますか", "ウェットティッシュ", "ビニール袋"], zh: ["空调", "暖气", "电磁炉", "微波炉", "冰箱", "设备使用", "住客用品箱", "毛巾", "牙刷", "转换插头", "直发器", "吹风机", "电吹风", "常备药", "急救药", "急救箱", "止痛药", "感冒药", "有药吗", "湿巾", "塑料袋"], "zh-TW": ["空調", "暖氣", "電磁爐", "微波爐", "冰箱", "設備使用", "住客用品箱", "毛巾", "牙刷", "轉換插頭", "直髮器", "吹風機", "電吹風", "常備藥", "急救藥", "急救箱", "止痛藥", "感冒藥", "有藥嗎", "溼巾", "塑膠袋"] },
+  appliances: { ko: ["냉난방", "에어컨", "난방", "인덕션", "전자레인지", "냉장고", "정수기", "주방 후드", "레인지 후드", "환풍기", "공용 주방", "공용주방", "기기 사용", "게스트박스", "수건", "칫솔", "어댑터", "고데기", "헤어드라이어", "헤어드라이기", "드라이어", "드라이기", "비상약", "상비약", "구급약", "응급약", "구급함", "약 있나요", "약 있어요", "물티슈", "비닐봉투"], en: ["heating", "air conditioning", "air conditioner", "induction", "microwave", "refrigerator", "water purifier", "range hood", "extractor fan", "shared kitchen", "appliance", "guest box", "towel", "toothbrush", "travel adapter", "hair straightener", "hair dryer", "hairdryer", "blow dryer", "blowdryer", "emergency medicine", "first aid medicine", "first aid kit", "painkiller", "pain reliever", "cold medicine", "do you have medicine", "is there medicine", "wet wipes", "plastic bag"], ja: ["冷暖房", "エアコン", "暖房", "IH", "電子レンジ", "冷蔵庫", "浄水器", "レンジフード", "換気扇", "共用キッチン", "家電", "ゲストボックス", "タオル", "歯ブラシ", "変換アダプター", "ヘアアイロン", "ヘアドライヤー", "ドライヤー", "常備薬", "救急薬", "救急箱", "痛み止め", "風邪薬", "薬はありますか", "ウェットティッシュ", "ビニール袋"], zh: ["空调", "暖气", "电磁炉", "微波炉", "冰箱", "净水器", "抽油烟机", "换气扇", "公共厨房", "设备使用", "住客用品箱", "毛巾", "牙刷", "转换插头", "直发器", "吹风机", "电吹风", "常备药", "急救药", "急救箱", "止痛药", "感冒药", "有药吗", "湿巾", "塑料袋"], "zh-TW": ["空調", "暖氣", "電磁爐", "微波爐", "冰箱", "淨水器", "抽油煙機", "換氣扇", "公共廚房", "設備使用", "住客用品箱", "毛巾", "牙刷", "轉換插頭", "直髮器", "吹風機", "電吹風", "常備藥", "急救藥", "急救箱", "止痛藥", "感冒藥", "有藥嗎", "溼巾", "塑膠袋"] },
   laundry: { ko: ["세탁", "건조기", "빨래", "세제", "섬유유연제"], en: ["laundry", "washing machine", "dryer", "detergent", "fabric softener"], ja: ["洗濯", "洗濯機", "乾燥機", "洗剤", "柔軟剤"], zh: ["洗衣", "洗衣机", "烘干机", "洗涤剂", "柔顺剂"], "zh-TW": ["洗衣", "洗衣機", "烘乾機", "洗滌劑", "柔軟精"] },
   waste: { ko: ["쓰레기", "분리배출", "분리수거"], en: ["trash", "waste", "recycling", "garbage"], ja: ["ごみ", "ゴミ", "分別", "リサイクル"], zh: ["垃圾", "垃圾分类", "回收"], "zh-TW": ["垃圾", "垃圾分類", "回收"] },
-  rooms: { ko: ["객실 종류", "방 종류", "싱글룸", "2인실", "더블룸", "샤워실", "화장실 몇"], en: ["room type", "single room", "double room", "shared shower", "how many rooms"], ja: ["客室タイプ", "シングルルーム", "2人部屋", "共用シャワー", "部屋数"], zh: ["房型", "单人房", "双人房", "公共淋浴", "房间数量"], "zh-TW": ["房型", "單人房", "雙人房", "公共淋浴", "房間數量"] },
+  rooms: { ko: ["객실 종류", "방 종류", "싱글룸", "1인실", "2인실", "더블룸", "샤워실", "화장실", "파우더룸", "라운지", "공용 주방", "공용주방", "남자", "남성", "몇 명", "정원", "최대 인원", "501호", "502호", "503호", "504호", "505호", "506호"], en: ["room type", "single room", "double room", "shared shower", "toilet", "powder room", "lounge", "shared kitchen", "men allowed", "male guest", "how many rooms", "how many guests", "capacity", "room 501", "room 502", "room 503", "room 504", "room 505", "room 506"], ja: ["客室タイプ", "シングルルーム", "1人部屋", "2人部屋", "共用シャワー", "トイレ", "パウダールーム", "ラウンジ", "共用キッチン", "男性", "定員", "部屋数", "501号室", "502号室", "503号室", "504号室", "505号室", "506号室"], zh: ["房型", "单人房", "双人房", "公共淋浴", "卫生间", "化妆间", "休息区", "公共厨房", "男性", "可住几人", "房间数量", "501号房", "502号房", "503号房", "504号房", "505号房", "506号房"], "zh-TW": ["房型", "單人房", "雙人房", "公共淋浴", "洗手間", "化妝間", "休息區", "公共廚房", "男性", "可住幾人", "房間數量", "501號房", "502號房", "503號房", "504號房", "505號房", "506號房"] },
   tv: { ko: ["tv", "티비", "텔레비전", "ott", "넷플릭스"], en: ["tv", "television", "ott", "netflix", "streaming"], ja: ["テレビ", "tv", "netflix", "動画視聴"], zh: ["电视", "tv", "netflix", "流媒体"], "zh-TW": ["電視", "tv", "netflix", "串流"] },
   contact: { ko: ["호스트 연락", "호스트한테 연락", "도움 필요", "문의 방법", "연락 방법"], en: ["contact host", "contact the host", "need help", "how to contact"], ja: ["ホストに連絡", "問い合わせ方法", "助けが必要"], zh: ["联系房东", "需要帮助", "咨询方式"], "zh-TW": ["聯絡房東", "需要協助", "詢問方式"] }
 };
@@ -96,6 +96,13 @@ const PROPERTY_MEDICINE_DIRECT_ANSWERS = {
 
 const quickDirectAnswers = (topic, language) => {
   const answers = ({
+  checkin: {
+    ko: [{ keywords: ["얼리 체크인", "조기 체크인", "일찍 체크인"], answer: "아니요, 얼리 체크인은 객실 준비 사정상 불가능합니다. 체크인은 15:00부터입니다." }],
+    en: [{ keywords: ["early check-in", "early check in"], answer: "No, early check-in is not available because rooms need preparation. Check-in starts at 15:00." }],
+    ja: [{ keywords: ["アーリーチェックイン", "早めのチェックイン"], answer: "いいえ、客室準備のためアーリーチェックインはできません。チェックインは15:00からです。" }],
+    zh: [{ keywords: ["提前入住", "早到入住"], answer: "不可以，由于需要准备客房，无法提前入住。入住时间从15:00开始。" }],
+    "zh-TW": [{ keywords: ["提前入住", "提早入住"], answer: "不可以，由於需要準備客房，無法提前入住。入住時間從15:00開始。" }]
+  },
   luggage: {
     ko: [{ keywords: ["짐보관", "짐맡", "캐리어보관", "수하물보관"], answer: "네, 짐 보관이 가능합니다. 503호 앞 러기지룸에 체크아웃 당일 밤 11시까지 무료로 보관할 수 있어요." }],
     en: [{ keywords: ["luggage storage", "store luggage", "leave luggage", "baggage storage", "store my suitcase"], answer: "Yes, luggage storage is available. You can use the luggage room in front of Room 503 free of charge until 23:00 on the day of checkout." }],
@@ -216,7 +223,9 @@ const transportKnowledge = language => {
         tags: route.tags,
         path: route.path,
         note: route.note,
-        steps: (route.steps || []).map(({ label, title, body }) => ({ label, title, body }))
+        steps: (route.steps || []).map(({ label, title, body }) => ({ label, title, body })),
+        ...(route.schedule ? { schedule: route.schedule } : {}),
+        ...(route.sourceUrl ? { officialSource: { label: route.sourceLabel, url: route.sourceUrl } } : {})
       }))
     })),
     source: pageUrl("transport")
@@ -437,6 +446,11 @@ const knowledge = {
   stay: localized(language => ({
     profile: localize(data.about, language),
     homeEditorial: localize(data.homeEditorial, language),
+    roomGallery: localize(data.galleryCategories, language).map(category => ({
+      id: category.id,
+      label: category.label,
+      items: (category.items || []).map(([, description]) => description)
+    })),
     essentials: localize(data.essentials, language).map(({ label, value, route }) => ({ label, value, source: pageUrl(route) })),
     checkin: pageText("checkin", language),
     checkout: pageText("checkout", language),
@@ -535,6 +549,8 @@ const knowledge = {
       category: place.category,
       categories: place.categories || [],
       description: place.text,
+      rating: place.rating,
+      reviews: place.reviews,
       walk: place.walk,
       hostPick: Boolean(place.host),
       tags: place.tags || [],
