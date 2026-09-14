@@ -313,7 +313,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(app,/zoom\.dataset\.photoSignage/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20260914-11/);
+  assert.match(html,/master-app\.js\?v=20260914-12/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
@@ -350,7 +350,12 @@ test("hamburger menu adds a five-language outbound airport guide after direction
   assert.match(app,/airportDepartureRailCopy/);
   for(const title of ['AREX 공항철도','AREX Airport Railroad','AREX空港鉄道','AREX机场铁路','AREX機場鐵路'])assert.ok(app.includes(title));
   assert.match(app,/동대문역 → 서울역 → 인천공항 T1·T2/);
-  assert.match(app,/https:\/\/www\.arex\.or\.kr\/main\.do/);
+  assert.match(app,/https:\/\/www\.airportrailroad\.com\/train\/normal\/info\/010\/0/);
+  assert.match(app,/https:\/\/www\.airportrailroad\.com\/train\/express\/info/);
+  for(const label of ['일반열차 시간표','All-stop timetable','一般列車時刻表','普通列车时刻表','普通列車時刻表'])assert.ok(app.includes(label));
+  for(const label of ['직통열차 시간표','Express timetable','直通列車時刻表','直达列车时刻表','直達列車時刻表'])assert.ok(app.includes(label));
+  assert.match(app,/airport-arex-timetables/);
+  assert.doesNotMatch(app,/data\.go\.kr/);
   assert.match(app,/map\.naver\.com\/p\/search\/01901/);
   assert.match(app,/map\.naver\.com\/p\/search\/02711/);
   assert.match(app,/37\.5707574%2C127\.009078/);
@@ -362,6 +367,8 @@ test("hamburger menu adds a five-language outbound airport guide after direction
   assert.match(html,/\.airport-departure-overview p\{[^}]*font-size:16px/);
   assert.match(html,/\.airport-departure-option>p\{[^}]*font-size:15px/);
   assert.match(html,/\.airport-departure-actions a\{[^}]*font-size:13px/);
+  assert.match(html,/\.airport-departure-actions\.is-map-only\{[^}]*grid-template-columns:repeat\(2/);
+  assert.match(html,/\.airport-arex-timetables\{[^}]*grid-template-columns:repeat\(2/);
   assert.match(html,/\.airport-departure-note\{[^}]*font-size:14px/);
 });
 
