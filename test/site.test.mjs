@@ -324,6 +324,20 @@ test("mobile shell remains fluid and avoids automatic input zoom across phone wi
   assert.match(html,/@media\(max-width:359px\)/);
 });
 
+test("arrival guide includes the verified N6701 night route in all five languages",async()=>{
+  const data=await read("assets/site-data.js");
+  const app=await read("assets/master-app.js");
+  const html=await read("index.html");
+  for(const title of ['심야 공항리무진 N6701','Night Airport Limousine N6701','深夜空港リムジン N6701','深夜机场巴士 N6701','深夜機場巴士 N6701'])assert.ok(data.includes(title));
+  for(const trip of ["['23:30','23:50','01:00']","['00:20','00:40','01:50']","['01:20','01:40','02:50']","['03:25','03:45','04:55']","['04:20','04:40','05:50']"])assert.ok(data.includes(trip));
+  assert.match(data,/T2는 지하 1층 18·19번, T1은 1층 3B·4A/);
+  assert.match(data,/DDP 정류장\(02711\)/);
+  assert.match(data,/https:\/\/www\.klimousine\.com\/bus\/limousine\.php\?bus_no=N6701/);
+  assert.match(app,/arrival-night-table/);
+  assert.match(app,/route-source-link/);
+  assert.match(html,/\.arrival-night-table\{margin-top:14px\}/);
+});
+
 test("hamburger menu adds a five-language outbound airport guide after directions",async()=>{
   const html=await read("index.html");
   const mirror=await read("guide-anotherhouse.html");

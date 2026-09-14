@@ -91,6 +91,25 @@
                 ]
               },
               {
+                title: I('심야 공항리무진 N6701', 'Night Airport Limousine N6701', '深夜空港リムジン N6701', '深夜机场巴士 N6701', "深夜機場巴士 N6701"),
+                badge: I('심야 도착', 'LATE NIGHT', '深夜到着', '深夜抵达', "深夜抵達"),
+                tags: I(['약 90분','환승 없음','매일 5회'],['About 90 min','Direct','5 trips daily'],['約90分','乗換なし','毎日5便'],['约90分钟','无需换乘','每日5班'], ["約90分鐘","無需轉乘","每日5班"]),
+                path: I('인천공항 T2·T1 → N6701 → 동대문디자인플라자(DDP)', 'Incheon Airport T2·T1 → N6701 → Dongdaemun Design Plaza (DDP)', '仁川空港 T2・T1 → N6701 → 東大門デザインプラザ（DDP）', '仁川机场 T2·T1 → N6701 → 东大门设计广场（DDP）', "仁川機場 T2·T1 → N6701 → 東大門設計廣場（DDP）"),
+                note: I('공항철도 운행이 끝난 심야 시간대의 직행 대안입니다. 성인 18,000원 · 어린이 12,000원(6–12세).', 'A direct option after Airport Railroad service ends. Adult KRW 18,000 · Child KRW 12,000 (ages 6–12).', '空港鉄道の運行終了後に利用できる直行ルートです。大人18,000ウォン・子ども12,000ウォン（6〜12歳）。', '机场铁路停运后的直达选择。成人18,000韩元·儿童12,000韩元（6–12岁）。', "機場鐵路停駛後的直達選擇。成人18,000韓元・兒童12,000韓元（6–12歲）。"),
+                color: '#2A211D', soft: '#E5DED9',
+                schedule: {
+                  headers: I(['T2 출발','T1 출발','DDP 도착'],['T2 departure','T1 departure','DDP arrival'],['T2発','T1発','DDP着'],['T2出发','T1出发','抵达DDP'], ["T2出發","T1出發","抵達DDP"]),
+                  rows: [['23:30','23:50','01:00'],['00:20','00:40','01:50'],['01:20','01:40','02:50'],['03:25','03:45','04:55'],['04:20','04:40','05:50']]
+                },
+                sourceUrl: 'https://www.klimousine.com/bus/limousine.php?bus_no=N6701',
+                sourceLabel: I('N6701 공식 시간표', 'N6701 official timetable', 'N6701公式時刻表', 'N6701官方时刻表', "N6701官方時刻表"),
+                steps: [
+                  { icon:'flight_land', label:I('BOARDING','BOARDING','乗車','乘车', "乘車"), title:I('공항 심야버스 승강장', 'Airport night-bus stop', '空港の深夜バス乗り場', '机场夜间巴士乘车点', "機場夜間巴士乘車點"), body:I('T2는 지하 1층 18·19번, T1은 1층 3B·4A에서 탑승합니다.', 'Board at T2 B1 stops 18 or 19, or T1 1F stops 3B or 4A.', 'T2は地下1階18・19番、T1は1階3B・4Aから乗車します。', 'T2在地下1层18或19号，T1在1层3B或4A乘车。', "T2在地下1樓18或19號，T1在1樓3B或4A乘車。") },
+                  { icon:'airport_shuttle', label:I('N6701','N6701','N6701','N6701', "N6701"), title:I('동대문디자인플라자(DDP)까지 이동', 'Ride to Dongdaemun Design Plaza (DDP)', '東大門デザインプラザ（DDP）まで移動', '前往东大门设计广场（DDP）', "前往東大門設計廣場（DDP）"), body:I('N6701을 타고 종점 DDP 정류장(02711)에서 내립니다.', 'Take N6701 to the final DDP stop (02711).', 'N6701で終点DDP停留所（02711）まで乗車します。', '乘坐N6701，在终点DDP站（02711）下车。', "搭乘N6701，在終點DDP站（02711）下車。") },
+                  { icon:'directions_walk', label:I('LAST MILE','LAST MILE','LAST MILE','LAST MILE', "LAST MILE"), title:I('동대문역 6번 출구 방향', 'Head toward Dongdaemun Exit 6', '東大門駅6番出口方面へ', '前往东大门站6号出口', "前往東大門站6號出口"), body:I('동대문역 6번 출구 앞 선일빌딩으로 이동해 5층으로 올라옵니다.', 'Continue to Sunil Building by Dongdaemun Station Exit 6 and take the elevator to 5F.', '東大門駅6番出口前のソニルビルへ進み、5階へ上がります。', '前往东大门站6号出口前的Sunil大厦，乘电梯到5层。', "前往東大門站6號出口前的Sunil大廈，搭電梯到5樓。") }
+                ]
+              },
+              {
                 title: I('공항 택시', 'Airport taxi', '空港タクシー', '机场出租车', "機場計程車"),
                 badge: I('가장 편리', 'EASIEST', '最も便利', '最方便', "最方便"),
                 tags: I(['약 70–100분','환승 없음','심야 추천'],['About 70–100 min','Direct','Good late at night'],['約70〜100分','乗換なし','深夜に便利'],['约70–100分钟','直达','适合深夜'], ["約70–100分鐘","直達","適合深夜"]),

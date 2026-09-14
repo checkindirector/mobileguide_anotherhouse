@@ -2752,6 +2752,34 @@
               ]
             },
             {
+              "title": "심야 공항리무진 N6701",
+              "badge": "심야 도착",
+              "tags": [
+                "약 90분",
+                "환승 없음",
+                "매일 5회"
+              ],
+              "path": "인천공항 T2·T1 → N6701 → 동대문디자인플라자(DDP)",
+              "note": "공항철도 운행이 끝난 심야 시간대의 직행 대안입니다. 성인 18,000원 · 어린이 12,000원(6–12세).",
+              "steps": [
+                {
+                  "label": "BOARDING",
+                  "title": "공항 심야버스 승강장",
+                  "body": "T2는 지하 1층 18·19번, T1은 1층 3B·4A에서 탑승합니다."
+                },
+                {
+                  "label": "N6701",
+                  "title": "동대문디자인플라자(DDP)까지 이동",
+                  "body": "N6701을 타고 종점 DDP 정류장(02711)에서 내립니다."
+                },
+                {
+                  "label": "LAST MILE",
+                  "title": "동대문역 6번 출구 방향",
+                  "body": "동대문역 6번 출구 앞 선일빌딩으로 이동해 5층으로 올라옵니다."
+                }
+              ]
+            },
+            {
               "title": "공항 택시",
               "badge": "가장 편리",
               "tags": [
@@ -2956,6 +2984,34 @@
                   "label": "LAST MILE",
                   "title": "Head toward Dongdaemun Exit 6",
                   "body": "Check your live stop, then continue to Sunil Building 5F."
+                }
+              ]
+            },
+            {
+              "title": "Night Airport Limousine N6701",
+              "badge": "LATE NIGHT",
+              "tags": [
+                "About 90 min",
+                "Direct",
+                "5 trips daily"
+              ],
+              "path": "Incheon Airport T2·T1 → N6701 → Dongdaemun Design Plaza (DDP)",
+              "note": "A direct option after Airport Railroad service ends. Adult KRW 18,000 · Child KRW 12,000 (ages 6–12).",
+              "steps": [
+                {
+                  "label": "BOARDING",
+                  "title": "Airport night-bus stop",
+                  "body": "Board at T2 B1 stops 18 or 19, or T1 1F stops 3B or 4A."
+                },
+                {
+                  "label": "N6701",
+                  "title": "Ride to Dongdaemun Design Plaza (DDP)",
+                  "body": "Take N6701 to the final DDP stop (02711)."
+                },
+                {
+                  "label": "LAST MILE",
+                  "title": "Head toward Dongdaemun Exit 6",
+                  "body": "Continue to Sunil Building by Dongdaemun Station Exit 6 and take the elevator to 5F."
                 }
               ]
             },
@@ -3168,6 +3224,34 @@
               ]
             },
             {
+              "title": "深夜空港リムジン N6701",
+              "badge": "深夜到着",
+              "tags": [
+                "約90分",
+                "乗換なし",
+                "毎日5便"
+              ],
+              "path": "仁川空港 T2・T1 → N6701 → 東大門デザインプラザ（DDP）",
+              "note": "空港鉄道の運行終了後に利用できる直行ルートです。大人18,000ウォン・子ども12,000ウォン（6〜12歳）。",
+              "steps": [
+                {
+                  "label": "乗車",
+                  "title": "空港の深夜バス乗り場",
+                  "body": "T2は地下1階18・19番、T1は1階3B・4Aから乗車します。"
+                },
+                {
+                  "label": "N6701",
+                  "title": "東大門デザインプラザ（DDP）まで移動",
+                  "body": "N6701で終点DDP停留所（02711）まで乗車します。"
+                },
+                {
+                  "label": "LAST MILE",
+                  "title": "東大門駅6番出口方面へ",
+                  "body": "東大門駅6番出口前のソニルビルへ進み、5階へ上がります。"
+                }
+              ]
+            },
+            {
               "title": "空港タクシー",
               "badge": "最も便利",
               "tags": [
@@ -3376,6 +3460,34 @@
               ]
             },
             {
+              "title": "深夜机场巴士 N6701",
+              "badge": "深夜抵达",
+              "tags": [
+                "约90分钟",
+                "无需换乘",
+                "每日5班"
+              ],
+              "path": "仁川机场 T2·T1 → N6701 → 东大门设计广场（DDP）",
+              "note": "机场铁路停运后的直达选择。成人18,000韩元·儿童12,000韩元（6–12岁）。",
+              "steps": [
+                {
+                  "label": "乘车",
+                  "title": "机场夜间巴士乘车点",
+                  "body": "T2在地下1层18或19号，T1在1层3B或4A乘车。"
+                },
+                {
+                  "label": "N6701",
+                  "title": "前往东大门设计广场（DDP）",
+                  "body": "乘坐N6701，在终点DDP站（02711）下车。"
+                },
+                {
+                  "label": "LAST MILE",
+                  "title": "前往东大门站6号出口",
+                  "body": "前往东大门站6号出口前的Sunil大厦，乘电梯到5层。"
+                }
+              ]
+            },
+            {
               "title": "机场出租车",
               "badge": "最方便",
               "tags": [
@@ -3580,6 +3692,34 @@
                   "label": "LAST MILE",
                   "title": "前往東大門站6號出口",
                   "body": "確認即時下車站後前往Sunil大廈5層。"
+                }
+              ]
+            },
+            {
+              "title": "深夜機場巴士 N6701",
+              "badge": "深夜抵達",
+              "tags": [
+                "約90分鐘",
+                "無需轉乘",
+                "每日5班"
+              ],
+              "path": "仁川機場 T2·T1 → N6701 → 東大門設計廣場（DDP）",
+              "note": "機場鐵路停駛後的直達選擇。成人18,000韓元・兒童12,000韓元（6–12歲）。",
+              "steps": [
+                {
+                  "label": "乘車",
+                  "title": "機場夜間巴士乘車點",
+                  "body": "T2在地下1樓18或19號，T1在1樓3B或4A乘車。"
+                },
+                {
+                  "label": "N6701",
+                  "title": "前往東大門設計廣場（DDP）",
+                  "body": "搭乘N6701，在終點DDP站（02711）下車。"
+                },
+                {
+                  "label": "LAST MILE",
+                  "title": "前往東大門站6號出口",
+                  "body": "前往東大門站6號出口前的Sunil大廈，搭電梯到5樓。"
                 }
               ]
             },
