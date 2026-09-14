@@ -16,12 +16,19 @@ test("directions page shows the Exit 6 entrance route photo with prominent multi
   const app=await read("assets/master-app.js");
   const html=await read("guide-anotherhouse.html");
   await access(resolve(root,"assets/images/exit6-entrance-route.webp"));
+  await access(resolve(root,"assets/images/building-entrance.webp"));
   assert.match(app,/exit6-entrance-route\.webp/);
   assert.match(app,/6번 출구 계단으로 올라오기/);
   assert.match(app,/Walk up the Exit 6 stairs/);
   assert.match(app,/6番出口の階段を上がる/);
   assert.match(app,/走上6號出口樓梯/);
-  assert.match(html,/\.entrance-sign-destination/);
+  assert.doesNotMatch(app,/ENTER HERE/);
+  for(const label of ['교촌치킨 간판','KYOCHON SIGN','キョチョンの看板','桥村炸鸡招牌','橋村炸雞招牌']) assert.ok(app.includes(label));
+  for(const label of ['ANOTHER HOUSE · 5층','ANOTHER HOUSE · 5F','ANOTHER HOUSE・5階','ANOTHER HOUSE · 5层','ANOTHER HOUSE · 5樓']) assert.ok(app.includes(label));
+  assert.match(app,/data-photo-signage="kyochon"/);
+  assert.match(app,/data-photo-signage="anotherhouse"/);
+  assert.match(html,/\.photo-signage-ring/);
+  assert.match(html,/\.building-entrance-photo img\{aspect-ratio:3\/4/);
   assert.match(html,/\.entrance-route-steps/);
 });
 
@@ -186,7 +193,10 @@ test("mobile shell follows the master width contract",async()=>{
   const app=await read("assets/master-app.js");
   assert.match(html,/\.app\{max-width:480px;margin:0 auto;min-height:100dvh/);
   assert.match(html,/\.app\{max-width:480px;padding-bottom:0;background:#F7F1EA;overflow:hidden\}/);
-  assert.doesNotMatch(html,/Keep the document locked|html,body\{width:100%|\.app\{width:100%;max-width:480px/);
+  assert.doesNotMatch(html,/Keep the document locked/);
+  assert.match(html,/html\{width:100%;max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%\}/);
+  assert.match(html,/body\{width:100%;max-width:100%;overflow-x:hidden\}/);
+  assert.match(html,/\.app\{width:100%\}/);
   assert.doesNotMatch(app,/horizontalGestureSelector|touchmove[^\n]*preventDefault/);
   assert.match(html,/\.device-guide-carousel\{[^}]*overflow-x:auto[^}]*overscroll-behavior-inline:contain/);
   assert.match(html,/\.gallery-thumbs\{[^}]*overflow-x:auto[^}]*overscroll-behavior-x:contain/);
@@ -277,6 +287,16 @@ test("official Samsung guide stays consistent across languages and supports pinc
   assert.doesNotMatch(html,/scale\(var\(--lightbox-scale/);
   assert.match(html,/image-lightbox\.is-zoomed/);
   assert.match(html,/PINCH TO ZOOM/);
+});
+
+test("entrance signage stays attached to the image during fullscreen zoom",async()=>{
+  const app=await read("assets/master-app.js");
+  const html=await read("index.html");
+  assert.match(html,/id="imageLightboxSignage"/);
+  assert.match(html,/\.image-lightbox-signage\{[^}]*--lightbox-width/);
+  assert.match(app,/\[image,signage\]\.filter\(Boolean\)\.forEach/);
+  assert.match(app,/signage\.innerHTML=photoSignageMarkup/);
+  assert.match(app,/zoom\.dataset\.photoSignage/);
 });
 
 test("hamburger menu places house rules after trash with a dedicated icon",async()=>{
