@@ -297,6 +297,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(app,/\[image,signage\]\.filter\(Boolean\)\.forEach/);
   assert.match(app,/signage\.innerHTML=photoSignageMarkup/);
   assert.match(app,/zoom\.dataset\.photoSignage/);
+  assert.match(html,/master-app\.js\?v=20260914-03/);
 });
 
 test("hamburger menu places house rules after trash with a dedicated icon",async()=>{
