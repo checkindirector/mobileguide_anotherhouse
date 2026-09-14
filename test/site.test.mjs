@@ -313,7 +313,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(app,/zoom\.dataset\.photoSignage/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20260914-12/);
+  assert.match(html,/master-app\.js\?v=20260914-13/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
@@ -464,7 +464,7 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260908-07/);
+  assert.match(html,/content-updates\.js\?v=20260914-14/);
   assert.match(html,/gallery-overrides\.js\?v=20260908-02/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
@@ -508,6 +508,20 @@ test("check-in flow keeps self check-in and departure open above parking while h
   assert.match(app,/renderCheckin\(\);renderRulesPage\(\);renderBookingLinks\(\)/);
   assert.match(app,/const card=\(title,icon,kicker,body\)=>'<article class="checkin-guide-card">/);
   assert.doesNotMatch(app,/const card=\(title,icon,kicker,body\)=>'<details/);
+});
+
+test("self check-in step six clearly rules out early check-in in all five languages",async()=>{
+  const content=await read("assets/content-updates.js");
+  for(const copy of [
+    '얼리 체크인은 객실 준비 사정상 불가능합니다.',
+    'Early check-in is not available because rooms need time to be prepared.',
+    '客室準備の都合上、アーリーチェックインはご利用いただけません。',
+    '因客房准备需要时间，无法提前入住。',
+    '因客房準備需要時間，無法提早入住。'
+  ])assert.ok(content.includes(copy));
+  const koreanSteps=content.match(/steps: I\(\s*\[([\s\S]*?)\],\s*\[/)?.[1]||'';
+  assert.equal((koreanSteps.match(/^\s*'/gm)||[]).length,6);
+  assert.match(koreanSteps,/얼리 체크인은 객실 준비 사정상 불가능합니다\.\s*'\s*$/m);
 });
 
 

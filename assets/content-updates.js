@@ -143,34 +143,39 @@
           '15:00 이후 5층 키오스크에서 예약 바우처에 적힌 예약자 이름 또는 예약 번호 뒤 4자리로 예약을 조회합니다.',
           '화면 안내에 따라 셀프 체크인을 완료하고 객실 번호와 카드키를 확인합니다.',
           '체크인 후에는 카드키를 출입구 옆 기기에 태그하여 문을 엽니다.',
-          '짐은 503호 앞 러기지룸에 보관할 수 있습니다. 체크인 전 짐 보관을 위한 출입정보는 예약 메시지에서 확인해 주세요.'
+          '짐은 503호 앞 러기지룸에 보관할 수 있습니다. 체크인 전 짐 보관을 위한 출입정보는 예약 메시지에서 확인해 주세요.',
+          '얼리 체크인은 객실 준비 사정상 불가능합니다.'
         ],
         [
           'Check the arrival instructions sent through your booking platform between the day before check-in and 09:00 on arrival day.',
           'After 15:00, use the kiosk on the 5th floor and search with the name shown on the booking voucher or the last four digits of the reservation number.',
           'Complete self check-in on screen and confirm your room number and key card.',
           'After check-in, tap the key card on the reader beside the entrance.',
-          'Luggage can be stored in the luggage room in front of Room 503. For luggage access before check-in, use the access information in your booking message.'
+          'Luggage can be stored in the luggage room in front of Room 503. For luggage access before check-in, use the access information in your booking message.',
+          'Early check-in is not available because rooms need time to be prepared.'
         ],
         [
           'チェックイン前日から当日9:00までに予約プラットフォームのメッセージで届く案内をご確認ください。',
           '15:00以降、5階のキオスクで予約バウチャー記載の予約者名、または予約番号の下4桁で予約を検索します。',
           '画面案内に従ってセルフチェックインを完了し、客室番号とカードキーをご確認ください。',
           'チェックイン後は入口横の端末にカードキーをかざして入館します。',
-          '荷物は503号室前のラゲッジルームに保管できます。チェックイン前の荷物預かり用入館情報は予約メッセージでご確認ください。'
+          '荷物は503号室前のラゲッジルームに保管できます。チェックイン前の荷物預かり用入館情報は予約メッセージでご確認ください。',
+          '客室準備の都合上、アーリーチェックインはご利用いただけません。'
         ],
         [
           '请查看入住前一天至入住当日上午9:00之间通过预订平台消息发送的入住说明。',
           '15:00后，在5层自助机上使用预订凭证中的姓名，或订单号后四位查询订单。',
           '按照屏幕提示完成自助入住，并确认房号和房卡。',
           '入住后请将房卡贴近入口旁的读卡器开门。',
-          '行李可寄存在503号房前的行李室。入住前寄存行李所需的门禁信息请查看预订消息。'
+          '行李可寄存在503号房前的行李室。入住前寄存行李所需的门禁信息请查看预订消息。',
+          '因客房准备需要时间，无法提前入住。'
         ], [
           "請檢視入住前一天至入住當日上午9:00之間通過預訂平台訊息傳送的入住說明。",
           "15:00後，在5層自助機上使用預訂憑證中的姓名，或訂單號後四位查詢訂單。",
           "按照螢幕提示完成自助入住，並確認房號和房卡。",
           "入住後請將房卡貼近入口旁的讀卡器開門。",
-          "行李可寄存在503號房前的行李室。入住前寄存行李所需的門禁資訊請檢視預訂訊息。"
+          "行李可寄存在503號房前的行李室。入住前寄存行李所需的門禁資訊請檢視預訂訊息。",
+          "因客房準備需要時間，無法提早入住。"
         ]
       )
     },
