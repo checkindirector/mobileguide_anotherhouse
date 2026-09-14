@@ -194,9 +194,9 @@ test("mobile shell follows the master width contract",async()=>{
   assert.match(html,/\.app\{max-width:480px;margin:0 auto;min-height:100dvh/);
   assert.match(html,/\.app\{max-width:480px;padding-bottom:0;background:#F7F1EA;overflow:hidden\}/);
   assert.doesNotMatch(html,/Keep the document locked/);
-  assert.match(html,/html\{width:100%;max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%\}/);
-  assert.match(html,/body\{width:100%;max-width:100%;overflow-x:hidden\}/);
-  assert.match(html,/\.app\{width:100%\}/);
+  assert.match(html,/html\{width:100%;max-width:100%;min-width:0;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%\}/);
+  assert.match(html,/body\{width:100%;max-width:100%;min-width:0;min-height:100svh;overflow-x:hidden\}/);
+  assert.match(html,/\.app\{width:min\(100%,480px\);max-width:100%;min-width:0\}/);
   assert.doesNotMatch(app,/horizontalGestureSelector|touchmove[^\n]*preventDefault/);
   assert.match(html,/\.device-guide-carousel\{[^}]*overflow-x:auto[^}]*overscroll-behavior-inline:contain/);
   assert.match(html,/\.gallery-thumbs\{[^}]*overflow-x:auto[^}]*overscroll-behavior-x:contain/);
@@ -295,9 +295,24 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(html,/id="imageLightboxSignage"/);
   assert.match(html,/\.image-lightbox-signage\{[^}]*--lightbox-width/);
   assert.match(app,/\[image,signage\]\.filter\(Boolean\)\.forEach/);
-  assert.match(app,/signage\.innerHTML=photoSignageMarkup/);
+  assert.match(app,/function lightboxAnnotationMarkup/);
+  assert.match(app,/signage\.innerHTML=lightboxAnnotationMarkup/);
+  assert.match(app,/data-photo-start-label/);
+  assert.match(app,/data-photo-turn-label/);
+  assert.match(app,/zoom\.dataset\.photoStartLabel/);
+  assert.match(app,/zoom\.dataset\.photoTurnLabel/);
   assert.match(app,/zoom\.dataset\.photoSignage/);
-  assert.match(html,/master-app\.js\?v=20260914-03/);
+  assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
+  assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
+  assert.match(html,/master-app\.js\?v=20260914-04/);
+});
+
+test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
+  const html=await read("index.html");
+  assert.match(html,/\.app\{width:min\(100%,480px\);max-width:100%;min-width:0\}/);
+  assert.match(html,/main,\.screen,\.screen\.active,\.hotel-section,[^\n]*max-width:100%;min-width:0/);
+  assert.match(html,/@media\(max-width:767px\)\{body \.concierge-ask input,body \.chat-form textarea\{font-size:16px!important\}\}/);
+  assert.match(html,/@media\(max-width:359px\)/);
 });
 
 test("hamburger menu places house rules after trash with a dedicated icon",async()=>{

@@ -1331,10 +1331,12 @@ body.motion-ready .landing-hero .hero-photo-secondary{animation:heroSecondarySeq
 .checkin-overview .luggage-overview-copy strong{margin:0 0 12px}
 .image-lightbox{grid-template-rows:auto minmax(0,1fr) auto}
 .image-lightbox-stage{position:relative;min-width:0;min-height:0;display:grid;place-items:center;overflow:hidden;touch-action:none;user-select:none}
-.image-lightbox-stage img{position:absolute;left:50%;top:50%;display:block;width:var(--lightbox-width,auto);height:var(--lightbox-height,auto);max-width:none;max-height:none;object-fit:contain;opacity:0;user-select:none;-webkit-user-drag:none;transform:translate(-50%,-50%) translate3d(var(--lightbox-x,0),var(--lightbox-y,0),0);transform-origin:center;transition:width .16s ease,height .16s ease,transform .16s ease,opacity .12s ease;will-change:width,height,transform;cursor:zoom-in}
-.image-lightbox-signage{position:absolute;left:50%;top:50%;z-index:2;display:block;width:var(--lightbox-width,auto);height:var(--lightbox-height,auto);opacity:0;pointer-events:none;transform:translate(-50%,-50%) translate3d(var(--lightbox-x,0),var(--lightbox-y,0),0);transform-origin:center;transition:width .16s ease,height .16s ease,transform .16s ease,opacity .12s ease;will-change:width,height,transform}
+.image-lightbox-stage img{position:absolute;left:50%;top:50%;z-index:1;display:block;width:var(--lightbox-width,auto);height:var(--lightbox-height,auto);max-width:none;max-height:none;object-fit:contain;opacity:0;user-select:none;-webkit-user-drag:none;transform:translate(-50%,-50%) translate3d(var(--lightbox-x,0),var(--lightbox-y,0),0);transform-origin:center;transition:width .16s ease,height .16s ease,transform .16s ease,opacity .12s ease;will-change:width,height,transform;cursor:zoom-in}
+.image-lightbox-signage{position:absolute;left:50%;top:50%;z-index:5;isolation:isolate;display:block;width:var(--lightbox-width,auto);height:var(--lightbox-height,auto);overflow:visible;opacity:0;visibility:hidden;pointer-events:none;transform:translate(-50%,-50%) translate3d(var(--lightbox-x,0),var(--lightbox-y,0),0);transform-origin:center;transition:width .16s ease,height .16s ease,transform .16s ease,opacity .12s ease;will-change:width,height,transform}
 .image-lightbox.is-image-ready .image-lightbox-stage img{opacity:1}
-.image-lightbox.is-image-ready .image-lightbox-signage.is-active{opacity:1}
+.image-lightbox.is-image-ready .image-lightbox-signage.is-active{opacity:1;visibility:visible}
+.image-lightbox-signage .entrance-sign{z-index:6}
+.image-lightbox-signage .photo-signage{z-index:7}
 .image-lightbox.is-zoomed .image-lightbox-stage img{transition:none;cursor:grab}
 .image-lightbox.is-zoomed .image-lightbox-signage{transition:none}
 .image-lightbox.is-zoomed .image-lightbox-stage img:active{cursor:grabbing}
@@ -1352,9 +1354,14 @@ body.motion-ready .landing-hero .hero-photo-secondary{animation:heroSecondarySeq
 @media(max-width:380px){.gallery-magazine{grid-auto-rows:40px}.home-support-intro{padding-left:12px;padding-right:12px}}
 
 /* iPhone Mini and narrow mobile canvases: keep Safari text sizing and the app shell locked to the physical viewport. */
-html{width:100%;max-width:100%;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{width:100%;max-width:100%;overflow-x:hidden}
-.app{width:100%}
+html{width:100%;max-width:100%;min-width:0;overflow-x:hidden;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{width:100%;max-width:100%;min-width:0;min-height:100svh;overflow-x:hidden}
+.app{width:min(100%,480px);max-width:100%;min-width:0}
+main,.screen,.screen.active,.hotel-section,.transport-stack,.station-walk-guide,.station-walk-step{max-width:100%;min-width:0}
+img,video,canvas{max-width:100%}
+input,textarea,select{max-width:100%}
+@media(max-width:767px){.concierge-ask input,.chat-form textarea{font-size:16px}}
+@media(max-width:359px){:root{--home-gutter:14px;--page-gutter:10px}.top{padding-inline:10px}.screen{padding-inline:10px}.image-lightbox{padding-inline:8px}.chat-form{padding-inline:10px}.chat-log{padding-inline:10px}}
 
 /* 2026-08-24: five-photo home carousel and Stay NEMO-inspired guest navigation. */
 .landing-hero{touch-action:pan-y}
@@ -1571,6 +1578,7 @@ body{font-size:17px;font-weight:600;line-height:1.55}
 body:not(.motion-ready) .concierge-widget,body:has(#brandIntro.is-running,.menu-panel.open,.chat-panel.open,.image-lightbox.open) .concierge-widget{opacity:0;visibility:hidden;pointer-events:none}
 @media(prefers-reduced-motion:reduce){.concierge-launcher{transition:none}}
 @media print{.concierge-widget{display:none!important}}
+@media(max-width:767px){body .concierge-ask input,body .chat-form textarea{font-size:16px!important}}
 </style>
 </head>
 <body class="is-home">
@@ -1608,5 +1616,5 @@ body:not(.motion-ready) .concierge-widget,body:has(#brandIntro.is-running,.menu-
 <button class="concierge-launcher" id="openChatFab" type="button" aria-label="어나더하우스 챗봇 열기" aria-controls="chatPanel" aria-expanded="false" aria-haspopup="dialog"><img src="assets/images/another-house-logo-symbol.webp" alt="" width="38" height="44"><span class="concierge-launcher-caption" id="chatLauncherCompact">AI 상담</span></button>
 </div>
 <div class="chat-backdrop" id="chatBackdrop"></div><section class="chat-panel" id="chatPanel" role="dialog" aria-modal="true" aria-label="ANOTHER HOUSE CONCIERGE" inert><header class="chat-head"><div><h2>ANOTHER HOUSE CONCIERGE</h2><p>숙소 이용 안내만 답변합니다.</p></div><button class="chat-close" id="closeChat" type="button" aria-label="상담창 닫기"><span class="mi">close</span></button></header><div class="chat-log" id="chatLog"><div class="msg bot">안녕하세요. 체크인, 교통, Wi-Fi, 기기 사용법을 물어보세요.</div></div><div><div class="chat-suggestions"><button class="suggestion">체크인은 몇 시야?</button><button class="suggestion">와이파이 알려줘</button><button class="suggestion">동대문역에서 어떻게 가?</button></div><div class="chat-note">비밀번호와 출입 코드는 예약 플랫폼 메시지에서 확인해 주세요.</div><form class="chat-form" id="chatForm"><textarea id="chatInput" rows="1" placeholder="질문을 입력하세요"></textarea><button class="send-btn"><span class="mi">arrow_upward</span></button></form></div></section><div class="toast" id="toast">복사했습니다</div>
-<script src="assets/site-data.js?v=20260908-02"></script><script src="assets/gallery-data.js?v=20260908-02"></script><script src="assets/content-updates.js?v=20260908-07"></script><script src="assets/gallery-overrides.js?v=20260908-02"></script><script src="assets/restaurant-data.js?v=20260908-02"></script><script src="assets/restaurant-expanded.js?v=20260908-02"></script><script src="assets/tour-data.js?v=20260908-03"></script><script src="assets/master-app.js?v=20260914-03"></script><script src="assets/tour-app.js?v=20260908-02"></script></body>
+<script src="assets/site-data.js?v=20260908-02"></script><script src="assets/gallery-data.js?v=20260908-02"></script><script src="assets/content-updates.js?v=20260908-07"></script><script src="assets/gallery-overrides.js?v=20260908-02"></script><script src="assets/restaurant-data.js?v=20260908-02"></script><script src="assets/restaurant-expanded.js?v=20260908-02"></script><script src="assets/tour-data.js?v=20260908-03"></script><script src="assets/master-app.js?v=20260914-04"></script><script src="assets/tour-app.js?v=20260908-02"></script></body>
 </html>
