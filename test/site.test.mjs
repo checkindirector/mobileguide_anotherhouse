@@ -313,7 +313,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(app,/zoom\.dataset\.photoSignage/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20260914-10/);
+  assert.match(html,/master-app\.js\?v=20260914-11/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
@@ -346,10 +346,18 @@ test("hamburger menu adds a five-language outbound airport guide after direction
   assert.equal((app.match(/'04:07'|'04:37'|'05:17'|'06:02'|'06:42'|'07:27'|'08:02'|'08:47'|'09:32'|'10:17'|'11:02'|'11:47'|'12:17'|'12:57'|'13:47'|'14:17'|'14:42'|'15:22'|'15:57'|'16:42'|'17:27'|'18:02'|'18:47'|'19:22'|'19:52'/g)||[]).length,25);
   assert.match(app,/N6701/);
   assert.match(app,/LINE 4 → LINE 5/);
+  assert.match(app,/LINE 4 → AREX/);
+  assert.match(app,/airportDepartureRailCopy/);
+  for(const title of ['AREX 공항철도','AREX Airport Railroad','AREX空港鉄道','AREX机场铁路','AREX機場鐵路'])assert.ok(app.includes(title));
+  assert.match(app,/동대문역 → 서울역 → 인천공항 T1·T2/);
+  assert.match(app,/https:\/\/www\.arex\.or\.kr\/main\.do/);
   assert.match(app,/map\.naver\.com\/p\/search\/01901/);
   assert.match(app,/map\.naver\.com\/p\/search\/02711/);
   assert.match(app,/37\.5707574%2C127\.009078/);
   assert.match(app,/37\.5677059222514%2C127\.00938804303702/);
+  assert.match(app,/map\.naver\.com\/p\/search\/%EB%8F%99%EB%8C%80%EB%AC%B8%EC%97%AD/);
+  assert.match(app,/query=Dongdaemun\+Station\+Seoul/);
+  assert.equal((app.match(/dongdaemunStationLinks/g)||[]).length,3);
   assert.match(html,/\.airport-departure-hero\{background:linear-gradient\(180deg,[^}]*transportation-hero\.jpg/);
   assert.match(html,/\.airport-departure-overview p\{[^}]*font-size:16px/);
   assert.match(html,/\.airport-departure-option>p\{[^}]*font-size:15px/);
