@@ -1079,8 +1079,7 @@ html[lang="ko"] p,html[lang="ko"] small,html[lang="ko"] li,html[lang="ko"] input
 .station-route-overview .entrance-route-photo img{aspect-ratio:164/53;object-fit:cover;filter:brightness(.82) saturate(.9)}
 .entrance-sign{position:absolute;z-index:2;display:flex;align-items:center;gap:4px;border-radius:999px;background:#fffaf4;color:#2a211d;border:2px solid #fff;padding:6px 9px;font-size:10px;font-weight:900;line-height:1.1;box-shadow:0 5px 16px rgba(0,0,0,.34);white-space:nowrap;pointer-events:none}
 .entrance-sign-start{right:13%;top:20%;background:#2a211d;color:#fff}
-.entrance-sign-turn{left:47%;top:45%;background:#f4c45c;color:#2a211d}
-.entrance-sign-turn b{font-size:18px;line-height:.7}
+.entrance-sign-exit6{left:47%;top:45%;background:#ffd400;color:#2a211d;border-color:#fff;font-size:11px;letter-spacing:.06em}
 .station-walk-step .building-entrance-photo img{aspect-ratio:3/4;object-fit:cover;object-position:center}
 .photo-signage{position:absolute;z-index:3;display:block;pointer-events:none}
 .photo-signage-ring{position:absolute;inset:0;border:3px solid #ffd400;border-radius:999px;box-shadow:0 0 0 2px rgba(42,33,29,.72),0 0 20px rgba(255,212,0,.78)}
@@ -1092,7 +1091,7 @@ html[lang="ko"] p,html[lang="ko"] small,html[lang="ko"] li,html[lang="ko"] input
 .entrance-route-steps{counter-reset:entrance-route;display:grid;gap:8px;margin:13px 0 0;padding:0;list-style:none}
 .entrance-route-steps li{counter-increment:entrance-route;display:grid;grid-template-columns:26px 1fr;gap:9px;align-items:center;color:#3f332b;font-size:13px;font-weight:750;line-height:1.45}
 .entrance-route-steps li:before{content:counter(entrance-route);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:#754836;color:#fff;font-size:11px;font-weight:900}
-@media(max-width:430px){.entrance-sign{padding:5px 7px;font-size:8px}.entrance-sign-start{right:8%;top:15%}.entrance-sign-turn{left:43%;top:42%}}
+@media(max-width:430px){.entrance-sign{padding:5px 7px;font-size:8px}.entrance-sign-start{right:8%;top:15%}.entrance-sign-exit6{left:43%;top:42%;font-size:9px}}
 .device-model{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px;margin:16px 18px 0;padding:13px 14px;border:1px solid color-mix(in srgb,var(--secondary) 24%,#d9c5b8);border-radius:8px;background:color-mix(in srgb,var(--secondary) 7%,#fffaf4);color:#4f4034;font-size:13px;line-height:1.5}
 .device-model span{color:var(--secondary);font-weight:800}
 .device-model strong{font-weight:700;overflow-wrap:anywhere}
@@ -1625,5 +1624,5 @@ body:not(.motion-ready) .concierge-widget,body:has(#brandIntro.is-running,.menu-
 <button class="concierge-launcher" id="openChatFab" type="button" aria-label="어나더하우스 챗봇 열기" aria-controls="chatPanel" aria-expanded="false" aria-haspopup="dialog"><img src="assets/images/another-house-logo-symbol.webp" alt="" width="38" height="44"><span class="concierge-launcher-caption" id="chatLauncherCompact">AI 상담</span></button>
 </div>
 <div class="chat-backdrop" id="chatBackdrop"></div><section class="chat-panel" id="chatPanel" role="dialog" aria-modal="true" aria-label="ANOTHER HOUSE CONCIERGE" inert><header class="chat-head"><div><h2>ANOTHER HOUSE CONCIERGE</h2><p>숙소 이용 안내만 답변합니다.</p></div><button class="chat-close" id="closeChat" type="button" aria-label="상담창 닫기"><span class="mi">close</span></button></header><div class="chat-log" id="chatLog"><div class="msg bot">안녕하세요. 체크인, 교통, Wi-Fi, 기기 사용법을 물어보세요.</div></div><div><div class="chat-suggestions"><button class="suggestion">체크인은 몇 시야?</button><button class="suggestion">와이파이 알려줘</button><button class="suggestion">동대문역에서 어떻게 가?</button></div><div class="chat-note">비밀번호와 출입 코드는 예약 플랫폼 메시지에서 확인해 주세요.</div><form class="chat-form" id="chatForm"><textarea id="chatInput" rows="1" placeholder="질문을 입력하세요"></textarea><button class="send-btn"><span class="mi">arrow_upward</span></button></form></div></section><div class="toast" id="toast">복사했습니다</div>
-<script src="assets/site-data.js?v=20260908-02"></script><script src="assets/gallery-data.js?v=20260908-02"></script><script src="assets/content-updates.js?v=20260908-07"></script><script src="assets/gallery-overrides.js?v=20260908-02"></script><script src="assets/restaurant-data.js?v=20260908-02"></script><script src="assets/restaurant-expanded.js?v=20260908-02"></script><script src="assets/tour-data.js?v=20260908-03"></script><script src="assets/master-app.js?v=20260914-08"></script><script src="assets/tour-app.js?v=20260908-02"></script></body>
+<script src="assets/site-data.js?v=20260908-02"></script><script src="assets/gallery-data.js?v=20260908-02"></script><script src="assets/content-updates.js?v=20260908-07"></script><script src="assets/gallery-overrides.js?v=20260908-02"></script><script src="assets/restaurant-data.js?v=20260908-02"></script><script src="assets/restaurant-expanded.js?v=20260908-02"></script><script src="assets/tour-data.js?v=20260908-03"></script><script src="assets/master-app.js?v=20260914-09"></script><script src="assets/tour-app.js?v=20260908-02"></script></body>
 </html>
