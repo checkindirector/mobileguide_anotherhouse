@@ -369,6 +369,10 @@ test("hamburger menu adds a five-language outbound airport guide after direction
   assert.match(html,/\.airport-departure-actions a\{[^}]*font-size:13px/);
   assert.match(html,/\.airport-departure-actions\.is-map-only\{[^}]*grid-template-columns:repeat\(2/);
   assert.match(html,/\.airport-arex-timetables\{[^}]*grid-template-columns:repeat\(2/);
+  assert.match(html,/\.airport-departure-arex \.airport-departure-route\{margin-top:14px\}/);
+  assert.match(html,/\.airport-departure-arex \.airport-departure-actions a\{background:#754836;border-color:#754836;color:#fff\}/);
+  assert.match(html,/\.airport-arex-timetables a\{[^}]*border:1px solid #d9c5b8[^}]*background:#fff/);
+  assert.doesNotMatch(html,/\.airport-arex-timetables a:last-child/);
   assert.match(html,/\.airport-departure-note\{[^}]*font-size:14px/);
 });
 
