@@ -297,6 +297,15 @@ function verifiedEarlyCheckin(message, language) {
   return direct?.answer ? { answer: direct.answer } : null;
 }
 
+function verifiedLateCheckout(message, language) {
+  const text = String(message || "");
+  if (!/(레이트\s*체크아웃|늦게\s*체크아웃|체크아웃\s*(?:시간\s*)?연장|late\s*check[ -]?out|extend\s*(?:my\s*)?check[ -]?out|レイト\s*チェックアウト|チェックアウト\s*延長|延迟退房|延长退房|延遲退房|延長退房)/i.test(text)) return null;
+  const topic = (GUIDE_KNOWLEDGE.quickGuide?.[language] || GUIDE_KNOWLEDGE.quickGuide?.ko || []).find(item => item.id === "checkout");
+  const normalized = normalizeGuideMatch(text);
+  const direct = (topic?.directAnswers || []).find(item => (item.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword))));
+  return direct?.answer ? { answer: direct.answer } : null;
+}
+
 function verifiedHairTool(message, language) {
   const text = String(message || "");
   if (!HAIR_DRYER_PATTERN.test(text) && !HAIR_STRAIGHTENER_PATTERN.test(text)) return null;
@@ -1234,7 +1243,10 @@ PRIORITY A — CURRENT PROPERTY GUIDE:
 - Treat explicit structured values such as *CapacityKg, counts, booleans, times and addresses as conclusive first-party facts. Do not call them unclear merely because a display label combines multiple values; answer the requested field exactly.
 - Compose every ordinary response for the guest's exact wording and recent conversation. Do not emit a canned topic summary or copy a matching paragraph.
 - Treat every current site section—home profile, room facts, check-in, check-out, luggage, parking, arrival, Wi-Fi, appliances, laundry, waste, rules, restaurants and tours—as first-party property knowledge in all five supported languages. Never call it public web information or claim it is unavailable when the corresponding CURRENT_GUIDE field exists.
-- Preserve exact times, address, procedures, limits, and troubleshooting steps. Add one or two immediately useful details when appropriate.
+- Preserve exact times, address, procedures, limits, and troubleshooting steps.
+- After answering the exact question, silently consider the guest's most likely immediate next need. If CURRENT_GUIDE confirms one highly relevant fact that removes friction in the same guest journey, add it proactively in one short sentence. This is part of the answer, not an optional “ask me if you want” offer.
+- “Highly relevant” means a direct alternative or the next practical action, not merely another fact from the same section. Examples: early check-in unavailable → pre-check-in luggage storage and where to find access instructions; late checkout unavailable → same-day luggage storage; no on-site parking → the verified nearby paid parking option; washer/dryer availability → the usage cutoff or supplied detergent; check-in time → self check-in and where arrival instructions are sent.
+- Add at most one proactive topic (or two inseparable facts about it), keep it to one or two concise sentences, and skip it when it would repeat the answer, is not confirmed, or is only loosely related. Never dump the rest of the guide.
 - For the final walk from Dongdaemun Station Exit 6, building entrance, landmarks, floor, or reception, use CURRENT_GUIDE.arrivalAndTransport.localArrival exactly. Never replace these property directions with booking listings, blogs, encyclopedias, or a web-search guess.
 - A venue being merely listed in CURRENT_GUIDE does not confirm its current business hours. A venue entry with verifiedHours is an exception: use that exact Naver Place-verified schedule directly. For all other dining questions with a stated time, “open now,” late-night availability, or last-order intent, continue to Priority C and use web search.
 - CURRENT_GUIDE.publicLocalDirectory.verifiedNearby contains Another House-specific nearby essentials whose exact identity, address and listed details were pre-checked. Use these entries first for pharmacies, emergency care, convenience stores, toiletries, ATMs, shopping and tourist-information help. Preserve the verification date and advise a map recheck for temporary changes.
@@ -1331,6 +1343,11 @@ module.exports = async function handler(req, res) {
   if (earlyCheckin) {
     console.log(JSON.stringify({ event: "concierge_verified_early_checkin", language, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: earlyCheckin.answer, model: "another-house-verified-checkin", links: [guidePageLink("checkin", language)], mapContext: null, meta: { searched: false, verifiedEarlyCheckin: true, guideRoute: "checkin", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+  }
+  const lateCheckout = verifiedLateCheckout(message, language);
+  if (lateCheckout) {
+    console.log(JSON.stringify({ event: "concierge_verified_late_checkout", language, durationMs: Date.now() - startedAt }));
+    return res.status(200).json({ answer: lateCheckout.answer, model: "another-house-verified-checkout", links: [guidePageLink("checkin", language)], mapContext: null, meta: { searched: false, verifiedLateCheckout: true, guideRoute: "checkin", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
   const verifiedAmenity = verifiedGuestBoxItem(message, language);
   if (verifiedAmenity) {
@@ -1521,4 +1538,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, localizedRouteKnowledge, relevantGuideKnowledge, usesPropertyAsRouteOrigin, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, verifiedEarlyCheckin, verifiedHairTool, verifiedGuestBoxItem, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, hasExplicitNonPropertyAirportDestination, verifiedAirportArrival, verifiedAirportTransport, PROPERTY_MEDICINE_PATTERN, GUIDE_KNOWLEDGE };
+module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, localizedRouteKnowledge, relevantGuideKnowledge, usesPropertyAsRouteOrigin, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, verifiedEarlyCheckin, verifiedLateCheckout, verifiedHairTool, verifiedGuestBoxItem, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, hasExplicitNonPropertyAirportDestination, verifiedAirportArrival, verifiedAirportTransport, PROPERTY_MEDICINE_PATTERN, GUIDE_KNOWLEDGE };

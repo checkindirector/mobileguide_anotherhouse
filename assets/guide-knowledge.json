@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-14.4",
+  "version": "2026-09-14.5",
   "generatedAt": "2026-09-11",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -138,7 +138,7 @@
               "늦게 체크아웃",
               "체크아웃 연장"
             ],
-            "answer": "아니요, 레이트 체크아웃과 체크아웃 시간 연장은 불가합니다."
+            "answer": "아니요, 레이트 체크아웃과 체크아웃 시간 연장은 불가합니다. 대신 체크아웃 당일 밤 11시까지 503호 앞 러기지룸에 짐을 무료로 보관할 수 있어요."
           }
         ]
       },
@@ -546,7 +546,7 @@
               "late check-out",
               "extend checkout"
             ],
-            "answer": "No, late check-out and check-out extensions are not available."
+            "answer": "No, late check-out and check-out extensions are not available. However, you may store your luggage free of charge in the luggage room in front of Room 503 until 23:00 on the day of checkout."
           }
         ]
       },
@@ -948,7 +948,7 @@
               "レイトチェックアウト",
               "チェックアウト延長"
             ],
-            "answer": "いいえ、レイトチェックアウトや時間延長はできません。"
+            "answer": "いいえ、レイトチェックアウトや時間延長はできません。ただし、チェックアウト当日の23時まで、503号室前のラゲッジルームに荷物を無料で預けられます。"
           }
         ]
       },
@@ -1327,7 +1327,7 @@
               "延迟退房",
               "延长退房"
             ],
-            "answer": "不可以，不提供延迟退房或退房时间延长。"
+            "answer": "不可以，不提供延迟退房或延长退房时间。不过，退房当天23:00前可将行李免费寄存在503号房前的行李房。"
           }
         ]
       },
@@ -1705,7 +1705,7 @@
               "延遲退房",
               "延長退房"
             ],
-            "answer": "不可以，不提供延遲退房或退房時間延長。"
+            "answer": "不可以，不提供延遲退房或延長退房時間。不過，退房當天23:00前可將行李免費寄放在503號房前的行李房。"
           }
         ]
       },

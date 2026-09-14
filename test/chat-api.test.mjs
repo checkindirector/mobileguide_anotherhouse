@@ -73,9 +73,12 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.equal(request.body.tool_choice, undefined);
   assert.equal(request.body.include, undefined);
   assert.equal(request.body.reasoning.effort, "low");
-  assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-09-14\.4/);
+  assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-09-14\.5/);
   assert.match(request.body.instructions, /The very first sentence must give the conclusion/);
   assert.match(request.body.instructions, /Never paste or paraphrase an entire guide section/);
+  assert.match(request.body.instructions, /most likely immediate next need/);
+  assert.match(request.body.instructions, /not merely another fact from the same section/);
+  assert.match(request.body.instructions, /Add at most one proactive topic/);
   assert.match(request.body.instructions, /capacity must answer the capacity/);
   assert.match(request.body.instructions, /MAP_SPOT: <canonical place name> \| <complete street address>/);
   assert.match(request.body.instructions, /GUIDE_PAGE: <route>/);
@@ -83,7 +86,7 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.match(request.body.instructions, /503호 앞 러기지룸/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB|"dryCapacityKg":4\.5/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-14.4-ko-home");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-14.5-ko-home");
   assert.doesNotMatch(request.body.input.at(-1).content, /GUIDE_KNOWLEDGE|CURRENT_GUIDE/);
   assert.ok(request.body.instructions.length < 30000);
   assert.equal(res.payload.meta.cachedTokens, 80);
@@ -109,7 +112,7 @@ test("site knowledge is answered naturally through the model in all five languag
     assert.equal(res.payload.meta.searched, false);
     assert.equal(request.body.tool_choice, undefined);
     assert.equal(request.body.tools, undefined);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.4");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.5");
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
     assert.match(res.payload.answer, expected);
     assert.doesNotMatch(res.payload.answer, /최신 공개정보|public information|公开信息|公開資訊/);
@@ -313,12 +316,25 @@ test("a laundry problem is handled by the AI instead of a generic keyword dump",
   assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "laundry"]]);
 });
 
-test("late checkout answers link to the combined check-in page instead of a nonexistent route", async () => {
-  const { res, requests } = await callApi({ message: "레이트 체크아웃", language: "ko", history: [] }, { model: "gpt-5.4-mini", output_text: "아니요, 레이트 체크아웃은 불가합니다. 체크아웃은 11:00까지입니다.\nGUIDE_PAGE: checkin", output: [], usage: {} }, "203.0.113.140");
-  assert.equal(requests.length, 1);
-  assert.equal(res.payload.links[0].route, "checkin");
-  assert.equal(res.payload.links[0].label, "체크인 · 체크아웃 안내 바로가기");
-  assert.match(res.payload.links[0].url, /\?page=checkin$/);
+test("late checkout proactively offers same-day luggage storage without OpenAI", async () => {
+  const cases = [
+    ["레이트 체크아웃 가능한가요?", "ko", /대신.*체크아웃 당일 밤 11시까지.*짐을 무료로 보관/s],
+    ["Can I get a late check-out?", "en", /However.*luggage.*Room 503.*23:00/s],
+    ["レイトチェックアウトできますか？", "ja", /ただし.*23時まで.*503号室前.*荷物を無料/s],
+    ["可以延迟退房吗？", "zh", /不过.*23:00前.*免费寄存.*503号房前/s],
+    ["可以延遲退房嗎？", "zh-TW", /不過.*23:00前.*免費寄放.*503號房前/s]
+  ];
+  let ip = 220;
+  for (const [message, language, expected] of cases) {
+    const { res, requests } = await callApi({ message, language, history: [] }, { model: "unused" }, `203.0.113.${ip++}`);
+    assert.equal(requests.length, 0);
+    assert.equal(res.payload.model, "another-house-verified-checkout");
+    assert.equal(res.payload.meta.verifiedLateCheckout, true);
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.5");
+    assert.match(res.payload.answer, expected);
+    assert.equal(res.payload.links[0].route, "checkin");
+    assert.match(res.payload.links[0].url, /\?page=checkin$/);
+  }
 });
 
 test("early check-in adds pre-check-in luggage storage in every language without OpenAI", async () => {
@@ -336,7 +352,7 @@ test("early check-in adds pre-check-in luggage storage in every language without
     assert.equal(res.payload.model, "another-house-verified-checkin");
     assert.equal(res.payload.meta.verifiedEarlyCheckin, true);
     assert.equal(res.payload.meta.searched, false);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.4");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.5");
     assert.equal(res.payload.links[0].route, "checkin");
     assert.match(res.payload.answer, expected);
   }
@@ -482,7 +498,7 @@ test("a route with no origin defaults to Another House and uses compact route kn
   assert.match(request.body.instructions, /동대문역 6번 출구/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB/);
   assert.ok(request.body.instructions.length < 25000);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-14.4-ko-route");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-14.5-ko-route");
   assert.equal(res.payload.meta.guideRoute, "transport");
   assert.deepEqual(res.payload.links.at(-1), handler._internals.guidePageLink("transport", "ko"));
 });
@@ -597,7 +613,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.mode, "night");
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.4");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.5");
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
@@ -739,7 +755,7 @@ test("time-specific family dining combines current search with the complete loca
   assert.equal(request.body.reasoning.effort, "medium");
   assert.equal(res.payload.model, "gpt-5.4-mini");
   assert.equal(res.payload.meta.searched, true);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.4");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.5");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더(?:가)? 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);
