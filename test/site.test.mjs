@@ -284,7 +284,7 @@ test("official Samsung guide stays consistent across languages and supports pinc
   assert.match(app,/image\.naturalWidth\*fit/);
   assert.match(app,/lightboxBaseWidth\*lightboxScale/);
   assert.match(html,/--lightbox-width/);
-  assert.doesNotMatch(html,/scale\(var\(--lightbox-scale/);
+  assert.match(html,/scale\(var\(--lightbox-scale,1\)\)/);
   assert.match(html,/image-lightbox\.is-zoomed/);
   assert.match(html,/PINCH TO ZOOM/);
 });
@@ -295,6 +295,9 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(html,/id="imageLightboxSignage"/);
   assert.match(html,/\.image-lightbox-signage\{[^}]*--lightbox-width/);
   assert.match(app,/\[image,signage\]\.filter\(Boolean\)\.forEach/);
+  assert.match(app,/--lightbox-scale/);
+  assert.match(app,/--lightbox-width',lightboxBaseWidth/);
+  assert.doesNotMatch(app,/--lightbox-width',width\.toFixed/);
   assert.match(app,/function lightboxAnnotationMarkup/);
   assert.match(app,/signage\.innerHTML=lightboxAnnotationMarkup/);
   assert.match(app,/data-photo-start-label/);
@@ -304,7 +307,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(app,/zoom\.dataset\.photoSignage/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20260914-05/);
+  assert.match(html,/master-app\.js\?v=20260914-06/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
@@ -327,6 +330,9 @@ test("hamburger menu adds a five-language outbound airport guide after direction
   assert.match(app,/function ensureAirportDepartureMenuItem/);
   assert.match(app,/transport\.insertAdjacentHTML\('afterend'/);
   assert.match(app,/data-go="airport-departure"/);
+  assert.match(app,/airportPlaneIconMarkup/);
+  assert.match(app,/airportInfoIconMarkup/);
+  assert.doesNotMatch(app,/data-go="airport-departure"[^\n]*flight_takeoff/);
   for(const title of ['공항으로 가는 길','Getting to the Airport','空港へのアクセス','前往机场','前往機場'])assert.match(app,new RegExp(title));
   assert.match(app,/renderAirportDeparture\(\)/);
   assert.match(app,/동대문역 JW메리어트호텔동대문 공항버스 정류장 01901/);
@@ -334,8 +340,15 @@ test("hamburger menu adds a five-language outbound airport guide after direction
   assert.equal((app.match(/'04:07'|'04:37'|'05:17'|'06:02'|'06:42'|'07:27'|'08:02'|'08:47'|'09:32'|'10:17'|'11:02'|'11:47'|'12:17'|'12:57'|'13:47'|'14:17'|'14:42'|'15:22'|'15:57'|'16:42'|'17:27'|'18:02'|'18:47'|'19:22'|'19:52'/g)||[]).length,25);
   assert.match(app,/N6701/);
   assert.match(app,/LINE 4 → LINE 5/);
-  assert.match(app,/map\.naver\.com\/p\/search/);
-  assert.match(app,/google\.com\/maps\/search/);
+  assert.match(app,/map\.naver\.com\/p\/search\/01901/);
+  assert.match(app,/map\.naver\.com\/p\/search\/02711/);
+  assert.match(app,/37\.5707574%2C127\.009078/);
+  assert.match(app,/37\.5677059222514%2C127\.00938804303702/);
+  assert.match(html,/\.airport-departure-hero\{background:linear-gradient\(180deg,[^}]*transportation-hero\.jpg/);
+  assert.match(html,/\.airport-departure-overview p\{[^}]*font-size:16px/);
+  assert.match(html,/\.airport-departure-option>p\{[^}]*font-size:15px/);
+  assert.match(html,/\.airport-departure-actions a\{[^}]*font-size:13px/);
+  assert.match(html,/\.airport-departure-note\{[^}]*font-size:14px/);
 });
 
 test("hamburger menu places house rules after trash with a dedicated icon",async()=>{
