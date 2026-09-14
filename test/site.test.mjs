@@ -27,7 +27,10 @@ test("directions page shows the Exit 6 entrance route photo with prominent multi
   for(const label of ['ANOTHER HOUSE · 5층','ANOTHER HOUSE · 5F','ANOTHER HOUSE・5階','ANOTHER HOUSE · 5层','ANOTHER HOUSE · 5樓']) assert.ok(app.includes(label));
   assert.match(app,/data-photo-signage="kyochon"/);
   assert.match(app,/data-photo-signage="anotherhouse"/);
+  assert.match(app,/photoSignageMarkup\('exit6',tc\.startLabel\)/);
+  assert.doesNotMatch(app,/entrance-sign entrance-sign-start/);
   assert.match(html,/\.photo-signage-ring/);
+  assert.match(html,/\.photo-signage-exit6\{left:62\.8%;top:54\.7%;width:7%;height:20%\}/);
   assert.match(html,/\.building-entrance-photo img\{aspect-ratio:3\/4/);
   assert.match(html,/\.entrance-route-steps/);
 });
@@ -308,7 +311,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(app,/zoom\.dataset\.photoSignage/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20260914-07/);
+  assert.match(html,/master-app\.js\?v=20260914-08/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
