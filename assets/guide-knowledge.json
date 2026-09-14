@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-14.3",
+  "version": "2026-09-14.4",
   "generatedAt": "2026-09-11",
   "sourceOfTruth": "Current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -117,7 +117,7 @@
               "조기 체크인",
               "일찍 체크인"
             ],
-            "answer": "아니요, 얼리 체크인은 객실 준비 사정상 불가능합니다. 체크인은 15:00부터입니다."
+            "answer": "아니요, 얼리 체크인은 객실 준비 사정상 불가능합니다. 체크인은 15:00부터입니다. 대신 체크인 전 짐 보관은 가능하며, 출입정보는 예약 플랫폼 메시지에서 확인해 주세요."
           }
         ]
       },
@@ -525,7 +525,7 @@
               "early check-in",
               "early check in"
             ],
-            "answer": "No, early check-in is not available because rooms need preparation. Check-in starts at 15:00."
+            "answer": "No, early check-in is not available because rooms need preparation. Check-in starts at 15:00. You may store your luggage before check-in; check your booking-platform message for access instructions."
           }
         ]
       },
@@ -928,7 +928,7 @@
               "アーリーチェックイン",
               "早めのチェックイン"
             ],
-            "answer": "いいえ、客室準備のためアーリーチェックインはできません。チェックインは15:00からです。"
+            "answer": "いいえ、客室準備のためアーリーチェックインはできません。チェックインは15:00からです。チェックイン前の荷物預かりは可能ですので、入館方法は予約プラットフォームのメッセージをご確認ください。"
           }
         ]
       },
@@ -1307,7 +1307,7 @@
               "提前入住",
               "早到入住"
             ],
-            "answer": "不可以，由于需要准备客房，无法提前入住。入住时间从15:00开始。"
+            "answer": "不可以，由于需要准备客房，无法提前入住。入住时间从15:00开始。入住前可以寄存行李，入馆信息请查看预订平台消息。"
           }
         ]
       },
@@ -1685,7 +1685,7 @@
               "提前入住",
               "提早入住"
             ],
-            "answer": "不可以，由於需要準備客房，無法提前入住。入住時間從15:00開始。"
+            "answer": "不可以，由於需要準備客房，無法提前入住。入住時間從15:00開始。入住前可以寄放行李，入館資訊請查看預訂平台訊息。"
           }
         ]
       },

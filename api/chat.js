@@ -288,6 +288,15 @@ function quickGuideFromQuestion(message, language) {
   return null;
 }
 
+function verifiedEarlyCheckin(message, language) {
+  const text = String(message || "");
+  if (!/(얼리\s*체크인|조기\s*체크인|일찍\s*체크인|early\s*check[ -]?in|アーリー\s*チェックイン|早めのチェックイン|提前入住|早到入住|提早入住)/i.test(text)) return null;
+  const topic = (GUIDE_KNOWLEDGE.quickGuide?.[language] || GUIDE_KNOWLEDGE.quickGuide?.ko || []).find(item => item.id === "checkin");
+  const normalized = normalizeGuideMatch(text);
+  const direct = (topic?.directAnswers || []).find(item => (item.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword))));
+  return direct?.answer ? { answer: direct.answer } : null;
+}
+
 function verifiedHairTool(message, language) {
   const text = String(message || "");
   if (!HAIR_DRYER_PATTERN.test(text) && !HAIR_STRAIGHTENER_PATTERN.test(text)) return null;
@@ -1318,6 +1327,11 @@ module.exports = async function handler(req, res) {
     console.log(JSON.stringify({ event: "concierge_map_followup", language, place: mapFollowup.mapContext.name, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ ...mapFollowup, model: "another-house-map-links", meta: { searched: false, mapFollowup: true, durationMs: Date.now() - startedAt } });
   }
+  const earlyCheckin = verifiedEarlyCheckin(message, language);
+  if (earlyCheckin) {
+    console.log(JSON.stringify({ event: "concierge_verified_early_checkin", language, durationMs: Date.now() - startedAt }));
+    return res.status(200).json({ answer: earlyCheckin.answer, model: "another-house-verified-checkin", links: [guidePageLink("checkin", language)], mapContext: null, meta: { searched: false, verifiedEarlyCheckin: true, guideRoute: "checkin", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+  }
   const verifiedAmenity = verifiedGuestBoxItem(message, language);
   if (verifiedAmenity) {
     console.log(JSON.stringify({ event: "concierge_verified_amenity", item: verifiedAmenity.item, returnPolicy: verifiedAmenity.returnPolicy, language, durationMs: Date.now() - startedAt }));
@@ -1507,4 +1521,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, localizedRouteKnowledge, relevantGuideKnowledge, usesPropertyAsRouteOrigin, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, verifiedHairTool, verifiedGuestBoxItem, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, hasExplicitNonPropertyAirportDestination, verifiedAirportArrival, verifiedAirportTransport, PROPERTY_MEDICINE_PATTERN, GUIDE_KNOWLEDGE };
+module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, localizedRouteKnowledge, relevantGuideKnowledge, usesPropertyAsRouteOrigin, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, verifiedEarlyCheckin, verifiedHairTool, verifiedGuestBoxItem, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, hasExplicitNonPropertyAirportDestination, verifiedAirportArrival, verifiedAirportTransport, PROPERTY_MEDICINE_PATTERN, GUIDE_KNOWLEDGE };

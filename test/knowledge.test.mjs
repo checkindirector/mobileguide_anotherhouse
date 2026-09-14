@@ -8,7 +8,7 @@ const root = resolve(import.meta.dirname, "..");
 test("generated knowledge mirrors current public guide content without secrets", async () => {
   const raw = await readFile(resolve(root, "assets/guide-knowledge.json"), "utf8");
   const knowledge = JSON.parse(raw);
-  assert.equal(knowledge.version, "2026-09-14.3");
+  assert.equal(knowledge.version, "2026-09-14.4");
   assert.deepEqual(knowledge.languages, ["ko", "en", "ja", "zh", "zh-TW"]);
   assert.equal(knowledge.property.ko.address, "서울시 종로구 종로 294 선일빌딩 5층");
   assert.equal(knowledge.stay.ko.checkin.summary.includes("15:00"), true);
@@ -49,6 +49,13 @@ test("generated knowledge mirrors current public guide content without secrets",
   assert.deepEqual(knowledge.verifiedAirportTransport.gimpoLine5.services.DAY.at(-1), { departure: "24:09", arrival: "24:55" });
   assert.match(knowledge.connectivity.ko.passwordPolicy, /공개 챗봇에서 제공하지 않습니다/);
   const expectedQuickTopics = ["luggage", "checkin", "checkout", "wifi", "parking", "rules", "appliances", "laundry", "waste", "rooms", "tv", "contact"];
+  const earlyCheckinPatterns = {
+    ko: /체크인 전 짐 보관은 가능.*예약 플랫폼 메시지/s,
+    en: /store your luggage before check-in.*booking-platform message/s,
+    ja: /チェックイン前の荷物預かり.*予約プラットフォーム/s,
+    zh: /入住前可以寄存行李.*预订平台消息/s,
+    "zh-TW": /入住前可以寄放行李.*預訂平台訊息/s
+  };
   for (const language of knowledge.languages) {
     assert.deepEqual(knowledge.quickGuide[language].map(topic => topic.id), expectedQuickTopics);
     for (const topic of knowledge.quickGuide[language]) {
@@ -73,6 +80,7 @@ test("generated knowledge mirrors current public guide content without secrets",
     assert.match(inboundNight.officialSource.url, /bus_no=N6701/);
     const earlyCheckin = knowledge.quickGuide[language].find(topic => topic.id === "checkin").directAnswers[0];
     assert.ok(earlyCheckin.answer.length > 20);
+    assert.match(earlyCheckin.answer, earlyCheckinPatterns[language]);
   }
   assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "luggage").answer, /503호 앞.*체크아웃 당일.*무료/s);
   assert.match(knowledge.quickGuide.en.find(topic => topic.id === "luggage").answer, /Room 503.*day of checkout/s);

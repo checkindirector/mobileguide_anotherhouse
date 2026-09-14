@@ -73,7 +73,7 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.equal(request.body.tool_choice, undefined);
   assert.equal(request.body.include, undefined);
   assert.equal(request.body.reasoning.effort, "low");
-  assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-09-14\.3/);
+  assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-09-14\.4/);
   assert.match(request.body.instructions, /The very first sentence must give the conclusion/);
   assert.match(request.body.instructions, /Never paste or paraphrase an entire guide section/);
   assert.match(request.body.instructions, /capacity must answer the capacity/);
@@ -83,7 +83,7 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.match(request.body.instructions, /503호 앞 러기지룸/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB|"dryCapacityKg":4\.5/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-14.3-ko-home");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-14.4-ko-home");
   assert.doesNotMatch(request.body.input.at(-1).content, /GUIDE_KNOWLEDGE|CURRENT_GUIDE/);
   assert.ok(request.body.instructions.length < 30000);
   assert.equal(res.payload.meta.cachedTokens, 80);
@@ -109,7 +109,7 @@ test("site knowledge is answered naturally through the model in all five languag
     assert.equal(res.payload.meta.searched, false);
     assert.equal(request.body.tool_choice, undefined);
     assert.equal(request.body.tools, undefined);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.3");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.4");
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
     assert.match(res.payload.answer, expected);
     assert.doesNotMatch(res.payload.answer, /최신 공개정보|public information|公开信息|公開資訊/);
@@ -321,6 +321,27 @@ test("late checkout answers link to the combined check-in page instead of a none
   assert.match(res.payload.links[0].url, /\?page=checkin$/);
 });
 
+test("early check-in adds pre-check-in luggage storage in every language without OpenAI", async () => {
+  const cases = [
+    ["얼리 체크인 가능한가요?", "ko", /얼리 체크인은.*불가능.*체크인 전 짐 보관은 가능.*예약 플랫폼 메시지/s],
+    ["Is early check-in available?", "en", /No, early check-in.*luggage before check-in.*booking-platform message/s],
+    ["アーリーチェックインできますか？", "ja", /アーリーチェックイン.*できません.*チェックイン前の荷物預かり.*予約プラットフォーム/s],
+    ["可以提前入住吗？", "zh", /无法提前入住.*入住前可以寄存行李.*预订平台消息/s],
+    ["可以提早入住嗎？", "zh-TW", /無法提前入住.*入住前可以寄放行李.*預訂平台訊息/s]
+  ];
+  let ip = 210;
+  for (const [message, language, expected] of cases) {
+    const { res, requests } = await callApi({ message, language, history: [] }, { model: "unused" }, `203.0.113.${ip++}`);
+    assert.equal(requests.length, 0);
+    assert.equal(res.payload.model, "another-house-verified-checkin");
+    assert.equal(res.payload.meta.verifiedEarlyCheckin, true);
+    assert.equal(res.payload.meta.searched, false);
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.4");
+    assert.equal(res.payload.links[0].route, "checkin");
+    assert.match(res.payload.answer, expected);
+  }
+});
+
 test("every site section can resolve to its own guide page", () => {
   const cases = [
     ["숙소 소개와 여성 전용 여부", "ko", "gallery"], ["주소와 찾아오는 길", "ko", "transport"],
@@ -461,7 +482,7 @@ test("a route with no origin defaults to Another House and uses compact route kn
   assert.match(request.body.instructions, /동대문역 6번 출구/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB/);
   assert.ok(request.body.instructions.length < 25000);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-14.3-ko-route");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-14.4-ko-route");
   assert.equal(res.payload.meta.guideRoute, "transport");
   assert.deepEqual(res.payload.links.at(-1), handler._internals.guidePageLink("transport", "ko"));
 });
@@ -576,7 +597,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.mode, "night");
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.3");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.4");
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
@@ -718,7 +739,7 @@ test("time-specific family dining combines current search with the complete loca
   assert.equal(request.body.reasoning.effort, "medium");
   assert.equal(res.payload.model, "gpt-5.4-mini");
   assert.equal(res.payload.meta.searched, true);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.3");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.4");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더(?:가)? 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);

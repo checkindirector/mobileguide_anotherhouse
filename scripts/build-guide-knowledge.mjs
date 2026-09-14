@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-14.3";
+const VERSION = "2026-09-14.4";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -97,11 +97,11 @@ const PROPERTY_MEDICINE_DIRECT_ANSWERS = {
 const quickDirectAnswers = (topic, language) => {
   const answers = ({
   checkin: {
-    ko: [{ keywords: ["얼리 체크인", "조기 체크인", "일찍 체크인"], answer: "아니요, 얼리 체크인은 객실 준비 사정상 불가능합니다. 체크인은 15:00부터입니다." }],
-    en: [{ keywords: ["early check-in", "early check in"], answer: "No, early check-in is not available because rooms need preparation. Check-in starts at 15:00." }],
-    ja: [{ keywords: ["アーリーチェックイン", "早めのチェックイン"], answer: "いいえ、客室準備のためアーリーチェックインはできません。チェックインは15:00からです。" }],
-    zh: [{ keywords: ["提前入住", "早到入住"], answer: "不可以，由于需要准备客房，无法提前入住。入住时间从15:00开始。" }],
-    "zh-TW": [{ keywords: ["提前入住", "提早入住"], answer: "不可以，由於需要準備客房，無法提前入住。入住時間從15:00開始。" }]
+    ko: [{ keywords: ["얼리 체크인", "조기 체크인", "일찍 체크인"], answer: "아니요, 얼리 체크인은 객실 준비 사정상 불가능합니다. 체크인은 15:00부터입니다. 대신 체크인 전 짐 보관은 가능하며, 출입정보는 예약 플랫폼 메시지에서 확인해 주세요." }],
+    en: [{ keywords: ["early check-in", "early check in"], answer: "No, early check-in is not available because rooms need preparation. Check-in starts at 15:00. You may store your luggage before check-in; check your booking-platform message for access instructions." }],
+    ja: [{ keywords: ["アーリーチェックイン", "早めのチェックイン"], answer: "いいえ、客室準備のためアーリーチェックインはできません。チェックインは15:00からです。チェックイン前の荷物預かりは可能ですので、入館方法は予約プラットフォームのメッセージをご確認ください。" }],
+    zh: [{ keywords: ["提前入住", "早到入住"], answer: "不可以，由于需要准备客房，无法提前入住。入住时间从15:00开始。入住前可以寄存行李，入馆信息请查看预订平台消息。" }],
+    "zh-TW": [{ keywords: ["提前入住", "提早入住"], answer: "不可以，由於需要準備客房，無法提前入住。入住時間從15:00開始。入住前可以寄放行李，入館資訊請查看預訂平台訊息。" }]
   },
   luggage: {
     ko: [{ keywords: ["짐보관", "짐맡", "캐리어보관", "수하물보관"], answer: "네, 짐 보관이 가능합니다. 503호 앞 러기지룸에 체크아웃 당일 밤 11시까지 무료로 보관할 수 있어요." }],
