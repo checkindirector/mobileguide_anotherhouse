@@ -304,7 +304,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(app,/zoom\.dataset\.photoSignage/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20260914-04/);
+  assert.match(html,/master-app\.js\?v=20260914-05/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
@@ -313,6 +313,29 @@ test("mobile shell remains fluid and avoids automatic input zoom across phone wi
   assert.match(html,/main,\.screen,\.screen\.active,\.hotel-section,[^\n]*max-width:100%;min-width:0/);
   assert.match(html,/@media\(max-width:767px\)\{body \.concierge-ask input,body \.chat-form textarea\{font-size:16px!important\}\}/);
   assert.match(html,/@media\(max-width:359px\)/);
+});
+
+test("hamburger menu adds a five-language outbound airport guide after directions",async()=>{
+  const html=await read("index.html");
+  const mirror=await read("guide-anotherhouse.html");
+  const app=await read("assets/master-app.js");
+  for(const page of [html,mirror]){
+    assert.match(page,/data-screen="airport-departure"/);
+    assert.match(page,/id="airportDepartureContent"/);
+    assert.match(page,/\.airport-departure-stack/);
+  }
+  assert.match(app,/function ensureAirportDepartureMenuItem/);
+  assert.match(app,/transport\.insertAdjacentHTML\('afterend'/);
+  assert.match(app,/data-go="airport-departure"/);
+  for(const title of ['공항으로 가는 길','Getting to the Airport','空港へのアクセス','前往机场','前往機場'])assert.match(app,new RegExp(title));
+  assert.match(app,/renderAirportDeparture\(\)/);
+  assert.match(app,/동대문역 JW메리어트호텔동대문 공항버스 정류장 01901/);
+  assert.match(app,/동대문디자인플라자 DDP 공항버스 정류장 02711/);
+  assert.equal((app.match(/'04:07'|'04:37'|'05:17'|'06:02'|'06:42'|'07:27'|'08:02'|'08:47'|'09:32'|'10:17'|'11:02'|'11:47'|'12:17'|'12:57'|'13:47'|'14:17'|'14:42'|'15:22'|'15:57'|'16:42'|'17:27'|'18:02'|'18:47'|'19:22'|'19:52'/g)||[]).length,25);
+  assert.match(app,/N6701/);
+  assert.match(app,/LINE 4 → LINE 5/);
+  assert.match(app,/map\.naver\.com\/p\/search/);
+  assert.match(app,/google\.com\/maps\/search/);
 });
 
 test("hamburger menu places house rules after trash with a dedicated icon",async()=>{
