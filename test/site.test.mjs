@@ -284,7 +284,7 @@ test("official Samsung guide stays consistent across languages and supports pinc
   assert.match(app,/image\.naturalWidth\*fit/);
   assert.match(app,/lightboxBaseWidth\*lightboxScale/);
   assert.match(html,/--lightbox-width/);
-  assert.match(html,/scale\(var\(--lightbox-scale,1\)\)/);
+  assert.match(html,/\.image-lightbox-media\{[^}]*scale\(var\(--lightbox-scale,1\)\)/);
   assert.match(html,/image-lightbox\.is-zoomed/);
   assert.match(html,/PINCH TO ZOOM/);
 });
@@ -293,11 +293,12 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   const app=await read("assets/master-app.js");
   const html=await read("index.html");
   assert.match(html,/id="imageLightboxSignage"/);
-  assert.match(html,/\.image-lightbox-signage\{[^}]*--lightbox-width/);
-  assert.match(app,/\[image,signage\]\.filter\(Boolean\)\.forEach/);
+  assert.match(html,/id="imageLightboxMedia"[^>]*><img id="imageLightboxImg"[^>]*><div class="image-lightbox-signage"/);
+  assert.match(html,/\.image-lightbox-signage\{[^}]*inset:0[^}]*width:100%[^}]*height:100%/);
+  assert.match(app,/const media=\$\('#imageLightboxMedia'\)/);
   assert.match(app,/--lightbox-scale/);
-  assert.match(app,/--lightbox-width',lightboxBaseWidth/);
-  assert.doesNotMatch(app,/--lightbox-width',width\.toFixed/);
+  assert.match(app,/media\.style\.setProperty\('--lightbox-width',lightboxBaseWidth/);
+  assert.doesNotMatch(app,/\[image,signage\].*setProperty/);
   assert.match(app,/function lightboxAnnotationMarkup/);
   assert.match(app,/signage\.innerHTML=lightboxAnnotationMarkup/);
   assert.match(app,/data-photo-start-label/);
@@ -307,7 +308,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(app,/zoom\.dataset\.photoSignage/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20260914-06/);
+  assert.match(html,/master-app\.js\?v=20260914-07/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
