@@ -16,3 +16,5 @@ Scope: prioritize luggage storage and check-in, using the operations workbook al
 `npm test`: 124 tests passed, including the existing staff example corpus, new unseen short/typo/paraphrase cases in five languages, conversation continuations, negative cases and mixed travel requests. Model-path tests verify routing, source context and preserved questions with mocked responses; deployment smoke tests must additionally inspect actual model answers.
 
 `npm run build`: passed. No website facts, model selection, billing settings or shared master prompts were changed.
+
+Production smoke review: five-language short questions returned property facts and guide links without web search (approximately 0.5 seconds in this sample). Actual model responses handled 14:00 arrival and luggage-plus-parcel questions in approximately 3–4 seconds. Review identified two wording issues, corrected in instructions: a relative storage date must be conditional on the booking date, and a lost-item reply must not append routine storage availability.
