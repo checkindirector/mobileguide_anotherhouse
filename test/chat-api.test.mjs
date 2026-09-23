@@ -220,6 +220,16 @@ test("luggage storage plus onward travel retains both guide facts and public sea
   assert.match(request.body.instructions, /6702/);
 });
 
+test("ambiguous overnight check-in reaches the model with booking-date clarification", async () => {
+  for (const message of ["arrive 1am can check in?", "새벽1시에 첵인 가능?"]) {
+    const { request, requests } = await callApi({ message, language: "en" }, { output_text: "It depends on your booked check-in date. GUIDE_PAGE: checkin" }, `midnight-${message}`);
+    assert.equal(requests.length, 1);
+    assert.equal(request.body.tools, undefined);
+    assert.match(request.body.instructions, /MIDNIGHT ARRIVAL TAKES PRIORITY/);
+    assert.match(request.body.instructions, /Explain BOTH possibilities/);
+  }
+});
+
 test("nuanced property questions use the complete guide without a forced search", async () => {
   const cases = [
     ["Can I check in late?", "en", "checkin", "Self check-in is available from 15:00. Please follow the kiosk instructions."],
