@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-23.1",
+  "version": "2026-09-23.2",
   "source": {
     "workbook": "Q&A 표준화 (1).xlsx",
     "rawSheet": "어나더 질문 RAW",
@@ -10,9 +10,9 @@
   "intentCount": 33,
   "secretAnswerRowsExcluded": 58,
   "notes": [
-    "Historical guest questions are used only as intent examples.",
+    "Approved operator replies take priority for matching questions; retain their wording.",
     "Customer names, contact details, and dates are redacted.",
-    "Answers and access credentials are excluded; current verified guide data remains authoritative."
+    "Raw credential-bearing replies are excluded; only credential clauses are replaced in approvedAnswers. All other wording is preserved verbatim."
   ],
   "intents": [
     {
@@ -584,6 +584,894 @@
         "저는 9월 19일에 황로마 호텔에 2박 투숙할 예정입니다. 비밀번호는 이전과 동일하게 사용 가능한가요?",
         "숙박을 1박 연장할 수 있나요?"
       ]
+    }
+  ],
+  "approvedAnswers": [
+    {
+      "id": "Q001",
+      "intent": "luggage",
+      "type": "짐보관 가능 여부 및 시간",
+      "route": "checkin",
+      "answer": "체크인·체크아웃 당일 언제든지★ 503호 앞 짐보관실을 무료로 이용할 수 있습니다. 시간 제한 없습니다★ 출입정보는 예약 채널 메시지에서 확인해주세요.",
+      "examples": [
+        "또, 체크인 전은 몇시부터 맡길 수 있는지, 체크인 후에는 몇시까지 회수해야 하는지 가르쳐 주었으면 합니다. (출입구 비밀번호의 유효기간이 있는지 여부)",
+        "체크인 전후에 짐을 맡기는 곳이 묻어 버리는 일은 있습니까.",
+        "호텔에 수하물을 맡길 수 있습니까?",
+        "안녕하세요, 짐을 미리 맡겨둘 수 있을까요?",
+        "혹시 짐 보관해 주실 수 있나요?",
+        "저는 11시 30분쯤 도착할 예정입니다. 거기에 짐을 두고 가셔도 될까요?",
+        "체크아웃 후 짐을 두고 가면 어떻게 문을 열 수 있나요?",
+        "숙소의 운반 케이스를 맡길 수 있는 사물함의 크기는 어느 정도입니까?",
+        "체크인 전에 숙소 리셉션에서 수하물을 받으실 수 있나요?",
+        "호텔 프런트 데스크에서 체크인 전, 체크아웃 후 모두 짐을 보관해 주나요?",
+        "호텔에 짐을 보관할 수 있나요?",
+        "체크 아웃 후 짐을 맡기는 법을 가르쳐주세요.",
+        "체크인 전에 짐을 맡기려면 어떻게 해야 하나요?",
+        "제 여행 가방이 침대 밑에 안 들어가서 짐 보관소에 맡겼어요. 체크아웃할 때까지 거기 보관해도 될까요?",
+        "안녕하세요, 오늘 체크인하는 투숙객입니다. 일찍 도착했는데, 짐을 여기에 맡겨도 될까요?",
+        "숙소 리셉션에서 수하물을 받을 수 있나요?",
+        "카드 키 반납해도 번호를 입력하면 운반 케이스 잡으러 갈 수 있다고 하는 것이군요? 캐리 케이스 도난 방지에 뭔가 잠그는 것이 있습니까? 또 캐리 케이스＋배낭과 혼자서 2분의 짐은 맡길 수 있습니까? 체크아웃 후, 캐리 케이스 보관 장소에서 캐리 케이스를 맡기고 밖으로 나간다. 가지고 갈 때는 카드없이 비밀번호를 입력하고 안으로 들어가고 짐을 잡으러 가면 괜찮습니까? 짐을 잡으러 갈 시간은 24시간 괜찮습니까?",
+        "아침 몇시부터 짐을 맡길 수 있나요?",
+        "내일 아침 호텔에 수하물을 맡기고 싶습니다.",
+        "호텔 프런트에 짐을 맡겨둘 수 있을까요? 안녕하세요! 내일 체크아웃을 하는데, 사찰에서 하룻밤 묵을 예정입니다. 모레 다시 체크인하러 오는데, 내일 짐 하나를 프런트에 맡겨두고 26일 체크인 때 찾아갈 수 있을까요? 감사합니다!",
+        "호텔 프런트 데스크에 짐을 보관해 줄 수 있나요? (이하 생략)",
+        "체크인 전에 짐을 무료로 보관할 수 있나요?",
+        "체크 아웃 후 짐을 맡기는 방법을 알고 싶습니다.",
+        "체크아웃 후 몇 시까지 짐을 보관할 수 있나요?",
+        "체크인 전에 수하물을 맡기고 싶습니다.",
+        "체크인 후 수하물 보관은 몇 시까지 가능합니까?"
+      ],
+      "sourceRows": [
+        2,
+        3,
+        4,
+        15,
+        30,
+        39,
+        45,
+        50,
+        56,
+        57,
+        60,
+        64,
+        67,
+        75,
+        77,
+        78,
+        79,
+        81,
+        85,
+        86,
+        87,
+        88,
+        91,
+        92,
+        95,
+        96,
+        99,
+        100,
+        102,
+        103,
+        105,
+        110,
+        111,
+        113,
+        116
+      ],
+      "questionIds": [
+        "Q001",
+        "Q002",
+        "Q003",
+        "Q014",
+        "Q029",
+        "Q038",
+        "Q044",
+        "Q049",
+        "Q055",
+        "Q056",
+        "Q059",
+        "Q063",
+        "Q066",
+        "Q074",
+        "Q076",
+        "Q077",
+        "Q078",
+        "Q080",
+        "Q084",
+        "Q085",
+        "Q086",
+        "Q087",
+        "Q090",
+        "Q091",
+        "Q094",
+        "Q095",
+        "Q098",
+        "Q099",
+        "Q101",
+        "Q102",
+        "Q104",
+        "Q109",
+        "Q110",
+        "Q112",
+        "Q115"
+      ],
+      "credentialsProtected": true,
+      "sourceAnswerSha256": null
+    },
+    {
+      "id": "Q004",
+      "intent": "postal-address",
+      "type": "우편번호, 위치, 주소",
+      "route": "transport",
+      "answer": "03199 입니다. 숙소 주소는 서울특별시 종로구 종로294, 선일빌딩 5층입니다. 영문: 5th floor, 294, Jong-ro, Jongno-gu, Seoul, Republic of Korea",
+      "examples": [
+        "우리 우편번호는 무엇인가요?",
+        "다섯 자리 우편 번호를 알려주세요.",
+        "예약한 객실은 몇층에 있나요?"
+      ],
+      "sourceRows": [
+        5,
+        65,
+        72
+      ],
+      "questionIds": [
+        "Q004",
+        "Q064",
+        "Q071"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "8f14d6232387096244bc8d956a845e5d19ccbc0f227a27a1b7821847903e186c"
+    },
+    {
+      "id": "Q005",
+      "intent": "property-location",
+      "type": "숙소 찾기·위치",
+      "route": "transport",
+      "answer": "어나더하우스는 서울특별시 종로구 종로294 선일빌딩 5층에 있습니다. 동대문역 6번 또는 7번 출구에서 도보 약 30초이며, 교촌치킨 동대문1호점 건물을 찾아주세요. / 주소: 서울특별시 종로구 종로294, 선일빌딩 5층 / 영문: 5th floor, 294, Jong-ro, Jongno-gu, Seoul, Republic of Korea",
+      "examples": [
+        "호텔 주소는 영문 또는 한국어 형식으로 작성해 주셔야 합니다.",
+        "호텔 주소",
+        "호텔을 찾을 수가 없어요",
+        "호텔 위치 및 층"
+      ],
+      "sourceRows": [
+        6,
+        7,
+        10,
+        106
+      ],
+      "questionIds": [
+        "Q005",
+        "Q006",
+        "Q009",
+        "Q105"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "6146c836eb20051b3d3968a1f804c551984018540fa3f5aa451f4f865e2e1b2f"
+    },
+    {
+      "id": "Q007",
+      "intent": "contact",
+      "type": "전화번호·연락처",
+      "route": "home",
+      "answer": "문의는 예약하신 채널의 메시지로 보내주세요. 전화번호 또는 이메일 주소가 꼭 필요한 경우 직원이 정확한 정보를 확인해 안내드리겠습니다.",
+      "examples": [
+        "호텔 전화",
+        "호텔로 연락하는 방법은?",
+        "전화번호, 이메일, 기타 즉시 연락 도구를 추가하는 방법 등 호텔의 연락 방법을 알고 싶습니다.",
+        "전자 입국 심사 절차에 호텔 전화 번호가 필요하므로 알려주십시오."
+      ],
+      "sourceRows": [
+        8,
+        37,
+        58,
+        66
+      ],
+      "questionIds": [
+        "Q007",
+        "Q036",
+        "Q057",
+        "Q065"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "b96eba48b24ad930e5bcaa4eb9de1e42de7224626bacb31cf47a849b56910396"
+    },
+    {
+      "id": "Q008",
+      "intent": "early-checkin",
+      "type": "얼리 체크인",
+      "route": "checkin",
+      "answer": "얼리 체크인은 제공되지 않습니다. 일찍 도착한 경우 503호 앞 짐보관실에 짐을 보관한 뒤 오후 3시부터 체크인해주세요. / 출입정보는 예약 채널 메시지에서 확인해주세요. / ★ 카드키는 재발급되지 않습니다, 분실에 유의하십시오.",
+      "examples": [
+        "일찍 체크인할 수 있을까요?",
+        "이른 체크인은 가능합니까?",
+        "일찍 체크인할 수 있나요?"
+      ],
+      "sourceRows": [
+        9,
+        14,
+        22,
+        44,
+        69,
+        73,
+        119
+      ],
+      "questionIds": [
+        "Q008",
+        "Q013",
+        "Q021",
+        "Q043",
+        "Q068",
+        "Q072",
+        "Q118"
+      ],
+      "credentialsProtected": true,
+      "sourceAnswerSha256": null
+    },
+    {
+      "id": "Q010",
+      "intent": "checkin-checkout-time",
+      "type": "체크인·체크아웃 시간",
+      "route": "checkin",
+      "answer": "체크인은 오후 3시부터 가능합니다. 오후 3시 이후에는 키오스크를 이용해 언제든지 비대면 체크인할 수 있습니다. ★ 카드키는 재발급되지 않습니다, 분실에 유의하십시오. 체크아웃은 오전 11시까지입니다. 다음 고객을 위한 객실 청소가 필요해 레이트 체크아웃은 어렵습니다.",
+      "examples": [
+        "예약 호텔의 체크인 및 체크아웃 시간을 알려주세요."
+      ],
+      "sourceRows": [
+        11
+      ],
+      "questionIds": [
+        "Q010"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "a921b87aa0c0cc816a70cc1d1c5c8d7f7b71fc1885c2a154445da4e20a19e2c1"
+    },
+    {
+      "id": "Q011",
+      "intent": "checkin-method",
+      "type": "체크인 방법",
+      "route": "checkin",
+      "answer": "입구 키오스크에서 예약자 이름 또는 예약번호를 입력하면 객실키가 발급됩니다. 예약번호는 바우처에 표시된 예약번호 끝 4자리를 이용해주세요. ★ 카드키는 재발급되지 않습니다, 분실에 유의하십시오. 예약자 이름은 예약한 이름 그대로 입력해주세요.",
+      "examples": [
+        "셀프 체크인을 어떻게 하나요?",
+        "체크인 방법",
+        "체크인 방법을 알려주세요.",
+        "영수증 발급을 할 수 없어 방 번호를 모릅니다.",
+        "제 예약 번호는 1539366514705937입니다. 체크인 절차가 어떻게 되는지 알려주시겠",
+        "호텔 도착 후 어떻게 체크인하나요?",
+        "안녕하세요, 체크인을 하고 객실 키는 받았는데 객실 번호나 영수증을 받지 못했습니다. 어떻게 해야 하나요? 키 카드만 있고 객실 번호는 없습니다.",
+        "비밀번호는 어디서 확인하나요?"
+      ],
+      "sourceRows": [
+        12,
+        17,
+        33,
+        34,
+        43,
+        107,
+        108,
+        112,
+        121,
+        122
+      ],
+      "questionIds": [
+        "Q011",
+        "Q016",
+        "Q032",
+        "Q033",
+        "Q042",
+        "Q106",
+        "Q107",
+        "Q111",
+        "Q039",
+        "Q121"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "88cbb2978b9665efaf691aa05eb4d06118a151de0776f84ff597ccd234ae9cf9"
+    },
+    {
+      "id": "Q012",
+      "intent": "late-checkin",
+      "type": "늦은 체크인",
+      "route": "checkin",
+      "answer": "입실일 3시 이후면 언제든지 키오스크로 체크인할 수 있습니다. ★ 카드키는 재발급되지 않습니다, 분실에 유의하십시오.",
+      "examples": [
+        "호텔에 밤늦게 도착한 경우에도 체크인할 수 있나요?",
+        "밤늦게 호텔에 도착했는데도 체크인이 가능한가요?",
+        "가장 늦게 체크인할 수 있는 시간은 언제인가요?"
+      ],
+      "sourceRows": [
+        13,
+        20,
+        23
+      ],
+      "questionIds": [
+        "Q012",
+        "Q022",
+        "Q034"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "0673f5cac512d33cbde9ad4a5d348fae7d593bb7e968ccf2f03441b65f1a2957"
+    },
+    {
+      "id": "Q015",
+      "intent": "shared-kitchen",
+      "type": "공용 주방 위치",
+      "route": "appliances",
+      "answer": "라운지에 공용주방이 있으며 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류, 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다.",
+      "examples": [
+        "공용 주방은 몇층입니까?"
+      ],
+      "sourceRows": [
+        16
+      ],
+      "questionIds": [
+        "Q015"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "8f16ba245d859666198f4e779b9bbc4a843126c1727ad291b3fabcdd4e1b0d36"
+    },
+    {
+      "id": "Q017",
+      "intent": "booking-confirmation",
+      "type": "예약 확인 메일",
+      "route": "checkin",
+      "answer": "예약 확인 메일이 도착하지 않았군요. 예약자 이름, 예약 채널, 체크인 날짜를 예약 채널 메시지로 알려주세요. 예약 상태와 확인 메일 재발송 가능 여부를 확인하겠습니다.",
+      "examples": [
+        "9/24부터 3박 예약하고 있는 [예약자 이름]입니다. 예약 확인 메일이 도착하지 않았습니다. 다시 보낼 수 없습니까?",
+        "예약 확인 메일이 도착하지 않았습니다. 다시 보낼 수 없습니까?"
+      ],
+      "sourceRows": [
+        18,
+        120
+      ],
+      "questionIds": [
+        "Q017",
+        "Q119"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "fedb0f1a6b4f4a0609b15bb807c733ff81b19c215a84160bf1e31a3cc5ec50d0"
+    },
+    {
+      "id": "Q018",
+      "intent": "checkin-luggage",
+      "type": "체크인과 짐보관",
+      "route": "checkin",
+      "answer": "입구 키오스크에서 예약자 이름 또는 예약번호를 입력하면 객실키가 발급됩니다. 예약번호는 바우처에 표시된 예약번호 끝 4자리를 이용해주세요. ★ 카드키는 재발급되지 않습니다, 분실에 유의하십시오. 예약자 이름은 예약한 이름 그대로 입력해주세요. 체크인, 아웃 당일 503호 앞 짐보관실을 무료로 이용할 수 있습니다 / 출입정보는 예약 채널 메시지에서 확인해주세요. / 귀중품은 직접 보관해주세요.",
+      "examples": [
+        "안녕하세요, [날짜]-9/27에 3박 4일에 숙박 예약한 [예약자 이름]입니다. 체크인 방법, 체크아웃 후 트렁크를 맡기는 방법을 알려주세요. 잘 부탁드립니다!"
+      ],
+      "sourceRows": [
+        19
+      ],
+      "questionIds": [
+        "Q018"
+      ],
+      "credentialsProtected": true,
+      "sourceAnswerSha256": null
+    },
+    {
+      "id": "Q020",
+      "intent": "airport-shuttle",
+      "type": "공항 셔틀",
+      "route": "transport",
+      "answer": "공항 셔틀은 제공되지 않습니다. 공항으로 이동할 때는 동대문역·흥인지문 정류장에서 6002번 버스를 이용하거나, 지하철 4호선으로 서울역까지 이동 후 공항철도로 환승해주세요.",
+      "examples": [
+        "호텔에서 공항 셔틀 서비스를 제공하나요?",
+        "호텔에서 공항 셔틀 서비스를 제공하나요? 서비스 유형(픽업/드롭오프): 항공편 번호: 날짜 및 시간(현지 시간): 픽업/드롭오프 장소: 인원수: 수하물 개수:",
+        "호텔은 공항 교통편 서비스를 제공하나요?"
+      ],
+      "sourceRows": [
+        21,
+        63,
+        68,
+        118
+      ],
+      "questionIds": [
+        "Q020",
+        "Q062",
+        "Q067",
+        "Q117"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "1c9d258216b532f5e66ddfbb78b0ee6c3fbea6d1463976250a04640f30d607d1"
+    },
+    {
+      "id": "Q019",
+      "intent": "key-card-recovery",
+      "type": "키 재발급·오반납,분실",
+      "route": "checkin",
+      "answer": "카드키를 분실하셨다면 입구의 키오스크로 가셔서 전화해주십시요. 이름을 말해주시면 원격으로 재발급 해드립니다. ★ 재발급은 1회만 가능합니다. / 출입정보는 예약 채널 메시지에서 확인해주세요.",
+      "examples": [
+        "안녕하세요, 제가 실수로 출입 카드를 반납했습니다. 어떻게 하면 새 카드를 신청할 수 있나요?",
+        "룸 키를 없애버렸습니다. 방 번호는 501호실입니다. 일본어밖에 말할 수 없습니다.",
+        "[날짜] 501호 숙박함 방 카드 방에 넣은 채로 문을 닫았습니다. 어떻게 해야 합니까?",
+        "방의 카드를 방 안에 잊어 열쇠를 버렸습니다",
+        "지금 룸키를 룸키를 꽂아 둔 채로 방을 나왔습니다",
+        "방안에 룸 키를 넣은 채, 외출해 버렸습니"
+      ],
+      "sourceRows": [
+        24,
+        27,
+        29,
+        35,
+        40,
+        47,
+        76
+      ],
+      "questionIds": [
+        "Q019",
+        "Q114",
+        "Q120",
+        "Q026",
+        "Q028",
+        "Q046",
+        "Q075"
+      ],
+      "credentialsProtected": true,
+      "sourceAnswerSha256": null
+    },
+    {
+      "id": "Q024",
+      "intent": "checkout-without-key",
+      "type": "키 없이 체크아웃",
+      "route": "checkin",
+      "answer": "이미 퇴실하셨다면 예약자 이름, 객실번호와 카드키를 두신 위치를 예약 채널 메시지로 알려주세요.",
+      "examples": [
+        "501호실에 숙박했는데, 방 카드키를 방 안에 두고 왔어요. 그래서 체크아웃 절차를 진행하지 못한 채입니다. 죄송하지만 잘 부탁드립니다.",
+        "점원 보조가 그냥 바로 나가라고 했어요. 제 객실 카드는 방 안에 두고 왔고, 저는 이미 떠났어요."
+      ],
+      "sourceRows": [
+        25,
+        41
+      ],
+      "questionIds": [
+        "Q024",
+        "Q040"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "47896e91e5b3bf086b96264d3bbca016a8e1c4c1c9ca5d9e57374b19a8967ab7"
+    },
+    {
+      "id": "Q025",
+      "intent": "late-checkout",
+      "type": "체크아웃 시간 준수",
+      "route": "checkin",
+      "answer": "체크아웃은 오전 11시까지이며 레이트 체크아웃은 제공하기 어렵습니다. 퇴실이 어려운 사정이 있으면 예약 채널 메시지로 바로 알려주세요.",
+      "examples": [
+        "비행기 시간이 있기 때문에 체크아웃할 수 없습니다. 괜찮을까요?",
+        "체크아웃을 한 시간 늦춰도 괜찮을까요?"
+      ],
+      "sourceRows": [
+        26,
+        38
+      ],
+      "questionIds": [
+        "Q025",
+        "Q037"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "9babd40026c6872e0573e36289a30e1bc29e72eaf67bdea534b0e4affeee37ad"
+    },
+    {
+      "id": "Q027",
+      "intent": "lost-property",
+      "type": "분실물",
+      "route": "rules",
+      "answer": "두고 가신 물건을 확인해 보겠습니다. 예약자 이름, 객실번호, 체크아웃 날짜, 물건의 특징과 마지막으로 보신 위치를 예약 채널 메시지로 알려주세요.",
+      "examples": [
+        "호텔에 분실물을 버렸습니다. 어떻게 해야 하나요?"
+      ],
+      "sourceRows": [
+        28
+      ],
+      "questionIds": [
+        "Q027"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "229a491a02344e2fee707738b76968c4328605e057a62635262d468a123b3b18"
+    },
+    {
+      "id": "Q030",
+      "intent": "women-only",
+      "type": "여성전용 정책",
+      "route": "gallery",
+      "answer": "Another House는 여성 전용 숙소입니다. 예약 전 여성 전용 숙소임을 반드시 확인해주세요.",
+      "examples": [
+        "남자도 예약 가능한가요"
+      ],
+      "sourceRows": [
+        31
+      ],
+      "questionIds": [
+        "Q030"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "280edc774ed3709358b6a2fb7b536949fc69bde39bc6c86f19ff69a05f1cffd7"
+    },
+    {
+      "id": "Q031",
+      "intent": "women-only",
+      "type": "객실 요청·남성 숙박",
+      "route": "gallery",
+      "answer": "Another House는 여성 전용 숙소입니다. 예약 전 여성 전용 숙소임을 반드시 확인해주세요.",
+      "examples": [
+        "가능하시다면 창가 쪽 방으로 배정해 주시면 감사하겠습니다. 그리고 혹시 몰라 확인차 여쭤보는데, 남성도 숙박이 가능한가요"
+      ],
+      "sourceRows": [
+        32
+      ],
+      "questionIds": [
+        "Q031"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "280edc774ed3709358b6a2fb7b536949fc69bde39bc6c86f19ff69a05f1cffd7"
+    },
+    {
+      "id": "Q035",
+      "intent": "parcel-receipt",
+      "type": "배송물 수령",
+      "route": "rules",
+      "answer": "숙소는 무인 운영으로 택배 대리수령이 어렵습니다. 배송물은 엘리베이터 앞이나 문 앞에 놓일 수 있어 분실 위험이 있으므로 직접 수령하거나 위탁수령 가능한 서비스를 이용해주세요.",
+      "examples": [
+        "안녕하세요. Weverse에서 미리 구매한 상품(굿즈)을 숙박 예정인 호텔로 배송해도 괜찮을까요? 현재는 아직 상품 판매에 대한 자세한 내용이 공개되지 않아 사전 구매가 가능할지는 모르지만, 사전 구매가 가능할 경우를 대비하여 미리 확인하고자 문의드립니다. 상품이 배송된다면 체크인 예정일 전이나 체크인 날짜와 비슷한 시기에 도착할 것으로 예상됩니다. 배송이 가능하다면, 호텔 프런트에서 상품을 대신 수령하여 보관해 주실 수 있을까요? 가능하시다면 배송에 필요한 정확한 호텔 주소도 알려주시면 감사하겠습니다. 감사합니다.",
+        "저 대신 소포를 받아주실 수 있나요?"
+      ],
+      "sourceRows": [
+        36,
+        93
+      ],
+      "questionIds": [
+        "Q035",
+        "Q092"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "f3ade9d758d72ba76ad9aa6b8b8579a3664fa7d4035f01ab4e26f3bd22ca8d12"
+    },
+    {
+      "id": "Q041",
+      "intent": "checkout-method",
+      "type": "체크아웃 방법",
+      "route": "checkin",
+      "answer": "이미 퇴실하셨다면 예약자 이름, 객실번호와 카드키를 두신 위치를 예약 채널 메시지로 알려주세요.",
+      "examples": [
+        "체크아웃 방법"
+      ],
+      "sourceRows": [
+        42
+      ],
+      "questionIds": [
+        "Q041"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "47896e91e5b3bf086b96264d3bbca016a8e1c4c1c9ca5d9e57374b19a8967ab7"
+    },
+    {
+      "id": "Q045",
+      "intent": "room-amenities",
+      "type": "객실비품",
+      "route": "appliances",
+      "answer": "객실에는 호텔 침구, 무료 Wi-Fi, 일회용 덴탈키트, 휴대폰 충전기, 수건, 일회용 슬리퍼, 옷걸이가 준비되어 있습니다.",
+      "examples": [
+        "드라이어가 있습니까?"
+      ],
+      "sourceRows": [
+        46
+      ],
+      "questionIds": [
+        "Q045"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "84d8c8e3b25198a2ce9f3566c757440d08fdb83e116eaf261b84882f7fb803df"
+    },
+    {
+      "id": "Q047",
+      "intent": "towels-dryer",
+      "type": "수건·건조기",
+      "route": "appliances",
+      "answer": "수건이 부족한 경우 공용주방 냉장고 옆 GUEST BOX 또는 샤워실 선반의 여분 수건을 이용해주세요. 사용한 수건은 샤워실 앞 바구니에 넣어주세요. 공용주방에는 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류, 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다.",
+      "examples": [
+        "수건과 건조기가 있습니까?"
+      ],
+      "sourceRows": [
+        48
+      ],
+      "questionIds": [
+        "Q047"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "ddbcbd32ab963968a20c2311b65acb12a531f6a0d8558dbd0f4643ad7ddb2b75"
+    },
+    {
+      "id": "Q048",
+      "intent": "luggage-access",
+      "type": "짐보관 출입번호",
+      "route": "checkin",
+      "answer": "체크인·체크아웃 당일 언제든지★ 503호 앞 짐보관실을 무료로 이용할 수 있습니다. 시간 제한 없습니다★ 출입정보는 예약 채널 메시지에서 확인해주세요.",
+      "examples": [
+        "지금 숙박중인데, 보관서비스를 체크아웃 당일 이용하려면 현관문 비밀번호가 필요하다고 적혀있네요. 현관문 비밀번호가 어디있나요?",
+        "체크아웃 후 짐 보관에 관하여, 입구의 자동문으로 들어갈 때 필요한 비밀번호를 알려주실 수 있을까요? 이메일을 찾아보았는데 확인하지 못했습니다.",
+        "수하물 보관을 위해 출입구 비밀번호를 알려주세요.",
+        "수하물 보관소 정문 비밀번호를 아직 받지 못했습니다.",
+        "“체크인 전/체크아웃 후 당일 503호 전 수하물 보관실에서 무료로 보관하실 수 있습니다. 출입구 비밀번호는 메시지를 확인하십시오. \" 그렇습니다만, 출입구의 패스워드는 언제, 가르쳐 주실 수 있습니까?"
+      ],
+      "sourceRows": [
+        49,
+        70,
+        80,
+        90,
+        101
+      ],
+      "questionIds": [
+        "Q048",
+        "Q069",
+        "Q079",
+        "Q089",
+        "Q100"
+      ],
+      "credentialsProtected": true,
+      "sourceAnswerSha256": null
+    },
+    {
+      "id": "Q050",
+      "intent": "shared-bathroom",
+      "type": "공용 욕실",
+      "route": "gallery",
+      "answer": "객실 내부에는 개별 욕실이 없습니다. 공용 REST ROOM에 샤워실 3칸과 화장실 2칸이 마련되어 있습니다.",
+      "examples": [
+        "이 객실 유형에는 욕조, 화장실이 있습니까? 또한이 호텔의 어딘가에 화장실이 있습니까?",
+        "혹시 연박 투숙객도 청소시간에는 화장실이나 샤워실 이용이 불가능한가요??",
+        "①화장실은 몇 개 있습니까? ② 샤워는 몇 개 있습니까? ③전방수는 몇 방입니까? 시간대에 관계없이 화장실을 자주 사용하는 것이 매우 불안해지고 있습니다."
+      ],
+      "sourceRows": [
+        51,
+        59,
+        84
+      ],
+      "questionIds": [
+        "Q050",
+        "Q058",
+        "Q083"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "69a8b6964e318eb0fd260b1593acbea062af61e15895b027b052eb3fcf2095dd"
+    },
+    {
+      "id": "Q051",
+      "intent": "appliances",
+      "type": "비품",
+      "route": "appliances",
+      "answer": "라운지에 공용주방이 있으며 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류, 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다.",
+      "examples": [
+        "이 방에 TV가 있나요?",
+        "안녕하세요, 다리미 있으신가요?",
+        "혹시 에어컨 어떻게 키나요?"
+      ],
+      "sourceRows": [
+        52,
+        82,
+        109
+      ],
+      "questionIds": [
+        "Q051",
+        "Q081",
+        "Q108"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "8f16ba245d859666198f4e779b9bbc4a843126c1727ad291b3fabcdd4e1b0d36"
+    },
+    {
+      "id": "Q052",
+      "intent": "refrigerator",
+      "type": "공용 냉장고",
+      "route": "appliances",
+      "answer": "라운지에 공용주방이 있으며 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류, 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다.",
+      "examples": [
+        "공용 주방에 냉장고가 있나요?"
+      ],
+      "sourceRows": [
+        53
+      ],
+      "questionIds": [
+        "Q052"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "8f16ba245d859666198f4e779b9bbc4a843126c1727ad291b3fabcdd4e1b0d36"
+    },
+    {
+      "id": "Q053",
+      "intent": "toiletries",
+      "type": "세면용품",
+      "route": "appliances",
+      "answer": "객실에는 호텔 침구, 무료 Wi-Fi, 일회용 덴탈키트, 휴대폰 충전기, 수건, 일회용 슬리퍼, 옷걸이가 준비되어 있습니다. 공용 화장실에는 바디워시, 샴푸, 헤어드라이어가 준비되어 있습니다.",
+      "examples": [
+        "이 객실에는 세면용품이 제공되나요?",
+        "이 방에 칫솔이나 샴푸, 린스 등의 어메니티는 있습니까?"
+      ],
+      "sourceRows": [
+        54,
+        89
+      ],
+      "questionIds": [
+        "Q053",
+        "Q088"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "d1cbeb3bc7f3350d63188fd4b5f3bbf258451f82d95dbad950ff5e61fe15da89"
+    },
+    {
+      "id": "Q054",
+      "intent": "in-room-dining",
+      "type": "객실 식사",
+      "route": "rules",
+      "answer": "식사는 공용주방 라운지 테이블 이용을 부탁드립니다. 객실 내 식사 허용 여부는 운영 정책을 확인해 안내드리겠습니다.",
+      "examples": [
+        "투숙객은 일부 한국 호스텔에서는 객실 내 식사를 제한하는 경우가 있다며, 객실 내에서 식사가 허용되는지 문의했습니다"
+      ],
+      "sourceRows": [
+        55
+      ],
+      "questionIds": [
+        "Q054"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "7548f4036afeb687d5cac6dce36868cd18d06382e7c16aeb69d43fb0601c1ba7"
+    },
+    {
+      "id": "Q060",
+      "intent": "wifi",
+      "type": "Wi-Fi",
+      "route": "wifi",
+      "answer": "Wi-Fi 이름: another / 비밀번호는 홈페이지 Wi-Fi 안내 또는 예약 채널 메시지에서 확인해주세요.",
+      "examples": [
+        "호텔 와이파이 비밀번호를 찾으세요:",
+        "객실에 Wi-Fi가 있나요?"
+      ],
+      "sourceRows": [
+        61,
+        74
+      ],
+      "questionIds": [
+        "Q060",
+        "Q073"
+      ],
+      "credentialsProtected": true,
+      "sourceAnswerSha256": null
+    },
+    {
+      "id": "Q061",
+      "intent": "luggage-parcel",
+      "type": "짐보관과 택배",
+      "route": "checkin",
+      "answer": "체크인, 아웃 당일 503호 앞 짐보관실을 무료로 이용할 수 있습니다 / 출입정보는 예약 채널 메시지에서 확인해주세요. / 귀중품은 직접 보관해주세요. 숙소는 무인 운영으로 택배 대리수령이 어렵습니다. 배송물은 엘리베이터 앞이나 문 앞에 놓일 수 있어 분실 위험이 있으므로 직접 수령하거나 위탁수령 가능한 서비스를 이용해주세요.",
+      "examples": [
+        "체크아웃 당일에 짐을 보관할 수 있나요? 그리고 호텔에서 택배를 받아주나요?"
+      ],
+      "sourceRows": [
+        62
+      ],
+      "questionIds": [
+        "Q061"
+      ],
+      "credentialsProtected": true,
+      "sourceAnswerSha256": null
+    },
+    {
+      "id": "Q070",
+      "intent": "airport-bus",
+      "type": "공항버스",
+      "route": "transport",
+      "answer": "인천공항에서 6002번 공항버스를 타고 동대문역·흥인지문 정류장에서 하차하면 숙소까지 도보 약 5분입니다. '교촌치킨 동대문1호점' 건물을 참고해주세요.",
+      "examples": [
+        "인천공항으로 가는 직행 버스에 관하여, 호텔 근처에 정류장이 있나요? 이용 방법과 정류장 위치를 알려주시면 감사하겠습니다.",
+        "인천공항에서 어떤 공항버스를 타야 하고, 어느 정류장에서 내려야 하나요? 거기서 호텔까지는 어떻게 가나요?",
+        "인천에서 리무진 버스는 어디에서 내리면 좋습니까?"
+      ],
+      "sourceRows": [
+        71,
+        104,
+        114
+      ],
+      "questionIds": [
+        "Q070",
+        "Q103",
+        "Q113"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "ff4a4786bfa558ea45bdf130cefcaaa3bd24a28fd39c8d1e16779c1d7ddb66ea"
+    },
+    {
+      "id": "Q082",
+      "intent": "housekeeping",
+      "type": "객실 청소",
+      "route": "rules",
+      "answer": "숙박 중의 객실청소는 이뤄지지 않습니다. 다만 부득이한 사유가 있다면 메시지를 보내주세요",
+      "examples": [
+        "객실 청소가 매일 수행되는지 확인하고 싶습니다."
+      ],
+      "sourceRows": [
+        83
+      ],
+      "questionIds": [
+        "Q082"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "0dc948c8590d3668852303894b73d69b83839fd0ba7e11584c3127248d5f474b"
+    },
+    {
+      "id": "Q093",
+      "intent": "towels",
+      "type": "수건 지급량",
+      "route": "appliances",
+      "answer": "수건이 부족한 경우 공용주방 냉장고 옆 GUEST BOX 또는 샤워실 선반의 여분 수건을 이용해주세요. 사용한 수건은 샤워실 앞 바구니에 넣어주세요. 공용주방에는 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류, 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다.",
+      "examples": [
+        "얼굴 수건은 1인 1장인가요?",
+        "목욕 수건, 수건이 있습니까?"
+      ],
+      "sourceRows": [
+        94,
+        97
+      ],
+      "questionIds": [
+        "Q093",
+        "Q096"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "ddbcbd32ab963968a20c2311b65acb12a531f6a0d8558dbd0f4643ad7ddb2b75"
+    },
+    {
+      "id": "Q097",
+      "intent": "early-checkin",
+      "type": "체크인 안내 발송·얼리 체크인",
+      "route": "checkin",
+      "answer": "얼리 체크인은 제공되지 않으며 체크인은 오후 3시부터 가능합니다. 체크인 안내 메시지 발송 시각은 확인 후 안내드리겠습니다. 먼저 도착하시면 체크인 당일 503호 앞 짐보관실을 이용하실 수 있습니다.",
+      "examples": [
+        "체크인 시간이 다가오고 있어서 여쭤보고 싶은데요, 우편으로 받은 체크인 정보 외에 체크인 절차에 대한 안내는 오후 3시에만 받을 수 있는 건가요? 혹시 일찍 체크인할 수 있을까요?"
+      ],
+      "sourceRows": [
+        98
+      ],
+      "questionIds": [
+        "Q097"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "f39561608a53bdb2b136c92f7b0b63a34a21eb57c9856074d782780d7b6d1c1a"
+    },
+    {
+      "id": "Q023",
+      "intent": "stay-extension",
+      "type": "연장, 연박요청",
+      "route": "checkin",
+      "answer": "연장하시면 같은 방으로 배정됩니다. 1박 연장은 해당 날짜의 객실 가능 여부를 확인해야 합니다. 예약자 이름과 원하시는 추가 숙박 날짜로 예약 채널을 통해 직접 예약해주세요.",
+      "examples": [
+        "저는 9월 19일에 황로마 호텔에 2박 투숙할 예정입니다. 비밀번호는 이전과 동일하게 사용 가능한가요?"
+      ],
+      "sourceRows": [
+        115
+      ],
+      "questionIds": [
+        "Q023"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "3c3c006702268b551e6e1ac34a4c4287ec4051f5f5e6ce11bf2188352123f776"
+    },
+    {
+      "id": "Q116",
+      "intent": "stay-extension",
+      "type": "숙박 연장",
+      "route": "checkin",
+      "answer": "1박 연장은 해당 날짜의 객실 가능 여부를 확인해야 합니다. 예약자 이름과 원하시는 추가 숙박 날짜로 예약 채널을 통해 직접 예약해주세요.",
+      "examples": [
+        "숙박을 1박 연장할 수 있나요?"
+      ],
+      "sourceRows": [
+        117
+      ],
+      "questionIds": [
+        "Q116"
+      ],
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "00b94ced07ca63b81b7d23e5f83398ad3d4deb8ffc9a5567a2a39e605645e7cc"
     }
   ]
 }

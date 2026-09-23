@@ -6,7 +6,7 @@ Version: 2026-09-23.1
 |---|---|---|---|
 | Address, check-in/out, transport, parking, luggage, rules | Current rendered page data | Sent ad hoc from the browser | Generated into one server-owned knowledge bundle |
 | Five-language quick guide | The same current page data in Korean, English, Japanese, Simplified Chinese and Traditional Chinese | Browser fallback omitted several property topics and the server could misclassify them as public search | Twelve common property topics are generated once and shared by the server and browser fallback |
-| Operations Q&A training | 121 historical guest questions from 어나더 질문 & 답변 AI학습 | Exact long keywords failed on short expressions such as “짐” | 33 normalized intents route short and varied wording to current verified answers; 58 credential-containing answer rows are excluded from general model knowledge |
+| Operations Q&A training | 121 historical guest questions from 어나더 질문 & 답변 AI학습 | Previously stored only question types, not operator answer wording | 36 approved replies are now retained and returned verbatim for matched Korean questions. 58 rows have credential clauses protected; other wording is unchanged. |
 | Appliances, laundry, waste | Current page instructions; official manuals are secondary | Sent ad hoc from the browser | Current page text is primary; manual links remain supporting sources |
 | Nearby essentials | Naver Maps plus official venue/public sources | Depended on live search even for common needs | Seven property-specific places are pre-verified with exact addresses and map links |
 | Restaurants and tours | 26 restaurant cards and 21 tour cards | Loaded only for matching browser keywords | Included as clearly labeled host recommendations |

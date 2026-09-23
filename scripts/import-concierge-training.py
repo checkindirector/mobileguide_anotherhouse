@@ -1,6 +1,7 @@
 import argparse
 import json
 import re
+import hashlib
 from collections import OrderedDict
 from pathlib import Path
 
@@ -56,6 +57,18 @@ def sanitize_question(value):
     return re.sub(r"\s+", " ", text).strip()
 
 
+def approved_answer(value):
+    # The existing access-release policy still applies to credentials embedded
+    # in staff replies. Preserve all other wording verbatim.
+    text = str(value or "").strip()
+    text = re.sub(r"숙소 출입구 왼쪽 기기에\s*8282\s*→\s*ENT\s*입력해주세요", "출입정보는 예약 채널 메시지에서 확인해주세요.", text)
+    text = re.sub(r"(?:입구 도어락 PW|(?:입구\s*)?출입(?:구)?\s*비밀번호)\s*:\s*8282\s*→\s*ENT", "출입정보는 예약 채널 메시지에서 확인해주세요.", text)
+    text = re.sub(r"Password:\s*another1234", "비밀번호는 홈페이지 Wi-Fi 안내 또는 예약 채널 메시지에서 확인해주세요.", text)
+    if "8282" in text or "another1234" in text:
+        raise ValueError("An approved answer still contains a protected credential")
+    return text
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("workbook")
@@ -67,8 +80,9 @@ def main():
     grouped = OrderedDict()
     row_count = 0
     secret_answer_rows = 0
+    approved = OrderedDict()
 
-    for row in sheet.iter_rows(min_row=2, max_col=5, values_only=True):
+    for source_row, row in enumerate(sheet.iter_rows(min_row=2, max_col=5, values_only=True), 2):
         question_id, question, question_type, quick_answer, answer = row
         if not question_id:
             continue
@@ -95,9 +109,21 @@ def main():
         safe_question = sanitize_question(question)
         if safe_question and safe_question not in intent["examples"]:
             intent["examples"].append(safe_question)
+        safe_answer = approved_answer(answer)
+        answer_key = (question_type, safe_answer)
+        record = approved.setdefault(answer_key, {
+            "id": str(question_id), "intent": intent_id, "type": question_type,
+            "route": route, "answer": safe_answer, "examples": [], "sourceRows": [],
+            "questionIds": [], "credentialsProtected": safe_answer != str(answer or "").strip(),
+            "sourceAnswerSha256": hashlib.sha256(safe_answer.encode("utf-8")).hexdigest() if safe_answer == str(answer or "").strip() else None,
+        })
+        record["sourceRows"].append(source_row)
+        record["questionIds"].append(str(question_id))
+        if safe_question not in record["examples"]:
+            record["examples"].append(safe_question)
 
     payload = {
-        "version": "2026-09-23.1",
+        "version": "2026-09-23.2",
         "source": {
             "workbook": Path(args.workbook).name,
             "rawSheet": "어나더 질문 RAW",
@@ -108,11 +134,12 @@ def main():
         "intentCount": len(grouped),
         "secretAnswerRowsExcluded": secret_answer_rows,
         "notes": [
-            "Historical guest questions are used only as intent examples.",
+            "Approved operator replies take priority for matching questions; retain their wording.",
             "Customer names, contact details, and dates are redacted.",
-            "Answers and access credentials are excluded; current verified guide data remains authoritative.",
+            "Raw credential-bearing replies are excluded; only credential clauses are replaced in approvedAnswers. All other wording is preserved verbatim.",
         ],
         "intents": list(grouped.values()),
+        "approvedAnswers": list(approved.values()),
     }
     Path(args.output).write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 

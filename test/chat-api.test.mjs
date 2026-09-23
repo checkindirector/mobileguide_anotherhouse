@@ -74,7 +74,8 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.equal(request.body.include, undefined);
   assert.equal(request.body.reasoning.effort, "low");
   assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-09-23\.1/);
-  assert.match(request.body.instructions, /The very first sentence must give the conclusion/);
+  assert.match(request.body.instructions, /The first sentence must answer the exact question clearly/);
+  assert.match(request.body.instructions, /do not force that opening/);
   assert.match(request.body.instructions, /Never paste or paraphrase an entire guide section/);
   assert.match(request.body.instructions, /most likely immediate next need/);
   assert.match(request.body.instructions, /not merely another fact from the same section/);
@@ -97,7 +98,7 @@ test("a property question reaches the model with only its relevant guide and no 
 
 test("luggage storage is answered deterministically in all five languages", async () => {
   const cases = [
-    ["짐보관 가능한지", "ko", /시간 제한 없이.*503호 앞/s],
+    ["짐보관 가능한지", "ko", /503호 앞.*시간 제한 없습니다/s],
     ["Can I store luggage?", "en", /Room 503.*no time limit|no time limit.*Room 503/s],
     ["荷物を預けられますか", "ja", /時間制限なく.*503号室/s],
     ["可以寄存行李吗", "zh", /503号房.*无时间限制|无时间限制.*503号房/s],
@@ -108,9 +109,9 @@ test("luggage storage is answered deterministically in all five languages", asyn
     const { res, requests } = await callApi({ message, language, history: [] }, { model: "gpt-5.4-mini", output_text: "unused", output: [], usage: {} }, `203.0.113.${110 + index}`);
     assert.equal(requests.length, 0);
     assert.equal(res.statusCode, 200);
-    assert.equal(res.payload.model, "another-house-verified-training");
+    assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-training");
     assert.equal(res.payload.meta.searched, false);
-    assert.equal(res.payload.meta.verifiedTraining, true);
+    assert.equal(res.payload.meta.approvedWorkbook || res.payload.meta.verifiedTraining, true);
     assert.equal(res.payload.meta.trainingIntent, "luggage");
     assert.equal(res.payload.meta.knowledgeVersion, "2026-09-23.1");
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
@@ -143,6 +144,46 @@ test("short luggage words and the full staff question set resolve to trained int
   assert.notEqual(handler._internals.trainingIntentFromQuestion("체크아웃 연장 가능한가요?", "ko")?.id, "stay-extension");
 });
 
+test("approved workbook replies are returned verbatim for exact examples and clear topic requests", async () => {
+  const records = handler._internals.CONCIERGE_TRAINING.approvedAnswers;
+  assert.equal(records.length, 36);
+  assert.equal(records.reduce((count, record) => count + record.sourceRows.length, 0), 121);
+  for (const [message, type] of [["얼리체크인", "얼리 체크인"], ["일찍 체크인할 수 있을까요?", "얼리 체크인"], ["얼리 첵인 가능?", "얼리 체크인"], ["짐", "짐보관 가능 여부 및 시간"], ["택배", "배송물 수령"], ["객실 청소", "객실 청소"], ["공용 욕실", "공용 욕실"], ["체크인 방법", "체크인 방법"]]) {
+    const expected = records.find(record => record.type === type);
+    const { res, requests } = await callApi({ message, language: "ko" }, { output_text: "unused" }, `approved-${message}`);
+    assert.equal(requests.length, 0, message);
+    assert.equal(res.payload.answer, expected.answer, message);
+    assert.equal(res.payload.meta.approvedAnswerId, expected.id);
+    assert.equal(res.payload.links[0].route, expected.route);
+    assert.doesNotMatch(res.payload.answer, /8282|another1234/);
+  }
+  for (const record of records) {
+    assert.ok(record.sourceRows.every(row => row >= 2 && row <= 122));
+    assert.doesNotMatch(record.answer, /8282|another1234/);
+  }
+});
+
+test("semantic selection returns the stored operator wording rather than model paraphrase", async () => {
+  const expected = handler._internals.CONCIERGE_TRAINING.approvedAnswers.find(record => record.type === "짐보관과 택배");
+  const { res, request } = await callApi({ message: "짐도 맡기고 배달 온 물건도 받아줄수있음?", language: "ko" }, { output_text: `APPROVED_ANSWER_ID: ${expected.id}\nGUIDE_PAGE: checkin` }, "approved-semantic");
+  assert.match(request.body.instructions, /OPERATIONS WORKBOOK PRIORITY/);
+  assert.equal(res.payload.answer, expected.answer);
+  assert.equal(res.payload.meta.approvedWorkbook, true);
+});
+
+test("yes/no is contextual, not a mandatory prefix or a blanket removal", async () => {
+  const { contextualAnswerTone } = require("../lib/answer-tone.cjs");
+  assert.equal(contextualAnswerTone("네, 드라이기 있습니다.", "드라이기 있나요?"), "네, 드라이기 있습니다.");
+  assert.equal(contextualAnswerTone("아니요, 불가능합니다.", "가능한가요?"), "아니요, 불가능합니다.");
+  assert.equal(contextualAnswerTone("네, 드라이기 있습니다.", "드라이기"), "드라이기 있습니다.");
+  assert.equal(contextualAnswerTone("아니요, 얼리 체크인은 제공되지 않습니다.", "얼리체크인"), "얼리 체크인은 제공되지 않습니다.");
+  assert.equal(contextualAnswerTone("네, 공용 욕실에 있습니다.", "드라이기 어디 있나요?"), "공용 욕실에 있습니다.");
+  for (const [language, message] of [["ko", "드라이기 있나요?"], ["en", "Is there a hair dryer?"]]) {
+    const { res } = await callApi({ message, language }, { output_text: "unused" }, `polarity-${language}`);
+    assert.match(res.payload.answer, /^(네,|Yes,)/);
+  }
+});
+
 test("unseen short, unspaced and misspelled luggage requests answer from staff policy", async () => {
   const cases = [
     ["ko", ["짐?", "짐은요", "짐 좀요", "가방만", "캐리어", "케리어 보관돼요?", "짐좀맡길수있나여", "짐을 두고 갈 수 있나요", "짐둬도돼", "가방 놔둬도 되나요", "수하물맞기고싶어요", "퇴실후짐보관", "짐 맡기는 거 돈드나요", "체크인전에짐두고놀다가와도돼요"]],
@@ -164,11 +205,11 @@ test("short check-in and misspelled arrival questions carry the correct property
   for (const [language, message] of [["ko", "체크인"], ["ko", "첵인"], ["ko", "체크 인 몇시임?"], ["ko", "입실언제"], ["ko", "체킨시간"], ["en", "check in?"], ["en", "checkin time pls"], ["ja", "チェックイン何時？"], ["zh", "入住几点"], ["zh-TW", "幾點入住"]]) {
     const { res, requests } = await callApi({ message, language }, { output_text: "unused" }, `checkin-short-${message}`);
     assert.equal(requests.length, 0, message);
-    assert.match(res.payload.answer, /15:00/, message);
-    assert.match(res.payload.answer, /5/);
+    assert.match(res.payload.answer, /15:00|오후 3시/, message);
+    assert.match(res.payload.answer, /키오스크|kiosk|キオスク|自助/);
     assert.equal(res.payload.meta.searched, false);
   }
-  for (const message of ["체크인 어케함", "첵인하는법좀", "밤늦게도착하는데괜찮나요", "오후2시도착인데바로들어가도돼", "두 시에 체크인 가능한가요?"]) {
+  for (const message of ["오후2시도착인데바로들어가도돼", "두 시에 체크인 가능한가요?"]) {
     const { request, requests } = await callApi({ message, language: "ko" }, { output_text: "체크인은 15:00부터입니다. GUIDE_PAGE: checkin" }, `arrival-${message}`);
     assert.equal(requests.length, 1, message);
     assert.equal(request.body.tools, undefined, message);
@@ -431,9 +472,9 @@ test("a laundry problem is handled by the AI instead of a generic keyword dump",
   assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "laundry"]]);
 });
 
-test("late checkout proactively offers same-day luggage storage without OpenAI", async () => {
+test("late checkout uses the approved Korean reply and localized guide replies", async () => {
   const cases = [
-    ["레이트 체크아웃 가능한가요?", "ko", /대신.*체크아웃 당일.*시간 제한 없이.*짐을 무료로 보관/s],
+    ["레이트 체크아웃 가능한가요?", "ko", /체크아웃은 오전 11시까지.*예약 채널 메시지/s],
     ["Can I get a late check-out?", "en", /However.*Room 503.*no time limit/s],
     ["レイトチェックアウトできますか？", "ja", /ただし.*時間制限なく.*503号室前.*荷物を無料/s],
     ["可以延迟退房吗？", "zh", /不过.*免费.*503号房前.*无时间限制/s],
@@ -443,8 +484,8 @@ test("late checkout proactively offers same-day luggage storage without OpenAI",
   for (const [message, language, expected] of cases) {
     const { res, requests } = await callApi({ message, language, history: [] }, { model: "unused" }, `203.0.113.${ip++}`);
     assert.equal(requests.length, 0);
-    assert.equal(res.payload.model, "another-house-verified-checkout");
-    assert.equal(res.payload.meta.verifiedLateCheckout, true);
+    assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-checkout");
+    assert.equal(res.payload.meta.approvedWorkbook || res.payload.meta.verifiedLateCheckout, true);
     assert.equal(res.payload.meta.knowledgeVersion, "2026-09-23.1");
     assert.match(res.payload.answer, expected);
     assert.equal(res.payload.links[0].route, "checkin");
@@ -454,18 +495,18 @@ test("late checkout proactively offers same-day luggage storage without OpenAI",
 
 test("early check-in adds pre-check-in luggage storage in every language without OpenAI", async () => {
   const cases = [
-    ["얼리 체크인 가능한가요?", "ko", /얼리 체크인은.*불가능.*체크인 전 짐 보관은 가능.*예약 플랫폼 메시지/s],
-    ["Is early check-in available?", "en", /No, early check-in.*luggage before check-in.*booking-platform message/s],
-    ["アーリーチェックインできますか？", "ja", /アーリーチェックイン.*できません.*チェックイン前の荷物預かり.*予約プラットフォーム/s],
-    ["可以提前入住吗？", "zh", /无法提前入住.*入住前可以寄存行李.*预订平台消息/s],
-    ["可以提早入住嗎？", "zh-TW", /無法提前入住.*入住前可以寄放行李.*預訂平台訊息/s]
+    ["얼리 체크인 가능한가요?", "ko", /얼리 체크인은 제공되지 않습니다.*503호 앞 짐보관실.*오후 3시부터 체크인/s],
+    ["Is early check-in available?", "en", /Early check-in is not available.*Room 503.*booking-platform message/s],
+    ["アーリーチェックインできますか？", "ja", /アーリーチェックイン.*503号室.*予約プラットフォーム/s],
+    ["可以提前入住吗？", "zh", /不提供提前入住.*503号房.*预订平台消息/s],
+    ["可以提早入住嗎？", "zh-TW", /不提供提早入住.*503號房.*預訂平台訊息/s]
   ];
   let ip = 210;
   for (const [message, language, expected] of cases) {
     const { res, requests } = await callApi({ message, language, history: [] }, { model: "unused" }, `203.0.113.${ip++}`);
     assert.equal(requests.length, 0);
-    assert.equal(res.payload.model, "another-house-verified-checkin");
-    assert.equal(res.payload.meta.verifiedEarlyCheckin, true);
+    assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-checkin");
+    assert.equal(res.payload.meta.approvedWorkbook || res.payload.meta.verifiedEarlyCheckin, true);
     assert.equal(res.payload.meta.searched, false);
     assert.equal(res.payload.meta.knowledgeVersion, "2026-09-23.1");
     assert.equal(res.payload.links[0].route, "checkin");
@@ -503,8 +544,8 @@ test("ordinary kiosk check-in questions stay in the guide instead of key-card re
     { model: "gpt-5.4-mini", output_text: "5층 키오스크에서 예약자 이름을 입력하고 안내에 따라 셀프 체크인을 진행해 주세요.\nGUIDE_PAGE: checkin", output: [], usage: {} },
     "203.0.113.139"
   );
-  assert.equal(requests.length, 1);
-  assert.equal(res.payload.model, "gpt-5.4-mini");
+  assert.equal(requests.length, 0);
+  assert.equal(res.payload.model, "another-house-approved-workbook");
   assert.equal(res.payload.links[0].route, "checkin");
   assert.match(res.payload.answer, /셀프 체크인|키오스크/);
   assert.doesNotMatch(res.payload.answer, /새 키카드/);

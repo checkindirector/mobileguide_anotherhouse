@@ -55,11 +55,11 @@ test("generated knowledge mirrors current public guide content without secrets",
   assert.match(knowledge.connectivity.ko.passwordPolicy, /공개 챗봇에서 제공하지 않습니다/);
   const expectedQuickTopics = ["luggage", "checkin", "checkout", "wifi", "parking", "rules", "appliances", "laundry", "waste", "rooms", "tv", "contact"];
   const earlyCheckinPatterns = {
-    ko: /체크인 전 짐 보관은 가능.*예약 플랫폼 메시지/s,
-    en: /store your luggage before check-in.*booking-platform message/s,
-    ja: /チェックイン前の荷物預かり.*予約プラットフォーム/s,
-    zh: /入住前可以寄存行李.*预订平台消息/s,
-    "zh-TW": /入住前可以寄放行李.*預訂平台訊息/s
+    ko: /503호 앞 짐보관실.*오후 3시.*예약 채널 메시지/s,
+    en: /Room 503.*3 PM.*booking-platform message/s,
+    ja: /503号室.*午後3時.*予約プラットフォーム/s,
+    zh: /503号房.*下午3点.*预订平台消息/s,
+    "zh-TW": /503號房.*下午3點.*預訂平台訊息/s
   };
   for (const language of knowledge.languages) {
     assert.deepEqual(knowledge.quickGuide[language].map(topic => topic.id), expectedQuickTopics);

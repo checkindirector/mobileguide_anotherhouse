@@ -126,7 +126,7 @@
               "조기 체크인",
               "일찍 체크인"
             ],
-            "answer": "아니요, 얼리 체크인은 객실 준비 사정상 불가능합니다. 체크인은 15:00부터입니다. 대신 체크인 전 짐 보관은 가능하며, 출입정보는 예약 플랫폼 메시지에서 확인해 주세요."
+            "answer": "얼리 체크인은 제공되지 않습니다. 일찍 도착한 경우 503호 앞 짐보관실에 짐을 보관한 뒤 오후 3시부터 체크인해주세요. / 출입정보는 예약 채널 메시지에서 확인해주세요. / ★ 카드키는 재발급되지 않습니다, 분실에 유의하십시오."
           }
         ]
       },
@@ -570,7 +570,7 @@
               "early check-in",
               "early check in"
             ],
-            "answer": "No, early check-in is not available because rooms need preparation. Check-in starts at 15:00. You may store your luggage before check-in; check your booking-platform message for access instructions."
+            "answer": "Early check-in is not available. If you arrive early, please leave your luggage in the luggage room in front of Room 503 and check in from 3 PM. / Please check your booking-platform message for access information. / Key cards cannot be reissued, so please take care not to lose yours."
           }
         ]
       },
@@ -1004,7 +1004,7 @@
               "アーリーチェックイン",
               "早めのチェックイン"
             ],
-            "answer": "いいえ、客室準備のためアーリーチェックインはできません。チェックインは15:00からです。チェックイン前の荷物預かりは可能ですので、入館方法は予約プラットフォームのメッセージをご確認ください。"
+            "answer": "アーリーチェックインはご利用いただけません。早く到着された場合は、503号室前の荷物保管室に荷物を置き、午後3時からチェックインしてください。／入館情報は予約プラットフォームのメッセージでご確認ください。／キーカードは再発行できませんので、紛失にご注意ください。"
           }
         ]
       },
@@ -1410,7 +1410,7 @@
               "提前入住",
               "早到入住"
             ],
-            "answer": "不可以，由于需要准备客房，无法提前入住。入住时间从15:00开始。入住前可以寄存行李，入馆信息请查看预订平台消息。"
+            "answer": "不提供提前入住。如果提前到达，请先将行李放在503号房前的行李保管室，下午3点起办理入住。／门禁信息请查看预订平台消息。／房卡无法补发，请注意保管，避免遗失。"
           }
         ]
       },
@@ -1815,7 +1815,7 @@
               "提前入住",
               "提早入住"
             ],
-            "answer": "不可以，由於需要準備客房，無法提前入住。入住時間從15:00開始。入住前可以寄放行李，入館資訊請查看預訂平台訊息。"
+            "answer": "不提供提早入住。如果提早抵達，請先將行李放在503號房前的行李保管室，下午3點起辦理入住。／門禁資訊請查看預訂平台訊息。／房卡無法補發，請妥善保管，避免遺失。"
           }
         ]
       },
@@ -14910,7 +14910,8 @@
     "accommodationFactsMustComeFromThisKnowledge": true
   },
   "conciergeTraining": {
-    "version": "2026-09-23.1",
+    "version": "2026-09-23.2",
+    "approvedAnswerCount": 36,
     "recordCount": 121,
     "intentCount": 33,
     "secretAnswerRowsExcluded": 58,

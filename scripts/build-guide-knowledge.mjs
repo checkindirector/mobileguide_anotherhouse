@@ -135,11 +135,11 @@ const PROPERTY_MEDICINE_DIRECT_ANSWERS = {
 const quickDirectAnswers = (topic, language) => {
   const answers = ({
   checkin: {
-    ko: [{ keywords: ["얼리 체크인", "조기 체크인", "일찍 체크인"], answer: "아니요, 얼리 체크인은 객실 준비 사정상 불가능합니다. 체크인은 15:00부터입니다. 대신 체크인 전 짐 보관은 가능하며, 출입정보는 예약 플랫폼 메시지에서 확인해 주세요." }],
-    en: [{ keywords: ["early check-in", "early check in"], answer: "No, early check-in is not available because rooms need preparation. Check-in starts at 15:00. You may store your luggage before check-in; check your booking-platform message for access instructions." }],
-    ja: [{ keywords: ["アーリーチェックイン", "早めのチェックイン"], answer: "いいえ、客室準備のためアーリーチェックインはできません。チェックインは15:00からです。チェックイン前の荷物預かりは可能ですので、入館方法は予約プラットフォームのメッセージをご確認ください。" }],
-    zh: [{ keywords: ["提前入住", "早到入住"], answer: "不可以，由于需要准备客房，无法提前入住。入住时间从15:00开始。入住前可以寄存行李，入馆信息请查看预订平台消息。" }],
-    "zh-TW": [{ keywords: ["提前入住", "提早入住"], answer: "不可以，由於需要準備客房，無法提前入住。入住時間從15:00開始。入住前可以寄放行李，入館資訊請查看預訂平台訊息。" }]
+    ko: [{ keywords: ["얼리 체크인", "조기 체크인", "일찍 체크인"], answer: conciergeTraining.approvedAnswers.find(record => record.type === "얼리 체크인").answer }],
+    en: [{ keywords: ["early check-in", "early check in"], answer: "Early check-in is not available. If you arrive early, please leave your luggage in the luggage room in front of Room 503 and check in from 3 PM. / Please check your booking-platform message for access information. / Key cards cannot be reissued, so please take care not to lose yours." }],
+    ja: [{ keywords: ["アーリーチェックイン", "早めのチェックイン"], answer: "アーリーチェックインはご利用いただけません。早く到着された場合は、503号室前の荷物保管室に荷物を置き、午後3時からチェックインしてください。／入館情報は予約プラットフォームのメッセージでご確認ください。／キーカードは再発行できませんので、紛失にご注意ください。" }],
+    zh: [{ keywords: ["提前入住", "早到入住"], answer: "不提供提前入住。如果提前到达，请先将行李放在503号房前的行李保管室，下午3点起办理入住。／门禁信息请查看预订平台消息。／房卡无法补发，请注意保管，避免遗失。" }],
+    "zh-TW": [{ keywords: ["提前入住", "提早入住"], answer: "不提供提早入住。如果提早抵達，請先將行李放在503號房前的行李保管室，下午3點起辦理入住。／門禁資訊請查看預訂平台訊息。／房卡無法補發，請妥善保管，避免遺失。" }]
   },
   luggage: {
     ko: [{ keywords: ["짐보관", "짐맡", "가방보관", "캐리어보관", "트렁크보관", "수하물보관"], answer: "네, 짐 보관이 가능합니다. 체크인·체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸을 무료로 이용할 수 있어요. 체크인 전 출입정보는 예약 플랫폼 메시지에서 확인해 주세요." }],
@@ -636,6 +636,7 @@ const knowledge = {
   },
   conciergeTraining: {
     version: conciergeTraining.version,
+    approvedAnswerCount: conciergeTraining.approvedAnswers.length,
     recordCount: conciergeTraining.recordCount,
     intentCount: conciergeTraining.intentCount,
     secretAnswerRowsExcluded: conciergeTraining.secretAnswerRowsExcluded,
@@ -651,7 +652,7 @@ await writeFile(resolve(root, "assets/guide-knowledge.json"), json);
 const audit = `# Concierge knowledge audit\n\nVersion: ${VERSION}\n\n| Area | Current page source | Previous chatbot state | Unified result |\n|---|---|---|---|\n| Address, check-in/out, transport, parking, luggage, rules | Current rendered page data | Sent ad hoc from the browser | Generated into one server-owned knowledge bundle |\n| Five-language quick guide | The same current page data in Korean, English, Japanese, Simplified Chinese and Traditional Chinese | Browser fallback omitted several property topics and the server could misclassify them as public search | Eleven common property topics are generated once and shared by the server and browser fallback |\n| Appliances, laundry, waste | Current page instructions; official manuals are secondary | Sent ad hoc from the browser | Current page text is primary; manual links remain supporting sources |\n| Nearby essentials | Naver Maps plus official venue/public sources | Depended on live search even for common needs | Seven property-specific places are pre-verified with exact addresses and map links |\n| Restaurants and tours | 26 restaurant cards and 21 tour cards | Loaded only for matching browser keywords | Included as clearly labeled host recommendations |\n| Wi-Fi | Network and password are visible on the Wi-Fi screen | Password could be sent to the model | Network retained; password deliberately excluded as sensitive |\n| Door/access and reservation data | Page tells guests where to retrieve guest-specific information | Could be mixed into browser context | Codes, room assignment, booking status and guest-specific details are prohibited |\n| General public information | Not part of the property manual | Previously rejected | Official-source web search is permitted only for non-property public questions |\n| Emergency | Booking-platform contact plus Korean public emergency services | No dedicated normalized section | 112/119 and official agency sources added; property-specific issues still use the booking platform |\n\nThe generator executes the same ordered data scripts as the website. Tests regenerate the bundle and fail if it is stale or contains the known Wi-Fi password.\n`;
 const auditWithAirport = audit.replace("Eleven common property topics", "Twelve common property topics").replace(
   "| Appliances, laundry, waste |",
-  `| Operations Q&A training | ${conciergeTraining.recordCount} historical guest questions from ${conciergeTraining.source.trainingSheet} | Exact long keywords failed on short expressions such as “짐” | ${conciergeTraining.intentCount} normalized intents route short and varied wording to current verified answers; ${conciergeTraining.secretAnswerRowsExcluded} credential-containing answer rows are excluded from general model knowledge |\n| Appliances, laundry, waste |`
+  `| Operations Q&A training | ${conciergeTraining.recordCount} historical guest questions from ${conciergeTraining.source.trainingSheet} | Previously stored only question types, not operator answer wording | ${conciergeTraining.approvedAnswers.length} approved replies are now retained and returned verbatim for matched Korean questions. ${conciergeTraining.secretAnswerRowsExcluded} rows have credential clauses protected; other wording is unchanged. |\n| Appliances, laundry, waste |`
 ).replace(
   "| General public information |",
   "| Airport departures | Official K Airport Limousine, Incheon Airport and Seoul Metro timetables | Depended on live search and often missed embedded timetable rows | Every 6702/N6701 departure and every relevant Line 5 train to Gimpo Airport are pre-verified and selected deterministically |\n| General public information |"

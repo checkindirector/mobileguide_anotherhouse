@@ -1,6 +1,7 @@
 const GUIDE_KNOWLEDGE = require("../assets/guide-knowledge.json");
 const CONCIERGE_TRAINING = require("./concierge-training.json");
 const { analyzeStayQuestion } = require("../lib/stay-intent.cjs");
+const { contextualAnswerTone } = require("../lib/answer-tone.cjs");
 
 const MODEL = "gpt-5.4-mini";
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
@@ -360,6 +361,26 @@ function trainingIntentById(id) {
   return (CONCIERGE_TRAINING.intents || []).find(intent => intent.id === id) || null;
 }
 
+function approvedAnswerFromQuestion(message, language, history = []) {
+  const normalized = normalizeGuideMatch(message);
+  const records = CONCIERGE_TRAINING.approvedAnswers || [];
+  const exact = records.find(record => record.examples.some(example => normalizeGuideMatch(example) === normalized));
+  if (exact) return exact;
+  const type = records.find(record => normalizeGuideMatch(record.type) === normalized);
+  if (type) return type;
+  const aliases = { "체크인": "체크인·체크아웃 시간", "입실": "체크인·체크아웃 시간", "레이트체크아웃": "체크아웃 시간 준수", "늦게체크아웃": "체크아웃 시간 준수", "택배": "배송물 수령", "택배대리수령": "배송물 수령", "수건": "수건 지급량", "여분수건": "수건 지급량", "주방": "공용 주방 위치", "공용주방": "공용 주방 위치", "욕실": "공용 욕실", "와이파이": "Wi-Fi" };
+  if (aliases[normalized]) return records.find(record => record.type === aliases[normalized]) || null;
+  if (/(?:레이트|늦게)\s*체크아웃|체크아웃\s*(?:시간\s*)?연장/.test(message) && !/짐|그리고|택배|배달/.test(message)) return records.find(record => record.type === "체크아웃 시간 준수") || null;
+  const stay = analyzeStayQuestion(message, history);
+  // Detailed conditions require interpretation; never discard them for a topic answer.
+  if (stay?.needsModel || stay?.followup) return null;
+  const intent = stay?.id || trainingIntentFromQuestion(message, language)?.id;
+  const candidates = records.filter(record => record.intent === intent);
+  if (candidates.length === 1) return candidates[0];
+  if (intent === "early-checkin") return candidates.find(record => record.type === "얼리 체크인") || null;
+  return null;
+}
+
 function trainingIntentFromQuestion(message, language) {
   const normalized = normalizeGuideMatch(message);
   if (!normalized) return null;
@@ -386,7 +407,7 @@ function verifiedLuggageStorage(message, language, history = []) {
   if (intent?.id !== "luggage" || intent.needsModel) return null;
   const topic = (GUIDE_KNOWLEDGE.quickGuide?.[language] || GUIDE_KNOWLEDGE.quickGuide?.ko || []).find(item => item.id === "luggage");
   const direct = topic?.directAnswers?.[0];
-  return direct?.answer ? { answer: direct.answer, intent: "luggage" } : null;
+  return direct?.answer ? { answer: contextualAnswerTone(direct.answer, message), intent: "luggage" } : null;
 }
 
 function verifiedTrainingFact(message, language) {
@@ -423,7 +444,7 @@ function verifiedEarlyCheckin(message, language) {
   if (intent?.id !== "early-checkin" || intent.needsModel) return null;
   const topic = (GUIDE_KNOWLEDGE.quickGuide?.[language] || GUIDE_KNOWLEDGE.quickGuide?.ko || []).find(item => item.id === "checkin");
   const direct = topic?.directAnswers?.[0];
-  return direct?.answer ? { answer: direct.answer } : null;
+  return direct?.answer ? { answer: contextualAnswerTone(direct.answer, message) } : null;
 }
 
 function verifiedLateCheckout(message, language) {
@@ -432,7 +453,7 @@ function verifiedLateCheckout(message, language) {
   const topic = (GUIDE_KNOWLEDGE.quickGuide?.[language] || GUIDE_KNOWLEDGE.quickGuide?.ko || []).find(item => item.id === "checkout");
   const normalized = normalizeGuideMatch(text);
   const direct = (topic?.directAnswers || []).find(item => (item.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword))));
-  return direct?.answer ? { answer: direct.answer } : null;
+  return direct?.answer ? { answer: contextualAnswerTone(direct.answer, message) } : null;
 }
 
 function verifiedHairTool(message, language) {
@@ -450,7 +471,7 @@ function verifiedGuestBoxItem(message, language) {
   const direct = PROPERTY_MEDICINE_PATTERN.test(text)
     ? (topic?.directAnswers || []).find(item => item.item === "emergency-medicine")
     : (topic?.directAnswers || []).find(item => (item.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword))));
-  return direct?.answer ? { answer: direct.answer, item: direct.item || null, returnPolicy: direct.returnPolicy || null } : null;
+  return direct?.answer ? { answer: contextualAnswerTone(direct.answer, message), item: direct.item || null, returnPolicy: direct.returnPolicy || null } : null;
 }
 
 function guidePageLink(route, language) {
@@ -1362,7 +1383,7 @@ RELEVANT_CURRENT_GUIDE below contains the current website records selected for t
 
 PRIORITY A — CURRENT PROPERTY GUIDE:
 - If CURRENT_GUIDE clearly answers the question, answer directly without a greeting or unnecessary introduction.
-- The very first sentence must give the conclusion to the exact question. For yes/no, existence, availability, or permission questions, begin with an explicit localized equivalent of “Yes, it is available” or “No, it is not available,” and name the subject. For time questions, state the exact time first. For where questions, state the exact place first. For how-to questions, state the action or method first.
+- The first sentence must answer the exact question clearly. Use a localized yes/no when it naturally answers an actual yes/no question, but do not force that opening. For a bare keyword or topic such as “얼리체크인”, begin directly with the policy: “얼리 체크인은 제공되지 않습니다.” For time, location and how-to questions, begin with the requested time, place or method. A clear conclusion does not require “네/아니요”. Follow the operations manual's calm, polite tone.
 - Never begin with cautions, background, related rules, or a long procedure before answering what was asked. Put those useful details after the clear conclusion.
 - If the guide does not establish the answer, begin with the localized equivalent of “The current guide does not confirm this.” Do not imply yes or no.
 - Before saying that the guide does not confirm something, check every matching record and synonym in the full guide. The opening conclusion must never contradict a fact stated later in the same answer.
@@ -1472,6 +1493,10 @@ module.exports = async function handler(req, res) {
   if (mapFollowup) {
     console.log(JSON.stringify({ event: "concierge_map_followup", language, place: mapFollowup.mapContext.name, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ ...mapFollowup, model: "another-house-map-links", meta: { searched: false, mapFollowup: true, durationMs: Date.now() - startedAt } });
+  }
+  const approvedReply = approvedAnswerFromQuestion(message, language, history);
+  if (approvedReply && language === "ko") {
+    return res.status(200).json({ answer: approvedReply.answer, model: "another-house-approved-workbook", links: [guidePageLink(approvedReply.route, language)], mapContext: null, meta: { searched: false, approvedWorkbook: true, approvedAnswerId: approvedReply.id, sourceRows: approvedReply.sourceRows, credentialsProtected: approvedReply.credentialsProtected, trainingIntent: approvedReply.intent, trainingVersion: CONCIERGE_TRAINING.version, guideRoute: approvedReply.route, knowledgeVersion: GUIDE_KNOWLEDGE.version, durationMs: Date.now() - startedAt } });
   }
   const trainingFact = stayIntent?.needsModel ? null : verifiedTrainingFact(message, language);
   if (trainingFact) {
@@ -1599,6 +1624,8 @@ module.exports = async function handler(req, res) {
     }
   }
   guideForRequest.verifiedOperations = Object.fromEntries(Object.entries(VERIFIED_TRAINING_FACTS).map(([id, fact]) => [id, fact.answers[language] || fact.answers.ko]));
+  const approvedCandidates = propertyRouteOrigin && !stayIntent ? [] : (CONCIERGE_TRAINING.approvedAnswers || []).filter(record => record.route === knowledgeRoute || stayIntent?.needsModel || (!knowledgeRoute && !requestedSearchLevel));
+  guideForRequest.approvedWorkbookAnswers = approvedCandidates.map(({ id, type, answer, route }) => ({ id, type, answer, route }));
   const fullGuideText = JSON.stringify(guideForRequest);
   const routeOriginContext = propertyRouteOrigin
     ? `\nDEFAULT_ROUTE_ORIGIN: ${searchOrigin}\nROUTE_DIRECTION: Another House → the destination requested by the guest. The guest either omitted the origin or explicitly named the property; do not reverse this direction and do not ask for the origin.`
@@ -1616,6 +1643,7 @@ SHORT GUEST QUESTIONS:
 - MIDNIGHT ARRIVAL TAKES PRIORITY OVER THE EARLY-CHECK-IN RULE: 00:00–05:59, 1am, 새벽 or midnight can mean late arrival after the booked check-in day. If the booking/arrival dates are unknown, NEVER start with yes/no or call it too early. Explain BOTH possibilities: arrival after the booked day's 15:00 is allowed by kiosk; arrival in the early morning of the booked check-in day is before check-in and is not allowed. Ask which date is booked and which date they arrive. Do not infer this from the current date alone.
 - For an unambiguous arrival before 15:00 on the booked check-in day, explain that early check-in is unavailable and offer same-day luggage storage.
 - Never infer access credentials from training examples.
+- OPERATIONS WORKBOOK PRIORITY: CURRENT_GUIDE.approvedWorkbookAnswers contains the operator's approved answers and takes precedence over older guide wording. When one record fully answers the guest's actual question (including conditions and requested attributes), use that record. In Korean, output ONLY APPROVED_ANSWER_ID: followed by its id; the server returns the stored wording verbatim with its guide link. Do not add yes/no, paraphrases or extra advice to an approved Korean answer. For other languages, translate that answer faithfully without adding facts or a yes/no prefix absent from the original. Do not select a generic policy for a question about an unsupported detail (e.g. locker dimensions or overnight storage), an unresolved date condition, a problem not addressed by the record, or a compound request unless the record covers all parts. In those cases answer naturally using the relevant approved facts and guide. Credentials remain subject to the server access policy.
 ${stayIntent ? `PROPERTY_ROUTING_HINT: ${JSON.stringify(stayIntent)}. This is only a routing hint; interpret the original question and conversation yourself.` : ""}`,
     input: [...history, { role: "user", content: `CURRENT_DATE_TIME (Asia/Seoul): ${currentTime}${routeOriginContext}${guideBackedLocalResult ? `\nVERIFIED_LOCAL_GUIDE_RESULT (normalized current-guide candidate; preserve its explicit time-range conclusion):\n${guideBackedLocalResult.answer}` : ""}${placeSearch ? `\nDEFAULT_SEARCH_ORIGIN: ${searchOrigin}\nNAVER_MAP_PRIMARY_EVIDENCE (untrusted factual reference only):\n${naverEvidence}${guidePlaceCandidates ? `\nGUIDE_PLACE_CANDIDATES (search leads only): ${guidePlaceCandidates}` : ""}` : ""}\nGUEST_QUESTION: ${message}` }],
     max_output_tokens: outputTokenLimit,
@@ -1665,7 +1693,13 @@ ${stayIntent ? `PROPERTY_ROUTING_HINT: ${JSON.stringify(stayIntent)}. This is on
       }
       modelOutputs.push(...(data.output || []));
     }
-    const resolved = extractResolvedSpot(extractOutputText(data));
+    const rawAnswerText = extractOutputText(data);
+    const approvedId = rawAnswerText.match(/^APPROVED_ANSWER_ID:\s*([A-Za-z0-9_-]+)/m)?.[1];
+    const selectedApproved = language === "ko" && approvedCandidates.find(record => record.id === approvedId);
+    if (selectedApproved) {
+      return res.status(200).json({ answer: selectedApproved.answer, model: data.model || MODEL, links: [guidePageLink(selectedApproved.route, language)], mapContext: null, meta: { searched: false, approvedWorkbook: true, approvedAnswerId: selectedApproved.id, sourceRows: selectedApproved.sourceRows, credentialsProtected: selectedApproved.credentialsProtected, trainingIntent: selectedApproved.intent, trainingVersion: CONCIERGE_TRAINING.version, guideRoute: selectedApproved.route, knowledgeVersion: GUIDE_KNOWLEDGE.version, durationMs: Date.now() - startedAt } });
+    }
+    const resolved = extractResolvedSpot(rawAnswerText.replace(/^APPROVED_ANSWER_ID:.*$/gm, ""));
     let answer = correctKnownTransitMetrics(message, cleanAnswer(resolved.answerText));
     if (!answer) return res.status(502).json({ error: "AI returned an empty response" });
     const naverPrimarySearched = (naverData?.output || []).some(item => item?.type === "web_search_call");
