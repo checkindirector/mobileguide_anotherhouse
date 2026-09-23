@@ -143,6 +143,83 @@ test("short luggage words and the full staff question set resolve to trained int
   assert.notEqual(handler._internals.trainingIntentFromQuestion("체크아웃 연장 가능한가요?", "ko")?.id, "stay-extension");
 });
 
+test("unseen short, unspaced and misspelled luggage requests answer from staff policy", async () => {
+  const cases = [
+    ["ko", ["짐?", "짐은요", "짐 좀요", "가방만", "캐리어", "케리어 보관돼요?", "짐좀맡길수있나여", "짐을 두고 갈 수 있나요", "짐둬도돼", "가방 놔둬도 되나요", "수하물맞기고싶어요", "퇴실후짐보관", "짐 맡기는 거 돈드나요", "체크인전에짐두고놀다가와도돼요"]],
+    ["en", ["bags?", "can u keep my bags", "leave my suitcase pls", "lugage storage", "drop bags before check in?"]],
+    ["ja", ["荷物だけ預けたい", "スーツケース預けてもいい？", "チェックイン前に荷物置いていい？"]],
+    ["zh", ["行李", "能存行李不", "入住前可以寄存行李吗"]],
+    ["zh-TW", ["行李", "先寄放行李可以嗎", "退房後行李可以放嗎"]]
+  ];
+  for (const [language, messages] of cases) for (const message of messages) {
+    const { res, requests } = await callApi({ message, language }, { output_text: "unused" }, `luggage-variants-${language}-${message}`);
+    assert.equal(requests.length, 0, message);
+    assert.equal(res.payload.meta.trainingIntent, "luggage", message);
+    assert.match(res.payload.answer, /503/, message);
+    assert.equal(res.payload.links[0].route, "checkin", message);
+  }
+});
+
+test("short check-in and misspelled arrival questions carry the correct property facts", async () => {
+  for (const [language, message] of [["ko", "체크인"], ["ko", "첵인"], ["ko", "체크 인 몇시임?"], ["ko", "입실언제"], ["ko", "체킨시간"], ["en", "check in?"], ["en", "checkin time pls"], ["ja", "チェックイン何時？"], ["zh", "入住几点"], ["zh-TW", "幾點入住"]]) {
+    const { res, requests } = await callApi({ message, language }, { output_text: "unused" }, `checkin-short-${message}`);
+    assert.equal(requests.length, 0, message);
+    assert.match(res.payload.answer, /15:00/, message);
+    assert.match(res.payload.answer, /5/);
+    assert.equal(res.payload.meta.searched, false);
+  }
+  for (const message of ["체크인 어케함", "첵인하는법좀", "밤늦게도착하는데괜찮나요", "오후2시도착인데바로들어가도돼", "두 시에 체크인 가능한가요?"]) {
+    const { request, requests } = await callApi({ message, language: "ko" }, { output_text: "체크인은 15:00부터입니다. GUIDE_PAGE: checkin" }, `arrival-${message}`);
+    assert.equal(requests.length, 1, message);
+    assert.equal(request.body.tools, undefined, message);
+    assert.match(request.body.instructions, /예약 번호 뒤 4자리/);
+    assert.match(request.body.instructions, /503호/);
+    assert.match(request.body.input.at(-1).content, new RegExp(message.replace(/[?]/g, "\\?")));
+  }
+});
+
+test("conditions and compound luggage questions reach the model without an unrelated canned answer", async () => {
+  for (const message of ["짐보관하고 모레 찾을게요", "체크아웃 다음 날 짐 찾아도 돼요?", "캐리어 보관 사물함 크기?", "짐 맡기고 택배도 받아주나요", "짐보관과 체크인 방법 알려줘", "짐을 두고 왔어요", "짐이 없어졌어요", "체크인 안내 메일이 안 왔어요", "캐리어 잠금장치 있나요", "짐 보관 안 하고 방으로 바로 들어가고 싶어요", "체크인 후 수건 어디서 받아요"]) {
+    const { request, requests, res } = await callApi({ message, language: "ko" }, { output_text: "운영 안내를 확인해 드릴게요. GUIDE_PAGE: checkin" }, `stay-conditions-${message}`);
+    assert.equal(requests.length, 1, message);
+    assert.equal(request.body.tools, undefined, message);
+    assert.match(request.body.instructions, /503호/);
+    assert.match(request.body.instructions, /택배 대리수령/);
+    assert.match(request.body.instructions, /분실물 확인/);
+    assert.equal(res.payload.meta.searched, false, message);
+  }
+});
+
+test("follow-ups keep the current luggage or check-in topic and stop at a topic change", async () => {
+  for (const message of ["몇시까지?", "어디에요", "무료?", "그럼 얼마야"]) {
+    const { res, requests } = await callApi({ message, language: "ko", history: [{ role: "user", content: "짐" }, { role: "assistant", content: "503호 앞 러기지룸을 이용하세요." }] }, { output_text: "unused" }, `followup-${message}`);
+    assert.equal(requests.length, 0, message);
+    assert.match(res.payload.answer, /503호/);
+  }
+  for (const [topic, message] of [["짐", "그럼 모레는?"], ["첵인", "2시는?"], ["짐", "어떻게 문을 열어요?"]]) {
+    const { request } = await callApi({ message, language: "ko", history: [{ role: "user", content: topic }] }, { output_text: "안내 GUIDE_PAGE: checkin" }, `followup-model-${message}`);
+    assert.equal(request.body.tools, undefined, message);
+    assert.match(request.body.instructions, /503호/);
+  }
+  const { analyzeStayQuestion } = require("../lib/stay-intent.cjs");
+  assert.equal(analyzeStayQuestion("몇시까지?", [{ role: "user", content: "짐" }, { role: "user", content: "에그드랍 영업시간" }]), null);
+});
+
+test("public storage, airport check-in and bag shopping are not property storage answers", () => {
+  for (const message of ["서울역에 짐 맡길 곳", "인천공항 짐보관", "숙소 말고 동대문역에 짐보관", "airport baggage storage", "空港の荷物預かり", "机场行李寄存", "비행기 체크인 언제", "airline check in", "캐리어 어디서 사요", "가방 수선 어디서 해요", "짐 들고 인천공항 가는법"]) {
+    assert.equal(handler._internals.verifiedLuggageStorage(message, "ko"), null, message);
+    const { analyzeStayQuestion } = require("../lib/stay-intent.cjs");
+    assert.equal(analyzeStayQuestion(message)?.simpleCheckin || false, false, message);
+  }
+});
+
+test("luggage storage plus onward travel retains both guide facts and public search", async () => {
+  const { request } = await callApi({ message: "짐 맡기고 인천공항 가는법도 알려줘", language: "ko" }, { output_text: "안내 GUIDE_PAGE: checkin" }, "mixed-stay-travel");
+  assert.equal(request.body.tools[0].type, "web_search");
+  assert.match(request.body.instructions, /503호/);
+  assert.match(request.body.instructions, /6702/);
+});
+
 test("nuanced property questions use the complete guide without a forced search", async () => {
   const cases = [
     ["Can I check in late?", "en", "checkin", "Self check-in is available from 15:00. Please follow the kiosk instructions."],

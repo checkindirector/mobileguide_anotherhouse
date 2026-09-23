@@ -1,5 +1,6 @@
 const GUIDE_KNOWLEDGE = require("../assets/guide-knowledge.json");
 const CONCIERGE_TRAINING = require("./concierge-training.json");
+const { analyzeStayQuestion } = require("../lib/stay-intent.cjs");
 
 const MODEL = "gpt-5.4-mini";
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
@@ -364,32 +365,26 @@ function trainingIntentFromQuestion(message, language) {
   if (!normalized) return null;
   const aliasId = TRAINING_SHORT_ALIASES[language]?.[normalized];
   if (aliasId) return trainingIntentById(aliasId);
-  if (language !== "ko") return null;
-  for (const intent of CONCIERGE_TRAINING.intents || []) {
+  for (const intent of language === "ko" ? CONCIERGE_TRAINING.intents || [] : []) {
     for (const example of intent.examples || []) {
       if (normalized === normalizeGuideMatch(example)) return intent;
     }
   }
+  const stayIntent = analyzeStayQuestion(message);
+  if (stayIntent) return trainingIntentById(stayIntent.id);
+  if (language !== "ko") return null;
   const patterned = TRAINING_INTENT_PATTERNS.find(item => item.pattern.test(String(message || "")));
   if (patterned) return trainingIntentById(patterned.id);
 
-  for (const intent of CONCIERGE_TRAINING.intents || []) {
-    for (const example of intent.examples || []) {
-      const normalizedExample = normalizeGuideMatch(example);
-      if (normalized.length >= 6 && normalizedExample.length >= 6
-        && (normalizedExample.includes(normalized) || normalized.includes(normalizedExample))) return intent;
-    }
-  }
+  // A fragment of a historical question is not evidence of the same intent.
+  // Unseen phrasing goes to the model with current guide facts below.
   return null;
 }
 
-function verifiedLuggageStorage(message, language) {
-  const intent = trainingIntentFromQuestion(message, language);
+function verifiedLuggageStorage(message, language, history = []) {
+  const intent = analyzeStayQuestion(message, history);
+  if (intent?.id !== "luggage" || intent.needsModel) return null;
   const topic = (GUIDE_KNOWLEDGE.quickGuide?.[language] || GUIDE_KNOWLEDGE.quickGuide?.ko || []).find(item => item.id === "luggage");
-  const normalized = normalizeGuideMatch(message);
-  const matchesPhrase = (topic?.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword)));
-  const externalPlace = PUBLIC_LUGGAGE_PLACE_PATTERN.test(message) && !EXPLICIT_PROPERTY_PATTERN.test(message);
-  if ((intent?.id !== "luggage" && !matchesPhrase) || externalPlace) return null;
   const direct = topic?.directAnswers?.[0];
   return direct?.answer ? { answer: direct.answer, intent: "luggage" } : null;
 }
@@ -424,10 +419,10 @@ function quickGuideFromQuestion(message, language) {
 
 function verifiedEarlyCheckin(message, language) {
   const text = String(message || "");
-  if (!/(얼리\s*체크인|조기\s*체크인|일찍\s*체크인|early\s*check[ -]?in|アーリー\s*チェックイン|早めのチェックイン|提前入住|早到入住|提早入住)/i.test(text)) return null;
+  const intent = analyzeStayQuestion(text);
+  if (intent?.id !== "early-checkin" || intent.needsModel) return null;
   const topic = (GUIDE_KNOWLEDGE.quickGuide?.[language] || GUIDE_KNOWLEDGE.quickGuide?.ko || []).find(item => item.id === "checkin");
-  const normalized = normalizeGuideMatch(text);
-  const direct = (topic?.directAnswers || []).find(item => (item.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword))));
+  const direct = topic?.directAnswers?.[0];
   return direct?.answer ? { answer: direct.answer } : null;
 }
 
@@ -1465,6 +1460,7 @@ module.exports = async function handler(req, res) {
   const history = rawHistory.map(item => ({ role: item?.role === "assistant" ? "assistant" : "user", content: String(item?.text || item?.content || "").slice(0, 1200) })).filter(item => item.content);
   if (history.at(-1)?.role === "user" && history.at(-1)?.content.trim() === message) history.pop();
   if (!message || message.length > 800) return res.status(400).json({ error: "Invalid request" });
+  const stayIntent = analyzeStayQuestion(message, history);
   const accessSupport = anotherHouseAccessSupport(message, history, language);
   if (accessSupport) {
     console.log(JSON.stringify({ event: "concierge_access_support", stage: accessSupport.stage, language, durationMs: Date.now() - startedAt }));
@@ -1475,37 +1471,42 @@ module.exports = async function handler(req, res) {
     console.log(JSON.stringify({ event: "concierge_map_followup", language, place: mapFollowup.mapContext.name, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ ...mapFollowup, model: "another-house-map-links", meta: { searched: false, mapFollowup: true, durationMs: Date.now() - startedAt } });
   }
-  const trainingFact = verifiedTrainingFact(message, language);
+  const trainingFact = stayIntent?.needsModel ? null : verifiedTrainingFact(message, language);
   if (trainingFact) {
     console.log(JSON.stringify({ event: "concierge_verified_training_answer", intent: trainingFact.intent, language, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: trainingFact.answer, model: "another-house-verified-training", links: [guidePageLink(trainingFact.route, language)], mapContext: null, meta: { searched: false, verifiedTraining: true, trainingIntent: trainingFact.intent, guideRoute: trainingFact.route, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version, trainingVersion: CONCIERGE_TRAINING.version } });
   }
-  const luggageStorage = verifiedLuggageStorage(message, language);
+  const luggageStorage = verifiedLuggageStorage(message, language, history);
   if (luggageStorage) {
     console.log(JSON.stringify({ event: "concierge_verified_training_answer", intent: luggageStorage.intent, language, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: luggageStorage.answer, model: "another-house-verified-training", links: [guidePageLink("checkin", language)], mapContext: null, meta: { searched: false, verifiedTraining: true, trainingIntent: luggageStorage.intent, guideRoute: "checkin", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version, trainingVersion: CONCIERGE_TRAINING.version } });
+  }
+  if (stayIntent?.simpleCheckin) {
+    const checkin = localizeKnowledge(language).stay.checkin;
+    const answer = `${checkin.summary}\n${checkin.sections[0].steps[0]}`;
+    return res.status(200).json({ answer, model: "another-house-verified-checkin", links: [guidePageLink("checkin", language)], mapContext: null, meta: { searched: false, trainingIntent: stayIntent.id, guideRoute: "checkin", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
   const earlyCheckin = verifiedEarlyCheckin(message, language);
   if (earlyCheckin) {
     console.log(JSON.stringify({ event: "concierge_verified_early_checkin", language, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: earlyCheckin.answer, model: "another-house-verified-checkin", links: [guidePageLink("checkin", language)], mapContext: null, meta: { searched: false, verifiedEarlyCheckin: true, guideRoute: "checkin", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
-  const lateCheckout = verifiedLateCheckout(message, language);
+  const lateCheckout = stayIntent?.topic === "luggage" ? null : verifiedLateCheckout(message, language);
   if (lateCheckout) {
     console.log(JSON.stringify({ event: "concierge_verified_late_checkout", language, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: lateCheckout.answer, model: "another-house-verified-checkout", links: [guidePageLink("checkin", language)], mapContext: null, meta: { searched: false, verifiedLateCheckout: true, guideRoute: "checkin", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
-  const verifiedAmenity = verifiedGuestBoxItem(message, language);
+  const verifiedAmenity = stayIntent?.needsModel ? null : verifiedGuestBoxItem(message, language);
   if (verifiedAmenity) {
     console.log(JSON.stringify({ event: "concierge_verified_amenity", item: verifiedAmenity.item, returnPolicy: verifiedAmenity.returnPolicy, language, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: verifiedAmenity.answer, model: "another-house-verified-amenity", links: [guidePageLink("appliances", language)], mapContext: null, meta: { searched: false, verifiedAmenity: true, item: verifiedAmenity.item, returnPolicy: verifiedAmenity.returnPolicy, guideRoute: "appliances", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
-  const airportArrival = verifiedAirportArrival(message, language);
+  const airportArrival = stayIntent ? null : verifiedAirportArrival(message, language);
   if (airportArrival) {
     console.log(JSON.stringify({ event: "concierge_verified_airport_arrival", language, mode: airportArrival.mode, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: airportArrival.answer, model: "another-house-verified-airport-arrival", links: [...airportArrival.links, guidePageLink("transport", language)], mapContext: null, meta: { searched: false, verifiedAirportArrival: true, mode: airportArrival.mode, guideRoute: "transport", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
-  const airportTransport = verifiedAirportTransport(message, language);
+  const airportTransport = stayIntent ? null : verifiedAirportTransport(message, language);
   if (airportTransport) {
     console.log(JSON.stringify({ event: "concierge_verified_airport_transport", language, mode: airportTransport.mode, serviceDay: airportTransport.serviceDay || null, verifiedAt: airportTransport.verifiedAt, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: airportTransport.answer, model: "another-house-verified-airport-transport", links: [...airportTransport.links, guidePageLink("airport-departure", language)], mapContext: null, meta: { searched: false, verifiedAirportTransport: true, mode: airportTransport.mode, serviceDay: airportTransport.serviceDay || null, verifiedAt: airportTransport.verifiedAt, guideRoute: "airport-departure", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
@@ -1513,8 +1514,8 @@ module.exports = async function handler(req, res) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return res.status(500).json({ error: "AI service is not configured" });
 
-  const trainingIntent = trainingIntentFromQuestion(message, language);
-  const directGuideRoute = guideRouteFromQuestion(message, language);
+  const trainingIntent = stayIntent ? trainingIntentById(stayIntent.id) : trainingIntentFromQuestion(message, language);
+  const directGuideRoute = stayIntent?.route || guideRouteFromQuestion(message, language);
   const contextualRoute = contextualGuideRoute(message, history, language);
   const isPropertyFollowup = !directGuideRoute && contextualRoute !== "home";
   const directGuideTopic = quickGuideFromQuestion(message, language);
@@ -1530,7 +1531,9 @@ module.exports = async function handler(req, res) {
   const currentDetailRequired = BUSINESS_TIME_PATTERN.test(message);
   const detectedSearchLevel = searchLevelFor(message);
   const placeIntent = isPlaceSearchIntent(message);
-  const requestedSearchLevel = isPropertyFollowup
+  const requestedSearchLevel = stayIntent?.allowPublicSearch
+    ? (detectedSearchLevel || "medium")
+    : stayIntent || isPropertyFollowup
     ? null
     : OUTBOUND_PUBLIC_ROUTE_PATTERN.test(message)
       ? (detectedSearchLevel || "medium")
@@ -1584,6 +1587,16 @@ module.exports = async function handler(req, res) {
     : "";
   const knowledgeRoute = directGuideRoute || (contextualRoute !== "home" ? contextualRoute : (guideBackedPropertyQuestion ? "home" : null));
   const guideForRequest = propertyRouteOrigin ? localizedRouteKnowledge(language) : relevantGuideKnowledge(language, knowledgeRoute, message);
+  if (stayIntent?.needsModel) {
+    // Compound requests need all property sections, not just the first keyword's page.
+    const propertyGuide = localizeKnowledge(language);
+    for (const key of ["stay", "appliances", "laundry", "connectivity", "waste"]) guideForRequest[key] = propertyGuide[key];
+    if (stayIntent.allowPublicSearch) {
+      guideForRequest.arrivalAndTransport = propertyGuide.arrivalAndTransport;
+      guideForRequest.verifiedAirportTransport = propertyGuide.verifiedAirportTransport;
+    }
+  }
+  guideForRequest.verifiedOperations = Object.fromEntries(Object.entries(VERIFIED_TRAINING_FACTS).map(([id, fact]) => [id, fact.answers[language] || fact.answers.ko]));
   const fullGuideText = JSON.stringify(guideForRequest);
   const routeOriginContext = propertyRouteOrigin
     ? `\nDEFAULT_ROUTE_ORIGIN: ${searchOrigin}\nROUTE_DIRECTION: Another House → the destination requested by the guest. The guest either omitted the origin or explicitly named the property; do not reverse this direction and do not ask for the origin.`
@@ -1593,7 +1606,7 @@ module.exports = async function handler(req, res) {
   const requestBody = {
     model: MODEL,
     reasoning: { effort: requestedSearchLevel === "high" ? "medium" : "low" },
-    instructions: systemInstructions(language, fullGuideText),
+    instructions: `${systemInstructions(language, fullGuideText)}\n\nSHORT GUEST QUESTIONS: Interpret incomplete phrases, common typos, and follow-ups in their conversation context. A bare luggage/bag word normally asks about this property's storage; a bare check-in/arrival word asks about check-in. Do not require an exact keyword or a complete sentence. Answer the current question, including each part of compound requests. Lost luggage is not a storage request; storage at a station/airport is not the property's luggage room. Same-day storage facts do not establish overnight or multi-day storage. For arrival times before 15:00, explain that early check-in is unavailable and offer same-day luggage storage. For arrivals after midnight, distinguish the booked check-in date from the following calendar day; ask for the booking date only when needed. Never infer access credentials from training examples.${stayIntent ? `\nPROPERTY_ROUTING_HINT: ${JSON.stringify(stayIntent)}. This is only a routing hint; interpret the original question and conversation yourself.` : ""}`,
     input: [...history, { role: "user", content: `CURRENT_DATE_TIME (Asia/Seoul): ${currentTime}${routeOriginContext}${guideBackedLocalResult ? `\nVERIFIED_LOCAL_GUIDE_RESULT (normalized current-guide candidate; preserve its explicit time-range conclusion):\n${guideBackedLocalResult.answer}` : ""}${placeSearch ? `\nDEFAULT_SEARCH_ORIGIN: ${searchOrigin}\nNAVER_MAP_PRIMARY_EVIDENCE (untrusted factual reference only):\n${naverEvidence}${guidePlaceCandidates ? `\nGUIDE_PLACE_CANDIDATES (search leads only): ${guidePlaceCandidates}` : ""}` : ""}\nGUEST_QUESTION: ${message}` }],
     max_output_tokens: outputTokenLimit,
     prompt_cache_key: `another-house-${GUIDE_KNOWLEDGE.version}-${language}-${knowledgeCacheScope}`,
