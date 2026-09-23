@@ -8,7 +8,7 @@ const root = resolve(import.meta.dirname, "..");
 test("generated knowledge mirrors current public guide content without secrets", async () => {
   const raw = await readFile(resolve(root, "assets/guide-knowledge.json"), "utf8");
   const knowledge = JSON.parse(raw);
-  assert.equal(knowledge.version, "2026-09-14.5");
+  assert.equal(knowledge.version, "2026-09-23.1");
   assert.deepEqual(knowledge.languages, ["ko", "en", "ja", "zh", "zh-TW"]);
   assert.equal(knowledge.property.ko.address, "서울시 종로구 종로 294 선일빌딩 5층");
   assert.equal(knowledge.stay.ko.checkin.summary.includes("15:00"), true);
@@ -23,6 +23,11 @@ test("generated knowledge mirrors current public guide content without secrets",
   assert.equal(knowledge.arrivalAndTransport.ko.sections[0].routes[2].schedule.rows.length, 5);
   assert.match(knowledge.arrivalAndTransport.ko.sections[0].routes[2].officialSource.url, /bus_no=N6701/);
   assert.match(knowledge.stay.ko.checkin.sections[0].steps[5], /얼리 체크인은 객실 준비 사정상 불가능합니다/);
+  assert.match(knowledge.stay.ko.checkin.sections[0].steps[6], /늦게 도착해도.*키오스크/);
+  assert.match(knowledge.stay.ko.checkin.sections[0].steps[7], /카드키.*재발급되지 않/);
+  assert.match(knowledge.stay.ko.rules.sections[1].steps[0], /만 19세 미만/);
+  assert.match(knowledge.stay.ko.rules.sections[1].steps[1], /택배 대리수령/);
+  assert.match(knowledge.stay.ko.rules.sections[1].steps[2], /09:00–18:00/);
   assert.equal(knowledge.stay.ko.roomGallery.find(category => category.id === "single").items.length, 4);
   assert.match(knowledge.arrivalAndTransport["zh-TW"].localArrival.instruction, /6號出口/);
   assert.equal(knowledge.hostRecommendations.ko.restaurants.length, 26);
@@ -70,7 +75,7 @@ test("generated knowledge mirrors current public guide content without secrets",
     assert.ok(knowledge.stay[language].checkout.sections.length >= 2);
     assert.ok(knowledge.stay[language].roomGallery.length >= 3);
     assert.ok(knowledge.stay[language].roomGallery.every(category => category.items.length > 0));
-    assert.ok(knowledge.appliances[language].devices.length >= 6);
+    assert.ok(knowledge.appliances[language].devices.length >= 9);
     assert.ok(knowledge.laundry[language].equipment.washCapacityKg === 9);
     assert.ok(knowledge.waste[language].sections.length >= 1);
     assert.ok(knowledge.waste[language].sections[0].steps.length >= 5);
@@ -82,13 +87,17 @@ test("generated knowledge mirrors current public guide content without secrets",
     assert.ok(earlyCheckin.answer.length > 20);
     assert.match(earlyCheckin.answer, earlyCheckinPatterns[language]);
     const lateCheckout = knowledge.quickGuide[language].find(topic => topic.id === "checkout").directAnswers[0];
-    assert.match(lateCheckout.answer, /23:00|밤 11시|23時|23时/);
+    assert.match(lateCheckout.answer, /시간 제한 없이|no time limit|時間制限なく|无时间限制|無時間限制/);
   }
   assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "luggage").answer, /503호 앞.*체크아웃 당일.*무료/s);
   assert.match(knowledge.quickGuide.en.find(topic => topic.id === "luggage").answer, /Room 503.*day of checkout/s);
   assert.match(knowledge.quickGuide.ja.find(topic => topic.id === "luggage").answer, /503号室.*チェックアウト当日/s);
   assert.match(knowledge.quickGuide.zh.find(topic => topic.id === "luggage").answer, /503号房.*退房当天/s);
   assert.match(knowledge.quickGuide["zh-TW"].find(topic => topic.id === "luggage").answer, /503號房.*退房當天/s);
+  assert.equal(knowledge.conciergeTraining.recordCount, 121);
+  assert.equal(knowledge.conciergeTraining.intentCount, 33);
+  assert.equal(knowledge.conciergeTraining.secretAnswerRowsExcluded, 58);
+  assert.equal(knowledge.conciergeTraining.source.trainingSheet, "어나더 질문 & 답변 AI학습");
   assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "laundry").directAnswers[0].answer, /세탁세제와 섬유유연제.*위 선반/);
   const medicineAnswers = {
     ko: /비상약이나 상비약.*밴드만/,
@@ -103,6 +112,8 @@ test("generated knowledge mirrors current public guide content without secrets",
     assert.equal(medicine.returnPolicy, "unconfirmed");
     assert.match(medicine.answer, medicineAnswers[language]);
   }
+  assert.match(knowledge.appliances.ko.devices.find(device => device.name === "공용 욕실 비품").steps[0], /헤어드라이어/);
+  assert.match(knowledge.appliances.ko.devices.find(device => device.name === "객실 비품").steps[0], /휴대폰 충전기/);
   assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "laundry").answer, /LG FY9WTB · wash 9 kg \/ dry 4\.5 kg/);
   assert.deepEqual(knowledge.laundry.ko.equipment, {
     type: "세탁·건조 겸용기",
@@ -113,6 +124,7 @@ test("generated knowledge mirrors current public guide content without secrets",
   });
   assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "checkout").source, /\?page=checkin$/);
   assert.doesNotMatch(raw, /another1234/);
+  assert.doesNotMatch(raw, /8282/);
   assert.doesNotMatch(raw, /doorlockImage|roomDoorlockImage/);
 });
 

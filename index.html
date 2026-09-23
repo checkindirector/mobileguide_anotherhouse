@@ -1413,6 +1413,7 @@ body.is-home.hero-scrolled .header-brand-logo,body:not(.is-home) .header-brand-l
 .rule-editorial-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;color:#805f4d;font-family:'Oxanium',var(--font-ko);font-size:11px;font-weight:800;letter-spacing:.11em}
 .rule-editorial-meta::after{content:"";width:28px;height:1px;background:currentColor;opacity:.46}
 .rule-editorial-block h4{margin:0;color:inherit;font-size:21px;font-weight:800;line-height:1.28;letter-spacing:-.025em}
+.rule-extra h4{margin-bottom:14px}
 .rule-privacy{background:#f0e2d7;color:#3d3029}
 .rule-privacy::after{content:"";position:absolute;right:-35px;top:-44px;width:118px;height:118px;border:1px solid rgba(117,72,54,.15);border-radius:50%}
 .rule-display-word{display:block;margin:17px 0 16px;color:var(--signature);font-family:'Oxanium',var(--font-ko);font-size:30px;font-weight:700;line-height:1;letter-spacing:.025em}
@@ -1585,6 +1586,65 @@ body:not(.motion-ready) .concierge-widget,body:has(#brandIntro.is-running,.menu-
 .airport-time-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.airport-time-grid time{padding:9px 1px;border-radius:7px;background:#f3e8de;color:#493a31;text-align:center;font-family:'Oxanium',sans-serif;font-size:13px;font-weight:700}.airport-night-table{overflow:hidden;border:1px solid #d9c5b8;border-radius:9px}.airport-night-table>div{display:grid;grid-template-columns:repeat(3,1fr)}.airport-night-table>div+div{border-top:1px solid #eaded4}.airport-night-table b,.airport-night-table time{padding:9px 7px;text-align:center;font-family:'Oxanium',sans-serif;font-size:13px}.airport-night-table b{background:#2a211d;color:#fff}.airport-night-table time{background:#fffaf4;color:#493a31}.arrival-night-table{margin-top:14px}.route-card>.route-source-link{margin:14px 0 0}.airport-departure-fare{font-size:14px!important;line-height:1.6!important}
 .airport-departure-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.airport-departure-actions.is-map-only{grid-template-columns:repeat(2,minmax(0,1fr))}.airport-departure-actions a{min-width:0;min-height:48px;padding:8px 5px;border:1px solid #d9c5b8;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;gap:4px;color:#60483b;text-align:center;font-size:13px;font-weight:800;line-height:1.35}.airport-departure-actions a:first-child{background:#754836;border-color:#754836;color:#fff}.airport-departure-arex .airport-departure-actions a{background:#754836;border-color:#754836;color:#fff}.airport-departure-actions .mi{font-size:18px}.airport-arex-timetables{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:8px}.airport-arex-timetables a{min-width:0;min-height:48px;padding:8px;border:1px solid #d9c5b8;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;gap:5px;color:#60483b;text-align:center;font-size:13px;font-weight:800;line-height:1.35}.airport-arex-timetables .mi{font-size:18px}.airport-departure-route{padding:16px;border-radius:9px;background:#2a211d;color:#fff}.airport-departure-arex .airport-departure-route{margin-top:14px}.airport-departure-route small{display:block;color:#e9cbb9;font-family:'Oxanium',sans-serif;font-size:12px;line-height:1.35;letter-spacing:.08em}.airport-departure-route strong{display:block;margin-top:7px;font-size:17px;font-weight:800;line-height:1.58}.airport-service-summary{display:grid;gap:8px;margin:14px 0}.airport-service-summary span{padding:11px 12px;border-left:3px solid #b55d3d;background:#f3e8de;color:#493a31;font-size:14px;font-weight:700;line-height:1.55}.airport-departure-note{margin:0;padding:14px;border-radius:10px;background:#efe5da;color:#665646;display:flex;align-items:flex-start;gap:9px;font-size:14px;font-weight:650;line-height:1.6}.airport-direction-icon,.airport-note-icon{display:block;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.airport-departure-card .airport-direction-icon{width:28px;height:28px}.airport-note-icon{flex:none;color:#b55d3d}.menu-link[data-go="airport-departure"] .airport-direction-icon{width:20px;height:20px}
 @media(max-width:359px){.airport-time-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.airport-departure-actions,.airport-departure-actions.is-map-only,.airport-arex-timetables{grid-template-columns:1fr}.airport-departure-actions a,.airport-arex-timetables a{font-size:13px}.airport-departure-card .airport-card-body{padding:14px}.airport-departure-option-head small{font-size:13px}}
++/* Progressive check-in and appliance disclosures. */
+.progressive-disclosure>summary{list-style:none;cursor:pointer}
+.progressive-disclosure>summary::-webkit-details-marker{display:none}
+.progressive-disclosure .disclosure-chevron{justify-self:end;transition:transform .2s ease}
+.progressive-disclosure[open] .disclosure-chevron{transform:rotate(180deg)}
+.checkin-guide-card.progressive-disclosure .checkin-card-header{grid-template-columns:42px minmax(0,1fr) 24px}
+.checkin-summary-note{display:block;margin-top:4px;color:rgba(255,255,255,.86);font-size:12px;font-weight:700;line-height:1.35}
+.checkin-photo-carousel-shell{margin:18px 0 2px}
+.checkin-photo-carousel-head{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:10px}
+.checkin-photo-carousel-head>div:first-child{display:grid;gap:2px}
+.checkin-photo-carousel-head strong{color:#2a211d;font-size:15px}
+.checkin-photo-carousel-head small{color:#846e61;font-size:11px;font-weight:700}
+.checkin-photo-carousel-head nav{display:flex;gap:6px}
+.checkin-photo-carousel-head button{width:34px;height:34px;display:grid;place-items:center;padding:0;border:1px solid rgba(117,72,54,.28);border-radius:8px;background:#fffaf4;color:var(--secondary)}
+.checkin-photo-carousel{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:2px 0 8px}
+.checkin-photo-carousel::-webkit-scrollbar{display:none}
+.checkin-photo-slide{flex:0 0 min(78%,250px);margin:0;overflow:hidden;scroll-snap-align:start;border-radius:10px;background:#efe3d8}
+.checkin-photo-slide .image-zoom{display:block;width:100%;padding:0;border:0;background:transparent}
+.checkin-photo-slide img{display:block;width:100%;height:150px;object-fit:contain;background:#eadccf}
+.checkin-photo-slide figcaption{display:flex;align-items:center;gap:8px;min-height:42px;padding:9px 11px;background:#fff;color:#4d3c32;font-size:12px}
+.checkin-photo-slide figcaption span{color:var(--secondary);font-weight:800}
+.checkin-photo-slide figcaption b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.checkin-carousel-dots{display:flex;justify-content:center;gap:6px;margin-top:4px}
+.checkin-carousel-dot{width:6px;height:6px;padding:0;border:0;border-radius:999px;background:#d1bbae;transition:width .2s ease,background-color .2s ease}
+.checkin-carousel-dot.active{width:18px;background:var(--secondary)}
+.guide-detail-screen .device-card-stack .device.progressive-disclosure .device-header{grid-template-columns:42px minmax(0,1fr) 24px;cursor:pointer;list-style:none;border-bottom-color:transparent}
+.guide-detail-screen .device-card-stack .device.progressive-disclosure .device-header::-webkit-details-marker{display:none}
+.guide-detail-screen .device-card-stack .device.progressive-disclosure[open] .device-header{border-bottom-color:rgba(216,198,180,.72)}
+.guide-detail-screen .device-card-stack .device.progressive-disclosure .disclosure-chevron{color:#fff}
+@media(max-width:380px){.checkin-photo-slide{flex-basis:84%}.checkin-photo-slide img{height:138px}.checkin-photo-carousel-head small{display:none}}
+.image-lightbox.is-zoomed .image-lightbox-nav{opacity:1;pointer-events:auto}
++/* Two-level appliance category navigation. */
+.appliance-category-portal,.appliance-category-panel{display:grid;gap:14px}
+.appliance-category-portal[hidden],.appliance-category-panel[hidden]{display:none!important}
+.appliance-category-intro{padding:2px 2px 4px}
+.appliance-category-intro small{display:block;margin-bottom:5px;color:var(--secondary);font:700 10px/1.2 'Oxanium',sans-serif;letter-spacing:.12em}
+.appliance-category-intro h3{margin:0;color:#2a211d;font-size:21px;line-height:1.3}
+.appliance-category-grid{display:grid;gap:11px}
+.appliance-category-card{position:relative;min-width:0;min-height:112px;display:grid;grid-template-columns:28px 46px minmax(0,1fr) 24px;gap:11px;align-items:center;padding:18px 17px;border:1px solid rgba(117,72,54,.22);border-radius:12px;text-align:left;overflow:hidden;cursor:pointer;transition:transform .18s ease,box-shadow .2s ease}
+.appliance-category-card:active{transform:scale(.985)}
+.appliance-category-card.category-room{background:#754836;color:#fff}
+.appliance-category-card.category-kitchen{background:#b85e3e;color:#fff}
+.appliance-category-card.category-shared{background:#efe0d3;color:#49372e}
+.appliance-category-number{align-self:start;font:700 10px/1 'Oxanium',sans-serif;letter-spacing:.08em;opacity:.72}
+.appliance-category-icon{width:46px;height:46px;display:grid;place-items:center;border-radius:10px;background:#fffaf4;color:var(--secondary)}
+.appliance-category-icon .mi{font-size:25px}
+.appliance-category-icon-svg{width:27px;height:27px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.appliance-category-copy{display:grid;gap:5px;min-width:0}
+.appliance-category-copy strong{font-size:19px;font-weight:800;line-height:1.2}
+.appliance-category-copy small{color:inherit;font-size:12px;font-weight:600;line-height:1.45;opacity:1;word-break:keep-all}
+.appliance-category-arrow{justify-self:end;font-size:22px}
+.appliance-category-panel-head{display:grid;margin-bottom:11px}
+.appliance-category-panel-head>button{justify-self:start;display:flex;align-items:center;gap:6px;min-height:38px;padding:0 11px;border:1px solid rgba(117,72,54,.24);border-radius:999px;background:#fffaf4;color:var(--secondary);font-size:12px;font-weight:800}
+.appliance-category-panel-head>button .mi{font-size:17px}
+.appliance-category-items{display:grid;gap:11px}
+.guide-detail-screen .device-card-stack .appliance-category-items>.device{margin:0;border:1px solid rgba(216,198,180,.72);border-radius:12px;box-shadow:none;background:#fffaf4;overflow:hidden}
+.guide-detail-screen .device-card-stack .appliance-category-items>.device .circle{width:42px;height:42px;border-radius:8px;background:#fffaf4;color:#754836}
+.guide-detail-screen .device-card-stack .appliance-category-items>.device h3{margin:0;color:#fff;font-size:18px}
+@media(max-width:359px){.appliance-category-card{grid-template-columns:22px 42px minmax(0,1fr) 20px;gap:8px;padding:16px 13px}.appliance-category-icon{width:42px;height:42px}.appliance-category-copy strong{font-size:17px}.appliance-category-copy small{font-size:11px}}
 </style>
 </head>
 <body class="is-home">
@@ -1610,7 +1670,7 @@ body:not(.motion-ready) .concierge-widget,body:has(#brandIntro.is-running,.menu-
 <section class="screen restaurants-screen tours-screen" data-screen="tours"><article class="restaurants-hero tours-hero"><p class="section-kicker">NEARBY TOURS</p><h2>추천 근교 투어</h2><p class="tour-hero-summary">숙소에서 시작해 서울의 성곽, 시장, 궁궐과 디자인 명소를 만나는 21개의 로컬 코스입니다.</p></article><div class="restaurants-content" id="toursContent"></div></section><section class="screen guidebook-screen" data-screen="guidebook"><article class="guidebook-hero"><p class="section-kicker">STAY GUIDEBOOK</p><h2>게스트 가이드북</h2><p>체크인부터 체크아웃까지 필요한 안내를 한 번에 확인하세요.</p></article><div class="guidebook-viewer" id="guidebookContent"></div></section>
 <section class="screen gallery-screen" data-screen="gallery"><div class="gallery-head"><p class="section-kicker">ROOM GALLERY</p><h2>객실 둘러보기</h2></div><section class="hotel-section stay-story" id="stayStory"><div class="stay-story-head"><p class="stay-story-kicker" id="stayStoryKicker">STAY STORY</p><span class="stay-story-index">ANOTHER HOUSE · SEOUL</span></div><h2 class="stay-story-title" id="stayStoryTitle"></h2><div class="stay-story-layout"><p class="stay-story-body" id="stayStoryBody"></p><div class="stay-story-facts" id="stayStoryFacts"></div></div></section><div class="gallery-category-tabs" id="galleryCategoryTabs" role="tablist" aria-label="객실 카테고리"></div><div class="gallery-magazine" id="galleryMagazine" aria-live="polite"></div></section>
 <section class="screen wifi-screen" data-screen="wifi"><article class="wifi-hero"><p class="section-kicker">IN-HOUSE WI-FI</p><h2 class="page-title">Wi-Fi</h2></article><div class="wifi-stack" id="wifiContent"></div></section>
-<section class="screen guide-detail-screen" data-screen="appliances"><article class="guide-detail-hero appliances-hero"><p class="section-kicker">APPLIANCE GUIDE</p><h2 class="page-title">냉난방 • 주방기기 사용법</h2></article><div class="device-card-stack" id="appliancesContent"></div></section>
+<section class="screen guide-detail-screen" data-screen="appliances"><article class="guide-detail-hero appliances-hero"><p class="section-kicker">APPLIANCE GUIDE</p><h2 class="page-title">냉난방 · 주방기기 · 비품 안내</h2></article><div class="device-card-stack" id="appliancesContent"></div></section>
 <section class="screen guide-detail-screen rules-screen" data-screen="rules"><article class="guide-detail-hero rules-hero"><p class="section-kicker">HOUSE RULES</p><h2 class="page-title">숙소 이용 규칙</h2></article><div class="checkin-stack" id="rulesContent"></div></section>
 <section class="screen guide-detail-screen" data-screen="laundry"><article class="guide-detail-hero laundry-hero"><p class="section-kicker">LAUNDRY GUIDE</p><h2 class="page-title">세탁 안내</h2></article><div class="device-card-stack" id="laundryContent"></div></section>
 <section class="screen guide-detail-screen" data-screen="trash"><article class="guide-detail-hero trash-hero"><p class="section-kicker">TRASH GUIDE</p><h2 class="page-title">쓰레기 배출</h2></article><div class="device-card-stack" id="trashContent"></div></section>
@@ -1623,5 +1683,5 @@ body:not(.motion-ready) .concierge-widget,body:has(#brandIntro.is-running,.menu-
 <button class="concierge-launcher" id="openChatFab" type="button" aria-label="어나더하우스 챗봇 열기" aria-controls="chatPanel" aria-expanded="false" aria-haspopup="dialog"><img src="assets/images/another-house-logo-symbol.webp" alt="" width="38" height="44"><span class="concierge-launcher-caption" id="chatLauncherCompact">AI 상담</span></button>
 </div>
 <div class="chat-backdrop" id="chatBackdrop"></div><section class="chat-panel" id="chatPanel" role="dialog" aria-modal="true" aria-label="ANOTHER HOUSE CONCIERGE" inert><header class="chat-head"><div><h2>ANOTHER HOUSE CONCIERGE</h2><p>숙소 이용 안내만 답변합니다.</p></div><button class="chat-close" id="closeChat" type="button" aria-label="상담창 닫기"><span class="mi">close</span></button></header><div class="chat-log" id="chatLog"><div class="msg bot">안녕하세요. 체크인, 교통, Wi-Fi, 기기 사용법을 물어보세요.</div></div><div><div class="chat-suggestions"><button class="suggestion">체크인은 몇 시야?</button><button class="suggestion">와이파이 알려줘</button><button class="suggestion">동대문역에서 어떻게 가?</button></div><div class="chat-note">비밀번호와 출입 코드는 예약 플랫폼 메시지에서 확인해 주세요.</div><form class="chat-form" id="chatForm"><textarea id="chatInput" rows="1" placeholder="질문을 입력하세요"></textarea><button class="send-btn"><span class="mi">arrow_upward</span></button></form></div></section><div class="toast" id="toast">복사했습니다</div>
-<script src="assets/site-data.js?v=20260914-13"></script><script src="assets/gallery-data.js?v=20260908-02"></script><script src="assets/content-updates.js?v=20260914-14"></script><script src="assets/gallery-overrides.js?v=20260908-02"></script><script src="assets/restaurant-data.js?v=20260908-02"></script><script src="assets/restaurant-expanded.js?v=20260908-02"></script><script src="assets/tour-data.js?v=20260908-03"></script><script src="assets/master-app.js?v=20260914-15"></script><script src="assets/tour-app.js?v=20260908-02"></script></body>
+<script src="assets/site-data.js?v=20260918-16"></script><script src="assets/gallery-data.js?v=20260908-02"></script><script src="assets/content-updates.js?v=20260918-17"></script><script src="assets/gallery-overrides.js?v=20260908-02"></script><script src="assets/restaurant-data.js?v=20260908-02"></script><script src="assets/restaurant-expanded.js?v=20260908-02"></script><script src="assets/tour-data.js?v=20260908-03"></script><script src="assets/master-app.js?v=20260918-24"></script><script src="assets/tour-app.js?v=20260908-02"></script></body>
 </html>

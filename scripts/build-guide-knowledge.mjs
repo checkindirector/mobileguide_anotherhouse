@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-14.5";
+const VERSION = "2026-09-23.1";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -24,6 +24,7 @@ for (const file of sourceScripts) {
 const data = context.window.ANOTHER_HOUSE_DATA;
 const tours = context.window.ANOTHER_HOUSE_TOURS;
 const gimpoLine5Timetable = JSON.parse(await readFile(resolve(root, "assets/gimpo-line5-timetable.json"), "utf8"));
+const conciergeTraining = JSON.parse(await readFile(resolve(root, "api/concierge-training.json"), "utf8"));
 if (!data?.pages || !tours?.places) throw new Error("Current site data did not load");
 
 const pageUrl = route => `${SITE_URL}?page=${route}`;
@@ -52,7 +53,7 @@ const pageText = (route, language) => {
 
 const QUICK_TOPIC_KEYWORDS = {
   luggage: {
-    ko: ["짐보관", "짐 맡", "짐을 맡", "러기지룸", "캐리어 보관", "수하물 보관"],
+    ko: ["짐보관", "짐 맡", "짐을 맡", "가방 보관", "러기지룸", "캐리어 보관", "트렁크 보관", "수하물 보관"],
     en: ["luggage storage", "store luggage", "leave luggage", "baggage storage", "store my suitcase"],
     ja: ["荷物保管", "荷物を預", "荷物預かり", "ラゲッジルーム", "スーツケース保管"],
     zh: ["行李寄存", "寄存行李", "行李房", "存放行李"],
@@ -69,6 +70,43 @@ const QUICK_TOPIC_KEYWORDS = {
   rooms: { ko: ["객실 종류", "방 종류", "싱글룸", "1인실", "2인실", "더블룸", "샤워실", "화장실", "파우더룸", "라운지", "공용 주방", "공용주방", "남자", "남성", "몇 명", "정원", "최대 인원", "501호", "502호", "503호", "504호", "505호", "506호"], en: ["room type", "single room", "double room", "shared shower", "toilet", "powder room", "lounge", "shared kitchen", "men allowed", "male guest", "how many rooms", "how many guests", "capacity", "room 501", "room 502", "room 503", "room 504", "room 505", "room 506"], ja: ["客室タイプ", "シングルルーム", "1人部屋", "2人部屋", "共用シャワー", "トイレ", "パウダールーム", "ラウンジ", "共用キッチン", "男性", "定員", "部屋数", "501号室", "502号室", "503号室", "504号室", "505号室", "506号室"], zh: ["房型", "单人房", "双人房", "公共淋浴", "卫生间", "化妆间", "休息区", "公共厨房", "男性", "可住几人", "房间数量", "501号房", "502号房", "503号房", "504号房", "505号房", "506号房"], "zh-TW": ["房型", "單人房", "雙人房", "公共淋浴", "洗手間", "化妝間", "休息區", "公共廚房", "男性", "可住幾人", "房間數量", "501號房", "502號房", "503號房", "504號房", "505號房", "506號房"] },
   tv: { ko: ["tv", "티비", "텔레비전", "ott", "넷플릭스"], en: ["tv", "television", "ott", "netflix", "streaming"], ja: ["テレビ", "tv", "netflix", "動画視聴"], zh: ["电视", "tv", "netflix", "流媒体"], "zh-TW": ["電視", "tv", "netflix", "串流"] },
   contact: { ko: ["호스트 연락", "호스트한테 연락", "도움 필요", "문의 방법", "연락 방법"], en: ["contact host", "contact the host", "need help", "how to contact"], ja: ["ホストに連絡", "問い合わせ方法", "助けが必要"], zh: ["联系房东", "需要帮助", "咨询方式"], "zh-TW": ["聯絡房東", "需要協助", "詢問方式"] }
+};
+
+const OPERATIONS_KEYWORDS = {
+  ko: ["미성년자", "만 19세", "보호자", "택배", "배송", "대리수령", "직원 응대시간", "직원 운영시간"],
+  en: ["minor guest", "under 19", "legal guardian", "parcel", "delivery", "receive a package", "staff hours", "response hours"],
+  ja: ["未成年", "19歳未満", "保護者", "宅配", "荷物の受取", "スタッフ対応時間"],
+  zh: ["未成年人", "未满19岁", "监护人", "快递", "代收", "工作人员回复时间"],
+  "zh-TW": ["未成年人", "未滿19歲", "監護人", "快遞", "代收", "工作人員回覆時間"]
+};
+for (const language of languages) QUICK_TOPIC_KEYWORDS.rules[language].push(...OPERATIONS_KEYWORDS[language]);
+
+const OPERATIONS_DIRECT_ANSWERS = {
+  ko: [
+    { keywords: ["미성년자", "만19세", "만 19세", "보호자동의서", "보호자 동의서"], answer: "만 19세 미만 고객은 혼자 투숙할 수 없습니다. 법적 보호자와 동반하는 경우에만 가능하며, 보호자 동의서가 있어도 미성년자 단독 투숙은 불가합니다." },
+    { keywords: ["택배", "배송", "대리수령", "택배수령"], answer: "숙소는 무인 운영으로 택배 대리수령이 어렵습니다. 직접 수령하거나 위탁수령 가능한 서비스를 이용해 주세요." },
+    { keywords: ["직원응대시간", "직원 응대시간", "직원운영시간", "직원 운영시간"], answer: "직원 응대시간은 09:00–18:00입니다. 문의는 예약한 플랫폼의 메시지로 남겨 주세요." }
+  ],
+  en: [
+    { keywords: ["minor guest", "under 19", "guardian consent"], answer: "Guests under 19 cannot stay alone. They may stay only with a legal guardian; a consent form does not permit an unaccompanied minor to stay." },
+    { keywords: ["parcel", "delivery", "receive a package"], answer: "Because the property is unmanned, staff cannot receive parcels for guests. Please receive deliveries in person or use a parcel-acceptance service." },
+    { keywords: ["staff hours", "response hours"], answer: "Staff respond from 09:00 to 18:00. Please contact us through your booking-platform messages." }
+  ],
+  ja: [
+    { keywords: ["未成年", "19歳未満", "保護者同意書"], answer: "19歳未満の方のみでの宿泊はできません。法定保護者との同伴時のみ宿泊でき、同意書があっても未成年者だけでは宿泊できません。" },
+    { keywords: ["宅配", "荷物の受取"], answer: "無人運営のため、宅配便の代理受取はできません。ご本人で受け取るか、受取代行サービスをご利用ください。" },
+    { keywords: ["スタッフ対応時間"], answer: "スタッフ対応時間は09:00〜18:00です。予約プラットフォームのメッセージからお問い合わせください。" }
+  ],
+  zh: [
+    { keywords: ["未成年人", "未满19岁", "监护人同意书"], answer: "未满19岁的客人不能单独入住。仅在法定监护人陪同下方可入住，即使有同意书也不能单独入住。" },
+    { keywords: ["快递", "代收"], answer: "住宿采用无人运营，无法代收快递。请本人收件或使用可代收快递的服务。" },
+    { keywords: ["工作人员回复时间"], answer: "工作人员回复时间为09:00–18:00。请通过预订平台消息联系我们。" }
+  ],
+  "zh-TW": [
+    { keywords: ["未成年人", "未滿19歲", "監護人同意書"], answer: "未滿19歲的客人不能單獨入住。僅在法定監護人陪同下方可入住，即使有同意書也不能單獨入住。" },
+    { keywords: ["快遞", "代收"], answer: "住宿採用無人營運，無法代收快遞。請本人收件或使用可代收快遞的服務。" },
+    { keywords: ["工作人員回覆時間"], answer: "工作人員回覆時間為09:00–18:00。請透過預訂平台訊息聯絡我們。" }
+  ]
 };
 
 const QUICK_TOPIC_LEADS = {
@@ -104,18 +142,18 @@ const quickDirectAnswers = (topic, language) => {
     "zh-TW": [{ keywords: ["提前入住", "提早入住"], answer: "不可以，由於需要準備客房，無法提前入住。入住時間從15:00開始。入住前可以寄放行李，入館資訊請查看預訂平台訊息。" }]
   },
   luggage: {
-    ko: [{ keywords: ["짐보관", "짐맡", "캐리어보관", "수하물보관"], answer: "네, 짐 보관이 가능합니다. 503호 앞 러기지룸에 체크아웃 당일 밤 11시까지 무료로 보관할 수 있어요." }],
-    en: [{ keywords: ["luggage storage", "store luggage", "leave luggage", "baggage storage", "store my suitcase"], answer: "Yes, luggage storage is available. You can use the luggage room in front of Room 503 free of charge until 23:00 on the day of checkout." }],
-    ja: [{ keywords: ["荷物保管", "荷物を預", "荷物預かり", "ラゲッジルーム", "スーツケース保管"], answer: "はい、荷物を保管できます。503号室前のラゲッジルームをチェックアウト当日の23時まで無料で利用できます。" }],
-    zh: [{ keywords: ["行李寄存", "寄存行李", "行李房", "存放行李"], answer: "可以寄存行李。可免费存放在503号房前的行李房，使用至退房当天23:00。" }],
-    "zh-TW": [{ keywords: ["行李寄放", "寄放行李", "行李房", "寄存行李"], answer: "可以寄放行李。可免費寄放在503號房前的行李房，使用至退房當天23:00。" }]
+    ko: [{ keywords: ["짐보관", "짐맡", "가방보관", "캐리어보관", "트렁크보관", "수하물보관"], answer: "네, 짐 보관이 가능합니다. 체크인·체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸을 무료로 이용할 수 있어요. 체크인 전 출입정보는 예약 플랫폼 메시지에서 확인해 주세요." }],
+    en: [{ keywords: ["luggage storage", "store luggage", "leave luggage", "baggage storage", "store my suitcase"], answer: "Yes, luggage storage is available. On your check-in or check-out day, you can use the luggage room in front of Room 503 free of charge with no time limit. Before check-in, check your booking-platform message for access information." }],
+    ja: [{ keywords: ["荷物保管", "荷物を預", "荷物預かり", "ラゲッジルーム", "スーツケース保管"], answer: "はい、荷物を保管できます。チェックイン日・チェックアウト当日は時間制限なく、503号室前のラゲッジルームを無料で利用できます。チェックイン前の入館情報は予約プラットフォームのメッセージをご確認ください。" }],
+    zh: [{ keywords: ["行李寄存", "寄存行李", "行李房", "存放行李"], answer: "可以寄存行李。入住或退房当天可免费使用503号房前的行李房，且无时间限制。入住前所需的门禁信息请查看预订平台消息。" }],
+    "zh-TW": [{ keywords: ["行李寄放", "寄放行李", "行李房", "寄存行李"], answer: "可以寄放行李。入住或退房當天可免費使用503號房前的行李房，且無時間限制。入住前所需的門禁資訊請查看預訂平台訊息。" }]
   },
   checkout: {
-    ko: [{ keywords: ["레이트 체크아웃", "늦게 체크아웃", "체크아웃 연장"], answer: "아니요, 레이트 체크아웃과 체크아웃 시간 연장은 불가합니다. 대신 체크아웃 당일 밤 11시까지 503호 앞 러기지룸에 짐을 무료로 보관할 수 있어요." }],
-    en: [{ keywords: ["late checkout", "late check-out", "extend checkout"], answer: "No, late check-out and check-out extensions are not available. However, you may store your luggage free of charge in the luggage room in front of Room 503 until 23:00 on the day of checkout." }],
-    ja: [{ keywords: ["レイトチェックアウト", "チェックアウト延長"], answer: "いいえ、レイトチェックアウトや時間延長はできません。ただし、チェックアウト当日の23時まで、503号室前のラゲッジルームに荷物を無料で預けられます。" }],
-    zh: [{ keywords: ["延迟退房", "延长退房"], answer: "不可以，不提供延迟退房或延长退房时间。不过，退房当天23:00前可将行李免费寄存在503号房前的行李房。" }],
-    "zh-TW": [{ keywords: ["延遲退房", "延長退房"], answer: "不可以，不提供延遲退房或延長退房時間。不過，退房當天23:00前可將行李免費寄放在503號房前的行李房。" }]
+    ko: [{ keywords: ["레이트 체크아웃", "늦게 체크아웃", "체크아웃 연장"], answer: "아니요, 레이트 체크아웃과 체크아웃 시간 연장은 불가합니다. 대신 체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 짐을 무료로 보관할 수 있어요." }],
+    en: [{ keywords: ["late checkout", "late check-out", "extend checkout"], answer: "No, late check-out and check-out extensions are not available. However, on your checkout day you may store luggage free of charge in the luggage room in front of Room 503 with no time limit." }],
+    ja: [{ keywords: ["レイトチェックアウト", "チェックアウト延長"], answer: "いいえ、レイトチェックアウトや時間延長はできません。ただし、チェックアウト当日は時間制限なく、503号室前のラゲッジルームに荷物を無料で預けられます。" }],
+    zh: [{ keywords: ["延迟退房", "延长退房"], answer: "不可以，不提供延迟退房或延长退房时间。不过，退房当天可免费将行李寄存在503号房前的行李房，且无时间限制。" }],
+    "zh-TW": [{ keywords: ["延遲退房", "延長退房"], answer: "不可以，不提供延遲退房或延長退房時間。不過，退房當天可免費將行李寄放在503號房前的行李房，且無時間限制。" }]
   },
   rules: {
     ko: [{ keywords: ["흡연", "담배"], answer: "아니요, 객실과 공용공간은 모두 금연입니다." }, { keywords: ["반려동물", "애완동물"], answer: "아니요, 반려동물 동반은 허용되지 않습니다." }, { keywords: ["파티"], answer: "아니요, 숙소에서 파티는 허용되지 않습니다." }, { keywords: ["외부인", "방문객"], answer: "아니요, 예약하지 않은 외부인의 출입은 허용되지 않습니다." }],
@@ -132,11 +170,11 @@ const quickDirectAnswers = (topic, language) => {
     "zh-TW": [{ keywords: ["電視", "tv", "netflix", "串流"], answer: "沒有，客房及公共區域均不設電視。" }]
   },
   appliances: {
-    ko: [{ item: "hair-dryer", returnPolicy: "unconfirmed", keywords: ["헤어드라이어", "헤어드라이기", "드라이어", "드라이기"], answer: "현재 숙소 안내에는 헤어드라이어 제공 여부가 확인되지 않습니다. 게스트박스에는 헤어 고데기만 안내되어 있습니다. 필요하면 예약 플랫폼 메시지로 호스트에게 확인해 주세요." }, { item: "hair-straightener", returnPolicy: "return", keywords: ["고데기"], answer: "네, 헤어 고데기는 공용 공간의 게스트박스에 준비되어 있습니다. 사용 후에는 제자리에 돌려놓아 주세요." }, { item: "extra-towel", returnPolicy: "guest-use", keywords: ["여분수건", "여분 수건", "수건", "타월"], answer: "네, 여분 수건은 공용 공간의 게스트박스에 준비되어 있습니다. 필요한 수량만 꺼내 사용하시고, 사용한 수건은 게스트박스에 다시 넣지 마세요." }, { item: "dental-kit", returnPolicy: "guest-use", keywords: ["칫솔", "치약", "일회용칫솔", "일회용 칫솔"], answer: "네, 일회용 칫솔 세트는 공용 공간의 게스트박스에 준비되어 있습니다. 필요한 수량만 가져가 주세요." }, { item: "bandage", returnPolicy: "guest-use", keywords: ["밴드", "반창고"], answer: "네, 밴드는 공용 공간의 게스트박스에 준비되어 있습니다. 필요한 수량만 가져가 주세요." }, { item: "travel-adapter", returnPolicy: "return", keywords: ["여행용어댑터", "여행용 어댑터", "변환어댑터", "변환 어댑터"], answer: "네, 여행용 어댑터는 공용 공간의 게스트박스에 준비되어 있습니다. 사용 후에는 제자리에 돌려놓아 주세요." }, { item: "wet-wipes", returnPolicy: "guest-use", keywords: ["물티슈"], answer: "네, 물티슈는 공용 공간의 게스트박스에 준비되어 있습니다. 필요한 수량만 가져가 주세요." }, { item: "plastic-bag", returnPolicy: "guest-use", keywords: ["비닐봉투", "비닐 봉투"], answer: "네, 비닐봉투는 공용 공간의 게스트박스에 준비되어 있습니다. 필요한 수량만 가져가 주세요." }],
-    en: [{ item: "hair-dryer", returnPolicy: "unconfirmed", keywords: ["hair dryer", "hairdryer", "blow dryer", "blowdryer"], answer: "The current property guide does not confirm that a hair dryer is provided. It lists only a hair straightener in the shared Guest Box. Please confirm with the host through your booking-platform messages if needed." }, { item: "hair-straightener", returnPolicy: "return", keywords: ["hair straightener", "flat iron"], answer: "Yes, a hair straightener is available in the shared Guest Box. Please return it after use." }, { item: "extra-towel", returnPolicy: "guest-use", keywords: ["extra towel", "spare towel", "towel"], answer: "Yes, extra towels are available in the shared Guest Box. Take only what you need for your stay, and do not put used towels back in the Guest Box." }, { item: "dental-kit", returnPolicy: "guest-use", keywords: ["toothbrush", "toothpaste", "dental kit"], answer: "Yes, disposable dental kits are available in the shared Guest Box. Please take only what you need." }, { item: "bandage", returnPolicy: "guest-use", keywords: ["bandage", "band-aid", "plaster"], answer: "Yes, bandages are available in the shared Guest Box. Please take only what you need." }, { item: "travel-adapter", returnPolicy: "return", keywords: ["travel adapter", "plug adapter", "power adapter"], answer: "Yes, travel adapters are available in the shared Guest Box. Please return the adapter after use." }, { item: "wet-wipes", returnPolicy: "guest-use", keywords: ["wet wipes", "wet wipe"], answer: "Yes, wet wipes are available in the shared Guest Box. Please take only what you need." }, { item: "plastic-bag", returnPolicy: "guest-use", keywords: ["plastic bag", "plastic bags"], answer: "Yes, plastic bags are available in the shared Guest Box. Please take only what you need." }],
-    ja: [{ item: "hair-dryer", returnPolicy: "unconfirmed", keywords: ["ヘアドライヤー", "ドライヤー"], answer: "現在の宿泊案内ではヘアドライヤーの用意は確認できません。共用ゲストボックスにはヘアアイロンのみ記載されています。必要な場合は予約プラットフォームのメッセージでホストに確認してください。" }, { item: "hair-straightener", returnPolicy: "return", keywords: ["ヘアアイロン"], answer: "はい、ヘアアイロンは共用スペースのゲストボックスにあります。使用後は元の場所へ戻してください。" }, { item: "extra-towel", returnPolicy: "guest-use", keywords: ["予備タオル", "タオル"], answer: "はい、予備のタオルは共用スペースのゲストボックスにあります。滞在中に必要な枚数だけ取り、使用済みのタオルはゲストボックスへ戻さないでください。" }, { item: "dental-kit", returnPolicy: "guest-use", keywords: ["歯ブラシ", "歯磨き", "歯みがき"], answer: "はい、使い捨て歯ブラシセットは共用スペースのゲストボックスにあります。必要な分だけお取りください。" }, { item: "bandage", returnPolicy: "guest-use", keywords: ["絆創膏", "ばんそうこう"], answer: "はい、絆創膏は共用スペースのゲストボックスにあります。必要な分だけお取りください。" }, { item: "travel-adapter", returnPolicy: "return", keywords: ["旅行用アダプター", "変換アダプター", "電源アダプター"], answer: "はい、旅行用アダプターは共用スペースのゲストボックスにあります。使用後は元の場所へ戻してください。" }, { item: "wet-wipes", returnPolicy: "guest-use", keywords: ["ウェットティッシュ"], answer: "はい、ウェットティッシュは共用スペースのゲストボックスにあります。必要な分だけお取りください。" }, { item: "plastic-bag", returnPolicy: "guest-use", keywords: ["ビニール袋", "ポリ袋"], answer: "はい、ビニール袋は共用スペースのゲストボックスにあります。必要な分だけお取りください。" }],
-    zh: [{ item: "hair-dryer", returnPolicy: "unconfirmed", keywords: ["吹风机", "电吹风"], answer: "当前住宿指南未确认提供吹风机。公共区域的住客用品箱中仅明确列有直发器。如有需要，请通过预订平台消息向房东确认。" }, { item: "hair-straightener", returnPolicy: "return", keywords: ["直发器", "夹板"], answer: "有，公共区域的住客用品箱内备有直发器。使用后请放回原位。" }, { item: "extra-towel", returnPolicy: "guest-use", keywords: ["备用毛巾", "额外毛巾", "毛巾"], answer: "有，公共区域的住客用品箱内备有备用毛巾。请按住宿期间所需数量取用，使用过的毛巾请勿放回住客用品箱。" }, { item: "dental-kit", returnPolicy: "guest-use", keywords: ["牙刷", "牙膏", "牙具"], answer: "有，公共区域的住客用品箱内备有一次性牙具。请按需取用。" }, { item: "bandage", returnPolicy: "guest-use", keywords: ["创可贴", "止血贴"], answer: "有，公共区域的住客用品箱内备有创可贴。请按需取用。" }, { item: "travel-adapter", returnPolicy: "return", keywords: ["旅行转换插头", "转换插头", "转换器"], answer: "有，公共区域的住客用品箱内备有旅行转换插头。使用后请放回原位。" }, { item: "wet-wipes", returnPolicy: "guest-use", keywords: ["湿巾"], answer: "有，公共区域的住客用品箱内备有湿巾。请按需取用。" }, { item: "plastic-bag", returnPolicy: "guest-use", keywords: ["塑料袋"], answer: "有，公共区域的住客用品箱内备有塑料袋。请按需取用。" }],
-    "zh-TW": [{ item: "hair-dryer", returnPolicy: "unconfirmed", keywords: ["吹風機", "電吹風"], answer: "目前住宿指南未確認提供吹風機。公共區域的住客用品箱中僅明確列有直髮器。如有需要，請透過預訂平台訊息向房東確認。" }, { item: "hair-straightener", returnPolicy: "return", keywords: ["直髮器", "離子夾"], answer: "有，公共區域的住客用品箱內備有直髮器。使用後請放回原位。" }, { item: "extra-towel", returnPolicy: "guest-use", keywords: ["備用毛巾", "額外毛巾", "毛巾"], answer: "有，公共區域的住客用品箱內備有備用毛巾。請按住宿期間所需數量取用，使用過的毛巾請勿放回住客用品箱。" }, { item: "dental-kit", returnPolicy: "guest-use", keywords: ["牙刷", "牙膏", "牙具"], answer: "有，公共區域的住客用品箱內備有一次性牙具。請按需取用。" }, { item: "bandage", returnPolicy: "guest-use", keywords: ["OK繃", "創可貼"], answer: "有，公共區域的住客用品箱內備有OK繃。請按需取用。" }, { item: "travel-adapter", returnPolicy: "return", keywords: ["旅行轉接頭", "轉接頭", "轉換插頭"], answer: "有，公共區域的住客用品箱內備有旅行轉接頭。使用後請放回原位。" }, { item: "wet-wipes", returnPolicy: "guest-use", keywords: ["溼紙巾", "濕紙巾", "溼巾"], answer: "有，公共區域的住客用品箱內備有溼紙巾。請按需取用。" }, { item: "plastic-bag", returnPolicy: "guest-use", keywords: ["塑膠袋"], answer: "有，公共區域的住客用品箱內備有塑膠袋。請按需取用。" }]
+    ko: [{ item: "hair-dryer", returnPolicy: "shared-use", keywords: ["헤어드라이어", "헤어드라이기", "드라이어", "드라이기"], answer: "네, 헤어드라이어는 공용 욕실에 준비되어 있습니다. 헤어 고데기는 공용주방 냉장고 옆 GUEST BOX에 있어요." }, { item: "hair-straightener", returnPolicy: "return", keywords: ["고데기"], answer: "네, 헤어 고데기는 공용 공간의 게스트박스에 준비되어 있습니다. 사용 후에는 제자리에 돌려놓아 주세요." }, { item: "extra-towel", returnPolicy: "guest-use", keywords: ["여분수건", "여분 수건", "수건", "타월"], answer: "네, 여분 수건은 공용주방 냉장고 옆 GUEST BOX와 샤워실 선반에 있습니다. 사용한 수건은 샤워실 앞 타월 바구니에 넣고 GUEST BOX에는 다시 넣지 마세요." }, { item: "dental-kit", returnPolicy: "guest-use", keywords: ["칫솔", "치약", "일회용칫솔", "일회용 칫솔"], answer: "네, 일회용 칫솔 세트는 공용 공간의 게스트박스에 준비되어 있습니다. 필요한 수량만 가져가 주세요." }, { item: "bandage", returnPolicy: "guest-use", keywords: ["밴드", "반창고"], answer: "네, 밴드는 공용 공간의 게스트박스에 준비되어 있습니다. 필요한 수량만 가져가 주세요." }, { item: "travel-adapter", returnPolicy: "return", keywords: ["여행용어댑터", "여행용 어댑터", "변환어댑터", "변환 어댑터"], answer: "네, 여행용 어댑터는 공용 공간의 게스트박스에 준비되어 있습니다. 사용 후에는 제자리에 돌려놓아 주세요." }, { item: "wet-wipes", returnPolicy: "guest-use", keywords: ["물티슈"], answer: "네, 물티슈는 공용 공간의 게스트박스에 준비되어 있습니다. 필요한 수량만 가져가 주세요." }, { item: "plastic-bag", returnPolicy: "guest-use", keywords: ["비닐봉투", "비닐 봉투"], answer: "네, 비닐봉투는 공용 공간의 게스트박스에 준비되어 있습니다. 필요한 수량만 가져가 주세요." }],
+    en: [{ item: "hair-dryer", returnPolicy: "shared-use", keywords: ["hair dryer", "hairdryer", "blow dryer", "blowdryer"], answer: "Yes, hair dryers are provided in the shared bathroom. A hair straightener is also available in the GUEST BOX beside the shared-kitchen refrigerator." }, { item: "hair-straightener", returnPolicy: "return", keywords: ["hair straightener", "flat iron"], answer: "Yes, a hair straightener is available in the shared Guest Box. Please return it after use." }, { item: "extra-towel", returnPolicy: "guest-use", keywords: ["extra towel", "spare towel", "towel"], answer: "Yes, extra towels are available in the GUEST BOX beside the shared-kitchen refrigerator and on the shower-room shelf. Put used towels in the basket outside the showers; do not return them to the Guest Box." }, { item: "dental-kit", returnPolicy: "guest-use", keywords: ["toothbrush", "toothpaste", "dental kit"], answer: "Yes, disposable dental kits are available in the shared Guest Box. Please take only what you need." }, { item: "bandage", returnPolicy: "guest-use", keywords: ["bandage", "band-aid", "plaster"], answer: "Yes, bandages are available in the shared Guest Box. Please take only what you need." }, { item: "travel-adapter", returnPolicy: "return", keywords: ["travel adapter", "plug adapter", "power adapter"], answer: "Yes, travel adapters are available in the shared Guest Box. Please return the adapter after use." }, { item: "wet-wipes", returnPolicy: "guest-use", keywords: ["wet wipes", "wet wipe"], answer: "Yes, wet wipes are available in the shared Guest Box. Please take only what you need." }, { item: "plastic-bag", returnPolicy: "guest-use", keywords: ["plastic bag", "plastic bags"], answer: "Yes, plastic bags are available in the shared Guest Box. Please take only what you need." }],
+    ja: [{ item: "hair-dryer", returnPolicy: "shared-use", keywords: ["ヘアドライヤー", "ドライヤー"], answer: "はい、ヘアドライヤーは共用バスルームにあります。ヘアアイロンは共用キッチンの冷蔵庫横にあるGUEST BOXにあります。" }, { item: "hair-straightener", returnPolicy: "return", keywords: ["ヘアアイロン"], answer: "はい、ヘアアイロンは共用スペースのゲストボックスにあります。使用後は元の場所へ戻してください。" }, { item: "extra-towel", returnPolicy: "guest-use", keywords: ["予備タオル", "タオル"], answer: "はい、予備タオルは共用キッチンの冷蔵庫横にあるGUEST BOXとシャワー室の棚にあります。使用済みタオルはシャワー室前のかごに入れ、GUEST BOXへ戻さないでください。" }, { item: "dental-kit", returnPolicy: "guest-use", keywords: ["歯ブラシ", "歯磨き", "歯みがき"], answer: "はい、使い捨て歯ブラシセットは共用スペースのゲストボックスにあります。必要な分だけお取りください。" }, { item: "bandage", returnPolicy: "guest-use", keywords: ["絆創膏", "ばんそうこう"], answer: "はい、絆創膏は共用スペースのゲストボックスにあります。必要な分だけお取りください。" }, { item: "travel-adapter", returnPolicy: "return", keywords: ["旅行用アダプター", "変換アダプター", "電源アダプター"], answer: "はい、旅行用アダプターは共用スペースのゲストボックスにあります。使用後は元の場所へ戻してください。" }, { item: "wet-wipes", returnPolicy: "guest-use", keywords: ["ウェットティッシュ"], answer: "はい、ウェットティッシュは共用スペースのゲストボックスにあります。必要な分だけお取りください。" }, { item: "plastic-bag", returnPolicy: "guest-use", keywords: ["ビニール袋", "ポリ袋"], answer: "はい、ビニール袋は共用スペースのゲストボックスにあります。必要な分だけお取りください。" }],
+    zh: [{ item: "hair-dryer", returnPolicy: "shared-use", keywords: ["吹风机", "电吹风"], answer: "有，吹风机放在公共浴室。公共厨房冰箱旁的GUEST BOX内另有直发器。" }, { item: "hair-straightener", returnPolicy: "return", keywords: ["直发器", "夹板"], answer: "有，公共区域的住客用品箱内备有直发器。使用后请放回原位。" }, { item: "extra-towel", returnPolicy: "guest-use", keywords: ["备用毛巾", "额外毛巾", "毛巾"], answer: "有，备用毛巾放在公共厨房冰箱旁的GUEST BOX和淋浴间搁板上。用过的毛巾请放入淋浴间外的毛巾篮，不要放回GUEST BOX。" }, { item: "dental-kit", returnPolicy: "guest-use", keywords: ["牙刷", "牙膏", "牙具"], answer: "有，公共区域的住客用品箱内备有一次性牙具。请按需取用。" }, { item: "bandage", returnPolicy: "guest-use", keywords: ["创可贴", "止血贴"], answer: "有，公共区域的住客用品箱内备有创可贴。请按需取用。" }, { item: "travel-adapter", returnPolicy: "return", keywords: ["旅行转换插头", "转换插头", "转换器"], answer: "有，公共区域的住客用品箱内备有旅行转换插头。使用后请放回原位。" }, { item: "wet-wipes", returnPolicy: "guest-use", keywords: ["湿巾"], answer: "有，公共区域的住客用品箱内备有湿巾。请按需取用。" }, { item: "plastic-bag", returnPolicy: "guest-use", keywords: ["塑料袋"], answer: "有，公共区域的住客用品箱内备有塑料袋。请按需取用。" }],
+    "zh-TW": [{ item: "hair-dryer", returnPolicy: "shared-use", keywords: ["吹風機", "電吹風"], answer: "有，吹風機放在公共浴室。公共廚房冰箱旁的GUEST BOX內另有直髮器。" }, { item: "hair-straightener", returnPolicy: "return", keywords: ["直髮器", "離子夾"], answer: "有，公共區域的住客用品箱內備有直髮器。使用後請放回原位。" }, { item: "extra-towel", returnPolicy: "guest-use", keywords: ["備用毛巾", "額外毛巾", "毛巾"], answer: "有，備用毛巾放在公共廚房冰箱旁的GUEST BOX和淋浴間擱板上。用過的毛巾請放入淋浴間外的毛巾籃，不要放回GUEST BOX。" }, { item: "dental-kit", returnPolicy: "guest-use", keywords: ["牙刷", "牙膏", "牙具"], answer: "有，公共區域的住客用品箱內備有一次性牙具。請按需取用。" }, { item: "bandage", returnPolicy: "guest-use", keywords: ["OK繃", "創可貼"], answer: "有，公共區域的住客用品箱內備有OK繃。請按需取用。" }, { item: "travel-adapter", returnPolicy: "return", keywords: ["旅行轉接頭", "轉接頭", "轉換插頭"], answer: "有，公共區域的住客用品箱內備有旅行轉接頭。使用後請放回原位。" }, { item: "wet-wipes", returnPolicy: "guest-use", keywords: ["溼紙巾", "濕紙巾", "溼巾"], answer: "有，公共區域的住客用品箱內備有溼紙巾。請按需取用。" }, { item: "plastic-bag", returnPolicy: "guest-use", keywords: ["塑膠袋"], answer: "有，公共區域的住客用品箱內備有塑膠袋。請按需取用。" }]
   },
   laundry: {
     ko: [{ keywords: ["세탁세제", "세제", "섬유유연제"], answer: "네, 세탁세제와 섬유유연제가 준비되어 있습니다. 세탁기 위 선반에 있어요." }, { keywords: ["건조기"], answer: "네, 숙소에 건조기가 있습니다. 밤 10시 이전에 사용을 마쳐 주세요." }, { keywords: ["세탁기"], answer: "네, 숙소에 세탁기가 있습니다. 세제와 섬유유연제는 위 선반에 있어요." }, { keywords: ["몇시까지", "이용시간", "사용시간"], answer: "세탁기와 건조기는 밤 10시 이전에 사용을 마쳐 주세요." }],
@@ -146,7 +184,9 @@ const quickDirectAnswers = (topic, language) => {
     "zh-TW": [{ keywords: ["洗滌劑", "洗衣精", "柔軟精"], answer: "有，住宿備有洗滌劑和柔軟精，放在洗衣機上方的層架上。" }, { keywords: ["烘乾機"], answer: "有，住宿內配有烘乾機。請在22:00前結束使用。" }, { keywords: ["洗衣機"], answer: "有，住宿內配有洗衣機。洗滌劑和柔軟精放在上方層架上。" }, { keywords: ["幾點結束", "使用時間", "到幾點"], answer: "請在22:00前結束使用洗衣機和烘乾機。" }]
   }
   }[topic]?.[language] || []);
-  return topic === "appliances" ? [PROPERTY_MEDICINE_DIRECT_ANSWERS[language], ...answers] : answers;
+  if (topic === "appliances") return [PROPERTY_MEDICINE_DIRECT_ANSWERS[language], ...answers];
+  if (topic === "rules") return [...answers, ...OPERATIONS_DIRECT_ANSWERS[language]];
+  return answers;
 };
 
 const compactPageLines = page => [
@@ -170,7 +210,9 @@ const quickGuideTopics = language => {
   const tv = localize(data.applianceNotice, language);
   const luggageLead = { ko: "네, 짐 보관이 가능합니다.", en: "Yes, luggage storage is available.", ja: "はい、荷物を保管できます。", zh: "可以寄存行李。", "zh-TW": "可以寄放行李。" }[language];
   const wifiPolicy = { ko: "Wi-Fi 비밀번호는 현재 숙소 Wi-Fi 안내 화면 또는 예약 플랫폼 메시지에서 확인해 주세요.", en: "Check the current Wi-Fi guide screen or your booking-platform message for the password.", ja: "Wi-Fiパスワードは宿のWi-Fi案内画面または予約プラットフォームのメッセージで確認してください。", zh: "Wi-Fi 密码请查看住宿的 Wi-Fi 指南页面或预订平台消息。", "zh-TW": "Wi-Fi 密碼請查看住宿的 Wi-Fi 指南頁面或預訂平台訊息。" }[language];
-  const checkoutLuggage = (stay.checkout.sections || []).at(-1)?.steps || [];
+  const checkoutLuggage = (stay.checkout.sections || []).find(section =>
+    (section.steps || []).some(step => /시간 제한|time limit|時間制限|时间限制|時間限制/.test(step))
+  )?.steps || [];
   const answer = lines => lines.filter(value => typeof value === "string" && value.trim()).join("\n");
   return [
     { id: "luggage", keywords: QUICK_TOPIC_KEYWORDS.luggage[language], answer: answer([luggageLead, stay.luggage.value, stay.luggage.note, ...checkoutLuggage]), source: pageUrl("checkin") },
@@ -430,14 +472,15 @@ const verifiedNearbyPlaces = [
 
 const knowledge = {
   version: VERSION,
-  generatedAt: "2026-09-11",
-  sourceOfTruth: "Current rendered site data",
+  generatedAt: "2026-09-23",
+  sourceOfTruth: "Another House operations manual synchronized with current rendered site data",
   canonicalUrl: SITE_URL,
   languages,
   property: localized(language => ({
     name: data.brand,
     type: language === "ko" ? "여성 전용 숙소" : language === "ja" ? "女性専用宿泊施設" : language === "zh" ? "女性专用住宿" : language === "zh-TW" ? "女性專用住宿" : "Women-only accommodation",
     address: localize(data.address, language),
+    postalCode: localize(data.postalCode, language),
     nearestStation: localize(data.station, language),
     contact: localize(data.contact, language),
     maps
@@ -591,7 +634,14 @@ const knowledge = {
     publicInformationMustBeSearched: true,
     accommodationFactsMustComeFromThisKnowledge: true
   },
-  provenance: [...sourceScripts, "assets/gimpo-line5-timetable.json"]
+  conciergeTraining: {
+    version: conciergeTraining.version,
+    recordCount: conciergeTraining.recordCount,
+    intentCount: conciergeTraining.intentCount,
+    secretAnswerRowsExcluded: conciergeTraining.secretAnswerRowsExcluded,
+    source: conciergeTraining.source
+  },
+  provenance: [...sourceScripts, "assets/gimpo-line5-timetable.json", "api/concierge-training.json"]
 };
 
 const json = `${JSON.stringify(knowledge, null, 2)}\n`;
@@ -600,6 +650,9 @@ await writeFile(resolve(root, "assets/guide-knowledge.json"), json);
 
 const audit = `# Concierge knowledge audit\n\nVersion: ${VERSION}\n\n| Area | Current page source | Previous chatbot state | Unified result |\n|---|---|---|---|\n| Address, check-in/out, transport, parking, luggage, rules | Current rendered page data | Sent ad hoc from the browser | Generated into one server-owned knowledge bundle |\n| Five-language quick guide | The same current page data in Korean, English, Japanese, Simplified Chinese and Traditional Chinese | Browser fallback omitted several property topics and the server could misclassify them as public search | Eleven common property topics are generated once and shared by the server and browser fallback |\n| Appliances, laundry, waste | Current page instructions; official manuals are secondary | Sent ad hoc from the browser | Current page text is primary; manual links remain supporting sources |\n| Nearby essentials | Naver Maps plus official venue/public sources | Depended on live search even for common needs | Seven property-specific places are pre-verified with exact addresses and map links |\n| Restaurants and tours | 26 restaurant cards and 21 tour cards | Loaded only for matching browser keywords | Included as clearly labeled host recommendations |\n| Wi-Fi | Network and password are visible on the Wi-Fi screen | Password could be sent to the model | Network retained; password deliberately excluded as sensitive |\n| Door/access and reservation data | Page tells guests where to retrieve guest-specific information | Could be mixed into browser context | Codes, room assignment, booking status and guest-specific details are prohibited |\n| General public information | Not part of the property manual | Previously rejected | Official-source web search is permitted only for non-property public questions |\n| Emergency | Booking-platform contact plus Korean public emergency services | No dedicated normalized section | 112/119 and official agency sources added; property-specific issues still use the booking platform |\n\nThe generator executes the same ordered data scripts as the website. Tests regenerate the bundle and fail if it is stale or contains the known Wi-Fi password.\n`;
 const auditWithAirport = audit.replace("Eleven common property topics", "Twelve common property topics").replace(
+  "| Appliances, laundry, waste |",
+  `| Operations Q&A training | ${conciergeTraining.recordCount} historical guest questions from ${conciergeTraining.source.trainingSheet} | Exact long keywords failed on short expressions such as “짐” | ${conciergeTraining.intentCount} normalized intents route short and varied wording to current verified answers; ${conciergeTraining.secretAnswerRowsExcluded} credential-containing answer rows are excluded from general model knowledge |\n| Appliances, laundry, waste |`
+).replace(
   "| General public information |",
   "| Airport departures | Official K Airport Limousine, Incheon Airport and Seoul Metro timetables | Depended on live search and often missed embedded timetable rows | Every 6702/N6701 departure and every relevant Line 5 train to Gimpo Airport are pre-verified and selected deterministically |\n| General public information |"
 );

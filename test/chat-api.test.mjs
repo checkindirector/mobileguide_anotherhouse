@@ -73,7 +73,7 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.equal(request.body.tool_choice, undefined);
   assert.equal(request.body.include, undefined);
   assert.equal(request.body.reasoning.effort, "low");
-  assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-09-14\.5/);
+  assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-09-23\.1/);
   assert.match(request.body.instructions, /The very first sentence must give the conclusion/);
   assert.match(request.body.instructions, /Never paste or paraphrase an entire guide section/);
   assert.match(request.body.instructions, /most likely immediate next need/);
@@ -86,7 +86,7 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.match(request.body.instructions, /503호 앞 러기지룸/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB|"dryCapacityKg":4\.5/);
   assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-14.5-ko-home");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-23.1-ko-home");
   assert.doesNotMatch(request.body.input.at(-1).content, /GUIDE_KNOWLEDGE|CURRENT_GUIDE/);
   assert.ok(request.body.instructions.length < 30000);
   assert.equal(res.payload.meta.cachedTokens, 80);
@@ -95,24 +95,24 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.equal(res.payload.links[0].url, "https://anotherhouse-guide.vercel.app/?page=home");
 });
 
-test("site knowledge is answered naturally through the model in all five languages", async () => {
+test("luggage storage is answered deterministically in all five languages", async () => {
   const cases = [
-    ["짐보관 가능한지", "ko", "네, 503호 앞 러기지룸에 체크아웃 당일 23:00까지 무료로 보관할 수 있습니다.\nGUIDE_PAGE: checkin", /503호 앞.*23:00/s],
-    ["Can I store luggage?", "en", "Yes. Use the luggage room in front of Room 503 free of charge until 23:00 on checkout day.\nGUIDE_PAGE: checkin", /Room 503.*23:00/s],
-    ["荷物を預けられますか", "ja", "はい。503号室前のラゲッジルームに、チェックアウト当日の23時まで無料で預けられます。\nGUIDE_PAGE: checkin", /503号室.*23時/s],
-    ["可以寄存行李吗", "zh", "可以。您可免费寄存在503号房前的行李房，使用至退房当天23:00。\nGUIDE_PAGE: checkin", /503号房.*23:00/s],
-    ["可以寄放行李嗎", "zh-TW", "可以。您可免費寄放在503號房前的行李房，使用至退房當天23:00。\nGUIDE_PAGE: checkin", /503號房.*23:00/s]
+    ["짐보관 가능한지", "ko", /시간 제한 없이.*503호 앞/s],
+    ["Can I store luggage?", "en", /Room 503.*no time limit|no time limit.*Room 503/s],
+    ["荷物を預けられますか", "ja", /時間制限なく.*503号室/s],
+    ["可以寄存行李吗", "zh", /503号房.*无时间限制|无时间限制.*503号房/s],
+    ["可以寄放行李嗎", "zh-TW", /503號房.*無時間限制|無時間限制.*503號房/s]
   ];
   for (let index = 0; index < cases.length; index += 1) {
-    const [message, language, outputText, expected] = cases[index];
-    const { res, request, requests } = await callApi({ message, language, history: [] }, { model: "gpt-5.4-mini", output_text: outputText, output: [], usage: {} }, `203.0.113.${110 + index}`);
-    assert.equal(requests.length, 1);
+    const [message, language, expected] = cases[index];
+    const { res, requests } = await callApi({ message, language, history: [] }, { model: "gpt-5.4-mini", output_text: "unused", output: [], usage: {} }, `203.0.113.${110 + index}`);
+    assert.equal(requests.length, 0);
     assert.equal(res.statusCode, 200);
-    assert.equal(res.payload.model, "gpt-5.4-mini");
+    assert.equal(res.payload.model, "another-house-verified-training");
     assert.equal(res.payload.meta.searched, false);
-    assert.equal(request.body.tool_choice, undefined);
-    assert.equal(request.body.tools, undefined);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.5");
+    assert.equal(res.payload.meta.verifiedTraining, true);
+    assert.equal(res.payload.meta.trainingIntent, "luggage");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-23.1");
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
     assert.match(res.payload.answer, expected);
     assert.doesNotMatch(res.payload.answer, /최신 공개정보|public information|公开信息|公開資訊/);
@@ -121,12 +121,39 @@ test("site knowledge is answered naturally through the model in all five languag
   assert.equal(handler._internals.searchLevelFor("서울역 짐보관 장소 어디야?"), "medium");
 });
 
+test("short luggage words and the full staff question set resolve to trained intents", async () => {
+  const aliases = [["짐", "ko"], ["luggage", "en"], ["荷物", "ja"], ["行李", "zh"], ["行李", "zh-TW"]];
+  for (let index = 0; index < aliases.length; index += 1) {
+    const [message, language] = aliases[index];
+    const { res, requests } = await callApi({ message, language, history: [] }, { output_text: "unused" }, `203.0.113.${120 + index}`);
+    assert.equal(requests.length, 0);
+    assert.equal(res.payload.meta.trainingIntent, "luggage");
+    assert.match(res.payload.answer, /503|Room 503/);
+  }
+  for (const intent of handler._internals.CONCIERGE_TRAINING.intents) {
+    for (const example of intent.examples) {
+      assert.equal(handler._internals.trainingIntentFromQuestion(example, "ko")?.id, intent.id, `${intent.id}: ${example}`);
+    }
+  }
+  assert.equal(handler._internals.trainingIntentFromQuestion("서울역 짐 보관소 어디야?", "ko"), null);
+  assert.equal(handler._internals.trainingIntentFromQuestion("분실물 문의", "ko")?.id, "lost-property");
+  assert.equal(handler._internals.trainingIntentFromQuestion("예약 확인 메일이 안 왔어요", "ko")?.id, "booking-confirmation");
+  assert.equal(handler._internals.trainingIntentFromQuestion("연박하고 싶어요", "ko")?.id, "stay-extension");
+  assert.equal(handler._internals.trainingIntentFromQuestion("방 청소 가능한가요?", "ko")?.id, "housekeeping");
+  assert.notEqual(handler._internals.trainingIntentFromQuestion("체크아웃 연장 가능한가요?", "ko")?.id, "stay-extension");
+});
+
 test("nuanced property questions use the complete guide without a forced search", async () => {
   const cases = [
     ["Can I check in late?", "en", "checkin", "Self check-in is available from 15:00. Please follow the kiosk instructions."],
     ["住宿可以停车吗", "zh", "checkin", "不可以，大楼内不提供停车位。请使用附近的付费停车场。"],
     ["싱글룸이 몇 개야?", "ko", "gallery", "싱글룸은 11실입니다."],
-    ["Wi-Fi는 사용할 수 있나요?", "ko", "wifi", "네, Wi-Fi를 이용할 수 있습니다."]
+    ["Wi-Fi는 사용할 수 있나요?", "ko", "wifi", "네, Wi-Fi를 이용할 수 있습니다."],
+    ["키카드", "ko", "checkin", "키카드는 체크인 후 수령하며 숙소 출입구와 객실 문에 모두 필요합니다."],
+    ["Key card", "en", "checkin", "You receive the key card after check-in and need it for both entrances."],
+    ["キーカード", "ja", "checkin", "キーカードはチェックイン後に受け取り、入口と客室の両方で必要です。"],
+    ["房卡", "zh", "checkin", "房卡在入住后领取，住宿入口和房门都需要使用。"],
+    ["房卡", "zh-TW", "checkin", "房卡在入住後領取，住宿入口和房門都需要使用。"]
   ];
   for (let index = 0; index < cases.length; index += 1) {
     const [message, language, route, outputText] = cases[index];
@@ -184,21 +211,22 @@ test("device capacity questions answer the requested attribute rather than exist
   }
 });
 
-test("hair dryers are never confused with the listed hair straightener in all five languages", async () => {
+test("hair dryers are confirmed in the shared bathroom and kept distinct from the hair straightener", async () => {
   const cases = [
-    ["드라이기 있나요?", "ko", /헤어드라이어 제공 여부가 확인되지 않습니다/, /고데기만/],
-    ["드라이어 있나요?", "ko", /헤어드라이어 제공 여부가 확인되지 않습니다/, /고데기만/],
-    ["Is there a hair dryer?", "en", /does not confirm that a hair dryer is provided/, /only a hair straightener/],
-    ["Do you have a blow dryer?", "en", /does not confirm that a hair dryer is provided/, /only a hair straightener/],
-    ["ドライヤーはありますか", "ja", /ヘアドライヤーの用意は確認できません/, /ヘアアイロンのみ/],
-    ["有吹风机吗？", "zh", /未确认提供吹风机/, /仅明确列有直发器/],
-    ["有吹風機嗎？", "zh-TW", /未確認提供吹風機/, /僅明確列有直髮器/]
+    ["드라이기 있나요?", "ko", /네, 헤어드라이어는 공용 욕실/, /헤어 고데기.*GUEST BOX/],
+    ["드라이어 있나요?", "ko", /네, 헤어드라이어는 공용 욕실/, /헤어 고데기.*GUEST BOX/],
+    ["Is there a hair dryer?", "en", /Yes, hair dryers are provided in the shared bathroom/, /hair straightener.*GUEST BOX/],
+    ["Do you have a blow dryer?", "en", /Yes, hair dryers are provided in the shared bathroom/, /hair straightener.*GUEST BOX/],
+    ["ドライヤーはありますか", "ja", /ヘアドライヤーは共用バスルーム/, /ヘアアイロン.*GUEST BOX/],
+    ["有吹风机吗？", "zh", /有，吹风机放在公共浴室/, /直发器/],
+    ["有吹風機嗎？", "zh-TW", /有，吹風機放在公共浴室/, /直髮器/]
   ];
   for (const [message, language, expected, distinction] of cases) {
     const res = await callAccess({ message, language, history: [] });
     assert.equal(res.statusCode, 200);
     assert.equal(res.payload.model, "another-house-verified-amenity");
     assert.equal(res.payload.meta.item, "hair-dryer");
+    assert.equal(res.payload.meta.returnPolicy, "shared-use");
     assert.match(res.payload.answer, expected);
     assert.match(res.payload.answer, distinction);
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "appliances"]]);
@@ -214,13 +242,13 @@ test("the listed hair straightener remains explicitly available", async () => {
   assert.doesNotMatch(res.payload.answer, /드라이기.*있/);
 });
 
-test("extra towels are guest-use supplies and are never described as returnable in all five languages", async () => {
+test("extra towels show both locations and the used-towel basket in all five languages", async () => {
   const cases = [
-    ["여분 수건 있나요?", "ko", /네, 여분 수건은.*게스트박스/, /반납해|돌려놓아|제자리에/],
-    ["Are extra towels available?", "en", /Yes, extra towels are available.*Guest Box/, /please\s+return|put\s+(?:it|them)\s+back/i],
-    ["予備のタオルはありますか", "ja", /予備のタオルは.*ゲストボックス/, /元の場所へ戻してください|返却してください/],
-    ["有备用毛巾吗？", "zh", /有.*备用毛巾/, /请(?:归还|放回)/],
-    ["有備用毛巾嗎？", "zh-TW", /有.*備用毛巾/, /請(?:歸還|放回)/]
+    ["여분 수건 있나요?", "ko", /GUEST BOX와 샤워실 선반/, /타월 바구니/],
+    ["Are extra towels available?", "en", /GUEST BOX.*shower-room shelf/s, /basket outside the showers/],
+    ["予備のタオルはありますか", "ja", /GUEST BOXとシャワー室の棚/, /シャワー室前のかご/],
+    ["有备用毛巾吗？", "zh", /GUEST BOX和淋浴间搁板/, /毛巾篮/],
+    ["有備用毛巾嗎？", "zh-TW", /GUEST BOX和淋浴間擱板/, /毛巾籃/]
   ];
   for (const [message, language, expected, forbidden] of cases) {
     const res = await callAccess({ message, language, history: [] });
@@ -229,7 +257,7 @@ test("extra towels are guest-use supplies and are never described as returnable 
     assert.equal(res.payload.meta.item, "extra-towel");
     assert.equal(res.payload.meta.returnPolicy, "guest-use");
     assert.match(res.payload.answer, expected);
-    assert.doesNotMatch(res.payload.answer, forbidden);
+    assert.match(res.payload.answer, forbidden);
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "appliances"]]);
   }
 });
@@ -318,11 +346,11 @@ test("a laundry problem is handled by the AI instead of a generic keyword dump",
 
 test("late checkout proactively offers same-day luggage storage without OpenAI", async () => {
   const cases = [
-    ["레이트 체크아웃 가능한가요?", "ko", /대신.*체크아웃 당일 밤 11시까지.*짐을 무료로 보관/s],
-    ["Can I get a late check-out?", "en", /However.*luggage.*Room 503.*23:00/s],
-    ["レイトチェックアウトできますか？", "ja", /ただし.*23時まで.*503号室前.*荷物を無料/s],
-    ["可以延迟退房吗？", "zh", /不过.*23:00前.*免费寄存.*503号房前/s],
-    ["可以延遲退房嗎？", "zh-TW", /不過.*23:00前.*免費寄放.*503號房前/s]
+    ["레이트 체크아웃 가능한가요?", "ko", /대신.*체크아웃 당일.*시간 제한 없이.*짐을 무료로 보관/s],
+    ["Can I get a late check-out?", "en", /However.*Room 503.*no time limit/s],
+    ["レイトチェックアウトできますか？", "ja", /ただし.*時間制限なく.*503号室前.*荷物を無料/s],
+    ["可以延迟退房吗？", "zh", /不过.*免费.*503号房前.*无时间限制/s],
+    ["可以延遲退房嗎？", "zh-TW", /不過.*免費.*503號房前.*無時間限制/s]
   ];
   let ip = 220;
   for (const [message, language, expected] of cases) {
@@ -330,7 +358,7 @@ test("late checkout proactively offers same-day luggage storage without OpenAI",
     assert.equal(requests.length, 0);
     assert.equal(res.payload.model, "another-house-verified-checkout");
     assert.equal(res.payload.meta.verifiedLateCheckout, true);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.5");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-23.1");
     assert.match(res.payload.answer, expected);
     assert.equal(res.payload.links[0].route, "checkin");
     assert.match(res.payload.links[0].url, /\?page=checkin$/);
@@ -352,7 +380,7 @@ test("early check-in adds pre-check-in luggage storage in every language without
     assert.equal(res.payload.model, "another-house-verified-checkin");
     assert.equal(res.payload.meta.verifiedEarlyCheckin, true);
     assert.equal(res.payload.meta.searched, false);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.5");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-23.1");
     assert.equal(res.payload.links[0].route, "checkin");
     assert.match(res.payload.answer, expected);
   }
@@ -498,7 +526,7 @@ test("a route with no origin defaults to Another House and uses compact route kn
   assert.match(request.body.instructions, /동대문역 6번 출구/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB/);
   assert.ok(request.body.instructions.length < 25000);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-14.5-ko-route");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-23.1-ko-route");
   assert.equal(res.payload.meta.guideRoute, "transport");
   assert.deepEqual(res.payload.links.at(-1), handler._internals.guidePageLink("transport", "ko"));
 });
@@ -613,7 +641,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.mode, "night");
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.5");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-23.1");
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
@@ -755,7 +783,7 @@ test("time-specific family dining combines current search with the complete loca
   assert.equal(request.body.reasoning.effort, "medium");
   assert.equal(res.payload.model, "gpt-5.4-mini");
   assert.equal(res.payload.meta.searched, true);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-14.5");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-23.1");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더(?:가)? 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);
@@ -1024,6 +1052,28 @@ test("the server-only code is released only after repeated key-card failure cont
   assert.match(res.payload.answer, /TESTACCESSCODE → ENT/);
   assert.equal(res.payload.meta.accessSupport, true);
   assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
+});
+
+test("a short tell-me reply releases the code only after the verified recovery failure flow", async () => {
+  const cases = [
+    ["ko", "키카드를 놓고 나와서 못 들어가요", "전화가 안됩니다", "알려주세요"],
+    ["en", "I left my key card and cannot enter", "The phone is not working", "Tell me"],
+    ["ja", "キーカードを忘れて入れない", "電話がつながらない", "教えてください"],
+    ["zh", "忘带房卡，无法进入", "电话不通", "请告诉我"],
+    ["zh-TW", "忘帶房卡，無法進入", "電話不通", "請告訴我"]
+  ];
+  for (const [language, issue, failure, request] of cases) {
+    const history = [
+      { role: "user", text: issue },
+      { role: "assistant", text: "Use the kiosk phone." },
+      { role: "user", text: failure },
+      { role: "assistant", text: "Reply with the short confirmation." }
+    ];
+    const res = await callAccess({ message: request, language, history });
+    assert.match(res.payload.answer, /TESTACCESSCODE/);
+    assert.equal(res.payload.meta.accessSupport, true);
+  }
+  assert.equal(handler._internals.anotherHouseAccessSupport("알려주세요", [], "ko"), null);
 });
 
 test("natural phone failure wording stays inside the Another House recovery flow", async () => {

@@ -102,7 +102,7 @@
       {
         name: I('동대문호텔 민영 주차장', 'Dongdaemun Hotel private parking', '東大門ホテル民営駐車場', '东大门酒店私人停车场', "東大門酒店私人停車場"),
         address: I('서울 종로구 창신동 444-1', '444-1 Changsin-dong, Jongno-gu, Seoul', 'ソウル特別市 鍾路区 昌信洞 444-1', '首尔特别市钟路区昌信洞444-1', "首爾特別市鍾路區昌信洞444-1"),
-        note: I('1시간 4,000원 · 하루 최대 20,000원', '₩4,000 per hour · up to ₩20,000 per day', '1時間4,000ウォン · 1日最大20,000ウォン', '每小时4,000韩元 · 每天最高20,000韩元', "每小時4,000韓元 · 每天最高20,000韓元")
+        note: I('주차 시 “선일빌딩 방문”이라고 말씀해 주세요. 1시간 4,000원 · 하루 최대 약 20,000원(입차 전 현장 확인)', 'Tell the attendant you are visiting Sunil Building. ₩4,000 per hour · about ₩20,000 maximum per day (confirm before entry)', '駐車時に「ソニルビル訪問」とお伝えください。1時間4,000ウォン・1日最大約20,000ウォン（入庫前に現地確認）', '停车时请说明“前往Sunil大厦”。每小时4,000韩元 · 每天最高约20,000韩元（入场前请现场确认）', "停車時請說明「前往Sunil大廈」。每小時4,000韓元 · 每天最高約20,000韓元（入場前請現場確認）")
       }
     ]
   };
@@ -111,10 +111,10 @@
     label: I('짐 보관', 'Luggage storage', '荷物保管', '行李寄存', "行李寄放"),
     value: I('503호 앞 짐 보관실', 'Luggage room in front of Room 503', '503号室前の荷物保管室', '503号房前的行李寄存室', "503號房前的行李寄放室"),
     note: I(
-      '체크인 전 이용에 필요한 출입 정보는 예약 플랫폼 메시지에서 확인해 주세요.',
-      'Check your booking-platform message for the access information needed before check-in.',
-      'チェックイン前の利用に必要な入館情報は予約プラットフォームのメッセージでご確認ください。',
-      '入住前使用寄存室所需的门禁信息，请在预订平台消息中确认。', "入住前使用寄存室所需的門禁資訊，請在預訂平台訊息中確認。"
+      '체크인·체크아웃 당일에는 시간 제한 없이 무료로 이용할 수 있습니다. 체크인 전 출입 정보는 예약 플랫폼 메시지에서 확인해 주세요.',
+      'It is free to use at any time on your check-in or check-out day, with no time limit. Before check-in, check your booking-platform message for access information.',
+      'チェックイン日・チェックアウト当日は時間制限なく無料で利用できます。チェックイン前の入館情報は予約プラットフォームのメッセージでご確認ください。',
+      '入住或退房当天可免费使用，且无时间限制。入住前所需的门禁信息请查看预订平台消息。', "入住或退房當天可免費使用，且無時間限制。入住前所需的門禁資訊請查看預訂平台訊息。"
     )
   };
 
@@ -143,49 +143,59 @@
           '15:00 이후 5층 키오스크에서 예약 바우처에 적힌 예약자 이름 또는 예약 번호 뒤 4자리로 예약을 조회합니다.',
           '화면 안내에 따라 셀프 체크인을 완료하고 객실 번호와 카드키를 확인합니다.',
           '체크인 후에는 카드키를 출입구 옆 기기에 태그하여 문을 엽니다.',
-          '짐은 503호 앞 러기지룸에 보관할 수 있습니다. 체크인 전 짐 보관을 위한 출입정보는 예약 메시지에서 확인해 주세요.',
-          '얼리 체크인은 객실 준비 사정상 불가능합니다.'
+          '체크인·체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 짐을 무료로 보관할 수 있습니다. 체크인 전 출입정보는 예약 메시지에서 확인해 주세요.',
+          '얼리 체크인은 객실 준비 사정상 불가능합니다.',
+          '15:00 이후에는 늦게 도착해도 키오스크에서 언제든지 비대면 체크인할 수 있습니다.',
+          '카드키는 숙소 출입구와 객실 문에 모두 필요하며 재발급되지 않으니, 외출할 때 반드시 소지해 주세요.'
         ],
         [
           'Check the arrival instructions sent through your booking platform between the day before check-in and 09:00 on arrival day.',
           'After 15:00, use the kiosk on the 5th floor and search with the name shown on the booking voucher or the last four digits of the reservation number.',
           'Complete self check-in on screen and confirm your room number and key card.',
           'After check-in, tap the key card on the reader beside the entrance.',
-          'Luggage can be stored in the luggage room in front of Room 503. For luggage access before check-in, use the access information in your booking message.',
-          'Early check-in is not available because rooms need time to be prepared.'
+          'On your check-in or check-out day, you can store luggage free of charge in the luggage room in front of Room 503 with no time limit. Before check-in, use the access information in your booking message.',
+          'Early check-in is not available because rooms need time to be prepared.',
+          'If you arrive late, you can still use the kiosk for contactless check-in at any time after 15:00.',
+          'The key card is required for both the property entrance and your room. It cannot be reissued, so always take it with you when you go out.'
         ],
         [
           'チェックイン前日から当日9:00までに予約プラットフォームのメッセージで届く案内をご確認ください。',
           '15:00以降、5階のキオスクで予約バウチャー記載の予約者名、または予約番号の下4桁で予約を検索します。',
           '画面案内に従ってセルフチェックインを完了し、客室番号とカードキーをご確認ください。',
           'チェックイン後は入口横の端末にカードキーをかざして入館します。',
-          '荷物は503号室前のラゲッジルームに保管できます。チェックイン前の荷物預かり用入館情報は予約メッセージでご確認ください。',
-          '客室準備の都合上、アーリーチェックインはご利用いただけません。'
+          'チェックイン日・チェックアウト当日は時間制限なく、503号室前のラゲッジルームに無料で荷物を預けられます。チェックイン前の入館情報は予約メッセージでご確認ください。',
+          '客室準備の都合上、アーリーチェックインはご利用いただけません。',
+          '到着が遅くなっても、15:00以降はキオスクでいつでも非対面チェックインができます。',
+          'カードキーは宿の入口と客室の両方で必要です。再発行できないため、外出時は必ずお持ちください。'
         ],
         [
           '请查看入住前一天至入住当日上午9:00之间通过预订平台消息发送的入住说明。',
           '15:00后，在5层自助机上使用预订凭证中的姓名，或订单号后四位查询订单。',
           '按照屏幕提示完成自助入住，并确认房号和房卡。',
           '入住后请将房卡贴近入口旁的读卡器开门。',
-          '行李可寄存在503号房前的行李室。入住前寄存行李所需的门禁信息请查看预订消息。',
-          '因客房准备需要时间，无法提前入住。'
+          '入住或退房当天可免费将行李寄存在503号房前的行李室，且无时间限制。入住前所需的门禁信息请查看预订消息。',
+          '因客房准备需要时间，无法提前入住。',
+          '即使较晚抵达，15:00后也可随时通过自助机办理非接触式入住。',
+          '房卡用于住宿入口和房门，无法补发；外出时请务必随身携带。'
         ], [
           "請檢視入住前一天至入住當日上午9:00之間通過預訂平台訊息傳送的入住說明。",
           "15:00後，在5層自助機上使用預訂憑證中的姓名，或訂單號後四位查詢訂單。",
           "按照螢幕提示完成自助入住，並確認房號和房卡。",
           "入住後請將房卡貼近入口旁的讀卡器開門。",
-          "行李可寄存在503號房前的行李室。入住前寄存行李所需的門禁資訊請檢視預訂訊息。",
-          "因客房準備需要時間，無法提早入住。"
+          "入住或退房當天可免費將行李寄放在503號房前的行李室，且無時間限制。入住前所需的門禁資訊請檢視預訂訊息。",
+          "因客房準備需要時間，無法提早入住。",
+          "即使較晚抵達，15:00後也可隨時通過自助機辦理非接觸式入住。",
+          "房卡用於住宿入口和房門，無法補發；外出時請務必隨身攜帶。"
         ]
       )
     },
     {
       title: I('도움이 필요할 때', 'If you need help', 'サポートが必要な場合', '需要帮助时', "需要幫助時"),
       body: I(
-        '예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴)을 통해 메시지로 호스트에게 연락해 주세요.',
-        'Please contact the host by message through the platform you booked with (Booking.com, Agoda, or Trip.com).',
-        '予約したプラットフォーム（Booking.com、Agoda、Trip.com）のメッセージを通じてホストへご連絡ください。',
-        '请通过您预订的平台（Booking.com、Agoda或Trip.com）向房东发送消息。', "請通過您預訂的平台（Booking.com、Agoda或Trip.com）向房東傳送訊息。"
+        '직원 응대시간은 09:00–18:00입니다. 문의사항은 예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴)의 메시지로 남겨 주세요.',
+        'Staff respond from 09:00 to 18:00. Please send questions through the messaging service of your booking platform (Booking.com, Agoda, or Trip.com).',
+        'スタッフ対応時間は09:00〜18:00です。お問い合わせは予約サイト（Booking.com、Agoda、Trip.com）のメッセージでお送りください。',
+        '工作人员回复时间为09:00–18:00。请通过预订平台（Booking.com、Agoda或Trip.com）的消息功能咨询。', "工作人員回覆時間為09:00–18:00。請通過預訂平台（Booking.com、Agoda或Trip.com）的訊息功能諮詢。"
       )
     }
   ];
@@ -205,7 +215,7 @@
           '사용한 식기는 설거지 후 원위치하고, 쓰레기는 공용 주방에서 종류별로 분리해 주세요.',
           '사용한 수건은 샤워실 앞 파우더룸의 타월 바구니에 넣어 주세요.',
           '에너지 절약을 위해 객실 카드키를 뽑아 전원을 차단해 주세요.',
-          '키오스크에서 체크아웃을 선택한 뒤 카드키를 반납해 주세요.',
+          '키오스크에서 체크아웃을 선택한 뒤 안내에 따라 카드키를 천천히 반납해 주세요. 억지로 밀어 넣지 마세요.',
           '나오실 때 다른 투숙객의 안전을 위해 출입구 문이 완전히 닫혔는지 확인해 주세요.'
         ],
         [
@@ -213,7 +223,7 @@
           'Wash and return used dishes, then sort waste in the shared kitchen.',
           'Place used towels in the towel basket in the powder room outside the showers.',
           'Remove the room key card to switch off the room power.',
-          'Select checkout at the kiosk and return the key card.',
+          'Select checkout at the kiosk and slowly return the key card as instructed. Do not force it into the machine.',
           'For everyone’s safety, make sure the entrance door is fully closed when you leave.'
         ],
         [
@@ -221,7 +231,7 @@
           '使用した食器は洗って元に戻し、ごみは共用キッチンで分別してください。',
           '使用済みタオルはシャワー室前パウダールームのタオルかごに入れてください。',
           '省エネのため客室のカードキーを抜いて電源を切ってください。',
-          'キオスクでチェックアウトを選び、カードキーを返却してください。',
+          'キオスクでチェックアウトを選び、案内に従ってカードキーをゆっくり返却してください。無理に押し込まないでください。',
           '他のゲストの安全のため、退出時に入口の扉が完全に閉まったことをご確認ください。'
         ],
         [
@@ -229,14 +239,14 @@
           '使用过的餐具请清洗后放回原位，垃圾请在公共厨房分类投放。',
           '使用过的毛巾请放入淋浴间前化妆区的毛巾篮。',
           '为节约能源，请拔出客房房卡以切断电源。',
-          '在自助机上选择退房后归还房卡。',
+          '在自助机上选择退房，按照提示缓慢归还房卡，请勿用力塞入。',
           '为保障其他住客安全，离开时请确认入口门已完全关闭。'
         ], [
           "確認沒有遺留個人物品，並將使用過的公共用品放回原位。",
           "使用過的餐具請清洗後放回原位，垃圾請在公共廚房分類投放。",
           "使用過的毛巾請放入淋浴間前化妝區的毛巾籃。",
           "為節約能源，請拔出客房房卡以切斷電源。",
-          "在自助機上選擇退房後歸還房卡。",
+          "在自助機上選擇退房，按照提示緩慢歸還房卡，請勿用力塞入。",
           "為保障其他住客安全，離開時請確認入口門已完全關閉。"
         ]
       )
@@ -244,13 +254,24 @@
     {
       title: I('체크아웃 후 짐 보관', 'Luggage after checkout', 'チェックアウト後の荷物', '退房后寄存行李', "退房後寄存行李"),
       steps: I(
-        ['체크아웃 당일에 한해 러기지룸에 무료로 보관할 수 있습니다.', '레이트 체크아웃은 불가합니다.'],
-        ['Free luggage storage is available in the luggage room until later on the day of checkout.', 'Late checkout is not available.'],
-        ['チェックアウト当日に限り、ラゲッジルームで無料保管できます。', 'レイトチェックアウトはできません。'],
-        ['仅限退房当天可在行李室免费寄存。', '不提供延迟退房。'], ["僅限退房當天可在行李室免費寄存。", "不提供延遲退房。"]
+        ['체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 무료로 보관할 수 있습니다.', '레이트 체크아웃은 불가합니다.'],
+        ['On the day of checkout, free luggage storage is available in the luggage room in front of Room 503 with no time limit.', 'Late checkout is not available.'],
+        ['チェックアウト当日は時間制限なく、503号室前のラゲッジルームに無料で保管できます。', 'レイトチェックアウトはできません。'],
+        ['退房当天可免费寄存在503号房前的行李室，且无时间限制。', '不提供延迟退房。'], ["退房當天可免費寄放在503號房前的行李室，且無時間限制。", "不提供延遲退房。"]
       )
     }
   ];
+
+  D.pages.checkout.sections.push({
+    title: I('머무름을 마치며', 'After your stay', 'ご滞在を終えて', '结束住宿后', '結束住宿後'),
+    steps: I(
+      ['편안하게 머무르셨다면 예약 플랫폼에 간단한 후기를 남겨 주세요.', '이용 중 아쉬웠던 점이나 개선이 필요한 부분은 예약 플랫폼 메시지로 알려주시면 운영에 반영하겠습니다.'],
+      ['If you enjoyed your stay, please leave a short review on your booking platform.', 'If anything could be improved, send us a message through your booking platform so we can follow up.'],
+      ['快適にお過ごしいただけましたら、予約サイトに短いレビューをお寄せください。', '気になった点や改善点は予約サイトのメッセージでお知らせください。今後の運営に反映します。'],
+      ['如果您住得满意，欢迎在预订平台留下简短评价。', '如有不便或需要改进之处，请通过预订平台消息告诉我们，我们会及时改进。'],
+      ['如果您住得滿意，歡迎在預訂平台留下簡短評價。', '如有不便或需要改進之處，請透過預訂平台訊息告訴我們，我們會及時改進。']
+    )
+  });
 
   D.pages.rules.sections = [
     {
@@ -303,6 +324,131 @@
       )
     }
   ];
+
+  D.pages.rules.sections.push(
+    {
+      title: I('투숙 및 운영 안내', 'Stay and service information', '宿泊・運営案内', '住宿与服务说明', '住宿與服務說明'),
+      steps: I(
+        [
+          '만 19세 미만 고객은 혼자 투숙할 수 없습니다. 법적 보호자와 동반하는 경우에만 가능하며, 보호자 동의서가 있어도 미성년자 단독 투숙은 불가합니다.',
+          '숙소는 무인 운영으로 택배 대리수령이 어렵습니다. 직접 수령하거나 위탁수령 가능한 서비스를 이용해 주세요.',
+          '직원 응대시간은 09:00–18:00입니다. 문의는 예약한 플랫폼의 메시지로 남겨 주세요.'
+        ],
+        [
+          'Guests under 19 cannot stay alone. They may stay only with a legal guardian; a consent form does not permit an unaccompanied minor to stay.',
+          'Because the property is unmanned, staff cannot receive parcels for guests. Please receive deliveries in person or use a service that accepts parcels on your behalf.',
+          'Staff respond from 09:00 to 18:00. Please contact us through your booking-platform messages.'
+        ],
+        [
+          '19歳未満の方のみでの宿泊はできません。法定保護者との同伴時のみ宿泊でき、同意書があっても未成年者だけでは宿泊できません。',
+          '無人運営のため、荷物や宅配便の代理受取はできません。ご本人で受け取るか、受取代行サービスをご利用ください。',
+          'スタッフ対応時間は09:00〜18:00です。予約プラットフォームのメッセージからお問い合わせください。'
+        ],
+        [
+          '未满19岁的客人不能单独入住。仅在法定监护人陪同下方可入住，即使有监护人同意书也不能单独入住。',
+          '住宿采用无人运营，无法代收快递。请本人收件或使用可代收快递的服务。',
+          '工作人员回复时间为09:00–18:00。请通过预订平台消息联系我们。'
+        ],
+        [
+          '未滿19歲的客人不能單獨入住。僅在法定監護人陪同下方可入住，即使有監護人同意書也不能單獨入住。',
+          '住宿採用無人營運，無法代收快遞。請本人收件或使用可代收快遞的服務。',
+          '工作人員回覆時間為09:00–18:00。請透過預訂平台訊息聯絡我們。'
+        ]
+      )
+    },
+    {
+      title: I('공용 욕실 이용', 'Shared bathroom use', '共用バスルームの利用', '公共浴室使用', '公共浴室使用'),
+      steps: I(
+        [
+          '객실 내부에는 개별 욕실이 없으며, 공용 REST ROOM에 샤워실 3칸과 화장실 2칸이 있습니다.',
+          '변기에는 휴지나 위생용품을 넣지 말고 휴지통을 이용해 주세요. 음식물은 공용주방 음식물 쓰레기통에 버려 주세요.'
+        ],
+        [
+          'Rooms do not have private bathrooms. The shared REST ROOM has three shower stalls and two toilets.',
+          'Do not flush toilet paper or sanitary products; use the bin. Put food waste in the dedicated bin in the shared kitchen.'
+        ],
+        [
+          '客室内に専用バスルームはありません。共用REST ROOMにシャワー3室とトイレ2室があります。',
+          'トイレには紙や衛生用品を流さず、ごみ箱をご利用ください。食品ごみは共用キッチンの専用ごみ箱へ捨ててください。'
+        ],
+        [
+          '客房内没有独立浴室。公共REST ROOM设有3间淋浴间和2间卫生间。',
+          '请勿将纸巾或卫生用品冲入马桶，请使用垃圾桶。厨余垃圾请投入公共厨房的专用垃圾桶。'
+        ],
+        [
+          '客房內沒有獨立浴室。公共REST ROOM設有3間淋浴間和2間洗手間。',
+          '請勿將紙巾或衛生用品沖入馬桶，請使用垃圾桶。廚餘垃圾請投入公共廚房的專用垃圾桶。'
+        ]
+      )
+    }
+  );
+
+  const guestBox = D.pages.appliances.devices.find(device => device.name?.ko === '게스트박스');
+  if (guestBox) guestBox.steps = I(
+    [
+      '공용주방 냉장고 옆 GUEST BOX에서 필요한 물품을 확인합니다.',
+      '여분 수건·일회용 덴탈키트·밴드·여행용 변환 어댑터·헤어 고데기·물티슈·비닐봉투가 준비되어 있습니다.',
+      '여분 수건은 샤워실 선반에도 있습니다. 사용한 수건은 샤워실 앞 타월 바구니에 넣고 GUEST BOX에 다시 넣지 마세요.',
+      '변환 어댑터와 헤어 고데기 등 재사용 물품은 사용 후 제자리에 돌려놓고, 일회용품은 필요한 수량만 이용해 주세요.'
+    ],
+    [
+      'Find the GUEST BOX beside the refrigerator in the shared kitchen.',
+      'It contains extra towels, disposable dental kits, bandages, travel adapters, a hair straightener, wet wipes, and plastic bags.',
+      'Extra towels are also available on the shower-room shelf. Put used towels in the basket outside the showers; do not return them to the GUEST BOX.',
+      'Return reusable items such as adapters and the hair straightener after use, and take only the disposable supplies you need.'
+    ],
+    [
+      '共用キッチンの冷蔵庫横にあるGUEST BOXをご利用ください。',
+      '予備タオル、使い捨てデンタルキット、絆創膏、変換アダプター、ヘアアイロン、ウェットティッシュ、ビニール袋があります。',
+      '予備タオルはシャワー室の棚にもあります。使用済みタオルはシャワー室前のかごに入れ、GUEST BOXへ戻さないでください。',
+      '変換アダプターやヘアアイロンなどの共用品は使用後に元へ戻し、消耗品は必要な分だけご利用ください。'
+    ],
+    [
+      'GUEST BOX位于公共厨房冰箱旁。',
+      '内有备用毛巾、一次性牙具、创可贴、旅行转换插头、直发器、湿巾和塑料袋。',
+      '淋浴间搁板上也有备用毛巾。用过的毛巾请放入淋浴间外的毛巾篮，不要放回GUEST BOX。',
+      '转换插头和直发器等可重复使用物品请在使用后归还原位，一次性用品请按需取用。'
+    ],
+    [
+      'GUEST BOX位於公共廚房冰箱旁。',
+      '內有備用毛巾、一次性牙具、OK繃、旅行轉換插頭、直髮器、溼巾和塑膠袋。',
+      '淋浴間擱板上也有備用毛巾。用過的毛巾請放入淋浴間外的毛巾籃，不要放回GUEST BOX。',
+      '轉換插頭和直髮器等可重複使用物品請在使用後歸還原位，一次性用品請按需取用。'
+    ]
+  );
+
+  D.pages.appliances.devices.push(
+    {
+      name: I('객실 비품', 'Room amenities', '客室備品', '客房用品', '客房用品'),
+      steps: I(
+        ['객실에는 호텔 침구, 무료 Wi-Fi, 일회용 덴탈키트, 휴대폰 충전기, 수건, 일회용 슬리퍼와 옷걸이가 준비되어 있습니다.'],
+        ['Rooms include hotel bedding, free Wi-Fi, a disposable dental kit, phone charger, towels, disposable slippers, and hangers.'],
+        ['客室にはホテル寝具、無料Wi-Fi、使い捨てデンタルキット、携帯電話充電器、タオル、使い捨てスリッパ、ハンガーがあります。'],
+        ['客房提供酒店寝具、免费Wi-Fi、一次性牙具、手机充电器、毛巾、一次性拖鞋和衣架。'],
+        ['客房提供飯店寢具、免費Wi-Fi、一次性牙具、手機充電器、毛巾、一次性拖鞋和衣架。']
+      )
+    },
+    {
+      name: I('공용 욕실 비품', 'Shared bathroom amenities', '共用バスルーム備品', '公共浴室用品', '公共浴室用品'),
+      steps: I(
+        ['공용 욕실에는 바디워시, 샴푸와 헤어드라이어가 준비되어 있습니다.'],
+        ['Body wash, shampoo, and hair dryers are provided in the shared bathroom.'],
+        ['共用バスルームにはボディソープ、シャンプー、ヘアドライヤーがあります。'],
+        ['公共浴室提供沐浴露、洗发水和吹风机。'],
+        ['公共浴室提供沐浴乳、洗髮精和吹風機。']
+      )
+    },
+    {
+      name: I('공용주방 이용', 'Using the shared kitchen', '共用キッチンの利用', '公共厨房使用', '公共廚房使用'),
+      steps: I(
+        ['객실에 별도 테이블이 없는 경우 음식은 공용주방 라운지 테이블에서 드셔 주세요.', '사용한 식기는 설거지한 뒤 제자리에 놓아 주세요.'],
+        ['If your room does not have a table, please eat at the shared-kitchen lounge table.', 'Wash used dishes and return them to their places.'],
+        ['客室にテーブルがない場合は、共用キッチンのラウンジテーブルでお召し上がりください。', '使用した食器は洗って元の場所へ戻してください。'],
+        ['如果客房没有桌子，请在公共厨房的休息区餐桌用餐。', '使用过的餐具请清洗后放回原位。'],
+        ['如果客房沒有桌子，請在公共廚房的休息區餐桌用餐。', '使用過的餐具請清洗後放回原位。']
+      )
+    }
+  );
 
   D.pages.trash.summary = I(
     '일반 쓰레기와 재활용은 공용 주방 테이블 맞은편, 음식물 쓰레기는 인덕션 옆 전용 쓰레기통에 버려 주세요.',

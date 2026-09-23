@@ -1,7 +1,7 @@
 {
-  "version": "2026-09-14.5",
-  "generatedAt": "2026-09-11",
-  "sourceOfTruth": "Current rendered site data",
+  "version": "2026-09-23.1",
+  "generatedAt": "2026-09-23",
+  "sourceOfTruth": "Another House operations manual synchronized with current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
   "languages": [
     "ko",
@@ -15,6 +15,7 @@
       "name": "ANOTHER HOUSE",
       "type": "여성 전용 숙소",
       "address": "서울시 종로구 종로 294 선일빌딩 5층",
+      "postalCode": "03199",
       "nearestStation": "동대문역 6번 출구 · 도보 30초",
       "contact": "예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴)을 통해 메시지로 호스트에게 연락해 주세요.",
       "maps": {
@@ -26,6 +27,7 @@
       "name": "ANOTHER HOUSE",
       "type": "Women-only accommodation",
       "address": "5F, Sunil Building, 294 Jong-ro, Jongno-gu, Seoul",
+      "postalCode": "03199",
       "nearestStation": "Dongdaemun Station Exit 6 · 30 sec walk",
       "contact": "Please contact the host by message through the platform you booked with (Booking.com, Agoda, or Trip.com).",
       "maps": {
@@ -37,6 +39,7 @@
       "name": "ANOTHER HOUSE",
       "type": "女性専用宿泊施設",
       "address": "ソウル特別市鍾路区鍾路294 ソニルビル5階",
+      "postalCode": "03199",
       "nearestStation": "東大門駅6番出口 · 徒歩30秒",
       "contact": "予約したプラットフォーム（Booking.com、Agoda、Trip.com）のメッセージを通じてホストへご連絡ください。",
       "maps": {
@@ -48,6 +51,7 @@
       "name": "ANOTHER HOUSE",
       "type": "女性专用住宿",
       "address": "首尔特别市钟路区钟路294，Sunil大厦5层",
+      "postalCode": "03199",
       "nearestStation": "东大门站6号出口 · 步行30秒",
       "contact": "请通过您预订的平台（Booking.com、Agoda或Trip.com）向房东发送消息。",
       "maps": {
@@ -59,6 +63,7 @@
       "name": "ANOTHER HOUSE",
       "type": "女性專用住宿",
       "address": "首爾特別市鍾路區鍾路294，Sunil大廈5層",
+      "postalCode": "03199",
       "nearestStation": "東大門站6號出口 · 步行30秒",
       "contact": "請通過您預訂的平台（Booking.com、Agoda或Trip.com）向房東傳送訊息。",
       "maps": {
@@ -75,11 +80,13 @@
           "짐보관",
           "짐 맡",
           "짐을 맡",
+          "가방 보관",
           "러기지룸",
           "캐리어 보관",
+          "트렁크 보관",
           "수하물 보관"
         ],
-        "answer": "네, 짐 보관이 가능합니다.\n503호 앞 러기지 룸\n체크인 전 이용에 필요한 출입 정보는 예약 플랫폼 메시지에서 확인해 주세요.\n체크아웃 당일에 한해 러기지룸에 무료로 보관할 수 있습니다.\n레이트 체크아웃은 불가합니다.",
+        "answer": "네, 짐 보관이 가능합니다.\n503호 앞 러기지 룸\n체크인·체크아웃 당일에는 시간 제한 없이 무료로 이용할 수 있습니다. 체크인 전 출입 정보는 예약 플랫폼 메시지에서 확인해 주세요.\n체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 무료로 보관할 수 있습니다.\n레이트 체크아웃은 불가합니다.",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "네, 짐 보관이 가능합니다.",
         "directAnswers": [
@@ -87,10 +94,12 @@
             "keywords": [
               "짐보관",
               "짐맡",
+              "가방보관",
               "캐리어보관",
+              "트렁크보관",
               "수하물보관"
             ],
-            "answer": "네, 짐 보관이 가능합니다. 503호 앞 러기지룸에 체크아웃 당일 밤 11시까지 무료로 보관할 수 있어요."
+            "answer": "네, 짐 보관이 가능합니다. 체크인·체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸을 무료로 이용할 수 있어요. 체크인 전 출입정보는 예약 플랫폼 메시지에서 확인해 주세요."
           }
         ]
       },
@@ -107,7 +116,7 @@
           "키오스크",
           "객실 도어락"
         ],
-        "answer": "체크인은 15:00부터입니다. 선일빌딩 5층 키오스크에서 예약자 정보로 셀프 체크인을 진행해 주세요.\n체크인 하루 전부터 당일 오전 9시 사이에 예약 플랫폼 메시지로 발송된 체크인 안내를 확인합니다.\n15:00 이후 5층 키오스크에서 예약 바우처에 적힌 예약자 이름 또는 예약 번호 뒤 4자리로 예약을 조회합니다.\n화면 안내에 따라 셀프 체크인을 완료하고 객실 번호와 카드키를 확인합니다.\n체크인 후에는 카드키를 출입구 옆 기기에 태그하여 문을 엽니다.\n짐은 503호 앞 러기지룸에 보관할 수 있습니다. 체크인 전 짐 보관을 위한 출입정보는 예약 메시지에서 확인해 주세요.\n얼리 체크인은 객실 준비 사정상 불가능합니다.\n예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴)을 통해 메시지로 호스트에게 연락해 주세요.",
+        "answer": "체크인은 15:00부터입니다. 선일빌딩 5층 키오스크에서 예약자 정보로 셀프 체크인을 진행해 주세요.\n체크인 하루 전부터 당일 오전 9시 사이에 예약 플랫폼 메시지로 발송된 체크인 안내를 확인합니다.\n15:00 이후 5층 키오스크에서 예약 바우처에 적힌 예약자 이름 또는 예약 번호 뒤 4자리로 예약을 조회합니다.\n화면 안내에 따라 셀프 체크인을 완료하고 객실 번호와 카드키를 확인합니다.\n체크인 후에는 카드키를 출입구 옆 기기에 태그하여 문을 엽니다.\n체크인·체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 짐을 무료로 보관할 수 있습니다. 체크인 전 출입정보는 예약 메시지에서 확인해 주세요.\n얼리 체크인은 객실 준비 사정상 불가능합니다.\n15:00 이후에는 늦게 도착해도 키오스크에서 언제든지 비대면 체크인할 수 있습니다.\n카드키는 숙소 출입구와 객실 문에 모두 필요하며 재발급되지 않으니, 외출할 때 반드시 소지해 주세요.\n직원 응대시간은 09:00–18:00입니다. 문의사항은 예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴)의 메시지로 남겨 주세요.",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "체크인은 15:00부터이며 셀프 체크인으로 진행합니다.",
         "directAnswers": [
@@ -128,7 +137,7 @@
           "퇴실 시간",
           "퇴실 방법"
         ],
-        "answer": "체크아웃은 11:00까지입니다. 카드키 반납과 공용공간 정리를 마친 뒤 출입구 문이 완전히 닫혔는지 확인해 주세요.\n객실에 두고 가는 물건이 없는지 확인하고, 사용한 공용 물품은 원위치해 주세요.\n사용한 식기는 설거지 후 원위치하고, 쓰레기는 공용 주방에서 종류별로 분리해 주세요.\n사용한 수건은 샤워실 앞 파우더룸의 타월 바구니에 넣어 주세요.\n에너지 절약을 위해 객실 카드키를 뽑아 전원을 차단해 주세요.\n키오스크에서 체크아웃을 선택한 뒤 카드키를 반납해 주세요.\n나오실 때 다른 투숙객의 안전을 위해 출입구 문이 완전히 닫혔는지 확인해 주세요.\n체크아웃 당일에 한해 러기지룸에 무료로 보관할 수 있습니다.\n레이트 체크아웃은 불가합니다.",
+        "answer": "체크아웃은 11:00까지입니다. 카드키 반납과 공용공간 정리를 마친 뒤 출입구 문이 완전히 닫혔는지 확인해 주세요.\n객실에 두고 가는 물건이 없는지 확인하고, 사용한 공용 물품은 원위치해 주세요.\n사용한 식기는 설거지 후 원위치하고, 쓰레기는 공용 주방에서 종류별로 분리해 주세요.\n사용한 수건은 샤워실 앞 파우더룸의 타월 바구니에 넣어 주세요.\n에너지 절약을 위해 객실 카드키를 뽑아 전원을 차단해 주세요.\n키오스크에서 체크아웃을 선택한 뒤 안내에 따라 카드키를 천천히 반납해 주세요. 억지로 밀어 넣지 마세요.\n나오실 때 다른 투숙객의 안전을 위해 출입구 문이 완전히 닫혔는지 확인해 주세요.\n체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 무료로 보관할 수 있습니다.\n레이트 체크아웃은 불가합니다.\n편안하게 머무르셨다면 예약 플랫폼에 간단한 후기를 남겨 주세요.\n이용 중 아쉬웠던 점이나 개선이 필요한 부분은 예약 플랫폼 메시지로 알려주시면 운영에 반영하겠습니다.",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "체크아웃은 11:00까지이며 레이트 체크아웃은 불가합니다.",
         "directAnswers": [
@@ -138,7 +147,7 @@
               "늦게 체크아웃",
               "체크아웃 연장"
             ],
-            "answer": "아니요, 레이트 체크아웃과 체크아웃 시간 연장은 불가합니다. 대신 체크아웃 당일 밤 11시까지 503호 앞 러기지룸에 짐을 무료로 보관할 수 있어요."
+            "answer": "아니요, 레이트 체크아웃과 체크아웃 시간 연장은 불가합니다. 대신 체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 짐을 무료로 보관할 수 있어요."
           }
         ]
       },
@@ -163,7 +172,7 @@
           "주차 가능",
           "주차 안내"
         ],
-        "answer": "건물 내 주차 불가\n차량 이용 시 아래 주변 유료 주차장을 이용해 주세요. 현장 운영 및 요금은 변경될 수 있으므로 입차 전 다시 확인해 주세요.\n동대문호텔 민영 주차장\n서울 종로구 창신동 444-1\n1시간 4,000원 · 하루 최대 20,000원",
+        "answer": "건물 내 주차 불가\n차량 이용 시 아래 주변 유료 주차장을 이용해 주세요. 현장 운영 및 요금은 변경될 수 있으므로 입차 전 다시 확인해 주세요.\n동대문호텔 민영 주차장\n서울 종로구 창신동 444-1\n주차 시 “선일빌딩 방문”이라고 말씀해 주세요. 1시간 4,000원 · 하루 최대 약 20,000원(입차 전 현장 확인)",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "아니요, 건물 내 주차는 불가합니다.",
         "directAnswers": []
@@ -179,9 +188,17 @@
           "소음",
           "파티",
           "반려동물",
-          "외부인"
+          "외부인",
+          "미성년자",
+          "만 19세",
+          "보호자",
+          "택배",
+          "배송",
+          "대리수령",
+          "직원 응대시간",
+          "직원 운영시간"
         ],
-        "answer": "모두의 안전과 편안한 휴식을 위해 지켜 주세요.\n어나더하우스는 여성 전용 숙소이며, 예약 인원을 초과한 방문객의 출입은 불가합니다.\n숙소 전 구역은 금연이며 반려동물, 파티, 상업 촬영은 허용되지 않습니다.\n매너타임은 22:00부터 05:00까지입니다. 늦은 시간에는 소음에 특히 유의해 주세요.\n취사는 가능하지만 연기나 냄새가 강한 고기·생선류 조리는 삼가 주세요.\n냉장고에 음식물을 보관할 때는 포스트잇에 이름과 보관일 또는 퇴실일을 적어 붙여 주세요.\n게스트 박스의 공용 물품은 사용 후 원위치해 주세요. 일회용 소모품은 필요한 만큼만 이용해 주세요.\n기물이 파손된 경우 예약 플랫폼 메시지로 즉시 호스트에게 알려 주세요.",
+        "answer": "모두의 안전과 편안한 휴식을 위해 지켜 주세요.\n어나더하우스는 여성 전용 숙소이며, 예약 인원을 초과한 방문객의 출입은 불가합니다.\n숙소 전 구역은 금연이며 반려동물, 파티, 상업 촬영은 허용되지 않습니다.\n매너타임은 22:00부터 05:00까지입니다. 늦은 시간에는 소음에 특히 유의해 주세요.\n취사는 가능하지만 연기나 냄새가 강한 고기·생선류 조리는 삼가 주세요.\n냉장고에 음식물을 보관할 때는 포스트잇에 이름과 보관일 또는 퇴실일을 적어 붙여 주세요.\n게스트 박스의 공용 물품은 사용 후 원위치해 주세요. 일회용 소모품은 필요한 만큼만 이용해 주세요.\n기물이 파손된 경우 예약 플랫폼 메시지로 즉시 호스트에게 알려 주세요.\n만 19세 미만 고객은 혼자 투숙할 수 없습니다. 법적 보호자와 동반하는 경우에만 가능하며, 보호자 동의서가 있어도 미성년자 단독 투숙은 불가합니다.\n숙소는 무인 운영으로 택배 대리수령이 어렵습니다. 직접 수령하거나 위탁수령 가능한 서비스를 이용해 주세요.\n직원 응대시간은 09:00–18:00입니다. 문의는 예약한 플랫폼의 메시지로 남겨 주세요.\n객실 내부에는 개별 욕실이 없으며, 공용 REST ROOM에 샤워실 3칸과 화장실 2칸이 있습니다.\n변기에는 휴지나 위생용품을 넣지 말고 휴지통을 이용해 주세요. 음식물은 공용주방 음식물 쓰레기통에 버려 주세요.",
         "source": "https://anotherhouse-guide.vercel.app/?page=rules",
         "lead": "숙소 이용 규칙은 다음과 같습니다.",
         "directAnswers": [
@@ -211,6 +228,34 @@
               "방문객"
             ],
             "answer": "아니요, 예약하지 않은 외부인의 출입은 허용되지 않습니다."
+          },
+          {
+            "keywords": [
+              "미성년자",
+              "만19세",
+              "만 19세",
+              "보호자동의서",
+              "보호자 동의서"
+            ],
+            "answer": "만 19세 미만 고객은 혼자 투숙할 수 없습니다. 법적 보호자와 동반하는 경우에만 가능하며, 보호자 동의서가 있어도 미성년자 단독 투숙은 불가합니다."
+          },
+          {
+            "keywords": [
+              "택배",
+              "배송",
+              "대리수령",
+              "택배수령"
+            ],
+            "answer": "숙소는 무인 운영으로 택배 대리수령이 어렵습니다. 직접 수령하거나 위탁수령 가능한 서비스를 이용해 주세요."
+          },
+          {
+            "keywords": [
+              "직원응대시간",
+              "직원 응대시간",
+              "직원운영시간",
+              "직원 운영시간"
+            ],
+            "answer": "직원 응대시간은 09:00–18:00입니다. 문의는 예약한 플랫폼의 메시지로 남겨 주세요."
           }
         ]
       },
@@ -249,7 +294,7 @@
           "물티슈",
           "비닐봉투"
         ],
-        "answer": "사진에서 확인한 모델명과 제조사 공식 자료를 대조해, 숙소에서 자주 쓰는 조작만 정리했습니다.\n객실 냉난방\n왼쪽 아래 전원 버튼을 눌러 켭니다.\n화면에서 운전 모드를 선택한 뒤 냉방 또는 난방을 고릅니다.\n위·아래 버튼으로 희망 온도를 맞춥니다.\n필요하면 풍량 메뉴에서 바람 세기를 조절합니다.\n외출할 때는 전원을 꺼 주세요. 중앙 제어 중에는 일부 모드가 제한될 수 있습니다.\n전자레인지\n금속·포일은 넣지 말고 전자레인지용 용기를 사용합니다.\n음식을 넣고 문을 완전히 닫습니다.\n빠른 가열은 시작/+30초 버튼을 누르며 시간을 늘립니다.\n세부 설정은 파워조절 또는 해동 무게/시간 버튼을 누르고 다이얼로 값을 맞춘 뒤 시작합니다.\n정지/취소로 멈추고, 가열 중에는 자리를 비우지 마세요.\n하이라이트 전기쿡탑\n평평한 바닥의 조리 용기를 올립니다.\n전원 버튼을 1초간 눌러 대기 상태로 켭니다.\n하이라이트 + 버튼을 누르면 1단으로 시작하며, + / −로 1–9단 화력을 조절합니다.\n사용 후 전원 버튼을 1초간 눌러 끕니다.\n잔열 표시 H가 사라질 때까지 상판을 만지지 마세요. 잠금 해제는 잠금 버튼을 2초간 누릅니다.\n정수기\n컵을 출수구 아래에 놓습니다.\n정수·냉수·온수 버튼 중 원하는 물을 선택합니다.\n용량 버튼으로 120 mL, 500 mL 또는 연속을 선택합니다.\n출수 버튼을 눌러 물을 받습니다.\n온수 사용 시 잠금 버튼을 약 5초 눌러 해제하고, 빨간 출수 버튼이 켜진 상태에서 화상에 주의하세요.\n공용 냉장고\n음식과 음료마다 포스트잇에 이름(또는 객실)과 보관 시작일 또는 체크아웃일을 적어 붙입니다.\n냄새가 강한 음식은 완전히 밀봉해 주세요.\n유통기한이 지났거나 장기 보관되었거나 표기가 없는 식품은 위생 관리를 위해 폐기될 수 있습니다.\n다른 게스트의 음식과 음료는 절대 드시지 마세요.\n체크아웃할 때 남은 음식은 직접 정리해 주세요.\n게스트박스\n공용 공간의 GUEST BOX에서 필요한 물품을 확인합니다.\n여분 수건·일회용 칫솔 세트·밴드·여행용 어댑터·고데기·물티슈·비닐봉투가 준비되어 있습니다.\n여행용 어댑터와 고데기 등 재사용 물품은 사용 직후 제자리에 돌려놓습니다.\n일회용품은 필요한 수량만 가져가 주세요.",
+        "answer": "사진에서 확인한 모델명과 제조사 공식 자료를 대조해, 숙소에서 자주 쓰는 조작만 정리했습니다.\n객실 냉난방\n왼쪽 아래 전원 버튼을 눌러 켭니다.\n화면에서 운전 모드를 선택한 뒤 냉방 또는 난방을 고릅니다.\n위·아래 버튼으로 희망 온도를 맞춥니다.\n필요하면 풍량 메뉴에서 바람 세기를 조절합니다.\n외출할 때는 전원을 꺼 주세요. 중앙 제어 중에는 일부 모드가 제한될 수 있습니다.\n전자레인지\n금속·포일은 넣지 말고 전자레인지용 용기를 사용합니다.\n음식을 넣고 문을 완전히 닫습니다.\n빠른 가열은 시작/+30초 버튼을 누르며 시간을 늘립니다.\n세부 설정은 파워조절 또는 해동 무게/시간 버튼을 누르고 다이얼로 값을 맞춘 뒤 시작합니다.\n정지/취소로 멈추고, 가열 중에는 자리를 비우지 마세요.\n하이라이트 전기쿡탑\n평평한 바닥의 조리 용기를 올립니다.\n전원 버튼을 1초간 눌러 대기 상태로 켭니다.\n하이라이트 + 버튼을 누르면 1단으로 시작하며, + / −로 1–9단 화력을 조절합니다.\n사용 후 전원 버튼을 1초간 눌러 끕니다.\n잔열 표시 H가 사라질 때까지 상판을 만지지 마세요. 잠금 해제는 잠금 버튼을 2초간 누릅니다.\n정수기\n컵을 출수구 아래에 놓습니다.\n정수·냉수·온수 버튼 중 원하는 물을 선택합니다.\n용량 버튼으로 120 mL, 500 mL 또는 연속을 선택합니다.\n출수 버튼을 눌러 물을 받습니다.\n온수 사용 시 잠금 버튼을 약 5초 눌러 해제하고, 빨간 출수 버튼이 켜진 상태에서 화상에 주의하세요.\n공용 냉장고\n음식과 음료마다 포스트잇에 이름(또는 객실)과 보관 시작일 또는 체크아웃일을 적어 붙입니다.\n냄새가 강한 음식은 완전히 밀봉해 주세요.\n유통기한이 지났거나 장기 보관되었거나 표기가 없는 식품은 위생 관리를 위해 폐기될 수 있습니다.\n다른 게스트의 음식과 음료는 절대 드시지 마세요.\n체크아웃할 때 남은 음식은 직접 정리해 주세요.\n게스트박스\n공용주방 냉장고 옆 GUEST BOX에서 필요한 물품을 확인합니다.\n여분 수건·일회용 덴탈키트·밴드·여행용 변환 어댑터·헤어 고데기·물티슈·비닐봉투가 준비되어 있습니다.\n여분 수건은 샤워실 선반에도 있습니다. 사용한 수건은 샤워실 앞 타월 바구니에 넣고 GUEST BOX에 다시 넣지 마세요.\n변환 어댑터와 헤어 고데기 등 재사용 물품은 사용 후 제자리에 돌려놓고, 일회용품은 필요한 수량만 이용해 주세요.\n객실 비품\n객실에는 호텔 침구, 무료 Wi-Fi, 일회용 덴탈키트, 휴대폰 충전기, 수건, 일회용 슬리퍼와 옷걸이가 준비되어 있습니다.\n공용 욕실 비품\n공용 욕실에는 바디워시, 샴푸와 헤어드라이어가 준비되어 있습니다.\n공용주방 이용\n객실에 별도 테이블이 없는 경우 음식은 공용주방 라운지 테이블에서 드셔 주세요.\n사용한 식기는 설거지한 뒤 제자리에 놓아 주세요.",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
         "lead": "네, 숙소에 냉난방·주방 기기가 마련되어 있습니다.",
         "directAnswers": [
@@ -273,14 +318,14 @@
           },
           {
             "item": "hair-dryer",
-            "returnPolicy": "unconfirmed",
+            "returnPolicy": "shared-use",
             "keywords": [
               "헤어드라이어",
               "헤어드라이기",
               "드라이어",
               "드라이기"
             ],
-            "answer": "현재 숙소 안내에는 헤어드라이어 제공 여부가 확인되지 않습니다. 게스트박스에는 헤어 고데기만 안내되어 있습니다. 필요하면 예약 플랫폼 메시지로 호스트에게 확인해 주세요."
+            "answer": "네, 헤어드라이어는 공용 욕실에 준비되어 있습니다. 헤어 고데기는 공용주방 냉장고 옆 GUEST BOX에 있어요."
           },
           {
             "item": "hair-straightener",
@@ -299,7 +344,7 @@
               "수건",
               "타월"
             ],
-            "answer": "네, 여분 수건은 공용 공간의 게스트박스에 준비되어 있습니다. 필요한 수량만 꺼내 사용하시고, 사용한 수건은 게스트박스에 다시 넣지 마세요."
+            "answer": "네, 여분 수건은 공용주방 냉장고 옆 GUEST BOX와 샤워실 선반에 있습니다. 사용한 수건은 샤워실 앞 타월 바구니에 넣고 GUEST BOX에는 다시 넣지 마세요."
           },
           {
             "item": "dental-kit",
@@ -488,7 +533,7 @@
           "baggage storage",
           "store my suitcase"
         ],
-        "answer": "Yes, luggage storage is available.\nLuggage room in front of Room 503\nCheck your booking-platform message for the access information needed before check-in.\nFree luggage storage is available in the luggage room until later on the day of checkout.\nLate checkout is not available.",
+        "answer": "Yes, luggage storage is available.\nLuggage room in front of Room 503\nIt is free to use at any time on your check-in or check-out day, with no time limit. Before check-in, check your booking-platform message for access information.\nOn the day of checkout, free luggage storage is available in the luggage room in front of Room 503 with no time limit.\nLate checkout is not available.",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "Yes, luggage storage is available.",
         "directAnswers": [
@@ -500,7 +545,7 @@
               "baggage storage",
               "store my suitcase"
             ],
-            "answer": "Yes, luggage storage is available. You can use the luggage room in front of Room 503 free of charge until 23:00 on the day of checkout."
+            "answer": "Yes, luggage storage is available. On your check-in or check-out day, you can use the luggage room in front of Room 503 free of charge with no time limit. Before check-in, check your booking-platform message for access information."
           }
         ]
       },
@@ -516,7 +561,7 @@
           "kiosk",
           "room door lock"
         ],
-        "answer": "Check-in begins at 15:00. Use the kiosk on the 5th floor of Sunil Building with the booking guest’s details.\nCheck the arrival instructions sent through your booking platform between the day before check-in and 09:00 on arrival day.\nAfter 15:00, use the kiosk on the 5th floor and search with the name shown on the booking voucher or the last four digits of the reservation number.\nComplete self check-in on screen and confirm your room number and key card.\nAfter check-in, tap the key card on the reader beside the entrance.\nLuggage can be stored in the luggage room in front of Room 503. For luggage access before check-in, use the access information in your booking message.\nEarly check-in is not available because rooms need time to be prepared.\nPlease contact the host by message through the platform you booked with (Booking.com, Agoda, or Trip.com).",
+        "answer": "Check-in begins at 15:00. Use the kiosk on the 5th floor of Sunil Building with the booking guest’s details.\nCheck the arrival instructions sent through your booking platform between the day before check-in and 09:00 on arrival day.\nAfter 15:00, use the kiosk on the 5th floor and search with the name shown on the booking voucher or the last four digits of the reservation number.\nComplete self check-in on screen and confirm your room number and key card.\nAfter check-in, tap the key card on the reader beside the entrance.\nOn your check-in or check-out day, you can store luggage free of charge in the luggage room in front of Room 503 with no time limit. Before check-in, use the access information in your booking message.\nEarly check-in is not available because rooms need time to be prepared.\nIf you arrive late, you can still use the kiosk for contactless check-in at any time after 15:00.\nThe key card is required for both the property entrance and your room. It cannot be reissued, so always take it with you when you go out.\nStaff respond from 09:00 to 18:00. Please send questions through the messaging service of your booking platform (Booking.com, Agoda, or Trip.com).",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "Check-in starts at 15:00 and is self-service.",
         "directAnswers": [
@@ -536,7 +581,7 @@
           "check-out",
           "departure procedure"
         ],
-        "answer": "Check out by 11:00. Return the key card, restore shared items, and make sure the entrance door is fully closed.\nCheck for personal belongings and return shared items to their original places.\nWash and return used dishes, then sort waste in the shared kitchen.\nPlace used towels in the towel basket in the powder room outside the showers.\nRemove the room key card to switch off the room power.\nSelect checkout at the kiosk and return the key card.\nFor everyone’s safety, make sure the entrance door is fully closed when you leave.\nFree luggage storage is available in the luggage room until later on the day of checkout.\nLate checkout is not available.",
+        "answer": "Check out by 11:00. Return the key card, restore shared items, and make sure the entrance door is fully closed.\nCheck for personal belongings and return shared items to their original places.\nWash and return used dishes, then sort waste in the shared kitchen.\nPlace used towels in the towel basket in the powder room outside the showers.\nRemove the room key card to switch off the room power.\nSelect checkout at the kiosk and slowly return the key card as instructed. Do not force it into the machine.\nFor everyone’s safety, make sure the entrance door is fully closed when you leave.\nOn the day of checkout, free luggage storage is available in the luggage room in front of Room 503 with no time limit.\nLate checkout is not available.\nIf you enjoyed your stay, please leave a short review on your booking platform.\nIf anything could be improved, send us a message through your booking platform so we can follow up.",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "Check-out is by 11:00, and late check-out is not available.",
         "directAnswers": [
@@ -546,7 +591,7 @@
               "late check-out",
               "extend checkout"
             ],
-            "answer": "No, late check-out and check-out extensions are not available. However, you may store your luggage free of charge in the luggage room in front of Room 503 until 23:00 on the day of checkout."
+            "answer": "No, late check-out and check-out extensions are not available. However, on your checkout day you may store luggage free of charge in the luggage room in front of Room 503 with no time limit."
           }
         ]
       },
@@ -570,7 +615,7 @@
           "can i park",
           "parking at the hostel"
         ],
-        "answer": "No on-site parking\nPlease use the nearby paid parking lot below. Operations and rates may change, so confirm them before entering.\nDongdaemun Hotel private parking\n444-1 Changsin-dong, Jongno-gu, Seoul\n₩4,000 per hour · up to ₩20,000 per day",
+        "answer": "No on-site parking\nPlease use the nearby paid parking lot below. Operations and rates may change, so confirm them before entering.\nDongdaemun Hotel private parking\n444-1 Changsin-dong, Jongno-gu, Seoul\nTell the attendant you are visiting Sunil Building. ₩4,000 per hour · about ₩20,000 maximum per day (confirm before entry)",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "No, on-site parking is not available.",
         "directAnswers": []
@@ -585,9 +630,17 @@
           "noise",
           "party",
           "pet",
-          "outside guest"
+          "outside guest",
+          "minor guest",
+          "under 19",
+          "legal guardian",
+          "parcel",
+          "delivery",
+          "receive a package",
+          "staff hours",
+          "response hours"
         ],
-        "answer": "Please follow these rules for everyone’s safety and comfort.\nAnother House is women-only. Visitors beyond the booked guest count are not allowed.\nSmoking, pets, parties, and commercial filming are not permitted anywhere in the property.\nQuiet hours are 22:00–05:00. Please keep noise especially low late at night.\nCooking is allowed, but avoid meat, fish, or other foods that create strong smoke or odors.\nLabel refrigerator items with your name and the storage date or checkout date.\nReturn shared Guest Box items after use and take only the disposable supplies you need.\nReport any damaged item to the host immediately through your booking platform message.",
+        "answer": "Please follow these rules for everyone’s safety and comfort.\nAnother House is women-only. Visitors beyond the booked guest count are not allowed.\nSmoking, pets, parties, and commercial filming are not permitted anywhere in the property.\nQuiet hours are 22:00–05:00. Please keep noise especially low late at night.\nCooking is allowed, but avoid meat, fish, or other foods that create strong smoke or odors.\nLabel refrigerator items with your name and the storage date or checkout date.\nReturn shared Guest Box items after use and take only the disposable supplies you need.\nReport any damaged item to the host immediately through your booking platform message.\nGuests under 19 cannot stay alone. They may stay only with a legal guardian; a consent form does not permit an unaccompanied minor to stay.\nBecause the property is unmanned, staff cannot receive parcels for guests. Please receive deliveries in person or use a service that accepts parcels on your behalf.\nStaff respond from 09:00 to 18:00. Please contact us through your booking-platform messages.\nRooms do not have private bathrooms. The shared REST ROOM has three shower stalls and two toilets.\nDo not flush toilet paper or sanitary products; use the bin. Put food waste in the dedicated bin in the shared kitchen.",
         "source": "https://anotherhouse-guide.vercel.app/?page=rules",
         "lead": "These are the property rules.",
         "directAnswers": [
@@ -619,6 +672,29 @@
               "visitor"
             ],
             "answer": "No, unregistered visitors are not allowed inside."
+          },
+          {
+            "keywords": [
+              "minor guest",
+              "under 19",
+              "guardian consent"
+            ],
+            "answer": "Guests under 19 cannot stay alone. They may stay only with a legal guardian; a consent form does not permit an unaccompanied minor to stay."
+          },
+          {
+            "keywords": [
+              "parcel",
+              "delivery",
+              "receive a package"
+            ],
+            "answer": "Because the property is unmanned, staff cannot receive parcels for guests. Please receive deliveries in person or use a parcel-acceptance service."
+          },
+          {
+            "keywords": [
+              "staff hours",
+              "response hours"
+            ],
+            "answer": "Staff respond from 09:00 to 18:00. Please contact us through your booking-platform messages."
           }
         ]
       },
@@ -656,7 +732,7 @@
           "wet wipes",
           "plastic bag"
         ],
-        "answer": "We matched the photographed models with manufacturer documentation and summarized the controls guests use most.\nRoom climate control\nPress the lower-left power button.\nOpen Operation Mode and choose Cool or Heat.\nUse up/down to set the target temperature.\nAdjust fan speed from the fan menu if needed.\nTurn it off when leaving. Some modes may be restricted by central control.\nMicrowave\nUse microwave-safe containers; never use metal or foil.\nPlace food inside and close the door fully.\nFor quick heating, press Start/+30 sec repeatedly.\nFor detailed settings, choose Power, Weight Defrost, or Time Defrost, set with the dial, then press Start.\nPress Stop/Cancel to stop, and never leave heating unattended.\nCeramic cooktop\nUse flat-bottom cookware.\nHold Power for 1 second to enter standby.\nPress the Highlight + button to start at level 1, then use + / − for levels 1–9.\nHold Power for 1 second after use.\nDo not touch while H is shown. To unlock, hold Lock for 2 seconds.\nWater purifier\nPlace a cup under the spout.\nChoose ambient, cold, or hot water.\nSelect 120 mL, 500 mL, or Continuous.\nPress Dispense.\nFor hot water, hold Lock for about 5 seconds to unlock; take care when the dispense button turns red.\nShared refrigerator\nLabel every food and drink with your name or room plus the storage date or checkout date.\nSeal strong-smelling food completely.\nExpired, long-stored, or unlabelled items may be discarded for hygiene.\nNever consume food or drinks belonging to another guest.\nRemove all of your remaining food at checkout.\nGuest Box\nFind the GUEST BOX in the shared area.\nIt contains extra towels, disposable dental kits, bandages, travel adapters, a hair straightener, wet wipes, and plastic bags.\nReturn reusable items such as the adapter and hair straightener immediately after use.\nTake only the quantity of disposable items you need.",
+        "answer": "We matched the photographed models with manufacturer documentation and summarized the controls guests use most.\nRoom climate control\nPress the lower-left power button.\nOpen Operation Mode and choose Cool or Heat.\nUse up/down to set the target temperature.\nAdjust fan speed from the fan menu if needed.\nTurn it off when leaving. Some modes may be restricted by central control.\nMicrowave\nUse microwave-safe containers; never use metal or foil.\nPlace food inside and close the door fully.\nFor quick heating, press Start/+30 sec repeatedly.\nFor detailed settings, choose Power, Weight Defrost, or Time Defrost, set with the dial, then press Start.\nPress Stop/Cancel to stop, and never leave heating unattended.\nCeramic cooktop\nUse flat-bottom cookware.\nHold Power for 1 second to enter standby.\nPress the Highlight + button to start at level 1, then use + / − for levels 1–9.\nHold Power for 1 second after use.\nDo not touch while H is shown. To unlock, hold Lock for 2 seconds.\nWater purifier\nPlace a cup under the spout.\nChoose ambient, cold, or hot water.\nSelect 120 mL, 500 mL, or Continuous.\nPress Dispense.\nFor hot water, hold Lock for about 5 seconds to unlock; take care when the dispense button turns red.\nShared refrigerator\nLabel every food and drink with your name or room plus the storage date or checkout date.\nSeal strong-smelling food completely.\nExpired, long-stored, or unlabelled items may be discarded for hygiene.\nNever consume food or drinks belonging to another guest.\nRemove all of your remaining food at checkout.\nGuest Box\nFind the GUEST BOX beside the refrigerator in the shared kitchen.\nIt contains extra towels, disposable dental kits, bandages, travel adapters, a hair straightener, wet wipes, and plastic bags.\nExtra towels are also available on the shower-room shelf. Put used towels in the basket outside the showers; do not return them to the GUEST BOX.\nReturn reusable items such as adapters and the hair straightener after use, and take only the disposable supplies you need.\nRoom amenities\nRooms include hotel bedding, free Wi-Fi, a disposable dental kit, phone charger, towels, disposable slippers, and hangers.\nShared bathroom amenities\nBody wash, shampoo, and hair dryers are provided in the shared bathroom.\nUsing the shared kitchen\nIf your room does not have a table, please eat at the shared-kitchen lounge table.\nWash used dishes and return them to their places.",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
         "lead": "Yes, climate-control and kitchen appliances are available.",
         "directAnswers": [
@@ -679,14 +755,14 @@
           },
           {
             "item": "hair-dryer",
-            "returnPolicy": "unconfirmed",
+            "returnPolicy": "shared-use",
             "keywords": [
               "hair dryer",
               "hairdryer",
               "blow dryer",
               "blowdryer"
             ],
-            "answer": "The current property guide does not confirm that a hair dryer is provided. It lists only a hair straightener in the shared Guest Box. Please confirm with the host through your booking-platform messages if needed."
+            "answer": "Yes, hair dryers are provided in the shared bathroom. A hair straightener is also available in the GUEST BOX beside the shared-kitchen refrigerator."
           },
           {
             "item": "hair-straightener",
@@ -705,7 +781,7 @@
               "spare towel",
               "towel"
             ],
-            "answer": "Yes, extra towels are available in the shared Guest Box. Take only what you need for your stay, and do not put used towels back in the Guest Box."
+            "answer": "Yes, extra towels are available in the GUEST BOX beside the shared-kitchen refrigerator and on the shower-room shelf. Put used towels in the basket outside the showers; do not return them to the Guest Box."
           },
           {
             "item": "dental-kit",
@@ -891,7 +967,7 @@
           "ラゲッジルーム",
           "スーツケース保管"
         ],
-        "answer": "はい、荷物を保管できます。\n503号室前の荷物室\nチェックイン前の利用に必要な入館情報は予約プラットフォームのメッセージでご確認ください。\nチェックアウト当日に限り、ラゲッジルームで無料保管できます。\nレイトチェックアウトはできません。",
+        "answer": "はい、荷物を保管できます。\n503号室前の荷物室\nチェックイン日・チェックアウト当日は時間制限なく無料で利用できます。チェックイン前の入館情報は予約プラットフォームのメッセージでご確認ください。\nチェックアウト当日は時間制限なく、503号室前のラゲッジルームに無料で保管できます。\nレイトチェックアウトはできません。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "はい、荷物を保管できます。",
         "directAnswers": [
@@ -903,7 +979,7 @@
               "ラゲッジルーム",
               "スーツケース保管"
             ],
-            "answer": "はい、荷物を保管できます。503号室前のラゲッジルームをチェックアウト当日の23時まで無料で利用できます。"
+            "answer": "はい、荷物を保管できます。チェックイン日・チェックアウト当日は時間制限なく、503号室前のラゲッジルームを無料で利用できます。チェックイン前の入館情報は予約プラットフォームのメッセージをご確認ください。"
           }
         ]
       },
@@ -919,7 +995,7 @@
           "キオスク",
           "客室ドアロック"
         ],
-        "answer": "チェックインは15:00からです。ソニルビル5階のキオスクで予約者情報を使ってセルフチェックインしてください。\nチェックイン前日から当日9:00までに予約プラットフォームのメッセージで届く案内をご確認ください。\n15:00以降、5階のキオスクで予約バウチャー記載の予約者名、または予約番号の下4桁で予約を検索します。\n画面案内に従ってセルフチェックインを完了し、客室番号とカードキーをご確認ください。\nチェックイン後は入口横の端末にカードキーをかざして入館します。\n荷物は503号室前のラゲッジルームに保管できます。チェックイン前の荷物預かり用入館情報は予約メッセージでご確認ください。\n客室準備の都合上、アーリーチェックインはご利用いただけません。\n予約したプラットフォーム（Booking.com、Agoda、Trip.com）のメッセージを通じてホストへご連絡ください。",
+        "answer": "チェックインは15:00からです。ソニルビル5階のキオスクで予約者情報を使ってセルフチェックインしてください。\nチェックイン前日から当日9:00までに予約プラットフォームのメッセージで届く案内をご確認ください。\n15:00以降、5階のキオスクで予約バウチャー記載の予約者名、または予約番号の下4桁で予約を検索します。\n画面案内に従ってセルフチェックインを完了し、客室番号とカードキーをご確認ください。\nチェックイン後は入口横の端末にカードキーをかざして入館します。\nチェックイン日・チェックアウト当日は時間制限なく、503号室前のラゲッジルームに無料で荷物を預けられます。チェックイン前の入館情報は予約メッセージでご確認ください。\n客室準備の都合上、アーリーチェックインはご利用いただけません。\n到着が遅くなっても、15:00以降はキオスクでいつでも非対面チェックインができます。\nカードキーは宿の入口と客室の両方で必要です。再発行できないため、外出時は必ずお持ちください。\nスタッフ対応時間は09:00〜18:00です。お問い合わせは予約サイト（Booking.com、Agoda、Trip.com）のメッセージでお送りください。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "チェックインは15:00からで、セルフチェックインです。",
         "directAnswers": [
@@ -939,7 +1015,7 @@
           "退室時間",
           "退室方法"
         ],
-        "answer": "チェックアウトは11:00までです。カードキーを返却し、共用品を元に戻して入口の扉が完全に閉まったことをご確認ください。\n忘れ物がないか確認し、使用した共用品は元の場所へ戻してください。\n使用した食器は洗って元に戻し、ごみは共用キッチンで分別してください。\n使用済みタオルはシャワー室前パウダールームのタオルかごに入れてください。\n省エネのため客室のカードキーを抜いて電源を切ってください。\nキオスクでチェックアウトを選び、カードキーを返却してください。\n他のゲストの安全のため、退出時に入口の扉が完全に閉まったことをご確認ください。\nチェックアウト当日に限り、ラゲッジルームで無料保管できます。\nレイトチェックアウトはできません。",
+        "answer": "チェックアウトは11:00までです。カードキーを返却し、共用品を元に戻して入口の扉が完全に閉まったことをご確認ください。\n忘れ物がないか確認し、使用した共用品は元の場所へ戻してください。\n使用した食器は洗って元に戻し、ごみは共用キッチンで分別してください。\n使用済みタオルはシャワー室前パウダールームのタオルかごに入れてください。\n省エネのため客室のカードキーを抜いて電源を切ってください。\nキオスクでチェックアウトを選び、案内に従ってカードキーをゆっくり返却してください。無理に押し込まないでください。\n他のゲストの安全のため、退出時に入口の扉が完全に閉まったことをご確認ください。\nチェックアウト当日は時間制限なく、503号室前のラゲッジルームに無料で保管できます。\nレイトチェックアウトはできません。\n快適にお過ごしいただけましたら、予約サイトに短いレビューをお寄せください。\n気になった点や改善点は予約サイトのメッセージでお知らせください。今後の運営に反映します。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "チェックアウトは11:00までで、レイトチェックアウトはできません。",
         "directAnswers": [
@@ -948,7 +1024,7 @@
               "レイトチェックアウト",
               "チェックアウト延長"
             ],
-            "answer": "いいえ、レイトチェックアウトや時間延長はできません。ただし、チェックアウト当日の23時まで、503号室前のラゲッジルームに荷物を無料で預けられます。"
+            "answer": "いいえ、レイトチェックアウトや時間延長はできません。ただし、チェックアウト当日は時間制限なく、503号室前のラゲッジルームに荷物を無料で預けられます。"
           }
         ]
       },
@@ -972,7 +1048,7 @@
           "駐車できます",
           "駐車案内"
         ],
-        "answer": "建物内駐車不可\nお車の場合は下記の周辺有料駐車場をご利用ください。運営状況・料金は変更される場合があるため、入庫前に再度ご確認ください。\n東大門ホテル民営駐車場\nソウル特別市 鍾路区 昌信洞 444-1\n1時間4,000ウォン · 1日最大20,000ウォン",
+        "answer": "建物内駐車不可\nお車の場合は下記の周辺有料駐車場をご利用ください。運営状況・料金は変更される場合があるため、入庫前に再度ご確認ください。\n東大門ホテル民営駐車場\nソウル特別市 鍾路区 昌信洞 444-1\n駐車時に「ソニルビル訪問」とお伝えください。1時間4,000ウォン・1日最大約20,000ウォン（入庫前に現地確認）",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "いいえ、建物内には駐車できません。",
         "directAnswers": []
@@ -987,9 +1063,15 @@
           "騒音",
           "パーティー",
           "ペット",
-          "部外者"
+          "部外者",
+          "未成年",
+          "19歳未満",
+          "保護者",
+          "宅配",
+          "荷物の受取",
+          "スタッフ対応時間"
         ],
-        "answer": "皆さまの安全と快適な滞在のためにご協力ください。\nAnother Houseは女性専用です。予約人数を超える訪問者の入館はできません。\n館内は全面禁煙で、ペット、パーティー、商業撮影は不可です。\nマナータイムは22:00〜05:00です。深夜は特に静かにお過ごしください。\n調理は可能ですが、煙やにおいの強い肉・魚料理はお控えください。\n冷蔵庫に食品を保管する際は、付箋に名前と保管日または退室日を書いて貼ってください。\nゲストボックスの共用品は使用後に元へ戻し、消耗品は必要な分だけご利用ください。\n備品を破損した場合は予約プラットフォームのメッセージで直ちにホストへお知らせください。",
+        "answer": "皆さまの安全と快適な滞在のためにご協力ください。\nAnother Houseは女性専用です。予約人数を超える訪問者の入館はできません。\n館内は全面禁煙で、ペット、パーティー、商業撮影は不可です。\nマナータイムは22:00〜05:00です。深夜は特に静かにお過ごしください。\n調理は可能ですが、煙やにおいの強い肉・魚料理はお控えください。\n冷蔵庫に食品を保管する際は、付箋に名前と保管日または退室日を書いて貼ってください。\nゲストボックスの共用品は使用後に元へ戻し、消耗品は必要な分だけご利用ください。\n備品を破損した場合は予約プラットフォームのメッセージで直ちにホストへお知らせください。\n19歳未満の方のみでの宿泊はできません。法定保護者との同伴時のみ宿泊でき、同意書があっても未成年者だけでは宿泊できません。\n無人運営のため、荷物や宅配便の代理受取はできません。ご本人で受け取るか、受取代行サービスをご利用ください。\nスタッフ対応時間は09:00〜18:00です。予約プラットフォームのメッセージからお問い合わせください。\n客室内に専用バスルームはありません。共用REST ROOMにシャワー3室とトイレ2室があります。\nトイレには紙や衛生用品を流さず、ごみ箱をご利用ください。食品ごみは共用キッチンの専用ごみ箱へ捨ててください。",
         "source": "https://anotherhouse-guide.vercel.app/?page=rules",
         "lead": "宿泊ルールは次のとおりです。",
         "directAnswers": [
@@ -1018,6 +1100,27 @@
               "訪問者"
             ],
             "answer": "いいえ、予約者以外の入館はできません。"
+          },
+          {
+            "keywords": [
+              "未成年",
+              "19歳未満",
+              "保護者同意書"
+            ],
+            "answer": "19歳未満の方のみでの宿泊はできません。法定保護者との同伴時のみ宿泊でき、同意書があっても未成年者だけでは宿泊できません。"
+          },
+          {
+            "keywords": [
+              "宅配",
+              "荷物の受取"
+            ],
+            "answer": "無人運営のため、宅配便の代理受取はできません。ご本人で受け取るか、受取代行サービスをご利用ください。"
+          },
+          {
+            "keywords": [
+              "スタッフ対応時間"
+            ],
+            "answer": "スタッフ対応時間は09:00〜18:00です。予約プラットフォームのメッセージからお問い合わせください。"
           }
         ]
       },
@@ -1051,7 +1154,7 @@
           "ウェットティッシュ",
           "ビニール袋"
         ],
-        "answer": "写真の型番をメーカー公式資料と照合し、滞在中によく使う操作をまとめました。\n客室空調\n左下の電源を押します。\n運転モードから冷房または暖房を選びます。\n上下で設定温度を調節します。\n必要に応じて風量を調節します。\n外出時は電源を切ってください。集中制御中は一部モードが制限されます。\n電子レンジ\n金属やアルミホイルは使わず、電子レンジ対応容器を使います。\n食品を入れ、扉を完全に閉めます。\nすぐに温める場合は「スタート/+30秒」を押します。\n出力・重量解凍・時間解凍を選び、ダイヤルで設定してスタートします。\n停止/取消で止め、加熱中は離れないでください。\n電気クッキングヒーター\n底が平らな調理器具を置きます。\n電源を1秒長押しして待機状態にします。\nハイライトの＋で1段から開始し、＋／−で1〜9段を調節します。\n使用後は電源を1秒長押しします。\n余熱表示Hが消えるまで触れないでください。ロック解除は2秒長押しです。\n浄水器\nコップを注水口の下に置きます。\n常温水・冷水・温水を選びます。\n120 mL・500 mL・連続を選びます。\n出水ボタンを押します。\n温水はロックを約5秒長押しして解除し、赤い出水ボタン点灯中はやけどに注意してください。\n共用冷蔵庫\n食品・飲料ごとに名前または客室と、保管開始日またはチェックアウト日を記入してください。\nにおいの強い食品は完全に密封してください。\n期限切れ・長期保管・無記名の食品は衛生管理のため処分されることがあります。\n他のゲストの食品や飲料は絶対に口にしないでください。\nチェックアウト時に残った食品を片付けてください。\nゲストボックス\n共用スペースのGUEST BOXをご利用ください。\n予備タオル、使い捨て歯ブラシ、絆創膏、旅行用アダプター、ヘアアイロン、ウェットティッシュ、ビニール袋があります。\nアダプターやヘアアイロンなど再利用品は使用後すぐ元の場所に戻してください。\n使い捨て用品は必要な分だけお取りください。",
+        "answer": "写真の型番をメーカー公式資料と照合し、滞在中によく使う操作をまとめました。\n客室空調\n左下の電源を押します。\n運転モードから冷房または暖房を選びます。\n上下で設定温度を調節します。\n必要に応じて風量を調節します。\n外出時は電源を切ってください。集中制御中は一部モードが制限されます。\n電子レンジ\n金属やアルミホイルは使わず、電子レンジ対応容器を使います。\n食品を入れ、扉を完全に閉めます。\nすぐに温める場合は「スタート/+30秒」を押します。\n出力・重量解凍・時間解凍を選び、ダイヤルで設定してスタートします。\n停止/取消で止め、加熱中は離れないでください。\n電気クッキングヒーター\n底が平らな調理器具を置きます。\n電源を1秒長押しして待機状態にします。\nハイライトの＋で1段から開始し、＋／−で1〜9段を調節します。\n使用後は電源を1秒長押しします。\n余熱表示Hが消えるまで触れないでください。ロック解除は2秒長押しです。\n浄水器\nコップを注水口の下に置きます。\n常温水・冷水・温水を選びます。\n120 mL・500 mL・連続を選びます。\n出水ボタンを押します。\n温水はロックを約5秒長押しして解除し、赤い出水ボタン点灯中はやけどに注意してください。\n共用冷蔵庫\n食品・飲料ごとに名前または客室と、保管開始日またはチェックアウト日を記入してください。\nにおいの強い食品は完全に密封してください。\n期限切れ・長期保管・無記名の食品は衛生管理のため処分されることがあります。\n他のゲストの食品や飲料は絶対に口にしないでください。\nチェックアウト時に残った食品を片付けてください。\nゲストボックス\n共用キッチンの冷蔵庫横にあるGUEST BOXをご利用ください。\n予備タオル、使い捨てデンタルキット、絆創膏、変換アダプター、ヘアアイロン、ウェットティッシュ、ビニール袋があります。\n予備タオルはシャワー室の棚にもあります。使用済みタオルはシャワー室前のかごに入れ、GUEST BOXへ戻さないでください。\n変換アダプターやヘアアイロンなどの共用品は使用後に元へ戻し、消耗品は必要な分だけご利用ください。\n客室備品\n客室にはホテル寝具、無料Wi-Fi、使い捨てデンタルキット、携帯電話充電器、タオル、使い捨てスリッパ、ハンガーがあります。\n共用バスルーム備品\n共用バスルームにはボディソープ、シャンプー、ヘアドライヤーがあります。\n共用キッチンの利用\n客室にテーブルがない場合は、共用キッチンのラウンジテーブルでお召し上がりください。\n使用した食器は洗って元の場所へ戻してください。",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
         "lead": "はい、冷暖房・キッチン家電を利用できます。",
         "directAnswers": [
@@ -1072,12 +1175,12 @@
           },
           {
             "item": "hair-dryer",
-            "returnPolicy": "unconfirmed",
+            "returnPolicy": "shared-use",
             "keywords": [
               "ヘアドライヤー",
               "ドライヤー"
             ],
-            "answer": "現在の宿泊案内ではヘアドライヤーの用意は確認できません。共用ゲストボックスにはヘアアイロンのみ記載されています。必要な場合は予約プラットフォームのメッセージでホストに確認してください。"
+            "answer": "はい、ヘアドライヤーは共用バスルームにあります。ヘアアイロンは共用キッチンの冷蔵庫横にあるGUEST BOXにあります。"
           },
           {
             "item": "hair-straightener",
@@ -1094,7 +1197,7 @@
               "予備タオル",
               "タオル"
             ],
-            "answer": "はい、予備のタオルは共用スペースのゲストボックスにあります。滞在中に必要な枚数だけ取り、使用済みのタオルはゲストボックスへ戻さないでください。"
+            "answer": "はい、予備タオルは共用キッチンの冷蔵庫横にあるGUEST BOXとシャワー室の棚にあります。使用済みタオルはシャワー室前のかごに入れ、GUEST BOXへ戻さないでください。"
           },
           {
             "item": "dental-kit",
@@ -1271,7 +1374,7 @@
           "行李房",
           "存放行李"
         ],
-        "answer": "可以寄存行李。\n503号房前的行李房\n入住前使用寄存室所需的门禁信息，请在预订平台消息中确认。\n仅限退房当天可在行李室免费寄存。\n不提供延迟退房。",
+        "answer": "可以寄存行李。\n503号房前的行李房\n入住或退房当天可免费使用，且无时间限制。入住前所需的门禁信息请查看预订平台消息。\n退房当天可免费寄存在503号房前的行李室，且无时间限制。\n不提供延迟退房。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "可以，住宿提供行李寄存。",
         "directAnswers": [
@@ -1282,7 +1385,7 @@
               "行李房",
               "存放行李"
             ],
-            "answer": "可以寄存行李。可免费存放在503号房前的行李房，使用至退房当天23:00。"
+            "answer": "可以寄存行李。入住或退房当天可免费使用503号房前的行李房，且无时间限制。入住前所需的门禁信息请查看预订平台消息。"
           }
         ]
       },
@@ -1298,7 +1401,7 @@
           "自助机",
           "房门锁"
         ],
-        "answer": "15:00起可办理入住。请在Sunil大厦5层使用预订人信息通过自助机办理入住。\n请查看入住前一天至入住当日上午9:00之间通过预订平台消息发送的入住说明。\n15:00后，在5层自助机上使用预订凭证中的姓名，或订单号后四位查询订单。\n按照屏幕提示完成自助入住，并确认房号和房卡。\n入住后请将房卡贴近入口旁的读卡器开门。\n行李可寄存在503号房前的行李室。入住前寄存行李所需的门禁信息请查看预订消息。\n因客房准备需要时间，无法提前入住。\n请通过您预订的平台（Booking.com、Agoda或Trip.com）向房东发送消息。",
+        "answer": "15:00起可办理入住。请在Sunil大厦5层使用预订人信息通过自助机办理入住。\n请查看入住前一天至入住当日上午9:00之间通过预订平台消息发送的入住说明。\n15:00后，在5层自助机上使用预订凭证中的姓名，或订单号后四位查询订单。\n按照屏幕提示完成自助入住，并确认房号和房卡。\n入住后请将房卡贴近入口旁的读卡器开门。\n入住或退房当天可免费将行李寄存在503号房前的行李室，且无时间限制。入住前所需的门禁信息请查看预订消息。\n因客房准备需要时间，无法提前入住。\n即使较晚抵达，15:00后也可随时通过自助机办理非接触式入住。\n房卡用于住宿入口和房门，无法补发；外出时请务必随身携带。\n工作人员回复时间为09:00–18:00。请通过预订平台（Booking.com、Agoda或Trip.com）的消息功能咨询。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "入住时间为15:00起，采用自助入住。",
         "directAnswers": [
@@ -1318,7 +1421,7 @@
           "退房时间",
           "办理退房"
         ],
-        "answer": "请于11:00前退房。归还房卡、整理公共用品，并确认入口门已完全关闭。\n确认没有遗留个人物品，并将使用过的公共用品放回原位。\n使用过的餐具请清洗后放回原位，垃圾请在公共厨房分类投放。\n使用过的毛巾请放入淋浴间前化妆区的毛巾篮。\n为节约能源，请拔出客房房卡以切断电源。\n在自助机上选择退房后归还房卡。\n为保障其他住客安全，离开时请确认入口门已完全关闭。\n仅限退房当天可在行李室免费寄存。\n不提供延迟退房。",
+        "answer": "请于11:00前退房。归还房卡、整理公共用品，并确认入口门已完全关闭。\n确认没有遗留个人物品，并将使用过的公共用品放回原位。\n使用过的餐具请清洗后放回原位，垃圾请在公共厨房分类投放。\n使用过的毛巾请放入淋浴间前化妆区的毛巾篮。\n为节约能源，请拔出客房房卡以切断电源。\n在自助机上选择退房，按照提示缓慢归还房卡，请勿用力塞入。\n为保障其他住客安全，离开时请确认入口门已完全关闭。\n退房当天可免费寄存在503号房前的行李室，且无时间限制。\n不提供延迟退房。\n如果您住得满意，欢迎在预订平台留下简短评价。\n如有不便或需要改进之处，请通过预订平台消息告诉我们，我们会及时改进。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "退房时间为11:00前，不提供延迟退房。",
         "directAnswers": [
@@ -1327,7 +1430,7 @@
               "延迟退房",
               "延长退房"
             ],
-            "answer": "不可以，不提供延迟退房或延长退房时间。不过，退房当天23:00前可将行李免费寄存在503号房前的行李房。"
+            "answer": "不可以，不提供延迟退房或延长退房时间。不过，退房当天可免费将行李寄存在503号房前的行李房，且无时间限制。"
           }
         ]
       },
@@ -1351,7 +1454,7 @@
           "可以停车",
           "停车指南"
         ],
-        "answer": "楼内不可停车\n驾车时请使用下方附近的收费停车场。营业情况及费用可能变更，请在入场前再次确认。\n东大门酒店私人停车场\n首尔特别市钟路区昌信洞444-1\n每小时4,000韩元 · 每天最高20,000韩元",
+        "answer": "楼内不可停车\n驾车时请使用下方附近的收费停车场。营业情况及费用可能变更，请在入场前再次确认。\n东大门酒店私人停车场\n首尔特别市钟路区昌信洞444-1\n停车时请说明“前往Sunil大厦”。每小时4,000韩元 · 每天最高约20,000韩元（入场前请现场确认）",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "不可以，大楼内不提供停车位。",
         "directAnswers": []
@@ -1366,9 +1469,15 @@
           "噪音",
           "派对",
           "宠物",
-          "外来人员"
+          "外来人员",
+          "未成年人",
+          "未满19岁",
+          "监护人",
+          "快递",
+          "代收",
+          "工作人员回复时间"
         ],
-        "answer": "为了所有人的安全与舒适，请遵守以下规则。\nAnother House为女性专用住宿，禁止超过预订人数的访客进入。\n全区域禁烟，禁止携带宠物、举办派对及商业拍摄。\n安静时段为22:00至05:00，夜间请特别注意控制噪音。\n可使用厨房，但请勿烹饪会产生大量油烟或强烈气味的肉类、鱼类食物。\n在冰箱存放食物时，请用便签标注姓名及存放日期或退房日期。\n使用Guest Box公共用品后请放回原位，一次性用品请按需取用。\n如有物品损坏，请立即通过预订平台消息联系房东。",
+        "answer": "为了所有人的安全与舒适，请遵守以下规则。\nAnother House为女性专用住宿，禁止超过预订人数的访客进入。\n全区域禁烟，禁止携带宠物、举办派对及商业拍摄。\n安静时段为22:00至05:00，夜间请特别注意控制噪音。\n可使用厨房，但请勿烹饪会产生大量油烟或强烈气味的肉类、鱼类食物。\n在冰箱存放食物时，请用便签标注姓名及存放日期或退房日期。\n使用Guest Box公共用品后请放回原位，一次性用品请按需取用。\n如有物品损坏，请立即通过预订平台消息联系房东。\n未满19岁的客人不能单独入住。仅在法定监护人陪同下方可入住，即使有监护人同意书也不能单独入住。\n住宿采用无人运营，无法代收快递。请本人收件或使用可代收快递的服务。\n工作人员回复时间为09:00–18:00。请通过预订平台消息联系我们。\n客房内没有独立浴室。公共REST ROOM设有3间淋浴间和2间卫生间。\n请勿将纸巾或卫生用品冲入马桶，请使用垃圾桶。厨余垃圾请投入公共厨房的专用垃圾桶。",
         "source": "https://anotherhouse-guide.vercel.app/?page=rules",
         "lead": "住宿规则如下。",
         "directAnswers": [
@@ -1397,6 +1506,27 @@
               "访客"
             ],
             "answer": "不可以，未登记访客不得进入住宿。"
+          },
+          {
+            "keywords": [
+              "未成年人",
+              "未满19岁",
+              "监护人同意书"
+            ],
+            "answer": "未满19岁的客人不能单独入住。仅在法定监护人陪同下方可入住，即使有同意书也不能单独入住。"
+          },
+          {
+            "keywords": [
+              "快递",
+              "代收"
+            ],
+            "answer": "住宿采用无人运营，无法代收快递。请本人收件或使用可代收快递的服务。"
+          },
+          {
+            "keywords": [
+              "工作人员回复时间"
+            ],
+            "answer": "工作人员回复时间为09:00–18:00。请通过预订平台消息联系我们。"
           }
         ]
       },
@@ -1429,7 +1559,7 @@
           "湿巾",
           "塑料袋"
         ],
-        "answer": "已将照片中的型号与制造商官方资料核对，并整理住客常用操作。\n房间空调\n按左下角电源键。\n在运行模式中选择制冷或制热。\n用上下键设定温度。\n需要时调节风量。\n离开时请关闭。中央控制时部分模式可能受限。\n微波炉\n请使用微波炉专用容器，勿放入金属或锡纸。\n放入食物并关好门。\n快速加热时反复按“启动/+30秒”。\n选择功率、重量解冻或时间解冻，用旋钮设定后启动。\n按停止/取消结束，加热时请勿离开。\n电陶炉\n使用平底锅具。\n长按电源1秒进入待机。\n按加热区＋从1档启动，再用＋／−调节1至9档。\n使用后长按电源1秒关闭。\n显示H时请勿触摸。长按锁定键2秒可解锁。\n净水器\n将杯子放在出水口下。\n选择常温、冷水或热水。\n选择120 mL、500 mL或连续出水。\n按出水键。\n热水需长按锁定键约5秒解锁；出水键亮红色时谨防烫伤。\n公用冰箱\n每份食品和饮料请标注姓名或房间以及存放日期或退房日期。\n气味较重的食品请完全密封。\n过期、长期存放或无标签食品可能因卫生管理被清理。\n请勿食用其他住客的食品或饮料。\n退房时请自行清理剩余食品。\n住客用品箱\n请在公共区域使用GUEST BOX。\n内有备用毛巾、一次性牙具、创可贴、旅行转换插头、直发器、湿巾和塑料袋。\n转换插头和直发器等可重复使用物品请在使用后立即归还原位。\n一次性用品请只取所需数量。",
+        "answer": "已将照片中的型号与制造商官方资料核对，并整理住客常用操作。\n房间空调\n按左下角电源键。\n在运行模式中选择制冷或制热。\n用上下键设定温度。\n需要时调节风量。\n离开时请关闭。中央控制时部分模式可能受限。\n微波炉\n请使用微波炉专用容器，勿放入金属或锡纸。\n放入食物并关好门。\n快速加热时反复按“启动/+30秒”。\n选择功率、重量解冻或时间解冻，用旋钮设定后启动。\n按停止/取消结束，加热时请勿离开。\n电陶炉\n使用平底锅具。\n长按电源1秒进入待机。\n按加热区＋从1档启动，再用＋／−调节1至9档。\n使用后长按电源1秒关闭。\n显示H时请勿触摸。长按锁定键2秒可解锁。\n净水器\n将杯子放在出水口下。\n选择常温、冷水或热水。\n选择120 mL、500 mL或连续出水。\n按出水键。\n热水需长按锁定键约5秒解锁；出水键亮红色时谨防烫伤。\n公用冰箱\n每份食品和饮料请标注姓名或房间以及存放日期或退房日期。\n气味较重的食品请完全密封。\n过期、长期存放或无标签食品可能因卫生管理被清理。\n请勿食用其他住客的食品或饮料。\n退房时请自行清理剩余食品。\n住客用品箱\nGUEST BOX位于公共厨房冰箱旁。\n内有备用毛巾、一次性牙具、创可贴、旅行转换插头、直发器、湿巾和塑料袋。\n淋浴间搁板上也有备用毛巾。用过的毛巾请放入淋浴间外的毛巾篮，不要放回GUEST BOX。\n转换插头和直发器等可重复使用物品请在使用后归还原位，一次性用品请按需取用。\n客房用品\n客房提供酒店寝具、免费Wi-Fi、一次性牙具、手机充电器、毛巾、一次性拖鞋和衣架。\n公共浴室用品\n公共浴室提供沐浴露、洗发水和吹风机。\n公共厨房使用\n如果客房没有桌子，请在公共厨房的休息区餐桌用餐。\n使用过的餐具请清洗后放回原位。",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
         "lead": "可以，住宿内配有冷暖设备及厨房电器。",
         "directAnswers": [
@@ -1450,12 +1580,12 @@
           },
           {
             "item": "hair-dryer",
-            "returnPolicy": "unconfirmed",
+            "returnPolicy": "shared-use",
             "keywords": [
               "吹风机",
               "电吹风"
             ],
-            "answer": "当前住宿指南未确认提供吹风机。公共区域的住客用品箱中仅明确列有直发器。如有需要，请通过预订平台消息向房东确认。"
+            "answer": "有，吹风机放在公共浴室。公共厨房冰箱旁的GUEST BOX内另有直发器。"
           },
           {
             "item": "hair-straightener",
@@ -1474,7 +1604,7 @@
               "额外毛巾",
               "毛巾"
             ],
-            "answer": "有，公共区域的住客用品箱内备有备用毛巾。请按住宿期间所需数量取用，使用过的毛巾请勿放回住客用品箱。"
+            "answer": "有，备用毛巾放在公共厨房冰箱旁的GUEST BOX和淋浴间搁板上。用过的毛巾请放入淋浴间外的毛巾篮，不要放回GUEST BOX。"
           },
           {
             "item": "dental-kit",
@@ -1649,7 +1779,7 @@
           "行李房",
           "寄存行李"
         ],
-        "answer": "可以寄放行李。\n503號房前的行李房\n入住前使用寄存室所需的門禁資訊，請在預訂平台訊息中確認。\n僅限退房當天可在行李室免費寄存。\n不提供延遲退房。",
+        "answer": "可以寄放行李。\n503號房前的行李房\n入住或退房當天可免費使用，且無時間限制。入住前所需的門禁資訊請查看預訂平台訊息。\n退房當天可免費寄放在503號房前的行李室，且無時間限制。\n不提供延遲退房。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "可以，住宿提供行李寄放。",
         "directAnswers": [
@@ -1660,7 +1790,7 @@
               "行李房",
               "寄存行李"
             ],
-            "answer": "可以寄放行李。可免費寄放在503號房前的行李房，使用至退房當天23:00。"
+            "answer": "可以寄放行李。入住或退房當天可免費使用503號房前的行李房，且無時間限制。入住前所需的門禁資訊請查看預訂平台訊息。"
           }
         ]
       },
@@ -1676,7 +1806,7 @@
           "自助機",
           "房門鎖"
         ],
-        "answer": "15:00起可辦理入住。請在Sunil大廈5層使用預訂人資訊通過自助機辦理入住。\n請檢視入住前一天至入住當日上午9:00之間通過預訂平台訊息傳送的入住說明。\n15:00後，在5層自助機上使用預訂憑證中的姓名，或訂單號後四位查詢訂單。\n按照螢幕提示完成自助入住，並確認房號和房卡。\n入住後請將房卡貼近入口旁的讀卡器開門。\n行李可寄存在503號房前的行李室。入住前寄存行李所需的門禁資訊請檢視預訂訊息。\n因客房準備需要時間，無法提早入住。\n請通過您預訂的平台（Booking.com、Agoda或Trip.com）向房東傳送訊息。",
+        "answer": "15:00起可辦理入住。請在Sunil大廈5層使用預訂人資訊通過自助機辦理入住。\n請檢視入住前一天至入住當日上午9:00之間通過預訂平台訊息傳送的入住說明。\n15:00後，在5層自助機上使用預訂憑證中的姓名，或訂單號後四位查詢訂單。\n按照螢幕提示完成自助入住，並確認房號和房卡。\n入住後請將房卡貼近入口旁的讀卡器開門。\n入住或退房當天可免費將行李寄放在503號房前的行李室，且無時間限制。入住前所需的門禁資訊請檢視預訂訊息。\n因客房準備需要時間，無法提早入住。\n即使較晚抵達，15:00後也可隨時通過自助機辦理非接觸式入住。\n房卡用於住宿入口和房門，無法補發；外出時請務必隨身攜帶。\n工作人員回覆時間為09:00–18:00。請通過預訂平台（Booking.com、Agoda或Trip.com）的訊息功能諮詢。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "入住時間為15:00起，採自助入住。",
         "directAnswers": [
@@ -1696,7 +1826,7 @@
           "退房時間",
           "辦理退房"
         ],
-        "answer": "請於11:00前退房。歸還房卡、整理公共用品，並確認入口門已完全關閉。\n確認沒有遺留個人物品，並將使用過的公共用品放回原位。\n使用過的餐具請清洗後放回原位，垃圾請在公共廚房分類投放。\n使用過的毛巾請放入淋浴間前化妝區的毛巾籃。\n為節約能源，請拔出客房房卡以切斷電源。\n在自助機上選擇退房後歸還房卡。\n為保障其他住客安全，離開時請確認入口門已完全關閉。\n僅限退房當天可在行李室免費寄存。\n不提供延遲退房。",
+        "answer": "請於11:00前退房。歸還房卡、整理公共用品，並確認入口門已完全關閉。\n確認沒有遺留個人物品，並將使用過的公共用品放回原位。\n使用過的餐具請清洗後放回原位，垃圾請在公共廚房分類投放。\n使用過的毛巾請放入淋浴間前化妝區的毛巾籃。\n為節約能源，請拔出客房房卡以切斷電源。\n在自助機上選擇退房，按照提示緩慢歸還房卡，請勿用力塞入。\n為保障其他住客安全，離開時請確認入口門已完全關閉。\n退房當天可免費寄放在503號房前的行李室，且無時間限制。\n不提供延遲退房。\n如果您住得滿意，歡迎在預訂平台留下簡短評價。\n如有不便或需要改進之處，請透過預訂平台訊息告訴我們，我們會及時改進。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "退房時間為11:00前，不提供延遲退房。",
         "directAnswers": [
@@ -1705,7 +1835,7 @@
               "延遲退房",
               "延長退房"
             ],
-            "answer": "不可以，不提供延遲退房或延長退房時間。不過，退房當天23:00前可將行李免費寄放在503號房前的行李房。"
+            "answer": "不可以，不提供延遲退房或延長退房時間。不過，退房當天可免費將行李寄放在503號房前的行李房，且無時間限制。"
           }
         ]
       },
@@ -1729,7 +1859,7 @@
           "可以停車",
           "停車指南"
         ],
-        "answer": "樓內不可停車\n駕車時請使用下方附近的收費停車場。營業情況及費用可能變更，請在入場前再次確認。\n東大門酒店私人停車場\n首爾特別市鍾路區昌信洞444-1\n每小時4,000韓元 · 每天最高20,000韓元",
+        "answer": "樓內不可停車\n駕車時請使用下方附近的收費停車場。營業情況及費用可能變更，請在入場前再次確認。\n東大門酒店私人停車場\n首爾特別市鍾路區昌信洞444-1\n停車時請說明「前往Sunil大廈」。每小時4,000韓元 · 每天最高約20,000韓元（入場前請現場確認）",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "不可以，大樓內不提供停車位。",
         "directAnswers": []
@@ -1744,9 +1874,15 @@
           "噪音",
           "派對",
           "寵物",
-          "外來人員"
+          "外來人員",
+          "未成年人",
+          "未滿19歲",
+          "監護人",
+          "快遞",
+          "代收",
+          "工作人員回覆時間"
         ],
-        "answer": "為了所有人的安全與舒適，請遵守以下規則。\nAnother House為女性專用住宿，禁止超過預訂人數的訪客進入。\n全區域禁菸，禁止攜帶寵物、舉辦派對及商業拍攝。\n安靜時段為22:00至05:00，夜間請特別注意控制噪音。\n可使用廚房，但請勿烹飪會產生大量油煙或強烈氣味的肉類、魚類食物。\n在冰箱存放食物時，請用便籤標註姓名及存放日期或退房日期。\n使用Guest Box公共用品後請放回原位，一次性用品請按需取用。\n如有物品損壞，請立即通過預訂平台訊息聯絡房東。",
+        "answer": "為了所有人的安全與舒適，請遵守以下規則。\nAnother House為女性專用住宿，禁止超過預訂人數的訪客進入。\n全區域禁菸，禁止攜帶寵物、舉辦派對及商業拍攝。\n安靜時段為22:00至05:00，夜間請特別注意控制噪音。\n可使用廚房，但請勿烹飪會產生大量油煙或強烈氣味的肉類、魚類食物。\n在冰箱存放食物時，請用便籤標註姓名及存放日期或退房日期。\n使用Guest Box公共用品後請放回原位，一次性用品請按需取用。\n如有物品損壞，請立即通過預訂平台訊息聯絡房東。\n未滿19歲的客人不能單獨入住。僅在法定監護人陪同下方可入住，即使有監護人同意書也不能單獨入住。\n住宿採用無人營運，無法代收快遞。請本人收件或使用可代收快遞的服務。\n工作人員回覆時間為09:00–18:00。請透過預訂平台訊息聯絡我們。\n客房內沒有獨立浴室。公共REST ROOM設有3間淋浴間和2間洗手間。\n請勿將紙巾或衛生用品沖入馬桶，請使用垃圾桶。廚餘垃圾請投入公共廚房的專用垃圾桶。",
         "source": "https://anotherhouse-guide.vercel.app/?page=rules",
         "lead": "住宿規則如下。",
         "directAnswers": [
@@ -1775,6 +1911,27 @@
               "訪客"
             ],
             "answer": "不可以，未登記訪客不得進入住宿。"
+          },
+          {
+            "keywords": [
+              "未成年人",
+              "未滿19歲",
+              "監護人同意書"
+            ],
+            "answer": "未滿19歲的客人不能單獨入住。僅在法定監護人陪同下方可入住，即使有同意書也不能單獨入住。"
+          },
+          {
+            "keywords": [
+              "快遞",
+              "代收"
+            ],
+            "answer": "住宿採用無人營運，無法代收快遞。請本人收件或使用可代收快遞的服務。"
+          },
+          {
+            "keywords": [
+              "工作人員回覆時間"
+            ],
+            "answer": "工作人員回覆時間為09:00–18:00。請透過預訂平台訊息聯絡我們。"
           }
         ]
       },
@@ -1807,7 +1964,7 @@
           "溼巾",
           "塑膠袋"
         ],
-        "answer": "已將照片中的型號與製造商官方資料核對，並整理住客常用操作。\n房間冷暖氣\n按左下角電源鍵。\n在執行模式中選擇製冷或制熱。\n用上下鍵設定溫度。\n需要時調節風量。\n離開時請關閉。中央控制時部分模式可能受限。\n微波爐\n請使用微波爐專用容器，勿放入金屬或錫紙。\n放入食物並關好門。\n快速加熱時反覆按“啟動/+30秒”。\n選擇功率、重量解凍或時間解凍，用旋鈕設定後啟動。\n按停止/取消結束，加熱時請勿離開。\n電陶爐\n使用平底鍋具。\n長按電源1秒進入待機。\n按加熱區＋從1檔啟動，再用＋／−調節1至9檔。\n使用後長按電源1秒關閉。\n顯示H時請勿觸控。長按鎖定鍵2秒可解鎖。\n淨水器\n將杯子放在出水口下。\n選擇常溫、冷水或熱水。\n選擇120 mL、500 mL或連續出水。\n按出水鍵。\n熱水需長按鎖定鍵約5秒解鎖；出水鍵亮紅色時謹防燙傷。\n公用冰箱\n每份食品和飲料請標註姓名或房間以及存放日期或退房日期。\n氣味較重的食品請完全密封。\n過期、長期存放或無標籤食品可能因衛生管理被清理。\n請勿食用其他住客的食品或飲料。\n退房時請自行清理剩餘食品。\n住客用品箱\n請在公共區域使用GUEST BOX。\n內有備用毛巾、一次性牙具、創可貼、旅行轉換插頭、直髮器、溼巾和塑膠袋。\n轉換插頭和直髮器等可重複使用物品請在使用後立即歸還原位。\n一次性用品請只取所需數量。",
+        "answer": "已將照片中的型號與製造商官方資料核對，並整理住客常用操作。\n房間冷暖氣\n按左下角電源鍵。\n在執行模式中選擇製冷或制熱。\n用上下鍵設定溫度。\n需要時調節風量。\n離開時請關閉。中央控制時部分模式可能受限。\n微波爐\n請使用微波爐專用容器，勿放入金屬或錫紙。\n放入食物並關好門。\n快速加熱時反覆按“啟動/+30秒”。\n選擇功率、重量解凍或時間解凍，用旋鈕設定後啟動。\n按停止/取消結束，加熱時請勿離開。\n電陶爐\n使用平底鍋具。\n長按電源1秒進入待機。\n按加熱區＋從1檔啟動，再用＋／−調節1至9檔。\n使用後長按電源1秒關閉。\n顯示H時請勿觸控。長按鎖定鍵2秒可解鎖。\n淨水器\n將杯子放在出水口下。\n選擇常溫、冷水或熱水。\n選擇120 mL、500 mL或連續出水。\n按出水鍵。\n熱水需長按鎖定鍵約5秒解鎖；出水鍵亮紅色時謹防燙傷。\n公用冰箱\n每份食品和飲料請標註姓名或房間以及存放日期或退房日期。\n氣味較重的食品請完全密封。\n過期、長期存放或無標籤食品可能因衛生管理被清理。\n請勿食用其他住客的食品或飲料。\n退房時請自行清理剩餘食品。\n住客用品箱\nGUEST BOX位於公共廚房冰箱旁。\n內有備用毛巾、一次性牙具、OK繃、旅行轉換插頭、直髮器、溼巾和塑膠袋。\n淋浴間擱板上也有備用毛巾。用過的毛巾請放入淋浴間外的毛巾籃，不要放回GUEST BOX。\n轉換插頭和直髮器等可重複使用物品請在使用後歸還原位，一次性用品請按需取用。\n客房用品\n客房提供飯店寢具、免費Wi-Fi、一次性牙具、手機充電器、毛巾、一次性拖鞋和衣架。\n公共浴室用品\n公共浴室提供沐浴乳、洗髮精和吹風機。\n公共廚房使用\n如果客房沒有桌子，請在公共廚房的休息區餐桌用餐。\n使用過的餐具請清洗後放回原位。",
         "source": "https://anotherhouse-guide.vercel.app/?page=appliances",
         "lead": "可以，住宿內配有冷暖設備及廚房電器。",
         "directAnswers": [
@@ -1828,12 +1985,12 @@
           },
           {
             "item": "hair-dryer",
-            "returnPolicy": "unconfirmed",
+            "returnPolicy": "shared-use",
             "keywords": [
               "吹風機",
               "電吹風"
             ],
-            "answer": "目前住宿指南未確認提供吹風機。公共區域的住客用品箱中僅明確列有直髮器。如有需要，請透過預訂平台訊息向房東確認。"
+            "answer": "有，吹風機放在公共浴室。公共廚房冰箱旁的GUEST BOX內另有直髮器。"
           },
           {
             "item": "hair-straightener",
@@ -1852,7 +2009,7 @@
               "額外毛巾",
               "毛巾"
             ],
-            "answer": "有，公共區域的住客用品箱內備有備用毛巾。請按住宿期間所需數量取用，使用過的毛巾請勿放回住客用品箱。"
+            "answer": "有，備用毛巾放在公共廚房冰箱旁的GUEST BOX和淋浴間擱板上。用過的毛巾請放入淋浴間外的毛巾籃，不要放回GUEST BOX。"
           },
           {
             "item": "dental-kit",
@@ -2162,13 +2319,15 @@
               "15:00 이후 5층 키오스크에서 예약 바우처에 적힌 예약자 이름 또는 예약 번호 뒤 4자리로 예약을 조회합니다.",
               "화면 안내에 따라 셀프 체크인을 완료하고 객실 번호와 카드키를 확인합니다.",
               "체크인 후에는 카드키를 출입구 옆 기기에 태그하여 문을 엽니다.",
-              "짐은 503호 앞 러기지룸에 보관할 수 있습니다. 체크인 전 짐 보관을 위한 출입정보는 예약 메시지에서 확인해 주세요.",
-              "얼리 체크인은 객실 준비 사정상 불가능합니다."
+              "체크인·체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 짐을 무료로 보관할 수 있습니다. 체크인 전 출입정보는 예약 메시지에서 확인해 주세요.",
+              "얼리 체크인은 객실 준비 사정상 불가능합니다.",
+              "15:00 이후에는 늦게 도착해도 키오스크에서 언제든지 비대면 체크인할 수 있습니다.",
+              "카드키는 숙소 출입구와 객실 문에 모두 필요하며 재발급되지 않으니, 외출할 때 반드시 소지해 주세요."
             ]
           },
           {
             "title": "도움이 필요할 때",
-            "body": "예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴)을 통해 메시지로 호스트에게 연락해 주세요."
+            "body": "직원 응대시간은 09:00–18:00입니다. 문의사항은 예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴)의 메시지로 남겨 주세요."
           }
         ],
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
@@ -2184,15 +2343,22 @@
               "사용한 식기는 설거지 후 원위치하고, 쓰레기는 공용 주방에서 종류별로 분리해 주세요.",
               "사용한 수건은 샤워실 앞 파우더룸의 타월 바구니에 넣어 주세요.",
               "에너지 절약을 위해 객실 카드키를 뽑아 전원을 차단해 주세요.",
-              "키오스크에서 체크아웃을 선택한 뒤 카드키를 반납해 주세요.",
+              "키오스크에서 체크아웃을 선택한 뒤 안내에 따라 카드키를 천천히 반납해 주세요. 억지로 밀어 넣지 마세요.",
               "나오실 때 다른 투숙객의 안전을 위해 출입구 문이 완전히 닫혔는지 확인해 주세요."
             ]
           },
           {
             "title": "체크아웃 후 짐 보관",
             "steps": [
-              "체크아웃 당일에 한해 러기지룸에 무료로 보관할 수 있습니다.",
+              "체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 무료로 보관할 수 있습니다.",
               "레이트 체크아웃은 불가합니다."
+            ]
+          },
+          {
+            "title": "머무름을 마치며",
+            "steps": [
+              "편안하게 머무르셨다면 예약 플랫폼에 간단한 후기를 남겨 주세요.",
+              "이용 중 아쉬웠던 점이나 개선이 필요한 부분은 예약 플랫폼 메시지로 알려주시면 운영에 반영하겠습니다."
             ]
           }
         ],
@@ -2201,7 +2367,7 @@
       "luggage": {
         "label": "짐 보관",
         "value": "503호 앞 러기지 룸",
-        "note": "체크인 전 이용에 필요한 출입 정보는 예약 플랫폼 메시지에서 확인해 주세요.",
+        "note": "체크인·체크아웃 당일에는 시간 제한 없이 무료로 이용할 수 있습니다. 체크인 전 출입 정보는 예약 플랫폼 메시지에서 확인해 주세요.",
         "image": "/assets/images/gallery/another-house/common-37-luggage.webp",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
       },
@@ -2214,7 +2380,7 @@
           {
             "name": "동대문호텔 민영 주차장",
             "address": "서울 종로구 창신동 444-1",
-            "note": "1시간 4,000원 · 하루 최대 20,000원"
+            "note": "주차 시 “선일빌딩 방문”이라고 말씀해 주세요. 1시간 4,000원 · 하루 최대 약 20,000원(입차 전 현장 확인)"
           }
         ],
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
@@ -2234,6 +2400,21 @@
               "냉장고에 음식물을 보관할 때는 포스트잇에 이름과 보관일 또는 퇴실일을 적어 붙여 주세요.",
               "게스트 박스의 공용 물품은 사용 후 원위치해 주세요. 일회용 소모품은 필요한 만큼만 이용해 주세요.",
               "기물이 파손된 경우 예약 플랫폼 메시지로 즉시 호스트에게 알려 주세요."
+            ]
+          },
+          {
+            "title": "투숙 및 운영 안내",
+            "steps": [
+              "만 19세 미만 고객은 혼자 투숙할 수 없습니다. 법적 보호자와 동반하는 경우에만 가능하며, 보호자 동의서가 있어도 미성년자 단독 투숙은 불가합니다.",
+              "숙소는 무인 운영으로 택배 대리수령이 어렵습니다. 직접 수령하거나 위탁수령 가능한 서비스를 이용해 주세요.",
+              "직원 응대시간은 09:00–18:00입니다. 문의는 예약한 플랫폼의 메시지로 남겨 주세요."
+            ]
+          },
+          {
+            "title": "공용 욕실 이용",
+            "steps": [
+              "객실 내부에는 개별 욕실이 없으며, 공용 REST ROOM에 샤워실 3칸과 화장실 2칸이 있습니다.",
+              "변기에는 휴지나 위생용품을 넣지 말고 휴지통을 이용해 주세요. 음식물은 공용주방 음식물 쓰레기통에 버려 주세요."
             ]
           }
         ],
@@ -2385,13 +2566,15 @@
               "After 15:00, use the kiosk on the 5th floor and search with the name shown on the booking voucher or the last four digits of the reservation number.",
               "Complete self check-in on screen and confirm your room number and key card.",
               "After check-in, tap the key card on the reader beside the entrance.",
-              "Luggage can be stored in the luggage room in front of Room 503. For luggage access before check-in, use the access information in your booking message.",
-              "Early check-in is not available because rooms need time to be prepared."
+              "On your check-in or check-out day, you can store luggage free of charge in the luggage room in front of Room 503 with no time limit. Before check-in, use the access information in your booking message.",
+              "Early check-in is not available because rooms need time to be prepared.",
+              "If you arrive late, you can still use the kiosk for contactless check-in at any time after 15:00.",
+              "The key card is required for both the property entrance and your room. It cannot be reissued, so always take it with you when you go out."
             ]
           },
           {
             "title": "If you need help",
-            "body": "Please contact the host by message through the platform you booked with (Booking.com, Agoda, or Trip.com)."
+            "body": "Staff respond from 09:00 to 18:00. Please send questions through the messaging service of your booking platform (Booking.com, Agoda, or Trip.com)."
           }
         ],
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
@@ -2407,15 +2590,22 @@
               "Wash and return used dishes, then sort waste in the shared kitchen.",
               "Place used towels in the towel basket in the powder room outside the showers.",
               "Remove the room key card to switch off the room power.",
-              "Select checkout at the kiosk and return the key card.",
+              "Select checkout at the kiosk and slowly return the key card as instructed. Do not force it into the machine.",
               "For everyone’s safety, make sure the entrance door is fully closed when you leave."
             ]
           },
           {
             "title": "Luggage after checkout",
             "steps": [
-              "Free luggage storage is available in the luggage room until later on the day of checkout.",
+              "On the day of checkout, free luggage storage is available in the luggage room in front of Room 503 with no time limit.",
               "Late checkout is not available."
+            ]
+          },
+          {
+            "title": "After your stay",
+            "steps": [
+              "If you enjoyed your stay, please leave a short review on your booking platform.",
+              "If anything could be improved, send us a message through your booking platform so we can follow up."
             ]
           }
         ],
@@ -2424,7 +2614,7 @@
       "luggage": {
         "label": "Luggage storage",
         "value": "Luggage room in front of Room 503",
-        "note": "Check your booking-platform message for the access information needed before check-in.",
+        "note": "It is free to use at any time on your check-in or check-out day, with no time limit. Before check-in, check your booking-platform message for access information.",
         "image": "/assets/images/gallery/another-house/common-37-luggage.webp",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
       },
@@ -2437,7 +2627,7 @@
           {
             "name": "Dongdaemun Hotel private parking",
             "address": "444-1 Changsin-dong, Jongno-gu, Seoul",
-            "note": "₩4,000 per hour · up to ₩20,000 per day"
+            "note": "Tell the attendant you are visiting Sunil Building. ₩4,000 per hour · about ₩20,000 maximum per day (confirm before entry)"
           }
         ],
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
@@ -2457,6 +2647,21 @@
               "Label refrigerator items with your name and the storage date or checkout date.",
               "Return shared Guest Box items after use and take only the disposable supplies you need.",
               "Report any damaged item to the host immediately through your booking platform message."
+            ]
+          },
+          {
+            "title": "Stay and service information",
+            "steps": [
+              "Guests under 19 cannot stay alone. They may stay only with a legal guardian; a consent form does not permit an unaccompanied minor to stay.",
+              "Because the property is unmanned, staff cannot receive parcels for guests. Please receive deliveries in person or use a service that accepts parcels on your behalf.",
+              "Staff respond from 09:00 to 18:00. Please contact us through your booking-platform messages."
+            ]
+          },
+          {
+            "title": "Shared bathroom use",
+            "steps": [
+              "Rooms do not have private bathrooms. The shared REST ROOM has three shower stalls and two toilets.",
+              "Do not flush toilet paper or sanitary products; use the bin. Put food waste in the dedicated bin in the shared kitchen."
             ]
           }
         ],
@@ -2608,13 +2813,15 @@
               "15:00以降、5階のキオスクで予約バウチャー記載の予約者名、または予約番号の下4桁で予約を検索します。",
               "画面案内に従ってセルフチェックインを完了し、客室番号とカードキーをご確認ください。",
               "チェックイン後は入口横の端末にカードキーをかざして入館します。",
-              "荷物は503号室前のラゲッジルームに保管できます。チェックイン前の荷物預かり用入館情報は予約メッセージでご確認ください。",
-              "客室準備の都合上、アーリーチェックインはご利用いただけません。"
+              "チェックイン日・チェックアウト当日は時間制限なく、503号室前のラゲッジルームに無料で荷物を預けられます。チェックイン前の入館情報は予約メッセージでご確認ください。",
+              "客室準備の都合上、アーリーチェックインはご利用いただけません。",
+              "到着が遅くなっても、15:00以降はキオスクでいつでも非対面チェックインができます。",
+              "カードキーは宿の入口と客室の両方で必要です。再発行できないため、外出時は必ずお持ちください。"
             ]
           },
           {
             "title": "サポートが必要な場合",
-            "body": "予約したプラットフォーム（Booking.com、Agoda、Trip.com）のメッセージを通じてホストへご連絡ください。"
+            "body": "スタッフ対応時間は09:00〜18:00です。お問い合わせは予約サイト（Booking.com、Agoda、Trip.com）のメッセージでお送りください。"
           }
         ],
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
@@ -2630,15 +2837,22 @@
               "使用した食器は洗って元に戻し、ごみは共用キッチンで分別してください。",
               "使用済みタオルはシャワー室前パウダールームのタオルかごに入れてください。",
               "省エネのため客室のカードキーを抜いて電源を切ってください。",
-              "キオスクでチェックアウトを選び、カードキーを返却してください。",
+              "キオスクでチェックアウトを選び、案内に従ってカードキーをゆっくり返却してください。無理に押し込まないでください。",
               "他のゲストの安全のため、退出時に入口の扉が完全に閉まったことをご確認ください。"
             ]
           },
           {
             "title": "チェックアウト後の荷物",
             "steps": [
-              "チェックアウト当日に限り、ラゲッジルームで無料保管できます。",
+              "チェックアウト当日は時間制限なく、503号室前のラゲッジルームに無料で保管できます。",
               "レイトチェックアウトはできません。"
+            ]
+          },
+          {
+            "title": "ご滞在を終えて",
+            "steps": [
+              "快適にお過ごしいただけましたら、予約サイトに短いレビューをお寄せください。",
+              "気になった点や改善点は予約サイトのメッセージでお知らせください。今後の運営に反映します。"
             ]
           }
         ],
@@ -2647,7 +2861,7 @@
       "luggage": {
         "label": "荷物保管",
         "value": "503号室前の荷物室",
-        "note": "チェックイン前の利用に必要な入館情報は予約プラットフォームのメッセージでご確認ください。",
+        "note": "チェックイン日・チェックアウト当日は時間制限なく無料で利用できます。チェックイン前の入館情報は予約プラットフォームのメッセージでご確認ください。",
         "image": "/assets/images/gallery/another-house/common-37-luggage.webp",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
       },
@@ -2660,7 +2874,7 @@
           {
             "name": "東大門ホテル民営駐車場",
             "address": "ソウル特別市 鍾路区 昌信洞 444-1",
-            "note": "1時間4,000ウォン · 1日最大20,000ウォン"
+            "note": "駐車時に「ソニルビル訪問」とお伝えください。1時間4,000ウォン・1日最大約20,000ウォン（入庫前に現地確認）"
           }
         ],
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
@@ -2680,6 +2894,21 @@
               "冷蔵庫に食品を保管する際は、付箋に名前と保管日または退室日を書いて貼ってください。",
               "ゲストボックスの共用品は使用後に元へ戻し、消耗品は必要な分だけご利用ください。",
               "備品を破損した場合は予約プラットフォームのメッセージで直ちにホストへお知らせください。"
+            ]
+          },
+          {
+            "title": "宿泊・運営案内",
+            "steps": [
+              "19歳未満の方のみでの宿泊はできません。法定保護者との同伴時のみ宿泊でき、同意書があっても未成年者だけでは宿泊できません。",
+              "無人運営のため、荷物や宅配便の代理受取はできません。ご本人で受け取るか、受取代行サービスをご利用ください。",
+              "スタッフ対応時間は09:00〜18:00です。予約プラットフォームのメッセージからお問い合わせください。"
+            ]
+          },
+          {
+            "title": "共用バスルームの利用",
+            "steps": [
+              "客室内に専用バスルームはありません。共用REST ROOMにシャワー3室とトイレ2室があります。",
+              "トイレには紙や衛生用品を流さず、ごみ箱をご利用ください。食品ごみは共用キッチンの専用ごみ箱へ捨ててください。"
             ]
           }
         ],
@@ -2831,13 +3060,15 @@
               "15:00后，在5层自助机上使用预订凭证中的姓名，或订单号后四位查询订单。",
               "按照屏幕提示完成自助入住，并确认房号和房卡。",
               "入住后请将房卡贴近入口旁的读卡器开门。",
-              "行李可寄存在503号房前的行李室。入住前寄存行李所需的门禁信息请查看预订消息。",
-              "因客房准备需要时间，无法提前入住。"
+              "入住或退房当天可免费将行李寄存在503号房前的行李室，且无时间限制。入住前所需的门禁信息请查看预订消息。",
+              "因客房准备需要时间，无法提前入住。",
+              "即使较晚抵达，15:00后也可随时通过自助机办理非接触式入住。",
+              "房卡用于住宿入口和房门，无法补发；外出时请务必随身携带。"
             ]
           },
           {
             "title": "需要帮助时",
-            "body": "请通过您预订的平台（Booking.com、Agoda或Trip.com）向房东发送消息。"
+            "body": "工作人员回复时间为09:00–18:00。请通过预订平台（Booking.com、Agoda或Trip.com）的消息功能咨询。"
           }
         ],
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
@@ -2853,15 +3084,22 @@
               "使用过的餐具请清洗后放回原位，垃圾请在公共厨房分类投放。",
               "使用过的毛巾请放入淋浴间前化妆区的毛巾篮。",
               "为节约能源，请拔出客房房卡以切断电源。",
-              "在自助机上选择退房后归还房卡。",
+              "在自助机上选择退房，按照提示缓慢归还房卡，请勿用力塞入。",
               "为保障其他住客安全，离开时请确认入口门已完全关闭。"
             ]
           },
           {
             "title": "退房后寄存行李",
             "steps": [
-              "仅限退房当天可在行李室免费寄存。",
+              "退房当天可免费寄存在503号房前的行李室，且无时间限制。",
               "不提供延迟退房。"
+            ]
+          },
+          {
+            "title": "结束住宿后",
+            "steps": [
+              "如果您住得满意，欢迎在预订平台留下简短评价。",
+              "如有不便或需要改进之处，请通过预订平台消息告诉我们，我们会及时改进。"
             ]
           }
         ],
@@ -2870,7 +3108,7 @@
       "luggage": {
         "label": "行李寄存",
         "value": "503号房前的行李房",
-        "note": "入住前使用寄存室所需的门禁信息，请在预订平台消息中确认。",
+        "note": "入住或退房当天可免费使用，且无时间限制。入住前所需的门禁信息请查看预订平台消息。",
         "image": "/assets/images/gallery/another-house/common-37-luggage.webp",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
       },
@@ -2883,7 +3121,7 @@
           {
             "name": "东大门酒店私人停车场",
             "address": "首尔特别市钟路区昌信洞444-1",
-            "note": "每小时4,000韩元 · 每天最高20,000韩元"
+            "note": "停车时请说明“前往Sunil大厦”。每小时4,000韩元 · 每天最高约20,000韩元（入场前请现场确认）"
           }
         ],
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
@@ -2903,6 +3141,21 @@
               "在冰箱存放食物时，请用便签标注姓名及存放日期或退房日期。",
               "使用Guest Box公共用品后请放回原位，一次性用品请按需取用。",
               "如有物品损坏，请立即通过预订平台消息联系房东。"
+            ]
+          },
+          {
+            "title": "住宿与服务说明",
+            "steps": [
+              "未满19岁的客人不能单独入住。仅在法定监护人陪同下方可入住，即使有监护人同意书也不能单独入住。",
+              "住宿采用无人运营，无法代收快递。请本人收件或使用可代收快递的服务。",
+              "工作人员回复时间为09:00–18:00。请通过预订平台消息联系我们。"
+            ]
+          },
+          {
+            "title": "公共浴室使用",
+            "steps": [
+              "客房内没有独立浴室。公共REST ROOM设有3间淋浴间和2间卫生间。",
+              "请勿将纸巾或卫生用品冲入马桶，请使用垃圾桶。厨余垃圾请投入公共厨房的专用垃圾桶。"
             ]
           }
         ],
@@ -3054,13 +3307,15 @@
               "15:00後，在5層自助機上使用預訂憑證中的姓名，或訂單號後四位查詢訂單。",
               "按照螢幕提示完成自助入住，並確認房號和房卡。",
               "入住後請將房卡貼近入口旁的讀卡器開門。",
-              "行李可寄存在503號房前的行李室。入住前寄存行李所需的門禁資訊請檢視預訂訊息。",
-              "因客房準備需要時間，無法提早入住。"
+              "入住或退房當天可免費將行李寄放在503號房前的行李室，且無時間限制。入住前所需的門禁資訊請檢視預訂訊息。",
+              "因客房準備需要時間，無法提早入住。",
+              "即使較晚抵達，15:00後也可隨時通過自助機辦理非接觸式入住。",
+              "房卡用於住宿入口和房門，無法補發；外出時請務必隨身攜帶。"
             ]
           },
           {
             "title": "需要幫助時",
-            "body": "請通過您預訂的平台（Booking.com、Agoda或Trip.com）向房東傳送訊息。"
+            "body": "工作人員回覆時間為09:00–18:00。請通過預訂平台（Booking.com、Agoda或Trip.com）的訊息功能諮詢。"
           }
         ],
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
@@ -3076,15 +3331,22 @@
               "使用過的餐具請清洗後放回原位，垃圾請在公共廚房分類投放。",
               "使用過的毛巾請放入淋浴間前化妝區的毛巾籃。",
               "為節約能源，請拔出客房房卡以切斷電源。",
-              "在自助機上選擇退房後歸還房卡。",
+              "在自助機上選擇退房，按照提示緩慢歸還房卡，請勿用力塞入。",
               "為保障其他住客安全，離開時請確認入口門已完全關閉。"
             ]
           },
           {
             "title": "退房後寄存行李",
             "steps": [
-              "僅限退房當天可在行李室免費寄存。",
+              "退房當天可免費寄放在503號房前的行李室，且無時間限制。",
               "不提供延遲退房。"
+            ]
+          },
+          {
+            "title": "結束住宿後",
+            "steps": [
+              "如果您住得滿意，歡迎在預訂平台留下簡短評價。",
+              "如有不便或需要改進之處，請透過預訂平台訊息告訴我們，我們會及時改進。"
             ]
           }
         ],
@@ -3093,7 +3355,7 @@
       "luggage": {
         "label": "行李寄放",
         "value": "503號房前的行李房",
-        "note": "入住前使用寄存室所需的門禁資訊，請在預訂平台訊息中確認。",
+        "note": "入住或退房當天可免費使用，且無時間限制。入住前所需的門禁資訊請查看預訂平台訊息。",
         "image": "/assets/images/gallery/another-house/common-37-luggage.webp",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin"
       },
@@ -3106,7 +3368,7 @@
           {
             "name": "東大門酒店私人停車場",
             "address": "首爾特別市鍾路區昌信洞444-1",
-            "note": "每小時4,000韓元 · 每天最高20,000韓元"
+            "note": "停車時請說明「前往Sunil大廈」。每小時4,000韓元 · 每天最高約20,000韓元（入場前請現場確認）"
           }
         ],
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
@@ -3126,6 +3388,21 @@
               "在冰箱存放食物時，請用便籤標註姓名及存放日期或退房日期。",
               "使用Guest Box公共用品後請放回原位，一次性用品請按需取用。",
               "如有物品損壞，請立即通過預訂平台訊息聯絡房東。"
+            ]
+          },
+          {
+            "title": "住宿與服務說明",
+            "steps": [
+              "未滿19歲的客人不能單獨入住。僅在法定監護人陪同下方可入住，即使有監護人同意書也不能單獨入住。",
+              "住宿採用無人營運，無法代收快遞。請本人收件或使用可代收快遞的服務。",
+              "工作人員回覆時間為09:00–18:00。請透過預訂平台訊息聯絡我們。"
+            ]
+          },
+          {
+            "title": "公共浴室使用",
+            "steps": [
+              "客房內沒有獨立浴室。公共REST ROOM設有3間淋浴間和2間洗手間。",
+              "請勿將紙巾或衛生用品沖入馬桶，請使用垃圾桶。廚餘垃圾請投入公共廚房的專用垃圾桶。"
             ]
           }
         ],
@@ -8665,7 +8942,7 @@
   },
   "appliances": {
     "ko": {
-      "title": "냉난방 • 주방기기 사용법",
+      "title": "냉난방 · 주방기기 · 비품 안내",
       "summary": "사진에서 확인한 모델명과 제조사 공식 자료를 대조해, 숙소에서 자주 쓰는 조작만 정리했습니다.",
       "devices": [
         {
@@ -8741,17 +9018,36 @@
         {
           "name": "게스트박스",
           "steps": [
-            "공용 공간의 GUEST BOX에서 필요한 물품을 확인합니다.",
-            "여분 수건·일회용 칫솔 세트·밴드·여행용 어댑터·고데기·물티슈·비닐봉투가 준비되어 있습니다.",
-            "여행용 어댑터와 고데기 등 재사용 물품은 사용 직후 제자리에 돌려놓습니다.",
-            "일회용품은 필요한 수량만 가져가 주세요."
+            "공용주방 냉장고 옆 GUEST BOX에서 필요한 물품을 확인합니다.",
+            "여분 수건·일회용 덴탈키트·밴드·여행용 변환 어댑터·헤어 고데기·물티슈·비닐봉투가 준비되어 있습니다.",
+            "여분 수건은 샤워실 선반에도 있습니다. 사용한 수건은 샤워실 앞 타월 바구니에 넣고 GUEST BOX에 다시 넣지 마세요.",
+            "변환 어댑터와 헤어 고데기 등 재사용 물품은 사용 후 제자리에 돌려놓고, 일회용품은 필요한 수량만 이용해 주세요."
+          ]
+        },
+        {
+          "name": "객실 비품",
+          "steps": [
+            "객실에는 호텔 침구, 무료 Wi-Fi, 일회용 덴탈키트, 휴대폰 충전기, 수건, 일회용 슬리퍼와 옷걸이가 준비되어 있습니다."
+          ]
+        },
+        {
+          "name": "공용 욕실 비품",
+          "steps": [
+            "공용 욕실에는 바디워시, 샴푸와 헤어드라이어가 준비되어 있습니다."
+          ]
+        },
+        {
+          "name": "공용주방 이용",
+          "steps": [
+            "객실에 별도 테이블이 없는 경우 음식은 공용주방 라운지 테이블에서 드셔 주세요.",
+            "사용한 식기는 설거지한 뒤 제자리에 놓아 주세요."
           ]
         }
       ],
       "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
     },
     "en": {
-      "title": "Appliance guide",
+      "title": "Climate · Kitchen · Amenities",
       "summary": "We matched the photographed models with manufacturer documentation and summarized the controls guests use most.",
       "devices": [
         {
@@ -8827,17 +9123,36 @@
         {
           "name": "Guest Box",
           "steps": [
-            "Find the GUEST BOX in the shared area.",
+            "Find the GUEST BOX beside the refrigerator in the shared kitchen.",
             "It contains extra towels, disposable dental kits, bandages, travel adapters, a hair straightener, wet wipes, and plastic bags.",
-            "Return reusable items such as the adapter and hair straightener immediately after use.",
-            "Take only the quantity of disposable items you need."
+            "Extra towels are also available on the shower-room shelf. Put used towels in the basket outside the showers; do not return them to the GUEST BOX.",
+            "Return reusable items such as adapters and the hair straightener after use, and take only the disposable supplies you need."
+          ]
+        },
+        {
+          "name": "Room amenities",
+          "steps": [
+            "Rooms include hotel bedding, free Wi-Fi, a disposable dental kit, phone charger, towels, disposable slippers, and hangers."
+          ]
+        },
+        {
+          "name": "Shared bathroom amenities",
+          "steps": [
+            "Body wash, shampoo, and hair dryers are provided in the shared bathroom."
+          ]
+        },
+        {
+          "name": "Using the shared kitchen",
+          "steps": [
+            "If your room does not have a table, please eat at the shared-kitchen lounge table.",
+            "Wash used dishes and return them to their places."
           ]
         }
       ],
       "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
     },
     "ja": {
-      "title": "設備ガイド",
+      "title": "空調 · キッチン · 備品案内",
       "summary": "写真の型番をメーカー公式資料と照合し、滞在中によく使う操作をまとめました。",
       "devices": [
         {
@@ -8913,17 +9228,36 @@
         {
           "name": "ゲストボックス",
           "steps": [
-            "共用スペースのGUEST BOXをご利用ください。",
-            "予備タオル、使い捨て歯ブラシ、絆創膏、旅行用アダプター、ヘアアイロン、ウェットティッシュ、ビニール袋があります。",
-            "アダプターやヘアアイロンなど再利用品は使用後すぐ元の場所に戻してください。",
-            "使い捨て用品は必要な分だけお取りください。"
+            "共用キッチンの冷蔵庫横にあるGUEST BOXをご利用ください。",
+            "予備タオル、使い捨てデンタルキット、絆創膏、変換アダプター、ヘアアイロン、ウェットティッシュ、ビニール袋があります。",
+            "予備タオルはシャワー室の棚にもあります。使用済みタオルはシャワー室前のかごに入れ、GUEST BOXへ戻さないでください。",
+            "変換アダプターやヘアアイロンなどの共用品は使用後に元へ戻し、消耗品は必要な分だけご利用ください。"
+          ]
+        },
+        {
+          "name": "客室備品",
+          "steps": [
+            "客室にはホテル寝具、無料Wi-Fi、使い捨てデンタルキット、携帯電話充電器、タオル、使い捨てスリッパ、ハンガーがあります。"
+          ]
+        },
+        {
+          "name": "共用バスルーム備品",
+          "steps": [
+            "共用バスルームにはボディソープ、シャンプー、ヘアドライヤーがあります。"
+          ]
+        },
+        {
+          "name": "共用キッチンの利用",
+          "steps": [
+            "客室にテーブルがない場合は、共用キッチンのラウンジテーブルでお召し上がりください。",
+            "使用した食器は洗って元の場所へ戻してください。"
           ]
         }
       ],
       "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
     },
     "zh": {
-      "title": "设备指南",
+      "title": "冷暖气 · 厨房设备 · 用品指南",
       "summary": "已将照片中的型号与制造商官方资料核对，并整理住客常用操作。",
       "devices": [
         {
@@ -8999,17 +9333,36 @@
         {
           "name": "住客用品箱",
           "steps": [
-            "请在公共区域使用GUEST BOX。",
+            "GUEST BOX位于公共厨房冰箱旁。",
             "内有备用毛巾、一次性牙具、创可贴、旅行转换插头、直发器、湿巾和塑料袋。",
-            "转换插头和直发器等可重复使用物品请在使用后立即归还原位。",
-            "一次性用品请只取所需数量。"
+            "淋浴间搁板上也有备用毛巾。用过的毛巾请放入淋浴间外的毛巾篮，不要放回GUEST BOX。",
+            "转换插头和直发器等可重复使用物品请在使用后归还原位，一次性用品请按需取用。"
+          ]
+        },
+        {
+          "name": "客房用品",
+          "steps": [
+            "客房提供酒店寝具、免费Wi-Fi、一次性牙具、手机充电器、毛巾、一次性拖鞋和衣架。"
+          ]
+        },
+        {
+          "name": "公共浴室用品",
+          "steps": [
+            "公共浴室提供沐浴露、洗发水和吹风机。"
+          ]
+        },
+        {
+          "name": "公共厨房使用",
+          "steps": [
+            "如果客房没有桌子，请在公共厨房的休息区餐桌用餐。",
+            "使用过的餐具请清洗后放回原位。"
           ]
         }
       ],
       "source": "https://anotherhouse-guide.vercel.app/?page=appliances"
     },
     "zh-TW": {
-      "title": "裝置指南",
+      "title": "冷暖氣 · 廚房設備 · 用品指南",
       "summary": "已將照片中的型號與製造商官方資料核對，並整理住客常用操作。",
       "devices": [
         {
@@ -9085,10 +9438,29 @@
         {
           "name": "住客用品箱",
           "steps": [
-            "請在公共區域使用GUEST BOX。",
-            "內有備用毛巾、一次性牙具、創可貼、旅行轉換插頭、直髮器、溼巾和塑膠袋。",
-            "轉換插頭和直髮器等可重複使用物品請在使用後立即歸還原位。",
-            "一次性用品請只取所需數量。"
+            "GUEST BOX位於公共廚房冰箱旁。",
+            "內有備用毛巾、一次性牙具、OK繃、旅行轉換插頭、直髮器、溼巾和塑膠袋。",
+            "淋浴間擱板上也有備用毛巾。用過的毛巾請放入淋浴間外的毛巾籃，不要放回GUEST BOX。",
+            "轉換插頭和直髮器等可重複使用物品請在使用後歸還原位，一次性用品請按需取用。"
+          ]
+        },
+        {
+          "name": "客房用品",
+          "steps": [
+            "客房提供飯店寢具、免費Wi-Fi、一次性牙具、手機充電器、毛巾、一次性拖鞋和衣架。"
+          ]
+        },
+        {
+          "name": "公共浴室用品",
+          "steps": [
+            "公共浴室提供沐浴乳、洗髮精和吹風機。"
+          ]
+        },
+        {
+          "name": "公共廚房使用",
+          "steps": [
+            "如果客房沒有桌子，請在公共廚房的休息區餐桌用餐。",
+            "使用過的餐具請清洗後放回原位。"
           ]
         }
       ],
@@ -14537,6 +14909,18 @@
     "publicInformationMustBeSearched": true,
     "accommodationFactsMustComeFromThisKnowledge": true
   },
+  "conciergeTraining": {
+    "version": "2026-09-23.1",
+    "recordCount": 121,
+    "intentCount": 33,
+    "secretAnswerRowsExcluded": 58,
+    "source": {
+      "workbook": "Q&A 표준화 (1).xlsx",
+      "rawSheet": "어나더 질문 RAW",
+      "trainingSheet": "어나더 질문 & 답변 AI학습",
+      "trainingRange": "A1:E122"
+    }
+  },
   "provenance": [
     "assets/site-data.js",
     "assets/gallery-data.js",
@@ -14545,6 +14929,7 @@
     "assets/restaurant-data.js",
     "assets/restaurant-expanded.js",
     "assets/tour-data.js",
-    "assets/gimpo-line5-timetable.json"
+    "assets/gimpo-line5-timetable.json",
+    "api/concierge-training.json"
   ]
 }

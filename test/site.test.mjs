@@ -228,6 +228,30 @@ test("check-in page matches the master overview and header rhythm",async()=>{
   assert.match(html,/<h2>체크인 • 체크아웃 안내<\/h2>/);
   assert.match(html,/<strong>찾아오는 길<\/strong><small>공항과 역에서 숙소까지/);
 });
+
+test("appliance cards stay compact and chat guide links reveal the relevant section",async()=>{
+  const html=await read("index.html");
+  const app=await read("assets/master-app.js");
+  assert.match(app,/function enhanceGuides\(\)/);
+  assert.match(app,/details=articleToDisclosure\(card,key,false\)/);
+  assert.match(app,/renderGuides\(\);enhanceGuides\(\)/);
+  assert.match(app,/function guideFocusFromQuestion\(question,response,route\)/);
+  assert.match(app,/revealGuideFocus\(link\.route,focus\)/);
+  assert.match(app,/function applianceCategoryCopy\(\)/);
+  assert.match(app,/function applianceCategoryIconMarkup\(id,icon\)/);
+  assert.match(app,/class="appliance-category-icon-svg"/);
+  assert.match(app,/\['room','객실 안내'/);
+  assert.match(app,/\['kitchen','주방 · 가전'/);
+  assert.match(app,/\['shared','공용 비품'/);
+  assert.match(app,/groups=\{room:\['tv','climate','room-amenities'\],kitchen:\['microwave','cooktop','purifier','fridge','shared-kitchen'\],shared:\['guestbox','bathroom-amenities'\]\}/);
+  assert.match(app,/showApplianceCategory\(appliancePanel\.dataset\.appliancePanel,false\)/);
+  assert.doesNotMatch(app,/<small>TV · OTT<\/small>/);
+  assert.doesNotMatch(app,/appliance-category-panel-head[^']*<div>/);
+  assert.match(html,/\.appliance-category-grid\{display:grid;gap:11px\}/);
+  assert.match(html,/\.appliance-category-copy small\{color:inherit;[^}]*opacity:1/);
+  assert.match(html,/\.appliance-category-panel\[hidden\]\{display:none!important\}/);
+  assert.match(html,/\.device\.progressive-disclosure \.device-header\{grid-template-columns:42px minmax\(0,1fr\) 24px/);
+});
 test("home location and room-gallery signature styling use approved copy",async()=>{
   const html=await read("index.html");
   const data=await read("assets/site-data.js");
@@ -311,9 +335,15 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(app,/data-photo-start-label/);
   assert.match(app,/zoom\.dataset\.photoStartLabel/);
   assert.match(app,/zoom\.dataset\.photoSignage/);
+  assert.match(app,/closest\('#lightboxPrev,#lightboxNext'\)/);
+  assert.match(app,/lightboxNav\.id==='lightboxNext'\?1:-1/);
+  assert.match(app,/addEventListener\('touchstart'.*lightboxTouchSwipe/);
+  assert.match(app,/lightboxIndex!==start\.index/);
+  assert.match(app,/Math\.abs\(delta\)>=36/);
+  assert.match(html,/\.image-lightbox\.is-zoomed \.image-lightbox-nav\{opacity:1;pointer-events:auto\}/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20260914-15/);
+  assert.match(html,/master-app\.js\?v=20260918-24/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
@@ -423,15 +453,14 @@ test("guest access, Wi-Fi, taxi landmark, appliance menu, and TV icon use the ap
   const app=await read("assets/master-app.js");
   assert.match(content,/예약자 이름 또는 예약 번호 뒤 4자리/);
   assert.doesNotMatch(content,/OTA 예약번호/);
-  assert.match(content,/짐은 503호 앞 러기지룸에 보관할 수 있습니다\. 체크인 전 짐 보관을 위한 출입정보는 예약 메시지에서 확인해 주세요\./);
+  assert.match(content,/체크인·체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 짐을 무료로 보관할 수 있습니다\. 체크인 전 출입정보는 예약 메시지에서 확인해 주세요\./);
   assert.doesNotMatch(content,/비밀번호\s+\d{4}\s*→\s*ENT\s*누르기/);
   assert.match(data,/Wi-Fi 비밀번호[\s\S]*another1234/);
   assert.match(data,/공유기 위치[\s\S]*복도 천장 및 라운지 테이블 위쪽/);
   assert.match(data,/landmark: I\('교촌치킨 동대문 1호점'/);
   assert.equal((data.match(/택시 하차 위치는 “교촌치킨 동대문 1호점”/g)||[]).length,2);
-  assert.match(data,/appliances: \{ title: I\('냉난방 • 주방기기 사용법'/);
-  assert.match(app,/\['냉난방 • 주방기기 사용법','냉난방·주방·가전 사용법'\]/);
-  assert.match(html,/data-go="appliances"[\s\S]*?<strong>냉난방 • 주방기기 사용법<\/strong>/);
+  assert.match(data,/appliances: \{ title: I\('냉난방 · 주방기기 · 비품 안내'/);
+  assert.match(app,/\['냉난방 · 주방기기 · 비품 안내','냉난방·주방기기·객실 비품 안내'\]/);
   assert.match(app,/applianceNoticeMarkup[\s\S]*<span class="mi">tv<\/span>/);
   assert.doesNotMatch(app,/tv_off/);
   assert.match(app,/data-copy="\x27\+esc\(t\(p\.sections\[1\]\.body\)\)\+\x27"/);
@@ -464,7 +493,7 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20260914-14/);
+  assert.match(html,/content-updates\.js\?v=20260918-17/);
   assert.match(html,/gallery-overrides\.js\?v=20260908-02/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
@@ -477,10 +506,11 @@ test("source document additions include parking, editorial story, OTA links, and
   await access(resolve(root,"assets/images/laundry-machine-2.jpg"));
 });
 
-test("check-in flow keeps self check-in and departure open above parking while house rules use a separate screen",async()=>{
+test("check-in flow uses progressive disclosure above parking while house rules use a separate screen",async()=>{
   const html=await read("index.html");
   const app=await read("assets/master-app.js");
   const data=await read("assets/site-data.js");
+  const content=await read("assets/content-updates.js");
   assert.match(html,/data-screen="rules"[^>]*>[\s\S]*?class="guide-detail-hero rules-hero"[\s\S]*?id="rulesContent"/);
   assert.match(html,/class="guide-detail-hero rules-hero">[\s\S]*?<h2 class="page-title">숙소 이용 규칙<\/h2>/);
   assert.match(data,/rules: \{ title: I\('숙소 이용 규칙', 'House rules', '宿泊ルール', '住宿规则', "住宿規則"\), kicker: 'HOUSE RULES'/);
@@ -505,12 +535,21 @@ test("check-in flow keeps self check-in and departure open above parking while h
   assert.match(app,/HOUSE RULES<\/small><b>'\+esc\(t\(r\.title\)\)/);
   assert.match(app,/legacyRules\?\.remove\(\)/);
   assert.match(app,/departure\.after\(parking\)/);
-  assert.match(app,/renderCheckin\(\);renderRulesPage\(\);renderBookingLinks\(\)/);
+  assert.match(app,/parking\.open=false/);
+  assert.match(app,/articleToDisclosure\(self,'self-checkin',true\)/);
+  assert.match(app,/articleToDisclosure\(departure,'checkout',false\)/);
+  assert.match(app,/function initCheckinPhotoCarousel\(\)/);
+  assert.match(html,/\.checkin-photo-carousel\{[^}]*overflow-x:auto[^}]*scroll-snap-type:x mandatory/);
+  assert.match(html,/\.checkin-photo-slide\{[^}]*flex:0 0 min\(78%,250px\)/);
+  assert.match(app,/sections\.slice\(1\)\.map/);
+  assert.match(content,/택배 대리수령이 어렵습니다/);
+  assert.match(content,/머무름을 마치며/);
+  assert.match(app,/renderCheckin\(\);enhanceCheckin\(\);renderRulesPage\(\);renderBookingLinks\(\)/);
   assert.match(app,/const card=\(title,icon,kicker,body\)=>'<article class="checkin-guide-card">/);
   assert.doesNotMatch(app,/const card=\(title,icon,kicker,body\)=>'<details/);
 });
 
-test("self check-in step six clearly rules out early check-in in all five languages",async()=>{
+test("self check-in includes early, late, and key-card guidance in all five languages",async()=>{
   const content=await read("assets/content-updates.js");
   for(const copy of [
     '얼리 체크인은 객실 준비 사정상 불가능합니다.',
@@ -520,8 +559,10 @@ test("self check-in step six clearly rules out early check-in in all five langua
     '因客房準備需要時間，無法提早入住。'
   ])assert.ok(content.includes(copy));
   const koreanSteps=content.match(/steps: I\(\s*\[([\s\S]*?)\],\s*\[/)?.[1]||'';
-  assert.equal((koreanSteps.match(/^\s*'/gm)||[]).length,6);
-  assert.match(koreanSteps,/얼리 체크인은 객실 준비 사정상 불가능합니다\.\s*'\s*$/m);
+  assert.equal((koreanSteps.match(/^\s*'/gm)||[]).length,8);
+  assert.match(koreanSteps,/얼리 체크인은 객실 준비 사정상 불가능합니다/);
+  assert.match(koreanSteps,/15:00 이후에는 늦게 도착해도/);
+  assert.match(koreanSteps,/카드키.*재발급되지 않/);
 });
 
 

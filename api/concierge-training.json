@@ -1,0 +1,589 @@
+{
+  "version": "2026-09-23.1",
+  "source": {
+    "workbook": "Q&A 표준화 (1).xlsx",
+    "rawSheet": "어나더 질문 RAW",
+    "trainingSheet": "어나더 질문 & 답변 AI학습",
+    "trainingRange": "A1:E122"
+  },
+  "recordCount": 121,
+  "intentCount": 33,
+  "secretAnswerRowsExcluded": 58,
+  "notes": [
+    "Historical guest questions are used only as intent examples.",
+    "Customer names, contact details, and dates are redacted.",
+    "Answers and access credentials are excluded; current verified guide data remains authoritative."
+  ],
+  "intents": [
+    {
+      "id": "luggage",
+      "types": [
+        "짐보관 가능 여부 및 시간"
+      ],
+      "route": "checkin",
+      "topic": "luggage",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "8"
+      ],
+      "examples": [
+        "또, 체크인 전은 몇시부터 맡길 수 있는지, 체크인 후에는 몇시까지 회수해야 하는지 가르쳐 주었으면 합니다. (출입구 비밀번호의 유효기간이 있는지 여부)",
+        "체크인 전후에 짐을 맡기는 곳이 묻어 버리는 일은 있습니까.",
+        "호텔에 수하물을 맡길 수 있습니까?",
+        "안녕하세요, 짐을 미리 맡겨둘 수 있을까요?",
+        "혹시 짐 보관해 주실 수 있나요?",
+        "저는 11시 30분쯤 도착할 예정입니다. 거기에 짐을 두고 가셔도 될까요?",
+        "체크아웃 후 짐을 두고 가면 어떻게 문을 열 수 있나요?",
+        "숙소의 운반 케이스를 맡길 수 있는 사물함의 크기는 어느 정도입니까?",
+        "체크인 전에 숙소 리셉션에서 수하물을 받으실 수 있나요?",
+        "호텔 프런트 데스크에서 체크인 전, 체크아웃 후 모두 짐을 보관해 주나요?",
+        "호텔에 짐을 보관할 수 있나요?",
+        "체크 아웃 후 짐을 맡기는 법을 가르쳐주세요.",
+        "체크인 전에 짐을 맡기려면 어떻게 해야 하나요?",
+        "제 여행 가방이 침대 밑에 안 들어가서 짐 보관소에 맡겼어요. 체크아웃할 때까지 거기 보관해도 될까요?",
+        "안녕하세요, 오늘 체크인하는 투숙객입니다. 일찍 도착했는데, 짐을 여기에 맡겨도 될까요?",
+        "숙소 리셉션에서 수하물을 받을 수 있나요?",
+        "카드 키 반납해도 번호를 입력하면 운반 케이스 잡으러 갈 수 있다고 하는 것이군요? 캐리 케이스 도난 방지에 뭔가 잠그는 것이 있습니까? 또 캐리 케이스＋배낭과 혼자서 2분의 짐은 맡길 수 있습니까? 체크아웃 후, 캐리 케이스 보관 장소에서 캐리 케이스를 맡기고 밖으로 나간다. 가지고 갈 때는 카드없이 비밀번호를 입력하고 안으로 들어가고 짐을 잡으러 가면 괜찮습니까? 짐을 잡으러 갈 시간은 24시간 괜찮습니까?",
+        "아침 몇시부터 짐을 맡길 수 있나요?",
+        "내일 아침 호텔에 수하물을 맡기고 싶습니다.",
+        "호텔 프런트에 짐을 맡겨둘 수 있을까요? 안녕하세요! 내일 체크아웃을 하는데, 사찰에서 하룻밤 묵을 예정입니다. 모레 다시 체크인하러 오는데, 내일 짐 하나를 프런트에 맡겨두고 26일 체크인 때 찾아갈 수 있을까요? 감사합니다!",
+        "호텔 프런트 데스크에 짐을 보관해 줄 수 있나요? (이하 생략)",
+        "체크인 전에 짐을 무료로 보관할 수 있나요?",
+        "체크 아웃 후 짐을 맡기는 방법을 알고 싶습니다.",
+        "체크아웃 후 몇 시까지 짐을 보관할 수 있나요?",
+        "체크인 전에 수하물을 맡기고 싶습니다.",
+        "체크인 후 수하물 보관은 몇 시까지 가능합니까?"
+      ]
+    },
+    {
+      "id": "postal-address",
+      "types": [
+        "우편번호, 위치, 주소"
+      ],
+      "route": "transport",
+      "topic": null,
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "32"
+      ],
+      "examples": [
+        "우리 우편번호는 무엇인가요?",
+        "다섯 자리 우편 번호를 알려주세요.",
+        "예약한 객실은 몇층에 있나요?"
+      ]
+    },
+    {
+      "id": "property-location",
+      "types": [
+        "숙소 찾기·위치"
+      ],
+      "route": "transport",
+      "topic": null,
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "1"
+      ],
+      "examples": [
+        "호텔 주소는 영문 또는 한국어 형식으로 작성해 주셔야 합니다.",
+        "호텔 주소",
+        "호텔을 찾을 수가 없어요",
+        "호텔 위치 및 층"
+      ]
+    },
+    {
+      "id": "contact",
+      "types": [
+        "전화번호·연락처"
+      ],
+      "route": "home",
+      "topic": "contact",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "30"
+      ],
+      "examples": [
+        "호텔 전화",
+        "호텔로 연락하는 방법은?",
+        "전화번호, 이메일, 기타 즉시 연락 도구를 추가하는 방법 등 호텔의 연락 방법을 알고 싶습니다.",
+        "전자 입국 심사 절차에 호텔 전화 번호가 필요하므로 알려주십시오."
+      ]
+    },
+    {
+      "id": "early-checkin",
+      "types": [
+        "얼리 체크인",
+        "체크인 안내 발송·얼리 체크인"
+      ],
+      "route": "checkin",
+      "topic": "checkin",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "9",
+        "3,9"
+      ],
+      "examples": [
+        "일찍 체크인할 수 있을까요?",
+        "이른 체크인은 가능합니까?",
+        "일찍 체크인할 수 있나요?",
+        "체크인 시간이 다가오고 있어서 여쭤보고 싶은데요, 우편으로 받은 체크인 정보 외에 체크인 절차에 대한 안내는 오후 3시에만 받을 수 있는 건가요? 혹시 일찍 체크인할 수 있을까요?"
+      ]
+    },
+    {
+      "id": "checkin-checkout-time",
+      "types": [
+        "체크인·체크아웃 시간"
+      ],
+      "route": "checkin",
+      "topic": "checkin",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "2,10"
+      ],
+      "examples": [
+        "예약 호텔의 체크인 및 체크아웃 시간을 알려주세요."
+      ]
+    },
+    {
+      "id": "checkin-method",
+      "types": [
+        "체크인 방법"
+      ],
+      "route": "checkin",
+      "topic": "checkin",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "3"
+      ],
+      "examples": [
+        "셀프 체크인을 어떻게 하나요?",
+        "체크인 방법",
+        "체크인 방법을 알려주세요.",
+        "영수증 발급을 할 수 없어 방 번호를 모릅니다.",
+        "제 예약 번호는 1539366514705937입니다. 체크인 절차가 어떻게 되는지 알려주시겠",
+        "호텔 도착 후 어떻게 체크인하나요?",
+        "안녕하세요, 체크인을 하고 객실 키는 받았는데 객실 번호나 영수증을 받지 못했습니다. 어떻게 해야 하나요? 키 카드만 있고 객실 번호는 없습니다.",
+        "비밀번호는 어디서 확인하나요?"
+      ]
+    },
+    {
+      "id": "late-checkin",
+      "types": [
+        "늦은 체크인"
+      ],
+      "route": "checkin",
+      "topic": "checkin",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "4"
+      ],
+      "examples": [
+        "호텔에 밤늦게 도착한 경우에도 체크인할 수 있나요?",
+        "밤늦게 호텔에 도착했는데도 체크인이 가능한가요?",
+        "가장 늦게 체크인할 수 있는 시간은 언제인가요?"
+      ]
+    },
+    {
+      "id": "shared-kitchen",
+      "types": [
+        "공용 주방 위치"
+      ],
+      "route": "appliances",
+      "topic": "appliances",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "18"
+      ],
+      "examples": [
+        "공용 주방은 몇층입니까?"
+      ]
+    },
+    {
+      "id": "booking-confirmation",
+      "types": [
+        "예약 확인 메일"
+      ],
+      "route": "checkin",
+      "topic": "contact",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "33"
+      ],
+      "examples": [
+        "9/24부터 3박 예약하고 있는 [예약자 이름]입니다. 예약 확인 메일이 도착하지 않았습니다. 다시 보낼 수 없습니까?",
+        "예약 확인 메일이 도착하지 않았습니다. 다시 보낼 수 없습니까?"
+      ]
+    },
+    {
+      "id": "checkin-luggage",
+      "types": [
+        "체크인과 짐보관"
+      ],
+      "route": "checkin",
+      "topic": "luggage",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "3,8"
+      ],
+      "examples": [
+        "안녕하세요, [날짜]-9/27에 3박 4일에 숙박 예약한 [예약자 이름]입니다. 체크인 방법, 체크아웃 후 트렁크를 맡기는 방법을 알려주세요. 잘 부탁드립니다!"
+      ]
+    },
+    {
+      "id": "airport-shuttle",
+      "types": [
+        "공항 셔틀"
+      ],
+      "route": "transport",
+      "topic": null,
+      "allowPublicSearch": true,
+      "quickAnswerIds": [
+        "25"
+      ],
+      "examples": [
+        "호텔에서 공항 셔틀 서비스를 제공하나요?",
+        "호텔에서 공항 셔틀 서비스를 제공하나요? 서비스 유형(픽업/드롭오프): 항공편 번호: 날짜 및 시간(현지 시간): 픽업/드롭오프 장소: 인원수: 수하물 개수:",
+        "호텔은 공항 교통편 서비스를 제공하나요?"
+      ]
+    },
+    {
+      "id": "key-card-recovery",
+      "types": [
+        "키 재발급·오반납,분실"
+      ],
+      "route": "checkin",
+      "topic": "checkin",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "37"
+      ],
+      "examples": [
+        "안녕하세요, 제가 실수로 출입 카드를 반납했습니다. 어떻게 하면 새 카드를 신청할 수 있나요?",
+        "룸 키를 없애버렸습니다. 방 번호는 501호실입니다. 일본어밖에 말할 수 없습니다.",
+        "[날짜] 501호 숙박함 방 카드 방에 넣은 채로 문을 닫았습니다. 어떻게 해야 합니까?",
+        "방의 카드를 방 안에 잊어 열쇠를 버렸습니다",
+        "지금 룸키를 룸키를 꽂아 둔 채로 방을 나왔습니다",
+        "방안에 룸 키를 넣은 채, 외출해 버렸습니"
+      ]
+    },
+    {
+      "id": "checkout-without-key",
+      "types": [
+        "키 없이 체크아웃"
+      ],
+      "route": "checkin",
+      "topic": "checkout",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "11"
+      ],
+      "examples": [
+        "501호실에 숙박했는데, 방 카드키를 방 안에 두고 왔어요. 그래서 체크아웃 절차를 진행하지 못한 채입니다. 죄송하지만 잘 부탁드립니다.",
+        "점원 보조가 그냥 바로 나가라고 했어요. 제 객실 카드는 방 안에 두고 왔고, 저는 이미 떠났어요."
+      ]
+    },
+    {
+      "id": "late-checkout",
+      "types": [
+        "체크아웃 시간 준수"
+      ],
+      "route": "checkin",
+      "topic": "checkout",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "10"
+      ],
+      "examples": [
+        "비행기 시간이 있기 때문에 체크아웃할 수 없습니다. 괜찮을까요?",
+        "체크아웃을 한 시간 늦춰도 괜찮을까요?"
+      ]
+    },
+    {
+      "id": "lost-property",
+      "types": [
+        "분실물"
+      ],
+      "route": "rules",
+      "topic": "rules",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "34"
+      ],
+      "examples": [
+        "호텔에 분실물을 버렸습니다. 어떻게 해야 하나요?"
+      ]
+    },
+    {
+      "id": "women-only",
+      "types": [
+        "여성전용 정책",
+        "객실 요청·남성 숙박"
+      ],
+      "route": "gallery",
+      "topic": "rooms",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "29"
+      ],
+      "examples": [
+        "남자도 예약 가능한가요",
+        "가능하시다면 창가 쪽 방으로 배정해 주시면 감사하겠습니다. 그리고 혹시 몰라 확인차 여쭤보는데, 남성도 숙박이 가능한가요"
+      ]
+    },
+    {
+      "id": "parcel-receipt",
+      "types": [
+        "배송물 수령"
+      ],
+      "route": "rules",
+      "topic": "rules",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "27"
+      ],
+      "examples": [
+        "안녕하세요. Weverse에서 미리 구매한 상품(굿즈)을 숙박 예정인 호텔로 배송해도 괜찮을까요? 현재는 아직 상품 판매에 대한 자세한 내용이 공개되지 않아 사전 구매가 가능할지는 모르지만, 사전 구매가 가능할 경우를 대비하여 미리 확인하고자 문의드립니다. 상품이 배송된다면 체크인 예정일 전이나 체크인 날짜와 비슷한 시기에 도착할 것으로 예상됩니다. 배송이 가능하다면, 호텔 프런트에서 상품을 대신 수령하여 보관해 주실 수 있을까요? 가능하시다면 배송에 필요한 정확한 호텔 주소도 알려주시면 감사하겠습니다. 감사합니다.",
+        "저 대신 소포를 받아주실 수 있나요?"
+      ]
+    },
+    {
+      "id": "checkout-method",
+      "types": [
+        "체크아웃 방법"
+      ],
+      "route": "checkin",
+      "topic": "checkout",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "11"
+      ],
+      "examples": [
+        "체크아웃 방법"
+      ]
+    },
+    {
+      "id": "room-amenities",
+      "types": [
+        "객실비품"
+      ],
+      "route": "appliances",
+      "topic": "appliances",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "17"
+      ],
+      "examples": [
+        "드라이어가 있습니까?"
+      ]
+    },
+    {
+      "id": "towels-dryer",
+      "types": [
+        "수건·건조기"
+      ],
+      "route": "appliances",
+      "topic": "appliances",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "16,18"
+      ],
+      "examples": [
+        "수건과 건조기가 있습니까?"
+      ]
+    },
+    {
+      "id": "luggage-access",
+      "types": [
+        "짐보관 출입번호"
+      ],
+      "route": "checkin",
+      "topic": "luggage",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "7,8"
+      ],
+      "examples": [
+        "지금 숙박중인데, 보관서비스를 체크아웃 당일 이용하려면 현관문 비밀번호가 필요하다고 적혀있네요. 현관문 비밀번호가 어디있나요?",
+        "체크아웃 후 짐 보관에 관하여, 입구의 자동문으로 들어갈 때 필요한 비밀번호를 알려주실 수 있을까요? 이메일을 찾아보았는데 확인하지 못했습니다.",
+        "수하물 보관을 위해 출입구 비밀번호를 알려주세요.",
+        "수하물 보관소 정문 비밀번호를 아직 받지 못했습니다.",
+        "“체크인 전/체크아웃 후 당일 503호 전 수하물 보관실에서 무료로 보관하실 수 있습니다. 출입구 비밀번호는 메시지를 확인하십시오. \" 그렇습니다만, 출입구의 패스워드는 언제, 가르쳐 주실 수 있습니까?"
+      ]
+    },
+    {
+      "id": "shared-bathroom",
+      "types": [
+        "공용 욕실"
+      ],
+      "route": "gallery",
+      "topic": "rooms",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "14"
+      ],
+      "examples": [
+        "이 객실 유형에는 욕조, 화장실이 있습니까? 또한이 호텔의 어딘가에 화장실이 있습니까?",
+        "혹시 연박 투숙객도 청소시간에는 화장실이나 샤워실 이용이 불가능한가요??",
+        "①화장실은 몇 개 있습니까? ② 샤워는 몇 개 있습니까? ③전방수는 몇 방입니까? 시간대에 관계없이 화장실을 자주 사용하는 것이 매우 불안해지고 있습니다."
+      ]
+    },
+    {
+      "id": "appliances",
+      "types": [
+        "비품"
+      ],
+      "route": "appliances",
+      "topic": "appliances",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "18"
+      ],
+      "examples": [
+        "이 방에 TV가 있나요?",
+        "안녕하세요, 다리미 있으신가요?",
+        "혹시 에어컨 어떻게 키나요?"
+      ]
+    },
+    {
+      "id": "refrigerator",
+      "types": [
+        "공용 냉장고"
+      ],
+      "route": "appliances",
+      "topic": "appliances",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "18"
+      ],
+      "examples": [
+        "공용 주방에 냉장고가 있나요?"
+      ]
+    },
+    {
+      "id": "toiletries",
+      "types": [
+        "세면용품"
+      ],
+      "route": "appliances",
+      "topic": "appliances",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "17,19"
+      ],
+      "examples": [
+        "이 객실에는 세면용품이 제공되나요?",
+        "이 방에 칫솔이나 샴푸, 린스 등의 어메니티는 있습니까?"
+      ]
+    },
+    {
+      "id": "in-room-dining",
+      "types": [
+        "객실 식사"
+      ],
+      "route": "rules",
+      "topic": "rules",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "21"
+      ],
+      "examples": [
+        "투숙객은 일부 한국 호스텔에서는 객실 내 식사를 제한하는 경우가 있다며, 객실 내에서 식사가 허용되는지 문의했습니다"
+      ]
+    },
+    {
+      "id": "wifi",
+      "types": [
+        "Wi-Fi"
+      ],
+      "route": "wifi",
+      "topic": "wifi",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "20"
+      ],
+      "examples": [
+        "호텔 와이파이 비밀번호를 찾으세요:",
+        "객실에 Wi-Fi가 있나요?"
+      ]
+    },
+    {
+      "id": "luggage-parcel",
+      "types": [
+        "짐보관과 택배"
+      ],
+      "route": "checkin",
+      "topic": "luggage",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "8,27"
+      ],
+      "examples": [
+        "체크아웃 당일에 짐을 보관할 수 있나요? 그리고 호텔에서 택배를 받아주나요?"
+      ]
+    },
+    {
+      "id": "airport-bus",
+      "types": [
+        "공항버스"
+      ],
+      "route": "transport",
+      "topic": null,
+      "allowPublicSearch": true,
+      "quickAnswerIds": [
+        "24"
+      ],
+      "examples": [
+        "인천공항으로 가는 직행 버스에 관하여, 호텔 근처에 정류장이 있나요? 이용 방법과 정류장 위치를 알려주시면 감사하겠습니다.",
+        "인천공항에서 어떤 공항버스를 타야 하고, 어느 정류장에서 내려야 하나요? 거기서 호텔까지는 어떻게 가나요?",
+        "인천에서 리무진 버스는 어디에서 내리면 좋습니까?"
+      ]
+    },
+    {
+      "id": "housekeeping",
+      "types": [
+        "객실 청소"
+      ],
+      "route": "rules",
+      "topic": "rules",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "35"
+      ],
+      "examples": [
+        "객실 청소가 매일 수행되는지 확인하고 싶습니다."
+      ]
+    },
+    {
+      "id": "towels",
+      "types": [
+        "수건 지급량"
+      ],
+      "route": "appliances",
+      "topic": "appliances",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "16"
+      ],
+      "examples": [
+        "얼굴 수건은 1인 1장인가요?",
+        "목욕 수건, 수건이 있습니까?"
+      ]
+    },
+    {
+      "id": "stay-extension",
+      "types": [
+        "연장, 연박요청",
+        "숙박 연장"
+      ],
+      "route": "checkin",
+      "topic": "contact",
+      "allowPublicSearch": false,
+      "quickAnswerIds": [
+        "36"
+      ],
+      "examples": [
+        "저는 9월 19일에 황로마 호텔에 2박 투숙할 예정입니다. 비밀번호는 이전과 동일하게 사용 가능한가요?",
+        "숙박을 1박 연장할 수 있나요?"
+      ]
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 const GUIDE_KNOWLEDGE = require("../assets/guide-knowledge.json");
+const CONCIERGE_TRAINING = require("./concierge-training.json");
 
 const MODEL = "gpt-5.4-mini";
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
@@ -14,14 +15,90 @@ const LINK_LABELS = {
 const GUIDE_SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const GUIDE_PAGE_ROUTES = new Set(["home", "gallery", "transport", "airport-departure", "checkin", "wifi", "appliances", "laundry", "trash", "rules", "restaurants", "tours"]);
 const GUIDE_TOPIC_ROUTES = { luggage: "checkin", checkin: "checkin", checkout: "checkin", wifi: "wifi", parking: "checkin", rules: "rules", appliances: "appliances", laundry: "laundry", waste: "trash", rooms: "gallery", tv: "appliances", contact: "home" };
+const PROPERTY_GUIDE_ROUTES = new Set(["home", "gallery", "checkin", "wifi", "appliances", "laundry", "trash", "rules"]);
 const GUIDE_PAGE_LABELS = {
-  ko: { home: "숙소 안내 바로가기", gallery: "객실 둘러보기", transport: "찾아오는 길 바로가기", "airport-departure": "공항으로 가는 길 바로가기", checkin: "체크인 · 체크아웃 안내 바로가기", wifi: "Wi-Fi 안내 바로가기", appliances: "냉난방 · 주방기기 사용법 보기", laundry: "세탁 안내 바로가기", trash: "쓰레기 배출 안내 바로가기", rules: "숙소 이용 규칙 보기", restaurants: "주변 맛집 전체 보기", tours: "추천 근교 투어 전체 보기" },
-  en: { home: "Open the property guide", gallery: "Explore the rooms", transport: "Open directions guide", "airport-departure": "Open the airport departure guide", checkin: "Open check-in & check-out guide", wifi: "Open Wi-Fi guide", appliances: "Open appliance guide", laundry: "Open laundry guide", trash: "Open waste guide", rules: "Open house rules", restaurants: "View all nearby dining", tours: "View all recommended tours" },
-  ja: { home: "宿泊案内を開く", gallery: "客室を見る", transport: "アクセス案内を開く", "airport-departure": "空港へのアクセスを開く", checkin: "チェックイン・アウト案内を開く", wifi: "Wi-Fi案内を開く", appliances: "設備・家電案内を開く", laundry: "洗濯案内を開く", trash: "ごみ分別案内を開く", rules: "宿泊ルールを見る", restaurants: "周辺グルメをすべて見る", tours: "おすすめ観光地をすべて見る" },
-  zh: { home: "打开住宿指南", gallery: "查看客房", transport: "打开交通指南", "airport-departure": "打开前往机场指南", checkin: "打开入住与退房指南", wifi: "打开 Wi-Fi 指南", appliances: "打开设备使用指南", laundry: "打开洗衣指南", trash: "打开垃圾分类指南", rules: "查看住宿规则", restaurants: "查看全部周边美食", tours: "查看全部推荐行程" },
-  "zh-TW": { home: "開啟住宿指南", gallery: "查看客房", transport: "開啟交通指南", "airport-departure": "開啟前往機場指南", checkin: "開啟入住與退房指南", wifi: "開啟 Wi-Fi 指南", appliances: "開啟設備使用指南", laundry: "開啟洗衣指南", trash: "開啟垃圾分類指南", rules: "查看住宿規則", restaurants: "查看全部周邊美食", tours: "查看全部推薦行程" }
+  ko: { home: "숙소 안내 바로가기", gallery: "객실 둘러보기", transport: "찾아오는 길 바로가기", "airport-departure": "공항으로 가는 길 바로가기", checkin: "체크인 · 체크아웃 안내 바로가기", wifi: "Wi-Fi 안내 바로가기", appliances: "냉난방 · 주방기기 · 비품 안내 보기", laundry: "세탁 안내 바로가기", trash: "쓰레기 배출 안내 바로가기", rules: "숙소 이용 규칙 보기", restaurants: "주변 맛집 전체 보기", tours: "추천 근교 투어 전체 보기" },
+  en: { home: "Open the property guide", gallery: "Explore the rooms", transport: "Open directions guide", "airport-departure": "Open the airport departure guide", checkin: "Open check-in & check-out guide", wifi: "Open Wi-Fi guide", appliances: "Open climate, kitchen & amenities guide", laundry: "Open laundry guide", trash: "Open waste guide", rules: "Open house rules", restaurants: "View all nearby dining", tours: "View all recommended tours" },
+  ja: { home: "宿泊案内を開く", gallery: "客室を見る", transport: "アクセス案内を開く", "airport-departure": "空港へのアクセスを開く", checkin: "チェックイン・アウト案内を開く", wifi: "Wi-Fi案内を開く", appliances: "空調・キッチン・備品案内を開く", laundry: "洗濯案内を開く", trash: "ごみ分別案内を開く", rules: "宿泊ルールを見る", restaurants: "周辺グルメをすべて見る", tours: "おすすめ観光地をすべて見る" },
+  zh: { home: "打开住宿指南", gallery: "查看客房", transport: "打开交通指南", "airport-departure": "打开前往机场指南", checkin: "打开入住与退房指南", wifi: "打开 Wi-Fi 指南", appliances: "打开冷暖气、厨房设备与用品指南", laundry: "打开洗衣指南", trash: "打开垃圾分类指南", rules: "查看住宿规则", restaurants: "查看全部周边美食", tours: "查看全部推荐行程" },
+  "zh-TW": { home: "開啟住宿指南", gallery: "查看客房", transport: "開啟交通指南", "airport-departure": "開啟前往機場指南", checkin: "開啟入住與退房指南", wifi: "開啟 Wi-Fi 指南", appliances: "開啟冷暖氣、廚房設備與用品指南", laundry: "開啟洗衣指南", trash: "開啟垃圾分類指南", rules: "查看住宿規則", restaurants: "查看全部周邊美食", tours: "查看全部推薦行程" }
 };
 const recentRequests = new Map();
+const TRAINING_SHORT_ALIASES = {
+  ko: { "짐": "luggage", "가방": "luggage", "캐리어": "luggage", "트렁크": "luggage", "수하물": "luggage", "주소": "property-location", "우편번호": "postal-address", "와이파이": "wifi", "분실물": "lost-property", "연박": "stay-extension", "객실청소": "housekeeping", "방청소": "housekeeping", "예약확인": "booking-confirmation", "확인메일": "booking-confirmation" },
+  en: { luggage: "luggage", baggage: "luggage", suitcase: "luggage", address: "property-location", postcode: "postal-address", zipcode: "postal-address", wifi: "wifi" },
+  ja: { "荷物": "luggage", "スーツケース": "luggage", "住所": "property-location", "郵便番号": "postal-address", wifi: "wifi" },
+  zh: { "行李": "luggage", "行李箱": "luggage", "地址": "property-location", "邮编": "postal-address", "邮政编码": "postal-address", wifi: "wifi" },
+  "zh-TW": { "行李": "luggage", "行李箱": "luggage", "地址": "property-location", "郵遞區號": "postal-address", wifi: "wifi" }
+};
+const TRAINING_INTENT_PATTERNS = [
+  { id: "booking-confirmation", pattern: /(?:예약.*(?:확인|메일)|확인\s*메일)/i },
+  { id: "lost-property", pattern: /(?:분실물|물건.*(?:두고|놓고|잃어))/i },
+  { id: "housekeeping", pattern: /(?:(?:객실|방)\s*청소|청소\s*(?:요청|가능))/i },
+  { id: "stay-extension", pattern: /(?:연박|(?:숙박|투숙|예약).*연장)/i }
+];
+const VERIFIED_TRAINING_FACTS = {
+  "postal-address": {
+    route: "transport",
+    answers: {
+      ko: "우편번호는 03199입니다. 주소는 서울특별시 종로구 종로 294, 선일빌딩 5층입니다.",
+      en: "The postal code is 03199. The address is 5F, Sunil Building, 294 Jong-ro, Jongno-gu, Seoul, Republic of Korea.",
+      ja: "郵便番号は03199です。住所はソウル特別市鍾路区鍾路294、ソニルビル5階です。",
+      zh: "邮政编码是03199。地址是韩国首尔特别市钟路区钟路294号，Sunil大厦5层。",
+      "zh-TW": "郵遞區號是03199。地址是韓國首爾特別市鐘路區鐘路294號，Sunil大廈5樓。"
+    }
+  },
+  "booking-confirmation": {
+    route: "checkin",
+    answers: {
+      ko: "예약 확인 메일을 받지 못하셨다면 예약자 이름, 예약 채널, 체크인 날짜를 예약 플랫폼 메시지로 알려주세요. 예약 상태와 확인 메일 재발송 여부를 확인해 드립니다.",
+      en: "If you did not receive the confirmation email, send the booking name, booking channel, and check-in date through your booking-platform messages. The team will check the reservation and whether the email can be resent.",
+      ja: "予約確認メールが届かない場合は、予約名・予約サイト・チェックイン日を予約プラットフォームのメッセージでお知らせください。予約状況とメール再送の可否を確認します。",
+      zh: "如果没有收到预订确认邮件，请通过预订平台消息提供预订姓名、预订渠道和入住日期。工作人员会核对预订状态及能否重新发送邮件。",
+      "zh-TW": "如果沒有收到訂房確認郵件，請透過訂房平台訊息提供訂房姓名、訂房管道和入住日期。工作人員會核對訂房狀態及能否重新寄送郵件。"
+    }
+  },
+  "checkout-without-key": {
+    route: "checkin",
+    answers: {
+      ko: "이미 출발하셨다면 예약자 이름, 객실 번호, 카드키를 둔 위치를 예약 플랫폼 메시지로 알려주세요.",
+      en: "If you have already left, send the booking name, room number, and the location where you left the key card through your booking-platform messages.",
+      ja: "すでに出発された場合は、予約名・客室番号・キーカードを置いた場所を予約プラットフォームのメッセージでお知らせください。",
+      zh: "如果您已经离开，请通过预订平台消息告知预订姓名、房间号以及房卡放置的位置。",
+      "zh-TW": "如果您已經離開，請透過訂房平台訊息告知訂房姓名、房號以及房卡放置的位置。"
+    }
+  },
+  "lost-property": {
+    route: "rules",
+    answers: {
+      ko: "분실물 확인을 위해 예약자 이름, 객실 번호, 체크아웃 날짜, 물건의 특징과 마지막으로 본 위치를 예약 플랫폼 메시지로 알려주세요.",
+      en: "To check for a lost item, send the booking name, room number, checkout date, item description, and the last place you saw it through your booking-platform messages.",
+      ja: "忘れ物を確認するため、予約名・客室番号・チェックアウト日・品物の特徴・最後に見た場所を予約プラットフォームのメッセージでお知らせください。",
+      zh: "如需查找遗失物品，请通过预订平台消息提供预订姓名、房间号、退房日期、物品特征及最后看到的位置。",
+      "zh-TW": "如需查找遺失物品，請透過訂房平台訊息提供訂房姓名、房號、退房日期、物品特徵及最後看到的位置。"
+    }
+  },
+  housekeeping: {
+    route: "rules",
+    answers: {
+      ko: "연박 중에는 매일 객실 청소가 제공되지 않습니다. 부득이하게 청소가 필요하면 예약 플랫폼 메시지로 문의해 주세요.",
+      en: "Daily room cleaning is not provided during consecutive stays. If cleaning is essential, please ask through your booking-platform messages.",
+      ja: "連泊中の毎日の客室清掃はありません。やむを得ず清掃が必要な場合は、予約プラットフォームのメッセージでお問い合わせください。",
+      zh: "连续入住期间不提供每日客房清洁。如确实需要清洁，请通过预订平台消息咨询。",
+      "zh-TW": "連續入住期間不提供每日客房清潔。如確實需要清潔，請透過訂房平台訊息詢問。"
+    }
+  },
+  "stay-extension": {
+    route: "checkin",
+    answers: {
+      ko: "숙박 연장은 해당 날짜의 객실 예약 가능 여부를 먼저 확인해야 합니다. 예약자 이름과 원하는 추가 숙박 날짜를 예약 플랫폼 메시지로 보내 주세요.",
+      en: "A stay extension depends on room availability for the requested date. Send the booking name and the additional dates you need through your booking-platform messages.",
+      ja: "宿泊延長は希望日の空室確認が必要です。予約名と追加で希望する宿泊日を予約プラットフォームのメッセージでお送りください。",
+      zh: "延长住宿需先确认所需日期是否有空房。请通过预订平台消息发送预订姓名和希望追加的住宿日期。",
+      "zh-TW": "延長住宿需先確認所需日期是否有空房。請透過訂房平台訊息傳送訂房姓名和希望追加的住宿日期。"
+    }
+  }
+};
 const AIRPORT_BUS_PATTERN = /(공항\s*(?:버스|리무진)|리무진\s*버스|공항리무진|airport\s*(?:bus|limousine|coach|shuttle)|limousine\s*bus|空港\s*(?:バス|リムジン)|リムジン\s*バス|机场\s*(?:巴士|大巴)|機場\s*(?:巴士|客運)|机场大巴|機場巴士)/i;
 const INCHEON_AIRPORT_PATTERN = /(인천\s*(?:국제)?공항|incheon\s*(?:international\s*)?airport|仁川(?:国際|國際)?空港|仁川(?:国际|國際)?机场|仁川(?:國際)?機場)/i;
 const GIMPO_AIRPORT_PATTERN = /(김포\s*(?:국제)?공항|gimpo\s*(?:international\s*)?airport|金浦(?:国際|國際)?空港|金浦(?:国际|國際)?机场|金浦(?:國際)?機場)/i;
@@ -29,7 +106,7 @@ const AIRPORT_TO_PROPERTY_PATTERN = /(?:(?:인천|김포)\s*(?:국제)?공항(?:
 const DINING_INTENT_PATTERN = /(식사|밥|먹을|먹는|먹고|음식|식당|맛집|레스토랑|카페|치킨|국밥|분식|브런치|restaurant|food|meal|dinner|breakfast|lunch|eat|cafe|食事|ご飯|食べ|飲食店|レストラン|カフェ|餐厅|餐廳|吃饭|吃飯|美食|咖啡店)/i;
 const FAMILY_GUEST_PATTERN = /(아이|어린이|아기|유아|자녀|가족|child|children|kid|kids|baby|toddler|family|子ども|子供|こども|家族|儿童|兒童|孩子|宝宝|寶寶|亲子|親子|家庭)/i;
 const BUSINESS_TIME_PATTERN = /(몇\s*시\s*(?:까지|에|부터)?|(?:밤|저녁|새벽|오전|오후)?\s*\d{1,2}\s*시\s*(?:이후|전|까지|넘어|에도)?|늦게\s*까지|심야|지금\s*(?:영업|운영|열|먹|문\s*(?:열|연))|현재\s*(?:영업|운영)|영업\s*(?:시간|중|종료)|운영\s*시간|문\s*(?:열|연|닫)|마감|라스트\s*오더|after\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?|before\s*\d{1,2}(?::\d{2})?\s*(?:am|pm)?|open\s*(?:now|late|until)|late\s*night|closing\s*time|business\s*hours|last\s*order|\d{1,2}\s*時\s*(?:以降|まで|前)|深夜|遅くまで|営業時間|営業中|ラストオーダー|\d{1,2}\s*[点點时時]\s*(?:以后|以後|之前|前|营业|營業)?|深夜|营业时间|營業時間|现在营业|現在營業|打烊|最后点餐|最後點餐)/i;
-const PROPERTY_ONLY_PATTERN = /(어나더\s*하우스|숙소|호스텔|객실|도어|출입|현관|예약|승인|수수료|숙박비|조식|어메니티|반려동물|흡연|파티|체크인|체크아웃|와이파이|짐\s*보관|짐\s*맡|러기지\s*룸|엘리베이터|몇\s*층|5층|공용\s*주방|정수기|레인지\s*후드|환풍기|화장실|파우더룸|라운지|another\s*house|property|hostel|room|door|booking|fee|breakfast|amenit|pet|smoking|party|check.?in|check.?out|wifi|password|door code|luggage\s*storage|store\s*luggage|leave\s*luggage|elevator|lift|which\s*floor|5th\s*floor|shared\s*kitchen|water\s*purifier|range\s*hood|extractor|toilet|powder\s*room|lounge|当館|宿|客室|チェックイン|チェックアウト|予約|部屋|パスワード|荷物(?:保管|預かり|を預)|エレベーター|何階|5階|共用キッチン|浄水器|レンジフード|換気扇|トイレ|パウダールーム|ラウンジ|住宿|旅舍|客房|入住|退房|预订|預訂|房间|房間|密码|密碼|行李(?:寄存|寄放|房)|寄(?:存|放)行李|电梯|電梯|几楼|幾樓|5楼|5樓|共用厨房|共用廚房|净水器|淨水器|抽油烟机|抽油煙機|卫生间|洗手間|化妆间|化妝間|休息室)/i;
+const PROPERTY_ONLY_PATTERN = /(어나더\s*하우스|숙소|호스텔|객실|도어|출입|현관|예약|승인|수수료|숙박비|조식|어메니티|미성년자|만\s*19세|보호자\s*동의서|택배|대리수령|직원\s*(?:응대|운영)\s*시간|휴대폰\s*충전기|일회용\s*슬리퍼|샴푸|바디워시|헤어드라이어|헤어드라이기|드라이기|반려동물|흡연|파티|체크인|체크아웃|와이파이|짐\s*보관|짐\s*맡|러기지\s*룸|엘리베이터|몇\s*층|5층|공용\s*주방|정수기|레인지\s*후드|환풍기|화장실|파우더룸|라운지|another\s*house|property|hostel|room|door|booking|fee|breakfast|amenit|minor\s*guest|under\s*19|guardian\s*consent|parcel|receive\s*(?:a\s*)?(?:package|delivery)|staff\s*(?:response\s*)?hours|phone\s*charger|disposable\s*slippers?|shampoo|body\s*wash|hair\s*dryer|pet|smoking|party|check.?in|check.?out|wifi|password|door code|luggage\s*storage|store\s*luggage|leave\s*luggage|elevator|lift|which\s*floor|5th\s*floor|shared\s*kitchen|water\s*purifier|range\s*hood|extractor|toilet|powder\s*room|lounge|当館|宿|客室|チェックイン|チェックアウト|予約|部屋|パスワード|未成年|19歳未満|保護者同意書|宅配|スタッフ対応時間|携帯電話充電器|使い捨てスリッパ|シャンプー|ボディソープ|ヘアドライヤー|荷物(?:保管|預かり|を預)|エレベーター|何階|5階|共用キッチン|浄水器|レンジフード|換気扇|トイレ|パウダールーム|ラウンジ|住宿|旅舍|客房|入住|退房|预订|預訂|房间|房間|密码|密碼|未成年人|未满19岁|未滿19歲|监护人同意书|監護人同意書|快递|快遞|代收|工作人员回复时间|工作人員回覆時間|手机充电器|手機充電器|一次性拖鞋|洗发水|洗髮精|沐浴露|沐浴乳|吹风机|吹風機|行李(?:寄存|寄放|房)|寄(?:存|放)行李|电梯|電梯|几楼|幾樓|5楼|5樓|共用厨房|共用廚房|净水器|淨水器|抽油烟机|抽油煙機|卫生间|洗手間|化妆间|化妝間|休息室)/i;
 const EXPLICIT_PROPERTY_PATTERN = /(어나더\s*하우스|숙소|호스텔|another\s*house|property|hostel|当館|宿|住宿|旅舍)/i;
 const PUBLIC_LUGGAGE_PLACE_PATTERN = /(서울역|공항|터미널|코인\s*(?:락커|라커)|보관소\s*(?:찾|어디)|seoul\s*station|airport|terminal|coin\s*locker|luggage\s*locker|駅で|空港|コインロッカー|机场|機場|车站|車站|寄存处|寄放處)/i;
 const LOCAL_PLACE_PATTERN = /(식당|맛집|음식|카페|치킨|국밥|분식|브런치|술집|바\b|병원|약국|편의점|마트|시장|백화점|쇼핑|공원|박물관|미술관|관광지|명소|궁|성곽|주차장|공영주차장|역\b|정류장|터미널|공항|꽃집|세탁소|빨래방|코인세탁|은행|atm|환전소|우체국|경찰서|화장실|미용실|네일샵|서점|문구점|놀이터|키즈카페|restaurant|food|cafe|bar\b|hospital|clinic|pharmacy|convenience store|mart|market|department store|shopping|park|museum|gallery|attraction|palace|parking|station|stop|terminal|airport|florist|laundry|laundromat|bank|currency exchange|post office|police station|restroom|toilet|salon|bookstore|stationery|playground|kids cafe|飲食店|レストラン|カフェ|病院|薬局|コンビニ|市場|百貨店|公園|博物館|美術館|観光地|駐車場|駅|停留所|空港|花屋|洗濯店|コインランドリー|銀行|両替所|郵便局|警察署|トイレ|美容院|書店|文具店|遊び場|餐厅|餐廳|咖啡店|医院|醫院|药店|藥局|便利店|市场|市場|百货|百貨|公园|公園|博物馆|博物館|美术馆|美術館|景点|景點|停车场|停車場|车站|車站|机场|機場|花店|洗衣店|自助洗衣|银行|銀行|兑换处|兌換處|邮局|郵局|警察局|卫生间|洗手間|厕所|廁所|美容院|书店|書店|文具店|游乐场|遊樂場)/i;
@@ -65,38 +142,39 @@ const URGENT_MEDICAL_PATTERN = /(숨을\s*못|의식|심한\s*출혈|가슴\s*�
 const ACCESS_SUPPORT_COPY = {
   ko: {
     recovery: "공동현관문 밖이라면 키오스크 옆 전화기로 연락해 주세요.\n호스트가 원격으로 키오스크에서 새 키카드가 나오도록 도와드립니다.",
-    failed: "전화 연결이나 키카드 발급이 되지 않았군요.\n공동현관문 비밀번호가 필요하면 ‘공동현관 비밀번호를 알려주세요’라고 말씀해 주세요.",
-    clarify: "어떤 비밀번호인지 확인이 필요합니다.\n공동현관 비밀번호가 필요하면 ‘공동현관 비밀번호를 알려주세요’라고 말씀해 주세요.",
+    failed: "전화 연결이나 키카드 발급이 되지 않았군요.\n공동현관문 비밀번호가 필요하면 ‘알려주세요’라고 입력해 주세요.",
+    clarify: "어떤 비밀번호인지 확인이 필요합니다.\n공동현관문 비밀번호가 필요하면 ‘알려주세요’라고 입력해 주세요.",
     code: value => `공동현관문 비밀번호는 ${value} → ENT입니다.\n순서대로 입력한 뒤, 입실하면 새 키카드를 꼭 수령해 주세요.`
   },
   en: {
     recovery: "If you are outside the shared entrance, use the phone beside the kiosk.\nThe host will remotely issue a replacement key card from the kiosk.",
-    failed: "It sounds like the call or replacement key-card issue did not work.\nIf you need it, ask specifically for the shared entrance code.",
-    clarify: "Please specify which password you need.\nIf you mean the entrance, ask for the shared entrance code.",
+    failed: "It sounds like the call or replacement key-card issue did not work.\nIf you need the shared entrance code, reply “Tell me.”",
+    clarify: "Please specify which password you need.\nIf you mean the shared entrance code, reply “Tell me.”",
     code: value => `The shared entrance code is ${value} → ENT.\nEnter it in this order, then collect a replacement key card once inside.`
   },
   ja: {
     recovery: "共同玄関の外にいる場合は、キオスク横の電話でご連絡ください。\nホストが遠隔操作でキオスクから新しいキーカードを発行します。",
-    failed: "電話がつながらない、またはキーカードが発行されない状況ですね。\n必要な場合は「共同玄関の暗証番号を教えてください」と明確にお伝えください。",
-    clarify: "どの暗証番号が必要か確認が必要です。\n共同玄関の場合は「共同玄関の暗証番号を教えてください」とお伝えください。",
+    failed: "電話がつながらない、またはキーカードが発行されない状況ですね。\n共同玄関の暗証番号が必要な場合は「教えてください」と入力してください。",
+    clarify: "どの暗証番号が必要か確認が必要です。\n共同玄関の場合は「教えてください」と入力してください。",
     code: value => `共同玄関の暗証番号は ${value} → ENT です。\n順番に入力し、入館後は新しいキーカードを必ず受け取ってください。`
   },
   zh: {
     recovery: "如果您在公共入口外，请使用自助机旁的电话联系。\n房东会远程操作，让自助机发放新的房卡。",
-    failed: "看来电话未接通或新房卡未能发放。\n如有需要，请明确提出“请告诉我公共入口密码”。",
-    clarify: "请说明您需要哪个密码。\n如果是公共入口，请明确提出“请告诉我公共入口密码”。",
+    failed: "看来电话未接通或新房卡未能发放。\n如需公共入口密码，请输入“请告诉我”。",
+    clarify: "请说明您需要哪个密码。\n如果是公共入口，请输入“请告诉我”。",
     code: value => `公共入口密码为 ${value} → ENT。\n请按顺序输入，进入后务必领取新房卡。`
   },
   "zh-TW": {
     recovery: "如果您在公共入口外，請使用自助機旁的電話聯絡。\n房東會遠端操作，讓自助機發放新的房卡。",
-    failed: "看來電話未接通或新房卡未能發放。\n如有需要，請明確提出「請告訴我公共入口密碼」。",
-    clarify: "請說明您需要哪個密碼。\n如果是公共入口，請明確提出「請告訴我公共入口密碼」。",
+    failed: "看來電話未接通或新房卡未能發放。\n如需公共入口密碼，請輸入「請告訴我」。",
+    clarify: "請說明您需要哪個密碼。\n如果是公共入口，請輸入「請告訴我」。",
     code: value => `公共入口密碼為 ${value} → ENT。\n請依序輸入，進入後務必領取新房卡。`
   }
 };
 const ACCESS_ISSUE_PATTERN = /((키\s*카드|카드키|공동\s*현관).{0,40}(놓고|두고|없|분실|잃|못\s*들어|안\s*열|잠겼|발급.{0,12}(안|못|실패))|(놓고|두고|없|분실|잃|못\s*들어|안\s*열|잠겼).{0,40}(키\s*카드|카드키|공동\s*현관)|(key\s*card|keycard|shared\s*entrance).{0,48}(left|lost|missing|don'?t\s*have|do\s*not\s*have|locked\s*out|can'?t\s*(get\s*in|enter)|cannot\s*(get\s*in|enter)|not\s*issued)|(left|lost|missing|locked\s*out|can'?t\s*(get\s*in|enter)|cannot\s*(get\s*in|enter)).{0,48}(key\s*card|keycard|shared\s*entrance)|(キーカード|共同玄関).{0,40}(忘れ|紛失|ない|入れない|開かない|発行されない)|(忘れ|紛失|入れない|開かない).{0,40}(キーカード|共同玄関)|(房卡|公共入口).{0,40}(忘带|忘帶|丢失|遺失|没有|沒有|无法进入|無法進入|打不开|打不開|未发卡|未發卡)|(忘带|忘帶|丢失|遺失|无法进入|無法進入|打不开|打不開).{0,40}(房卡|公共入口))/i;
 const ACCESS_CODE_REQUEST_PATTERN = /(공동\s*현관.{0,24}(비밀번호|비번|암호|코드)|(비밀번호|비번|암호|코드).{0,24}공동\s*현관|(?:shared\s*)?entrance.{0,24}(password|code)|(password|code).{0,24}(?:shared\s*)?entrance|共同玄関.{0,24}(暗証番号|パスワード)|公共入口.{0,24}(密码|密碼)|(?:密码|密碼).{0,24}公共入口)/i;
 const ACCESS_ANY_PASSWORD_REQUEST_PATTERN = /(비밀번호|비번|암호|코드|password|passcode|暗証番号|パスワード|密码|密碼)/i;
+const ACCESS_SHORT_CODE_CONFIRMATION_PATTERN = /^(?:알려\s*주세요|알려\s*줘(?:요)?|말해\s*주세요|말해\s*줘(?:요)?|tell\s*me(?:\s*please)?|please\s*tell\s*me|教えてください|教えて|请告诉我|請告訴我|告诉我|告訴我)[\s.!?~。！？，,]*$/i;
 const ACCESS_RECOVERY_FAILED_PATTERN = /(전화.{0,32}(했|걸|연락|안\s*(되|돼|됩|받)|연결.{0,12}(안|못)|불통|응답.{0,8}(없|안))|호스트.{0,32}(전화|연락).{0,24}(안\s*받|연결.{0,12}(안|못)|응답.{0,8}(없|안)|답.{0,8}(없|안))|통화.{0,24}(안\s*(되|돼|됩)|못|불통)|키오스크.{0,32}(안|못|실패)|카드.{0,32}(안\s*나|못\s*받|발급.{0,12}(안|못|실패))|called|tried|phone.{0,32}(not\s*work|no\s*answer|unanswered|couldn|can't)|host.{0,32}(not\s*answer|unreachable)|kiosk.{0,32}(failed|didn|not)|card.{0,32}(not\s*issued|didn|failed)|電話.{0,32}(した|連絡|つながら|繋がら|出ない)|ホスト.{0,24}(出ない|応答しない)|キオスク.{0,32}(出ない|失敗)|打了电话|打了電話|电话.{0,24}(不通|没人接|沒人接)|電話.{0,24}(不通|没人接|沒人接)|房东.{0,24}(不接|没回应)|房東.{0,24}(不接|沒回應)|联系过|聯絡過|没有出卡|沒有出卡|发卡失败|發卡失敗)/i;
 
 function getClientAddress(req) {
@@ -125,10 +203,11 @@ function anotherHouseAccessSupport(message, history, language) {
   const firstIssueIndex = priorUserMessages.findIndex(text => ACCESS_ISSUE_PATTERN.test(text) || ACCESS_RECOVERY_FAILED_PATTERN.test(text));
   const hasIssueContext = firstIssueIndex >= 0;
   const accessContext = hasIssueContext ? priorUserMessages.slice(firstIssueIndex) : [];
-  const asksForCode = ACCESS_CODE_REQUEST_PATTERN.test(current);
-  const asksForAnyPassword = ACCESS_ANY_PASSWORD_REQUEST_PATTERN.test(current);
   const currentReportsFailure = ACCESS_RECOVERY_FAILED_PATTERN.test(current);
   const recoveryAlreadyFailed = accessContext.some(text => ACCESS_RECOVERY_FAILED_PATTERN.test(text));
+  const shortCodeConfirmation = hasIssueContext && recoveryAlreadyFailed && ACCESS_SHORT_CODE_CONFIRMATION_PATTERN.test(current);
+  const asksForCode = ACCESS_CODE_REQUEST_PATTERN.test(current) || shortCodeConfirmation;
+  const asksForAnyPassword = ACCESS_ANY_PASSWORD_REQUEST_PATTERN.test(current);
   const accessConversationTurns = accessContext.filter(text => ACCESS_ISSUE_PATTERN.test(text) || ACCESS_RECOVERY_FAILED_PATTERN.test(text) || ACCESS_ANY_PASSWORD_REQUEST_PATTERN.test(text)).length;
   const related = ACCESS_ISSUE_PATTERN.test(current) || currentReportsFailure || asksForCode || (hasIssueContext && asksForAnyPassword);
   if (!related) return null;
@@ -276,8 +355,63 @@ function normalizeGuideMatch(value) {
   return String(value || "").normalize("NFKC").toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
 }
 
+function trainingIntentById(id) {
+  return (CONCIERGE_TRAINING.intents || []).find(intent => intent.id === id) || null;
+}
+
+function trainingIntentFromQuestion(message, language) {
+  const normalized = normalizeGuideMatch(message);
+  if (!normalized) return null;
+  const aliasId = TRAINING_SHORT_ALIASES[language]?.[normalized];
+  if (aliasId) return trainingIntentById(aliasId);
+  if (language !== "ko") return null;
+  for (const intent of CONCIERGE_TRAINING.intents || []) {
+    for (const example of intent.examples || []) {
+      if (normalized === normalizeGuideMatch(example)) return intent;
+    }
+  }
+  const patterned = TRAINING_INTENT_PATTERNS.find(item => item.pattern.test(String(message || "")));
+  if (patterned) return trainingIntentById(patterned.id);
+
+  for (const intent of CONCIERGE_TRAINING.intents || []) {
+    for (const example of intent.examples || []) {
+      const normalizedExample = normalizeGuideMatch(example);
+      if (normalized.length >= 6 && normalizedExample.length >= 6
+        && (normalizedExample.includes(normalized) || normalized.includes(normalizedExample))) return intent;
+    }
+  }
+  return null;
+}
+
+function verifiedLuggageStorage(message, language) {
+  const intent = trainingIntentFromQuestion(message, language);
+  const topic = (GUIDE_KNOWLEDGE.quickGuide?.[language] || GUIDE_KNOWLEDGE.quickGuide?.ko || []).find(item => item.id === "luggage");
+  const normalized = normalizeGuideMatch(message);
+  const matchesPhrase = (topic?.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword)));
+  const externalPlace = PUBLIC_LUGGAGE_PLACE_PATTERN.test(message) && !EXPLICIT_PROPERTY_PATTERN.test(message);
+  if ((intent?.id !== "luggage" && !matchesPhrase) || externalPlace) return null;
+  const direct = topic?.directAnswers?.[0];
+  return direct?.answer ? { answer: direct.answer, intent: "luggage" } : null;
+}
+
+function verifiedTrainingFact(message, language) {
+  const intent = trainingIntentFromQuestion(message, language);
+  const fact = intent ? VERIFIED_TRAINING_FACTS[intent.id] : null;
+  if (!fact) return null;
+  return {
+    answer: fact.answers[language] || fact.answers.ko,
+    intent: intent.id,
+    route: fact.route
+  };
+}
+
 function quickGuideFromQuestion(message, language) {
   const topics = GUIDE_KNOWLEDGE.quickGuide?.[language] || GUIDE_KNOWLEDGE.quickGuide?.ko || [];
+  const trainedIntent = trainingIntentFromQuestion(message, language);
+  if (trainedIntent?.topic) {
+    const trainedTopic = topics.find(topic => topic.id === trainedIntent.topic);
+    if (trainedTopic) return trainedTopic;
+  }
   const normalized = normalizeGuideMatch(message);
   const explicitProperty = EXPLICIT_PROPERTY_PATTERN.test(message);
   const externalLuggagePlace = PUBLIC_LUGGAGE_PLACE_PATTERN.test(message);
@@ -332,6 +466,8 @@ function guidePageLink(route, language) {
 
 function guideRouteFromQuestion(message, language) {
   if (/(남자|남성|남성\s*게스트|men\s*allowed|male\s*guest|男性|男生|男性旅客)/i.test(String(message || ""))) return "gallery";
+  const trainedIntent = trainingIntentFromQuestion(message, language);
+  if (trainedIntent?.route && GUIDE_PAGE_ROUTES.has(trainedIntent.route)) return trainedIntent.route;
   const quickTopic = quickGuideFromQuestion(message, language);
   if (quickTopic) return GUIDE_TOPIC_ROUTES[quickTopic.id] || "home";
   const text = String(message || "");
@@ -346,8 +482,8 @@ function guideRouteFromQuestion(message, language) {
   if (/(와이파이|wi-?fi|인터넷|無線網路|无线网络)/i.test(text)) return "wifi";
   if (/(세탁|건조기|빨래|laundry|washing\s*machine|dryer|洗濯|乾燥機|洗衣|烘干机|烘乾機)/i.test(text)) return "laundry";
   if (/(쓰레기|분리수거|분리배출|trash|waste|recycl|garbage|ごみ|ゴミ|分別|垃圾|回收)/i.test(text)) return "trash";
-  if (/(숙소\s*규칙|이용\s*규칙|흡연|금연|소음|파티|반려동물|외부인|house\s*rules?|smoking|noise|party|pet|outside\s*guest|宿泊ルール|利用規則|喫煙|騒音|ペット|住宿规则|住宿規則|吸烟|吸菸|噪音|派对|派對|宠物|寵物)/i.test(text)) return "rules";
-  if (/(냉난방|에어컨|난방|인덕션|전자레인지|냉장고|정수기|공용\s*주방|주방|레인지\s*후드|환풍기|tv|티비|텔레비전|ott|넷플릭스|air\s*condition|heating|induction|microwave|refrigerator|water\s*purifier|shared\s*kitchen|kitchen|range\s*hood|extractor|television|netflix|冷暖房|エアコン|電子レンジ|冷蔵庫|浄水器|共用キッチン|キッチン|レンジフード|換気扇|テレビ|空调|空調|暖气|暖氣|电磁炉|電磁爐|微波炉|微波爐|冰箱|净水器|淨水器|共用厨房|共用廚房|厨房|廚房|抽油烟机|抽油煙機|电视|電視)/i.test(text)) return "appliances";
+  if (/(숙소\s*규칙|이용\s*규칙|흡연|금연|소음|파티|반려동물|외부인|미성년자|만\s*19세|보호자\s*동의서|택배|대리수령|직원\s*(?:응대|운영)\s*시간|house\s*rules?|smoking|noise|party|pet|outside\s*guest|minor\s*guest|under\s*19|guardian\s*consent|parcel|receive\s*(?:a\s*)?(?:package|delivery)|staff\s*(?:response\s*)?hours|宿泊ルール|利用規則|喫煙|騒音|ペット|未成年|19歳未満|保護者同意書|宅配|スタッフ対応時間|住宿规则|住宿規則|吸烟|吸菸|噪音|派对|派對|宠物|寵物|未成年人|未满19岁|未滿19歲|监护人同意书|監護人同意書|快递|快遞|代收|工作人员回复时间|工作人員回覆時間)/i.test(text)) return "rules";
+  if (/(냉난방|에어컨|난방|인덕션|전자레인지|냉장고|정수기|공용\s*주방|주방|레인지\s*후드|환풍기|휴대폰\s*충전기|일회용\s*슬리퍼|샴푸|바디워시|헤어드라이어|헤어드라이기|드라이기|고데기|여분\s*수건|tv|티비|텔레비전|ott|넷플릭스|air\s*condition|heating|induction|microwave|refrigerator|water\s*purifier|shared\s*kitchen|kitchen|range\s*hood|extractor|phone\s*charger|disposable\s*slippers?|shampoo|body\s*wash|hair\s*dryer|hair\s*straightener|extra\s*towels?|television|netflix|冷暖房|エアコン|電子レンジ|冷蔵庫|浄水器|共用キッチン|キッチン|レンジフード|換気扇|携帯電話充電器|使い捨てスリッパ|シャンプー|ボディソープ|ヘアドライヤー|ヘアアイロン|予備タオル|テレビ|空调|空調|暖气|暖氣|电磁炉|電磁爐|微波炉|微波爐|冰箱|净水器|淨水器|共用厨房|共用廚房|厨房|廚房|抽油烟机|抽油煙機|手机充电器|手機充電器|一次性拖鞋|洗发水|洗髮精|沐浴露|沐浴乳|吹风机|吹風機|直发器|直髮器|备用毛巾|備用毛巾|电视|電視)/i.test(text)) return "appliances";
   if (/(객실|방\s*종류|싱글룸|2인실|더블룸|샤워실|화장실|파우더룸|라운지|여성\s*전용|남자|남성|몇\s*명|정원|50[1-6]호|프라이빗|room|single|double|shower|toilet|powder\s*room|lounge|women.?only|men|male|capacity|how\s*many\s*(?:people|guests)|room\s*50[1-6]|private\s*stay|客室|シングル|2人部屋|シャワー|トイレ|パウダールーム|ラウンジ|女性専用|男性|定員|50[1-6]号室|房型|单人房|單人房|双人房|雙人房|淋浴|卫生间|洗手間|化妆间|化妝間|休息室|女性专用|女性專用|男性|男生|入住人数|入住人數|50[1-6]号房|50[1-6]號房)/i.test(text)) return "gallery";
   return PROPERTY_ONLY_PATTERN.test(text) ? "home" : null;
 }
@@ -1235,7 +1371,7 @@ PRIORITY A — CURRENT PROPERTY GUIDE:
 - Never begin with cautions, background, related rules, or a long procedure before answering what was asked. Put those useful details after the clear conclusion.
 - If the guide does not establish the answer, begin with the localized equivalent of “The current guide does not confirm this.” Do not imply yes or no.
 - Before saying that the guide does not confirm something, check every matching record and synonym in the full guide. The opening conclusion must never contradict a fact stated later in the same answer.
-- A hair straightener (고데기 / hair straightener / ヘアアイロン / 直发器 / 直髮器) and a hair dryer are different appliances. CURRENT_GUIDE confirms only a shared hair straightener. It does not confirm a hair dryer, so never say that a hair dryer is available or describe its location.
+- A hair straightener (고데기 / hair straightener / ヘアアイロン / 直发器 / 直髮器) and a hair dryer are different appliances. CURRENT_GUIDE confirms that hair dryers are in the shared bathroom and that a shared hair straightener is in the GUEST BOX. State the correct location for the exact tool requested.
 - In the Guest Box, only the travel adapter and hair straightener are loaned items that must be returned after use. Extra towels, disposable dental kits, bandages, wet wipes, and plastic bags are guest-use supplies. Never tell a guest to return a used towel or any other guest-use supply to the Guest Box.
 - CURRENT_GUIDE confirms bandages in the Guest Box, but it does not confirm emergency medicine, regular medicine, painkillers, cold medicine, or a first-aid kit. Treat questions asking whether the property provides medicine as property amenity questions, never as public pharmacy searches. State the distinction directly; search for a pharmacy only when the guest asks where to buy or obtain medicine or asks for a nearby pharmacy.
 - Never paste or paraphrase an entire guide section merely because it contains a matching word. For a narrow factual question, answer only that fact plus at most one or two directly useful details. Give the complete procedure only when the guest explicitly asks for instructions, steps, or the full guide.
@@ -1339,6 +1475,16 @@ module.exports = async function handler(req, res) {
     console.log(JSON.stringify({ event: "concierge_map_followup", language, place: mapFollowup.mapContext.name, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ ...mapFollowup, model: "another-house-map-links", meta: { searched: false, mapFollowup: true, durationMs: Date.now() - startedAt } });
   }
+  const trainingFact = verifiedTrainingFact(message, language);
+  if (trainingFact) {
+    console.log(JSON.stringify({ event: "concierge_verified_training_answer", intent: trainingFact.intent, language, durationMs: Date.now() - startedAt }));
+    return res.status(200).json({ answer: trainingFact.answer, model: "another-house-verified-training", links: [guidePageLink(trainingFact.route, language)], mapContext: null, meta: { searched: false, verifiedTraining: true, trainingIntent: trainingFact.intent, guideRoute: trainingFact.route, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version, trainingVersion: CONCIERGE_TRAINING.version } });
+  }
+  const luggageStorage = verifiedLuggageStorage(message, language);
+  if (luggageStorage) {
+    console.log(JSON.stringify({ event: "concierge_verified_training_answer", intent: luggageStorage.intent, language, durationMs: Date.now() - startedAt }));
+    return res.status(200).json({ answer: luggageStorage.answer, model: "another-house-verified-training", links: [guidePageLink("checkin", language)], mapContext: null, meta: { searched: false, verifiedTraining: true, trainingIntent: luggageStorage.intent, guideRoute: "checkin", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version, trainingVersion: CONCIERGE_TRAINING.version } });
+  }
   const earlyCheckin = verifiedEarlyCheckin(message, language);
   if (earlyCheckin) {
     console.log(JSON.stringify({ event: "concierge_verified_early_checkin", language, durationMs: Date.now() - startedAt }));
@@ -1367,11 +1513,19 @@ module.exports = async function handler(req, res) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return res.status(500).json({ error: "AI service is not configured" });
 
+  const trainingIntent = trainingIntentFromQuestion(message, language);
   const directGuideRoute = guideRouteFromQuestion(message, language);
   const contextualRoute = contextualGuideRoute(message, history, language);
   const isPropertyFollowup = !directGuideRoute && contextualRoute !== "home";
   const directGuideTopic = quickGuideFromQuestion(message, language);
-  const guideBackedPropertyQuestion = Boolean(directGuideTopic || PROPERTY_ONLY_PATTERN.test(message) || PROPERTY_ARRIVAL_PATTERN.test(message));
+  const guideBackedPropertyQuestion = Boolean(
+    (trainingIntent && !trainingIntent.allowPublicSearch)
+    ||
+    directGuideTopic
+    || (directGuideRoute && PROPERTY_GUIDE_ROUTES.has(directGuideRoute))
+    || PROPERTY_ONLY_PATTERN.test(message)
+    || PROPERTY_ARRIVAL_PATTERN.test(message)
+  );
   const guideBackedLocalResult = verifiedNearbyPlaces(message, language) || curatedGuidePlaces(message, language);
   const currentDetailRequired = BUSINESS_TIME_PATTERN.test(message);
   const detectedSearchLevel = searchLevelFor(message);
@@ -1528,7 +1682,9 @@ module.exports = async function handler(req, res) {
       knowledgeVersion: GUIDE_KNOWLEDGE.version,
       guideRoute: inferredGuideRoute,
       knowledgeRoute,
-      guideKnowledgeChars: fullGuideText.length
+      guideKnowledgeChars: fullGuideText.length,
+      trainingIntent: trainingIntent?.id || null,
+      trainingVersion: trainingIntent ? CONCIERGE_TRAINING.version : null
     };
     console.log(JSON.stringify({ event: "concierge_usage", model: data.model || MODEL, ...meta }));
     return res.status(200).json({ answer, model: data.model || MODEL, links, mapContext, meta });
@@ -1538,4 +1694,4 @@ module.exports = async function handler(req, res) {
   }
 };
 
-module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, localizedRouteKnowledge, relevantGuideKnowledge, usesPropertyAsRouteOrigin, contextualGuideRoute, normalizeGuideMatch, quickGuideFromQuestion, verifiedEarlyCheckin, verifiedLateCheckout, verifiedHairTool, verifiedGuestBoxItem, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, hasExplicitNonPropertyAirportDestination, verifiedAirportArrival, verifiedAirportTransport, PROPERTY_MEDICINE_PATTERN, GUIDE_KNOWLEDGE };
+module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, localizedRouteKnowledge, relevantGuideKnowledge, usesPropertyAsRouteOrigin, contextualGuideRoute, normalizeGuideMatch, trainingIntentFromQuestion, verifiedTrainingFact, verifiedLuggageStorage, quickGuideFromQuestion, verifiedEarlyCheckin, verifiedLateCheckout, verifiedHairTool, verifiedGuestBoxItem, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, hasExplicitNonPropertyAirportDestination, verifiedAirportArrival, verifiedAirportTransport, PROPERTY_MEDICINE_PATTERN, GUIDE_KNOWLEDGE, CONCIERGE_TRAINING };
