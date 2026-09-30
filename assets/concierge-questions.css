@@ -1,4 +1,4 @@
-/* Cream and warm gold give home questions emphasis within the brown card. */
+/* Muted butter yellow highlights home questions within the brown card. */
 .concierge-hub .home-questions-head {
   display: flex;
   align-items: center;
@@ -32,11 +32,11 @@
   min-width: 0;
   padding: 14px 5px 12px;
   gap: 8px;
-  border: 1px solid #e8c597;
+  border: 1px solid #e2c78d;
   border-radius: 12px;
-  background: #fffbf4;
+  background: #f3dda5;
   color: #432d23;
-  box-shadow: inset 0 3px 0 #edc17b, 0 4px 0 rgba(53, 30, 21, .22), 0 7px 14px rgba(42, 33, 29, .16);
+  box-shadow: 0 4px 0 rgba(53, 30, 21, .22), 0 7px 14px rgba(42, 33, 29, .16);
 }
 .concierge-hub .quick-tile svg {
   width: 26px;
@@ -56,7 +56,7 @@
   white-space: normal;
   overflow-wrap: anywhere;
 }
-.concierge-hub .quick-tile:hover { background: #fff0d7; border-color: #edc17b; }
+.concierge-hub .quick-tile:hover { background: #f8e6bb; border-color: #edc17b; }
 .concierge-hub .quick-tile:focus-visible {
   outline: 3px solid #f5c94d;
   outline-offset: 3px;

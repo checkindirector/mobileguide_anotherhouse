@@ -13,7 +13,7 @@ test("six FAQ buttons have a three-column grid and localized labels in all five 
     assert.match(html, /chat-suggestions-wrap.*chat-suggestions-title.*chat-suggestions/s);
     assert.match(html, /chat-suggestions-icon[^>]*viewBox="0 0 24 24"/);
     assert.doesNotMatch(html, /chat-suggestions-head"><span class="mi"[^>]*>help/);
-    assert.match(html, /concierge-questions\.css\?v=20260930-5/);
+    assert.match(html, /concierge-questions\.css\?v=20260930-6/);
   }
   const app = await read("assets/master-app.js");
   const sets = [...app.matchAll(/suggestions:(\[[^\]]+\])/g)].map(match => Function('return '+match[1])());
