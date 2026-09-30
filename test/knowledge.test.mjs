@@ -8,7 +8,7 @@ const root = resolve(import.meta.dirname, "..");
 test("generated knowledge mirrors current public guide content without secrets", async () => {
   const raw = await readFile(resolve(root, "assets/guide-knowledge.json"), "utf8");
   const knowledge = JSON.parse(raw);
-  assert.equal(knowledge.version, "2026-09-23.1");
+  assert.equal(knowledge.version, "2026-09-30.1");
   assert.deepEqual(knowledge.languages, ["ko", "en", "ja", "zh", "zh-TW"]);
   assert.equal(knowledge.property.ko.address, "서울시 종로구 종로 294 선일빌딩 5층");
   assert.equal(knowledge.stay.ko.checkin.summary.includes("15:00"), true);
@@ -52,14 +52,14 @@ test("generated knowledge mirrors current public guide content without secrets",
   assert.equal(knowledge.verifiedAirportTransport.gimpoLine5.services.END.length, 160);
   assert.deepEqual(knowledge.verifiedAirportTransport.gimpoLine5.services.DAY[0], { departure: "05:37", arrival: "06:23" });
   assert.deepEqual(knowledge.verifiedAirportTransport.gimpoLine5.services.DAY.at(-1), { departure: "24:09", arrival: "24:55" });
-  assert.match(knowledge.connectivity.ko.passwordPolicy, /공개 챗봇에서 제공하지 않습니다/);
+  assert.match(knowledge.connectivity.ko.passwordPolicy, /Wi-Fi 이름은 another.*another1234/s);
   const expectedQuickTopics = ["luggage", "checkin", "checkout", "wifi", "parking", "rules", "appliances", "laundry", "waste", "rooms", "tv", "contact"];
   const earlyCheckinPatterns = {
-    ko: /503호 앞 짐보관실.*오후 3시.*예약 채널 메시지/s,
-    en: /Room 503.*3 PM.*booking-platform message/s,
-    ja: /503号室.*午後3時.*予約プラットフォーム/s,
-    zh: /503号房.*下午3点.*预订平台消息/s,
-    "zh-TW": /503號房.*下午3點.*預訂平台訊息/s
+    ko: /503호 앞 짐보관실.*오후 3시.*\{\{COMMON_ENTRANCE_CODE\}\}/s,
+    en: /Room 503.*3 PM.*\{\{COMMON_ENTRANCE_CODE\}\}/s,
+    ja: /503号室.*午後3時.*\{\{COMMON_ENTRANCE_CODE\}\}/s,
+    zh: /503号房.*下午3点.*\{\{COMMON_ENTRANCE_CODE\}\}/s,
+    "zh-TW": /503號房.*下午3點.*\{\{COMMON_ENTRANCE_CODE\}\}/s
   };
   for (const language of knowledge.languages) {
     assert.deepEqual(knowledge.quickGuide[language].map(topic => topic.id), expectedQuickTopics);
@@ -89,14 +89,15 @@ test("generated knowledge mirrors current public guide content without secrets",
     const lateCheckout = knowledge.quickGuide[language].find(topic => topic.id === "checkout").directAnswers[0];
     assert.match(lateCheckout.answer, /시간 제한 없이|no time limit|時間制限なく|无时间限制|無時間限制/);
   }
-  assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "luggage").answer, /503호 앞.*체크아웃 당일.*무료/s);
-  assert.match(knowledge.quickGuide.en.find(topic => topic.id === "luggage").answer, /Room 503.*day of checkout/s);
-  assert.match(knowledge.quickGuide.ja.find(topic => topic.id === "luggage").answer, /503号室.*チェックアウト当日/s);
-  assert.match(knowledge.quickGuide.zh.find(topic => topic.id === "luggage").answer, /503号房.*退房当天/s);
-  assert.match(knowledge.quickGuide["zh-TW"].find(topic => topic.id === "luggage").answer, /503號房.*退房當天/s);
+  assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "luggage").answer, /체크인·체크아웃 당일.*503호 앞.*\{\{COMMON_ENTRANCE_CODE\}\}/s);
+  assert.match(knowledge.quickGuide.en.find(topic => topic.id === "luggage").answer, /Room 503.*check-in or check-out day.*\{\{COMMON_ENTRANCE_CODE\}\}/s);
+  assert.match(knowledge.quickGuide.ja.find(topic => topic.id === "luggage").answer, /チェックイン日・チェックアウト当日.*503号室.*\{\{COMMON_ENTRANCE_CODE\}\}/s);
+  assert.match(knowledge.quickGuide.zh.find(topic => topic.id === "luggage").answer, /入住或退房当天.*503号房.*\{\{COMMON_ENTRANCE_CODE\}\}/s);
+  assert.match(knowledge.quickGuide["zh-TW"].find(topic => topic.id === "luggage").answer, /入住或退房當天.*503號房.*\{\{COMMON_ENTRANCE_CODE\}\}/s);
   assert.equal(knowledge.conciergeTraining.recordCount, 121);
   assert.equal(knowledge.conciergeTraining.intentCount, 33);
-  assert.equal(knowledge.conciergeTraining.secretAnswerRowsExcluded, 58);
+  assert.equal(knowledge.conciergeTraining.secretAnswerRowsExcluded, 56);
+  assert.equal(knowledge.conciergeTraining.credentialTemplateRows, 56);
   assert.equal(knowledge.conciergeTraining.source.trainingSheet, "어나더 질문 & 답변 AI학습");
   assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "laundry").directAnswers[0].answer, /세탁세제와 섬유유연제.*위 선반/);
   const medicineAnswers = {
@@ -123,7 +124,7 @@ test("generated knowledge mirrors current public guide content without secrets",
     capacityMeaning: "세탁 용량은 9kg이고 건조 용량은 4.5kg입니다."
   });
   assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "checkout").source, /\?page=checkin$/);
-  assert.doesNotMatch(raw, /another1234/);
+  assert.match(raw, /another1234/);
   assert.doesNotMatch(raw, /8282/);
   assert.doesNotMatch(raw, /doorlockImage|roomDoorlockImage/);
 });

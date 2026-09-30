@@ -42,6 +42,16 @@ const TRAINING_INTENT_PATTERNS = [
   { id: "stay-extension", pattern: /(?:연박|(?:숙박|투숙|예약).*연장)/i }
 ];
 const VERIFIED_TRAINING_FACTS = {
+  wifi: {
+    route: "wifi",
+    answers: {
+      ko: "Wi-Fi 이름: another / Password: another1234",
+      en: "Wi-Fi name: another / Password: another1234",
+      ja: "Wi-Fi名：another ／ パスワード：another1234",
+      zh: "Wi-Fi 名称：another ／ 密码：another1234",
+      "zh-TW": "Wi-Fi 名稱：another ／ 密碼：another1234"
+    }
+  },
   "postal-address": {
     route: "transport",
     answers: {
@@ -175,6 +185,40 @@ const ACCESS_SUPPORT_COPY = {
     code: value => `公共入口密碼為 ${value} → ENT。\n請依序輸入，進入後務必領取新房卡。`
   }
 };
+const APPROVED_ENTRANCE_CODE_TOKEN = "{{COMMON_ENTRANCE_CODE}}";
+const KEY_CARD_RECOVERY_COPY = {
+  en: code => `If you lose your key card, go to the entrance kiosk and call us. Tell us your name and we will remotely issue a replacement key card. A key card can be replaced only once. / Entrance code: ${code} → ENT`,
+  ja: code => `キーカードを紛失した場合は、入口のキオスクへ行き、電話でご連絡ください。お名前をお伝えいただければ、遠隔操作でキーカードを再発行します。再発行は1回のみです。／入口の暗証番号：${code} → ENT`,
+  zh: code => `如果房卡遗失，请前往入口处的自助机并拨打电话。告知姓名后，工作人员会远程补发房卡。房卡只能补发1次。／入口密码：${code} → ENT`,
+  "zh-TW": code => `如果房卡遺失，請前往入口處的自助機並撥打電話。告知姓名後，工作人員會遠端補發房卡。房卡只能補發1次。／入口密碼：${code} → ENT`
+};
+
+function sharedEntranceCode() {
+  const value = String(process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE || "").trim();
+  return /^[0-9A-Za-z#*]{3,20}$/.test(value) ? value : null;
+}
+
+function hydrateApprovedAnswer(answer, language = "ko") {
+  const text = String(answer || "");
+  if (!text.includes(APPROVED_ENTRANCE_CODE_TOKEN)) return text;
+  const value = sharedEntranceCode();
+  if (value) return text.split(APPROVED_ENTRANCE_CODE_TOKEN).join(value);
+  const fallback = {
+    ko: "예약 채널 메시지의 출입정보",
+    en: "the access information in your booking-platform message",
+    ja: "予約プラットフォームのメッセージにある入館情報",
+    zh: "预订平台消息中的门禁信息",
+    "zh-TW": "訂房平台訊息中的門禁資訊"
+  }[language] || "the access information in your booking-platform message";
+  return text.split(APPROVED_ENTRANCE_CODE_TOKEN).join(fallback);
+}
+
+function localizedKeyCardRecovery(approvedAnswer, language) {
+  if (language === "ko") return hydrateApprovedAnswer(approvedAnswer, language);
+  const value = sharedEntranceCode();
+  if (value && KEY_CARD_RECOVERY_COPY[language]) return KEY_CARD_RECOVERY_COPY[language](value);
+  return ACCESS_SUPPORT_COPY[language].recovery;
+}
 const ACCESS_ISSUE_PATTERN = /((키\s*카드|카드키|공동\s*현관).{0,40}(놓고|두고|없|분실|잃|못\s*들어|안\s*열|잠겼|발급.{0,12}(안|못|실패))|(놓고|두고|없|분실|잃|못\s*들어|안\s*열|잠겼).{0,40}(키\s*카드|카드키|공동\s*현관)|(key\s*card|keycard|shared\s*entrance).{0,48}(left|lost|missing|don'?t\s*have|do\s*not\s*have|locked\s*out|can'?t\s*(get\s*in|enter)|cannot\s*(get\s*in|enter)|not\s*issued)|(left|lost|missing|locked\s*out|can'?t\s*(get\s*in|enter)|cannot\s*(get\s*in|enter)).{0,48}(key\s*card|keycard|shared\s*entrance)|(キーカード|共同玄関).{0,40}(忘れ|紛失|ない|入れない|開かない|発行されない)|(忘れ|紛失|入れない|開かない).{0,40}(キーカード|共同玄関)|(房卡|公共入口).{0,40}(忘带|忘帶|丢失|遺失|没有|沒有|无法进入|無法進入|打不开|打不開|未发卡|未發卡)|(忘带|忘帶|丢失|遺失|无法进入|無法進入|打不开|打不開).{0,40}(房卡|公共入口))/i;
 const ACCESS_CODE_REQUEST_PATTERN = /(공동\s*현관.{0,24}(비밀번호|비번|암호|코드)|(비밀번호|비번|암호|코드).{0,24}공동\s*현관|(?:shared\s*)?entrance.{0,24}(password|code)|(password|code).{0,24}(?:shared\s*)?entrance|共同玄関.{0,24}(暗証番号|パスワード)|公共入口.{0,24}(密码|密碼)|(?:密码|密碼).{0,24}公共入口)/i;
 const ACCESS_ANY_PASSWORD_REQUEST_PATTERN = /(비밀번호|비번|암호|코드|password|passcode|暗証番号|パスワード|密码|密碼)/i;
@@ -221,14 +265,14 @@ function anotherHouseAccessSupport(message, history, language) {
   const related = issue(current) || currentReportsFailure || asksForCode || (hasIssueContext && asksForAnyPassword);
   if (!related) return null;
   if (asksForCode && hasIssueContext && recoveryAlreadyFailed && accessConversationTurns >= 2) {
-    const entranceCode = String(process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE || "").trim();
-    if (/^[0-9A-Za-z#*]{3,20}$/.test(entranceCode)) return { stage: "code", answer: ACCESS_SUPPORT_COPY[language].code(entranceCode) };
+    const entranceCode = sharedEntranceCode();
+    if (entranceCode) return { stage: "code", answer: ACCESS_SUPPORT_COPY[language].code(entranceCode) };
   }
   if (currentReportsFailure && hasIssueContext) return { stage: "failed", answer: ACCESS_SUPPORT_COPY[language].failed };
   if (asksForAnyPassword && hasIssueContext && !asksForCode) return { stage: "clarify", answer: ACCESS_SUPPORT_COPY[language].clarify };
-  if (language === "ko" && isRoomKeyProblem(current) && /분실|잃/.test(current)) {
+  if (isRoomKeyProblem(current) && /분실|잃|lost|missing|紛失|なくし|遺失|丢|丟/i.test(current)) {
     const approved = CONCIERGE_TRAINING.approvedAnswers.find(record => record.intent === "key-card-recovery");
-    if (approved) return { stage: "recovery", answer: withReplacementWarning(approved.answer, language) };
+    if (approved) return { stage: "recovery", answer: localizedKeyCardRecovery(approved.answer, language) };
   }
   return { stage: "recovery", answer: withReplacementWarning(ACCESS_SUPPORT_COPY[language].recovery, language) };
 }
@@ -421,7 +465,7 @@ function verifiedLuggageStorage(message, language, history = []) {
   if (intent?.id !== "luggage" || intent.needsModel) return null;
   const topic = (GUIDE_KNOWLEDGE.quickGuide?.[language] || GUIDE_KNOWLEDGE.quickGuide?.ko || []).find(item => item.id === "luggage");
   const direct = topic?.directAnswers?.[0];
-  return direct?.answer ? { answer: contextualAnswerTone(direct.answer, message), intent: "luggage" } : null;
+  return direct?.answer ? { answer: contextualAnswerTone(hydrateApprovedAnswer(direct.answer, language), message), intent: "luggage" } : null;
 }
 
 function verifiedTrainingFact(message, language) {
@@ -429,7 +473,7 @@ function verifiedTrainingFact(message, language) {
   const fact = intent ? VERIFIED_TRAINING_FACTS[intent.id] : null;
   if (!fact) return null;
   return {
-    answer: fact.answers[language] || fact.answers.ko,
+    answer: hydrateApprovedAnswer(fact.answers[language] || fact.answers.ko, language),
     intent: intent.id,
     route: fact.route
   };
@@ -458,7 +502,7 @@ function verifiedEarlyCheckin(message, language) {
   if (intent?.id !== "early-checkin" || intent.needsModel) return null;
   const topic = (GUIDE_KNOWLEDGE.quickGuide?.[language] || GUIDE_KNOWLEDGE.quickGuide?.ko || []).find(item => item.id === "checkin");
   const direct = topic?.directAnswers?.[0];
-  return direct?.answer ? { answer: contextualAnswerTone(direct.answer, message) } : null;
+  return direct?.answer ? { answer: contextualAnswerTone(hydrateApprovedAnswer(direct.answer, language), message) } : null;
 }
 
 function verifiedLateCheckout(message, language) {
@@ -1517,7 +1561,7 @@ module.exports = async function handler(req, res) {
   }
   const approvedReply = approvedAnswerFromQuestion(message, language, history);
   if (approvedReply && language === "ko") {
-    const answer = approvedReply.intent === "key-card-recovery" ? withReplacementWarning(approvedReply.answer, language) : approvedReply.answer;
+    const answer = hydrateApprovedAnswer(approvedReply.answer, language);
     return res.status(200).json({ answer, model: "another-house-approved-workbook", links: [guidePageLink(approvedReply.route, language)], mapContext: null, meta: { searched: false, approvedWorkbook: true, approvedAnswerId: approvedReply.id, sourceRows: approvedReply.sourceRows, credentialsProtected: approvedReply.credentialsProtected, trainingIntent: approvedReply.intent, trainingVersion: CONCIERGE_TRAINING.version, guideRoute: approvedReply.route, knowledgeVersion: GUIDE_KNOWLEDGE.version, durationMs: Date.now() - startedAt } });
   }
   const trainingFact = needsSemanticAnswer ? null : verifiedTrainingFact(message, language);
@@ -1728,11 +1772,11 @@ ${stayIntent ? `PROPERTY_ROUTING_HINT: ${JSON.stringify(stayIntent)}. This is on
     const approvedId = rawAnswerText.match(/^APPROVED_ANSWER_ID:\s*([A-Za-z0-9_-]+)/m)?.[1];
     const selectedApproved = language === "ko" && approvedCandidates.find(record => record.id === approvedId);
     if (selectedApproved) {
-      const answer = selectedApproved.intent === "key-card-recovery" ? withReplacementWarning(selectedApproved.answer, language) : selectedApproved.answer;
+      const answer = hydrateApprovedAnswer(selectedApproved.answer, language);
       return res.status(200).json({ answer, model: data.model || MODEL, links: [guidePageLink(selectedApproved.route, language)], mapContext: null, meta: { searched: false, approvedWorkbook: true, approvedAnswerId: selectedApproved.id, sourceRows: selectedApproved.sourceRows, credentialsProtected: selectedApproved.credentialsProtected, trainingIntent: selectedApproved.intent, trainingVersion: CONCIERGE_TRAINING.version, guideRoute: selectedApproved.route, knowledgeVersion: GUIDE_KNOWLEDGE.version, durationMs: Date.now() - startedAt } });
     }
     const resolved = extractResolvedSpot(rawAnswerText.replace(/^APPROVED_ANSWER_ID:.*$/gm, ""));
-    let answer = correctKnownTransitMetrics(message, cleanAnswer(resolved.answerText));
+    let answer = hydrateApprovedAnswer(correctKnownTransitMetrics(message, cleanAnswer(resolved.answerText)), language);
     if (!answer) return res.status(502).json({ error: "AI returned an empty response" });
     const naverPrimarySearched = (naverData?.output || []).some(item => item?.type === "web_search_call");
     const crossCheckSearched = modelOutputs.some(item => item?.type === "web_search_call");

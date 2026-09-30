@@ -5,6 +5,8 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const handler = require("../api/chat.js");
 let accessCallSequence = 100;
+const TEST_ENTRANCE_CODE = "TESTACCESSCODE";
+const hydrateExpected = answer => String(answer || "").replaceAll("{{COMMON_ENTRANCE_CODE}}", TEST_ENTRANCE_CODE);
 
 function responseRecorder() {
   return { statusCode: 200, headers: {}, payload: null, setHeader(name, value) { this.headers[name] = value; }, status(code) { this.statusCode = code; return this; }, json(value) { this.payload = value; return this; } };
@@ -13,11 +15,13 @@ function responseRecorder() {
 async function callApi(body, output, ip) {
   const originalFetch = global.fetch;
   const originalKey = process.env.OPENAI_API_KEY;
+  const originalEntranceCode = process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE;
   let request;
   const requests = [];
   const outputs = Array.isArray(output) ? output : [output];
   let outputIndex = 0;
   process.env.OPENAI_API_KEY = "test-key";
+  process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE = TEST_ENTRANCE_CODE;
   global.fetch = async (url, options) => {
     request = { url, options, body: JSON.parse(options.body) };
     requests.push(request);
@@ -33,6 +37,8 @@ async function callApi(body, output, ip) {
     global.fetch = originalFetch;
     if (originalKey === undefined) delete process.env.OPENAI_API_KEY;
     else process.env.OPENAI_API_KEY = originalKey;
+    if (originalEntranceCode === undefined) delete process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE;
+    else process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE = originalEntranceCode;
   }
 }
 
@@ -73,7 +79,7 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.equal(request.body.tool_choice, undefined);
   assert.equal(request.body.include, undefined);
   assert.equal(request.body.reasoning.effort, "low");
-  assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-09-23\.1/);
+  assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-09-30\.1/);
   assert.match(request.body.instructions, /The first sentence must answer the exact question clearly/);
   assert.match(request.body.instructions, /do not force that opening/);
   assert.match(request.body.instructions, /Never paste or paraphrase an entire guide section/);
@@ -86,8 +92,8 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.match(request.body.instructions, /싱글룸 11실 · 더블룸 1실/);
   assert.match(request.body.instructions, /503호 앞 러기지룸/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB|"dryCapacityKg":4\.5/);
-  assert.doesNotMatch(request.body.instructions, /another1234|malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-23.1-ko-home");
+  assert.doesNotMatch(request.body.instructions, /malicious/);
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-30.1-ko-home");
   assert.doesNotMatch(request.body.input.at(-1).content, /GUIDE_KNOWLEDGE|CURRENT_GUIDE/);
   assert.ok(request.body.instructions.length < 30000);
   assert.equal(res.payload.meta.cachedTokens, 80);
@@ -100,9 +106,9 @@ test("luggage storage is answered deterministically in all five languages", asyn
   const cases = [
     ["짐보관 가능한지", "ko", /503호 앞.*시간 제한 없습니다/s],
     ["Can I store luggage?", "en", /Room 503.*no time limit|no time limit.*Room 503/s],
-    ["荷物を預けられますか", "ja", /時間制限なく.*503号室/s],
-    ["可以寄存行李吗", "zh", /503号房.*无时间限制|无时间限制.*503号房/s],
-    ["可以寄放行李嗎", "zh-TW", /503號房.*無時間限制|無時間限制.*503號房/s]
+    ["荷物を預けられますか", "ja", /503号室.*時間制限なく/s],
+    ["可以寄存行李吗", "zh", /503号房.*(?:无|没有)时间限制/s],
+    ["可以寄放行李嗎", "zh-TW", /503號房.*(?:無|沒有)時間限制/s]
   ];
   for (let index = 0; index < cases.length; index += 1) {
     const [message, language, expected] = cases[index];
@@ -113,7 +119,7 @@ test("luggage storage is answered deterministically in all five languages", asyn
     assert.equal(res.payload.meta.searched, false);
     assert.equal(res.payload.meta.approvedWorkbook || res.payload.meta.verifiedTraining, true);
     assert.equal(res.payload.meta.trainingIntent, "luggage");
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-23.1");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-30.1");
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
     assert.match(res.payload.answer, expected);
     assert.doesNotMatch(res.payload.answer, /최신 공개정보|public information|公开信息|公開資訊/);
@@ -152,14 +158,14 @@ test("approved workbook replies are returned verbatim for exact examples and cle
     const expected = records.find(record => record.type === type);
     const { res, requests } = await callApi({ message, language: "ko" }, { output_text: "unused" }, `approved-${message}`);
     assert.equal(requests.length, 0, message);
-    assert.equal(res.payload.answer, expected.answer, message);
+    assert.equal(res.payload.answer, hydrateExpected(expected.answer), message);
     assert.equal(res.payload.meta.approvedAnswerId, expected.id);
     assert.equal(res.payload.links[0].route, expected.route);
-    assert.doesNotMatch(res.payload.answer, /8282|another1234/);
+    assert.doesNotMatch(res.payload.answer, /\{\{COMMON_ENTRANCE_CODE\}\}/);
   }
   for (const record of records) {
     assert.ok(record.sourceRows.every(row => row >= 2 && row <= 122));
-    assert.doesNotMatch(record.answer, /8282|another1234/);
+    assert.doesNotMatch(record.answer, /8282/);
   }
 });
 
@@ -167,7 +173,7 @@ test("semantic selection returns the stored operator wording rather than model p
   const expected = handler._internals.CONCIERGE_TRAINING.approvedAnswers.find(record => record.type === "짐보관과 택배");
   const { res, request } = await callApi({ message: "짐도 맡기고 배달 온 물건도 받아줄수있음?", language: "ko" }, { output_text: `APPROVED_ANSWER_ID: ${expected.id}\nGUIDE_PAGE: checkin` }, "approved-semantic");
   assert.match(request.body.instructions, /OPERATIONS WORKBOOK PRIORITY/);
-  assert.equal(res.payload.answer, expected.answer);
+  assert.equal(res.payload.answer, hydrateExpected(expected.answer));
   assert.equal(res.payload.meta.approvedWorkbook, true);
 });
 
@@ -486,7 +492,7 @@ test("late checkout uses the approved Korean reply and localized guide replies",
     assert.equal(requests.length, 0);
     assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-checkout");
     assert.equal(res.payload.meta.approvedWorkbook || res.payload.meta.verifiedLateCheckout, true);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-23.1");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-30.1");
     assert.match(res.payload.answer, expected);
     assert.equal(res.payload.links[0].route, "checkin");
     assert.match(res.payload.links[0].url, /\?page=checkin$/);
@@ -495,11 +501,11 @@ test("late checkout uses the approved Korean reply and localized guide replies",
 
 test("early check-in adds pre-check-in luggage storage in every language without OpenAI", async () => {
   const cases = [
-    ["얼리 체크인 가능한가요?", "ko", /얼리 체크인은 제공되지 않습니다.*503호 앞 짐보관실.*오후 3시부터 체크인/s],
-    ["Is early check-in available?", "en", /Early check-in is not available.*Room 503.*booking-platform message/s],
-    ["アーリーチェックインできますか？", "ja", /アーリーチェックイン.*503号室.*予約プラットフォーム/s],
-    ["可以提前入住吗？", "zh", /不提供提前入住.*503号房.*预订平台消息/s],
-    ["可以提早入住嗎？", "zh-TW", /不提供提早入住.*503號房.*預訂平台訊息/s]
+    ["얼리 체크인 가능한가요?", "ko", /얼리 체크인은 제공되지 않습니다.*503호 앞 짐보관실.*오후 3시부터 체크인.*TESTACCESSCODE/s],
+    ["Is early check-in available?", "en", /Early check-in is not available.*Room 503.*3 PM.*TESTACCESSCODE/s],
+    ["アーリーチェックインできますか？", "ja", /アーリーチェックイン.*503号室.*午後3時.*TESTACCESSCODE/s],
+    ["可以提前入住吗？", "zh", /不提供提前入住.*503号房.*下午3点.*TESTACCESSCODE/s],
+    ["可以提早入住嗎？", "zh-TW", /不提供提早入住.*503號房.*下午3點.*TESTACCESSCODE/s]
   ];
   let ip = 210;
   for (const [message, language, expected] of cases) {
@@ -508,7 +514,7 @@ test("early check-in adds pre-check-in luggage storage in every language without
     assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-checkin");
     assert.equal(res.payload.meta.approvedWorkbook || res.payload.meta.verifiedEarlyCheckin, true);
     assert.equal(res.payload.meta.searched, false);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-23.1");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-30.1");
     assert.equal(res.payload.links[0].route, "checkin");
     assert.match(res.payload.answer, expected);
   }
@@ -653,8 +659,8 @@ test("a route with no origin defaults to Another House and uses compact route kn
   assert.match(request.body.instructions, /For every route or directions question that omits a departure point/);
   assert.match(request.body.instructions, /동대문역 6번 출구/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB/);
-  assert.ok(request.body.instructions.length < 25000);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-23.1-ko-route");
+  assert.ok(request.body.instructions.length < 27000);
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-30.1-ko-route");
   assert.equal(res.payload.meta.guideRoute, "transport");
   assert.deepEqual(res.payload.links.at(-1), handler._internals.guidePageLink("transport", "ko"));
 });
@@ -769,7 +775,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.mode, "night");
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-23.1");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-30.1");
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
@@ -911,7 +917,7 @@ test("time-specific family dining combines current search with the complete loca
   assert.equal(request.body.reasoning.effort, "medium");
   assert.equal(res.payload.model, "gpt-5.4-mini");
   assert.equal(res.payload.meta.searched, true);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-23.1");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-30.1");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더(?:가)? 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);
@@ -1155,20 +1161,20 @@ test("pre-verified route advice links only to the exact airport-bus boarding sto
 });
 
 test("all room-key names and common loss phrasings reach the same approved recovery answer", async () => {
-  const expected = handler._internals.CONCIERGE_TRAINING.approvedAnswers.find(record => record.intent === "key-card-recovery").answer;
+  const expected = hydrateExpected(handler._internals.CONCIERGE_TRAINING.approvedAnswers.find(record => record.intent === "key-card-recovery").answer);
   for (const noun of ["카드키", "카드 키", "키카드", "객실키", "객실 키", "룸키", "룸 키", "방키", "방 열쇠", "객실 열쇠", "출입카드키", "열쇠"]) {
     for (const problem of ["분실", "잃어버렸어", "를 잃어버렸는데 어떻게해요?"]) {
       const res = await callAccess({ message: noun + " " + problem, language: "ko" });
       assert.equal(res.statusCode, 200, noun + problem);
-      assert.ok(res.payload.answer.startsWith(expected), noun + problem);
-      assert.match(res.payload.answer, /다시 분실하면 추가 재발급이 불가능/);
-      assert.doesNotMatch(res.payload.answer, /TESTACCESSCODE/);
+      assert.equal(res.payload.answer, expected, noun + problem);
+      assert.equal((res.payload.answer.match(/1회만 가능합니다/g) || []).length, 1);
+      assert.match(res.payload.answer, /TESTACCESSCODE/);
     }
   }
   for (const [language, message] of [["en", "I lost my room key"], ["en", "hotel key missing"], ["ja", "ルームキーをなくした"], ["ja", "部屋の鍵を紛失"], ["zh", "房间钥匙丢了"], ["zh-TW", "房間鑰匙遺失"]]) {
     const res = await callAccess({ message, language });
     assert.equal(res.payload.model, "another-house-access-support", message);
-    assert.doesNotMatch(res.payload.answer, /TESTACCESSCODE/);
+    assert.match(res.payload.answer, /TESTACCESSCODE/);
   }
 });
 
@@ -1182,7 +1188,7 @@ test("FAQ buttons return the workbook answers with in-site links", async () => {
   const types = [["체크인 시간", "체크인·체크아웃 시간"], ["체크인 방법", "체크인 방법"], ["얼리체크인", "얼리 체크인"], ["체크아웃 시간", "체크인·체크아웃 시간"], ["짐보관", "짐보관 가능 여부 및 시간"], ["공용비품", "비품"]];
   for (const [message, type] of types) {
     const res = await callAccess({ message, language: "ko" });
-    assert.equal(res.payload.answer, handler._internals.CONCIERGE_TRAINING.approvedAnswers.find(record => record.type === type).answer, message);
+    assert.equal(res.payload.answer, hydrateExpected(handler._internals.CONCIERGE_TRAINING.approvedAnswers.find(record => record.type === type).answer), message);
     assert.equal(res.payload.links[0].kind, "guide");
   }
 });
@@ -1276,7 +1282,9 @@ test("key-card context distinguishes prevention, first loss and loss after repla
   for (const message of ['카드키 분실', '객실키 잃어버렸어요', '룸키 분실']) {
     const first = await callAccess({ message, language:'ko' });
     assert.match(first.payload.answer, /재발급은 1회만 가능합니다/);
-    assert.match(first.payload.answer, /재분실에 유의/);
+    assert.match(first.payload.answer, /입구의 키오스크.*전화.*원격으로 재발급/s);
+    assert.match(first.payload.answer, /TESTACCESSCODE/);
+    assert.equal((first.payload.answer.match(/1회만 가능합니다/g) || []).length, 1);
   }
   for (const message of ['재발급받은 룸키를 또 잃어버렸어요', '카드키 재발급 받았는데 다시 분실', '카드키를 재발급해주셨는데 또 잃어버렸어요']) {
     const res = await callAccess({ message, language:'ko' });

@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-23.1",
+  "version": "2026-09-30.1",
   "generatedAt": "2026-09-23",
   "sourceOfTruth": "Another House operations manual synchronized with current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -86,7 +86,7 @@
           "트렁크 보관",
           "수하물 보관"
         ],
-        "answer": "네, 짐 보관이 가능합니다.\n503호 앞 러기지 룸\n체크인·체크아웃 당일에는 시간 제한 없이 무료로 이용할 수 있습니다. 체크인 전 출입 정보는 예약 플랫폼 메시지에서 확인해 주세요.\n체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 무료로 보관할 수 있습니다.\n레이트 체크아웃은 불가합니다.",
+        "answer": "체크인·체크아웃 당일 언제든지★ 503호 앞 짐보관실을 무료로 이용할 수 있습니다. 시간 제한 없습니다★ 숙소 출입구 왼쪽 기기에 {{COMMON_ENTRANCE_CODE}} → ENT 입력해주세요",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "네, 짐 보관이 가능합니다.",
         "directAnswers": [
@@ -99,7 +99,7 @@
               "트렁크보관",
               "수하물보관"
             ],
-            "answer": "네, 짐 보관이 가능합니다. 체크인·체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸을 무료로 이용할 수 있어요. 체크인 전 출입정보는 예약 플랫폼 메시지에서 확인해 주세요."
+            "answer": "체크인·체크아웃 당일 언제든지★ 503호 앞 짐보관실을 무료로 이용할 수 있습니다. 시간 제한 없습니다★ 숙소 출입구 왼쪽 기기에 {{COMMON_ENTRANCE_CODE}} → ENT 입력해주세요"
           }
         ]
       },
@@ -126,7 +126,7 @@
               "조기 체크인",
               "일찍 체크인"
             ],
-            "answer": "얼리 체크인은 제공되지 않습니다. 일찍 도착한 경우 503호 앞 짐보관실에 짐을 보관한 뒤 오후 3시부터 체크인해주세요. / 출입정보는 예약 채널 메시지에서 확인해주세요. / ★ 카드키는 재발급되지 않습니다, 분실에 유의하십시오."
+            "answer": "얼리 체크인은 제공되지 않습니다. 일찍 도착한 경우 503호 앞 짐보관실에 짐을 보관한 뒤 오후 3시부터 체크인해주세요. / 입구 도어락 PW: {{COMMON_ENTRANCE_CODE}} → ENT / ★ 카드키는 재발급되지 않습니다, 분실에 유의하십시오."
           }
         ]
       },
@@ -159,7 +159,7 @@
           "wi-fi",
           "인터넷"
         ],
-        "answer": "another\n복도 천장 및 라운지 테이블 위쪽\nWi-Fi 비밀번호는 현재 숙소 Wi-Fi 안내 화면 또는 예약 플랫폼 메시지에서 확인해 주세요.",
+        "answer": "another\n복도 천장 및 라운지 테이블 위쪽\nWi-Fi 이름은 another, 비밀번호는 another1234입니다. 공유기는 복도 천장과 라운지 테이블 위쪽에 있습니다.",
         "source": "https://anotherhouse-guide.vercel.app/?page=wifi",
         "lead": "네, 숙소에서 Wi-Fi를 이용할 수 있습니다.",
         "directAnswers": []
@@ -533,7 +533,7 @@
           "baggage storage",
           "store my suitcase"
         ],
-        "answer": "Yes, luggage storage is available.\nLuggage room in front of Room 503\nIt is free to use at any time on your check-in or check-out day, with no time limit. Before check-in, check your booking-platform message for access information.\nOn the day of checkout, free luggage storage is available in the luggage room in front of Room 503 with no time limit.\nLate checkout is not available.",
+        "answer": "Luggage storage is available free of charge in front of Room 503 at any time on your check-in or check-out day, with no time limit. Enter {{COMMON_ENTRANCE_CODE}} → ENT on the device to the left of the property entrance.",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "Yes, luggage storage is available.",
         "directAnswers": [
@@ -545,7 +545,7 @@
               "baggage storage",
               "store my suitcase"
             ],
-            "answer": "Yes, luggage storage is available. On your check-in or check-out day, you can use the luggage room in front of Room 503 free of charge with no time limit. Before check-in, check your booking-platform message for access information."
+            "answer": "Luggage storage is available free of charge in front of Room 503 at any time on your check-in or check-out day, with no time limit. Enter {{COMMON_ENTRANCE_CODE}} → ENT on the device to the left of the property entrance."
           }
         ]
       },
@@ -570,7 +570,7 @@
               "early check-in",
               "early check in"
             ],
-            "answer": "Early check-in is not available. If you arrive early, please leave your luggage in the luggage room in front of Room 503 and check in from 3 PM. / Please check your booking-platform message for access information. / Key cards cannot be reissued, so please take care not to lose yours."
+            "answer": "Early check-in is not available. If you arrive early, leave your luggage in the storage room in front of Room 503 and check in from 3 PM. / Entrance door lock: {{COMMON_ENTRANCE_CODE}} → ENT / Key cards cannot be reissued, so please take care not to lose yours."
           }
         ]
       },
@@ -602,7 +602,7 @@
           "wi-fi",
           "internet"
         ],
-        "answer": "another\nCorridor ceiling and above the lounge table\nCheck the current Wi-Fi guide screen or your booking-platform message for the password.",
+        "answer": "another\nCorridor ceiling and above the lounge table\nThe Wi-Fi network is “another” and the password is “another1234”. Routers are on the corridor ceiling and above the lounge table.",
         "source": "https://anotherhouse-guide.vercel.app/?page=wifi",
         "lead": "Yes, Wi-Fi is available at the property.",
         "directAnswers": []
@@ -967,7 +967,7 @@
           "ラゲッジルーム",
           "スーツケース保管"
         ],
-        "answer": "はい、荷物を保管できます。\n503号室前の荷物室\nチェックイン日・チェックアウト当日は時間制限なく無料で利用できます。チェックイン前の入館情報は予約プラットフォームのメッセージでご確認ください。\nチェックアウト当日は時間制限なく、503号室前のラゲッジルームに無料で保管できます。\nレイトチェックアウトはできません。",
+        "answer": "チェックイン日・チェックアウト当日はいつでも、503号室前の荷物保管室を時間制限なく無料で利用できます。宿の入口左側の機器に {{COMMON_ENTRANCE_CODE}} → ENT と入力してください。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "はい、荷物を保管できます。",
         "directAnswers": [
@@ -979,7 +979,7 @@
               "ラゲッジルーム",
               "スーツケース保管"
             ],
-            "answer": "はい、荷物を保管できます。チェックイン日・チェックアウト当日は時間制限なく、503号室前のラゲッジルームを無料で利用できます。チェックイン前の入館情報は予約プラットフォームのメッセージをご確認ください。"
+            "answer": "チェックイン日・チェックアウト当日はいつでも、503号室前の荷物保管室を時間制限なく無料で利用できます。宿の入口左側の機器に {{COMMON_ENTRANCE_CODE}} → ENT と入力してください。"
           }
         ]
       },
@@ -1004,7 +1004,7 @@
               "アーリーチェックイン",
               "早めのチェックイン"
             ],
-            "answer": "アーリーチェックインはご利用いただけません。早く到着された場合は、503号室前の荷物保管室に荷物を置き、午後3時からチェックインしてください。／入館情報は予約プラットフォームのメッセージでご確認ください。／キーカードは再発行できませんので、紛失にご注意ください。"
+            "answer": "アーリーチェックインはご利用いただけません。早く到着された場合は、503号室前の荷物保管室に荷物を置き、午後3時からチェックインしてください。／入口の暗証番号：{{COMMON_ENTRANCE_CODE}} → ENT／キーカードは再発行できませんので、紛失にご注意ください。"
           }
         ]
       },
@@ -1035,7 +1035,7 @@
           "wi-fi",
           "インターネット"
         ],
-        "answer": "another\n廊下の天井およびラウンジテーブルの上側\nWi-Fiパスワードは宿のWi-Fi案内画面または予約プラットフォームのメッセージで確認してください。",
+        "answer": "another\n廊下の天井およびラウンジテーブルの上側\nWi-Fi名は「another」、パスワードは「another1234」です。ルーターは廊下の天井とラウンジテーブルの上側にあります。",
         "source": "https://anotherhouse-guide.vercel.app/?page=wifi",
         "lead": "はい、館内でWi-Fiを利用できます。",
         "directAnswers": []
@@ -1374,7 +1374,7 @@
           "行李房",
           "存放行李"
         ],
-        "answer": "可以寄存行李。\n503号房前的行李房\n入住或退房当天可免费使用，且无时间限制。入住前所需的门禁信息请查看预订平台消息。\n退房当天可免费寄存在503号房前的行李室，且无时间限制。\n不提供延迟退房。",
+        "answer": "入住或退房当天可随时免费使用503号房前的行李房，没有时间限制。请在住宿入口左侧的设备上输入 {{COMMON_ENTRANCE_CODE}} → ENT。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "可以，住宿提供行李寄存。",
         "directAnswers": [
@@ -1385,7 +1385,7 @@
               "行李房",
               "存放行李"
             ],
-            "answer": "可以寄存行李。入住或退房当天可免费使用503号房前的行李房，且无时间限制。入住前所需的门禁信息请查看预订平台消息。"
+            "answer": "入住或退房当天可随时免费使用503号房前的行李房，没有时间限制。请在住宿入口左侧的设备上输入 {{COMMON_ENTRANCE_CODE}} → ENT。"
           }
         ]
       },
@@ -1410,7 +1410,7 @@
               "提前入住",
               "早到入住"
             ],
-            "answer": "不提供提前入住。如果提前到达，请先将行李放在503号房前的行李保管室，下午3点起办理入住。／门禁信息请查看预订平台消息。／房卡无法补发，请注意保管，避免遗失。"
+            "answer": "不提供提前入住。如果提前到达，请先将行李放在503号房前的行李保管室，下午3点起办理入住。／入口密码：{{COMMON_ENTRANCE_CODE}} → ENT／房卡无法补发，请注意保管，避免遗失。"
           }
         ]
       },
@@ -1441,7 +1441,7 @@
           "wi-fi",
           "无线网络"
         ],
-        "answer": "another\n走廊天花板及休息区桌子上方\nWi-Fi 密码请查看住宿的 Wi-Fi 指南页面或预订平台消息。",
+        "answer": "another\n走廊天花板及休息区桌子上方\nWi-Fi名称为“another”，密码为“another1234”。路由器位于走廊天花板及休息区桌子上方。",
         "source": "https://anotherhouse-guide.vercel.app/?page=wifi",
         "lead": "可以，住宿内提供 Wi-Fi。",
         "directAnswers": []
@@ -1779,7 +1779,7 @@
           "行李房",
           "寄存行李"
         ],
-        "answer": "可以寄放行李。\n503號房前的行李房\n入住或退房當天可免費使用，且無時間限制。入住前所需的門禁資訊請查看預訂平台訊息。\n退房當天可免費寄放在503號房前的行李室，且無時間限制。\n不提供延遲退房。",
+        "answer": "入住或退房當天可隨時免費使用503號房前的行李房，沒有時間限制。請在住宿入口左側的設備上輸入 {{COMMON_ENTRANCE_CODE}} → ENT。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
         "lead": "可以，住宿提供行李寄放。",
         "directAnswers": [
@@ -1790,7 +1790,7 @@
               "行李房",
               "寄存行李"
             ],
-            "answer": "可以寄放行李。入住或退房當天可免費使用503號房前的行李房，且無時間限制。入住前所需的門禁資訊請查看預訂平台訊息。"
+            "answer": "入住或退房當天可隨時免費使用503號房前的行李房，沒有時間限制。請在住宿入口左側的設備上輸入 {{COMMON_ENTRANCE_CODE}} → ENT。"
           }
         ]
       },
@@ -1815,7 +1815,7 @@
               "提前入住",
               "提早入住"
             ],
-            "answer": "不提供提早入住。如果提早抵達，請先將行李放在503號房前的行李保管室，下午3點起辦理入住。／門禁資訊請查看預訂平台訊息。／房卡無法補發，請妥善保管，避免遺失。"
+            "answer": "不提供提早入住。如果提早抵達，請先將行李放在503號房前的行李保管室，下午3點起辦理入住。／入口密碼：{{COMMON_ENTRANCE_CODE}} → ENT／房卡無法補發，請妥善保管，避免遺失。"
           }
         ]
       },
@@ -1846,7 +1846,7 @@
           "wi-fi",
           "無線網路"
         ],
-        "answer": "another\n走廊天花板及休息區桌子上方\nWi-Fi 密碼請查看住宿的 Wi-Fi 指南頁面或預訂平台訊息。",
+        "answer": "another\n走廊天花板及休息區桌子上方\nWi-Fi名稱為“another”，密碼為“another1234”。路由器位於走廊天花板及休息區桌子上方。",
         "source": "https://anotherhouse-guide.vercel.app/?page=wifi",
         "lead": "可以，住宿內提供 Wi-Fi。",
         "directAnswers": []
@@ -3420,35 +3420,35 @@
       "title": "Wi-Fi",
       "network": "another",
       "routerLocation": "복도 천장 및 라운지 테이블 위쪽",
-      "passwordPolicy": "Wi-Fi 비밀번호는 공개 챗봇에서 제공하지 않습니다. 현재 숙소 Wi-Fi 안내 화면 또는 예약 플랫폼 메시지에서 확인해 주세요.",
+      "passwordPolicy": "Wi-Fi 이름은 another, 비밀번호는 another1234입니다. 공유기는 복도 천장과 라운지 테이블 위쪽에 있습니다.",
       "source": "https://anotherhouse-guide.vercel.app/?page=wifi"
     },
     "en": {
       "title": "Wi-Fi",
       "network": "another",
       "routerLocation": "Corridor ceiling and above the lounge table",
-      "passwordPolicy": "The Wi-Fi password is not disclosed in public chat. Check the property's Wi-Fi guide screen or your booking-platform message.",
+      "passwordPolicy": "The Wi-Fi network is “another” and the password is “another1234”. Routers are on the corridor ceiling and above the lounge table.",
       "source": "https://anotherhouse-guide.vercel.app/?page=wifi"
     },
     "ja": {
       "title": "Wi-Fi",
       "network": "another",
       "routerLocation": "廊下の天井およびラウンジテーブルの上側",
-      "passwordPolicy": "Wi-Fiパスワードは公開チャットでは案内しません。宿のWi-Fi案内画面または予約プラットフォームのメッセージで確認してください。",
+      "passwordPolicy": "Wi-Fi名は「another」、パスワードは「another1234」です。ルーターは廊下の天井とラウンジテーブルの上側にあります。",
       "source": "https://anotherhouse-guide.vercel.app/?page=wifi"
     },
     "zh": {
       "title": "Wi-Fi",
       "network": "another",
       "routerLocation": "走廊天花板及休息区桌子上方",
-      "passwordPolicy": "公开聊天中不提供 Wi-Fi 密码。请查看住宿的 Wi-Fi 指南页面或预订平台消息。",
+      "passwordPolicy": "Wi-Fi名称为“another”，密码为“another1234”。路由器位于走廊天花板及休息区桌子上方。",
       "source": "https://anotherhouse-guide.vercel.app/?page=wifi"
     },
     "zh-TW": {
       "title": "Wi-Fi",
       "network": "another",
       "routerLocation": "走廊天花板及休息區桌子上方",
-      "passwordPolicy": "公開聊天中不提供 Wi-Fi 密碼。請查看住宿的 Wi-Fi 指南頁面或預訂平台訊息。",
+      "passwordPolicy": "Wi-Fi名稱為“another”，密碼為“another1234”。路由器位於走廊天花板及休息區桌子上方。",
       "source": "https://anotherhouse-guide.vercel.app/?page=wifi"
     }
   },
@@ -14899,8 +14899,7 @@
   },
   "policy": {
     "sensitiveFieldsExcluded": [
-      "Wi-Fi password",
-      "door/access codes",
+      "door/access codes in static assets",
       "room assignment",
       "reservation identity or status",
       "approval",
@@ -14914,7 +14913,8 @@
     "approvedAnswerCount": 36,
     "recordCount": 121,
     "intentCount": 33,
-    "secretAnswerRowsExcluded": 58,
+    "secretAnswerRowsExcluded": 56,
+    "credentialTemplateRows": 56,
     "source": {
       "workbook": "Q&A 표준화 (2).xlsx",
       "rawSheet": "어나더 질문 RAW",

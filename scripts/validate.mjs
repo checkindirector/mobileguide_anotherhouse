@@ -12,7 +12,8 @@ const guideKnowledge=await readFile(resolve(root,"assets/guide-knowledge.json"),
 const refs=[...html.matchAll(/(?:src|href)="(\/assets\/[^"?]+)(?:\?[^"]*)?"/g)].map(match=>match[1]);
 await Promise.all(refs.map(ref=>access(resolve(root,ref.slice(1)))));
 for(const approvedGuestDetail of ["another1234"]) if(!(data+updates).includes(approvedGuestDetail)) throw new Error("Approved guest detail is missing: "+approvedGuestDetail);
-if(guideKnowledge.includes("another1234")) throw new Error("Sensitive Wi-Fi password leaked into chatbot knowledge");
+if(!guideKnowledge.includes("another1234")) throw new Error("Latest workbook Wi-Fi answer is missing from chatbot knowledge");
+if(!guideKnowledge.includes("{{COMMON_ENTRANCE_CODE}}")) throw new Error("Server-resolved entrance-code token is missing from chatbot knowledge");
 if(/FAQ|faq|guide-extay|extay-release/i.test(html+js+data+updates)) throw new Error("Legacy EXTAY or FAQ content detected");
 new Function(js); new Function(data); new Function("module","require","process","fetch","AbortSignal",chatApi);
 console.log("Validated "+required.length+" required files and "+refs.length+" local asset references.");

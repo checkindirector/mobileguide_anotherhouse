@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-23.1";
+const VERSION = "2026-09-30.1";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -136,17 +136,17 @@ const quickDirectAnswers = (topic, language) => {
   const answers = ({
   checkin: {
     ko: [{ keywords: ["얼리 체크인", "조기 체크인", "일찍 체크인"], answer: conciergeTraining.approvedAnswers.find(record => record.type === "얼리 체크인").answer }],
-    en: [{ keywords: ["early check-in", "early check in"], answer: "Early check-in is not available. If you arrive early, please leave your luggage in the luggage room in front of Room 503 and check in from 3 PM. / Please check your booking-platform message for access information. / Key cards cannot be reissued, so please take care not to lose yours." }],
-    ja: [{ keywords: ["アーリーチェックイン", "早めのチェックイン"], answer: "アーリーチェックインはご利用いただけません。早く到着された場合は、503号室前の荷物保管室に荷物を置き、午後3時からチェックインしてください。／入館情報は予約プラットフォームのメッセージでご確認ください。／キーカードは再発行できませんので、紛失にご注意ください。" }],
-    zh: [{ keywords: ["提前入住", "早到入住"], answer: "不提供提前入住。如果提前到达，请先将行李放在503号房前的行李保管室，下午3点起办理入住。／门禁信息请查看预订平台消息。／房卡无法补发，请注意保管，避免遗失。" }],
-    "zh-TW": [{ keywords: ["提前入住", "提早入住"], answer: "不提供提早入住。如果提早抵達，請先將行李放在503號房前的行李保管室，下午3點起辦理入住。／門禁資訊請查看預訂平台訊息。／房卡無法補發，請妥善保管，避免遺失。" }]
+    en: [{ keywords: ["early check-in", "early check in"], answer: "Early check-in is not available. If you arrive early, leave your luggage in the storage room in front of Room 503 and check in from 3 PM. / Entrance door lock: {{COMMON_ENTRANCE_CODE}} → ENT / Key cards cannot be reissued, so please take care not to lose yours." }],
+    ja: [{ keywords: ["アーリーチェックイン", "早めのチェックイン"], answer: "アーリーチェックインはご利用いただけません。早く到着された場合は、503号室前の荷物保管室に荷物を置き、午後3時からチェックインしてください。／入口の暗証番号：{{COMMON_ENTRANCE_CODE}} → ENT／キーカードは再発行できませんので、紛失にご注意ください。" }],
+    zh: [{ keywords: ["提前入住", "早到入住"], answer: "不提供提前入住。如果提前到达，请先将行李放在503号房前的行李保管室，下午3点起办理入住。／入口密码：{{COMMON_ENTRANCE_CODE}} → ENT／房卡无法补发，请注意保管，避免遗失。" }],
+    "zh-TW": [{ keywords: ["提前入住", "提早入住"], answer: "不提供提早入住。如果提早抵達，請先將行李放在503號房前的行李保管室，下午3點起辦理入住。／入口密碼：{{COMMON_ENTRANCE_CODE}} → ENT／房卡無法補發，請妥善保管，避免遺失。" }]
   },
   luggage: {
-    ko: [{ keywords: ["짐보관", "짐맡", "가방보관", "캐리어보관", "트렁크보관", "수하물보관"], answer: "네, 짐 보관이 가능합니다. 체크인·체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸을 무료로 이용할 수 있어요. 체크인 전 출입정보는 예약 플랫폼 메시지에서 확인해 주세요." }],
-    en: [{ keywords: ["luggage storage", "store luggage", "leave luggage", "baggage storage", "store my suitcase"], answer: "Yes, luggage storage is available. On your check-in or check-out day, you can use the luggage room in front of Room 503 free of charge with no time limit. Before check-in, check your booking-platform message for access information." }],
-    ja: [{ keywords: ["荷物保管", "荷物を預", "荷物預かり", "ラゲッジルーム", "スーツケース保管"], answer: "はい、荷物を保管できます。チェックイン日・チェックアウト当日は時間制限なく、503号室前のラゲッジルームを無料で利用できます。チェックイン前の入館情報は予約プラットフォームのメッセージをご確認ください。" }],
-    zh: [{ keywords: ["行李寄存", "寄存行李", "行李房", "存放行李"], answer: "可以寄存行李。入住或退房当天可免费使用503号房前的行李房，且无时间限制。入住前所需的门禁信息请查看预订平台消息。" }],
-    "zh-TW": [{ keywords: ["行李寄放", "寄放行李", "行李房", "寄存行李"], answer: "可以寄放行李。入住或退房當天可免費使用503號房前的行李房，且無時間限制。入住前所需的門禁資訊請查看預訂平台訊息。" }]
+    ko: [{ keywords: ["짐보관", "짐맡", "가방보관", "캐리어보관", "트렁크보관", "수하물보관"], answer: conciergeTraining.approvedAnswers.find(record => record.type === "짐보관 가능 여부 및 시간").answer }],
+    en: [{ keywords: ["luggage storage", "store luggage", "leave luggage", "baggage storage", "store my suitcase"], answer: "Luggage storage is available free of charge in front of Room 503 at any time on your check-in or check-out day, with no time limit. Enter {{COMMON_ENTRANCE_CODE}} → ENT on the device to the left of the property entrance." }],
+    ja: [{ keywords: ["荷物保管", "荷物を預", "荷物預かり", "ラゲッジルーム", "スーツケース保管"], answer: "チェックイン日・チェックアウト当日はいつでも、503号室前の荷物保管室を時間制限なく無料で利用できます。宿の入口左側の機器に {{COMMON_ENTRANCE_CODE}} → ENT と入力してください。" }],
+    zh: [{ keywords: ["行李寄存", "寄存行李", "行李房", "存放行李"], answer: "入住或退房当天可随时免费使用503号房前的行李房，没有时间限制。请在住宿入口左侧的设备上输入 {{COMMON_ENTRANCE_CODE}} → ENT。" }],
+    "zh-TW": [{ keywords: ["行李寄放", "寄放行李", "行李房", "寄存行李"], answer: "入住或退房當天可隨時免費使用503號房前的行李房，沒有時間限制。請在住宿入口左側的設備上輸入 {{COMMON_ENTRANCE_CODE}} → ENT。" }]
   },
   checkout: {
     ko: [{ keywords: ["레이트 체크아웃", "늦게 체크아웃", "체크아웃 연장"], answer: "아니요, 레이트 체크아웃과 체크아웃 시간 연장은 불가합니다. 대신 체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 짐을 무료로 보관할 수 있어요." }],
@@ -208,14 +208,14 @@ const quickGuideTopics = language => {
   const waste = localize(data.pages.trash, language);
   const about = localize(data.about, language);
   const tv = localize(data.applianceNotice, language);
-  const luggageLead = { ko: "네, 짐 보관이 가능합니다.", en: "Yes, luggage storage is available.", ja: "はい、荷物を保管できます。", zh: "可以寄存行李。", "zh-TW": "可以寄放行李。" }[language];
-  const wifiPolicy = { ko: "Wi-Fi 비밀번호는 현재 숙소 Wi-Fi 안내 화면 또는 예약 플랫폼 메시지에서 확인해 주세요.", en: "Check the current Wi-Fi guide screen or your booking-platform message for the password.", ja: "Wi-Fiパスワードは宿のWi-Fi案内画面または予約プラットフォームのメッセージで確認してください。", zh: "Wi-Fi 密码请查看住宿的 Wi-Fi 指南页面或预订平台消息。", "zh-TW": "Wi-Fi 密碼請查看住宿的 Wi-Fi 指南頁面或預訂平台訊息。" }[language];
+  const luggageAnswer = quickDirectAnswers("luggage", language)?.[0]?.answer;
+  const wifiPolicy = localize(data.pages.wifi.summary, language);
   const checkoutLuggage = (stay.checkout.sections || []).find(section =>
     (section.steps || []).some(step => /시간 제한|time limit|時間制限|时间限制|時間限制/.test(step))
   )?.steps || [];
   const answer = lines => lines.filter(value => typeof value === "string" && value.trim()).join("\n");
   return [
-    { id: "luggage", keywords: QUICK_TOPIC_KEYWORDS.luggage[language], answer: answer([luggageLead, stay.luggage.value, stay.luggage.note, ...checkoutLuggage]), source: pageUrl("checkin") },
+    { id: "luggage", keywords: QUICK_TOPIC_KEYWORDS.luggage[language], answer: luggageAnswer || answer([stay.luggage.value, stay.luggage.note, ...checkoutLuggage]), source: pageUrl("checkin") },
     { id: "checkin", keywords: QUICK_TOPIC_KEYWORDS.checkin[language], answer: answer(compactPageLines(stay.checkin)), source: pageUrl("checkin") },
     { id: "checkout", keywords: QUICK_TOPIC_KEYWORDS.checkout[language], answer: answer(compactPageLines(stay.checkout)), source: pageUrl("checkin") },
     { id: "wifi", keywords: QUICK_TOPIC_KEYWORDS.wifi[language], answer: answer([wifi.sections?.[0]?.value, wifi.sections?.[2]?.body, wifiPolicy]), source: pageUrl("wifi") },
@@ -508,15 +508,7 @@ const knowledge = {
       title: wifi.title,
       network: wifi.sections?.[0]?.value || "another",
       routerLocation: wifi.sections?.[2]?.body || "",
-      passwordPolicy: language === "ko"
-        ? "Wi-Fi 비밀번호는 공개 챗봇에서 제공하지 않습니다. 현재 숙소 Wi-Fi 안내 화면 또는 예약 플랫폼 메시지에서 확인해 주세요."
-        : language === "ja"
-          ? "Wi-Fiパスワードは公開チャットでは案内しません。宿のWi-Fi案内画面または予約プラットフォームのメッセージで確認してください。"
-          : language === "zh"
-            ? "公开聊天中不提供 Wi-Fi 密码。请查看住宿的 Wi-Fi 指南页面或预订平台消息。"
-            : language === "zh-TW"
-              ? "公開聊天中不提供 Wi-Fi 密碼。請查看住宿的 Wi-Fi 指南頁面或預訂平台訊息。"
-              : "The Wi-Fi password is not disclosed in public chat. Check the property's Wi-Fi guide screen or your booking-platform message.",
+      passwordPolicy: localize(data.pages.wifi.summary, language),
       source: pageUrl("wifi")
     };
   }),
@@ -630,7 +622,7 @@ const knowledge = {
     url: pageUrl("guidebook")
   })),
   policy: {
-    sensitiveFieldsExcluded: ["Wi-Fi password", "door/access codes", "room assignment", "reservation identity or status", "approval", "guest-specific fees"],
+    sensitiveFieldsExcluded: ["door/access codes in static assets", "room assignment", "reservation identity or status", "approval", "guest-specific fees"],
     publicInformationMustBeSearched: true,
     accommodationFactsMustComeFromThisKnowledge: true
   },
@@ -640,19 +632,19 @@ const knowledge = {
     recordCount: conciergeTraining.recordCount,
     intentCount: conciergeTraining.intentCount,
     secretAnswerRowsExcluded: conciergeTraining.secretAnswerRowsExcluded,
+    credentialTemplateRows: conciergeTraining.credentialTemplateRows,
     source: conciergeTraining.source
   },
   provenance: [...sourceScripts, "assets/gimpo-line5-timetable.json", "api/concierge-training.json"]
 };
 
 const json = `${JSON.stringify(knowledge, null, 2)}\n`;
-if (/another1234/.test(json)) throw new Error("Sensitive Wi-Fi password leaked into guide knowledge");
 await writeFile(resolve(root, "assets/guide-knowledge.json"), json);
 
-const audit = `# Concierge knowledge audit\n\nVersion: ${VERSION}\n\n| Area | Current page source | Previous chatbot state | Unified result |\n|---|---|---|---|\n| Address, check-in/out, transport, parking, luggage, rules | Current rendered page data | Sent ad hoc from the browser | Generated into one server-owned knowledge bundle |\n| Five-language quick guide | The same current page data in Korean, English, Japanese, Simplified Chinese and Traditional Chinese | Browser fallback omitted several property topics and the server could misclassify them as public search | Eleven common property topics are generated once and shared by the server and browser fallback |\n| Appliances, laundry, waste | Current page instructions; official manuals are secondary | Sent ad hoc from the browser | Current page text is primary; manual links remain supporting sources |\n| Nearby essentials | Naver Maps plus official venue/public sources | Depended on live search even for common needs | Seven property-specific places are pre-verified with exact addresses and map links |\n| Restaurants and tours | 26 restaurant cards and 21 tour cards | Loaded only for matching browser keywords | Included as clearly labeled host recommendations |\n| Wi-Fi | Network and password are visible on the Wi-Fi screen | Password could be sent to the model | Network retained; password deliberately excluded as sensitive |\n| Door/access and reservation data | Page tells guests where to retrieve guest-specific information | Could be mixed into browser context | Codes, room assignment, booking status and guest-specific details are prohibited |\n| General public information | Not part of the property manual | Previously rejected | Official-source web search is permitted only for non-property public questions |\n| Emergency | Booking-platform contact plus Korean public emergency services | No dedicated normalized section | 112/119 and official agency sources added; property-specific issues still use the booking platform |\n\nThe generator executes the same ordered data scripts as the website. Tests regenerate the bundle and fail if it is stale or contains the known Wi-Fi password.\n`;
+const audit = `# Concierge knowledge audit\n\nVersion: ${VERSION}\n\n| Area | Current page source | Previous chatbot state | Unified result |\n|---|---|---|---|\n| Address, check-in/out, transport, parking, luggage, rules | Current rendered page data | Sent ad hoc from the browser | Generated into one server-owned knowledge bundle |\n| Five-language quick guide | The same current page data in Korean, English, Japanese, Simplified Chinese and Traditional Chinese | Browser fallback omitted several property topics and the server could misclassify them as public search | Eleven common property topics are generated once and shared by the server and browser fallback |\n| Appliances, laundry, waste | Current page instructions; official manuals are secondary | Sent ad hoc from the browser | Current page text is primary; manual links remain supporting sources |\n| Nearby essentials | Naver Maps plus official venue/public sources | Depended on live search even for common needs | Seven property-specific places are pre-verified with exact addresses and map links |\n| Restaurants and tours | 26 restaurant cards and 21 tour cards | Loaded only for matching browser keywords | Included as clearly labeled host recommendations |\n| Wi-Fi | Network and password are visible on the Wi-Fi screen and confirmed by the latest operations workbook | Older policy hid the password from chat | The current workbook answer is returned in all five languages |\n| Door/access and reservation data | The latest operations workbook includes the shared entrance code in applicable answers | Older policy replaced those clauses with a booking-channel instruction | Workbook wording is retained and the code is injected only at server response time from the Vercel environment |\n| General public information | Not part of the property manual | Previously rejected | Official-source web search is permitted only for non-property public questions |\n| Emergency | Booking-platform contact plus Korean public emergency services | No dedicated normalized section | 112/119 and official agency sources added; property-specific issues still use the booking platform |\n\nThe generator executes the same ordered data scripts as the website. Tests regenerate the bundle and fail if it is stale or contains a literal shared entrance code in static assets.\n`;
 const auditWithAirport = audit.replace("Eleven common property topics", "Twelve common property topics").replace(
   "| Appliances, laundry, waste |",
-  `| Operations Q&A training | ${conciergeTraining.recordCount} historical guest questions from ${conciergeTraining.source.trainingSheet} | Previously stored only question types, not operator answer wording | ${conciergeTraining.approvedAnswers.length} approved replies are now retained and returned verbatim for matched Korean questions. ${conciergeTraining.secretAnswerRowsExcluded} rows have credential clauses protected; other wording is unchanged. |\n| Appliances, laundry, waste |`
+  `| Operations Q&A training | ${conciergeTraining.recordCount} historical guest questions from ${conciergeTraining.source.trainingSheet} | Previously stored only question types, not operator answer wording | ${conciergeTraining.approvedAnswers.length} approved replies are retained and returned verbatim for matched Korean questions. ${conciergeTraining.credentialTemplateRows} rows use a server-resolved entrance-code token; no older wording is substituted. |\n| Appliances, laundry, waste |`
 ).replace(
   "| General public information |",
   "| Airport departures | Official K Airport Limousine, Incheon Airport and Seoul Metro timetables | Depended on live search and often missed embedded timetable rows | Every 6702/N6701 departure and every relevant Line 5 train to Gimpo Airport are pre-verified and selected deterministically |\n| General public information |"

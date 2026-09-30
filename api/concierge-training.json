@@ -8,11 +8,13 @@
   },
   "recordCount": 121,
   "intentCount": 33,
-  "secretAnswerRowsExcluded": 58,
+  "secretAnswerRowsExcluded": 56,
+  "credentialTemplateRows": 56,
   "notes": [
     "Approved operator replies take priority for matching questions; retain their wording.",
     "Customer names, contact details, and dates are redacted.",
-    "Raw credential-bearing replies are excluded; only credential clauses are replaced in approvedAnswers. All other wording is preserved verbatim."
+    "The latest operations workbook is authoritative. Approved reply wording is retained verbatim.",
+    "The shared entrance code alone is stored as {{COMMON_ENTRANCE_CODE}} and resolved from the server environment at response time."
   ],
   "intents": [
     {
@@ -592,7 +594,7 @@
       "intent": "luggage",
       "type": "짐보관 가능 여부 및 시간",
       "route": "checkin",
-      "answer": "체크인·체크아웃 당일 언제든지★ 503호 앞 짐보관실을 무료로 이용할 수 있습니다. 시간 제한 없습니다★ 출입정보는 예약 채널 메시지에서 확인해주세요.",
+      "answer": "체크인·체크아웃 당일 언제든지★ 503호 앞 짐보관실을 무료로 이용할 수 있습니다. 시간 제한 없습니다★ 숙소 출입구 왼쪽 기기에 {{COMMON_ENTRANCE_CODE}} → ENT 입력해주세요",
       "examples": [
         "또, 체크인 전은 몇시부터 맡길 수 있는지, 체크인 후에는 몇시까지 회수해야 하는지 가르쳐 주었으면 합니다. (출입구 비밀번호의 유효기간이 있는지 여부)",
         "체크인 전후에 짐을 맡기는 곳이 묻어 버리는 일은 있습니까.",
@@ -781,7 +783,7 @@
       "intent": "early-checkin",
       "type": "얼리 체크인",
       "route": "checkin",
-      "answer": "얼리 체크인은 제공되지 않습니다. 일찍 도착한 경우 503호 앞 짐보관실에 짐을 보관한 뒤 오후 3시부터 체크인해주세요. / 출입정보는 예약 채널 메시지에서 확인해주세요. / ★ 카드키는 재발급되지 않습니다, 분실에 유의하십시오.",
+      "answer": "얼리 체크인은 제공되지 않습니다. 일찍 도착한 경우 503호 앞 짐보관실에 짐을 보관한 뒤 오후 3시부터 체크인해주세요. / 입구 도어락 PW: {{COMMON_ENTRANCE_CODE}} → ENT / ★ 카드키는 재발급되지 않습니다, 분실에 유의하십시오.",
       "examples": [
         "일찍 체크인할 수 있을까요?",
         "이른 체크인은 가능합니까?",
@@ -937,7 +939,7 @@
       "intent": "checkin-luggage",
       "type": "체크인과 짐보관",
       "route": "checkin",
-      "answer": "입구 키오스크에서 예약자 이름 또는 예약번호를 입력하면 객실키가 발급됩니다. 예약번호는 바우처에 표시된 예약번호 끝 4자리를 이용해주세요. ★ 카드키는 재발급되지 않습니다, 분실에 유의하십시오. 예약자 이름은 예약한 이름 그대로 입력해주세요. 체크인, 아웃 당일 503호 앞 짐보관실을 무료로 이용할 수 있습니다 / 출입정보는 예약 채널 메시지에서 확인해주세요. / 귀중품은 직접 보관해주세요.",
+      "answer": "입구 키오스크에서 예약자 이름 또는 예약번호를 입력하면 객실키가 발급됩니다. 예약번호는 바우처에 표시된 예약번호 끝 4자리를 이용해주세요. ★ 카드키는 재발급되지 않습니다, 분실에 유의하십시오. 예약자 이름은 예약한 이름 그대로 입력해주세요. 체크인, 아웃 당일 503호 앞 짐보관실을 무료로 이용할 수 있습니다 / 출입구 비밀번호: {{COMMON_ENTRANCE_CODE}} → ENT / 귀중품은 직접 보관해주세요.",
       "examples": [
         "안녕하세요, [날짜]-9/27에 3박 4일에 숙박 예약한 [예약자 이름]입니다. 체크인 방법, 체크아웃 후 트렁크를 맡기는 방법을 알려주세요. 잘 부탁드립니다!"
       ],
@@ -981,7 +983,7 @@
       "intent": "key-card-recovery",
       "type": "키 재발급·오반납,분실",
       "route": "checkin",
-      "answer": "카드키를 분실하셨다면 입구의 키오스크로 가셔서 전화해주십시요. 이름을 말해주시면 원격으로 재발급 해드립니다. ★ 재발급은 1회만 가능합니다. / 출입정보는 예약 채널 메시지에서 확인해주세요.",
+      "answer": "카드키를 분실하셨다면 입구의 키오스크로 가셔서 전화해주십시요. 이름을 말해주시면 원격으로 재발급 해드립니다. ★ 재발급은 1회만 가능합니다. / 입구 출입비밀번호 : {{COMMON_ENTRANCE_CODE}} → ENT",
       "examples": [
         "안녕하세요, 제가 실수로 출입 카드를 반납했습니다. 어떻게 하면 새 카드를 신청할 수 있나요?",
         "룸 키를 없애버렸습니다. 방 번호는 501호실입니다. 일본어밖에 말할 수 없습니다.",
@@ -1187,7 +1189,7 @@
       "intent": "luggage-access",
       "type": "짐보관 출입번호",
       "route": "checkin",
-      "answer": "체크인·체크아웃 당일 언제든지★ 503호 앞 짐보관실을 무료로 이용할 수 있습니다. 시간 제한 없습니다★ 출입정보는 예약 채널 메시지에서 확인해주세요.",
+      "answer": "체크인·체크아웃 당일 언제든지★ 503호 앞 짐보관실을 무료로 이용할 수 있습니다. 시간 제한 없습니다★ 숙소 출입구 왼쪽 기기에 {{COMMON_ENTRANCE_CODE}} → ENT 입력해주세요",
       "examples": [
         "지금 숙박중인데, 보관서비스를 체크아웃 당일 이용하려면 현관문 비밀번호가 필요하다고 적혀있네요. 현관문 비밀번호가 어디있나요?",
         "체크아웃 후 짐 보관에 관하여, 입구의 자동문으로 들어갈 때 필요한 비밀번호를 알려주실 수 있을까요? 이메일을 찾아보았는데 확인하지 못했습니다.",
@@ -1322,7 +1324,7 @@
       "intent": "wifi",
       "type": "Wi-Fi",
       "route": "wifi",
-      "answer": "Wi-Fi 이름: another / 비밀번호는 홈페이지 Wi-Fi 안내 또는 예약 채널 메시지에서 확인해주세요.",
+      "answer": "Wi-Fi 이름: another / Password: another1234",
       "examples": [
         "호텔 와이파이 비밀번호를 찾으세요:",
         "객실에 Wi-Fi가 있나요?"
@@ -1335,15 +1337,15 @@
         "Q060",
         "Q073"
       ],
-      "credentialsProtected": true,
-      "sourceAnswerSha256": null
+      "credentialsProtected": false,
+      "sourceAnswerSha256": "c24c5c1fcac18bb7390da98f0c4ffa2d47a9143c15092686c060b5c8720ba1e4"
     },
     {
       "id": "Q061",
       "intent": "luggage-parcel",
       "type": "짐보관과 택배",
       "route": "checkin",
-      "answer": "체크인, 아웃 당일 503호 앞 짐보관실을 무료로 이용할 수 있습니다 / 출입정보는 예약 채널 메시지에서 확인해주세요. / 귀중품은 직접 보관해주세요. 숙소는 무인 운영으로 택배 대리수령이 어렵습니다. 배송물은 엘리베이터 앞이나 문 앞에 놓일 수 있어 분실 위험이 있으므로 직접 수령하거나 위탁수령 가능한 서비스를 이용해주세요.",
+      "answer": "체크인, 아웃 당일 503호 앞 짐보관실을 무료로 이용할 수 있습니다 / 출입구 비밀번호: {{COMMON_ENTRANCE_CODE}} → ENT / 귀중품은 직접 보관해주세요. 숙소는 무인 운영으로 택배 대리수령이 어렵습니다. 배송물은 엘리베이터 앞이나 문 앞에 놓일 수 있어 분실 위험이 있으므로 직접 수령하거나 위탁수령 가능한 서비스를 이용해주세요.",
       "examples": [
         "체크아웃 당일에 짐을 보관할 수 있나요? 그리고 호텔에서 택배를 받아주나요?"
       ],

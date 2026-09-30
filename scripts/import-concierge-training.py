@@ -57,15 +57,17 @@ def sanitize_question(value):
     return re.sub(r"\s+", " ", text).strip()
 
 
+ENTRANCE_CODE_TOKEN = "{{COMMON_ENTRANCE_CODE}}"
+
+
 def approved_answer(value):
-    # The existing access-release policy still applies to credentials embedded
-    # in staff replies. Preserve all other wording verbatim.
+    # The latest operations workbook is authoritative. Keep its wording intact,
+    # but store the shared entrance code as a runtime token so the credential is
+    # supplied from Vercel instead of being committed to the repository.
     text = str(value or "").strip()
-    text = re.sub(r"숙소 출입구 왼쪽 기기에\s*8282\s*→\s*ENT\s*입력해주세요", "출입정보는 예약 채널 메시지에서 확인해주세요.", text)
-    text = re.sub(r"(?:입구 도어락 PW|(?:입구\s*)?출입(?:구)?\s*비밀번호)\s*:\s*8282\s*→\s*ENT", "출입정보는 예약 채널 메시지에서 확인해주세요.", text)
-    text = re.sub(r"Password:\s*another1234", "비밀번호는 홈페이지 Wi-Fi 안내 또는 예약 채널 메시지에서 확인해주세요.", text)
-    if "8282" in text or "another1234" in text:
-        raise ValueError("An approved answer still contains a protected credential")
+    text = re.sub(r"8282(?=\s*→\s*ENT)", ENTRANCE_CODE_TOKEN, text)
+    if "8282" in text:
+        raise ValueError("An approved answer still contains the shared entrance code")
     return text
 
 
@@ -79,7 +81,7 @@ def main():
     sheet = workbook["어나더 질문 & 답변 AI학습"]
     grouped = OrderedDict()
     row_count = 0
-    secret_answer_rows = 0
+    credential_template_rows = 0
     approved = OrderedDict()
 
     for source_row, row in enumerate(sheet.iter_rows(min_row=2, max_col=5, values_only=True), 2):
@@ -90,8 +92,8 @@ def main():
         if question_type not in TYPE_MAP:
             raise ValueError(f"Unmapped training type: {question_type}")
         intent_id, route, topic, allow_public_search = TYPE_MAP[question_type]
-        if answer and ("8282" in str(answer) or "another1234" in str(answer)):
-            secret_answer_rows += 1
+        if answer and "8282" in str(answer):
+            credential_template_rows += 1
         intent = grouped.setdefault(intent_id, {
             "id": intent_id,
             "types": [],
@@ -132,11 +134,13 @@ def main():
         },
         "recordCount": row_count,
         "intentCount": len(grouped),
-        "secretAnswerRowsExcluded": secret_answer_rows,
+        "secretAnswerRowsExcluded": credential_template_rows,
+        "credentialTemplateRows": credential_template_rows,
         "notes": [
             "Approved operator replies take priority for matching questions; retain their wording.",
             "Customer names, contact details, and dates are redacted.",
-            "Raw credential-bearing replies are excluded; only credential clauses are replaced in approvedAnswers. All other wording is preserved verbatim.",
+            "The latest operations workbook is authoritative. Approved reply wording is retained verbatim.",
+            "The shared entrance code alone is stored as {{COMMON_ENTRANCE_CODE}} and resolved from the server environment at response time.",
         ],
         "intents": list(grouped.values()),
         "approvedAnswers": list(approved.values()),
