@@ -1,4 +1,69 @@
-/* The six highest-frequency questions are a distinct, easy-to-scan action area. */
+/* Shared question labels, with a quieter cream treatment on the home card. */
+.concierge-hub .home-questions-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 18px 0 10px;
+  color: #fff7ec;
+  font-size: 13px;
+  line-height: 1.4;
+  font-weight: 750;
+}
+.home-questions-count {
+  flex: none;
+  border: 1px solid rgba(255, 247, 236, .4);
+  border-radius: 999px;
+  padding: 3px 7px;
+  font-size: 9px;
+  letter-spacing: .08em;
+}
+.concierge-hub .quick-access-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 0;
+}
+.concierge-hub .quick-tile {
+  min-height: 78px;
+  min-width: 0;
+  padding: 12px 5px;
+  gap: 7px;
+  border: 1px solid #ead6c5;
+  border-radius: 12px;
+  background: #fff7ec;
+  color: #593b2e;
+  box-shadow: 0 3px 8px rgba(42, 33, 29, .1);
+}
+.concierge-hub .quick-tile svg {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  fill: none;
+  stroke: #a35336;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.concierge-hub .quick-tile b {
+  color: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 750;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.concierge-hub .quick-tile:hover { background: #f5e5d3; }
+.concierge-hub .quick-tile:focus-visible {
+  outline: 3px solid #f5c94d;
+  outline-offset: 3px;
+}
+@media (max-width: 350px) {
+  .concierge-hub .quick-access-grid { gap: 6px; }
+  .concierge-hub .quick-tile { padding-inline: 3px; }
+  .concierge-hub .quick-tile b { font-size: 11px; }
+}
+
+/* The chat questions remain a distinct, easy-to-scan action area. */
 .chat-suggestions-wrap {
   margin: 0 10px 11px;
   padding: 13px 12px 12px;

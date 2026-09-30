@@ -13,7 +13,7 @@ test("six FAQ buttons have a three-column grid and localized labels in all five 
     assert.match(html, /chat-suggestions-wrap.*chat-suggestions-title.*chat-suggestions/s);
     assert.match(html, /chat-suggestions-icon[^>]*viewBox="0 0 24 24"/);
     assert.doesNotMatch(html, /chat-suggestions-head"><span class="mi"[^>]*>help/);
-    assert.match(html, /concierge-questions\.css\?v=20260930-3/);
+    assert.match(html, /concierge-questions\.css\?v=20260930-4/);
   }
   const app = await read("assets/master-app.js");
   const sets = [...app.matchAll(/suggestions:(\[[^\]]+\])/g)].map(match => Function('return '+match[1])());
@@ -27,6 +27,22 @@ test("six FAQ buttons have a three-column grid and localized labels in all five 
   assert.match(css, /content: 'TOP 6'/);
   assert.match(css, /box-shadow: inset 0 3px 0 #f5c94d/);
   for (const title of ['자주 묻는 질문','Frequently asked','よくある質問','常见问题','常見問題']) assert.match(app,new RegExp(title));
+});
+
+test("home question tiles share all six chat questions and open chat instead of navigating", async () => {
+  for (const file of ['index.html', 'guide-anotherhouse.html']) {
+    const html = await read(file);
+    const section = html.match(/<div class="quick-access-grid"[^>]*>(.*?)<\/div>/s)[1];
+    assert.deepEqual([...section.matchAll(/<b>([^<]+)<\/b>/g)].map(match => match[1]), ['체크인 시간','체크인 방법','얼리체크인','체크아웃 시간','짐보관','공용비품']);
+    assert.equal((section.match(/data-home-question/g) || []).length, 6);
+    assert.equal((section.match(/<svg viewBox="0 0 24 24" aria-hidden="true">/g) || []).length, 6);
+    assert.doesNotMatch(section, /data-go|class="mi"/);
+    assert.match(html, /aria-labelledby="homeQuestionsTitle"/);
+  }
+  const app = await read('assets/master-app.js');
+  assert.ok(app.includes("$$('.suggestion,[data-home-question]').forEach(b=>b.onclick=()=>ask(b.textContent))"));
+  assert.ok(app.includes("$$('[data-home-question] b').forEach((label,index)=>label.textContent=ui.suggestions[index])"));
+  assert.ok(!app.includes("e.textContent=x.quick[i]"));
 });
 
 test("single lodging data source contains all guide routes and five languages",async()=>{
@@ -99,7 +115,7 @@ test("language switching translates home shortcuts, maps, and room gallery headi
   assert.match(app,/quick:\['Check-in','Directions','Wi-Fi','Facilities'\],naverMap:'Naver Maps'/);
   assert.match(app,/quick:\['チェックイン','アクセス','Wi-Fi','設備案内'\],naverMap:'Naver Maps'/);
   assert.match(app,/quick:\['入住','交通路线','Wi-Fi','设施使用'\],naverMap:'Naver Maps'/);
-  assert.match(app,/\.quick-tile b'\)\.forEach\(\(e,i\)=>e\.textContent=x\.quick\[i\]\)/);
+  assert.ok(app.includes("$('[data-home-question] b').forEach((label,index)=>label.textContent=ui.suggestions[index])"));
   assert.match(app,/\.getting-actions a span:last-child'\)\.forEach\(\(e,i\)=>e\.textContent=\[x\.naverMap,x\.googleMap\]\[i\]\)/);
   assert.match(app,/galleryHeadline\.textContent=x\.gallery/);
   assert.ok(data.includes("5F, Sunil Building, 294 Jong-ro, Jongno-gu, Seoul"));
@@ -367,7 +383,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(html,/\.image-lightbox\.is-zoomed \.image-lightbox-nav\{opacity:1;pointer-events:auto\}/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20260930-2/);
+  assert.match(html,/master-app\.js\?v=20260930-4/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
