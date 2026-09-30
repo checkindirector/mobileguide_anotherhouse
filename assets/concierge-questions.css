@@ -1,23 +1,74 @@
-/* Same six primary questions in two rows on every supported screen. */
+/* The six highest-frequency questions are a distinct, easy-to-scan action area. */
+.chat-suggestions-wrap {
+  margin: 0 12px 10px;
+  padding: 11px;
+  border: 1px solid rgba(132, 75, 53, .3);
+  border-radius: 18px;
+  background: linear-gradient(145deg, #fffaf6 0%, #f2ded0 100%);
+  box-shadow: 0 8px 24px rgba(62, 38, 28, .09);
+}
+.chat-suggestions-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 2px 9px;
+  color: #342720;
+}
+.chat-suggestions-head .mi {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: #824a36;
+  color: #fff;
+  font-size: 18px;
+  font-variation-settings: 'FILL' 1;
+}
+.chat-suggestions-title {
+  font-size: 13px;
+  line-height: 1.25;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
 .chat-suggestions {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 6px;
+  gap: 7px;
   overflow: visible;
-  padding: 8px 12px 10px;
+  padding: 0;
 }
 .chat-suggestions .suggestion {
   min-width: 0;
   width: 100%;
-  min-height: 44px;
-  padding: 8px 4px;
-  font-size: 12px;
+  min-height: 49px;
+  padding: 8px 5px;
+  border: 1px solid rgba(132, 75, 53, .48);
+  border-radius: 12px;
+  background: #fff;
+  color: #382a24;
+  box-shadow: 0 3px 10px rgba(70, 40, 27, .06);
+  font-size: 12.5px;
   line-height: 1.35;
+  font-weight: 750;
   overflow-wrap: anywhere;
   white-space: normal;
 }
+.chat-suggestions .suggestion:hover,
+.chat-suggestions .suggestion:focus-visible {
+  background: #824a36;
+  border-color: #824a36;
+  color: #fff;
+  outline: none;
+  box-shadow: 0 6px 14px rgba(70, 40, 27, .18);
+}
 .chat-panel { grid-template-rows: auto minmax(0, 1fr) auto; }
 .chat-log { min-height: 0; }
+@media (max-width: 350px) {
+  .chat-suggestions-wrap { margin-inline: 8px; padding: 9px; }
+  .chat-suggestions { gap: 5px; }
+  .chat-suggestions .suggestion { min-height: 47px; padding-inline: 3px; font-size: 11.5px; }
+}
 @media (max-height: 480px) {
   .chat-panel { height: 100dvh; }
   .chat-head { padding-block: 8px; }

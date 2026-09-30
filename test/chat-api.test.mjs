@@ -1216,21 +1216,54 @@ test("compound synonym questions retain both topics instead of one canned reply"
   }
 });
 
-test("subject synonyms cover the workbook and remaining house-guide topics", () => {
+test("subject synonyms cover every house-guide topic in all five supported languages", () => {
   const { propertyQuestionHint } = require('../lib/guest-language.cjs');
   const examples = {
-    checkin:['입실','체킨','入住手续'], checkout:['퇴실','check-out','退房'], luggage:['케리어','baggage','荷物'],
-    key:['객실열쇠','room key','ルームキー'], booking:['컨펌메일','voucher','訂房'], extension:['하루 더 묵고싶어','another night','延泊'],
-    parking:['차 세워도 돼','parking','駐車'], contact:['프런트','front desk','櫃台'], address:['우편 번호','postcode','郵遞區號'],
-    airport:['셔틀','limousine','機場'], rooms:['더블','single room','房型'], women:['남친','husband','女性'],
-    bathroom:['씻고싶어','restroom','トイレ'], kitchen:['취사','cook','做飯'], amenities:['어메니티','guest box','共用備品'],
-    refrigerator:['냉동','fridge','冰箱'], toiletries:['덴탈','toothbrush','歯ブラシ'], towels:['타올','towels','毛巾'],
-    'hair-tools':['머리 말리는거','hair dryer','吹風機'], 'electric-items':['돼지코','adapter','轉接'], climate:['추운데','too hot','寒い'],
-    tv:['티브이','television','テレビ'], laundry:['빨래','detergent','洗濯'], wifi:['인터넷','wi-fi','無線網路'],
-    parcel:['소포','package','宅配'], cleaning:['룸클리닝','clean my room','清掃'], 'lost-property':['깜빡','forgot','忘れ物'],
-    dining:['방에서 밥먹기','eat in room','部屋で食事'], rules:['담배','smoking','寵物'], waste:['재활용','recycling','垃圾']
+    checkin:['입실','chekin time','アーリーチェックイン','办理入住','辦理入住'],
+    checkout:['퇴실','late check-out','チェックアウト','退房时间','延遲退房'],
+    luggage:['케리어','baggage','キャリーケース','存包','行李箱'],
+    key:['객실열쇠','room key','部屋のキー','门卡','房門卡'],
+    booking:['컨펌메일','confirmation email','予約確認メール','预订','訂房'],
+    extension:['하루 더 묵고싶어','extra night','もう一泊','续住','續住'],
+    parking:['차 세워도 돼','parking','駐車','停车','停車'],
+    contact:['프런트','phone number','連絡先','电话号码','電話號碼'],
+    address:['우편 번호','postal code','何階','邮编','郵遞區號'],
+    airport:['셔틀','airport limousine','空港','机场','機場'],
+    rooms:['더블','single room','客室','房型','雙人房'],
+    women:['남친','men allowed','女性専用','男生','女士專用'],
+    bathroom:['씻고싶어','restroom','トイレ','卫生间','洗手間'],
+    kitchen:['취사','prepare food','自炊','做饭','共用廚房'],
+    amenities:['어메니티','guest box','ゲストボックス','备品','共用備品'],
+    refrigerator:['냉동','fridge','冷蔵庫','冰箱','冷凍'],
+    toiletries:['덴탈','body wash','洗面用品','洗漱用品','護髮素'],
+    towels:['타올','bath towel','フェイスタオル','浴巾','毛巾'],
+    'hair-tools':['머리 말리는거','blow dryer','ヘアアイロン','离子夹','吹風機'],
+    'electric-items':['돼지코','adapter','充電器','转接头','轉接頭'],
+    climate:['추운데','too hot','寒い','空调','暖氣'],
+    tv:['티브이','streaming','ネットフリックス','电视','電視'],
+    laundry:['빨래','fabric softener','洗濯機','洗衣液','烘乾機'],
+    wifi:['인터넷','network password','無線LAN','无线网络','無線網路'],
+    parcel:['소포','delivery package','宅配','快递代收','快遞代收'],
+    cleaning:['룸클리닝','housekeeping','客室清掃','打扫房间','清潔客房'],
+    'lost-property':['깜빡','left something','置き忘れ','遗失物','遺失物'],
+    dining:['방에서 밥먹기','eat in room','部屋で食事','房间吃饭','房間吃飯'],
+    rules:['담배','smoking','ペット','宠物','寵物'],
+    waste:['재활용','recycling','ゴミ','垃圾','回收']
   };
-  for (const [topic, phrases] of Object.entries(examples)) for (const phrase of phrases) assert.ok(propertyQuestionHint(phrase)?.topics.includes(topic), `${topic}: ${phrase}`);
+  for (const [topic, phrases] of Object.entries(examples)) {
+    assert.equal(phrases.length, 5, topic);
+    for (const phrase of phrases) assert.ok(propertyQuestionHint(phrase)?.topics.includes(topic), `${topic}: ${phrase}`);
+  }
+});
+
+test("multilingual synonym routing rejects similar but unrelated public or personal meanings", () => {
+  const { propertyQuestionHint, isRoomKeyProblem } = require('../lib/guest-language.cjs');
+  for (const message of ['airline check in time','空港のチェックイン','机场办理入住手续','機場辦理登機','서울역 짐 보관','airport luggage storage']) {
+    assert.equal(propertyQuestionHint(message), null, message);
+  }
+  for (const message of ['I lost my car key','車の鍵をなくした','我的车钥匙丢了','我的車鑰匙不見了']) {
+    assert.equal(isRoomKeyProblem(message), false, message);
+  }
 });
 
 test("key-card context distinguishes prevention, first loss and loss after replacement", async () => {

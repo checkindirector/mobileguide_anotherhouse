@@ -10,7 +10,8 @@ test("six FAQ buttons have a three-column grid and localized labels in all five 
     const html = await read(file);
     const section = html.match(/<div class="chat-suggestions">(.*?)<\/div>/s)[1];
     assert.deepEqual([...section.matchAll(/class="suggestion"[^>]*>([^<]+)</g)].map(m => m[1]), ["체크인 시간", "체크인 방법", "얼리체크인", "체크아웃 시간", "짐보관", "공용비품"]);
-    assert.match(html, /concierge-questions\.css\?v=20260930-1/);
+    assert.match(html, /chat-suggestions-wrap.*chat-suggestions-title.*chat-suggestions/s);
+    assert.match(html, /concierge-questions\.css\?v=20260930-2/);
   }
   const app = await read("assets/master-app.js");
   const sets = [...app.matchAll(/suggestions:(\[[^\]]+\])/g)].map(match => Function('return '+match[1])());
@@ -19,6 +20,9 @@ test("six FAQ buttons have a three-column grid and localized labels in all five 
   const css = await read("assets/concierge-questions.css");
   assert.match(css, /repeat\(3, minmax\(0, 1fr\)\)/);
   assert.match(css, /min-width: 0/);
+  assert.match(css, /chat-suggestions-head/);
+  assert.match(css, /linear-gradient/);
+  for (const title of ['자주 묻는 질문','Frequently asked','よくある質問','常见问题','常見問題']) assert.match(app,new RegExp(title));
 });
 
 test("single lodging data source contains all guide routes and five languages",async()=>{
