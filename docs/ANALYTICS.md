@@ -19,7 +19,7 @@ Neon 무료 PostgreSQL, 운영 환경만 연결. `DATABASE_URL`, `TELEMETRY_ENAB
 
 ## 주간 보고
 
-`npm run analytics:report` → 직전 월요일 00:00부터 다음 월요일 00:00 미만(KST), 전주 비교. 관리자 Bearer 인증 없는 `/api/analytics-report`는 401. 원본 마스킹 기록은 `reports/concierge-weekly/YYYY-MM-DD.json`에 비공개 저장되고 Git·Vercel 배포에서 제외됩니다.
+`npm run analytics:report` → 직전 월요일 00:00부터 다음 월요일 00:00 미만(KST), 전주 비교. 보고서 인증은 서버에서 Sensitive로 보관하며 별도의 비공개 `.env.reporting.local`을 사용합니다(일반 env pull로 덮어쓰지 않음). 관리자 Bearer 인증 없는 `/api/analytics-report`는 401. 원본 마스킹 기록은 `reports/concierge-weekly/YYYY-MM-DD.json`에 비공개 저장되고 Git·Vercel 배포에서 제외됩니다.
 
 수집 시작일 이전을 포함하는 주는 부분 기간입니다. 전주 데이터가 없으면 증감률을 만들지 않습니다. 내부 테스트 제외, 익명 방문자/조회/대화세션/질문수, 언어/의도 TOP10, 실패율, 지연 p50/p95, 반복 질문 세션과 검토 후보를 제공합니다. 2만 건을 초과하면 잘린 통계를 내지 않고 오류를 반환합니다.
 

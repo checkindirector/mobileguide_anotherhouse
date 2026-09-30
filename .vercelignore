@@ -6,4 +6,4 @@ node_modules/
 test/
 *.log
 reports/
-docs/
+docs/ANALYTICS.md
