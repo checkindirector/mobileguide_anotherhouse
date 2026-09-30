@@ -36,6 +36,7 @@ const TRAINING_SHORT_ALIASES = {
   "zh-TW": { "行李": "luggage", "行李箱": "luggage", "地址": "property-location", "郵遞區號": "postal-address", wifi: "wifi" }
 };
 const TRAINING_INTENT_PATTERNS = [
+  { id: "wifi", pattern: /(?:wi[\s-]*fi|와이파이|무선\s*인터넷|ワイファイ|無線\s*LAN|无线网络|無線網路|无线网|無線網)/i },
   { id: "booking-confirmation", pattern: /(?:예약.*(?:확인|메일)|확인\s*메일)/i },
   { id: "lost-property", pattern: /(?:분실물|물건.*(?:두고|놓고|잃어))/i },
   { id: "housekeeping", pattern: /(?:(?:객실|방)\s*청소|청소\s*(?:요청|가능))/i },
@@ -451,9 +452,9 @@ function trainingIntentFromQuestion(message, language) {
   }
   const stayIntent = analyzeStayQuestion(message);
   if (stayIntent) return trainingIntentById(stayIntent.id);
-  if (language !== "ko") return null;
   const patterned = TRAINING_INTENT_PATTERNS.find(item => item.pattern.test(String(message || "")));
   if (patterned) return trainingIntentById(patterned.id);
+  if (language !== "ko") return null;
 
   // A fragment of a historical question is not evidence of the same intent.
   // Unseen phrasing goes to the model with current guide facts below.

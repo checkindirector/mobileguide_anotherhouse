@@ -282,7 +282,6 @@ test("nuanced property questions use the complete guide without a forced search"
     ["Can I check in late?", "en", "checkin", "Self check-in is available from 15:00. Please follow the kiosk instructions."],
     ["住宿可以停车吗", "zh", "checkin", "不可以，大楼内不提供停车位。请使用附近的付费停车场。"],
     ["싱글룸이 몇 개야?", "ko", "gallery", "싱글룸은 11실입니다."],
-    ["Wi-Fi는 사용할 수 있나요?", "ko", "wifi", "네, Wi-Fi를 이용할 수 있습니다."],
     ["키카드", "ko", "checkin", "키카드는 체크인 후 수령하며 숙소 출입구와 객실 문에 모두 필요합니다."],
     ["Key card", "en", "checkin", "You receive the key card after check-in and need it for both entrances."],
     ["キーカード", "ja", "checkin", "キーカードはチェックイン後に受け取り、入口と客室の両方で必要です。"],
@@ -1175,6 +1174,25 @@ test("all room-key names and common loss phrasings reach the same approved recov
     const res = await callAccess({ message, language });
     assert.equal(res.payload.model, "another-house-access-support", message);
     assert.match(res.payload.answer, /TESTACCESSCODE/);
+  }
+});
+
+test("short Wi-Fi questions use the latest workbook fact in all five languages", async () => {
+  const cases = [
+    ["와이파이", "ko"],
+    ["Wi-Fi password", "en"],
+    ["Wi-Fiのパスワード", "ja"],
+    ["Wi-Fi 密码", "zh"],
+    ["Wi-Fi 密碼", "zh-TW"]
+  ];
+  for (let index = 0; index < cases.length; index += 1) {
+    const [message, language] = cases[index];
+    const { res, requests } = await callApi({ message, language, history: [] }, { output_text: "unused" }, `wifi-${index}`);
+    assert.equal(requests.length, 0, message);
+    assert.equal(res.statusCode, 200, message);
+    assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-training", message);
+    assert.match(res.payload.answer, /another.*another1234/is, message);
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-30.1", message);
   }
 });
 
