@@ -2,6 +2,7 @@ const GUIDE_KNOWLEDGE = require("../assets/guide-knowledge.json");
 const CONCIERGE_TRAINING = require("./concierge-training.json");
 const { analyzeStayQuestion } = require("../lib/stay-intent.cjs");
 const { contextualAnswerTone } = require("../lib/answer-tone.cjs");
+const { normalizeGuestLanguage, isRoomKeyProblem, propertyQuestionHint, hasMultipleGuestQuestions } = require("../lib/guest-language.cjs");
 
 const MODEL = "gpt-5.4-mini";
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
@@ -200,9 +201,10 @@ function parseBody(req) {
 }
 
 function anotherHouseAccessSupport(message, history, language) {
-  const current = String(message || "").trim();
-  const priorUserMessages = history.filter(item => item.role === "user").map(item => item.content);
-  const firstIssueIndex = priorUserMessages.findIndex(text => ACCESS_ISSUE_PATTERN.test(text) || ACCESS_RECOVERY_FAILED_PATTERN.test(text));
+  const current = normalizeGuestLanguage(message);
+  const priorUserMessages = history.filter(item => item.role === "user").map(item => normalizeGuestLanguage(item.content));
+  const issue = text => !/분실\s*(?:아니|안\s*했)|안\s*잃|not\s*lost|didn.t\s*lose|紛失していない|没有丢|沒有丟/iu.test(text) && (isRoomKeyProblem(text) || ACCESS_ISSUE_PATTERN.test(text));
+  const firstIssueIndex = priorUserMessages.findIndex(text => issue(text) || ACCESS_RECOVERY_FAILED_PATTERN.test(text));
   const hasIssueContext = firstIssueIndex >= 0;
   const accessContext = hasIssueContext ? priorUserMessages.slice(firstIssueIndex) : [];
   const currentReportsFailure = ACCESS_RECOVERY_FAILED_PATTERN.test(current);
@@ -210,8 +212,8 @@ function anotherHouseAccessSupport(message, history, language) {
   const shortCodeConfirmation = hasIssueContext && recoveryAlreadyFailed && ACCESS_SHORT_CODE_CONFIRMATION_PATTERN.test(current);
   const asksForCode = ACCESS_CODE_REQUEST_PATTERN.test(current) || shortCodeConfirmation;
   const asksForAnyPassword = ACCESS_ANY_PASSWORD_REQUEST_PATTERN.test(current);
-  const accessConversationTurns = accessContext.filter(text => ACCESS_ISSUE_PATTERN.test(text) || ACCESS_RECOVERY_FAILED_PATTERN.test(text) || ACCESS_ANY_PASSWORD_REQUEST_PATTERN.test(text)).length;
-  const related = ACCESS_ISSUE_PATTERN.test(current) || currentReportsFailure || asksForCode || (hasIssueContext && asksForAnyPassword);
+  const accessConversationTurns = accessContext.filter(text => issue(text) || ACCESS_RECOVERY_FAILED_PATTERN.test(text) || ACCESS_ANY_PASSWORD_REQUEST_PATTERN.test(text)).length;
+  const related = issue(current) || currentReportsFailure || asksForCode || (hasIssueContext && asksForAnyPassword);
   if (!related) return null;
   if (asksForCode && hasIssueContext && recoveryAlreadyFailed && accessConversationTurns >= 2) {
     const entranceCode = String(process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE || "").trim();
@@ -219,6 +221,10 @@ function anotherHouseAccessSupport(message, history, language) {
   }
   if (currentReportsFailure && hasIssueContext) return { stage: "failed", answer: ACCESS_SUPPORT_COPY[language].failed };
   if (asksForAnyPassword && hasIssueContext && !asksForCode) return { stage: "clarify", answer: ACCESS_SUPPORT_COPY[language].clarify };
+  if (language === "ko" && isRoomKeyProblem(current) && /분실|잃/.test(current)) {
+    const approved = CONCIERGE_TRAINING.approvedAnswers.find(record => record.intent === "key-card-recovery");
+    if (approved) return { stage: "recovery", answer: approved.answer };
+  }
   return { stage: "recovery", answer: ACCESS_SUPPORT_COPY[language].recovery };
 }
 
@@ -354,7 +360,7 @@ function contextualGuideRoute(message, history, language) {
 }
 
 function normalizeGuideMatch(value) {
-  return String(value || "").normalize("NFKC").toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
+  return normalizeGuestLanguage(value).replace(/[^\p{L}\p{N}]+/gu, "");
 }
 
 function trainingIntentById(id) {
@@ -364,12 +370,15 @@ function trainingIntentById(id) {
 function approvedAnswerFromQuestion(message, language, history = []) {
   const normalized = normalizeGuideMatch(message);
   const records = CONCIERGE_TRAINING.approvedAnswers || [];
+  const faqTypes = { "체크인시간": "체크인·체크아웃 시간", "체크아웃시간": "체크인·체크아웃 시간", "공용비품": "비품" };
+  if (faqTypes[normalized]) return records.find(record => record.type === faqTypes[normalized]) || null;
   const exact = records.find(record => record.examples.some(example => normalizeGuideMatch(example) === normalized));
   if (exact) return exact;
   const type = records.find(record => normalizeGuideMatch(record.type) === normalized);
   if (type) return type;
   const aliases = { "체크인": "체크인·체크아웃 시간", "입실": "체크인·체크아웃 시간", "레이트체크아웃": "체크아웃 시간 준수", "늦게체크아웃": "체크아웃 시간 준수", "택배": "배송물 수령", "택배대리수령": "배송물 수령", "수건": "수건 지급량", "여분수건": "수건 지급량", "주방": "공용 주방 위치", "공용주방": "공용 주방 위치", "욕실": "공용 욕실", "와이파이": "Wi-Fi" };
   if (aliases[normalized]) return records.find(record => record.type === aliases[normalized]) || null;
+  if (hasMultipleGuestQuestions(message)) return null;
   if (/(?:레이트|늦게)\s*체크아웃|체크아웃\s*(?:시간\s*)?연장/.test(message) && !/짐|그리고|택배|배달/.test(message)) return records.find(record => record.type === "체크아웃 시간 준수") || null;
   const stay = analyzeStayQuestion(message, history);
   // Detailed conditions require interpretation; never discard them for a topic answer.
@@ -481,6 +490,7 @@ function guidePageLink(route, language) {
 }
 
 function guideRouteFromQuestion(message, language) {
+  if (propertyQuestionHint(message)?.topics.includes("dining")) return "rules";
   if (/(남자|남성|남성\s*게스트|men\s*allowed|male\s*guest|男性|男生|男性旅客)/i.test(String(message || ""))) return "gallery";
   const trainedIntent = trainingIntentFromQuestion(message, language);
   if (trainedIntent?.route && GUIDE_PAGE_ROUTES.has(trainedIntent.route)) return trainedIntent.route;
@@ -501,11 +511,14 @@ function guideRouteFromQuestion(message, language) {
   if (/(숙소\s*규칙|이용\s*규칙|흡연|금연|소음|파티|반려동물|외부인|미성년자|만\s*19세|보호자\s*동의서|택배|대리수령|직원\s*(?:응대|운영)\s*시간|house\s*rules?|smoking|noise|party|pet|outside\s*guest|minor\s*guest|under\s*19|guardian\s*consent|parcel|receive\s*(?:a\s*)?(?:package|delivery)|staff\s*(?:response\s*)?hours|宿泊ルール|利用規則|喫煙|騒音|ペット|未成年|19歳未満|保護者同意書|宅配|スタッフ対応時間|住宿规则|住宿規則|吸烟|吸菸|噪音|派对|派對|宠物|寵物|未成年人|未满19岁|未滿19歲|监护人同意书|監護人同意書|快递|快遞|代收|工作人员回复时间|工作人員回覆時間)/i.test(text)) return "rules";
   if (/(냉난방|에어컨|난방|인덕션|전자레인지|냉장고|정수기|공용\s*주방|주방|레인지\s*후드|환풍기|휴대폰\s*충전기|일회용\s*슬리퍼|샴푸|바디워시|헤어드라이어|헤어드라이기|드라이기|고데기|여분\s*수건|tv|티비|텔레비전|ott|넷플릭스|air\s*condition|heating|induction|microwave|refrigerator|water\s*purifier|shared\s*kitchen|kitchen|range\s*hood|extractor|phone\s*charger|disposable\s*slippers?|shampoo|body\s*wash|hair\s*dryer|hair\s*straightener|extra\s*towels?|television|netflix|冷暖房|エアコン|電子レンジ|冷蔵庫|浄水器|共用キッチン|キッチン|レンジフード|換気扇|携帯電話充電器|使い捨てスリッパ|シャンプー|ボディソープ|ヘアドライヤー|ヘアアイロン|予備タオル|テレビ|空调|空調|暖气|暖氣|电磁炉|電磁爐|微波炉|微波爐|冰箱|净水器|淨水器|共用厨房|共用廚房|厨房|廚房|抽油烟机|抽油煙機|手机充电器|手機充電器|一次性拖鞋|洗发水|洗髮精|沐浴露|沐浴乳|吹风机|吹風機|直发器|直髮器|备用毛巾|備用毛巾|电视|電視)/i.test(text)) return "appliances";
   if (/(객실|방\s*종류|싱글룸|2인실|더블룸|샤워실|화장실|파우더룸|라운지|여성\s*전용|남자|남성|몇\s*명|정원|50[1-6]호|프라이빗|room|single|double|shower|toilet|powder\s*room|lounge|women.?only|men|male|capacity|how\s*many\s*(?:people|guests)|room\s*50[1-6]|private\s*stay|客室|シングル|2人部屋|シャワー|トイレ|パウダールーム|ラウンジ|女性専用|男性|定員|50[1-6]号室|房型|单人房|單人房|双人房|雙人房|淋浴|卫生间|洗手間|化妆间|化妝間|休息室|女性专用|女性專用|男性|男生|入住人数|入住人數|50[1-6]号房|50[1-6]號房)/i.test(text)) return "gallery";
-  return PROPERTY_ONLY_PATTERN.test(text) ? "home" : null;
+  return propertyQuestionHint(text)?.route || (PROPERTY_ONLY_PATTERN.test(text) ? "home" : null);
 }
 
 function isPlaceSearchIntent(message) {
   const text = String(message || "").toLocaleLowerCase();
+  const houseHint = propertyQuestionHint(text);
+  if (houseHint?.routes.every(route => PROPERTY_GUIDE_ROUTES.has(route)) && !/근처|주변|다른|공공|공중|구매|파는|어디서.*사|nearby|near |public |buy|station|airport|附近|周辺|空港|机场|機場/iu.test(text)) return false;
+  if (propertyQuestionHint(text)?.topics.includes("dining")) return false;
   if (MAP_APP_GUIDANCE_PATTERN.test(text) || NON_PLACE_TRAVEL_PATTERN.test(text)) return false;
   if (PROPERTY_ARRIVAL_PATTERN.test(text) && !BUSINESS_TIME_PATTERN.test(text)) return false;
   if (PUBLIC_LUGGAGE_PLACE_PATTERN.test(text) && PLACE_DISCOVERY_PATTERN.test(text) && !EXPLICIT_PROPERTY_PATTERN.test(text)) return true;
@@ -518,6 +531,7 @@ function isPlaceSearchIntent(message) {
 
 function searchLevelFor(message) {
   const text = message.toLocaleLowerCase();
+  if (/팁|tipping|etiquette|マナー|チップ|小费|小費/iu.test(text)) return "medium";
   if (PROPERTY_MEDICINE_PATTERN.test(text) && !MEDICINE_PURCHASE_PATTERN.test(text)) return null;
   if (PROPERTY_ARRIVAL_PATTERN.test(text) && !/(공항|airport|空港|机场|機場)/i.test(text)) return null;
   const propertyOnly = PROPERTY_ONLY_PATTERN.test(text) && !(PUBLIC_LUGGAGE_PLACE_PATTERN.test(text) && !EXPLICIT_PROPERTY_PATTERN.test(text));
@@ -1484,6 +1498,8 @@ module.exports = async function handler(req, res) {
   if (history.at(-1)?.role === "user" && history.at(-1)?.content.trim() === message) history.pop();
   if (!message || message.length > 800) return res.status(400).json({ error: "Invalid request" });
   const stayIntent = analyzeStayQuestion(message, history);
+  const propertyHint = propertyQuestionHint(message);
+  const needsSemanticAnswer = stayIntent?.needsModel || hasMultipleGuestQuestions(message);
   const accessSupport = anotherHouseAccessSupport(message, history, language);
   if (accessSupport) {
     console.log(JSON.stringify({ event: "concierge_access_support", stage: accessSupport.stage, language, durationMs: Date.now() - startedAt }));
@@ -1498,32 +1514,32 @@ module.exports = async function handler(req, res) {
   if (approvedReply && language === "ko") {
     return res.status(200).json({ answer: approvedReply.answer, model: "another-house-approved-workbook", links: [guidePageLink(approvedReply.route, language)], mapContext: null, meta: { searched: false, approvedWorkbook: true, approvedAnswerId: approvedReply.id, sourceRows: approvedReply.sourceRows, credentialsProtected: approvedReply.credentialsProtected, trainingIntent: approvedReply.intent, trainingVersion: CONCIERGE_TRAINING.version, guideRoute: approvedReply.route, knowledgeVersion: GUIDE_KNOWLEDGE.version, durationMs: Date.now() - startedAt } });
   }
-  const trainingFact = stayIntent?.needsModel ? null : verifiedTrainingFact(message, language);
+  const trainingFact = needsSemanticAnswer ? null : verifiedTrainingFact(message, language);
   if (trainingFact) {
     console.log(JSON.stringify({ event: "concierge_verified_training_answer", intent: trainingFact.intent, language, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: trainingFact.answer, model: "another-house-verified-training", links: [guidePageLink(trainingFact.route, language)], mapContext: null, meta: { searched: false, verifiedTraining: true, trainingIntent: trainingFact.intent, guideRoute: trainingFact.route, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version, trainingVersion: CONCIERGE_TRAINING.version } });
   }
-  const luggageStorage = verifiedLuggageStorage(message, language, history);
+  const luggageStorage = needsSemanticAnswer ? null : verifiedLuggageStorage(message, language, history);
   if (luggageStorage) {
     console.log(JSON.stringify({ event: "concierge_verified_training_answer", intent: luggageStorage.intent, language, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: luggageStorage.answer, model: "another-house-verified-training", links: [guidePageLink("checkin", language)], mapContext: null, meta: { searched: false, verifiedTraining: true, trainingIntent: luggageStorage.intent, guideRoute: "checkin", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version, trainingVersion: CONCIERGE_TRAINING.version } });
   }
-  if (stayIntent?.simpleCheckin) {
+  if (stayIntent?.simpleCheckin && !needsSemanticAnswer) {
     const checkin = localizeKnowledge(language).stay.checkin;
     const answer = `${checkin.summary}\n${checkin.sections[0].steps[0]}`;
     return res.status(200).json({ answer, model: "another-house-verified-checkin", links: [guidePageLink("checkin", language)], mapContext: null, meta: { searched: false, trainingIntent: stayIntent.id, guideRoute: "checkin", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
-  const earlyCheckin = verifiedEarlyCheckin(message, language);
+  const earlyCheckin = needsSemanticAnswer ? null : verifiedEarlyCheckin(message, language);
   if (earlyCheckin) {
     console.log(JSON.stringify({ event: "concierge_verified_early_checkin", language, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: earlyCheckin.answer, model: "another-house-verified-checkin", links: [guidePageLink("checkin", language)], mapContext: null, meta: { searched: false, verifiedEarlyCheckin: true, guideRoute: "checkin", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
-  const lateCheckout = stayIntent?.topic === "luggage" ? null : verifiedLateCheckout(message, language);
+  const lateCheckout = hasMultipleGuestQuestions(message) || stayIntent?.topic === "luggage" ? null : verifiedLateCheckout(message, language);
   if (lateCheckout) {
     console.log(JSON.stringify({ event: "concierge_verified_late_checkout", language, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: lateCheckout.answer, model: "another-house-verified-checkout", links: [guidePageLink("checkin", language)], mapContext: null, meta: { searched: false, verifiedLateCheckout: true, guideRoute: "checkin", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
-  const verifiedAmenity = stayIntent?.needsModel ? null : verifiedGuestBoxItem(message, language);
+  const verifiedAmenity = needsSemanticAnswer ? null : verifiedGuestBoxItem(message, language);
   if (verifiedAmenity) {
     console.log(JSON.stringify({ event: "concierge_verified_amenity", item: verifiedAmenity.item, returnPolicy: verifiedAmenity.returnPolicy, language, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: verifiedAmenity.answer, model: "another-house-verified-amenity", links: [guidePageLink("appliances", language)], mapContext: null, meta: { searched: false, verifiedAmenity: true, item: verifiedAmenity.item, returnPolicy: verifiedAmenity.returnPolicy, guideRoute: "appliances", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
@@ -1562,13 +1578,13 @@ module.exports = async function handler(req, res) {
     ? (detectedSearchLevel || "medium")
     : stayIntent || isPropertyFollowup
     ? null
-    : OUTBOUND_PUBLIC_ROUTE_PATTERN.test(message)
+    : OUTBOUND_PUBLIC_ROUTE_PATTERN.test(message) || usesPropertyAsRouteOrigin(message)
       ? (detectedSearchLevel || "medium")
     : placeIntent
     ? (detectedSearchLevel || (currentDetailRequired ? "high" : "medium"))
     : guideBackedLocalResult || guideBackedPropertyQuestion || SMALL_TALK_PATTERN.test(message)
       ? null
-      : (detectedSearchLevel || "medium");
+      : detectedSearchLevel;
   const placeSearch = Boolean(requestedSearchLevel && isPlaceSearchIntent(message));
   const propertyRouteOrigin = usesPropertyAsRouteOrigin(message);
   const currentTime = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Seoul", dateStyle: "full", timeStyle: "short", hourCycle: "h23" }).format(new Date());
@@ -1614,17 +1630,17 @@ module.exports = async function handler(req, res) {
     : "";
   const knowledgeRoute = directGuideRoute || (contextualRoute !== "home" ? contextualRoute : (guideBackedPropertyQuestion ? "home" : null));
   const guideForRequest = propertyRouteOrigin ? localizedRouteKnowledge(language) : relevantGuideKnowledge(language, knowledgeRoute, message);
-  if (stayIntent?.needsModel) {
+  if (stayIntent?.needsModel || (!propertyRouteOrigin && (propertyHint?.routes.length > 1 || (!knowledgeRoute && !requestedSearchLevel)))) {
     // Compound requests need all property sections, not just the first keyword's page.
     const propertyGuide = localizeKnowledge(language);
     for (const key of ["stay", "appliances", "laundry", "connectivity", "waste"]) guideForRequest[key] = propertyGuide[key];
-    if (stayIntent.allowPublicSearch) {
+    if (stayIntent?.allowPublicSearch) {
       guideForRequest.arrivalAndTransport = propertyGuide.arrivalAndTransport;
       guideForRequest.verifiedAirportTransport = propertyGuide.verifiedAirportTransport;
     }
   }
   guideForRequest.verifiedOperations = Object.fromEntries(Object.entries(VERIFIED_TRAINING_FACTS).map(([id, fact]) => [id, fact.answers[language] || fact.answers.ko]));
-  const approvedCandidates = propertyRouteOrigin && !stayIntent ? [] : (CONCIERGE_TRAINING.approvedAnswers || []).filter(record => record.route === knowledgeRoute || stayIntent?.needsModel || (!knowledgeRoute && !requestedSearchLevel));
+  const approvedCandidates = propertyRouteOrigin && !stayIntent ? [] : (CONCIERGE_TRAINING.approvedAnswers || []).filter(record => record.route === knowledgeRoute || propertyHint?.routes.includes(record.route) || stayIntent?.needsModel || (!knowledgeRoute && !requestedSearchLevel));
   guideForRequest.approvedWorkbookAnswers = approvedCandidates.map(({ id, type, answer, route }) => ({ id, type, answer, route }));
   const fullGuideText = JSON.stringify(guideForRequest);
   const routeOriginContext = propertyRouteOrigin
@@ -1638,6 +1654,7 @@ module.exports = async function handler(req, res) {
     instructions: `${systemInstructions(language, fullGuideText)}
 
 SHORT GUEST QUESTIONS:
+${propertyRouteOrigin ? "" : "- Understand synonyms semantically, not by exact keyword. 객실키/룸키/방키/열쇠/room key are the property's key card in a lodging context; baggage/suitcase/짐/가방 can mean storage; 입실/체크인 and 퇴실/체크아웃 refer to the same processes. Apply the same contextual reasoning to EVERY workbook topic. A topic hint selects evidence, not a canned answer: preserve the specific requested detail, negation, conditions and all parts of a compound question. Do not confuse hair straighteners with hair dryers, car keys with room keys, or lost luggage with storage. If the meaning remains ambiguous, ask one short clarification instead of guessing or reporting a public-search failure."}
 - Interpret incomplete phrases, common typos, and follow-ups in their conversation context. A bare luggage/bag word normally asks about this property's storage; a bare check-in/arrival word asks about check-in. Do not require an exact keyword or a complete sentence.
 - Answer the current question, including each part of compound requests. Lost luggage is not a storage request; storage at a station/airport is not the property's luggage room. Same-day storage facts do not establish overnight or multi-day storage.
 - MIDNIGHT ARRIVAL TAKES PRIORITY OVER THE EARLY-CHECK-IN RULE: 00:00–05:59, 1am, 새벽 or midnight can mean late arrival after the booked check-in day. If the booking/arrival dates are unknown, NEVER start with yes/no or call it too early. Explain BOTH possibilities: arrival after the booked day's 15:00 is allowed by kiosk; arrival in the early morning of the booked check-in day is before check-in and is not allowed. Ask which date is booked and which date they arrive. Do not infer this from the current date alone.
@@ -1654,6 +1671,13 @@ ${stayIntent ? `PROPERTY_ROUTING_HINT: ${JSON.stringify(stayIntent)}. This is on
     requestBody.tools = [{ type: "web_search", search_context_size: requestedSearchLevel, user_location: SEOUL_SEARCH_LOCATION }];
     requestBody.tool_choice = "required";
     requestBody.include = ["web_search_call.action.sources"];
+  } else if (!guideBackedPropertyQuestion && !isPropertyFollowup && !stayIntent && !SMALL_TALK_PATTERN.test(message)) {
+    // Unknown wording must be interpreted against the full house guide first.
+    // Let the model search only if this actually asks for outside information.
+    requestBody.tools = [{ type: "web_search", search_context_size: "medium", user_location: SEOUL_SEARCH_LOCATION }];
+    requestBody.tool_choice = "auto";
+    requestBody.include = ["web_search_call.action.sources"];
+    requestBody.instructions += "\nUNCLASSIFIED QUESTION: First interpret the original wording using the full property guide and approved workbook. Search only for genuinely external facts absent from that guide. If the guest's intended subject remains unclear, ask one short clarification. Never treat failure to match a keyword as failure to retrieve public information.";
   }
 
   try {

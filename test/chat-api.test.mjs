@@ -1154,6 +1154,84 @@ test("pre-verified route advice links only to the exact airport-bus boarding sto
   assert.doesNotMatch(res.payload.answer, /MAP_SPOT/);
 });
 
+test("all room-key names and common loss phrasings reach the same approved recovery answer", async () => {
+  const expected = handler._internals.CONCIERGE_TRAINING.approvedAnswers.find(record => record.intent === "key-card-recovery").answer;
+  for (const noun of ["카드키", "카드 키", "키카드", "객실키", "객실 키", "룸키", "룸 키", "방키", "방 열쇠", "객실 열쇠", "출입카드키", "열쇠"]) {
+    for (const problem of ["분실", "잃어버렸어", "를 잃어버렸는데 어떻게해요?"]) {
+      const res = await callAccess({ message: noun + " " + problem, language: "ko" });
+      assert.equal(res.statusCode, 200, noun + problem);
+      assert.equal(res.payload.answer, expected, noun + problem);
+      assert.doesNotMatch(res.payload.answer, /TESTACCESSCODE/);
+    }
+  }
+  for (const [language, message] of [["en", "I lost my room key"], ["en", "hotel key missing"], ["ja", "ルームキーをなくした"], ["ja", "部屋の鍵を紛失"], ["zh", "房间钥匙丢了"], ["zh-TW", "房間鑰匙遺失"]]) {
+    const res = await callAccess({ message, language });
+    assert.equal(res.payload.model, "another-house-access-support", message);
+    assert.doesNotMatch(res.payload.answer, /TESTACCESSCODE/);
+  }
+});
+
+test("non-room keys and new unrelated topics never unlock the room-key recovery flow", () => {
+  for (const message of ["자동차키 분실", "차키 잃어버렸어요", "집 열쇠 분실", "car keys lost", "신용카드 분실", "카드키 크기가 얼마야", "객실키는 안 잃어버렸고 수건 필요해요"]) {
+    assert.equal(handler._internals.anotherHouseAccessSupport(message, [], "ko"), null, message);
+  }
+});
+
+test("FAQ buttons return the workbook answers with in-site links", async () => {
+  const types = [["체크인 시간", "체크인·체크아웃 시간"], ["체크인 방법", "체크인 방법"], ["얼리체크인", "얼리 체크인"], ["체크아웃 시간", "체크인·체크아웃 시간"], ["짐보관", "짐보관 가능 여부 및 시간"], ["공용비품", "비품"]];
+  for (const [message, type] of types) {
+    const res = await callAccess({ message, language: "ko" });
+    assert.equal(res.payload.answer, handler._internals.CONCIERGE_TRAINING.approvedAnswers.find(record => record.type === type).answer, message);
+    assert.equal(res.payload.links[0].kind, "guide");
+  }
+});
+
+test("synonyms for other facilities reach relevant evidence, not forced public search", async () => {
+  for (const [message, route] of [["타올 더 필요해", "appliances"], ["어메니티 뭐있어", "appliances"], ["돼지코 빌릴수있음", "appliances"], ["룸클리닝 가능한가", "rules"], ["하루 더 묵고싶어", "checkin"], ["방에서 밥먹어도됨", "rules"], ["덴탈키트 있니", "appliances"], ["fridge", "appliances"], ["共用備品", "appliances"]]) {
+    const { request, res } = await callApi({ message, language: "ko" }, { output_text: "안내를 확인했습니다.", usage: {} }, `synonym-${message}`);
+    assert.equal(res.statusCode, 200, message);
+    if (request) {
+      assert.equal(request.body.tools, undefined, message);
+      assert.match(request.body.instructions, /approvedWorkbookAnswers/);
+    }
+    assert.equal(res.payload.meta.guideRoute, route, message);
+  }
+});
+
+test("unlisted ambiguous wording gets semantic guide context and optional search, not forced search", async () => {
+  const { request } = await callApi({ message: "그거 받을수있음?", language: "ko" }, { output_text: "어떤 물품을 말씀하시나요?", usage: {} }, "semantic-fallback");
+  assert.equal(request.body.tool_choice, "auto");
+  assert.match(request.body.instructions, /UNCLASSIFIED QUESTION/);
+  assert.match(request.body.instructions, /LG FY9WTB/);
+  assert.match(request.body.instructions, /approvedWorkbookAnswers/);
+});
+
+test("compound synonym questions retain both topics instead of one canned reply", async () => {
+  for (const message of ["짐 맡기고 샤워도 가능?", "드라이기랑 고데기도 있니", "타올하고 덴탈키트 어디있어"]) {
+    const { request, res } = await callApi({ message, language: "ko" }, { output_text: "두 가지 문의를 안내해 드립니다.", usage: {} }, `compound-${message}`);
+    assert.ok(request, message);
+    assert.equal(request.body.tools, undefined, message);
+    assert.equal(res.statusCode, 200);
+  }
+});
+
+test("subject synonyms cover the workbook and remaining house-guide topics", () => {
+  const { propertyQuestionHint } = require('../lib/guest-language.cjs');
+  const examples = {
+    checkin:['입실','체킨','入住手续'], checkout:['퇴실','check-out','退房'], luggage:['케리어','baggage','荷物'],
+    key:['객실열쇠','room key','ルームキー'], booking:['컨펌메일','voucher','訂房'], extension:['하루 더 묵고싶어','another night','延泊'],
+    parking:['차 세워도 돼','parking','駐車'], contact:['프런트','front desk','櫃台'], address:['우편 번호','postcode','郵遞區號'],
+    airport:['셔틀','limousine','機場'], rooms:['더블','single room','房型'], women:['남친','husband','女性'],
+    bathroom:['씻고싶어','restroom','トイレ'], kitchen:['취사','cook','做飯'], amenities:['어메니티','guest box','共用備品'],
+    refrigerator:['냉동','fridge','冰箱'], toiletries:['덴탈','toothbrush','歯ブラシ'], towels:['타올','towels','毛巾'],
+    'hair-tools':['머리 말리는거','hair dryer','吹風機'], 'electric-items':['돼지코','adapter','轉接'], climate:['추운데','too hot','寒い'],
+    tv:['티브이','television','テレビ'], laundry:['빨래','detergent','洗濯'], wifi:['인터넷','wi-fi','無線網路'],
+    parcel:['소포','package','宅配'], cleaning:['룸클리닝','clean my room','清掃'], 'lost-property':['깜빡','forgot','忘れ物'],
+    dining:['방에서 밥먹기','eat in room','部屋で食事'], rules:['담배','smoking','寵物'], waste:['재활용','recycling','垃圾']
+  };
+  for (const [topic, phrases] of Object.entries(examples)) for (const phrase of phrases) assert.ok(propertyQuestionHint(phrase)?.topics.includes(topic), `${topic}: ${phrase}`);
+});
+
 test("Another House key-card recovery starts with the kiosk phone and never calls OpenAI", async () => {
   const res = await callAccess({ message: "키카드를 놓고 나와서 못 들어가고 있어요", language: "ko", history: [] });
   assert.equal(res.statusCode, 200);

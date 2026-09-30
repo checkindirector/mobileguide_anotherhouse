@@ -205,11 +205,11 @@ function initChatGreeting(){try{if(sessionStorage.getItem(chatGreetingSessionKey
 
 function renderChatLabels(){
 const ui={
-ko:{scope:'숙소 안내와 서울 여행 정보를 도와드립니다.',suggestions:['처음 오는데 체크인 순서 알려줘','인천공항에서 가장 편한 길은?','동대문역 6번 출구에서 입구가 어디야?'],copied:'복사했습니다',menu:'메뉴',close:'메뉴 닫기',language:'언어 선택'},
-en:{scope:'Ask about your stay or practical Seoul travel help.',suggestions:['What should I know before check-in?','What is the easiest route from Incheon Airport?','How do I find the entrance from Exit 6?'],copied:'Copied',menu:'Menu',close:'Close menu',language:'Select language'},
-ja:{scope:'宿泊案内とソウル旅行の実用情報をご案内します。',suggestions:['初めてのチェックイン手順は？','仁川空港から一番楽な行き方は？','6番出口から入口を見つけるには？'],copied:'コピーしました',menu:'メニュー',close:'メニューを閉じる',language:'言語を選択'},
-zh:{scope:'为您解答住宿与首尔旅行的实用问题。',suggestions:['第一次入住需要注意什么？','从仁川机场怎么走最方便？','从6号出口怎么找到入口？'],copied:'已复制',menu:'菜单',close:'关闭菜单',language:'选择语言'},
-'zh-TW':{scope:'為您解答住宿與首爾旅行的實用問題。',suggestions:['第一次入住需要注意什麼？','從仁川機場怎麼走最方便？','從6號出口怎麼找到入口？'],copied:'已複製',menu:'選單',close:'關閉選單',language:'選擇語言'}
+ko:{scope:'숙소 안내와 서울 여행 정보를 도와드립니다.',suggestions:['체크인 시간','체크인 방법','얼리체크인','체크아웃 시간','짐보관','공용비품'],copied:'복사했습니다',menu:'메뉴',close:'메뉴 닫기',language:'언어 선택'},
+en:{scope:'Ask about your stay or practical Seoul travel help.',suggestions:['Check-in time','How to check in','Early check-in','Check-out time','Luggage storage','Shared amenities'],copied:'Copied',menu:'Menu',close:'Close menu',language:'Select language'},
+ja:{scope:'宿泊案内とソウル旅行の実用情報をご案内します。',suggestions:['チェックイン時間','チェックイン方法','アーリーチェックイン','チェックアウト時間','荷物預かり','共用備品'],copied:'コピーしました',menu:'メニュー',close:'メニューを閉じる',language:'言語を選択'},
+zh:{scope:'为您解答住宿与首尔旅行的实用问题。',suggestions:['入住时间','入住方法','提前入住','退房时间','行李寄存','公共用品'],copied:'已复制',menu:'菜单',close:'关闭菜单',language:'选择语言'},
+'zh-TW':{scope:'為您解答住宿與首爾旅行的實用問題。',suggestions:['入住時間','入住方式','提前入住','退房時間','行李寄放','共用備品'],copied:'已複製',menu:'選單',close:'關閉選單',language:'選擇語言'}
 }[lang];
 $('.chat-head p').textContent=ui.scope;$$('.suggestion').forEach((button,index)=>button.textContent=ui.suggestions[index]);$('#toast').textContent=ui.copied;$('#menuTop').setAttribute('aria-label',ui.menu);$('#closeMenu').setAttribute('aria-label',ui.close);$('#homeLangToggle').setAttribute('aria-label',ui.language);
 }

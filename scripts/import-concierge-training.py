@@ -123,7 +123,7 @@ def main():
             record["examples"].append(safe_question)
 
     payload = {
-        "version": "2026-09-23.2",
+        "version": "2026-09-30.1",
         "source": {
             "workbook": Path(args.workbook).name,
             "rawSheet": "어나더 질문 RAW",

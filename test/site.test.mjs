@@ -5,6 +5,22 @@ import { resolve } from "node:path";
 const root = resolve(import.meta.dirname,"..");
 const read = file => readFile(resolve(root,file),"utf8");
 
+test("six FAQ buttons have a three-column grid and localized labels in all five languages", async () => {
+  for (const file of ["index.html", "guide-anotherhouse.html"]) {
+    const html = await read(file);
+    const section = html.match(/<div class="chat-suggestions">(.*?)<\/div>/s)[1];
+    assert.deepEqual([...section.matchAll(/class="suggestion"[^>]*>([^<]+)</g)].map(m => m[1]), ["체크인 시간", "체크인 방법", "얼리체크인", "체크아웃 시간", "짐보관", "공용비품"]);
+    assert.match(html, /concierge-questions\.css\?v=20260930-1/);
+  }
+  const app = await read("assets/master-app.js");
+  const sets = [...app.matchAll(/suggestions:(\[[^\]]+\])/g)].map(match => Function('return '+match[1])());
+  assert.equal(sets.length, 5);
+  for (const labels of sets) assert.equal(labels.length, 6);
+  const css = await read("assets/concierge-questions.css");
+  assert.match(css, /repeat\(3, minmax\(0, 1fr\)\)/);
+  assert.match(css, /min-width: 0/);
+});
+
 test("single lodging data source contains all guide routes and five languages",async()=>{
   const data = await read("assets/site-data.js");
   for(const route of ["checkin","checkout","transport","wifi","appliances","laundry","trash","rules","nearby","guidebook"]) assert.match(data,new RegExp("\\b"+route+"\\b"));
@@ -343,7 +359,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(html,/\.image-lightbox\.is-zoomed \.image-lightbox-nav\{opacity:1;pointer-events:auto\}/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20260918-24/);
+  assert.match(html,/master-app\.js\?v=20260930-1/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{

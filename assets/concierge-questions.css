@@ -1,0 +1,25 @@
+/* Same six primary questions in two rows on every supported screen. */
+.chat-suggestions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  overflow: visible;
+  padding: 8px 12px 10px;
+}
+.chat-suggestions .suggestion {
+  min-width: 0;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 4px;
+  font-size: 12px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+.chat-panel { grid-template-rows: auto minmax(0, 1fr) auto; }
+.chat-log { min-height: 0; }
+@media (max-height: 480px) {
+  .chat-panel { height: 100dvh; }
+  .chat-head { padding-block: 8px; }
+  .chat-form { padding-block: 8px; }
+}
