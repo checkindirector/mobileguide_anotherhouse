@@ -11,7 +11,9 @@ test("six FAQ buttons have a three-column grid and localized labels in all five 
     const section = html.match(/<div class="chat-suggestions">(.*?)<\/div>/s)[1];
     assert.deepEqual([...section.matchAll(/class="suggestion"[^>]*>([^<]+)</g)].map(m => m[1]), ["체크인 시간", "체크인 방법", "얼리체크인", "체크아웃 시간", "짐보관", "공용비품"]);
     assert.match(html, /chat-suggestions-wrap.*chat-suggestions-title.*chat-suggestions/s);
-    assert.match(html, /concierge-questions\.css\?v=20260930-2/);
+    assert.match(html, /chat-suggestions-icon[^>]*viewBox="0 0 24 24"/);
+    assert.doesNotMatch(html, /chat-suggestions-head"><span class="mi"[^>]*>help/);
+    assert.match(html, /concierge-questions\.css\?v=20260930-3/);
   }
   const app = await read("assets/master-app.js");
   const sets = [...app.matchAll(/suggestions:(\[[^\]]+\])/g)].map(match => Function('return '+match[1])());
@@ -21,7 +23,9 @@ test("six FAQ buttons have a three-column grid and localized labels in all five 
   assert.match(css, /repeat\(3, minmax\(0, 1fr\)\)/);
   assert.match(css, /min-width: 0/);
   assert.match(css, /chat-suggestions-head/);
-  assert.match(css, /linear-gradient/);
+  assert.match(css, /background: #2a211d/);
+  assert.match(css, /content: 'TOP 6'/);
+  assert.match(css, /box-shadow: inset 0 3px 0 #f5c94d/);
   for (const title of ['자주 묻는 질문','Frequently asked','よくある質問','常见问题','常見問題']) assert.match(app,new RegExp(title));
 });
 
@@ -363,7 +367,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(html,/\.image-lightbox\.is-zoomed \.image-lightbox-nav\{opacity:1;pointer-events:auto\}/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20260930-1/);
+  assert.match(html,/master-app\.js\?v=20260930-2/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
