@@ -5,6 +5,38 @@ import { resolve } from "node:path";
 const root = resolve(import.meta.dirname,"..");
 const read = file => readFile(resolve(root,file),"utf8");
 
+test('visitor analytics runs only on production, honors opt-out, and strips query details', async () => {
+  const { runInNewContext } = await import('node:vm');
+  const source = await read('assets/visitor-analytics.js');
+  const boot = (hostname, disabled = false, storageThrows = false) => {
+    const scripts = [], window = {};
+    const context = { window, URL, location: { hostname }, localStorage: {
+      getItem: () => { if (storageThrows) throw new Error('blocked'); return disabled ? '1' : null; }
+    }, document: {
+      querySelector: () => scripts[0], createElement: () => ({ dataset: {} }),
+      head: { appendChild: node => scripts.push(node) }
+    } };
+    runInNewContext(source, context);
+    return { scripts, window, context };
+  };
+  for (const hostname of ['localhost','127.0.0.1','anotherhouse-guide-preview.vercel.app']) {
+    assert.equal(boot(hostname).scripts.length, 0);
+  }
+  assert.equal(boot('anotherhouse-guide.vercel.app', true).scripts.length, 0);
+  assert.equal(boot('anotherhouse-guide.vercel.app', false, true).scripts.length, 1);
+  const live = boot('anotherhouse-guide.vercel.app');
+  assert.equal(live.scripts[0].src, '/_vercel/insights/script.js');
+  assert.equal(live.scripts[0].defer, true);
+  runInNewContext(source, live.context);
+  assert.equal(live.scripts.length, 1);
+  const [command, beforeSend] = live.window.vaq[0];
+  assert.equal(command, 'beforeSend');
+  assert.equal(beforeSend({type:'pageview',url:'https://anotherhouse-guide.vercel.app/?secret=test#private'}).url, 'https://anotherhouse-guide.vercel.app/');
+  for (const file of ['index.html','guide-anotherhouse.html']) {
+    assert.equal((await read(file)).match(/visitor-analytics\.js/g).length, 1);
+  }
+});
+
 test("six FAQ buttons have a three-column grid and localized labels in all five languages", async () => {
   for (const file of ["index.html", "guide-anotherhouse.html"]) {
     const html = await read(file);
