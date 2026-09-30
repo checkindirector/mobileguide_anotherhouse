@@ -7,7 +7,12 @@
     "generate:knowledge": "node scripts/build-guide-knowledge.mjs",
     "build": "node scripts/build-guide-knowledge.mjs && node scripts/validate.mjs",
     "pretest": "node scripts/build-guide-knowledge.mjs",
-    "test": "node --test test/site.test.mjs test/taiwan.test.mjs test/chat-api.test.mjs test/knowledge.test.mjs"
+    "test": "node --test test/site.test.mjs test/taiwan.test.mjs test/chat-api.test.mjs test/knowledge.test.mjs test/telemetry.test.mjs",
+    "analytics:setup": "node --env-file=.env.local scripts/analytics-setup.cjs",
+    "analytics:report": "node --env-file=.env.reporting.local scripts/weekly-report.cjs"
   },
-  "devDependencies": {}
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "@vercel/functions": "^3.9.9"
+  }
 }

@@ -2,6 +2,7 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "outputDirectory": ".",
+  "crons": [{ "path": "/api/analytics-maintenance", "schedule": "0 3 * * *" }],
   "redirects": [
     {
       "source": "/guide-anotherstay",

@@ -1509,7 +1509,7 @@ RELEVANT_CURRENT_GUIDE version ${GUIDE_KNOWLEDGE.version}:
 ${guideText}`;
 }
 
-module.exports = async function handler(req, res) {
+module.exports = require('../lib/telemetry.cjs').observeChat(async function handler(req, res) {
   const startedAt = Date.now();
   res.setHeader("Cache-Control", "no-store");
   res.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -1803,6 +1803,6 @@ ${stayIntent ? `PROPERTY_ROUTING_HINT: ${JSON.stringify(stayIntent)}. This is on
     console.error(JSON.stringify({ event: "concierge_failure", name: error?.name || "Error", code: error?.code || error?.cause?.code || null, message: String(error?.message || "").slice(0, 180), durationMs: Date.now() - startedAt }));
     return res.status(502).json({ error: "AI request failed" });
   }
-};
+});
 
 module.exports._internals = { isPlaceSearchIntent, searchLevelFor, trustedUrl, sourceDomain, sourcePriority, extractSources, fallbackOfficialSources, validateResolvedSpot, extractResolvedSpot, hitOutputLimit, correctKnownTransitMetrics, asksForPropertyAddress, spotMapLinks, mapFollowupFromHistory, mapLinks, cleanAnswer, localizeKnowledge, localizedRouteKnowledge, relevantGuideKnowledge, usesPropertyAsRouteOrigin, contextualGuideRoute, normalizeGuideMatch, trainingIntentFromQuestion, verifiedTrainingFact, verifiedLuggageStorage, quickGuideFromQuestion, verifiedEarlyCheckin, verifiedLateCheckout, verifiedHairTool, verifiedGuestBoxItem, guidePageLink, guideRouteFromQuestion, anotherHouseAccessSupport, guidePlaceFromQuestion, unconfirmedHoursFallback, verifiedPlaceHours, requestedDiningMinutes, verifiedFamilyDining, placeMatchesQuestion, timeFallsWithin, verifiedNearbyPlaces, curatedGuidePlaces, requestedClockMinutes, airportServiceDay, hasExplicitNonPropertyAirportDestination, verifiedAirportArrival, verifiedAirportTransport, PROPERTY_MEDICINE_PATTERN, GUIDE_KNOWLEDGE, CONCIERGE_TRAINING };
