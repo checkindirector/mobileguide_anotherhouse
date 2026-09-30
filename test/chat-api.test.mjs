@@ -232,7 +232,7 @@ test("conditions and compound luggage questions reach the model without an unrel
     assert.equal(request.body.tools, undefined, message);
     assert.match(request.body.instructions, /503호/);
     assert.match(request.body.instructions, /택배 대리수령/);
-    assert.match(request.body.instructions, /분실물 확인/);
+    assert.match(request.body.instructions, /두고 가신 물건을 확인/);
     assert.equal(res.payload.meta.searched, false, message);
   }
 });
@@ -1162,17 +1162,20 @@ test("pre-verified route advice links only to the exact airport-bus boarding sto
 test("all room-key names and common loss phrasings reach the same approved recovery answer", async () => {
   const expected = hydrateExpected(handler._internals.CONCIERGE_TRAINING.approvedAnswers.find(record => record.intent === "key-card-recovery").answer);
   for (const noun of ["카드키", "카드 키", "키카드", "객실키", "객실 키", "룸키", "룸 키", "방키", "방 열쇠", "객실 열쇠", "출입카드키", "열쇠"]) {
-    for (const problem of ["분실", "잃어버렸어", "를 잃어버렸는데 어떻게해요?"]) {
+    for (const problem of ["분실", "잃어버렸어", "를 잃어버렸는데 어떻게해요?", " 두고 나옴", " 방 안에 놓고 문 닫았어요"]) {
       const res = await callAccess({ message: noun + " " + problem, language: "ko" });
       assert.equal(res.statusCode, 200, noun + problem);
       assert.equal(res.payload.answer, expected, noun + problem);
+      assert.equal(res.payload.model, "another-house-approved-workbook", noun + problem);
+      assert.equal(res.payload.meta.approvedAnswerId, "Q019", noun + problem);
       assert.equal((res.payload.answer.match(/1회만 가능합니다/g) || []).length, 1);
       assert.match(res.payload.answer, /TESTACCESSCODE/);
     }
   }
-  for (const [language, message] of [["en", "I lost my room key"], ["en", "hotel key missing"], ["ja", "ルームキーをなくした"], ["ja", "部屋の鍵を紛失"], ["zh", "房间钥匙丢了"], ["zh-TW", "房間鑰匙遺失"]]) {
+  for (const [language, message] of [["en", "I lost my room key"], ["en", "I left my hotel key in the room"], ["ja", "ルームキーをなくした"], ["ja", "部屋の鍵を部屋に置いたまま出ました"], ["zh", "房间钥匙丢了"], ["zh", "房卡忘在房间里了"], ["zh-TW", "房間鑰匙遺失"], ["zh-TW", "房卡留在房間裡了"]]) {
     const res = await callAccess({ message, language });
-    assert.equal(res.payload.model, "another-house-access-support", message);
+    assert.equal(res.payload.model, "another-house-approved-workbook", message);
+    assert.equal(res.payload.meta.approvedAnswerId, "Q019", message);
     assert.match(res.payload.answer, /TESTACCESSCODE/);
   }
 });
@@ -1193,6 +1196,23 @@ test("short Wi-Fi questions use the latest workbook fact in all five languages",
     assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-training", message);
     assert.match(res.payload.answer, /another.*another1234/is, message);
     assert.equal(res.payload.meta.knowledgeVersion, "2026-09-30.1", message);
+  }
+});
+
+test("deterministic Korean training facts are read from the latest workbook records", () => {
+  const cases = [
+    ["와이파이", "Wi-Fi"],
+    ["우편번호", "우편번호, 위치, 주소"],
+    ["예약 확인 메일이 안 왔어요", "예약 확인 메일"],
+    ["분실물 문의", "분실물"],
+    ["방 청소 가능한가요?", "객실 청소"],
+    ["숙박 연장하고 싶어요", "숙박 연장"]
+  ];
+  for (const [message, type] of cases) {
+    const expected = handler._internals.CONCIERGE_TRAINING.approvedAnswers.find(record => record.type === type);
+    const actual = handler._internals.verifiedTrainingFact(message, "ko");
+    assert.equal(actual?.answer, hydrateExpected(expected.answer), message);
+    assert.equal(actual?.approved?.id, expected.id, message);
   }
 });
 
@@ -1362,94 +1382,55 @@ test("the model receives the operator's situational policy without rewriting che
   assert.match(request.body.instructions,/Assistant advice to obtain a replacement is NOT proof/);
 });
 
-test("Another House key-card recovery starts with the kiosk phone and never calls OpenAI", async () => {
-  const res = await callAccess({ message: "키카드를 놓고 나와서 못 들어가고 있어요", language: "ko", history: [] });
-  assert.equal(res.statusCode, 200);
-  assert.equal(res.payload.model, "another-house-access-support");
-  assert.match(res.payload.answer, /키오스크 옆 전화기/);
-  assert.match(res.payload.answer, /원격으로 키오스크에서 새 키카드/);
-  assert.doesNotMatch(res.payload.answer, /TESTACCESSCODE/);
+test("active key access problems use the latest workbook answer immediately", async () => {
+  const expected = hydrateExpected(handler._internals.CONCIERGE_TRAINING.approvedAnswers.find(record => record.intent === "key-card-recovery").answer);
+  for (const message of ["룸키 두고나옴", "키카드를 놓고 나와서 못 들어가고 있어요", "공동현관 비밀번호 알려줘"]) {
+    const res = await callAccess({ message, language: "ko", history: [] });
+    assert.equal(res.statusCode, 200, message);
+    assert.equal(res.payload.answer, expected, message);
+    assert.equal(res.payload.model, "another-house-approved-workbook", message);
+    assert.equal(res.payload.meta.approvedAnswerId, "Q019", message);
+    assert.match(res.payload.answer, /TESTACCESSCODE → ENT/, message);
+  }
 });
 
-test("a direct entrance-code request still returns the key-card recovery step", async () => {
-  const res = await callAccess({ message: "공동현관 비밀번호 알려줘", language: "ko", history: [] });
-  assert.match(res.payload.answer, /키오스크 옆 전화기/);
-  assert.doesNotMatch(res.payload.answer, /TESTACCESSCODE/);
-});
-
-test("the server-only code is released only after repeated key-card failure context", async () => {
-  const history = [
-    { role: "user", text: "키카드를 놓고 나와서 못 들어가요" },
-    { role: "assistant", text: "키오스크 옆 전화기로 연락해 주세요." },
-    { role: "user", text: "전화했는데 키오스크에서 새 카드가 안 나와요" },
-    { role: "assistant", text: "현재 상황을 다시 말씀해 주세요." }
-  ];
-  const res = await callAccess({ message: "그래도 안 됩니다. 공동현관 비밀번호 알려주세요", language: "ko", history });
-  assert.match(res.payload.answer, /TESTACCESSCODE → ENT/);
-  assert.equal(res.payload.meta.accessSupport, true);
-  assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
-});
-
-test("a short tell-me reply releases the code only after the verified recovery failure flow", async () => {
+test("access follow-ups keep returning the latest workbook recovery answer instead of an older staged script", async () => {
+  const expected = hydrateExpected(handler._internals.CONCIERGE_TRAINING.approvedAnswers.find(record => record.intent === "key-card-recovery").answer);
   const cases = [
-    ["ko", "키카드를 놓고 나와서 못 들어가요", "전화가 안됩니다", "알려주세요"],
-    ["en", "I left my key card and cannot enter", "The phone is not working", "Tell me"],
-    ["ja", "キーカードを忘れて入れない", "電話がつながらない", "教えてください"],
-    ["zh", "忘带房卡，无法进入", "电话不通", "请告诉我"],
-    ["zh-TW", "忘帶房卡，無法進入", "電話不通", "請告訴我"]
+    ["ko", "키카드를 놓고 나와서 못 들어가요", "호스트가 전화를 안 받아요 어떡하죠"],
+    ["en", "I left my key card and cannot enter", "The phone is not working"],
+    ["ja", "キーカードを忘れて入れない", "電話がつながらない"],
+    ["zh", "忘带房卡，无法进入", "电话不通"],
+    ["zh-TW", "忘帶房卡，無法進入", "電話不通"]
   ];
-  for (const [language, issue, failure, request] of cases) {
-    const history = [
-      { role: "user", text: issue },
-      { role: "assistant", text: "Use the kiosk phone." },
-      { role: "user", text: failure },
-      { role: "assistant", text: "Reply with the short confirmation." }
-    ];
-    const res = await callAccess({ message: request, language, history });
-    assert.match(res.payload.answer, /TESTACCESSCODE/);
-    assert.equal(res.payload.meta.accessSupport, true);
+  for (const [language, issue, followup] of cases) {
+    const history = [{ role: "user", text: issue }, { role: "assistant", text: "previous answer" }];
+    const res = await callAccess({ message: followup, language, history });
+    assert.equal(res.payload.model, "another-house-approved-workbook", `${language}: ${followup}`);
+    assert.equal(res.payload.meta.approvedAnswerId, "Q019", `${language}: ${followup}`);
+    assert.match(res.payload.answer, /TESTACCESSCODE/, `${language}: ${followup}`);
+    if (language === "ko") assert.equal(res.payload.answer, expected);
   }
   assert.equal(handler._internals.anotherHouseAccessSupport("알려주세요", [], "ko"), null);
 });
 
-test("natural phone failure wording stays inside the Another House recovery flow", async () => {
-  const history = [
-    { role: "user", text: "키카드를 놓고 나와서 못 들어가요" },
-    { role: "assistant", text: "키오스크 옆 전화기로 연락해 주세요." }
+test("completed checkout with a key left behind uses the separate latest workbook answer", async () => {
+  const expected = handler._internals.CONCIERGE_TRAINING.approvedAnswers.find(record => record.intent === "checkout-without-key");
+  const cases = [
+    ["ko", "이미 체크아웃했고 룸키는 방 안에 두고 왔어요"],
+    ["en", "I already checked out and left my room key inside"],
+    ["ja", "すでにチェックアウトして部屋の鍵を部屋に置いてきました"],
+    ["zh", "已经退房，房卡忘在房间里了"],
+    ["zh-TW", "已經退房，房卡留在房間裡了"]
   ];
-  const res = await callAccess({ message: "호스트가 전화를 안 받아요 어떡하죠", language: "ko", history });
-  assert.equal(res.payload.model, "another-house-access-support");
-  assert.match(res.payload.answer, /전화 연결이나 키카드 발급이 되지 않았/);
-  assert.doesNotMatch(res.payload.answer, /TESTACCESSCODE/);
-});
-
-test("a generic password request in the recovery flow asks for explicit entrance context", async () => {
-  const history = [
-    { role: "user", text: "카드키를 놓고 나와서 공동현관에 못 들어가요" },
-    { role: "assistant", text: "키오스크 옆 전화기로 연락해 주세요." },
-    { role: "user", text: "전화가 안됩니다" },
-    { role: "assistant", text: "공동현관 비밀번호가 필요하면 정확히 말씀해 주세요." }
-  ];
-  const res = await callAccess({ message: "비밀번호 알려줘요", language: "ko", history });
-  assert.match(res.payload.answer, /어떤 비밀번호인지 확인/);
-  assert.doesNotMatch(res.payload.answer, /TESTACCESSCODE/);
-});
-
-test("the photographed natural-language loop releases the server-only code after explicit request", async () => {
-  const history = [
-    { role: "user", text: "카드키를 놓고 나와서 공동현관에 못 들어가요" },
-    { role: "assistant", text: "키오스크 옆 전화기로 연락해 주세요." },
-    { role: "user", text: "전화가 안됩니다" },
-    { role: "assistant", text: "공동현관 비밀번호가 필요하면 정확히 말씀해 주세요." },
-    { role: "user", text: "호스트가 전화를 안받아요 어떡하죠" },
-    { role: "assistant", text: "어떤 비밀번호인지 확인이 필요합니다." },
-    { role: "user", text: "비밀번호 알려줘" },
-    { role: "assistant", text: "공동현관 비밀번호가 필요하면 정확히 말씀해 주세요." }
-  ];
-  const res = await callAccess({ message: "공동현관 비밀번호", language: "ko", history });
-  assert.match(res.payload.answer, /TESTACCESSCODE → ENT/);
-  assert.equal(res.payload.meta.accessSupport, true);
-  assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
+  for (const [language, message] of cases) {
+    const res = await callAccess({ message, language });
+    assert.equal(res.payload.model, "another-house-approved-workbook", message);
+    assert.equal(res.payload.meta.approvedAnswerId, expected.id, message);
+    assert.doesNotMatch(res.payload.answer, /TESTACCESSCODE/, message);
+  }
+  const korean = await callAccess({ message: cases[0][1], language: "ko" });
+  assert.equal(korean.payload.answer, expected.answer);
 });
 
 test("duplicate current question is removed from recent history", async () => {

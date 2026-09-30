@@ -3,7 +3,7 @@ const CONCIERGE_TRAINING = require("./concierge-training.json");
 const { analyzeStayQuestion } = require("../lib/stay-intent.cjs");
 const { contextualAnswerTone } = require("../lib/answer-tone.cjs");
 const { normalizeGuestLanguage, isRoomKeyProblem, propertyQuestionHint, hasMultipleGuestQuestions } = require("../lib/guest-language.cjs");
-const { keyCardSituation, keyCardContextReply, withReplacementWarning } = require("../lib/key-card-context.cjs");
+const { keyCardSituation, keyCardContextReply } = require("../lib/key-card-context.cjs");
 
 const MODEL = "gpt-5.4-mini";
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
@@ -44,6 +44,7 @@ const TRAINING_INTENT_PATTERNS = [
 ];
 const VERIFIED_TRAINING_FACTS = {
   wifi: {
+    approvedType: "Wi-Fi",
     route: "wifi",
     answers: {
       ko: "Wi-Fi 이름: another / Password: another1234",
@@ -54,9 +55,9 @@ const VERIFIED_TRAINING_FACTS = {
     }
   },
   "postal-address": {
+    approvedType: "우편번호, 위치, 주소",
     route: "transport",
     answers: {
-      ko: "우편번호는 03199입니다. 주소는 서울특별시 종로구 종로 294, 선일빌딩 5층입니다.",
       en: "The postal code is 03199. The address is 5F, Sunil Building, 294 Jong-ro, Jongno-gu, Seoul, Republic of Korea.",
       ja: "郵便番号は03199です。住所はソウル特別市鍾路区鍾路294、ソニルビル5階です。",
       zh: "邮政编码是03199。地址是韩国首尔特别市钟路区钟路294号，Sunil大厦5层。",
@@ -64,53 +65,53 @@ const VERIFIED_TRAINING_FACTS = {
     }
   },
   "booking-confirmation": {
+    approvedType: "예약 확인 메일",
     route: "checkin",
     answers: {
-      ko: "예약 확인 메일을 받지 못하셨다면 예약자 이름, 예약 채널, 체크인 날짜를 예약 플랫폼 메시지로 알려주세요. 예약 상태와 확인 메일 재발송 여부를 확인해 드립니다.",
-      en: "If you did not receive the confirmation email, send the booking name, booking channel, and check-in date through your booking-platform messages. The team will check the reservation and whether the email can be resent.",
-      ja: "予約確認メールが届かない場合は、予約名・予約サイト・チェックイン日を予約プラットフォームのメッセージでお知らせください。予約状況とメール再送の可否を確認します。",
-      zh: "如果没有收到预订确认邮件，请通过预订平台消息提供预订姓名、预订渠道和入住日期。工作人员会核对预订状态及能否重新发送邮件。",
-      "zh-TW": "如果沒有收到訂房確認郵件，請透過訂房平台訊息提供訂房姓名、訂房管道和入住日期。工作人員會核對訂房狀態及能否重新寄送郵件。"
+      en: "It looks like your booking confirmation email has not arrived. Please send your booking name, booking channel, and check-in date through the booking-channel messages. We will check the reservation status and whether the confirmation email can be resent.",
+      ja: "予約確認メールが届いていないようです。予約名・予約サイト・チェックイン日を予約サイトのメッセージでお知らせください。予約状況と確認メールを再送できるか確認いたします。",
+      zh: "看来您还没有收到预订确认邮件。请通过预订渠道消息告知预订姓名、预订渠道和入住日期。我们会核对预订状态以及是否可以重新发送确认邮件。",
+      "zh-TW": "看來您還沒有收到訂房確認郵件。請透過訂房管道訊息告知訂房姓名、訂房管道和入住日期。我們會核對訂房狀態以及是否可以重新寄送確認郵件。"
     }
   },
   "checkout-without-key": {
+    approvedType: "키 없이 체크아웃",
     route: "checkin",
     answers: {
-      ko: "이미 출발하셨다면 예약자 이름, 객실 번호, 카드키를 둔 위치를 예약 플랫폼 메시지로 알려주세요.",
-      en: "If you have already left, send the booking name, room number, and the location where you left the key card through your booking-platform messages.",
-      ja: "すでに出発された場合は、予約名・客室番号・キーカードを置いた場所を予約プラットフォームのメッセージでお知らせください。",
-      zh: "如果您已经离开，请通过预订平台消息告知预订姓名、房间号以及房卡放置的位置。",
-      "zh-TW": "如果您已經離開，請透過訂房平台訊息告知訂房姓名、房號以及房卡放置的位置。"
+      en: "If you have already checked out, please send your booking name, room number, and where you left the key card through the booking-channel messages.",
+      ja: "すでにチェックアウトされた場合は、予約名・客室番号・キーカードを置いた場所を予約サイトのメッセージでお知らせください。",
+      zh: "如果您已经退房，请通过预订渠道消息告知预订姓名、房间号以及房卡放置的位置。",
+      "zh-TW": "如果您已經退房，請透過訂房管道訊息告知訂房姓名、房號以及房卡放置的位置。"
     }
   },
   "lost-property": {
+    approvedType: "분실물",
     route: "rules",
     answers: {
-      ko: "분실물 확인을 위해 예약자 이름, 객실 번호, 체크아웃 날짜, 물건의 특징과 마지막으로 본 위치를 예약 플랫폼 메시지로 알려주세요.",
-      en: "To check for a lost item, send the booking name, room number, checkout date, item description, and the last place you saw it through your booking-platform messages.",
-      ja: "忘れ物を確認するため、予約名・客室番号・チェックアウト日・品物の特徴・最後に見た場所を予約プラットフォームのメッセージでお知らせください。",
-      zh: "如需查找遗失物品，请通过预订平台消息提供预订姓名、房间号、退房日期、物品特征及最后看到的位置。",
-      "zh-TW": "如需查找遺失物品，請透過訂房平台訊息提供訂房姓名、房號、退房日期、物品特徵及最後看到的位置。"
+      en: "We will check for the item you left behind. Please send your booking name, room number, check-out date, a description of the item, and the last place you saw it through the booking-channel messages.",
+      ja: "お忘れ物を確認いたします。予約名・客室番号・チェックアウト日・品物の特徴・最後に見た場所を予約サイトのメッセージでお知らせください。",
+      zh: "我们会帮您确认遗留物品。请通过预订渠道消息告知预订姓名、房间号、退房日期、物品特征以及最后看到的位置。",
+      "zh-TW": "我們會幫您確認遺留物品。請透過訂房管道訊息告知訂房姓名、房號、退房日期、物品特徵以及最後看到的位置。"
     }
   },
   housekeeping: {
+    approvedType: "객실 청소",
     route: "rules",
     answers: {
-      ko: "연박 중에는 매일 객실 청소가 제공되지 않습니다. 부득이하게 청소가 필요하면 예약 플랫폼 메시지로 문의해 주세요.",
-      en: "Daily room cleaning is not provided during consecutive stays. If cleaning is essential, please ask through your booking-platform messages.",
-      ja: "連泊中の毎日の客室清掃はありません。やむを得ず清掃が必要な場合は、予約プラットフォームのメッセージでお問い合わせください。",
-      zh: "连续入住期间不提供每日客房清洁。如确实需要清洁，请通过预订平台消息咨询。",
-      "zh-TW": "連續入住期間不提供每日客房清潔。如確實需要清潔，請透過訂房平台訊息詢問。"
+      en: "Room cleaning is not provided during your stay. If there is an unavoidable reason you need cleaning, please send us a message.",
+      ja: "ご宿泊中の客室清掃は行っておりません。ただし、やむを得ない事情がある場合はメッセージをお送りください。",
+      zh: "入住期间不提供客房清洁。如有不得已的原因需要清洁，请发送消息联系我们。",
+      "zh-TW": "入住期間不提供客房清潔。如有不得已的原因需要清潔，請傳送訊息聯絡我們。"
     }
   },
   "stay-extension": {
+    approvedType: "숙박 연장",
     route: "checkin",
     answers: {
-      ko: "숙박 연장은 해당 날짜의 객실 예약 가능 여부를 먼저 확인해야 합니다. 예약자 이름과 원하는 추가 숙박 날짜를 예약 플랫폼 메시지로 보내 주세요.",
-      en: "A stay extension depends on room availability for the requested date. Send the booking name and the additional dates you need through your booking-platform messages.",
-      ja: "宿泊延長は希望日の空室確認が必要です。予約名と追加で希望する宿泊日を予約プラットフォームのメッセージでお送りください。",
-      zh: "延长住宿需先确认所需日期是否有空房。请通过预订平台消息发送预订姓名和希望追加的住宿日期。",
-      "zh-TW": "延長住宿需先確認所需日期是否有空房。請透過訂房平台訊息傳送訂房姓名和希望追加的住宿日期。"
+      en: "A one-night extension depends on room availability for that date. Please book directly through your booking channel using the booking name and the additional stay date you need.",
+      ja: "1泊の延長は、その日の空室状況を確認する必要があります。予約名と追加で希望する宿泊日を使い、予約サイトから直接ご予約ください。",
+      zh: "延住一晚需要先确认当天是否有空房。请使用预订姓名和希望追加的住宿日期，直接通过预订渠道预订。",
+      "zh-TW": "延住一晚需要先確認當天是否有空房。請使用訂房姓名和希望追加的住宿日期，直接透過訂房管道預訂。"
     }
   }
 };
@@ -153,39 +154,6 @@ const VERIFIED_LOCAL_GROUPS = [
 ];
 const CURATED_TOUR_PATTERN = /(가볼\s*곳|구경|관광지|명소|산책|야경|성곽|시장|궁궐|박물관|미술관|공원|쇼핑|tour|attraction|sightseeing|things\s*to\s*do|walk|night\s*view|palace|museum|market|park|観光|見どころ|散歩|夜景|宮殿|博物館|市場|景点|景點|观光|觀光|散步|夜景|宫殿|宮殿|博物馆|博物館|市场|市場)/i;
 const URGENT_MEDICAL_PATTERN = /(숨을\s*못|의식|심한\s*출혈|가슴\s*통증|응급|위급|ambulance|can't\s*breathe|unconscious|severe\s*bleeding|chest\s*pain|emergency|救急|意識|大量出血|呼吸|急救|昏迷|大量出血|呼吸困难|呼吸困難)/i;
-// Another House-only, server-side access recovery. Never move this into shared guide data or reusable prompts.
-const ACCESS_SUPPORT_COPY = {
-  ko: {
-    recovery: "공동현관문 밖이라면 키오스크 옆 전화기로 연락해 주세요.\n호스트가 원격으로 키오스크에서 새 키카드가 나오도록 도와드립니다.",
-    failed: "전화 연결이나 키카드 발급이 되지 않았군요.\n공동현관문 비밀번호가 필요하면 ‘알려주세요’라고 입력해 주세요.",
-    clarify: "어떤 비밀번호인지 확인이 필요합니다.\n공동현관문 비밀번호가 필요하면 ‘알려주세요’라고 입력해 주세요.",
-    code: value => `공동현관문 비밀번호는 ${value} → ENT입니다.\n순서대로 입력한 뒤, 입실하면 새 키카드를 꼭 수령해 주세요.`
-  },
-  en: {
-    recovery: "If you are outside the shared entrance, use the phone beside the kiosk.\nThe host will remotely issue a replacement key card from the kiosk.",
-    failed: "It sounds like the call or replacement key-card issue did not work.\nIf you need the shared entrance code, reply “Tell me.”",
-    clarify: "Please specify which password you need.\nIf you mean the shared entrance code, reply “Tell me.”",
-    code: value => `The shared entrance code is ${value} → ENT.\nEnter it in this order, then collect a replacement key card once inside.`
-  },
-  ja: {
-    recovery: "共同玄関の外にいる場合は、キオスク横の電話でご連絡ください。\nホストが遠隔操作でキオスクから新しいキーカードを発行します。",
-    failed: "電話がつながらない、またはキーカードが発行されない状況ですね。\n共同玄関の暗証番号が必要な場合は「教えてください」と入力してください。",
-    clarify: "どの暗証番号が必要か確認が必要です。\n共同玄関の場合は「教えてください」と入力してください。",
-    code: value => `共同玄関の暗証番号は ${value} → ENT です。\n順番に入力し、入館後は新しいキーカードを必ず受け取ってください。`
-  },
-  zh: {
-    recovery: "如果您在公共入口外，请使用自助机旁的电话联系。\n房东会远程操作，让自助机发放新的房卡。",
-    failed: "看来电话未接通或新房卡未能发放。\n如需公共入口密码，请输入“请告诉我”。",
-    clarify: "请说明您需要哪个密码。\n如果是公共入口，请输入“请告诉我”。",
-    code: value => `公共入口密码为 ${value} → ENT。\n请按顺序输入，进入后务必领取新房卡。`
-  },
-  "zh-TW": {
-    recovery: "如果您在公共入口外，請使用自助機旁的電話聯絡。\n房東會遠端操作，讓自助機發放新的房卡。",
-    failed: "看來電話未接通或新房卡未能發放。\n如需公共入口密碼，請輸入「請告訴我」。",
-    clarify: "請說明您需要哪個密碼。\n如果是公共入口，請輸入「請告訴我」。",
-    code: value => `公共入口密碼為 ${value} → ENT。\n請依序輸入，進入後務必領取新房卡。`
-  }
-};
 const APPROVED_ENTRANCE_CODE_TOKEN = "{{COMMON_ENTRANCE_CODE}}";
 const KEY_CARD_RECOVERY_COPY = {
   en: code => `If you lose your key card, go to the entrance kiosk and call us. Tell us your name and we will remotely issue a replacement key card. A key card can be replaced only once. / Entrance code: ${code} → ENT`,
@@ -216,15 +184,25 @@ function hydrateApprovedAnswer(answer, language = "ko") {
 
 function localizedKeyCardRecovery(approvedAnswer, language) {
   if (language === "ko") return hydrateApprovedAnswer(approvedAnswer, language);
-  const value = sharedEntranceCode();
-  if (value && KEY_CARD_RECOVERY_COPY[language]) return KEY_CARD_RECOVERY_COPY[language](value);
-  return ACCESS_SUPPORT_COPY[language].recovery;
+  const value = sharedEntranceCode() || {
+    en: "the access code in your booking-channel message",
+    ja: "予約サイトのメッセージにある入館暗証番号",
+    zh: "预订渠道消息中的门禁密码",
+    "zh-TW": "訂房管道訊息中的門禁密碼"
+  }[language];
+  if (KEY_CARD_RECOVERY_COPY[language]) return KEY_CARD_RECOVERY_COPY[language](value);
+  return hydrateApprovedAnswer(approvedAnswer, language);
 }
-const ACCESS_ISSUE_PATTERN = /((키\s*카드|카드키|공동\s*현관).{0,40}(놓고|두고|없|분실|잃|못\s*들어|안\s*열|잠겼|발급.{0,12}(안|못|실패))|(놓고|두고|없|분실|잃|못\s*들어|안\s*열|잠겼).{0,40}(키\s*카드|카드키|공동\s*현관)|(key\s*card|keycard|shared\s*entrance).{0,48}(left|lost|missing|don'?t\s*have|do\s*not\s*have|locked\s*out|can'?t\s*(get\s*in|enter)|cannot\s*(get\s*in|enter)|not\s*issued)|(left|lost|missing|locked\s*out|can'?t\s*(get\s*in|enter)|cannot\s*(get\s*in|enter)).{0,48}(key\s*card|keycard|shared\s*entrance)|(キーカード|共同玄関).{0,40}(忘れ|紛失|ない|入れない|開かない|発行されない)|(忘れ|紛失|入れない|開かない).{0,40}(キーカード|共同玄関)|(房卡|公共入口).{0,40}(忘带|忘帶|丢失|遺失|没有|沒有|无法进入|無法進入|打不开|打不開|未发卡|未發卡)|(忘带|忘帶|丢失|遺失|无法进入|無法進入|打不开|打不開).{0,40}(房卡|公共入口))/i;
 const ACCESS_CODE_REQUEST_PATTERN = /(공동\s*현관.{0,24}(비밀번호|비번|암호|코드)|(비밀번호|비번|암호|코드).{0,24}공동\s*현관|(?:shared\s*)?entrance.{0,24}(password|code)|(password|code).{0,24}(?:shared\s*)?entrance|共同玄関.{0,24}(暗証番号|パスワード)|公共入口.{0,24}(密码|密碼)|(?:密码|密碼).{0,24}公共入口)/i;
-const ACCESS_ANY_PASSWORD_REQUEST_PATTERN = /(비밀번호|비번|암호|코드|password|passcode|暗証番号|パスワード|密码|密碼)/i;
 const ACCESS_SHORT_CODE_CONFIRMATION_PATTERN = /^(?:알려\s*주세요|알려\s*줘(?:요)?|말해\s*주세요|말해\s*줘(?:요)?|tell\s*me(?:\s*please)?|please\s*tell\s*me|教えてください|教えて|请告诉我|請告訴我|告诉我|告訴我)[\s.!?~。！？，,]*$/i;
 const ACCESS_RECOVERY_FAILED_PATTERN = /(전화.{0,32}(했|걸|연락|안\s*(되|돼|됩|받)|연결.{0,12}(안|못)|불통|응답.{0,8}(없|안))|호스트.{0,32}(전화|연락).{0,24}(안\s*받|연결.{0,12}(안|못)|응답.{0,8}(없|안)|답.{0,8}(없|안))|통화.{0,24}(안\s*(되|돼|됩)|못|불통)|키오스크.{0,32}(안|못|실패)|카드.{0,32}(안\s*나|못\s*받|발급.{0,12}(안|못|실패))|called|tried|phone.{0,32}(not\s*work|no\s*answer|unanswered|couldn|can't)|host.{0,32}(not\s*answer|unreachable)|kiosk.{0,32}(failed|didn|not)|card.{0,32}(not\s*issued|didn|failed)|電話.{0,32}(した|連絡|つながら|繋がら|出ない)|ホスト.{0,24}(出ない|応答しない)|キオスク.{0,32}(出ない|失敗)|打了电话|打了電話|电话.{0,24}(不通|没人接|沒人接)|電話.{0,24}(不通|没人接|沒人接)|房东.{0,24}(不接|没回应)|房東.{0,24}(不接|沒回應)|联系过|聯絡過|没有出卡|沒有出卡|发卡失败|發卡失敗)/i;
+const COMPLETED_CHECKOUT_WITH_KEY_PATTERN = /(이미\s*(?:체크아웃|퇴실|떠났|출발)|(?:체크아웃|퇴실)(?:을)?\s*(?:했|완료)|already\s*(?:checked\s*out|left\s*(?:the\s*)?(?:property|hostel|hotel))|(?:checked\s*out|left\s*(?:the\s*)?(?:property|hostel|hotel)).{0,40}(?:key|card)|すでに(?:チェックアウト|退館|出発)|チェックアウト(?:済み|しました)|已经(?:退房|离开住宿)|已經(?:退房|離開住宿)|退房(?:后|後).{0,24}(?:房卡|钥匙|鑰匙))/i;
+const CHECKOUT_WITHOUT_KEY_COPY = {
+  en: "If you have already checked out, please send your booking name, room number, and where you left the key card through the booking-channel messages.",
+  ja: "すでにチェックアウトされた場合は、予約名・客室番号・キーカードを置いた場所を予約サイトのメッセージでお知らせください。",
+  zh: "如果您已经退房，请通过预订渠道消息告知预订姓名、房间号以及房卡放置的位置。",
+  "zh-TW": "如果您已經退房，請透過訂房管道訊息告知訂房姓名、房號以及房卡放置的位置。"
+};
 
 function getClientAddress(req) {
   const forwarded = req.headers["x-forwarded-for"];
@@ -253,29 +231,22 @@ function anotherHouseAccessSupport(message, history, language) {
   if (situation.hypothetical) return null;
   const current = normalizeGuestLanguage(message);
   const priorUserMessages = history.filter(item => item.role === "user").map(item => normalizeGuestLanguage(item.content));
-  const issue = text => !/분실\s*(?:아니|안\s*했)|안\s*잃|not\s*lost|didn.t\s*lose|紛失していない|没有丢|沒有丟/iu.test(text) && (isRoomKeyProblem(text) || ACCESS_ISSUE_PATTERN.test(text));
-  const firstIssueIndex = priorUserMessages.findIndex(text => issue(text) || ACCESS_RECOVERY_FAILED_PATTERN.test(text));
-  const hasIssueContext = firstIssueIndex >= 0;
-  const accessContext = hasIssueContext ? priorUserMessages.slice(firstIssueIndex) : [];
-  const currentReportsFailure = ACCESS_RECOVERY_FAILED_PATTERN.test(current);
-  const recoveryAlreadyFailed = accessContext.some(text => ACCESS_RECOVERY_FAILED_PATTERN.test(text));
-  const shortCodeConfirmation = hasIssueContext && recoveryAlreadyFailed && ACCESS_SHORT_CODE_CONFIRMATION_PATTERN.test(current);
-  const asksForCode = ACCESS_CODE_REQUEST_PATTERN.test(current) || shortCodeConfirmation;
-  const asksForAnyPassword = ACCESS_ANY_PASSWORD_REQUEST_PATTERN.test(current);
-  const accessConversationTurns = accessContext.filter(text => issue(text) || ACCESS_RECOVERY_FAILED_PATTERN.test(text) || ACCESS_ANY_PASSWORD_REQUEST_PATTERN.test(text)).length;
-  const related = issue(current) || currentReportsFailure || asksForCode || (hasIssueContext && asksForAnyPassword);
-  if (!related) return null;
-  if (asksForCode && hasIssueContext && recoveryAlreadyFailed && accessConversationTurns >= 2) {
-    const entranceCode = sharedEntranceCode();
-    if (entranceCode) return { stage: "code", answer: ACCESS_SUPPORT_COPY[language].code(entranceCode) };
+  const priorKeyIssue = priorUserMessages.some(text => isRoomKeyProblem(text));
+  const isAccessFollowup = priorKeyIssue && (ACCESS_RECOVERY_FAILED_PATTERN.test(current) || ACCESS_SHORT_CODE_CONFIRMATION_PATTERN.test(current) || ACCESS_CODE_REQUEST_PATTERN.test(current));
+  const directKeyIssue = isRoomKeyProblem(current);
+  const directCodeRequest = ACCESS_CODE_REQUEST_PATTERN.test(current);
+  if (!directKeyIssue && !directCodeRequest && !isAccessFollowup) return null;
+
+  if (directKeyIssue && COMPLETED_CHECKOUT_WITH_KEY_PATTERN.test(current)) {
+    const approved = CONCIERGE_TRAINING.approvedAnswers.find(record => record.intent === "checkout-without-key");
+    if (!approved) return null;
+    const answer = language === "ko" ? hydrateApprovedAnswer(approved.answer, language) : CHECKOUT_WITHOUT_KEY_COPY[language];
+    return { stage: "checkout-without-key", answer, approved };
   }
-  if (currentReportsFailure && hasIssueContext) return { stage: "failed", answer: ACCESS_SUPPORT_COPY[language].failed };
-  if (asksForAnyPassword && hasIssueContext && !asksForCode) return { stage: "clarify", answer: ACCESS_SUPPORT_COPY[language].clarify };
-  if (isRoomKeyProblem(current) && /분실|잃|lost|missing|紛失|なくし|遺失|丢|丟/i.test(current)) {
-    const approved = CONCIERGE_TRAINING.approvedAnswers.find(record => record.intent === "key-card-recovery");
-    if (approved) return { stage: "recovery", answer: localizedKeyCardRecovery(approved.answer, language) };
-  }
-  return { stage: "recovery", answer: withReplacementWarning(ACCESS_SUPPORT_COPY[language].recovery, language) };
+
+  const approved = CONCIERGE_TRAINING.approvedAnswers.find(record => record.intent === "key-card-recovery");
+  if (!approved) return null;
+  return { stage: "key-card-recovery", answer: localizedKeyCardRecovery(approved.answer, language), approved };
 }
 
 function localizeKnowledge(language) {
@@ -473,10 +444,16 @@ function verifiedTrainingFact(message, language) {
   const intent = trainingIntentFromQuestion(message, language);
   const fact = intent ? VERIFIED_TRAINING_FACTS[intent.id] : null;
   if (!fact) return null;
+  const approved = fact.approvedType
+    ? (CONCIERGE_TRAINING.approvedAnswers || []).find(record => record.type === fact.approvedType)
+    : null;
   return {
-    answer: hydrateApprovedAnswer(fact.answers[language] || fact.answers.ko, language),
+    answer: language === "ko" && approved
+      ? hydrateApprovedAnswer(approved.answer, language)
+      : hydrateApprovedAnswer(fact.answers[language] || approved?.answer || "", language),
     intent: intent.id,
-    route: fact.route
+    route: approved?.route || fact.route,
+    approved
   };
 }
 
@@ -1553,7 +1530,7 @@ module.exports = async function handler(req, res) {
   const accessSupport = anotherHouseAccessSupport(message, history, language);
   if (accessSupport) {
     console.log(JSON.stringify({ event: "concierge_access_support", stage: accessSupport.stage, language, durationMs: Date.now() - startedAt }));
-    return res.status(200).json({ answer: accessSupport.answer, model: "another-house-access-support", links: [guidePageLink("checkin", language)], meta: { searched: false, accessSupport: true, durationMs: Date.now() - startedAt } });
+    return res.status(200).json({ answer: accessSupport.answer, model: "another-house-approved-workbook", links: [guidePageLink(accessSupport.approved?.route || "checkin", language)], mapContext: null, meta: { searched: false, accessSupport: true, approvedWorkbook: Boolean(accessSupport.approved), approvedAnswerId: accessSupport.approved?.id || null, sourceRows: accessSupport.approved?.sourceRows || [], credentialsProtected: Boolean(accessSupport.approved?.credentialsProtected), trainingIntent: accessSupport.approved?.intent || null, trainingVersion: CONCIERGE_TRAINING.version, guideRoute: accessSupport.approved?.route || "checkin", knowledgeVersion: GUIDE_KNOWLEDGE.version, durationMs: Date.now() - startedAt } });
   }
   const mapFollowup = mapFollowupFromHistory(message, rawHistory, language);
   if (mapFollowup) {
