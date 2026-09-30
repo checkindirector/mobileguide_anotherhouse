@@ -3,6 +3,7 @@ const CONCIERGE_TRAINING = require("./concierge-training.json");
 const { analyzeStayQuestion } = require("../lib/stay-intent.cjs");
 const { contextualAnswerTone } = require("../lib/answer-tone.cjs");
 const { normalizeGuestLanguage, isRoomKeyProblem, propertyQuestionHint, hasMultipleGuestQuestions } = require("../lib/guest-language.cjs");
+const { keyCardSituation, keyCardContextReply, withReplacementWarning } = require("../lib/key-card-context.cjs");
 
 const MODEL = "gpt-5.4-mini";
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
@@ -201,6 +202,10 @@ function parseBody(req) {
 }
 
 function anotherHouseAccessSupport(message, history, language) {
+  const situation = keyCardSituation(message, history);
+  const contextReply = keyCardContextReply(situation, language);
+  if (contextReply) return contextReply;
+  if (situation.hypothetical) return null;
   const current = normalizeGuestLanguage(message);
   const priorUserMessages = history.filter(item => item.role === "user").map(item => normalizeGuestLanguage(item.content));
   const issue = text => !/분실\s*(?:아니|안\s*했)|안\s*잃|not\s*lost|didn.t\s*lose|紛失していない|没有丢|沒有丟/iu.test(text) && (isRoomKeyProblem(text) || ACCESS_ISSUE_PATTERN.test(text));
@@ -223,9 +228,9 @@ function anotherHouseAccessSupport(message, history, language) {
   if (asksForAnyPassword && hasIssueContext && !asksForCode) return { stage: "clarify", answer: ACCESS_SUPPORT_COPY[language].clarify };
   if (language === "ko" && isRoomKeyProblem(current) && /분실|잃/.test(current)) {
     const approved = CONCIERGE_TRAINING.approvedAnswers.find(record => record.intent === "key-card-recovery");
-    if (approved) return { stage: "recovery", answer: approved.answer };
+    if (approved) return { stage: "recovery", answer: withReplacementWarning(approved.answer, language) };
   }
-  return { stage: "recovery", answer: ACCESS_SUPPORT_COPY[language].recovery };
+  return { stage: "recovery", answer: withReplacementWarning(ACCESS_SUPPORT_COPY[language].recovery, language) };
 }
 
 function localizeKnowledge(language) {
@@ -1512,7 +1517,8 @@ module.exports = async function handler(req, res) {
   }
   const approvedReply = approvedAnswerFromQuestion(message, language, history);
   if (approvedReply && language === "ko") {
-    return res.status(200).json({ answer: approvedReply.answer, model: "another-house-approved-workbook", links: [guidePageLink(approvedReply.route, language)], mapContext: null, meta: { searched: false, approvedWorkbook: true, approvedAnswerId: approvedReply.id, sourceRows: approvedReply.sourceRows, credentialsProtected: approvedReply.credentialsProtected, trainingIntent: approvedReply.intent, trainingVersion: CONCIERGE_TRAINING.version, guideRoute: approvedReply.route, knowledgeVersion: GUIDE_KNOWLEDGE.version, durationMs: Date.now() - startedAt } });
+    const answer = approvedReply.intent === "key-card-recovery" ? withReplacementWarning(approvedReply.answer, language) : approvedReply.answer;
+    return res.status(200).json({ answer, model: "another-house-approved-workbook", links: [guidePageLink(approvedReply.route, language)], mapContext: null, meta: { searched: false, approvedWorkbook: true, approvedAnswerId: approvedReply.id, sourceRows: approvedReply.sourceRows, credentialsProtected: approvedReply.credentialsProtected, trainingIntent: approvedReply.intent, trainingVersion: CONCIERGE_TRAINING.version, guideRoute: approvedReply.route, knowledgeVersion: GUIDE_KNOWLEDGE.version, durationMs: Date.now() - startedAt } });
   }
   const trainingFact = needsSemanticAnswer ? null : verifiedTrainingFact(message, language);
   if (trainingFact) {
@@ -1654,6 +1660,7 @@ module.exports = async function handler(req, res) {
     instructions: `${systemInstructions(language, fullGuideText)}
 
 SHORT GUEST QUESTIONS:
+${propertyRouteOrigin ? "" : "- KEY-CARD SITUATION POLICY (operator clarification): Check-in/early-check-in source warnings that cards cannot be reissued are PREVENTIVE warnings; retain them in check-in guidance. They do NOT override the one-time exception after an actual loss. For an actual first loss, explain the kiosk-phone replacement procedure and that replacement is allowed only once; warn that a further loss cannot be replaced. If the USER reports having received a replacement and then losing it again, do not promise another replacement; direct them to the operations team via booking-platform messages. Assistant advice to obtain a replacement is NOT proof of receipt. Distinguish failed/not-yet-received replacement from completed receipt; ask a short clarification if 'lost again' has unclear replacement history. Do not append loss recovery to ordinary check-in questions or assume hypothetical loss already happened. These context rules take precedence over generic workbook answer selection."}
 ${propertyRouteOrigin ? "" : "- Understand synonyms semantically, not by exact keyword. 객실키/룸키/방키/열쇠/room key are the property's key card in a lodging context; baggage/suitcase/짐/가방 can mean storage; 입실/체크인 and 퇴실/체크아웃 refer to the same processes. Apply the same contextual reasoning to EVERY workbook topic. A topic hint selects evidence, not a canned answer: preserve the specific requested detail, negation, conditions and all parts of a compound question. Do not confuse hair straighteners with hair dryers, car keys with room keys, or lost luggage with storage. If the meaning remains ambiguous, ask one short clarification instead of guessing or reporting a public-search failure."}
 - Interpret incomplete phrases, common typos, and follow-ups in their conversation context. A bare luggage/bag word normally asks about this property's storage; a bare check-in/arrival word asks about check-in. Do not require an exact keyword or a complete sentence.
 - Answer the current question, including each part of compound requests. Lost luggage is not a storage request; storage at a station/airport is not the property's luggage room. Same-day storage facts do not establish overnight or multi-day storage.
@@ -1721,7 +1728,8 @@ ${stayIntent ? `PROPERTY_ROUTING_HINT: ${JSON.stringify(stayIntent)}. This is on
     const approvedId = rawAnswerText.match(/^APPROVED_ANSWER_ID:\s*([A-Za-z0-9_-]+)/m)?.[1];
     const selectedApproved = language === "ko" && approvedCandidates.find(record => record.id === approvedId);
     if (selectedApproved) {
-      return res.status(200).json({ answer: selectedApproved.answer, model: data.model || MODEL, links: [guidePageLink(selectedApproved.route, language)], mapContext: null, meta: { searched: false, approvedWorkbook: true, approvedAnswerId: selectedApproved.id, sourceRows: selectedApproved.sourceRows, credentialsProtected: selectedApproved.credentialsProtected, trainingIntent: selectedApproved.intent, trainingVersion: CONCIERGE_TRAINING.version, guideRoute: selectedApproved.route, knowledgeVersion: GUIDE_KNOWLEDGE.version, durationMs: Date.now() - startedAt } });
+      const answer = selectedApproved.intent === "key-card-recovery" ? withReplacementWarning(selectedApproved.answer, language) : selectedApproved.answer;
+      return res.status(200).json({ answer, model: data.model || MODEL, links: [guidePageLink(selectedApproved.route, language)], mapContext: null, meta: { searched: false, approvedWorkbook: true, approvedAnswerId: selectedApproved.id, sourceRows: selectedApproved.sourceRows, credentialsProtected: selectedApproved.credentialsProtected, trainingIntent: selectedApproved.intent, trainingVersion: CONCIERGE_TRAINING.version, guideRoute: selectedApproved.route, knowledgeVersion: GUIDE_KNOWLEDGE.version, durationMs: Date.now() - startedAt } });
     }
     const resolved = extractResolvedSpot(rawAnswerText.replace(/^APPROVED_ANSWER_ID:.*$/gm, ""));
     let answer = correctKnownTransitMetrics(message, cleanAnswer(resolved.answerText));

@@ -1160,7 +1160,8 @@ test("all room-key names and common loss phrasings reach the same approved recov
     for (const problem of ["분실", "잃어버렸어", "를 잃어버렸는데 어떻게해요?"]) {
       const res = await callAccess({ message: noun + " " + problem, language: "ko" });
       assert.equal(res.statusCode, 200, noun + problem);
-      assert.equal(res.payload.answer, expected, noun + problem);
+      assert.ok(res.payload.answer.startsWith(expected), noun + problem);
+      assert.match(res.payload.answer, /다시 분실하면 추가 재발급이 불가능/);
       assert.doesNotMatch(res.payload.answer, /TESTACCESSCODE/);
     }
   }
@@ -1230,6 +1231,76 @@ test("subject synonyms cover the workbook and remaining house-guide topics", () 
     dining:['방에서 밥먹기','eat in room','部屋で食事'], rules:['담배','smoking','寵物'], waste:['재활용','recycling','垃圾']
   };
   for (const [topic, phrases] of Object.entries(examples)) for (const phrase of phrases) assert.ok(propertyQuestionHint(phrase)?.topics.includes(topic), `${topic}: ${phrase}`);
+});
+
+test("key-card context distinguishes prevention, first loss and loss after replacement", async () => {
+  const { keyCardSituation } = require('../lib/key-card-context.cjs');
+  for (const message of ['얼리체크인', '체크인 방법']) {
+    const res = await callAccess({ message, language:'ko' });
+    assert.match(res.payload.answer, /카드키는 재발급되지 않습니다/);
+    assert.doesNotMatch(res.payload.answer, /재발급은 1회|이미 한 번/);
+  }
+  for (const message of ['카드키 분실', '객실키 잃어버렸어요', '룸키 분실']) {
+    const first = await callAccess({ message, language:'ko' });
+    assert.match(first.payload.answer, /재발급은 1회만 가능합니다/);
+    assert.match(first.payload.answer, /재분실에 유의/);
+  }
+  for (const message of ['재발급받은 룸키를 또 잃어버렸어요', '카드키 재발급 받았는데 다시 분실', '카드키를 재발급해주셨는데 또 잃어버렸어요']) {
+    const res = await callAccess({ message, language:'ko' });
+    assert.match(res.payload.answer, /추가 재발급은 불가능.*예약하신 플랫폼/s);
+    assert.doesNotMatch(res.payload.answer, /원격으로 재발급|TESTACCESSCODE/);
+  }
+  const history=[{role:'user',text:'객실키 분실'},{role:'assistant',text:'1회 재발급 가능합니다.'},{role:'user',text:'재발급받았어요'}];
+  for (const message of ['또 잃어버렸어요', '룸키 분실']) {
+    const res=await callAccess({message,history,language:'ko'});
+    assert.match(res.payload.answer,/추가 재발급은 불가능/);
+  }
+  assert.equal(keyCardSituation('객실키 분실',[{role:'assistant',content:'새 키를 받으셨군요.'}]).replacementReceived,false);
+  const unclear=await callAccess({message:'룸키 또 잃어버림',language:'ko',history:[{role:'user',text:'카드키 분실'},{role:'assistant',text:'재발급받으세요'}]});
+  assert.match(unclear.payload.answer,/이미 한 번 재발급받으셨나요/);
+  const repeated=await callAccess({message:'카드키 재분실',language:'ko'});
+  assert.match(repeated.payload.answer,/이미 한 번 재발급받으셨나요/);
+});
+
+test("receipt and failure are distinct and a completed replacement never enables a second issue", async () => {
+  const loss=[{role:'user',text:'카드키를 분실했어요'}];
+  const receipt=await callAccess({message:'새 카드키 받았어요',history:loss,language:'ko'});
+  assert.match(receipt.payload.answer,/새 카드키를 받으셨군요/);
+  const {keyCardSituation}=require('../lib/key-card-context.cjs');
+  for(const message of ['재발급 아직 못 받았어요','재발급 안 받았어요','재발급받으면 되나요?','카드키를 분실하면 어떻게 하나요?','재발급받아야 하나요?','재발급 받은 적 없어요','재발급 받은 게 아니라 키를 찾았어요']) {
+    assert.equal(keyCardSituation(message,loss).replacementReceived,false,message);
+  }
+  const after=[...loss,{role:'user',text:'재발급받았어요'},{role:'user',text:'다시 잃어버렸어요'},{role:'user',text:'전화가 안돼요'}];
+  for(const message of ['공동현관 비밀번호 알려주세요','알려주세요','전화 안받아요']) {
+    const res=await callAccess({message,history:after,language:'ko'});
+    assert.match(res.payload.answer,/추가 재발급은 불가능/);
+    assert.doesNotMatch(res.payload.answer,/TESTACCESSCODE|키카드를 꼭 수령/);
+  }
+  const checkin=await callAccess({message:'얼리체크인',history:after,language:'ko'});
+  assert.match(checkin.payload.answer,/얼리 체크인은 제공되지 않습니다/);
+});
+
+test("replacement history and repeat-loss wording are supported in all five languages", async () => {
+  const cases=[
+    ['en','I lost my room key','I received a replacement key card','I lost it again',/No further replacement/,/booking-platform/],
+    ['ja','ルームキーを紛失','キーカードを再発行してもらった','またなくしました',/追加の再発行はできません/,/予約サイト/],
+    ['zh','房卡丢了','房卡补办了','又丢了',/无法再次补办/,/预订平台/],
+    ['zh-TW','房卡遺失','房卡已經補發了','又遺失了',/無法再次補發/,/訂房平台/]
+  ];
+  for(const [language,first,receipt,again,limit,contact] of cases) {
+    const initial=await callAccess({message:first,language});
+    assert.match(initial.payload.answer,/once|1回|1次/);
+    const res=await callAccess({message:again,language,history:[{role:'user',text:first},{role:'user',text:receipt}]});
+    assert.match(res.payload.answer,limit);assert.match(res.payload.answer,contact);
+    assert.doesNotMatch(res.payload.answer,/TESTACCESSCODE/);
+  }
+});
+
+test("the model receives the operator's situational policy without rewriting check-in source text", async () => {
+  const {request}=await callApi({message:'카드키 분실하면 어떻게 되나요?',language:'ko'}, {output_text:'분실 시 운영팀에 연락해 주세요.',usage:{}},'key-hypothetical');
+  assert.ok(request);
+  assert.match(request.body.instructions,/KEY-CARD SITUATION POLICY/);
+  assert.match(request.body.instructions,/Assistant advice to obtain a replacement is NOT proof/);
 });
 
 test("Another House key-card recovery starts with the kiosk phone and never calls OpenAI", async () => {
