@@ -800,15 +800,15 @@ test("Korean outbound limousine wording stays in departure mode and exposes the 
     "203.0.113.91"
   );
   assert.equal(requests.length, 0);
-  assert.equal(res.payload.model, "another-house-verified-airport-transport");
-  assert.equal(res.payload.meta.mode, "overview");
-  assert.match(res.payload.answer, /숙소에서 정류장까지/);
-  assert.match(res.payload.answer, /5층 리셉션에서 엘리베이터로 1층/);
-  assert.match(res.payload.answer, /정류장 01901/);
+  assert.equal(res.payload.model, "another-house-verified-airport-bus");
+  assert.equal(res.payload.meta.mode, "departure");
+  assert.match(res.payload.answer, /6002/);
+  assert.match(res.payload.answer, /01037/);
+  assert.match(res.payload.answer, /01901/);
   assert.doesNotMatch(res.payload.answer, /6번 출구.*5층|리셉션으로 들어/);
-  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 2);
-  assert.match(res.payload.links[0].label, /동대문역\(JW메리어트호텔동대문\).*네이버 지도/);
-  assert.match(res.payload.links[1].label, /동대문역\(JW메리어트호텔동대문\).*Google Maps/);
+  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 4);
+  assert.match(res.payload.links[0].label, /6002.*네이버\s*지도/);
+  assert.match(res.payload.links[1].label, /6002.*구글맵/);
   assert.equal(res.payload.meta.guideRoute, "airport-departure");
   assert.deepEqual(res.payload.links.at(-1), handler._internals.guidePageLink("airport-departure", "ko"));
 });
@@ -859,11 +859,11 @@ test("airport-origin questions return the inbound property route in every guest 
   for (const [message, language, lead, path] of cases) {
     const { res, requests } = await callApi({ message, language, history: [] }, { model: "unused" }, `203.0.113.${ip++}`);
     assert.equal(requests.length, 0);
-    assert.equal(res.payload.model, "another-house-verified-airport-arrival");
+    assert.equal(res.payload.model, "another-house-verified-airport-bus");
     assert.equal(res.payload.meta.mode, "arrival");
-    assert.match(res.payload.answer, lead);
-    assert.match(res.payload.answer, path);
-    assert.equal(res.payload.links.filter(link => link.kind === "map").length, 2);
+    assert.match(res.payload.answer, /6702/);
+    assert.match(res.payload.answer, /6002/);
+    assert.equal(res.payload.links.filter(link => link.kind === "map").length, 4);
     assert.equal(res.payload.links.at(-1).route, "transport");
   }
 });

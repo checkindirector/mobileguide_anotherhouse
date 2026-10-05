@@ -1,4 +1,5 @@
 const GUIDE_KNOWLEDGE = require("../assets/guide-knowledge.json");
+const AIRPORT_ROUTE_INTENT = require("../assets/airport-route-intent.js");
 const CONCIERGE_TRAINING = require("./concierge-training.json");
 const { analyzeStayQuestion } = require("../lib/stay-intent.cjs");
 const { contextualAnswerTone } = require("../lib/answer-tone.cjs");
@@ -656,7 +657,9 @@ function extractSources(data, language) {
     const url = trustedUrl(source?.url);
     const parsed = url ? new URL(url) : null;
     const host = parsed?.hostname.toLowerCase().replace(/^www\./, "") || "";
-    const unusableSearchPage = /^(?:pts|rtt)\.map\.naver\.com$/.test(host) || (/(?:^|\.)google\.com$/.test(host) && /^\/search\/?$/.test(parsed.pathname));
+    // Generated route URLs are not evidence: search may return a completely different origin.
+    // Verified route/stop buttons are constructed separately, never copied from search results.
+    const unusableSearchPage = /^(?:pts|rtt|qp)\.map\.naver\.com$/.test(host) || /\/(?:end-quick-path|directions)(?:\/|$)/i.test(parsed?.pathname || '') || (/(?:^|\.)google\.com$/.test(host) && /^\/search\/?$/.test(parsed.pathname));
     const domainKey = sourceDomain(url);
     if (!url || unusableSearchPage || !domainKey || seenDomains.has(domainKey)) return [];
     seenDomains.add(domainKey);
@@ -842,26 +845,19 @@ function hasExplicitNonPropertyAirportDestination(message) {
   const text = String(message || "");
   const propertyNamed = /(?:어나더\s*하우스|숙소|선일\s*빌딩|동대문역\s*6번\s*출구|another\s*house|property|sunil\s*building|dongdaemun\s*(?:station\s*)?exit\s*6|当館|宿|ソニルビル|住宿|旅舍|Sunil大[厦廈])/i.test(text);
   if (propertyNamed) return false;
-  return /(?:인천|김포)\s*(?:국제)?공항\s*(?:에서|부터).{1,70}(?:서울역|명동|홍대|강남|부산|청량리|성수|경복궁|시청|종로)(?:으로|로|까지|에)|from\s+(?:incheon|gimpo)\s*(?:international\s*)?airport\s+to\s+(?!another\s*house|the\s*property|sunil\s*building|dongdaemun\s*(?:station\s*)?exit\s*6)\S+|(?:仁川|金浦)(?:国際|國際)?空港から.{1,50}(?:ソウル駅|明洞|弘大|江南|釜山|清凉里|清涼里)(?:へ|まで)|(?:从|從)(?:仁川|金浦)(?:国际|國際)?(?:机场|機場).{1,50}(?:首尔站|首爾站|明洞|弘大|江南|釜山|清凉里|清涼里)/i.test(text);
+  return /(?:인천|김포)\s*(?:국제)?공항\s*(?:에서|부터).{0,70}(?:서울역|명동|홍대|강남|부산|청량리|성수|경복궁|시청|종로)(?:으로|로|까지|에|\s*가)|from\s+(?:incheon|gimpo)\s*(?:international\s*)?airport\s+to\s+(?!another\s*house|the\s*property|sunil\s*building|dongdaemun\s*(?:station\s*)?exit\s*6)\S+|(?:仁川|金浦)(?:国際|國際)?空港から.{0,50}(?:ソウル駅|明洞|弘大|江南|釜山|清凉里|清涼里)(?:へ|まで)|(?:从|從)(?:仁川|金浦)(?:国际|國際)?(?:机场|機場).{0,50}(?:首尔站|首爾站|明洞|弘大|江南|釜山|清凉里|清涼里)/i.test(text);
 }
 
 function verifiedAirportBusGuide(message, language, history = []) {
   const text = String(message || '').trim();
-  if (/(?:명동|서울역|홍대|강남|부산|청량리)(?:에서|\s*출발)|from\s+(?:myeongdong|seoul\s*station|hongdae|gangnam|busan)|(?:明洞|ソウル駅|弘大|江南)から|(?:从|從)(?:明洞|首尔站|首爾站|弘大|江南)/i.test(text)) return null;
-  if (hasExplicitNonPropertyAirportDestination(text) || GIMPO_AIRPORT_PATTERN.test(text) || /(?:광주|제주|김해|대구|청주|gwangju|jeju|gimhae|daegu).{0,8}(?:공항|airport)/i.test(text)) return null;
-  const busIntent = /(?:[Nn]?\s*(?:6002|6702|6701)|공항\s*(?:버스|리무진|셔틀)|심야\s*버스|airport\s*(?:bus|limousine|shuttle)|空港.{0,8}(?:バス|リムジン)|(?:机场|機場).{0,8}(?:巴士|大巴|客運))/i.test(text);
-  const nightIntent = /(심야|새벽|\bnight\b|overnight|深夜|早朝|凌晨|夜间|夜間)/i.test(text);
-  const comparison = /6002/.test(text) && /6702/.test(text);
-  const previous = history.filter(item=>item.role==='user').slice(-2).map(item=>item.content).join(' ');
-  const airport = INCHEON_AIRPORT_PATTERN.test(text) || /공항|airport|空港|机场|機場/i.test(text) || /(?:6002|6702|N6701)/i.test(text) || (nightIntent && INCHEON_AIRPORT_PATTERN.test(previous));
-  if (!airport || (!busIntent && !nightIntent && !comparison) || hasMultipleGuestQuestions(text)) return null;
+  const intent = AIRPORT_ROUTE_INTENT.classify(text, history);
+  if (!intent || hasExplicitNonPropertyAirportDestination(text) || hasMultipleGuestQuestions(text)) return null;
+  const { arrival, night: nightIntent, comparison, explicit } = intent;
   // Exact departure/deadline queries retain the timetable selector, or the model for N6002/6002.
   if (requestedClockMinutes(text) !== null) return null;
-  const arrival = AIRPORT_TO_PROPERTY_PATTERN.test(text) || (!/(?:공항으로|공항에|공항까지|to\s+(?:incheon|the\s+airport)|空港へ|空港まで|(?:去|到|往).{0,8}(?:机场|機場))/i.test(text) && AIRPORT_TO_PROPERTY_PATTERN.test(previous));
   const direction = arrival ? 'arrival' : 'departure';
   const guide = GUIDE_KNOWLEDGE.airportBusGuide?.locales?.[language] || GUIDE_KNOWLEDGE.airportBusGuide?.locales?.ko;
   if (!guide) return null;
-  const explicit = text.match(/\b(N6701|N6002|6702|6002)\b/i)?.[1]?.toUpperCase();
   const buses = guide.routes.filter(bus => comparison ? !bus.night : explicit ? bus.id===explicit : bus.night===nightIntent).sort((a,b)=>arrival ? 0 : a.id==='6002' ? -1 : b.id==='6002' ? 1 : 0);
   if (!buses.length) return null;
   const c=guide.copy;
@@ -967,6 +963,7 @@ function verifiedAirportArrival(message, language) {
 
 function verifiedAirportTransport(message, language, now = new Date()) {
   const text = String(message || "").trim();
+  if (AIRPORT_ROUTE_INTENT.hasOtherOrigin(text) || AIRPORT_ROUTE_INTENT.alternativeMode.test(text) && !GIMPO_AIRPORT_PATTERN.test(text)) return null;
   const isIncheon = INCHEON_AIRPORT_PATTERN.test(text);
   const isGimpo = GIMPO_AIRPORT_PATTERN.test(text);
   const outboundIntent = /((?:인천|김포)\s*(?:국제)?공항(?:으로|에|까지).{0,20}(?:가|갈|가는|가려|가야|이동)|가는\s*(?:길|법|방법|교통편|공항\s*)?(?:버스|리무진)|가는\s*리무진\s*버스|가는\s*공항\s*버스|가는\s*법|가야|가려|가고\s*싶|갈\s*때|교통편|공항\s*(?:버스|리무진|철도)|심야\s*버스|지하철|택시|출발|도착|까지|how\s+(?:do|can|should)\s+i\s+(?:get|go)|get\s+to|go\s+to|arriv|need\s+to.{0,20}(?:incheon|gimpo)|transport|airport\s*(?:bus|limousine)|subway|train|taxi|行き方|行く|到着|交通|バス|地下鉄|タクシー|怎么\s*(?:去|到)|怎麼\s*(?:去|到)|前往|抵达|抵達|巴士|客運|地铁|地鐵|出租车|計程車)/i.test(text);

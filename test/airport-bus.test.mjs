@@ -1,8 +1,75 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
+import {readFileSync} from 'node:fs';
+import {runInNewContext} from 'node:vm';
 const require=createRequire(import.meta.url),handler=require('../api/chat.js');
+const routeIntent=require('../assets/airport-route-intent.js');
 const knowledge=handler._internals.GUIDE_KNOWLEDGE;
+const ordinaryRoutes={
+  ko:['숙소에서 인천공항 가는 길 알려줘','공항가는길','인천공항에서 가장 편한 길은?','공항에서 숙소 어떻게가요'],
+  en:['How do I get to Incheon Airport from Another House?','How do I get to the airport?','Directions from Incheon Airport to Another House','How do I get here from the airport?'],
+  ja:['宿から仁川空港への行き方','空港への行き方','仁川空港から宿への行き方','空港から宿へのアクセス'],
+  zh:['从住宿前往仁川机场怎么走','去机场怎么走','从仁川机场到住宿怎么走','从机场到住宿怎么走'],
+  'zh-TW':['從住宿前往仁川機場怎麼走','去機場怎麼走','從仁川機場到住宿怎麼走','從機場到住宿怎麼走']
+};
+test('ordinary airport directions use verified buses/maps in both directions without any external call',async()=>{
+  const originalFetch=global.fetch;
+  global.fetch=async()=>{throw new Error('Plain airport routes must not search or call the model')};
+  try{
+    let ip=150;
+    for(const [language,questions] of Object.entries(ordinaryRoutes))for(const [index,message] of questions.entries()){
+      const res={statusCode:0,setHeader(){},status(code){this.statusCode=code;return this},json(body){this.body=body;return this}};
+      await handler({method:'POST',headers:{'x-forwarded-for':`198.51.100.${ip++}`},body:{message,language,telemetry:{optOut:true}},socket:{}},res);
+      assert.equal(res.statusCode,200,message);
+      assert.equal(res.body.model,'another-house-verified-airport-bus',message);
+      assert.equal(res.body.meta.searched,false,message);
+      assert.equal(res.body.meta.guideRoute,index<2?'airport-departure':'transport',message);
+      assert.equal(res.body.links.filter(link=>link.kind==='map').length,4,message);
+      assert.ok(res.body.links.some(link=>link.url.includes(index<2?'/01037/bus-station/80606':'/01023/bus-station/105523')),message);
+      assert.doesNotMatch(res.body.answer,/포항|Pohang/i);
+      assert.ok(res.body.answer.includes('182')&&res.body.answer.includes('285'),message);
+      assert.ok(res.body.links.every(link=>!link.url.includes('qp.map.naver.com')),message);
+    }
+  }finally{global.fetch=originalFetch}
+});
+test('route classification keeps other origins, modes and non-route airport questions out of bus shortcuts',()=>{
+  for(const message of ['포항에서 인천공항 가는 길','명동에서 인천공항 버스','From Pohang to Incheon Airport by airport bus','From Myeongdong to Incheon Airport','明洞から仁川空港への行き方','从明洞到仁川机场怎么走','從明洞到仁川機場怎麼走','인천공항 AREX 공항철도로 가는 길','Train to Incheon Airport','仁川空港へ電車で行く方法','去仁川机场地铁怎么走','去仁川機場搭計程車','김포공항 가는 길','인천공항 식당 추천','Incheon Airport duty free shops'])assert.equal(routeIntent.classify(message),null,message);
+  for(const message of ['포항에서 인천공항 가는 길','명동에서 인천공항 공항버스','숙소에서 인천공항 AREX 가는 법'])assert.equal(handler._internals.verifiedAirportTransport(message,'ko'),null,message);
+  assert.equal(routeIntent.classify('공항가는길',[{role:'user',content:'인천공항에서 숙소 가는 길'}]).arrival,false);
+  assert.equal(routeIntent.classify('심야에는요',[{role:'user',content:'인천공항에서 숙소 가는 길'}]).arrival,true);
+  assert.equal(routeIntent.classify('심야에는요',[{role:'user',content:'명동에서 인천공항 가는 길'}]),null);
+  for(const message of ['인천공항에서 명동 가는 길','Directions from Incheon Airport to Myeongdong','仁川空港から明洞への行き方','从仁川机场到明洞怎么走','從仁川機場到明洞怎麼走'])assert.equal(routeIntent.classify(message),null,message);
+});
+test('search-derived generated route URLs cannot become verified source links',()=>{
+  const data={output:[{type:'web_search_call',action:{sources:[
+    {url:'https://qp.map.naver.com/end-quick-path/129.3497,36.0134,포항터미널/126.4346,37.4673,인천공항/car'},
+    {url:'https://map.naver.com/p/directions/129.3497,36.0134/126.4346,37.4673/-/car'},
+    {url:'https://www.airportlimousine.co.kr/sub/sub01.php?cat_no=5'}
+  ]}}]};
+  const links=handler._internals.extractSources(data,'ko');
+  assert.equal(links.length,1);
+  assert.ok(links[0].url.startsWith('https://www.airportlimousine.co.kr/'));
+});
+test('browser fallback shares ordinary airport direction matching and exact stop links',()=>{
+  const source=readFileSync(new URL('../assets/master-app.js',import.meta.url),'utf8');
+  const fn=source.slice(source.indexOf('function fallbackCurrentAirportBus('),source.indexOf('function airportBusMapsMarkup('));
+  for(const [lang,questions] of Object.entries(ordinaryRoutes))for(const [index,q] of questions.entries()){
+    const response=runInNewContext(fn+';fallbackCurrentAirportBus(knowledge,q)',{window:{ANOTHER_HOUSE_AIRPORT_ROUTE:routeIntent},knowledge,q,lang,fallbackGuideLink:route=>({kind:'guide',route})});
+    assert.equal(response.meta.guideRoute,index<2?'airport-departure':'transport',q);
+    assert.equal(response.links.filter(link=>link.kind==='map').length,4,q);
+  }
+});
+test('shared route classifier loads before the app in both site entry points',()=>{
+  for(const file of ['index.html','guide-anotherhouse.html']){
+    const html=readFileSync(new URL('../'+file,import.meta.url),'utf8');
+    assert.ok(html.indexOf('airport-route-intent.js?v=20261006-1')<html.indexOf('master-app.js?v=20261006-1'));
+    assert.ok(html.includes('airport-route-intent.js?v=20261006-1'));
+  }
+  const sandbox={window:{}};
+  runInNewContext(readFileSync(new URL('../assets/airport-route-intent.js',import.meta.url),'utf8'),sandbox);
+  assert.equal(sandbox.window.ANOTHER_HOUSE_AIRPORT_ROUTE.classify('공항가는길').arrival,false);
+});
 const cases={
   ko:['인천공항에서 숙소 공항버스','숙소에서 인천공항 공항버스','인천공항에서 심야버스','인천공항 가는 심야버스'],
   en:['Airport bus from Incheon Airport to Another House','Airport bus from Another House to Incheon Airport','Night bus from Incheon Airport to Another House','Night airport bus to Incheon Airport'],

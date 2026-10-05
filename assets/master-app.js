@@ -125,10 +125,11 @@ zh:{title:'AREX机场铁路',stop:'东大门站出发 · 首尔站换乘',route:
 };
 function fallbackCurrentAirportBus(knowledge,q){
   const text=String(q||'');
-  if(/김포|gimpo|金浦|광주|제주|gimhae|jeju/i.test(text)||!/(?:공항.{0,8}(?:버스|리무진|셔틀)|airport.{0,8}(?:bus|limousine|shuttle)|空港.{0,8}(?:バス|リムジン)|(?:机场|機場).{0,8}(?:巴士|大巴|客運)|N?6002|N?6702|N6701)/i.test(text)||/(?:짐보관|check.?in|체크인|行李寄存|荷物預)/i.test(text))return null;
+  const intent=window.ANOTHER_HOUSE_AIRPORT_ROUTE?.classify(text);
+  if(!intent||/(?:짐보관|check.?in|체크인|行李寄存|荷物預)/i.test(text))return null;
   const g=knowledge.airportBusGuide?.locales?.[lang];if(!g)return null;
-  const arrival=fallbackAirportIsArrival(q),direction=arrival?'arrival':'departure',night=/(?:심야|새벽|night|深夜|凌晨|夜间|夜間|N6002|N6701)/i.test(text),explicit=text.match(/\b(N6701|N6002|6002|6702)\b/i)?.[1]?.toUpperCase(),compare=/6002/.test(text)&&/6702/.test(text);
-  const buses=g.routes.filter(bus=>compare?!bus.night:explicit?bus.id===explicit:bus.night===night),c=g.copy;
+  const {arrival,night,explicit,comparison:compare}=intent,direction=arrival?'arrival':'departure';
+  const buses=g.routes.filter(bus=>compare?!bus.night:explicit?bus.id===explicit:bus.night===night).sort((a,b)=>arrival?0:a.id==='6002'?-1:b.id==='6002'?1:0),c=g.copy;
   if(!buses.length)return null;
   const answer=[c[direction],...buses.map(bus=>bus.id+' · '+bus[direction].name+(bus[direction].id?' ('+bus[direction].id+')':'')+'\n'+bus[direction+'Body']+(arrival?'\n'+bus.boarding:'')+'\n'+bus.fare+(bus.night?'\n'+(arrival?Object.entries(bus.airportTimes).map(([terminal,times])=>terminal+': '+times.join(' · ')).join('\n'):c.times+': '+bus.departureTimes.join(' · ')):'')),...(!night&&(!explicit||compare)?[c.comparison]:[]),...(arrival?[c.lastMile]:[]),c.notice].join('\n\n');
   return{answer,links:buses.flatMap(bus=>[{kind:'map',label:bus.id+' · '+c.naver,url:bus[direction].maps.naver},{kind:'map',label:bus.id+' · '+c.google,url:bus[direction].maps.google},{kind:'source',label:bus.id+' · '+c.official,url:bus[direction==='arrival'?'sourceArrival':'sourceDeparture']}]).concat([fallbackGuideLink(arrival?'transport':'airport-departure')]),meta:{fallback:true,guideRoute:arrival?'transport':'airport-departure',knowledgeVersion:knowledge.version}};
