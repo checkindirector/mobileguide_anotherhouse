@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-30.1",
+  "version": "2026-10-05.1",
   "generatedAt": "2026-09-23",
   "sourceOfTruth": "Another House operations manual synchronized with current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -137,9 +137,9 @@
           "퇴실 시간",
           "퇴실 방법"
         ],
-        "answer": "체크아웃은 11:00까지입니다. 카드키 반납과 공용공간 정리를 마친 뒤 출입구 문이 완전히 닫혔는지 확인해 주세요.\n객실에 두고 가는 물건이 없는지 확인하고, 사용한 공용 물품은 원위치해 주세요.\n사용한 식기는 설거지 후 원위치하고, 쓰레기는 공용 주방에서 종류별로 분리해 주세요.\n사용한 수건은 샤워실 앞 파우더룸의 타월 바구니에 넣어 주세요.\n에너지 절약을 위해 객실 카드키를 뽑아 전원을 차단해 주세요.\n키오스크에서 체크아웃을 선택한 뒤 안내에 따라 카드키를 천천히 반납해 주세요. 억지로 밀어 넣지 마세요.\n나오실 때 다른 투숙객의 안전을 위해 출입구 문이 완전히 닫혔는지 확인해 주세요.\n체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 무료로 보관할 수 있습니다.\n레이트 체크아웃은 불가합니다.\n편안하게 머무르셨다면 예약 플랫폼에 간단한 후기를 남겨 주세요.\n이용 중 아쉬웠던 점이나 개선이 필요한 부분은 예약 플랫폼 메시지로 알려주시면 운영에 반영하겠습니다.",
+        "answer": "체크아웃은 11:00까지입니다. 카드키 반납과 공용공간 정리를 마친 뒤 출입구 문이 완전히 닫혔는지 확인해 주세요.\n객실에 두고 가는 물건이 없는지 확인하고, 사용한 공용 물품은 원위치해 주세요.\n사용한 식기는 설거지 후 원위치하고, 쓰레기는 공용 주방에서 종류별로 분리해 주세요.\n사용한 수건은 샤워실 앞 파우더룸의 타월 바구니에 넣어 주세요.\n에너지 절약을 위해 객실 카드키를 뽑아 전원을 차단해 주세요.\n키오스크에서 체크아웃을 선택한 뒤 안내에 따라 카드키를 천천히 반납해 주세요. 억지로 밀어 넣지 마세요.\n나오실 때 다른 투숙객의 안전을 위해 출입구 문이 완전히 닫혔는지 확인해 주세요.\n체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 무료로 보관할 수 있습니다.\n체크아웃은 오전 11시까지이며 레이트 체크아웃은 제공하기 어렵습니다. 퇴실이 어려운 사정이 있으면 예약 채널 메시지로 바로 알려주세요.\n편안하게 머무르셨다면 예약 플랫폼에 간단한 후기를 남겨 주세요.\n이용 중 아쉬웠던 점이나 개선이 필요한 부분은 예약 플랫폼 메시지로 알려주시면 운영에 반영하겠습니다.",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
-        "lead": "체크아웃은 11:00까지이며 레이트 체크아웃은 불가합니다.",
+        "lead": "체크아웃은 11:00까지입니다.",
         "directAnswers": [
           {
             "keywords": [
@@ -147,7 +147,7 @@
               "늦게 체크아웃",
               "체크아웃 연장"
             ],
-            "answer": "아니요, 레이트 체크아웃과 체크아웃 시간 연장은 불가합니다. 대신 체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 짐을 무료로 보관할 수 있어요."
+            "answer": "체크아웃은 오전 11시까지이며 레이트 체크아웃은 제공하기 어렵습니다. 퇴실이 어려운 사정이 있으면 예약 채널 메시지로 바로 알려주세요."
           }
         ]
       },
@@ -581,9 +581,9 @@
           "check-out",
           "departure procedure"
         ],
-        "answer": "Check out by 11:00. Return the key card, restore shared items, and make sure the entrance door is fully closed.\nCheck for personal belongings and return shared items to their original places.\nWash and return used dishes, then sort waste in the shared kitchen.\nPlace used towels in the towel basket in the powder room outside the showers.\nRemove the room key card to switch off the room power.\nSelect checkout at the kiosk and slowly return the key card as instructed. Do not force it into the machine.\nFor everyone’s safety, make sure the entrance door is fully closed when you leave.\nOn the day of checkout, free luggage storage is available in the luggage room in front of Room 503 with no time limit.\nLate checkout is not available.\nIf you enjoyed your stay, please leave a short review on your booking platform.\nIf anything could be improved, send us a message through your booking platform so we can follow up.",
+        "answer": "Check out by 11:00. Return the key card, restore shared items, and make sure the entrance door is fully closed.\nCheck for personal belongings and return shared items to their original places.\nWash and return used dishes, then sort waste in the shared kitchen.\nPlace used towels in the towel basket in the powder room outside the showers.\nRemove the room key card to switch off the room power.\nSelect checkout at the kiosk and slowly return the key card as instructed. Do not force it into the machine.\nFor everyone’s safety, make sure the entrance door is fully closed when you leave.\nOn the day of checkout, free luggage storage is available in the luggage room in front of Room 503 with no time limit.\nCheck-out is by 11 AM, and late check-out is difficult to accommodate. If circumstances prevent you from leaving on time, please let us know immediately through your booking-channel messages.\nIf you enjoyed your stay, please leave a short review on your booking platform.\nIf anything could be improved, send us a message through your booking platform so we can follow up.",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
-        "lead": "Check-out is by 11:00, and late check-out is not available.",
+        "lead": "Check-out is by 11:00.",
         "directAnswers": [
           {
             "keywords": [
@@ -591,7 +591,7 @@
               "late check-out",
               "extend checkout"
             ],
-            "answer": "No, late check-out and check-out extensions are not available. However, on your checkout day you may store luggage free of charge in the luggage room in front of Room 503 with no time limit."
+            "answer": "Check-out is by 11 AM, and late check-out is difficult to accommodate. If circumstances prevent you from leaving on time, please let us know immediately through your booking-channel messages."
           }
         ]
       },
@@ -1015,16 +1015,16 @@
           "退室時間",
           "退室方法"
         ],
-        "answer": "チェックアウトは11:00までです。カードキーを返却し、共用品を元に戻して入口の扉が完全に閉まったことをご確認ください。\n忘れ物がないか確認し、使用した共用品は元の場所へ戻してください。\n使用した食器は洗って元に戻し、ごみは共用キッチンで分別してください。\n使用済みタオルはシャワー室前パウダールームのタオルかごに入れてください。\n省エネのため客室のカードキーを抜いて電源を切ってください。\nキオスクでチェックアウトを選び、案内に従ってカードキーをゆっくり返却してください。無理に押し込まないでください。\n他のゲストの安全のため、退出時に入口の扉が完全に閉まったことをご確認ください。\nチェックアウト当日は時間制限なく、503号室前のラゲッジルームに無料で保管できます。\nレイトチェックアウトはできません。\n快適にお過ごしいただけましたら、予約サイトに短いレビューをお寄せください。\n気になった点や改善点は予約サイトのメッセージでお知らせください。今後の運営に反映します。",
+        "answer": "チェックアウトは11:00までです。カードキーを返却し、共用品を元に戻して入口の扉が完全に閉まったことをご確認ください。\n忘れ物がないか確認し、使用した共用品は元の場所へ戻してください。\n使用した食器は洗って元に戻し、ごみは共用キッチンで分別してください。\n使用済みタオルはシャワー室前パウダールームのタオルかごに入れてください。\n省エネのため客室のカードキーを抜いて電源を切ってください。\nキオスクでチェックアウトを選び、案内に従ってカードキーをゆっくり返却してください。無理に押し込まないでください。\n他のゲストの安全のため、退出時に入口の扉が完全に閉まったことをご確認ください。\nチェックアウト当日は時間制限なく、503号室前のラゲッジルームに無料で保管できます。\nチェックアウトは午前11時までで、レイトチェックアウトのご提供は難しい状況です。時間までの退室が難しいご事情がある場合は、予約サイトのメッセージですぐにお知らせください。\n快適にお過ごしいただけましたら、予約サイトに短いレビューをお寄せください。\n気になった点や改善点は予約サイトのメッセージでお知らせください。今後の運営に反映します。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
-        "lead": "チェックアウトは11:00までで、レイトチェックアウトはできません。",
+        "lead": "チェックアウトは11:00までです。",
         "directAnswers": [
           {
             "keywords": [
               "レイトチェックアウト",
               "チェックアウト延長"
             ],
-            "answer": "いいえ、レイトチェックアウトや時間延長はできません。ただし、チェックアウト当日は時間制限なく、503号室前のラゲッジルームに荷物を無料で預けられます。"
+            "answer": "チェックアウトは午前11時までで、レイトチェックアウトのご提供は難しい状況です。時間までの退室が難しいご事情がある場合は、予約サイトのメッセージですぐにお知らせください。"
           }
         ]
       },
@@ -1421,16 +1421,16 @@
           "退房时间",
           "办理退房"
         ],
-        "answer": "请于11:00前退房。归还房卡、整理公共用品，并确认入口门已完全关闭。\n确认没有遗留个人物品，并将使用过的公共用品放回原位。\n使用过的餐具请清洗后放回原位，垃圾请在公共厨房分类投放。\n使用过的毛巾请放入淋浴间前化妆区的毛巾篮。\n为节约能源，请拔出客房房卡以切断电源。\n在自助机上选择退房，按照提示缓慢归还房卡，请勿用力塞入。\n为保障其他住客安全，离开时请确认入口门已完全关闭。\n退房当天可免费寄存在503号房前的行李室，且无时间限制。\n不提供延迟退房。\n如果您住得满意，欢迎在预订平台留下简短评价。\n如有不便或需要改进之处，请通过预订平台消息告诉我们，我们会及时改进。",
+        "answer": "请于11:00前退房。归还房卡、整理公共用品，并确认入口门已完全关闭。\n确认没有遗留个人物品，并将使用过的公共用品放回原位。\n使用过的餐具请清洗后放回原位，垃圾请在公共厨房分类投放。\n使用过的毛巾请放入淋浴间前化妆区的毛巾篮。\n为节约能源，请拔出客房房卡以切断电源。\n在自助机上选择退房，按照提示缓慢归还房卡，请勿用力塞入。\n为保障其他住客安全，离开时请确认入口门已完全关闭。\n退房当天可免费寄存在503号房前的行李室，且无时间限制。\n请于上午11点前退房，延迟退房难以安排。如果因特殊情况无法按时退房，请立即通过预订平台消息告知我们。\n如果您住得满意，欢迎在预订平台留下简短评价。\n如有不便或需要改进之处，请通过预订平台消息告诉我们，我们会及时改进。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
-        "lead": "退房时间为11:00前，不提供延迟退房。",
+        "lead": "退房时间为11:00前。",
         "directAnswers": [
           {
             "keywords": [
               "延迟退房",
               "延长退房"
             ],
-            "answer": "不可以，不提供延迟退房或延长退房时间。不过，退房当天可免费将行李寄存在503号房前的行李房，且无时间限制。"
+            "answer": "请于上午11点前退房，延迟退房难以安排。如果因特殊情况无法按时退房，请立即通过预订平台消息告知我们。"
           }
         ]
       },
@@ -1826,16 +1826,16 @@
           "退房時間",
           "辦理退房"
         ],
-        "answer": "請於11:00前退房。歸還房卡、整理公共用品，並確認入口門已完全關閉。\n確認沒有遺留個人物品，並將使用過的公共用品放回原位。\n使用過的餐具請清洗後放回原位，垃圾請在公共廚房分類投放。\n使用過的毛巾請放入淋浴間前化妝區的毛巾籃。\n為節約能源，請拔出客房房卡以切斷電源。\n在自助機上選擇退房，按照提示緩慢歸還房卡，請勿用力塞入。\n為保障其他住客安全，離開時請確認入口門已完全關閉。\n退房當天可免費寄放在503號房前的行李室，且無時間限制。\n不提供延遲退房。\n如果您住得滿意，歡迎在預訂平台留下簡短評價。\n如有不便或需要改進之處，請透過預訂平台訊息告訴我們，我們會及時改進。",
+        "answer": "請於11:00前退房。歸還房卡、整理公共用品，並確認入口門已完全關閉。\n確認沒有遺留個人物品，並將使用過的公共用品放回原位。\n使用過的餐具請清洗後放回原位，垃圾請在公共廚房分類投放。\n使用過的毛巾請放入淋浴間前化妝區的毛巾籃。\n為節約能源，請拔出客房房卡以切斷電源。\n在自助機上選擇退房，按照提示緩慢歸還房卡，請勿用力塞入。\n為保障其他住客安全，離開時請確認入口門已完全關閉。\n退房當天可免費寄放在503號房前的行李室，且無時間限制。\n請於上午11點前退房，延遲退房難以安排。如果因特殊情況無法準時退房，請立即透過預訂平台訊息告知我們。\n如果您住得滿意，歡迎在預訂平台留下簡短評價。\n如有不便或需要改進之處，請透過預訂平台訊息告訴我們，我們會及時改進。",
         "source": "https://anotherhouse-guide.vercel.app/?page=checkin",
-        "lead": "退房時間為11:00前，不提供延遲退房。",
+        "lead": "退房時間為11:00前。",
         "directAnswers": [
           {
             "keywords": [
               "延遲退房",
               "延長退房"
             ],
-            "answer": "不可以，不提供延遲退房或延長退房時間。不過，退房當天可免費將行李寄放在503號房前的行李房，且無時間限制。"
+            "answer": "請於上午11點前退房，延遲退房難以安排。如果因特殊情況無法準時退房，請立即透過預訂平台訊息告知我們。"
           }
         ]
       },
@@ -2351,7 +2351,7 @@
             "title": "체크아웃 후 짐 보관",
             "steps": [
               "체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 무료로 보관할 수 있습니다.",
-              "레이트 체크아웃은 불가합니다."
+              "체크아웃은 오전 11시까지이며 레이트 체크아웃은 제공하기 어렵습니다. 퇴실이 어려운 사정이 있으면 예약 채널 메시지로 바로 알려주세요."
             ]
           },
           {
@@ -2598,7 +2598,7 @@
             "title": "Luggage after checkout",
             "steps": [
               "On the day of checkout, free luggage storage is available in the luggage room in front of Room 503 with no time limit.",
-              "Late checkout is not available."
+              "Check-out is by 11 AM, and late check-out is difficult to accommodate. If circumstances prevent you from leaving on time, please let us know immediately through your booking-channel messages."
             ]
           },
           {
@@ -2845,7 +2845,7 @@
             "title": "チェックアウト後の荷物",
             "steps": [
               "チェックアウト当日は時間制限なく、503号室前のラゲッジルームに無料で保管できます。",
-              "レイトチェックアウトはできません。"
+              "チェックアウトは午前11時までで、レイトチェックアウトのご提供は難しい状況です。時間までの退室が難しいご事情がある場合は、予約サイトのメッセージですぐにお知らせください。"
             ]
           },
           {
@@ -3092,7 +3092,7 @@
             "title": "退房后寄存行李",
             "steps": [
               "退房当天可免费寄存在503号房前的行李室，且无时间限制。",
-              "不提供延迟退房。"
+              "请于上午11点前退房，延迟退房难以安排。如果因特殊情况无法按时退房，请立即通过预订平台消息告知我们。"
             ]
           },
           {
@@ -3339,7 +3339,7 @@
             "title": "退房後寄存行李",
             "steps": [
               "退房當天可免費寄放在503號房前的行李室，且無時間限制。",
-              "不提供延遲退房。"
+              "請於上午11點前退房，延遲退房難以安排。如果因特殊情況無法準時退房，請立即透過預訂平台訊息告知我們。"
             ]
           },
           {

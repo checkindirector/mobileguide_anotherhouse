@@ -1421,6 +1421,7 @@ function systemInstructions(language, guideText) {
   return `You are the official mobile AI concierge for Another House, a women-only guest accommodation in Seoul. Reply only in ${LANGUAGE_NAMES[language]}.
 
 RELEVANT_CURRENT_GUIDE below contains the current website records selected for this question in the guest's language. It is the source of truth for those property facts. Every reference to CURRENT_GUIDE in these rules means this supplied guide subset. The server selects a different subset for each website section so that all published information remains available without sending unrelated pages on every request.
+OPERATIONS SOURCE PRIORITY: approvedWorkbookAnswers and subsequent operator corrections override older page wording in every language and answer path. For late check-out, preserve both the firm 11 AM deadline / difficulty accommodating extensions and the instruction to contact the booking channel immediately if circumstances prevent timely departure. Contact is not approval: never promise an extension, invent an exception or a fee, or replace the approved wording with an absolute refusal that omits the contact instruction. Do not add an unrelated late-checkout refusal to a simple question asking only the checkout time.
 
 PRIORITY A — CURRENT PROPERTY GUIDE:
 - If CURRENT_GUIDE clearly answers the question, answer directly without a greeting or unnecessary introduction.
@@ -1565,7 +1566,7 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   const lateCheckout = hasMultipleGuestQuestions(message) || stayIntent?.topic === "luggage" ? null : verifiedLateCheckout(message, language);
   if (lateCheckout) {
     console.log(JSON.stringify({ event: "concierge_verified_late_checkout", language, durationMs: Date.now() - startedAt }));
-    return res.status(200).json({ answer: lateCheckout.answer, model: "another-house-verified-checkout", links: [guidePageLink("checkin", language)], mapContext: null, meta: { searched: false, verifiedLateCheckout: true, guideRoute: "checkin", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+    return res.status(200).json({ answer: lateCheckout.answer, model: "another-house-verified-checkout", links: [guidePageLink("checkin", language)], mapContext: null, meta: { searched: false, verifiedLateCheckout: true, trainingIntent: "late-checkout", guideRoute: "checkin", durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
   const verifiedAmenity = needsSemanticAnswer ? null : verifiedGuestBoxItem(message, language);
   if (verifiedAmenity) {

@@ -8,7 +8,7 @@ const root = resolve(import.meta.dirname, "..");
 test("generated knowledge mirrors current public guide content without secrets", async () => {
   const raw = await readFile(resolve(root, "assets/guide-knowledge.json"), "utf8");
   const knowledge = JSON.parse(raw);
-  assert.equal(knowledge.version, "2026-09-30.1");
+  assert.equal(knowledge.version, "2026-10-05.1");
   assert.deepEqual(knowledge.languages, ["ko", "en", "ja", "zh", "zh-TW"]);
   assert.equal(knowledge.property.ko.address, "서울시 종로구 종로 294 선일빌딩 5층");
   assert.equal(knowledge.stay.ko.checkin.summary.includes("15:00"), true);
@@ -87,7 +87,9 @@ test("generated knowledge mirrors current public guide content without secrets",
     assert.ok(earlyCheckin.answer.length > 20);
     assert.match(earlyCheckin.answer, earlyCheckinPatterns[language]);
     const lateCheckout = knowledge.quickGuide[language].find(topic => topic.id === "checkout").directAnswers[0];
-    assert.match(lateCheckout.answer, /시간 제한 없이|no time limit|時間制限なく|无时间限制|無時間限制/);
+    assert.match(lateCheckout.answer, /예약 채널 메시지|booking-channel messages|予約サイトのメッセージ|预订平台消息|預訂平台訊息/);
+    assert.doesNotMatch(lateCheckout.answer, /레이트 체크아웃은 불가합니다|extensions are not available|レイトチェックアウトや時間延長はできません|不提供延迟退房|不提供延遲退房/);
+    assert.match(knowledge.quickGuide[language].find(topic => topic.id === 'checkout').answer, /시간 제한 없이|no time limit|時間制限なく|无时间限制|無時間限制/);
   }
   assert.match(knowledge.quickGuide.ko.find(topic => topic.id === "luggage").answer, /체크인·체크아웃 당일.*503호 앞.*\{\{COMMON_ENTRANCE_CODE\}\}/s);
   assert.match(knowledge.quickGuide.en.find(topic => topic.id === "luggage").answer, /Room 503.*check-in or check-out day.*\{\{COMMON_ENTRANCE_CODE\}\}/s);

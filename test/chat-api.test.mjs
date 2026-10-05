@@ -79,7 +79,7 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.equal(request.body.tool_choice, undefined);
   assert.equal(request.body.include, undefined);
   assert.equal(request.body.reasoning.effort, "low");
-  assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-09-30\.1/);
+  assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-10-05\.1/);
   assert.match(request.body.instructions, /The first sentence must answer the exact question clearly/);
   assert.match(request.body.instructions, /do not force that opening/);
   assert.match(request.body.instructions, /Never paste or paraphrase an entire guide section/);
@@ -93,7 +93,7 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.match(request.body.instructions, /503호 앞 러기지룸/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB|"dryCapacityKg":4\.5/);
   assert.doesNotMatch(request.body.instructions, /malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-30.1-ko-home");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-10-05.1-ko-home");
   assert.doesNotMatch(request.body.input.at(-1).content, /GUIDE_KNOWLEDGE|CURRENT_GUIDE/);
   assert.ok(request.body.instructions.length < 30000);
   assert.equal(res.payload.meta.cachedTokens, 80);
@@ -119,7 +119,7 @@ test("luggage storage is answered deterministically in all five languages", asyn
     assert.equal(res.payload.meta.searched, false);
     assert.equal(res.payload.meta.approvedWorkbook || res.payload.meta.verifiedTraining, true);
     assert.equal(res.payload.meta.trainingIntent, "luggage");
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-30.1");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-10-05.1");
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
     assert.match(res.payload.answer, expected);
     assert.doesNotMatch(res.payload.answer, /최신 공개정보|public information|公开信息|公開資訊/);
@@ -477,13 +477,13 @@ test("a laundry problem is handled by the AI instead of a generic keyword dump",
   assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "laundry"]]);
 });
 
-test("late checkout uses the approved Korean reply and localized guide replies", async () => {
+test("late checkout preserves the workbook's firm deadline and contact instruction in every language", async () => {
   const cases = [
     ["레이트 체크아웃 가능한가요?", "ko", /체크아웃은 오전 11시까지.*예약 채널 메시지/s],
-    ["Can I get a late check-out?", "en", /However.*Room 503.*no time limit/s],
-    ["レイトチェックアウトできますか？", "ja", /ただし.*時間制限なく.*503号室前.*荷物を無料/s],
-    ["可以延迟退房吗？", "zh", /不过.*免费.*503号房前.*无时间限制/s],
-    ["可以延遲退房嗎？", "zh-TW", /不過.*免費.*503號房前.*無時間限制/s]
+    ["Can I get a late check-out?", "en", /11 AM.*difficult to accommodate.*immediately.*booking-channel messages/s],
+    ["レイトチェックアウトできますか？", "ja", /午前11時.*ご提供は難しい.*予約サイトのメッセージ.*お知らせ/s],
+    ["可以延迟退房吗？", "zh", /11点.*难以安排.*立即.*预订平台消息/s],
+    ["可以延遲退房嗎？", "zh-TW", /11點.*難以安排.*立即.*預訂平台訊息/s]
   ];
   let ip = 220;
   for (const [message, language, expected] of cases) {
@@ -491,8 +491,9 @@ test("late checkout uses the approved Korean reply and localized guide replies",
     assert.equal(requests.length, 0);
     assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-checkout");
     assert.equal(res.payload.meta.approvedWorkbook || res.payload.meta.verifiedLateCheckout, true);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-30.1");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-10-05.1");
     assert.match(res.payload.answer, expected);
+    assert.doesNotMatch(res.payload.answer, /extensions are not available|レイトチェックアウトや時間延長はできません|不提供延迟退房|不提供延遲退房/);
     assert.equal(res.payload.links[0].route, "checkin");
     assert.match(res.payload.links[0].url, /\?page=checkin$/);
   }
@@ -513,7 +514,7 @@ test("early check-in adds pre-check-in luggage storage in every language without
     assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-checkin");
     assert.equal(res.payload.meta.approvedWorkbook || res.payload.meta.verifiedEarlyCheckin, true);
     assert.equal(res.payload.meta.searched, false);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-30.1");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-10-05.1");
     assert.equal(res.payload.links[0].route, "checkin");
     assert.match(res.payload.answer, expected);
   }
@@ -659,7 +660,7 @@ test("a route with no origin defaults to Another House and uses compact route kn
   assert.match(request.body.instructions, /동대문역 6번 출구/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB/);
   assert.ok(request.body.instructions.length < 27000);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-09-30.1-ko-route");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-10-05.1-ko-route");
   assert.equal(res.payload.meta.guideRoute, "transport");
   assert.deepEqual(res.payload.links.at(-1), handler._internals.guidePageLink("transport", "ko"));
 });
@@ -774,7 +775,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.mode, "night");
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-30.1");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-10-05.1");
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
@@ -916,7 +917,7 @@ test("time-specific family dining combines current search with the complete loca
   assert.equal(request.body.reasoning.effort, "medium");
   assert.equal(res.payload.model, "gpt-5.4-mini");
   assert.equal(res.payload.meta.searched, true);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-09-30.1");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-10-05.1");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더(?:가)? 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);
@@ -1180,6 +1181,20 @@ test("all room-key names and common loss phrasings reach the same approved recov
   }
 });
 
+test("semantic checkout requests receive aligned current page facts and workbook priority", async () => {
+  for (const [message, language] of [
+    ["퇴실이 한 시간 늦어질 사정이 생겼는데 어떻게 해야 하나요?", "ko"],
+    ["I cannot leave on time because of my flight. What should I do? Check-out is tomorrow.", "en"],
+    ["チェックアウト時間", "ja"]
+  ]) {
+    const { request } = await callApi({ message, language, history: [] }, { model: "test", output_text: "Test response.\nGUIDE_PAGE: checkin" }, '198.51.100.' + (++accessCallSequence));
+    assert.ok(request);
+    assert.match(request.body.instructions, /approvedWorkbookAnswers.*override older page wording/s);
+    assert.match(request.body.instructions, /Contact is not approval/);
+    assert.doesNotMatch(request.body.instructions, /레이트 체크아웃은 불가합니다|レイトチェックアウトはできません|Late checkout is not available/);
+  }
+});
+
 test("short Wi-Fi questions use the latest workbook fact in all five languages", async () => {
   const cases = [
     ["와이파이", "ko"],
@@ -1195,7 +1210,7 @@ test("short Wi-Fi questions use the latest workbook fact in all five languages",
     assert.equal(res.statusCode, 200, message);
     assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-training", message);
     assert.match(res.payload.answer, /another.*another1234/is, message);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-09-30.1", message);
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-10-05.1", message);
   }
 });
 

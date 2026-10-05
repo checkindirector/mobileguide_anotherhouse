@@ -11,7 +11,29 @@ const reportHandler = require('../api/analytics-report.js');
 const maintenanceHandler = require('../api/analytics-maintenance.js');
 const eventHandler = require('../api/analytics-event.js');
 const { clientFields } = require('../lib/interaction-events.cjs');
+const { reportingIntent } = require('../lib/report-intent.cjs');
 function recorder() { return { statusCode: 200, setHeader(){}, status(c){this.statusCode=c;return this;}, json(v){this.payload=v;return this;}, end(){return this;} }; }
+
+test('five-language checkout time reporting is separate from routing and excludes complex requests', () => {
+  for (const q of ['체크아웃 시간', '퇴실몇시', '체크아웃은 몇시까지인가요?', 'checkout time', 'What time is check-out?', 'when do I check out', 'チェックアウト時間', 'チェックアウトは何時までですか？', '几点退房', '退房時間', '請問退房幾點？']) {
+    assert.equal(reportingIntent(q, 'checkout-method'), 'checkout-time', q);
+  }
+  for (const q of ['체크아웃 방법', '늦게 체크아웃 가능한가요?', '체크아웃 시간 연장', '체크아웃 시간하고 카드키 반납 방법', '이미 퇴실했는데 키를 방에 뒀어요', 'late checkout time', 'what time do I check out and where can I leave luggage?', 'チェックアウト時間を延長できますか', '退房时间可以延迟吗', '退房時間和行李寄放']) {
+    assert.equal(reportingIntent(q, 'original'), 'original', q);
+  }
+});
+
+test('weekly reports correct historical time labels without mutating stored events', () => {
+  const events = [{id:'old-time',kind:'chat',at:'2026-10-02T01:00:00Z',session:'guest',question:'チェックアウト時間',answer:'11:00',intent:'checkout-method',status:200,durationMs:2919,state:'complete',language:'ja'}];
+  const report = buildReport(events, {from:'2026-09-27T15:00:00Z',to:'2026-10-04T15:00:00Z'},'2026-09-30T07:00:00Z');
+  assert.deepEqual(report.current.topics,[{label:'checkout-time',count:1}]);
+  assert.equal(report.conversations[0].recordedIntent,'checkout-method');
+  assert.equal(report.conversations[0].intent,'checkout-time');
+  assert.equal(events[0].intent,'checkout-method');
+  const event=t.chatEvent({body:{message:'退房時間'}},{answer:'11:00',meta:{trainingIntent:'checkout-method'}},200,Date.now(),'new-time');
+  assert.equal(event.intent,'checkout-time');
+  assert.equal(event.recordedIntent,'checkout-method');
+});
 test('telemetry masks contact information, numeric access codes, configured credentials and URLs', () => {
   process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE = 'PRIVATE_TEST_CODE';
   const value=t.redact('제 이름은 홍길동. 010-1234-5678 test@example.com PRIVATE_TEST_CODE 8282 → ENT password: secret999 https://x.test/?token=abc');

@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-09-30.1";
+const VERSION = "2026-10-05.1";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -112,7 +112,7 @@ const OPERATIONS_DIRECT_ANSWERS = {
 const QUICK_TOPIC_LEADS = {
   luggage: { ko: "네, 짐 보관이 가능합니다.", en: "Yes, luggage storage is available.", ja: "はい、荷物を保管できます。", zh: "可以，住宿提供行李寄存。", "zh-TW": "可以，住宿提供行李寄放。" },
   checkin: { ko: "체크인은 15:00부터이며 셀프 체크인으로 진행합니다.", en: "Check-in starts at 15:00 and is self-service.", ja: "チェックインは15:00からで、セルフチェックインです。", zh: "入住时间为15:00起，采用自助入住。", "zh-TW": "入住時間為15:00起，採自助入住。" },
-  checkout: { ko: "체크아웃은 11:00까지이며 레이트 체크아웃은 불가합니다.", en: "Check-out is by 11:00, and late check-out is not available.", ja: "チェックアウトは11:00までで、レイトチェックアウトはできません。", zh: "退房时间为11:00前，不提供延迟退房。", "zh-TW": "退房時間為11:00前，不提供延遲退房。" },
+  checkout: { ko: "체크아웃은 11:00까지입니다.", en: "Check-out is by 11:00.", ja: "チェックアウトは11:00までです。", zh: "退房时间为11:00前。", "zh-TW": "退房時間為11:00前。" },
   wifi: { ko: "네, 숙소에서 Wi-Fi를 이용할 수 있습니다.", en: "Yes, Wi-Fi is available at the property.", ja: "はい、館内でWi-Fiを利用できます。", zh: "可以，住宿内提供 Wi-Fi。", "zh-TW": "可以，住宿內提供 Wi-Fi。" },
   parking: { ko: "아니요, 건물 내 주차는 불가합니다.", en: "No, on-site parking is not available.", ja: "いいえ、建物内には駐車できません。", zh: "不可以，大楼内不提供停车位。", "zh-TW": "不可以，大樓內不提供停車位。" },
   rules: { ko: "숙소 이용 규칙은 다음과 같습니다.", en: "These are the property rules.", ja: "宿泊ルールは次のとおりです。", zh: "住宿规则如下。", "zh-TW": "住宿規則如下。" },
@@ -149,11 +149,11 @@ const quickDirectAnswers = (topic, language) => {
     "zh-TW": [{ keywords: ["行李寄放", "寄放行李", "行李房", "寄存行李"], answer: "入住或退房當天可隨時免費使用503號房前的行李房，沒有時間限制。請在住宿入口左側的設備上輸入 {{COMMON_ENTRANCE_CODE}} → ENT。" }]
   },
   checkout: {
-    ko: [{ keywords: ["레이트 체크아웃", "늦게 체크아웃", "체크아웃 연장"], answer: "아니요, 레이트 체크아웃과 체크아웃 시간 연장은 불가합니다. 대신 체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 짐을 무료로 보관할 수 있어요." }],
-    en: [{ keywords: ["late checkout", "late check-out", "extend checkout"], answer: "No, late check-out and check-out extensions are not available. However, on your checkout day you may store luggage free of charge in the luggage room in front of Room 503 with no time limit." }],
-    ja: [{ keywords: ["レイトチェックアウト", "チェックアウト延長"], answer: "いいえ、レイトチェックアウトや時間延長はできません。ただし、チェックアウト当日は時間制限なく、503号室前のラゲッジルームに荷物を無料で預けられます。" }],
-    zh: [{ keywords: ["延迟退房", "延长退房"], answer: "不可以，不提供延迟退房或延长退房时间。不过，退房当天可免费将行李寄存在503号房前的行李房，且无时间限制。" }],
-    "zh-TW": [{ keywords: ["延遲退房", "延長退房"], answer: "不可以，不提供延遲退房或延長退房時間。不過，退房當天可免費將行李寄放在503號房前的行李房，且無時間限制。" }]
+    ko: [{ keywords: ["레이트 체크아웃", "늦게 체크아웃", "체크아웃 연장"], answer: conciergeTraining.approvedAnswers.find(record => record.type === "체크아웃 시간 준수").answer }],
+    en: [{ keywords: ["late checkout", "late check-out", "extend checkout"], answer: "Check-out is by 11 AM, and late check-out is difficult to accommodate. If circumstances prevent you from leaving on time, please let us know immediately through your booking-channel messages." }],
+    ja: [{ keywords: ["レイトチェックアウト", "チェックアウト延長"], answer: "チェックアウトは午前11時までで、レイトチェックアウトのご提供は難しい状況です。時間までの退室が難しいご事情がある場合は、予約サイトのメッセージですぐにお知らせください。" }],
+    zh: [{ keywords: ["延迟退房", "延长退房"], answer: "请于上午11点前退房，延迟退房难以安排。如果因特殊情况无法按时退房，请立即通过预订平台消息告知我们。" }],
+    "zh-TW": [{ keywords: ["延遲退房", "延長退房"], answer: "請於上午11點前退房，延遲退房難以安排。如果因特殊情況無法準時退房，請立即透過預訂平台訊息告知我們。" }]
   },
   rules: {
     ko: [{ keywords: ["흡연", "담배"], answer: "아니요, 객실과 공용공간은 모두 금연입니다." }, { keywords: ["반려동물", "애완동물"], answer: "아니요, 반려동물 동반은 허용되지 않습니다." }, { keywords: ["파티"], answer: "아니요, 숙소에서 파티는 허용되지 않습니다." }, { keywords: ["외부인", "방문객"], answer: "아니요, 예약하지 않은 외부인의 출입은 허용되지 않습니다." }],

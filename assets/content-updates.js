@@ -254,10 +254,10 @@
     {
       title: I('체크아웃 후 짐 보관', 'Luggage after checkout', 'チェックアウト後の荷物', '退房后寄存行李', "退房後寄存行李"),
       steps: I(
-        ['체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 무료로 보관할 수 있습니다.', '레이트 체크아웃은 불가합니다.'],
-        ['On the day of checkout, free luggage storage is available in the luggage room in front of Room 503 with no time limit.', 'Late checkout is not available.'],
-        ['チェックアウト当日は時間制限なく、503号室前のラゲッジルームに無料で保管できます。', 'レイトチェックアウトはできません。'],
-        ['退房当天可免费寄存在503号房前的行李室，且无时间限制。', '不提供延迟退房。'], ["退房當天可免費寄放在503號房前的行李室，且無時間限制。", "不提供延遲退房。"]
+        ['체크아웃 당일에는 시간 제한 없이 503호 앞 러기지룸에 무료로 보관할 수 있습니다.', '체크아웃은 오전 11시까지이며 레이트 체크아웃은 제공하기 어렵습니다. 퇴실이 어려운 사정이 있으면 예약 채널 메시지로 바로 알려주세요.'],
+        ['On the day of checkout, free luggage storage is available in the luggage room in front of Room 503 with no time limit.', 'Check-out is by 11 AM, and late check-out is difficult to accommodate. If circumstances prevent you from leaving on time, please let us know immediately through your booking-channel messages.'],
+        ['チェックアウト当日は時間制限なく、503号室前のラゲッジルームに無料で保管できます。', 'チェックアウトは午前11時までで、レイトチェックアウトのご提供は難しい状況です。時間までの退室が難しいご事情がある場合は、予約サイトのメッセージですぐにお知らせください。'],
+        ['退房当天可免费寄存在503号房前的行李室，且无时间限制。', '请于上午11点前退房，延迟退房难以安排。如果因特殊情况无法按时退房，请立即通过预订平台消息告知我们。'], ["退房當天可免費寄放在503號房前的行李室，且無時間限制。", "請於上午11點前退房，延遲退房難以安排。如果因特殊情況無法準時退房，請立即透過預訂平台訊息告知我們。"]
       )
     }
   ];
