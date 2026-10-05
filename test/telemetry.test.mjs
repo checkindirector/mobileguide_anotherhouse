@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
+import vm from 'node:vm';
+import { randomUUID } from 'node:crypto';
 const require = createRequire(import.meta.url);
 const t = require('../lib/telemetry.cjs');
 const { previousWeek, buildReport } = require('../lib/weekly-report.cjs');
@@ -71,4 +73,70 @@ test('storage failure does not break a successful answer',async()=>{
   Object.assign(process.env,{TELEMETRY_ENABLED:'true',DATABASE_URL:'postgres://test',ANALYTICS_REPORT_TOKEN:'a'.repeat(64)});
   try {const jobs=[];const wrapped=t.observeChat(async(req,res)=>res.json({answer:'정상 답변'}),{persist:async()=>{throw Error('storage_down')},background:p=>{const safe=p.catch(()=>{});jobs.push(safe);return safe;}});const res=recorder();await wrapped({method:'POST',body:{message:'짐'}},res);await Promise.all(jobs);assert.equal(res.payload.answer,'정상 답변');}
   finally{keys.forEach((k,i)=>{if(old[i]===undefined)delete process.env[k];else process.env[k]=old[i];});}
+});
+
+function browserClock({ hostname = 'anotherhouse-guide.vercel.app', optOut = false, internal = false, gpc = false, hidden = false, blockedStorage = false } = {}) {
+  let now = 0; const sent = [], listeners = {}, docListeners = {}, timers = [];
+  const storage = new Map([['another-analytics', JSON.stringify({ optOut, internal })]]);
+  const element = () => ({ style: {}, append(){}, after(){}, replaceChildren(){}, addEventListener(){} });
+  const document = { readyState:'complete', visibilityState:hidden?'hidden':'visible', head:element(),
+    createElement:element, createTextNode:()=>({}), getElementById:()=>null, querySelector:()=>null, querySelectorAll:()=>[],
+    addEventListener:(type, fn)=>{docListeners[type]=fn;} };
+  const window = { addEventListener:(type, fn)=>{listeners[type]=fn;} };
+  const DateMock = class extends Date { static now(){return 1791180000000 + now;} };
+  vm.runInNewContext(readFileSync(new URL('../assets/concierge-telemetry.js',import.meta.url),'utf8'), {
+    window, document, location:{hostname}, navigator:{globalPrivacyControl:gpc}, crypto:{randomUUID}, Date:DateMock,
+    performance:{now:()=>now}, localStorage:{getItem:k=>{if(blockedStorage)throw Error('blocked');return storage.get(k)||null;},setItem:(k,v)=>{if(blockedStorage)throw Error('blocked');storage.set(k,v);}},
+    fetch:async(path, options)=>{sent.push(JSON.parse(options.body));return {ok:true};},
+    setInterval:fn=>timers.push(fn), setTimeout:fn=>fn()
+  });
+  return { sent, window, storage, document, advance:ms=>{now+=ms;}, tick:()=>timers.forEach(fn=>fn()),
+    visibility(state){document.visibilityState=state;docListeners.visibilitychange?.();},
+    fire:(type, event)=>listeners[type]?.(event), engagement:()=>sent.filter(e=>e.kind==='engagement') };
+}
+test('visible time excludes hidden gaps and BFCache gaps, without duplicate final chunks', () => {
+  const b=browserClock(); b.advance(30000);b.tick();b.advance(5000);b.visibility('hidden');b.fire('pagehide');
+  b.advance(120000);b.tick();b.visibility('visible');b.fire('pageshow');b.advance(10000);b.fire('pagehide');
+  assert.deepEqual(b.engagement().map(e=>e.activeMs),[30000,5000,10000]);
+  assert.equal(new Set(b.engagement().map(e=>e.id)).size,3);
+  assert.equal(new Set(b.engagement().map(e=>e.telemetry.sessionId)).size,1);
+  for(const e of b.engagement()) assert.deepEqual(Object.keys(e).sort(),['activeMs','id','kind','language','telemetry']);
+});
+test('visible time respects opt-out/GPC, internal flags, production scope, and delayed timers', () => {
+  for(const options of [{optOut:true},{gpc:true},{hostname:'localhost'},{hidden:true}]) {
+    const b=browserClock(options);b.advance(30000);b.tick();assert.equal(b.engagement().length,0);
+  }
+  const b=browserClock();b.advance(5000);b.window.conciergeTelemetry.preferences({optOut:true});
+  b.advance(90000);b.tick();b.window.conciergeTelemetry.preferences({optOut:false,internal:true});
+  b.advance(30000);b.tick(); assert.equal(b.engagement().length,1);assert.equal(b.engagement()[0].telemetry.internal,true);
+  b.advance(120000);b.tick();assert.equal(b.engagement()[1].activeMs,60000);
+});
+test('visible time handles cross-tab preferences, session expiry and unavailable localStorage', () => {
+  const b=browserClock();b.advance(30000);b.tick();const first=b.engagement()[0].telemetry.sessionId;
+  b.visibility('hidden');b.advance(31*60000);b.visibility('visible');b.advance(4000);b.fire('pagehide');
+  assert.notEqual(b.engagement()[1].telemetry.sessionId,first);
+  const c=browserClock();c.advance(4000);c.storage.set('another-analytics',JSON.stringify({...JSON.parse(c.storage.get('another-analytics')),optOut:true}));c.fire('storage',{key:'another-analytics'});
+  c.advance(30000);c.tick();assert.equal(c.engagement().length,0);
+  const d=browserClock({blockedStorage:true});d.advance(30000);d.tick();assert.equal(d.engagement().length,1);
+  assert.equal(d.engagement()[0].telemetry.sessionId,d.sent[0].telemetry.sessionId);
+});
+test('visible time server rejects unreasonable or non-numeric durations', () => {
+  for(const value of [0,-1,60001,Infinity,NaN,1.5,'30000',null,undefined]) assert.equal(t.validActiveMs(value),false);
+  for(const value of [1,30000,60000]) assert.equal(t.validActiveMs(value),true);
+});
+test('visible-time summaries exclude staff and do not turn historic missing data into zero', () => {
+  const range={from:'2026-10-04T15:00:00Z',to:'2026-10-11T15:00:00Z'};
+  const base={at:'2026-10-05T09:00:00Z',kind:'engagement',session:'a',activeMs:30000};
+  const events=[{...base,id:'1'},{...base,id:'2',activeMs:10000},{...base,id:'3',session:'b',activeMs:20000},
+    {...base,id:'4',internal:true,activeMs:60000},{...base,id:'5',session:null,activeMs:1000}];
+  const report=buildReport(events,range,'2026-09-30T07:00:00Z','2026-10-05T08:00:00Z');
+  const active=report.current.activeTime;
+  assert.equal(active.totalMs,61000);assert.equal(active.measuredSessions,2);assert.equal(active.meanSessionMs,30000);
+  assert.equal(active.medianSessionMs,20000);assert.equal(active.unknownSessionMs,1000);
+  assert.equal(report.current.internalEventsExcluded,1);assert.equal(report.current.chatRequests,0);
+  assert.equal(report.previous.activeTime.totalMs,null);assert.equal(report.previous.activeTime.meanSessionMs,null);
+  assert.equal(report.engagementComplete,false);assert.equal(report.delta.activeTimeTotal,null);
+  assert.equal(report.daily[0].activeTime.complete,false);assert.equal(report.daily[1].activeTime.complete,true);
+  const before=buildReport([],range,'2026-09-30T07:00:00Z',null);
+  assert.equal(before.current.activeTime.available,false);assert.equal(before.current.activeTime.totalMs,null);
 });

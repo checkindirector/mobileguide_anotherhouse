@@ -15,7 +15,7 @@ module.exports = async function(req, res) {
     if (rows.length > 20000) return res.status(413).json({ error: 'Too many records; request a shorter range. No partial report emitted.' });
     const settings = await sql`SELECT key, value FROM concierge_settings`;
     const config = Object.fromEntries(settings.map(x => [x.key, x.value]));
-    const report = buildReport(rows.map(x => x.data), { from: new Date(start).toISOString(), to: new Date(end).toISOString() }, config.collection_started_at || null);
+    const report = buildReport(rows.map(x => x.data), { from: new Date(start).toISOString(), to: new Date(end).toISOString() }, config.collection_started_at || null, config.engagement_started_at || null);
     report.retentionCleanupAt = config.last_retention_cleanup || null;
     if (Buffer.byteLength(JSON.stringify(report)) > 3500000) return res.status(413).json({ error: 'Report exceeds safe response size; request a shorter range. No partial report emitted.' });
     return res.status(200).json(report);

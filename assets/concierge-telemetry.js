@@ -13,24 +13,52 @@
     data.last = now; write(data);
     return { visitorId: data.visitorId, sessionId: data.sessionId, turn: data.turn || 0, internal: data.internal === true, optOut: data.optOut === true || navigator.globalPrivacyControl === true };
   }
-  async function event(kind, language) {
+  async function event(kind, language, fields = {}, telemetry = context()) {
     if (!production) return;
-    const telemetry = context();
     if (telemetry.optOut) return;
-    try { await fetch('/api/analytics-event', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: uuid(), kind, language, telemetry }), keepalive: true }); } catch {}
+    try { await fetch('/api/analytics-event', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: uuid(), kind, language, telemetry, ...fields }), keepalive: true }); } catch {}
+  }
+  // Visible-screen time, not attention or reading time. Unique, bounded chunks
+  // avoid double counting on pagehide/visibilitychange and limit lost final time.
+  let visibleSince = null, visibleContext = null, pageHidden = false;
+  function language() { try { return localStorage.getItem('another-house-lang') || 'ko'; } catch { return 'ko'; } }
+  function resumeTime() {
+    visibleSince = null; visibleContext = null;
+    if (!production || pageHidden || document.visibilityState !== 'visible') return;
+    try { const ctx = context(); if (!ctx.optOut) { visibleContext = ctx; visibleSince = performance.now(); } } catch {}
+  }
+  function flushTime() {
+    if (visibleSince === null) return;
+    const now = performance.now(), activeMs = Math.min(60000, Math.max(0, Math.floor(now - visibleSince)));
+    visibleSince = now;
+    try {
+      const current = context();
+      if (!current.optOut && current.internal === visibleContext.internal && activeMs > 0) event('engagement', language(), { activeMs }, visibleContext);
+    } catch {}
+  }
+  function startTime() {
+    if (!production) return;
+    resumeTime();
+    setInterval(() => { flushTime(); resumeTime(); }, 30000);
+    document.addEventListener('visibilitychange', () => { flushTime(); resumeTime(); });
+    window.addEventListener('pagehide', () => { flushTime(); pageHidden = true; resumeTime(); });
+    window.addEventListener('pageshow', () => { pageHidden = false; resumeTime(); });
+    window.addEventListener('storage', e => {
+      if (e.key === key) { const data = read(); if (data.optOut === true || (data.internal === true) !== visibleContext?.internal) resumeTime(); }
+    });
   }
   window.conciergeTelemetry = {
     next() { try { context(); const data = read(); data.turn = (data.turn || 0) + 1; write(data); return context(); } catch { return {optOut:true}; } },
     failure(language) { return event('client_failure', language); },
-    preferences({ optOut, internal } = {}) { const data = read(); if (typeof optOut === 'boolean') data.optOut = optOut; if (typeof internal === 'boolean') data.internal = internal; write(data); render(); },
+    preferences({ optOut, internal } = {}) { const data = read(); if (typeof optOut === 'boolean') data.optOut = optOut; if (typeof internal === 'boolean') data.internal = internal; write(data); resumeTime(); render(); },
     context
   };
   const copy = {
-    ko: ['서비스 개선을 위해 질문·답변과 익명 이용 통계를 약 90일 저장합니다. 연락처·비밀번호를 입력하지 마세요. 일반적인 개인정보는 자동 마스킹합니다.', '대화·이용 통계 수집 제외', '운영팀 테스트 모드'],
-    en: ['Questions, answers and anonymous usage statistics are saved for about 90 days to improve service. Do not enter contact details or passwords. Common personal details are automatically masked.', 'Exclude my chat and usage statistics', 'Staff test mode'],
-    ja: ['改善のため質問・回答と匿名の利用統計を約90日間保存します。連絡先やパスワードは入力しないでください。一般的な個人情報は自動でマスクします。', '会話・利用統計の収集を停止', 'スタッフのテストモード'],
-    zh: ['为改善服务，问题、回答和匿名使用统计保存约90天。请勿输入联系方式或密码。常见个人信息会自动遮盖。', '不收集我的对话及使用统计', '员工测试模式'],
-    'zh-TW': ['為改善服務，問題、回答和匿名使用統計保存約90天。請勿輸入聯絡方式或密碼。常見個人資訊會自動遮蓋。', '不收集我的對話及使用統計', '員工測試模式']
+    ko: ['서비스 개선을 위해 질문·답변과 익명 이용 통계(화면에 표시된 체류시간 포함)를 약 90일 저장합니다. 연락처·비밀번호를 입력하지 마세요. 일반적인 개인정보는 자동 마스킹합니다.', '대화·이용 통계 수집 제외', '운영팀 테스트 모드'],
+    en: ['Questions, answers and anonymous usage statistics (including time while the site is visible) are saved for about 90 days to improve service. Do not enter contact details or passwords. Common personal details are automatically masked.', 'Exclude my chat and usage statistics', 'Staff test mode'],
+    ja: ['改善のため質問・回答と匿名の利用統計（サイトが画面に表示されている時間を含む）を約90日間保存します。連絡先やパスワードは入力しないでください。一般的な個人情報は自動でマスクします。', '会話・利用統計の収集を停止', 'スタッフのテストモード'],
+    zh: ['为改善服务，问题、回答和匿名使用统计（包括网站在屏幕上显示的时长）保存约90天。请勿输入联系方式或密码。常见个人信息会自动遮盖。', '不收集我的对话及使用统计', '员工测试模式'],
+    'zh-TW': ['為改善服務，問題、回答和匿名使用統計（包括網站顯示於螢幕上的時間）保存約90天。請勿輸入聯絡方式或密碼。常見個人資訊會自動遮蓋。', '不收集我的對話及使用統計', '員工測試模式']
   };
   function render() {
     const holder = document.getElementById('analyticsPrivacy');
@@ -55,7 +83,7 @@
     const style = document.createElement('style'); style.textContent = '#analyticsPrivacy label{display:block;margin:5px 0}#analyticsPrivacy summary{cursor:pointer}'; document.head.append(style);
     render();
     document.querySelectorAll('[data-language]').forEach(button => button.addEventListener('click', () => setTimeout(render, 0)));
-    if (!lastVisit) { lastVisit = true; let language; try { language = localStorage.getItem('another-house-lang'); } catch {} event('visit', language || 'ko'); }
+    if (!lastVisit) { lastVisit = true; event('visit', language()); startTime(); }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
