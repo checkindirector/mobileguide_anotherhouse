@@ -72,7 +72,8 @@ test("home question tiles share all six chat questions and open chat instead of 
     assert.match(html, /aria-labelledby="homeQuestionsTitle"/);
   }
   const app = await read('assets/master-app.js');
-  assert.ok(app.includes("$$('.suggestion,[data-home-question]').forEach(b=>b.onclick=()=>ask(b.textContent))"));
+  assert.ok(app.includes("$$('.suggestion,[data-home-question]').forEach(b=>b.onclick=()=>{"));
+  assert.ok(app.includes("window.conciergeTelemetry?.faq(buttons.indexOf(b),surface,!chatPending,lang);ask(b.textContent)"));
   assert.ok(app.includes("$$('[data-home-question] b').forEach((label,index)=>label.textContent=ui.suggestions[index])"));
   assert.ok(!app.includes("e.textContent=x.quick[i]"));
 });
@@ -123,8 +124,8 @@ test("logo chat opens, closes and restores focus without a delayed focus leak",a
   const start=source.indexOf('function openChat(){');
   const end=source.indexOf('\n',start);
   const functions=source.slice(start,end);
-  const create=new Function('$','document','setTimeout','dismissChatGreeting','let chatReturnFocus=null;'+functions+';return {openChat,closeChat};');
-  const api=create(key=>elements[key],{activeElement:elements['#openChatFab']},fn=>timers.push(fn),()=>{});
+  const create=new Function('$','document','setTimeout','dismissChatGreeting','window','lang','let chatReturnFocus=null;'+functions+';return {openChat,closeChat};');
+  const api=create(key=>elements[key],{activeElement:elements['#openChatFab']},fn=>timers.push(fn),()=>{},{},'ko');
   api.openChat();
   assert.equal(elements['#chatPanel'].inert,false);
   assert.equal(elements['#chatPanel'].classList.contains('open'),true);
@@ -415,7 +416,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(html,/\.image-lightbox\.is-zoomed \.image-lightbox-nav\{opacity:1;pointer-events:auto\}/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20260930-7/);
+  assert.match(html,/master-app\.js\?v=20261005-1/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
@@ -847,7 +848,7 @@ test("chat guide links open the matching in-site page and survive API fallback",
   assert.match(html,/\.msg-link\.is-guide\{[^}]*background:var\(--signature\)[^}]*color:#fff/);
   assert.match(app,/kind=link\.kind==='map'\?'map':link\.kind==='guide'\?'guide':'source'/);
   assert.match(app,/kind==='guide'&&link\.route/);
-  assert.match(app,/event\.preventDefault\(\);closeChat\(\);show\(link\.route\)/);
+  assert.match(app,/event\.preventDefault\(\);closeChat\('guide'\);show\(link\.route\)/);
   assert.match(app,/links:\[fallbackGuideLink\(guideRoute\)\]/);
   assert.match(app,/fallbackGuideLink\('transport'\)/);
   assert.match(app,/function fallbackPropertyRouteResult/);

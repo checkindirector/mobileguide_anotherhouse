@@ -1,0 +1,10 @@
+/* Small, accessible controls using the site's existing warm palette. */
+.answer-feedback { margin-top: 15px; padding-top: 12px; border-top: 1px solid #dcc9bd; white-space: normal; }
+.answer-feedback-title { display: block; color: #625046; font-size: 12px; line-height: 1.5; font-weight: 700; }
+.answer-feedback-choices { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
+.answer-feedback-choices button { flex: 1 1 100px; min-width: 0; min-height: 44px; padding: 8px 9px; border: 1px solid #b18b75; border-radius: 10px; background: #fffaf3; color: #493025; font: inherit; font-size: 12px; font-weight: 700; line-height: 1.4; overflow-wrap: anywhere; cursor: pointer; }
+.answer-feedback-choices button[aria-pressed="true"] { background: #754836; border-color: #754836; color: #fffaf3; box-shadow: inset 0 0 0 1px #fffaf3; }
+.answer-feedback-choices button:focus-visible { outline: 3px solid #edc17b; outline-offset: 2px; }
+.answer-feedback-choices button:disabled { opacity: .6; cursor: wait; }
+.answer-feedback-status { display: block; color: #625046; font-size: 11px; line-height: 1.5; margin-top: 5px; }
+.answer-feedback-status:empty { display: none; }

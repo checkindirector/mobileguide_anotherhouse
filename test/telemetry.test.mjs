@@ -10,6 +10,7 @@ const { previousWeek, buildReport } = require('../lib/weekly-report.cjs');
 const reportHandler = require('../api/analytics-report.js');
 const maintenanceHandler = require('../api/analytics-maintenance.js');
 const eventHandler = require('../api/analytics-event.js');
+const { clientFields } = require('../lib/interaction-events.cjs');
 function recorder() { return { statusCode: 200, setHeader(){}, status(c){this.statusCode=c;return this;}, json(v){this.payload=v;return this;}, end(){return this;} }; }
 test('telemetry masks contact information, numeric access codes, configured credentials and URLs', () => {
   process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE = 'PRIVATE_TEST_CODE';
@@ -78,7 +79,14 @@ test('storage failure does not break a successful answer',async()=>{
 function browserClock({ hostname = 'anotherhouse-guide.vercel.app', optOut = false, internal = false, gpc = false, hidden = false, blockedStorage = false } = {}) {
   let now = 0; const sent = [], listeners = {}, docListeners = {}, timers = [];
   const storage = new Map([['another-analytics', JSON.stringify({ optOut, internal })]]);
-  const element = () => ({ style: {}, append(){}, after(){}, replaceChildren(){}, addEventListener(){} });
+  const element = (tag='div') => {
+    const node={tag, style:{}, dataset:{}, attributes:{}, children:[], handlers:{},
+      append(...items){this.children.push(...items);},after(){},replaceChildren(){this.children=[];},
+      setAttribute(k,v){this.attributes[k]=v;},addEventListener(k,fn){this.handlers[k]=fn;},
+      click(){return this.handlers.click?.();}, querySelectorAll(selector){return this.children.flatMap(child=>child?.tag?[(child.tag===selector?child:null),...child.querySelectorAll(selector)].filter(Boolean):[]);},
+      querySelector(selector){return this.children.find(child=>selector==='.'+child.className)||null;}};
+    return node;
+  };
   const document = { readyState:'complete', visibilityState:hidden?'hidden':'visible', head:element(),
     createElement:element, createTextNode:()=>({}), getElementById:()=>null, querySelector:()=>null, querySelectorAll:()=>[],
     addEventListener:(type, fn)=>{docListeners[type]=fn;} };
@@ -92,7 +100,7 @@ function browserClock({ hostname = 'anotherhouse-guide.vercel.app', optOut = fal
   });
   return { sent, window, storage, document, advance:ms=>{now+=ms;}, tick:()=>timers.forEach(fn=>fn()),
     visibility(state){document.visibilityState=state;docListeners.visibilitychange?.();},
-    fire:(type, event)=>listeners[type]?.(event), engagement:()=>sent.filter(e=>e.kind==='engagement') };
+    fire:(type, event)=>listeners[type]?.(event), engagement:()=>sent.filter(e=>e.kind==='engagement'), element };
 }
 test('visible time excludes hidden gaps and BFCache gaps, without duplicate final chunks', () => {
   const b=browserClock(); b.advance(30000);b.tick();b.advance(5000);b.visibility('hidden');b.fire('pagehide');
@@ -139,4 +147,86 @@ test('visible-time summaries exclude staff and do not turn historic missing data
   assert.equal(report.daily[0].activeTime.complete,false);assert.equal(report.daily[1].activeTime.complete,true);
   const before=buildReport([],range,'2026-09-30T07:00:00Z',null);
   assert.equal(before.current.activeTime.available,false);assert.equal(before.current.activeTime.totalMs,null);
+});
+
+test('quality schema accepts fixed categories only and strips input text, links and coordinates', () => {
+  const interactionId=randomUUID(),requestId=randomUUID();
+  const body={kind:'answer_link',interactionId,requestId,linkKind:'map',destination:'naver_map',url:'https://x.test/?code=secret',question:'unsent private text',latitude:37};
+  assert.deepEqual(clientFields(body),{interactionId,requestId,linkKind:'map',destination:'naver_map'});
+  for(const input of [{...body,destination:body.url},{...body,requestId:'guest@email.com'},{kind:'unknown'},
+    {kind:'answer_feedback',interactionId,requestId,vote:'freeform private text'},
+    {kind:'chat_pause',interactionId,stage:'waiting_answer',reason:'freeform'},
+    {kind:'faq_click',faqId:'짐보관실 암호',surface:'home',accepted:true}]) assert.equal(clientFields(input),null);
+  assert.deepEqual(clientFields({kind:'faq_click',faqId:'luggage',surface:'chat',accepted:false}),{faqId:'luggage',surface:'chat',accepted:false});
+});
+test('quality lifecycle distinguishes close, hidden pause, resume and guide navigation', () => {
+  const b=browserClock(),api=b.window.conciergeTelemetry;
+  api.open('ko');api.open('ko');const tracking=api.begin('ko');
+  b.visibility('hidden');api.finish(tracking,'answer');
+  assert.equal(b.sent.filter(x=>x.kind==='answer_view').length,0);
+  b.visibility('visible');api.finish(tracking,'answer'); // caller retries must not double exposure
+  const views=b.sent.filter(x=>x.kind==='answer_view');
+  assert.equal(views.length,1);
+  assert.equal(views[0].requestId,tracking.requestId);
+  api.link(tracking,{kind:'map',url:'https://map.naver.com/p/search/private',route:null});api.close('guide');
+  api.open('en');api.close();api.open('ja');const pending=api.begin('ja');api.close();api.finish(pending);
+  assert.equal(b.sent.filter(x=>x.kind==='chat_open').length,3);
+  const closes=b.sent.filter(x=>x.kind==='chat_close');
+  assert.deepEqual(closes.map(x=>[x.stage,x.reason]),[['after_answer','guide'],['before_question','close'],['waiting_answer','close']]);
+  assert.equal(b.sent.find(x=>x.kind==='chat_pause').reason,'hidden');
+  assert.equal(b.sent.filter(x=>x.kind==='chat_resume').length,1);
+  assert.ok(!JSON.stringify(b.sent).includes('private'));
+});
+test('five-language feedback buttons send per-answer votes, allow changes and respect opt-out', async () => {
+  const labels={ko:['도움됐어요','해결되지 않았어요'],en:['Helpful','Not resolved'],ja:['役に立った','解決しなかった'],zh:['有帮助','未解决'],'zh-TW':['有幫助','未解決']};
+  for(const [language,text] of Object.entries(labels)) {
+    const b=browserClock(),api=b.window.conciergeTelemetry,tracking=api.begin(language),message=b.element();api.decorate(message,tracking);
+    const buttons=message.querySelectorAll('button');assert.deepEqual(buttons.map(x=>x.textContent),text);
+    await buttons[0].click();await buttons[0].click();await buttons[1].click();
+    const ratings=b.sent.filter(x=>x.kind==='answer_feedback');assert.deepEqual(ratings.map(x=>x.vote),['helpful','unresolved']);
+    assert.equal(ratings[0].requestId,tracking.requestId);assert.equal(ratings[0].language,language);
+    api.preferences({optOut:true});await buttons[0].click();assert.equal(b.sent.filter(x=>x.kind==='answer_feedback').length,2);
+  }
+});
+test('quality events respect internal flags, disabled collection, consent changes and FAQ identities', () => {
+  for(const options of [{optOut:true},{gpc:true},{hostname:'localhost'}]) {
+    const b=browserClock(options),api=b.window.conciergeTelemetry;
+    api.open('en');const t=api.begin('en');api.finish(t);api.faq(4,'home',true,'en');api.close();
+    assert.equal(b.sent.filter(x=>!['visit','engagement'].includes(x.kind)).length,0);
+  }
+  const b=browserClock({internal:true}),api=b.window.conciergeTelemetry;
+  api.faq(4,'home',true,'ko');api.faq(0,'chat',false,'ja');
+  const tracking=api.begin('ko');api.preferences({optOut:true});api.preferences({optOut:false});api.finish(tracking);
+  api.link(tracking,{kind:'guide',url:'https://anotherhouse-guide.vercel.app/',route:'checkin'});
+  assert.equal(b.sent.filter(x=>x.kind==='answer_view'||x.kind==='answer_link').length,0);
+  assert.deepEqual(b.sent.filter(x=>x.kind==='faq_click').map(x=>[x.faqId,x.surface,x.accepted]),[['luggage','home',true],['checkin_time','chat',false]]);
+  assert.ok(b.sent.every(x=>x.telemetry.internal===true));
+});
+test('quality report deduplicates rating changes and separates participation from correctness', () => {
+  const range={from:'2026-10-04T15:00:00Z',to:'2026-10-11T15:00:00Z'},at='2026-10-05T10:00:00Z';
+  const base={at,session:'s',visitor:'v',internal:false,language:'ko',interactionId:'i',requestId:'q'};
+  const events=[{...base,kind:'chat_open'},{...base,kind:'chat_submit'},
+    {...base,kind:'chat',id:'server-id',question:'짐',answer:'안내',status:200,durationMs:10,intent:'luggage',links:[{kind:'guide',route:'checkin'}]},
+    {...base,kind:'answer_view',outcome:'answer'},
+    {...base,kind:'answer_feedback',vote:'helpful'}, {...base,at:'2026-10-05T10:01:00Z',kind:'answer_feedback',vote:'unresolved'},
+    {...base,kind:'answer_link',linkKind:'guide',destination:'checkin'},
+    {...base,kind:'faq_click',faqId:'luggage',surface:'home',accepted:true},
+    {...base,kind:'chat_close',stage:'after_answer',reason:'guide'},
+    {...base,kind:'answer_feedback',internal:true,requestId:'test',vote:'helpful'}];
+  const report=buildReport(events,range,'2026-09-30T07:00:00Z',at,at),quality=report.current.quality;
+  assert.equal(quality.feedback.ratings,1);assert.equal(quality.feedback.helpful,0);assert.equal(quality.feedback.unresolved,1);
+  assert.equal(quality.feedback.participationRate,1);assert.equal(quality.links.clickThroughRate,1);
+  assert.equal(quality.faq.byQuestion.find(x=>x.faqId==='luggage').home,1);assert.equal(quality.flow.questionSendRate,1);
+  assert.equal(quality.flow.waitingAnswerClosed,0);assert.equal(report.conversations[0].quality.feedback.vote,'unresolved');
+  assert.equal(report.qualityReviewCases[0].question,'짐');assert.equal(report.qualityComplete,false);
+  assert.equal(report.previous.quality.available,false);assert.equal(report.previous.quality.feedback,null);
+  assert.equal(report.current.chatRequests,1);assert.equal(report.current.internalEventsExcluded,1);
+});
+test('feedback received across a report boundary is counted without a fabricated view denominator', () => {
+  const range={from:'2026-10-04T15:00:00Z',to:'2026-10-11T15:00:00Z'};
+  const events=[{at:'2026-10-04T14:59:00Z',kind:'chat',session:'s',requestId:'q',question:'기존 질문',answer:'안내',status:200,links:[{kind:'guide'}]},
+    {at:'2026-10-05T01:00:00Z',kind:'answer_feedback',session:'s',requestId:'q',vote:'unresolved'}];
+  const report=buildReport(events,range,'2026-09-01T00:00:00Z',null,'2026-10-01T00:00:00Z');
+  assert.equal(report.current.quality.feedback.ratings,1);assert.equal(report.current.quality.feedback.participationRate,null);
+  assert.equal(report.current.quality.feedback.ratingsWithoutViewInPeriod,1);assert.equal(report.qualityReviewCases[0].parentFound,true);
 });
