@@ -8,7 +8,7 @@ const root = resolve(import.meta.dirname, "..");
 test("generated knowledge mirrors current public guide content without secrets", async () => {
   const raw = await readFile(resolve(root, "assets/guide-knowledge.json"), "utf8");
   const knowledge = JSON.parse(raw);
-  assert.equal(knowledge.version, "2026-10-05.1");
+  assert.equal(knowledge.version, "2026-10-05.2");
   assert.deepEqual(knowledge.languages, ["ko", "en", "ja", "zh", "zh-TW"]);
   assert.equal(knowledge.property.ko.address, "서울시 종로구 종로 294 선일빌딩 5층");
   assert.equal(knowledge.stay.ko.checkin.summary.includes("15:00"), true);
@@ -17,11 +17,11 @@ test("generated knowledge mirrors current public guide content without secrets",
   assert.match(knowledge.arrivalAndTransport.en.localArrival.instruction, /Kyochon Chicken Dongdaemun No\. 1/);
   assert.match(knowledge.arrivalAndTransport.ko.localArrival.instruction, /화장품 가게들을 지나/);
   assert.match(knowledge.arrivalAndTransport.en.localArrival.instruction, /pass the cosmetics shops/);
-  assert.equal(knowledge.arrivalAndTransport.en.sections[0].routes.length, 4);
-  assert.match(knowledge.arrivalAndTransport.en.sections[0].routes[1].path, /Bus 6002/);
-  assert.match(knowledge.arrivalAndTransport.en.sections[0].routes[2].path, /N6701/);
-  assert.equal(knowledge.arrivalAndTransport.ko.sections[0].routes[2].schedule.rows.length, 5);
-  assert.match(knowledge.arrivalAndTransport.ko.sections[0].routes[2].officialSource.url, /bus_no=N6701/);
+  assert.equal(knowledge.arrivalAndTransport.en.sections[0].routes.length, 6);
+  assert.match(knowledge.arrivalAndTransport.en.sections[0].routes[1].path, /6702/);
+  assert.match(knowledge.arrivalAndTransport.en.sections[0].routes[2].path, /6002/);
+  assert.equal(knowledge.arrivalAndTransport.ko.sections[0].routes[3].schedule.rows.length, 5);
+  assert.match(knowledge.arrivalAndTransport.ko.sections[0].routes[3].officialSource.url, /bus_no=N6701/);
   assert.match(knowledge.stay.ko.checkin.sections[0].steps[5], /얼리 체크인은 객실 준비 사정상 불가능합니다/);
   assert.match(knowledge.stay.ko.checkin.sections[0].steps[6], /늦게 도착해도.*키오스크/);
   assert.match(knowledge.stay.ko.checkin.sections[0].steps[7], /카드키.*재발급되지 않/);

@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-10-05.1";
+const VERSION = "2026-10-05.2";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -13,7 +13,8 @@ const sourceScripts = [
   "assets/gallery-overrides.js",
   "assets/restaurant-data.js",
   "assets/restaurant-expanded.js",
-  "assets/tour-data.js"
+  "assets/tour-data.js",
+  "assets/airport-bus-data.js"
 ];
 
 const context = vm.createContext({ window: {} });
@@ -470,6 +471,10 @@ const verifiedNearbyPlaces = [
   }
 ];
 
+// Keep the older exact-time selector on the same stop coordinates as the new bus guide.
+airportTransport.verifiedAt = context.window.ANOTHER_HOUSE_AIRPORT_BUS.verifiedAt;
+airportTransport.incheon.daytimeBus.maps = context.window.ANOTHER_HOUSE_AIRPORT_BUS.locales.ko.routes[0].departure.maps;
+airportTransport.incheon.nightBus.maps = context.window.ANOTHER_HOUSE_AIRPORT_BUS.locales.ko.routes[2].departure.maps;
 const knowledge = {
   version: VERSION,
   generatedAt: "2026-09-23",
@@ -513,6 +518,7 @@ const knowledge = {
     };
   }),
   arrivalAndTransport: localized(transportKnowledge),
+  airportBusGuide: context.window.ANOTHER_HOUSE_AIRPORT_BUS,
   verifiedAirportTransport: {
     locales: localized(language => localize(airportTransport, language)),
     gimpoLine5: gimpoLine5Timetable

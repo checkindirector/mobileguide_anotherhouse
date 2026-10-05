@@ -21,3 +21,7 @@ footer{padding:70px 22px calc(105px + var(--safe));background:var(--walnut);colo
 @media(min-width:700px){.site-shell{margin:24px auto;border-radius:4px;min-height:calc(100svh - 48px)}.landing-hero{min-height:calc(100svh - 48px)}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.landing-hero:before,body.motion-ready .landing-hero:before{animation:none!important;transform:translate3d(0,0,0) scale(1)!important}.hero-scroll span{animation:none}.menu-panel,.chat-panel{transition:none}}
 @media print{.topbar,.bottom-nav,.chat-fab,.chat-panel,.menu-panel,.scrim{display:none!important}.site-shell{width:100%;box-shadow:none}.detail-screen{padding:0}.detail-hero{min-height:260px}.detail-body{padding:20px}.detail-section{break-inside:avoid}}
+.airport-bus-comparison{padding:18px;border-radius:14px;background:#f1e1d5;color:#49382e;font-weight:600;line-height:1.65}
+.airport-bus-terminal-times{margin:18px 0;line-height:1.7;overflow-wrap:anywhere}
+.airport-bus-terminal-times p{margin:8px 0}.airport-bus-terminal-times strong{display:inline-block;min-width:2.5em}
+.airport-departure-actions a,.airport-arex-timetables a{min-width:0;overflow-wrap:anywhere}
