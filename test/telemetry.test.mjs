@@ -230,3 +230,15 @@ test('feedback received across a report boundary is counted without a fabricated
   assert.equal(report.current.quality.feedback.ratings,1);assert.equal(report.current.quality.feedback.participationRate,null);
   assert.equal(report.current.quality.feedback.ratingsWithoutViewInPeriod,1);assert.equal(report.qualityReviewCases[0].parentFound,true);
 });
+test('waiting-stage review signals retain the actual question without declaring it a failure', () => {
+  const at='2026-10-05T10:00:00Z',range={from:'2026-10-04T15:00:00Z',to:'2026-10-11T15:00:00Z'};
+  const base={at,session:'s',interactionId:'i',requestId:'q',language:'en'};
+  const report=buildReport([{...base,kind:'chat_open'},{...base,kind:'chat_submit'},
+    {...base,kind:'chat',question:'check in?',answer:'guide',status:200,durationMs:12000},
+    {...base,kind:'chat_close',stage:'waiting_answer',reason:'close'}],range,'2026-09-01T00:00:00Z',null,'2026-10-01T00:00:00Z');
+  assert.equal(report.current.quality.flow.waitingAnswerClosed,1);
+  assert.equal(report.current.quality.flow.byLanguage[0].language,'en');
+  assert.deepEqual(report.qualityReviewCases[0].signals,['closed_before_answer']);
+  assert.equal(report.qualityReviewCases[0].question,'check in?');assert.equal(report.qualityReviewCases[0].vote,null);
+  assert.equal(report.conversations[0].quality.flowSignals[0].stage,'waiting_answer');
+});

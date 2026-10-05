@@ -27,6 +27,7 @@
 - **FAQ:** 체크인 시간/방법/얼리체크인/체크아웃 시간/짐보관/공용비품의 고정 ID, 홈/챗봇 구분, 언어, 대기 중이라 전송을 받지 못한 클릭을 구분합니다. 클릭은 시도 수이며 실제 서버 질문 수와 같을 필요는 없습니다. 홈 입력 폼의 작성 중 내용, 키 입력, FAQ 외 모든 홈페이지 클릭은 저장하지 않습니다.
 - 보고서 `qualityCollectionStartedAt`, `qualityComplete`, `qualityPreviousComplete`, 일별 `quality.available/complete`를 확인합니다. 시작 전 `feedback/links/faq/flow=null`을 0건으로 바꾸지 않습니다. `quality.feedback`의 평가 수·긍정/미해결·참여율(동일 기간 표시와 평가가 둘 다 있는 답변), `quality.links`의 목적지별 클릭, `quality.faq`의 6개 항목·홈/챗봇 이용량, `quality.flow`의 단계별 닫기·숨김·떠남·재개와 질문 전송비율을 제공합니다. 응답 미평가, 표시 기록 누락, 보고 기간 경계에 걸친 대화는 별도로 해석합니다.
 - `conversations[].quality`로 질문/답변에 평가와 링크 이용을 연결하고, 미해결 의견은 `qualityReviewCases`에서 원문 근거를 확인합니다. 연결은 무작위 requestId+익명 세션이며 사용자 입력 ID를 인증으로 신뢰하지 않습니다. 직전 비교기간까지의 자료에서 부모 질문이 없으면 `parentFound=false`로 표시하며 답변을 꾸며내지 않습니다. 오래 열린 구버전 화면에는 새 기능이 없고, 수집 설정 변경 직전 구간이나 이전 답변의 평가/클릭은 폐기하므로 일부 이용이 누락될 수 있습니다.
+- 이용 흐름의 언어별 열기·대기 중 닫기/숨김과 질문별 `flowSignals`도 제공합니다. `qualityReviewCases.signals`의 `unresolved_feedback`(미해결 의견), `closed_before_answer`(답변 보기 전 닫기), `page_left_before_answer`(답변 보기 전 페이지 떠남)은 성격이 다른 검토 신호입니다. 뒤의 두 가지에는 미해결 평가를 가정하지 않으며 재개·나중 답변 표시 및 해당 질문의 서버 지연과 함께 검토합니다.
 
 ## 비공개 저장소와 설정
 
