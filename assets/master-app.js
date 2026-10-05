@@ -127,6 +127,8 @@ function fallbackCurrentAirportBus(knowledge,q){
   const text=String(q||'');
   const intent=window.ANOTHER_HOUSE_AIRPORT_ROUTE?.classify(text);
   if(!intent||/(?:짐보관|check.?in|체크인|行李寄存|荷物預)/i.test(text))return null;
+  const journey=window.ANOTHER_HOUSE_AIRPORT_JOURNEY?.prepare(knowledge,text,lang);
+  if(journey)return{answer:journey.fallbackAnswer,links:journey.linksFor(journey.suggested).concat([fallbackGuideLink(journey.route)]),meta:{fallback:true,verifiedAirportJourney:true,recommendedMode:journey.suggested,guideRoute:journey.route,knowledgeVersion:knowledge.version}};
   const g=knowledge.airportBusGuide?.locales?.[lang];if(!g)return null;
   const {arrival,night,explicit,comparison:compare}=intent,direction=arrival?'arrival':'departure';
   const buses=g.routes.filter(bus=>compare?!bus.night:explicit?bus.id===explicit:bus.night===night).sort((a,b)=>arrival?0:a.id==='6002'?-1:b.id==='6002'?1:0),c=g.copy;

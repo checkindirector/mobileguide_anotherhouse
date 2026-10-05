@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs';
 import {runInNewContext} from 'node:vm';
 const require=createRequire(import.meta.url),handler=require('../api/chat.js');
 const routeIntent=require('../assets/airport-route-intent.js');
+const journeyApi=require('../assets/airport-journey.js');
 const knowledge=handler._internals.GUIDE_KNOWLEDGE;
 const ordinaryRoutes={
   ko:['숙소에서 인천공항 가는 길 알려줘','공항가는길','인천공항에서 가장 편한 길은?','공항에서 숙소 어떻게가요'],
@@ -13,7 +14,7 @@ const ordinaryRoutes={
   zh:['从住宿前往仁川机场怎么走','去机场怎么走','从仁川机场到住宿怎么走','从机场到住宿怎么走'],
   'zh-TW':['從住宿前往仁川機場怎麼走','去機場怎麼走','從仁川機場到住宿怎麼走','從機場到住宿怎麼走']
 };
-test('ordinary airport directions use verified buses/maps in both directions without any external call',async()=>{
+test('ordinary airport directions retain all three choices even when model service is unavailable',async()=>{
   const originalFetch=global.fetch;
   global.fetch=async()=>{throw new Error('Plain airport routes must not search or call the model')};
   try{
@@ -22,13 +23,15 @@ test('ordinary airport directions use verified buses/maps in both directions wit
       const res={statusCode:0,setHeader(){},status(code){this.statusCode=code;return this},json(body){this.body=body;return this}};
       await handler({method:'POST',headers:{'x-forwarded-for':`198.51.100.${ip++}`},body:{message,language,telemetry:{optOut:true}},socket:{}},res);
       assert.equal(res.statusCode,200,message);
-      assert.equal(res.body.model,'another-house-verified-airport-bus',message);
+      assert.equal(res.body.model,'another-house-airport-options-fallback',message);
+      assert.equal(res.body.meta.verifiedAirportJourney,true,message);
       assert.equal(res.body.meta.searched,false,message);
       assert.equal(res.body.meta.guideRoute,index<2?'airport-departure':'transport',message);
-      assert.equal(res.body.links.filter(link=>link.kind==='map').length,4,message);
-      assert.ok(res.body.links.some(link=>link.url.includes(index<2?'/01037/bus-station/80606':'/01023/bus-station/105523')),message);
+      assert.equal(res.body.links.filter(link=>link.kind==='map').length,2,message);
+      assert.ok(res.body.links.some(link=>link.url.includes(index<2?'/01037/bus-station/80606':'/01901/bus-station/55012217')),message);
       assert.doesNotMatch(res.body.answer,/포항|Pohang/i);
-      assert.ok(res.body.answer.includes('182')&&res.body.answer.includes('285'),message);
+      assert.match(res.body.answer,/AREX/);
+      assert.match(res.body.answer,/택시|Taxi|タクシー|出租车|計程車/i);
       assert.ok(res.body.links.every(link=>!link.url.includes('qp.map.naver.com')),message);
     }
   }finally{global.fetch=originalFetch}
@@ -55,20 +58,38 @@ test('browser fallback shares ordinary airport direction matching and exact stop
   const source=readFileSync(new URL('../assets/master-app.js',import.meta.url),'utf8');
   const fn=source.slice(source.indexOf('function fallbackCurrentAirportBus('),source.indexOf('function airportBusMapsMarkup('));
   for(const [lang,questions] of Object.entries(ordinaryRoutes))for(const [index,q] of questions.entries()){
-    const response=runInNewContext(fn+';fallbackCurrentAirportBus(knowledge,q)',{window:{ANOTHER_HOUSE_AIRPORT_ROUTE:routeIntent},knowledge,q,lang,fallbackGuideLink:route=>({kind:'guide',route})});
+    const response=runInNewContext(fn+';fallbackCurrentAirportBus(knowledge,q)',{window:{ANOTHER_HOUSE_AIRPORT_ROUTE:routeIntent,ANOTHER_HOUSE_AIRPORT_JOURNEY:journeyApi},knowledge,q,lang,fallbackGuideLink:route=>({kind:'guide',route})});
     assert.equal(response.meta.guideRoute,index<2?'airport-departure':'transport',q);
-    assert.equal(response.links.filter(link=>link.kind==='map').length,4,q);
+    assert.equal(response.links.filter(link=>link.kind==='map').length,2,q);
+    assert.match(response.answer,/AREX/);
+    assert.match(response.answer,/택시|Taxi|タクシー|出租车|計程車/i);
   }
 });
 test('shared route classifier loads before the app in both site entry points',()=>{
   for(const file of ['index.html','guide-anotherhouse.html']){
     const html=readFileSync(new URL('../'+file,import.meta.url),'utf8');
-    assert.ok(html.indexOf('airport-route-intent.js?v=20261006-1')<html.indexOf('master-app.js?v=20261006-1'));
-    assert.ok(html.includes('airport-route-intent.js?v=20261006-1'));
+    assert.ok(html.indexOf('airport-route-intent.js?v=20261006-2')<html.indexOf('master-app.js?v=20261006-2'));
+    assert.ok(html.includes('airport-route-intent.js?v=20261006-2'));
+    assert.ok(html.indexOf('airport-journey.js?v=20261006-2')<html.indexOf('master-app.js?v=20261006-2'));
   }
   const sandbox={window:{}};
   runInNewContext(readFileSync(new URL('../assets/airport-route-intent.js',import.meta.url),'utf8'),sandbox);
   assert.equal(sandbox.window.ANOTHER_HOUSE_AIRPORT_ROUTE.classify('공항가는길').arrival,false);
+});
+test('fallback recommendation changes with budget, mobility and night needs in all five languages',()=>{
+  const questions={
+    ko:['공항 가는 길 비용을 아끼고 싶어요','숙소에서 인천공항 가는 길 휠체어 이용해요','인천공항 가는 길 심야예요'],
+    en:['How do I get to Incheon Airport on a budget?','How do I get to Incheon Airport with a wheelchair?','How do I get to Incheon Airport at night?'],
+    ja:['仁川空港への行き方 費用を抑えたい','仁川空港への行き方 車いすです','仁川空港への行き方 深夜です'],
+    zh:['去仁川机场怎么走 想省钱','去仁川机场怎么走 有轮椅','去仁川机场怎么走 是凌晨'],
+    'zh-TW':['去仁川機場怎麼走 想省錢','去仁川機場怎麼走 有輪椅','去仁川機場怎麼走 是凌晨']
+  };
+  for(const [language,items] of Object.entries(questions))for(const [index,message] of items.entries()){
+    const prepared=journeyApi.prepare(knowledge,message,language);
+    assert.ok(prepared,message);assert.equal(prepared.suggested,['rail','taxi','conditional'][index],message);
+    assert.deepEqual(Object.keys(prepared.options),['bus','rail','taxi']);
+    if(index===2)assert.deepEqual(prepared.options.bus.routes.filter(bus=>bus.service==='night').map(bus=>bus.id),['N6701','N6002']);
+  }
 });
 const cases={
   ko:['인천공항에서 숙소 공항버스','숙소에서 인천공항 공항버스','인천공항에서 심야버스','인천공항 가는 심야버스'],

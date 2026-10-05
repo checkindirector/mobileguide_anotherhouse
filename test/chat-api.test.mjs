@@ -696,7 +696,7 @@ test("source links prioritize Naver and official domains over aggregators", () =
 
 test("late-night Incheon transport uses the pre-verified timetable without web search", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "공개 운행 자료를 확인한 정보입니다.", output: [{ type: "web_search_call", action: { sources: [] } }], usage: {} };
-  const { res, requests } = await callApi({ message: "새벽 4시에 인천공항 가는 정확한 교통편", language: "ko" }, output, "203.0.113.22");
+  const { res, requests } = await callApi({ message: "새벽 4시에 인천공항 가는 정확한 공항버스 교통편", language: "ko" }, output, "203.0.113.22");
   assert.equal(requests.length, 0);
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.mode, "night-overview");
@@ -768,7 +768,7 @@ test("time-specific dining requests force high-context web search", async () => 
 
 test("pre-verified Incheon airport timetable answers exact early departures without web search", async () => {
   const { res, requests } = await callApi(
-    { message: "인천공항에 새벽 6시까지 가야함", language: "ko", history: [] },
+    { message: "인천공항에 새벽 6시까지 공항버스로 가야함", language: "ko", history: [] },
     { model: "unused" },
     "203.0.113.90"
   );
@@ -858,19 +858,20 @@ test("airport-origin questions return the inbound property route in every guest 
   let ip = 120;
   for (const [message, language, lead, path] of cases) {
     const { res, requests } = await callApi({ message, language, history: [] }, { model: "unused" }, `203.0.113.${ip++}`);
-    assert.equal(requests.length, 0);
-    assert.equal(res.payload.model, "another-house-verified-airport-bus");
+    assert.equal(requests.length, 1);
+    assert.equal(res.payload.meta.verifiedAirportJourney, true);
     assert.equal(res.payload.meta.mode, "arrival");
     assert.match(res.payload.answer, /6702/);
     assert.match(res.payload.answer, /6002/);
-    assert.equal(res.payload.links.filter(link => link.kind === "map").length, 4);
+    assert.equal(res.payload.links.filter(link => link.kind === "map").length, 2);
+    assert.match(res.payload.answer,/AREX/);
     assert.equal(res.payload.links.at(-1).route, "transport");
   }
 });
 
 test("late-night airport arrivals use N6701 and its published inbound timetable", async () => {
   const { res, requests } = await callApi(
-    { message: "인천공항 T2에서 새벽 1시에 숙소로 오는 법", language: "ko", history: [] },
+    { message: "인천공항 T2에서 새벽 1시에 숙소로 오는 공항버스", language: "ko", history: [] },
     { model: "unused" },
     "203.0.113.131"
   );
@@ -1158,9 +1159,10 @@ test("a place name without a complete street address never creates map buttons",
 test("pre-verified route advice links only to the exact airport-bus boarding stop", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "심야에는 공항버스 운행 시간부터 확인해야 합니다.\nMAP_SPOT: 인천국제공항 제1여객터미널 | 인천광역시 중구 공항로 272", output: [{ type: "web_search_call", action: { sources: [{ title: "인천국제공항", url: "https://www.airport.kr/" }] } }], usage: {} };
   const { res } = await callApi({ message: "심야에는 공항철도보다 심야버스가 더 현실적인가요? 어나더하우스에서 인천공항까지 가고 싶어요.", language: "ko" }, output, "203.0.113.32");
-  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 4);
+  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 2);
   assert.ok(res.payload.links.some(link=>link.kind==='map'&&/N6701.*DDP/.test(link.label)));
-  assert.ok(res.payload.links.some(link=>link.kind==='map'&&/N6002.*흥인지문/.test(link.label)));
+  assert.match(res.payload.answer,/N6002/);
+  assert.match(res.payload.answer,/AREX/);
   assert.doesNotMatch(res.payload.answer, /MAP_SPOT/);
 });
 
@@ -1464,6 +1466,45 @@ test("raw URLs are removed from answer text", async () => {
   const { res } = await callApi({ message: "조식 제공 여부를 알려줘", language: "ko" }, output, "203.0.113.26");
   assert.doesNotMatch(res.payload.answer, /https?:\/\//);
   assert.doesNotMatch(res.payload.answer, /\*\*|\(example\.com\)/);
+});
+
+test('airport comparison uses one grounded model call, honors its selected mode and attaches only verified links',async()=>{
+  const scenarios=[
+    ['ko','공항 가는 길 짐은 가볍고 비용을 아끼고 싶어','rail','공항버스는 환승이 없어요. AREX 일반열차를 먼저 추천드려요. 택시는 편하지만 요금 확인이 필요해요.'],
+    ['en','How do we get to Incheon Airport? Four of us have difficulty walking.','taxi','For your group, I would first consider a taxi, confirming vehicle space and fare. Airport bus avoids transfers. AREX avoids road traffic but requires a transfer.'],
+    ['ja','宿から仁川空港への行き方。荷物が少なく費用を抑えたいです。','rail','費用を重視するならAREX一般列車をまず検討してください。空港バスは乗換不要です。タクシーは直接移動でき、料金の確認が必要です。'],
+    ['zh','从住宿前往仁川机场怎么走？想省钱，行李少。','rail','您重视费用，可先考虑AREX普通列车。机场巴士不用换乘。出租车更方便，但费用需确认。'],
+    ['zh-TW','從住宿前往仁川機場怎麼走？行李少，想省錢。','rail','您重視費用，可先考慮AREX普通列車。機場客運不用轉乘。計程車更方便，但費用需確認。'],
+    ['ko','지금 공항 가는 길 심야버스랑 철도 택시 옵션을 비교해줘','bus','시간이 맞으면 N6701 공항버스를 검토해 보세요. AREX는 운행시간 확인이 필요하고, 택시는 버스 시간이 맞지 않을 때 대안입니다.']
+  ];
+  let seq=0;
+  for(const [language,message,mode,answer] of scenarios){
+    const selectedBus=mode==='bus'?'N6701':'none';
+    const {res,requests,request}=await callApi({message,language,telemetry:{optOut:true},history:[{role:'user',content:'We have four heavy suitcases.'}]},{model:'test-airport-model',output_text:answer+'\nAIRPORT_MODE: '+mode+'\nAIRPORT_BUS: '+selectedBus,usage:{input_tokens:300,output_tokens:100}},'airport-options-'+seq++);
+    assert.equal(res.statusCode,200,message);
+    assert.equal(res.payload.meta.verifiedAirportJourney,true,message);
+    assert.equal(res.payload.meta.recommendedMode,mode,message);
+    assert.equal(res.payload.meta.fallback,false,message);
+    assert.equal(res.payload.meta.searched,false,message);
+    assert.equal(requests.length,1,message);
+    assert.equal(request.body.tools,undefined);
+    assert.match(request.body.instructions,/Do NOT always recommend the bus/);
+    assert.match(request.body.instructions,/New user corrections override earlier preferences/);
+    assert.match(request.body.instructions,/VERIFIED_AIRPORT_OPTIONS/);
+    assert.doesNotMatch(res.payload.answer,/AIRPORT_MODE|AIRPORT_BUS|MAP_SPOT/);
+    assert.equal(res.payload.meta.inputTokens,300);
+    assert.equal(res.payload.links.at(-1).route,'airport-departure');
+    if(mode==='rail')assert.ok(res.payload.links.some(link=>link.url==='https://www.airportrailroad.com/main'));
+    if(mode==='bus')assert.ok(res.payload.links.some(link=>link.url.includes('/02711/bus-station/55012226')));
+    if(mode==='taxi')assert.equal(res.payload.links.filter(link=>link.kind==='map').length,2);
+  }
+});
+
+test('a malformed airport model reply falls back to all options without exposing invented links or markers',async()=>{
+  const {res}=await callApi({message:'숙소에서 인천공항 가는 길',language:'ko',telemetry:{optOut:true}},{model:'bad-model',output_text:'포항에서 출발하세요. AIRPORT_MODE: bus\nhttps://qp.map.naver.com/end-quick-path/bad'},'airport-malformed');
+  assert.equal(res.payload.meta.fallback,true);
+  assert.match(res.payload.answer,/AREX/);assert.match(res.payload.answer,/택시/);assert.match(res.payload.answer,/공항버스/);
+  assert.doesNotMatch(res.payload.answer,/포항|AIRPORT_MODE|https/);
 });
 
 test("searched weather answers always expose an official source fallback", async () => {

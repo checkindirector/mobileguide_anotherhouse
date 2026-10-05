@@ -23,16 +23,18 @@
     if (hasOtherOrigin(text) || /김포|gimpo|金浦|(?:광주|제주|김해|대구|청주|gwangju|jeju|gimhae|daegu|cheongju).{0,8}(?:공항|airport)/i.test(text)) return null;
     const previous = history.filter(item => item?.role === 'user').slice(-2).map(item => item.content).join(' ');
     if (!propertyOrigin.test(text) && /공항\s*(?:에서|부터).{0,70}(?:서울역|명동|홍대|강남|부산|포항|청량리)(?:으로|로|까지|에|\s*가)|from\s+(?:incheon\s+|the\s+)?airport\s+to\s+(?!another\s*house|the\s*(?:property|hotel|hostel)|your\s*(?:hotel|hostel)|dongdaemun|here)\S+|空港から.{0,50}(?:ソウル駅|明洞|弘大|江南|釜山)(?:へ|まで)|(?:从|從)(?:仁川)?(?:机场|機場).{0,50}(?:首尔站|首爾站|明洞|弘大|江南|釜山)/i.test(text)) return null;
-    const night = /심야|새벽|\bnight\b|overnight|深夜|早朝|凌晨|夜间|夜間|N6002|N6701/i.test(text);
+    const night = /심야|새벽|밤|\bnight\b|overnight|midnight|early\s*morning|深夜|早朝|夜中|凌晨|夜间|夜間|晚上|夜里|夜裡|N6002|N6701/i.test(text);
     const bus = /N?\s*(?:6002|6702|6701)|공항\s*(?:버스|리무진|셔틀)|심야\s*버스|리무진|airport\s*(?:bus|limousine|coach|shuttle)|night\s*bus|空港.{0,8}(?:バス|リムジン)|(?:机场|機場).{0,8}(?:巴士|大巴|客運)/i.test(text);
     const route = /가는|갈|가려|가야|어떻게|편한|편하게|방법|교통편|경로|길|how|directions?|route|get\s+to|go\s+to|transport|easiest|best\s+way|行き方|どう.*行|アクセス|便利|怎么|怎麼|如何|前往|路线|路線|交通|方便/i.test(text);
     if (!(airport.test(text) || /6002|6702|N6701/i.test(text) || (night && airport.test(previous)))) return null;
     if (!airport.test(text) && hasOtherOrigin(previous)) return null;
-    // A rail/taxi-specific question must keep its mode, not become a bus recommendation.
+    // A specific mode stays specific; comparisons and generic routes need all transport options.
     const nightBusComparison = bus && night && /보다|더\s*현실|versus|\bvs\b|better|rather|比較|より|比|更/i.test(text);
-    if (alternativeMode.test(text) && !nightBusComparison || (!bus && !night && !route)) return null;
+    const optionsWanted = /옵션|선택지|여러|비교|뭐가|추천|options?|compare|which|recommend|比較|どれ|おすすめ|比较|比較|哪种|哪種|推荐|推薦/i.test(text);
+    const modeComparison = bus && alternativeMode.test(text) && (optionsWanted || nightBusComparison || /(?:랑|하고|or|versus|\bvs\b|より|还是|還是)/i.test(text));
+    if (alternativeMode.test(text) && !modeComparison || (!bus && !night && !route)) return null;
     const isArrival = arrival.test(text) || (!outbound.test(text) && arrival.test(previous));
-    return { arrival: isArrival, night, comparison: /6002/.test(text) && /6702/.test(text), explicit: text.match(/\b(N6701|N6002|6702|6002)\b/i)?.[1]?.toUpperCase() || null };
+    return { arrival: isArrival, night, busOnly: bus && !modeComparison && !/옵션|선택지|여러|options?|compare|比較|比较/i.test(text), comparison: /6002/.test(text) && /6702/.test(text), explicit: text.match(/\b(N6701|N6002|6702|6002)\b/i)?.[1]?.toUpperCase() || null };
   }
   const api = { classify, hasOtherOrigin, alternativeMode };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
