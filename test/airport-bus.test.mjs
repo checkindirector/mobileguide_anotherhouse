@@ -10,22 +10,38 @@ const cases={
   zh:['从仁川机场到住宿机场巴士','从住宿前往仁川机场机场巴士','从仁川机场到住宿夜间巴士','去仁川机场夜间巴士'],
   'zh-TW':['從仁川機場到住宿機場客運','從住宿前往仁川機場機場客運','從仁川機場到住宿夜間巴士','去仁川機場夜間巴士']
 };
-test('official airport bus data distinguishes directions and unresolved night stop number in all languages',()=>{
+test('airport buses distinguish directions, walking distance and exact map stops in all languages',()=>{
   assert.equal(knowledge.airportBusGuide.verifiedAt,'2026-10-05');
-  assert.equal(knowledge.airportBusGuide.distance.meters,411);
-  assert.match(knowledge.airportBusGuide.distance.measurement,/NOT walking/);
+  assert.equal(knowledge.airportBusGuide.distance.departure.differenceMeters,103);
+  assert.equal(knowledge.airportBusGuide.distance.arrival.differenceMeters,46);
+  assert.equal(knowledge.airportBusGuide.distance.departure.closer,'6002');
+  assert.equal(knowledge.airportBusGuide.distance.arrival.closer,'6702');
+  assert.match(knowledge.airportBusGuide.distance.measurement,/Naver recommended walking/);
   for(const language of Object.keys(cases)){
     const buses=knowledge.airportBusGuide.locales[language].routes;
     assert.deepEqual(buses.map(bus=>bus.id),['6702','6002','N6701','N6002']);
     assert.equal(buses[1].arrival.id,'01023');assert.equal(buses[1].departure.id,'01037');
-    assert.equal(buses[3].arrival.id,null);assert.equal(buses[3].arrival.numberConfirmed,false);
+    assert.equal(buses[3].arrival.id,'01023');assert.equal(buses[3].arrival.numberConfirmed,true);
     assert.deepEqual(buses[3].airportTimes.T1,['00:00','00:30','01:00','01:40','04:00','04:40']);
     assert.equal(buses[3].departureTimes.at(-1),'03:35');
     for(const bus of buses)for(const direction of ['arrival','departure']){
       const maps=bus[direction].maps;
       assert.equal(new URL(maps.google).searchParams.get('query'),bus[direction].coordinates.join(','));
-      if(bus[direction].id)assert.equal(new URL(maps.naver).pathname.split('/').at(-1),bus[direction].id);
+      assert.equal(new URL(maps.naver).pathname,'/p/search/'+bus[direction].id+'/bus-station/'+bus[direction].naverStationId);
     }
+  }
+});
+test('short stop-distance comparisons preserve direction-specific proximity in five languages',async()=>{
+  const questions={ko:'6002 6702 정류장 거리차',en:'6002 6702 stop distance difference',ja:'6002 6702 停留所の距離',zh:'6002 6702 车站距离差','zh-TW':'6002 6702 車站距離差'};
+  let ip=100;
+  for(const [language,message] of Object.entries(questions)){
+    const res={statusCode:0,setHeader(){},status(code){this.statusCode=code;return this},json(body){this.body=body;return this}};
+    await handler({method:'POST',headers:{'x-forwarded-for':`198.51.100.${ip++}`},body:{message,language,telemetry:{optOut:true}},socket:{}},res);
+    assert.equal(res.statusCode,200,message);
+    assert.equal(res.body.model,'another-house-verified-airport-bus',message);
+    for(const distance of ['182','285','331','103','46'])assert.ok(res.body.answer.includes(distance),message);
+    assert.doesNotMatch(res.body.answer,/411/);
+    assert.ok(res.body.answer.indexOf('6002 —')<res.body.answer.indexOf('6702 —'));
   }
 });
 test('day/night airport questions return corrected direction and stop maps without a model in all five languages',async()=>{
@@ -37,9 +53,9 @@ test('day/night airport questions return corrected direction and stop maps witho
     assert.equal(res.body.meta.searched,false);assert.equal(res.body.meta.guideRoute,index%2===0?'transport':'airport-departure');
     const ids=index<2?['6702','6002']:['N6701','N6002'];for(const id of ids)assert.ok(res.body.answer.includes(id),message);
     assert.equal(res.body.links.filter(link=>link.kind==='map').length,4);
-    if(index===0)assert.ok(res.body.links.some(link=>link.url.endsWith('/01023')));
-    if(index===1)assert.ok(res.body.links.some(link=>link.url.endsWith('/01037')));
-    if(index>=2)assert.ok(res.body.links.some(link=>link.url.endsWith('/02711')));
+    if(index===0)assert.ok(res.body.links.some(link=>link.url.includes('/01023/bus-station/105523')));
+    if(index===1)assert.ok(res.body.links.some(link=>link.url.includes('/01037/bus-station/80606')));
+    if(index>=2)assert.ok(res.body.links.some(link=>link.url.includes('/02711/bus-station/55012226')));
     assert.doesNotMatch(res.body.answer,/01771|01773/);
   }
 });

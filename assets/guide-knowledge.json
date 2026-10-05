@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-05.2",
+  "version": "2026-10-05.3",
   "generatedAt": "2026-09-23",
   "sourceOfTruth": "Another House operations manual synchronized with current rendered site data",
   "canonicalUrl": "https://anotherhouse-guide.vercel.app/",
@@ -3513,7 +3513,7 @@
             },
             {
               "title": "6702 · 동대문역(JW메리어트호텔동대문)",
-              "badge": "가까운 정류장",
+              "badge": "가까운 하차 정류장",
               "tags": [
                 "성인 18,000원 · 소아(만 6–12세) 12,000원"
               ],
@@ -3632,10 +3632,10 @@
                 {
                   "label": "N6002",
                   "title": "공항 승차장",
-                  "body": "T1: 1F 6A · T2: B1 30. N6002도 동대문(흥인지문)에 정차합니다. 하차 승객이 없으면 통과하므로 기사님께 흥인지문 하차를 알려 주세요. 운영사 하차 정류장 번호 표기가 일치하지 않아 번호 대신 위치 핀과 공식 노선으로 안내합니다."
+                  "body": "T1: 1F 6A · T2: B1 30. N6002는 동대문(흥인지문) 중앙차로 하차 정류장 01023으로 안내합니다(네이버지도 노선 확인). 하차 승객이 없으면 통과하므로 기사님께 흥인지문에서 내린다고 미리 알려 주세요."
                 },
                 {
-                  "label": "N6002",
+                  "label": "01023",
                   "title": "동대문(흥인지문)",
                   "body": "동대문역 6번 출구 방향으로 이동한 뒤 교촌치킨 간판 아래 선일빌딩 입구로 들어와 엘리베이터로 5층에 올라오세요."
                 }
@@ -3827,7 +3827,7 @@
             },
             {
               "title": "6702 · Dongdaemun Station (JW Marriott Dongdaemun)",
-              "badge": "Nearest stop",
+              "badge": "Closer alighting stop",
               "tags": [
                 "Adult ₩18,000 · child aged 6–12 ₩12,000"
               ],
@@ -3946,10 +3946,10 @@
                 {
                   "label": "N6002",
                   "title": "Airport boarding",
-                  "body": "T1: 1F 6A · T2: B1 30. N6002 also serves Dongdaemun (Heunginjimun). Tell the driver you wish to alight there; it may be skipped without alighting passengers. The operator has inconsistent alighting-stop numbers, so use the location pin and official route rather than an unconfirmed number."
+                  "body": "T1: 1F 6A · T2: B1 30. N6002 serves Dongdaemun (Heunginjimun) median alighting stop 01023, verified in Naver Maps. Tell the driver in advance that you wish to alight there; the stop may be skipped without alighting passengers."
                 },
                 {
-                  "label": "N6002",
+                  "label": "01023",
                   "title": "Dongdaemun (Heunginjimun)",
                   "body": "Walk towards Dongdaemun Station Exit 6, enter Sunil Building beneath the Kyochon sign and take the elevator to 5F."
                 }
@@ -4141,7 +4141,7 @@
             },
             {
               "title": "6702 · 東大門駅（JWマリオット東大門）",
-              "badge": "近い停留所",
+              "badge": "近い降車停留所",
               "tags": [
                 "大人18,000ウォン・6～12歳12,000ウォン"
               ],
@@ -4260,10 +4260,10 @@
                 {
                   "label": "N6002",
                   "title": "空港乗り場",
-                  "body": "T1: 1F 6A · T2: B1 30. N6002も東大門（興仁之門）に停車します。降車客がいないと通過するため運転手に降車を伝えてください。運営会社の降車番号表記が一致しないため、位置ピンと公式路線で案内します。"
+                  "body": "T1: 1F 6A · T2: B1 30. N6002は東大門（興仁之門）の中央車線降車停留所01023へ（Naver地図で路線確認）。降車客がいないと通過するため、事前に運転手へ降車を伝えてください。"
                 },
                 {
-                  "label": "N6002",
+                  "label": "01023",
                   "title": "東大門（興仁之門）",
                   "body": "東大門駅6番出口へ進み、キョチョンの看板下のソニルビル入口からエレベーターで5階へ。"
                 }
@@ -4455,7 +4455,7 @@
             },
             {
               "title": "6702 · 东大门站（JW万豪东大门）",
-              "badge": "较近车站",
+              "badge": "较近下车站",
               "tags": [
                 "成人18,000韩元·6–12岁12,000韩元"
               ],
@@ -4574,10 +4574,10 @@
                 {
                   "label": "N6002",
                   "title": "机场乘车处",
-                  "body": "T1: 1F 6A · T2: B1 30. N6002也停靠东大门（兴仁之门）。无人下车时会不停站，请提前告知司机。运营方下车站编号不一致，因此提供位置标记与官方路线，不使用未确认编号。"
+                  "body": "T1: 1F 6A · T2: B1 30. N6002在东大门（兴仁之门）中央车道01023下车（已在Naver地图核对路线）。无人下车时会不停站，请提前告知司机在兴仁之门下车。"
                 },
                 {
-                  "label": "N6002",
+                  "label": "01023",
                   "title": "东大门（兴仁之门）",
                   "body": "往东大门站6号出口方向，进入桥村炸鸡招牌下的Sunil大厦，乘电梯到5楼。"
                 }
@@ -4769,7 +4769,7 @@
             },
             {
               "title": "6702 · 東大門站（JW萬豪東大門）",
-              "badge": "較近車站",
+              "badge": "較近下車站",
               "tags": [
                 "成人18,000韓元·6–12歲12,000韓元"
               ],
@@ -4888,10 +4888,10 @@
                 {
                   "label": "N6002",
                   "title": "機場乘車處",
-                  "body": "T1: 1F 6A · T2: B1 30. N6002也停靠東大門（興仁之門）。無人下車時會不停站，請提前告知司機。營運方下車站編號不一致，因此提供位置標記與官方路線，不使用未確認編號。"
+                  "body": "T1: 1F 6A · T2: B1 30. N6002在東大門（興仁之門）中央車道01023下車（已在Naver地圖核對路線）。無人下車時會不停站，請提前告知司機在興仁之門下車。"
                 },
                 {
-                  "label": "N6002",
+                  "label": "01023",
                   "title": "東大門（興仁之門）",
                   "body": "往東大門站6號出口方向，進入橋村炸雞招牌下的Sunil大樓，搭電梯到5樓。"
                 }
@@ -5027,14 +5027,38 @@
   "airportBusGuide": {
     "verifiedAt": "2026-10-05",
     "authority": "Operator-approved transport correction after the workbook; official operator stop details",
+    "coordinateSource": "https://data.seoul.go.kr/dataList/OA-15067/A/1/datasetView.do (20260902, Data!A:F)",
     "distance": {
-      "meters": 411,
-      "measurement": "straight-line between 01901 and 01037; NOT walking-distance difference"
+      "measurement": "Naver recommended walking routes, 2026-10-05; public building address Jongno 294, not reception/elevator",
+      "arrival": {
+        "6002": {
+          "meters": 331,
+          "minutes": 5
+        },
+        "6702": {
+          "meters": 285,
+          "minutes": 5
+        },
+        "differenceMeters": 46,
+        "closer": "6702"
+      },
+      "departure": {
+        "6002": {
+          "meters": 182,
+          "minutes": 2
+        },
+        "6702": {
+          "meters": 285,
+          "minutes": 5
+        },
+        "differenceMeters": 103,
+        "closer": "6002"
+      }
     },
     "locales": {
       "ko": {
         "copy": {
-          "comparison": "숙소에서 가까운 정류장은 6702번입니다. 6002번 흥인지문 정류장과 약 411m 떨어져 있습니다(정류장 간 직선거리, 실제 보행거리 차이 아님). 가까운 정류장이 공항까지 가장 빠른 노선이라는 뜻은 아닙니다.",
+          "comparison": "정류장까지의 거리는 이동 방향에 따라 다릅니다. 숙소 → 공항: 6002 승차점 01037 약 182m(2분), 6702 승차점 01901 약 285m(5분)로 6002가 약 103m 가깝습니다. 공항 → 숙소: 6702 하차점 약 285m, 6002 하차점 01023 약 331m(각 약 5분)로 6702가 약 46m 가깝습니다. 2026-10-05 네이버지도 추천 도보 경로 기준이며 신호 대기·짐에 따라 달라집니다.",
           "notice": "시간표는 도로·기상 상황에 따라 변경될 수 있습니다. 탑승 전 터미널과 방향별 공식 시간표를 확인해 주세요. 심야 시간은 날짜가 바뀌는 점에 유의해 주세요.",
           "naver": "정류장 네이버지도",
           "google": "정류장 구글맵",
@@ -5048,32 +5072,35 @@
           {
             "id": "6702",
             "night": false,
-            "badge": "가까운 정류장",
+            "badge": "가까운 하차 정류장",
+            "departureBadge": "다른 선택",
             "fare": "성인 18,000원 · 소아(만 6–12세) 12,000원",
             "arrival": {
               "name": "동대문역(JW메리어트호텔동대문)",
               "id": "01901",
               "coordinates": [
-                37.57072708611123,
-                127.00918872386161
+                37.5706369793,
+                127.0092820998
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012217",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01901",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.57072708611123%2C127.00918872386161"
+                "naver": "https://map.naver.com/p/search/01901/bus-station/55012217",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5706369793%2C127.0092820998"
               }
             },
             "departure": {
               "name": "동대문역(JW메리어트호텔동대문)",
               "id": "01901",
               "coordinates": [
-                37.57072708611123,
-                127.00918872386161
+                37.5706369793,
+                127.0092820998
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012217",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01901",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.57072708611123%2C127.00918872386161"
+                "naver": "https://map.naver.com/p/search/01901/bus-station/55012217",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5706369793%2C127.0092820998"
               }
             },
             "boarding": "T1: 1F 3B / 4A · T2: B1 18 / 19",
@@ -5112,32 +5139,35 @@
           {
             "id": "6002",
             "night": false,
+            "departureBadge": "가까운 승차 정류장",
             "badge": "다른 선택",
             "fare": "성인 17,000원 · 어린이 12,000원",
             "arrival": {
               "name": "동대문(흥인지문)",
               "id": "01023",
               "coordinates": [
-                37.5723191896375,
-                127.013422557735
+                37.572447536,
+                127.013815948
               ],
               "numberConfirmed": true,
+              "naverStationId": "105523",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01023",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723191896375%2C127.013422557735"
+                "naver": "https://map.naver.com/p/search/01023/bus-station/105523",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.572447536%2C127.013815948"
               }
             },
             "departure": {
               "name": "동대문(흥인지문)",
               "id": "01037",
               "coordinates": [
-                37.5723169394005,
-                127.013402747527
+                37.5721524474,
+                127.0124191046
               ],
               "numberConfirmed": true,
+              "naverStationId": "80606",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01037",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723169394005%2C127.013402747527"
+                "naver": "https://map.naver.com/p/search/01037/bus-station/80606",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5721524474%2C127.0124191046"
               }
             },
             "boarding": "T1: 1F 6A-1 · T2: B1 30",
@@ -5155,26 +5185,28 @@
               "name": "동대문디자인플라자(DDP) 알림터 A3 앞",
               "id": "02711",
               "coordinates": [
-                37.56778308434606,
-                127.00917421320439
+                37.5678529085,
+                127.009213839
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012226",
               "maps": {
-                "naver": "https://map.naver.com/p/search/02711",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.56778308434606%2C127.00917421320439"
+                "naver": "https://map.naver.com/p/search/02711/bus-station/55012226",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5678529085%2C127.009213839"
               }
             },
             "departure": {
               "name": "동대문디자인플라자(DDP) 알림터 A3 앞",
               "id": "02711",
               "coordinates": [
-                37.56778308434606,
-                127.00917421320439
+                37.5678529085,
+                127.009213839
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012226",
               "maps": {
-                "naver": "https://map.naver.com/p/search/02711",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.56778308434606%2C127.00917421320439"
+                "naver": "https://map.naver.com/p/search/02711/bus-station/55012226",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5678529085%2C127.009213839"
               }
             },
             "boarding": "T1: 1F 3B · T2: B1 18 / 19",
@@ -5212,32 +5244,34 @@
             "fare": "성인 17,000원 · 어린이(초등학생) 10,000원",
             "arrival": {
               "name": "동대문(흥인지문)",
-              "id": null,
+              "id": "01023",
               "coordinates": [
-                37.5723191896375,
-                127.013422557735
+                37.572447536,
+                127.013815948
               ],
-              "numberConfirmed": false,
+              "numberConfirmed": true,
+              "naverStationId": "105523",
               "maps": {
-                "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%8C%80%EB%AC%B8%20%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8%20%EA%B3%B5%ED%95%AD%EB%B2%84%EC%8A%A4%20%EC%A0%95%EB%A5%98%EC%9E%A5",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723191896375%2C127.013422557735"
+                "naver": "https://map.naver.com/p/search/01023/bus-station/105523",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.572447536%2C127.013815948"
               }
             },
             "departure": {
               "name": "동대문(흥인지문)",
               "id": "01037",
               "coordinates": [
-                37.5723169394005,
-                127.013402747527
+                37.5721524474,
+                127.0124191046
               ],
               "numberConfirmed": true,
+              "naverStationId": "80606",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01037",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723169394005%2C127.013402747527"
+                "naver": "https://map.naver.com/p/search/01037/bus-station/80606",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5721524474%2C127.0124191046"
               }
             },
             "boarding": "T1: 1F 6A · T2: B1 30",
-            "arrivalBody": "N6002도 동대문(흥인지문)에 정차합니다. 하차 승객이 없으면 통과하므로 기사님께 흥인지문 하차를 알려 주세요. 운영사 하차 정류장 번호 표기가 일치하지 않아 번호 대신 위치 핀과 공식 노선으로 안내합니다.",
+            "arrivalBody": "N6002는 동대문(흥인지문) 중앙차로 하차 정류장 01023으로 안내합니다(네이버지도 노선 확인). 하차 승객이 없으면 통과하므로 기사님께 흥인지문에서 내린다고 미리 알려 주세요.",
             "departureBody": "흥인지문 중앙차로 01037(동대문역 3·4번 출구 인근)에서 인천공항행 N6002를 타세요. 공항행은 현금 또는 교통카드로 결제합니다. 아래 시간은 흥인지문 출발입니다.",
             "departureTimes": [
               "22:35",
@@ -5272,7 +5306,7 @@
       },
       "en": {
         "copy": {
-          "comparison": "6702 has the closer stop to the property. The 6002 Heunginjimun stop is about 411 m from it (straight-line distance between stops, not the difference in walking distances). The nearest stop does not necessarily mean the fastest airport journey.",
+          "comparison": "Walking distance depends on direction. Property → airport: 6002 boarding stop 01037 is about 182 m (2 min), versus 6702 stop 01901 at 285 m (5 min): 6002 is about 103 m closer. Airport → property: 6702 is about 285 m, versus 6002 alighting stop 01023 at 331 m (both about 5 min): 6702 is about 46 m closer. Based on Naver recommended walking routes on 2026-10-05; traffic lights and luggage may add time.",
           "notice": "Schedules may change with traffic or weather. Check your terminal and the official timetable for your direction before boarding. Night services cross midnight.",
           "naver": "Stop · Naver Map",
           "google": "Stop · Google Maps",
@@ -5286,32 +5320,35 @@
           {
             "id": "6702",
             "night": false,
-            "badge": "Nearest stop",
+            "badge": "Closer alighting stop",
+            "departureBadge": "Alternative",
             "fare": "Adult ₩18,000 · child aged 6–12 ₩12,000",
             "arrival": {
               "name": "Dongdaemun Station (JW Marriott Dongdaemun)",
               "id": "01901",
               "coordinates": [
-                37.57072708611123,
-                127.00918872386161
+                37.5706369793,
+                127.0092820998
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012217",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01901",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.57072708611123%2C127.00918872386161"
+                "naver": "https://map.naver.com/p/search/01901/bus-station/55012217",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5706369793%2C127.0092820998"
               }
             },
             "departure": {
               "name": "Dongdaemun Station (JW Marriott Dongdaemun)",
               "id": "01901",
               "coordinates": [
-                37.57072708611123,
-                127.00918872386161
+                37.5706369793,
+                127.0092820998
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012217",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01901",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.57072708611123%2C127.00918872386161"
+                "naver": "https://map.naver.com/p/search/01901/bus-station/55012217",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5706369793%2C127.0092820998"
               }
             },
             "boarding": "T1: 1F 3B / 4A · T2: B1 18 / 19",
@@ -5350,32 +5387,35 @@
           {
             "id": "6002",
             "night": false,
+            "departureBadge": "Closer boarding stop",
             "badge": "Alternative",
             "fare": "Adult ₩17,000 · child ₩12,000",
             "arrival": {
               "name": "Dongdaemun (Heunginjimun)",
               "id": "01023",
               "coordinates": [
-                37.5723191896375,
-                127.013422557735
+                37.572447536,
+                127.013815948
               ],
               "numberConfirmed": true,
+              "naverStationId": "105523",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01023",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723191896375%2C127.013422557735"
+                "naver": "https://map.naver.com/p/search/01023/bus-station/105523",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.572447536%2C127.013815948"
               }
             },
             "departure": {
               "name": "Dongdaemun (Heunginjimun)",
               "id": "01037",
               "coordinates": [
-                37.5723169394005,
-                127.013402747527
+                37.5721524474,
+                127.0124191046
               ],
               "numberConfirmed": true,
+              "naverStationId": "80606",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01037",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723169394005%2C127.013402747527"
+                "naver": "https://map.naver.com/p/search/01037/bus-station/80606",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5721524474%2C127.0124191046"
               }
             },
             "boarding": "T1: 1F 6A-1 · T2: B1 30",
@@ -5393,26 +5433,28 @@
               "name": "Dongdaemun Design Plaza (DDP), outside Art Hall A3",
               "id": "02711",
               "coordinates": [
-                37.56778308434606,
-                127.00917421320439
+                37.5678529085,
+                127.009213839
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012226",
               "maps": {
-                "naver": "https://map.naver.com/p/search/02711",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.56778308434606%2C127.00917421320439"
+                "naver": "https://map.naver.com/p/search/02711/bus-station/55012226",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5678529085%2C127.009213839"
               }
             },
             "departure": {
               "name": "Dongdaemun Design Plaza (DDP), outside Art Hall A3",
               "id": "02711",
               "coordinates": [
-                37.56778308434606,
-                127.00917421320439
+                37.5678529085,
+                127.009213839
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012226",
               "maps": {
-                "naver": "https://map.naver.com/p/search/02711",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.56778308434606%2C127.00917421320439"
+                "naver": "https://map.naver.com/p/search/02711/bus-station/55012226",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5678529085%2C127.009213839"
               }
             },
             "boarding": "T1: 1F 3B · T2: B1 18 / 19",
@@ -5450,32 +5492,34 @@
             "fare": "Adult ₩17,000 · primary-school child ₩10,000",
             "arrival": {
               "name": "Dongdaemun (Heunginjimun)",
-              "id": null,
+              "id": "01023",
               "coordinates": [
-                37.5723191896375,
-                127.013422557735
+                37.572447536,
+                127.013815948
               ],
-              "numberConfirmed": false,
+              "numberConfirmed": true,
+              "naverStationId": "105523",
               "maps": {
-                "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%8C%80%EB%AC%B8%20%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8%20%EA%B3%B5%ED%95%AD%EB%B2%84%EC%8A%A4%20%EC%A0%95%EB%A5%98%EC%9E%A5",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723191896375%2C127.013422557735"
+                "naver": "https://map.naver.com/p/search/01023/bus-station/105523",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.572447536%2C127.013815948"
               }
             },
             "departure": {
               "name": "Dongdaemun (Heunginjimun)",
               "id": "01037",
               "coordinates": [
-                37.5723169394005,
-                127.013402747527
+                37.5721524474,
+                127.0124191046
               ],
               "numberConfirmed": true,
+              "naverStationId": "80606",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01037",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723169394005%2C127.013402747527"
+                "naver": "https://map.naver.com/p/search/01037/bus-station/80606",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5721524474%2C127.0124191046"
               }
             },
             "boarding": "T1: 1F 6A · T2: B1 30",
-            "arrivalBody": "N6002 also serves Dongdaemun (Heunginjimun). Tell the driver you wish to alight there; it may be skipped without alighting passengers. The operator has inconsistent alighting-stop numbers, so use the location pin and official route rather than an unconfirmed number.",
+            "arrivalBody": "N6002 serves Dongdaemun (Heunginjimun) median alighting stop 01023, verified in Naver Maps. Tell the driver in advance that you wish to alight there; the stop may be skipped without alighting passengers.",
             "departureBody": "Board airport-bound N6002 at Heunginjimun median stop 01037 near Dongdaemun Station Exits 3–4. Pay by cash or transit card for the airport-bound trip. Times below are Heunginjimun departures.",
             "departureTimes": [
               "22:35",
@@ -5510,7 +5554,7 @@
       },
       "ja": {
         "copy": {
-          "comparison": "宿に近い停留所は6702です。6002の興仁之門停留所とは約411m離れています（停留所間の直線距離で、徒歩距離の差ではありません）。近い停留所が空港まで最速とは限りません。",
+          "comparison": "停留所までの距離は方向で異なります。宿→空港：6002乗車停留所01037は約182m（2分）、6702の01901は約285m（5分）で、6002が約103m近いです。空港→宿：6702は約285m、6002降車停留所01023は約331m（ともに約5分）で、6702が約46m近いです。2026-10-05のNaver推奨徒歩ルート基準。信号や荷物により時間は変わります。",
           "notice": "道路・天候により時刻は変更されます。乗車前にターミナルと方向別の公式時刻表をご確認ください。深夜便は日付の変わり目にご注意ください。",
           "naver": "停留所・Naver地図",
           "google": "停留所・Googleマップ",
@@ -5524,32 +5568,35 @@
           {
             "id": "6702",
             "night": false,
-            "badge": "近い停留所",
+            "badge": "近い降車停留所",
+            "departureBadge": "別の選択肢",
             "fare": "大人18,000ウォン・6～12歳12,000ウォン",
             "arrival": {
               "name": "東大門駅（JWマリオット東大門）",
               "id": "01901",
               "coordinates": [
-                37.57072708611123,
-                127.00918872386161
+                37.5706369793,
+                127.0092820998
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012217",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01901",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.57072708611123%2C127.00918872386161"
+                "naver": "https://map.naver.com/p/search/01901/bus-station/55012217",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5706369793%2C127.0092820998"
               }
             },
             "departure": {
               "name": "東大門駅（JWマリオット東大門）",
               "id": "01901",
               "coordinates": [
-                37.57072708611123,
-                127.00918872386161
+                37.5706369793,
+                127.0092820998
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012217",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01901",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.57072708611123%2C127.00918872386161"
+                "naver": "https://map.naver.com/p/search/01901/bus-station/55012217",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5706369793%2C127.0092820998"
               }
             },
             "boarding": "T1: 1F 3B / 4A · T2: B1 18 / 19",
@@ -5588,32 +5635,35 @@
           {
             "id": "6002",
             "night": false,
+            "departureBadge": "近い乗車停留所",
             "badge": "別の選択肢",
             "fare": "大人17,000ウォン・子供12,000ウォン",
             "arrival": {
               "name": "東大門（興仁之門）",
               "id": "01023",
               "coordinates": [
-                37.5723191896375,
-                127.013422557735
+                37.572447536,
+                127.013815948
               ],
               "numberConfirmed": true,
+              "naverStationId": "105523",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01023",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723191896375%2C127.013422557735"
+                "naver": "https://map.naver.com/p/search/01023/bus-station/105523",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.572447536%2C127.013815948"
               }
             },
             "departure": {
               "name": "東大門（興仁之門）",
               "id": "01037",
               "coordinates": [
-                37.5723169394005,
-                127.013402747527
+                37.5721524474,
+                127.0124191046
               ],
               "numberConfirmed": true,
+              "naverStationId": "80606",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01037",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723169394005%2C127.013402747527"
+                "naver": "https://map.naver.com/p/search/01037/bus-station/80606",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5721524474%2C127.0124191046"
               }
             },
             "boarding": "T1: 1F 6A-1 · T2: B1 30",
@@ -5631,26 +5681,28 @@
               "name": "東大門デザインプラザ（DDP）A3前",
               "id": "02711",
               "coordinates": [
-                37.56778308434606,
-                127.00917421320439
+                37.5678529085,
+                127.009213839
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012226",
               "maps": {
-                "naver": "https://map.naver.com/p/search/02711",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.56778308434606%2C127.00917421320439"
+                "naver": "https://map.naver.com/p/search/02711/bus-station/55012226",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5678529085%2C127.009213839"
               }
             },
             "departure": {
               "name": "東大門デザインプラザ（DDP）A3前",
               "id": "02711",
               "coordinates": [
-                37.56778308434606,
-                127.00917421320439
+                37.5678529085,
+                127.009213839
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012226",
               "maps": {
-                "naver": "https://map.naver.com/p/search/02711",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.56778308434606%2C127.00917421320439"
+                "naver": "https://map.naver.com/p/search/02711/bus-station/55012226",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5678529085%2C127.009213839"
               }
             },
             "boarding": "T1: 1F 3B · T2: B1 18 / 19",
@@ -5688,32 +5740,34 @@
             "fare": "大人17,000ウォン・小学生10,000ウォン",
             "arrival": {
               "name": "東大門（興仁之門）",
-              "id": null,
+              "id": "01023",
               "coordinates": [
-                37.5723191896375,
-                127.013422557735
+                37.572447536,
+                127.013815948
               ],
-              "numberConfirmed": false,
+              "numberConfirmed": true,
+              "naverStationId": "105523",
               "maps": {
-                "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%8C%80%EB%AC%B8%20%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8%20%EA%B3%B5%ED%95%AD%EB%B2%84%EC%8A%A4%20%EC%A0%95%EB%A5%98%EC%9E%A5",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723191896375%2C127.013422557735"
+                "naver": "https://map.naver.com/p/search/01023/bus-station/105523",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.572447536%2C127.013815948"
               }
             },
             "departure": {
               "name": "東大門（興仁之門）",
               "id": "01037",
               "coordinates": [
-                37.5723169394005,
-                127.013402747527
+                37.5721524474,
+                127.0124191046
               ],
               "numberConfirmed": true,
+              "naverStationId": "80606",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01037",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723169394005%2C127.013402747527"
+                "naver": "https://map.naver.com/p/search/01037/bus-station/80606",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5721524474%2C127.0124191046"
               }
             },
             "boarding": "T1: 1F 6A · T2: B1 30",
-            "arrivalBody": "N6002も東大門（興仁之門）に停車します。降車客がいないと通過するため運転手に降車を伝えてください。運営会社の降車番号表記が一致しないため、位置ピンと公式路線で案内します。",
+            "arrivalBody": "N6002は東大門（興仁之門）の中央車線降車停留所01023へ（Naver地図で路線確認）。降車客がいないと通過するため、事前に運転手へ降車を伝えてください。",
             "departureBody": "東大門駅3・4番出口付近、興仁之門の中央車線01037から空港行きN6002に乗車。空港行きは現金または交通カード。下記は興仁之門発です。",
             "departureTimes": [
               "22:35",
@@ -5748,7 +5802,7 @@
       },
       "zh": {
         "copy": {
-          "comparison": "6702的车站离住宿更近。与6002兴仁之门站相距约411米（两站间直线距离，并非步行距离差）。车站较近不代表到机场最快。",
+          "comparison": "步行距离取决于方向。住宿→机场：6002上车站01037约182米（2分钟），6702站01901约285米（5分钟），6002近约103米。机场→住宿：6702约285米，6002下车站01023约331米（均约5分钟），6702近约46米。以2026-10-05 Naver推荐步行路线为准，红绿灯及行李会影响时间。",
           "notice": "班次可能因交通或天气改变。乘车前请确认航站楼及对应方向的官方时刻表，夜间班次需注意跨日。",
           "naver": "车站·Naver地图",
           "google": "车站·Google地图",
@@ -5762,32 +5816,35 @@
           {
             "id": "6702",
             "night": false,
-            "badge": "较近车站",
+            "badge": "较近下车站",
+            "departureBadge": "其他选择",
             "fare": "成人18,000韩元·6–12岁12,000韩元",
             "arrival": {
               "name": "东大门站（JW万豪东大门）",
               "id": "01901",
               "coordinates": [
-                37.57072708611123,
-                127.00918872386161
+                37.5706369793,
+                127.0092820998
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012217",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01901",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.57072708611123%2C127.00918872386161"
+                "naver": "https://map.naver.com/p/search/01901/bus-station/55012217",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5706369793%2C127.0092820998"
               }
             },
             "departure": {
               "name": "东大门站（JW万豪东大门）",
               "id": "01901",
               "coordinates": [
-                37.57072708611123,
-                127.00918872386161
+                37.5706369793,
+                127.0092820998
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012217",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01901",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.57072708611123%2C127.00918872386161"
+                "naver": "https://map.naver.com/p/search/01901/bus-station/55012217",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5706369793%2C127.0092820998"
               }
             },
             "boarding": "T1: 1F 3B / 4A · T2: B1 18 / 19",
@@ -5826,32 +5883,35 @@
           {
             "id": "6002",
             "night": false,
+            "departureBadge": "较近上车站",
             "badge": "其他选择",
             "fare": "成人17,000韩元·儿童12,000韩元",
             "arrival": {
               "name": "东大门（兴仁之门）",
               "id": "01023",
               "coordinates": [
-                37.5723191896375,
-                127.013422557735
+                37.572447536,
+                127.013815948
               ],
               "numberConfirmed": true,
+              "naverStationId": "105523",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01023",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723191896375%2C127.013422557735"
+                "naver": "https://map.naver.com/p/search/01023/bus-station/105523",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.572447536%2C127.013815948"
               }
             },
             "departure": {
               "name": "东大门（兴仁之门）",
               "id": "01037",
               "coordinates": [
-                37.5723169394005,
-                127.013402747527
+                37.5721524474,
+                127.0124191046
               ],
               "numberConfirmed": true,
+              "naverStationId": "80606",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01037",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723169394005%2C127.013402747527"
+                "naver": "https://map.naver.com/p/search/01037/bus-station/80606",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5721524474%2C127.0124191046"
               }
             },
             "boarding": "T1: 1F 6A-1 · T2: B1 30",
@@ -5869,26 +5929,28 @@
               "name": "东大门设计广场（DDP）A3前",
               "id": "02711",
               "coordinates": [
-                37.56778308434606,
-                127.00917421320439
+                37.5678529085,
+                127.009213839
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012226",
               "maps": {
-                "naver": "https://map.naver.com/p/search/02711",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.56778308434606%2C127.00917421320439"
+                "naver": "https://map.naver.com/p/search/02711/bus-station/55012226",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5678529085%2C127.009213839"
               }
             },
             "departure": {
               "name": "东大门设计广场（DDP）A3前",
               "id": "02711",
               "coordinates": [
-                37.56778308434606,
-                127.00917421320439
+                37.5678529085,
+                127.009213839
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012226",
               "maps": {
-                "naver": "https://map.naver.com/p/search/02711",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.56778308434606%2C127.00917421320439"
+                "naver": "https://map.naver.com/p/search/02711/bus-station/55012226",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5678529085%2C127.009213839"
               }
             },
             "boarding": "T1: 1F 3B · T2: B1 18 / 19",
@@ -5926,32 +5988,34 @@
             "fare": "成人17,000韩元·小学生10,000韩元",
             "arrival": {
               "name": "东大门（兴仁之门）",
-              "id": null,
+              "id": "01023",
               "coordinates": [
-                37.5723191896375,
-                127.013422557735
+                37.572447536,
+                127.013815948
               ],
-              "numberConfirmed": false,
+              "numberConfirmed": true,
+              "naverStationId": "105523",
               "maps": {
-                "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%8C%80%EB%AC%B8%20%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8%20%EA%B3%B5%ED%95%AD%EB%B2%84%EC%8A%A4%20%EC%A0%95%EB%A5%98%EC%9E%A5",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723191896375%2C127.013422557735"
+                "naver": "https://map.naver.com/p/search/01023/bus-station/105523",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.572447536%2C127.013815948"
               }
             },
             "departure": {
               "name": "东大门（兴仁之门）",
               "id": "01037",
               "coordinates": [
-                37.5723169394005,
-                127.013402747527
+                37.5721524474,
+                127.0124191046
               ],
               "numberConfirmed": true,
+              "naverStationId": "80606",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01037",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723169394005%2C127.013402747527"
+                "naver": "https://map.naver.com/p/search/01037/bus-station/80606",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5721524474%2C127.0124191046"
               }
             },
             "boarding": "T1: 1F 6A · T2: B1 30",
-            "arrivalBody": "N6002也停靠东大门（兴仁之门）。无人下车时会不停站，请提前告知司机。运营方下车站编号不一致，因此提供位置标记与官方路线，不使用未确认编号。",
+            "arrivalBody": "N6002在东大门（兴仁之门）中央车道01023下车（已在Naver地图核对路线）。无人下车时会不停站，请提前告知司机在兴仁之门下车。",
             "departureBody": "在东大门站3·4号出口附近兴仁之门中央车道01037乘机场方向N6002，以现金或交通卡付款。下方为兴仁之门发车时间。",
             "departureTimes": [
               "22:35",
@@ -5986,7 +6050,7 @@
       },
       "zh-TW": {
         "copy": {
-          "comparison": "6702的車站離住宿更近。與6002興仁之門站相距約411公尺（兩站間直線距離，並非步行距離差）。車站較近不代表到機場最快。",
+          "comparison": "步行距離取決於方向。住宿→機場：6002上車站01037約182公尺（2分鐘），6702站01901約285公尺（5分鐘），6002近約103公尺。機場→住宿：6702約285公尺，6002下車站01023約331公尺（均約5分鐘），6702近約46公尺。以2026-10-05 Naver推薦步行路線為準，紅綠燈及行李會影響時間。",
           "notice": "班次可能因交通或天氣改變。乘車前請確認航廈及對應方向的官方時刻表，夜間班次需注意跨日。",
           "naver": "車站·Naver地圖",
           "google": "車站·Google地圖",
@@ -6000,32 +6064,35 @@
           {
             "id": "6702",
             "night": false,
-            "badge": "較近車站",
+            "badge": "較近下車站",
+            "departureBadge": "其他選擇",
             "fare": "成人18,000韓元·6–12歲12,000韓元",
             "arrival": {
               "name": "東大門站（JW萬豪東大門）",
               "id": "01901",
               "coordinates": [
-                37.57072708611123,
-                127.00918872386161
+                37.5706369793,
+                127.0092820998
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012217",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01901",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.57072708611123%2C127.00918872386161"
+                "naver": "https://map.naver.com/p/search/01901/bus-station/55012217",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5706369793%2C127.0092820998"
               }
             },
             "departure": {
               "name": "東大門站（JW萬豪東大門）",
               "id": "01901",
               "coordinates": [
-                37.57072708611123,
-                127.00918872386161
+                37.5706369793,
+                127.0092820998
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012217",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01901",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.57072708611123%2C127.00918872386161"
+                "naver": "https://map.naver.com/p/search/01901/bus-station/55012217",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5706369793%2C127.0092820998"
               }
             },
             "boarding": "T1: 1F 3B / 4A · T2: B1 18 / 19",
@@ -6064,32 +6131,35 @@
           {
             "id": "6002",
             "night": false,
+            "departureBadge": "較近上車站",
             "badge": "其他選擇",
             "fare": "成人17,000韓元·兒童12,000韓元",
             "arrival": {
               "name": "東大門（興仁之門）",
               "id": "01023",
               "coordinates": [
-                37.5723191896375,
-                127.013422557735
+                37.572447536,
+                127.013815948
               ],
               "numberConfirmed": true,
+              "naverStationId": "105523",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01023",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723191896375%2C127.013422557735"
+                "naver": "https://map.naver.com/p/search/01023/bus-station/105523",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.572447536%2C127.013815948"
               }
             },
             "departure": {
               "name": "東大門（興仁之門）",
               "id": "01037",
               "coordinates": [
-                37.5723169394005,
-                127.013402747527
+                37.5721524474,
+                127.0124191046
               ],
               "numberConfirmed": true,
+              "naverStationId": "80606",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01037",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723169394005%2C127.013402747527"
+                "naver": "https://map.naver.com/p/search/01037/bus-station/80606",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5721524474%2C127.0124191046"
               }
             },
             "boarding": "T1: 1F 6A-1 · T2: B1 30",
@@ -6107,26 +6177,28 @@
               "name": "東大門設計廣場（DDP）A3前",
               "id": "02711",
               "coordinates": [
-                37.56778308434606,
-                127.00917421320439
+                37.5678529085,
+                127.009213839
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012226",
               "maps": {
-                "naver": "https://map.naver.com/p/search/02711",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.56778308434606%2C127.00917421320439"
+                "naver": "https://map.naver.com/p/search/02711/bus-station/55012226",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5678529085%2C127.009213839"
               }
             },
             "departure": {
               "name": "東大門設計廣場（DDP）A3前",
               "id": "02711",
               "coordinates": [
-                37.56778308434606,
-                127.00917421320439
+                37.5678529085,
+                127.009213839
               ],
               "numberConfirmed": true,
+              "naverStationId": "55012226",
               "maps": {
-                "naver": "https://map.naver.com/p/search/02711",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.56778308434606%2C127.00917421320439"
+                "naver": "https://map.naver.com/p/search/02711/bus-station/55012226",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5678529085%2C127.009213839"
               }
             },
             "boarding": "T1: 1F 3B · T2: B1 18 / 19",
@@ -6164,32 +6236,34 @@
             "fare": "成人17,000韓元·小學生10,000韓元",
             "arrival": {
               "name": "東大門（興仁之門）",
-              "id": null,
+              "id": "01023",
               "coordinates": [
-                37.5723191896375,
-                127.013422557735
+                37.572447536,
+                127.013815948
               ],
-              "numberConfirmed": false,
+              "numberConfirmed": true,
+              "naverStationId": "105523",
               "maps": {
-                "naver": "https://map.naver.com/p/search/%EB%8F%99%EB%8C%80%EB%AC%B8%20%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8%20%EA%B3%B5%ED%95%AD%EB%B2%84%EC%8A%A4%20%EC%A0%95%EB%A5%98%EC%9E%A5",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723191896375%2C127.013422557735"
+                "naver": "https://map.naver.com/p/search/01023/bus-station/105523",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.572447536%2C127.013815948"
               }
             },
             "departure": {
               "name": "東大門（興仁之門）",
               "id": "01037",
               "coordinates": [
-                37.5723169394005,
-                127.013402747527
+                37.5721524474,
+                127.0124191046
               ],
               "numberConfirmed": true,
+              "naverStationId": "80606",
               "maps": {
-                "naver": "https://map.naver.com/p/search/01037",
-                "google": "https://www.google.com/maps/search/?api=1&query=37.5723169394005%2C127.013402747527"
+                "naver": "https://map.naver.com/p/search/01037/bus-station/80606",
+                "google": "https://www.google.com/maps/search/?api=1&query=37.5721524474%2C127.0124191046"
               }
             },
             "boarding": "T1: 1F 6A · T2: B1 30",
-            "arrivalBody": "N6002也停靠東大門（興仁之門）。無人下車時會不停站，請提前告知司機。營運方下車站編號不一致，因此提供位置標記與官方路線，不使用未確認編號。",
+            "arrivalBody": "N6002在東大門（興仁之門）中央車道01023下車（已在Naver地圖核對路線）。無人下車時會不停站，請提前告知司機在興仁之門下車。",
             "departureBody": "在東大門站3·4號出口附近興仁之門中央車道01037搭機場方向N6002，以現金或交通卡付款。下方為興仁之門發車時間。",
             "departureTimes": [
               "22:35",
@@ -6267,8 +6341,8 @@
               "childAge": "6–12"
             },
             "maps": {
-              "naver": "https://map.naver.com/p/search/01901",
-              "google": "https://www.google.com/maps/search/?api=1&query=37.57072708611123%2C127.00918872386161"
+              "naver": "https://map.naver.com/p/search/01901/bus-station/55012217",
+              "google": "https://www.google.com/maps/search/?api=1&query=37.5706369793%2C127.0092820998"
             },
             "officialSource": {
               "label": "K Airport Limousine 6702",
@@ -6311,8 +6385,8 @@
               "childAge": "6–12"
             },
             "maps": {
-              "naver": "https://map.naver.com/p/search/02711",
-              "google": "https://www.google.com/maps/search/?api=1&query=37.56778308434606%2C127.00917421320439"
+              "naver": "https://map.naver.com/p/search/02711/bus-station/55012226",
+              "google": "https://www.google.com/maps/search/?api=1&query=37.5678529085%2C127.009213839"
             },
             "officialSource": {
               "label": "K Airport Limousine N6701",
@@ -6381,8 +6455,8 @@
               "childAge": "6–12"
             },
             "maps": {
-              "naver": "https://map.naver.com/p/search/01901",
-              "google": "https://www.google.com/maps/search/?api=1&query=37.57072708611123%2C127.00918872386161"
+              "naver": "https://map.naver.com/p/search/01901/bus-station/55012217",
+              "google": "https://www.google.com/maps/search/?api=1&query=37.5706369793%2C127.0092820998"
             },
             "officialSource": {
               "label": "K Airport Limousine 6702",
@@ -6425,8 +6499,8 @@
               "childAge": "6–12"
             },
             "maps": {
-              "naver": "https://map.naver.com/p/search/02711",
-              "google": "https://www.google.com/maps/search/?api=1&query=37.56778308434606%2C127.00917421320439"
+              "naver": "https://map.naver.com/p/search/02711/bus-station/55012226",
+              "google": "https://www.google.com/maps/search/?api=1&query=37.5678529085%2C127.009213839"
             },
             "officialSource": {
               "label": "K Airport Limousine N6701",
@@ -6495,8 +6569,8 @@
               "childAge": "6–12"
             },
             "maps": {
-              "naver": "https://map.naver.com/p/search/01901",
-              "google": "https://www.google.com/maps/search/?api=1&query=37.57072708611123%2C127.00918872386161"
+              "naver": "https://map.naver.com/p/search/01901/bus-station/55012217",
+              "google": "https://www.google.com/maps/search/?api=1&query=37.5706369793%2C127.0092820998"
             },
             "officialSource": {
               "label": "K Airport Limousine 6702",
@@ -6539,8 +6613,8 @@
               "childAge": "6–12"
             },
             "maps": {
-              "naver": "https://map.naver.com/p/search/02711",
-              "google": "https://www.google.com/maps/search/?api=1&query=37.56778308434606%2C127.00917421320439"
+              "naver": "https://map.naver.com/p/search/02711/bus-station/55012226",
+              "google": "https://www.google.com/maps/search/?api=1&query=37.5678529085%2C127.009213839"
             },
             "officialSource": {
               "label": "K Airport Limousine N6701",
@@ -6609,8 +6683,8 @@
               "childAge": "6–12"
             },
             "maps": {
-              "naver": "https://map.naver.com/p/search/01901",
-              "google": "https://www.google.com/maps/search/?api=1&query=37.57072708611123%2C127.00918872386161"
+              "naver": "https://map.naver.com/p/search/01901/bus-station/55012217",
+              "google": "https://www.google.com/maps/search/?api=1&query=37.5706369793%2C127.0092820998"
             },
             "officialSource": {
               "label": "K Airport Limousine 6702",
@@ -6653,8 +6727,8 @@
               "childAge": "6–12"
             },
             "maps": {
-              "naver": "https://map.naver.com/p/search/02711",
-              "google": "https://www.google.com/maps/search/?api=1&query=37.56778308434606%2C127.00917421320439"
+              "naver": "https://map.naver.com/p/search/02711/bus-station/55012226",
+              "google": "https://www.google.com/maps/search/?api=1&query=37.5678529085%2C127.009213839"
             },
             "officialSource": {
               "label": "K Airport Limousine N6701",
@@ -6723,8 +6797,8 @@
               "childAge": "6–12"
             },
             "maps": {
-              "naver": "https://map.naver.com/p/search/01901",
-              "google": "https://www.google.com/maps/search/?api=1&query=37.57072708611123%2C127.00918872386161"
+              "naver": "https://map.naver.com/p/search/01901/bus-station/55012217",
+              "google": "https://www.google.com/maps/search/?api=1&query=37.5706369793%2C127.0092820998"
             },
             "officialSource": {
               "label": "K Airport Limousine 6702",
@@ -6767,8 +6841,8 @@
               "childAge": "6–12"
             },
             "maps": {
-              "naver": "https://map.naver.com/p/search/02711",
-              "google": "https://www.google.com/maps/search/?api=1&query=37.56778308434606%2C127.00917421320439"
+              "naver": "https://map.naver.com/p/search/02711/bus-station/55012226",
+              "google": "https://www.google.com/maps/search/?api=1&query=37.5678529085%2C127.009213839"
             },
             "officialSource": {
               "label": "K Airport Limousine N6701",
