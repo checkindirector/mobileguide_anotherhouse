@@ -1495,6 +1495,11 @@ test('airport comparison uses one grounded model call, honors its selected mode 
     assert.match(request.body.instructions,/Never ask which part of Dongdaemun/);
     assert.match(request.body.instructions,/182/);
     assert.match(request.body.instructions,/294/);
+    const facts=JSON.parse(request.body.instructions.split('VERIFIED_AIRPORT_OPTIONS: ')[1]);
+    if(facts.direction==='departure'){
+      assert.ok(facts.options.bus.routes.every(bus=>!('airportDepartureTimes' in bus)&&!('airportTimes' in bus)));
+      assert.equal(facts.options.taxi.arrivalGuide,undefined);
+    }else assert.ok(facts.options.bus.routes.every(bus=>!('departureTimes' in bus)));
     assert.doesNotMatch(res.payload.answer,/AIRPORT_MODE|AIRPORT_BUS|MAP_SPOT/);
     assert.equal(res.payload.meta.inputTokens,300);
     assert.equal(res.payload.links.at(-1).route,/from Incheon Airport/i.test(message)?'transport':'airport-departure');
