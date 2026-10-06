@@ -75,7 +75,8 @@ test('shared route classifier loads before the app in both site entry points',()
     const html=readFileSync(new URL('../'+file,import.meta.url),'utf8');
     assert.ok(html.indexOf('airport-route-intent.js?v=20261006-3')<html.indexOf('master-app.js?v=20261006-5'));
     assert.ok(html.includes('airport-route-intent.js?v=20261006-3'));
-    assert.ok(html.indexOf('transit-maps.js?v=20261006-5')<html.indexOf('airport-journey.js?v=20261006-5'));
+    assert.ok(html.includes('transit-maps.js?v=20261006-6'));
+    assert.ok(html.indexOf('transit-maps.js?v=20261006-6')<html.indexOf('airport-journey.js?v=20261006-5'));
     assert.ok(html.indexOf('airport-journey.js?v=20261006-5')<html.indexOf('master-app.js?v=20261006-5'));
   }
   const sandbox={window:{}};

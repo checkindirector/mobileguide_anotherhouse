@@ -24,7 +24,8 @@
     const value=points.find(item=>item.id===id);
     if(!value)return[];
     const query=encodeURIComponent(value.query);
-    return pair(value.names[language]||value.names.ko,{naver:'https://map.naver.com/p/search/'+query,google:'https://www.google.com/maps/search/?api=1&query='+query},language,id);
+    const googlePlaceId=['seoul-arex','seoul-station'].includes(id)?'ChIJlU6-zWiifDURBCDQ_VkAI7s':null; // Observed Seoul Station listing, checked 2026-10-06.
+    return pair(value.names[language]||value.names.ko,{naver:'https://map.naver.com/p/search/'+query,google:'https://www.google.com/maps/search/?api=1&query='+query+(googlePlaceId?'&query_place_id='+googlePlaceId:'')},language,id);
   }
   function property(knowledge,language='ko'){
     const value=knowledge.property?.[language]||knowledge.property?.ko;
