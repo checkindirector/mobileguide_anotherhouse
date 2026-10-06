@@ -6,6 +6,13 @@
   const L=values=>Object.fromEntries(languages.map((language,index)=>[language,values[index]]));
   const names=L([['공항버스','AREX 공항철도','택시'],['Airport bus','AREX Airport Railroad','Taxi'],['空港バス','AREX空港鉄道','タクシー'],['机场巴士','AREX机场铁路','出租车'],['機場客運','AREX機場鐵路','計程車']]);
   const railDeparture=L(['동대문역 → 4호선 오이도 방면 → 서울역 → AREX → 인천공항 T1·T2','Dongdaemun → Line 4 toward Oido → Seoul Station → AREX → Incheon Airport T1/T2','東大門駅 → 4号線・烏耳島方面 → ソウル駅 → AREX → 仁川空港T1・T2','东大门站 → 4号线往乌耳岛 → 首尔站 → AREX → 仁川机场T1/T2','東大門站 → 4號線往烏耳島 → 首爾站 → AREX → 仁川機場T1/T2']);
+  const railDepartureSteps=L([
+    ['1. 숙소에서 동대문역 6번 출구 계단을 통해 지하철역 안으로 들어가세요.','2. 4호선 오이도 방면 열차를 타고 서울역에서 내리세요.','3. 서울역에서 AREX로 환승해 이용 항공편의 인천공항 T1 또는 T2 역에서 내리세요.'],
+    ['1. From the property, enter Dongdaemun subway station via the Exit 6 stairs.','2. Take Line 4 toward Oido and get off at Seoul Station.','3. Transfer to AREX and get off at Incheon Airport Terminal 1 or 2 Station for your flight.'],
+    ['1. 宿から東大門駅6番出口の階段を通って地下鉄駅の中へ入ります。','2. 4号線の烏耳島方面に乗り、ソウル駅で降ります。','3. AREXに乗り換え、航空便に合う仁川空港T1またはT2駅で降ります。'],
+    ['1. 从住宿经东大门站6号出口楼梯进入地铁站。','2. 乘4号线往乌耳岛方向，在首尔站下车。','3. 换乘AREX，在航班对应的仁川机场T1或T2站下车。'],
+    ['1. 從住宿經東大門站6號出口樓梯進入地鐵站。','2. 搭4號線往烏耳島方向，在首爾站下車。','3. 轉乘AREX，在航班對應的仁川機場T1或T2站下車。']
+  ]);
   const railTradeoff=L(['도로 정체의 영향을 받지 않고 일반열차는 비용을 아끼는 선택입니다. 서울역에서 환승하며, 일반열차는 교통카드, 직통열차는 별도 승차권이 필요합니다. 운행시간을 확인하세요.','Avoids road traffic; the all-stop train is the budget-oriented option. Transfer at Seoul Station. All-stop accepts transit cards; Express needs a separate ticket. Check operating hours.','道路渋滞を避けられ、一般列車は費用を抑えたい場合に向いています。ソウル駅で乗換。一般列車は交通カード、直通列車は別途乗車券が必要です。運行時間をご確認ください。','不受道路堵车影响，普通列车适合节省费用。需在首尔站换乘；普通列车可用交通卡，直达列车需另购票。请确认运行时间。','不受道路塞車影響，普通列車適合節省費用。需在首爾站轉乘；普通列車可用交通卡，直達列車需另購票。請確認營運時間。']);
   const busTradeoff=L(['환승 없이 이동할 수 있어 짐이 있거나 이동을 간단하게 하고 싶을 때 편합니다. 다만 도로 정체와 배차 간격의 영향을 받습니다.','No transfer, convenient with luggage or for a simpler journey. Road traffic and service intervals can affect the trip.','乗換がなく、荷物がある方や移動を簡単にしたい方に便利です。道路渋滞や運行間隔の影響はあります。','无需换乘，有行李或希望简单出行时较方便，但会受堵车和发车间隔影响。','不用轉乘，有行李或希望簡單移動時較方便，但會受塞車和班次間隔影響。']);
   const taxiTradeoff=L(['숙소와 이용 터미널 사이를 환승 없이 이동합니다. 여러 명이거나 걷기·환승이 어렵고, 심야 대중교통 시간이 맞지 않을 때 검토할 수 있습니다. 요금·소요시간·짐 적재 가능 여부는 차량과 교통상황에 따라 확인이 필요합니다.','Direct between the property and your terminal. Consider it for a group, difficulty walking/transferring, or when late-night public transport does not fit. Fare, travel time and luggage capacity require a vehicle/traffic check.','宿と利用ターミナルの間を直接移動します。複数人、徒歩・乗換が難しい場合、深夜の公共交通が合わない場合に検討できます。料金・所要時間・荷物の積載可否は車両と交通状況の確認が必要です。','住宿与所用航站楼之间直接移动。多人同行、步行或换乘困难、深夜公共交通不合适时可考虑。费用、时间和行李容量需按车辆与交通情况确认。','住宿與使用航廈之間直接移動。多人同行、步行或轉乘困難、深夜大眾運輸不合適時可考慮。費用、時間和行李容量需按車輛與交通狀況確認。']);
@@ -32,7 +39,7 @@
     const railRoute=routes.find(route=>/AREX/i.test(route.title)),taxiRoute=routes.find(route=>/택시|taxi|タクシー|出租车|計程車/i.test(route.title));
     const buses=guide.routes.filter(bus=>bus.night===intent.night).sort((a,b)=>intent.arrival?0:a.id==='6002'?-1:b.id==='6002'?1:0);
     const busFacts=guide.routes.map(bus=>({id:bus.id,service:bus.night?'night':'daytime',stop:bus[direction],description:bus[direction+'Body'],boarding:intent.arrival?bus.boarding:undefined,fare:bus.fare,departureTimes:intent.arrival?undefined:bus.departureTimes,airportDepartureTimes:intent.arrival?bus.airportTimes:undefined,source:bus[intent.arrival?'sourceArrival':'sourceDeparture']}));
-    const options={bus:{name:names[language][0],tradeoff:busTradeoff[language],routes:busFacts},rail:{name:names[language][1],path:intent.arrival?railRoute?.path:railDeparture[language],tradeoff:railTradeoff[language],source:'https://www.airportrailroad.com/main'},taxi:{name:names[language][2],tradeoff:taxiTradeoff[language],address:property.address,arrivalGuide:intent.arrival?taxiRoute:undefined}};
+    const options={bus:{name:names[language][0],tradeoff:busTradeoff[language],routes:busFacts},rail:{name:names[language][1],path:intent.arrival?railRoute?.path:railDeparture[language],steps:intent.arrival?undefined:railDepartureSteps[language],tradeoff:railTradeoff[language],source:'https://www.airportrailroad.com/main'},taxi:{name:names[language][2],tradeoff:taxiTradeoff[language],address:property.address,arrivalGuide:intent.arrival?taxiRoute:undefined}};
     const hasCurrentPreference=/저렴|싸게|절약|비용|정체|막히|짐|휠체어|걷기|거동|명|혼자|cheap|budget|cost|traffic|luggage|wheelchair|mobility|people|alone|費用|渋滞|荷物|車いす|人|行李|便宜|省钱|省錢|堵车|塞車|轮椅|輪椅/i.test(message);
     const contextText=hasCurrentPreference?message:history.filter(item=>item.role==='user').slice(-2).map(item=>item.content).concat(message).join(' ');
     let suggested='bus';
@@ -48,7 +55,7 @@
       const sources=[{kind:'source',label:selectedBus.id+' · '+labels.official,url:selectedBus[intent.arrival?'sourceArrival':'sourceDeparture']},{kind:'source',label:names[language][1]+' · '+labels.official,url:options.rail.source}];
       return mapsLinks.concat(sources);
     };
-    const recommendedDetail=suggested==='rail'?options.rail.path+'\n'+options.rail.tradeoff:suggested==='taxi'?property.address+'\n'+options.taxi.tradeoff:[first.id+' · '+first[direction].name+' ('+first[direction].id+')',first[direction+'Body'],intent.arrival?first.boarding:undefined,first.fare,intent.arrival?guide.copy.lastMile:undefined,guide.copy.notice].filter(Boolean).join('\n');
+    const recommendedDetail=suggested==='rail'?options.rail.path+'\n'+(options.rail.steps||[]).join('\n')+'\n'+options.rail.tradeoff:suggested==='taxi'?property.address+'\n'+options.taxi.tradeoff:[first.id+' · '+first[direction].name+' ('+first[direction].id+')',first[direction+'Body'],intent.arrival?first.boarding:undefined,first.fare,intent.arrival?guide.copy.lastMile:undefined,guide.copy.notice].filter(Boolean).join('\n');
     const fallbackAnswer=[guide.copy[direction],overview[language].map((item,index)=>'• '+item+(index===0?' ('+buses.map(bus=>bus.id).join(' · ')+')':'')).join('\n'),leads[suggested][language],recommendedDetail,invitation[language]].join('\n\n');
     return {direction,route:intent.arrival?'transport':'airport-departure',night:intent.night,property:{name:property.name,address:property.address,nearestStation:property.nearestStation},stopComparison:guide.copy.comparison,options,suggested,fallbackAnswer,linksFor,verifiedAt:knowledge.airportBusGuide.verifiedAt};
   }

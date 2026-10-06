@@ -1492,7 +1492,7 @@ test('airport comparison uses one grounded model call, honors its selected mode 
   const scenarios=[
     ['ko','공항 가는 길 짐은 가볍고 비용을 아끼고 싶어','rail','공항버스는 환승이 없어요. AREX 일반열차를 먼저 추천드려요. 택시는 편하지만 요금 확인이 필요해요.'],
     ['en','How do we get to Incheon Airport? Four of us have difficulty walking.','taxi','For your group, I would first consider a taxi, confirming vehicle space and fare. Airport bus avoids transfers. AREX avoids road traffic but requires a transfer.'],
-    ['ja','宿から仁川空港への行き方。荷物が少なく費用を抑えたいです。','rail','費用を重視するならAREX一般列車をまず検討してください。空港バスは乗換不要です。タクシーは直接移動でき、料金の確認が必要です。'],
+    ['ja','宿から仁川空港への行き方。荷物が少なく費用を抑えたいです。','rail','費用を重視するならAREX一般列車をまず検討してください。空港リムジンバスは乗換不要です。タクシーは直接移動でき、料金の確認が必要です。'],
     ['zh','从住宿前往仁川机场怎么走？想省钱，行李少。','rail','您重视费用，可先考虑AREX普通列车。机场巴士不用换乘。出租车更方便，但费用需确认。'],
     ['zh-TW','從住宿前往仁川機場怎麼走？行李少，想省錢。','rail','您重視費用，可先考慮AREX普通列車。機場客運不用轉乘。計程車更方便，但費用需確認。'],
     ['en','How do I get from Incheon Airport to Another House? My bag is light and I want to avoid road traffic.','rail','With a light bag, consider AREX first to avoid road traffic. Airport bus avoids transfers. Taxi is direct but costs more.'],
@@ -1517,6 +1517,7 @@ test('airport comparison uses one grounded model call, honors its selected mode 
     assert.match(request.body.instructions,/294/);
     const facts=JSON.parse(request.body.instructions.split('VERIFIED_AIRPORT_OPTIONS: ')[1]);
     if(facts.direction==='departure'){
+      assert.equal(facts.options.rail.steps.length,3);
       assert.ok(facts.options.bus.routes.every(bus=>!('airportDepartureTimes' in bus)&&!('airportTimes' in bus)));
       assert.equal(facts.options.taxi.arrivalGuide,undefined);
     }else assert.ok(facts.options.bus.routes.every(bus=>!('departureTimes' in bus)));
