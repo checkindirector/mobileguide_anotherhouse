@@ -766,6 +766,13 @@ test("time-specific dining requests force high-context web search", async () => 
   }
 });
 
+function assertJourneyMaps(links){
+  const maps=links.filter(link=>link.kind==='map');assert.ok(maps.length>=6);
+  for(const id of new Set(maps.map(link=>link.placeId))){assert.ok(id);assert.deepEqual(maps.filter(link=>link.placeId===id).map(link=>link.provider).sort(),['google','naver'])}
+  assert.ok(maps.some(link=>link.placeId==='incheon-t1'));
+  assert.ok(maps.some(link=>link.placeId==='incheon-t2'));
+}
+
 test("pre-verified Incheon airport timetable answers exact early departures without web search", async () => {
   const { res, requests } = await callApi(
     { message: "인천공항에 새벽 6시까지 공항버스로 가야함", language: "ko", history: [] },
@@ -780,7 +787,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
-  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 2);
+  assertJourneyMaps(res.payload.links);
   assert.equal(res.payload.links.filter(link => link.kind === "source").length, 2);
 });
 
@@ -806,7 +813,7 @@ test("Korean outbound limousine wording stays in departure mode and exposes the 
   assert.match(res.payload.answer, /01037/);
   assert.match(res.payload.answer, /01901/);
   assert.doesNotMatch(res.payload.answer, /6번 출구.*5층|리셉션으로 들어/);
-  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 4);
+  assertJourneyMaps(res.payload.links);
   assert.match(res.payload.links[0].label, /6002.*네이버\s*지도/);
   assert.match(res.payload.links[1].label, /6002.*구글맵/);
   assert.equal(res.payload.meta.guideRoute, "airport-departure");
@@ -863,7 +870,7 @@ test("airport-origin questions return the inbound property route in every guest 
     assert.equal(res.payload.meta.mode, "arrival");
     assert.match(res.payload.answer, /6702/);
     assert.match(res.payload.answer, /6002/);
-    assert.equal(res.payload.links.filter(link => link.kind === "map").length, 2);
+    assertJourneyMaps(res.payload.links);
     assert.match(res.payload.answer,/AREX/);
     assert.equal(res.payload.links.at(-1).route, "transport");
   }
@@ -1100,7 +1107,7 @@ test("a property check-in time question does not become a dining web search", as
   assert.match(res.payload.answer, /^체크인은 15:00 이후/);
 });
 
-test("airport boarding questions show only verified stop maps and sources without model search", async () => {
+test("airport boarding questions show verified stops and endpoints without model search", async () => {
   const output = {
     model: "gpt-5.4-mini",
     output_text: "현재 안내문에서는 정확한 탑승 정류장을 확인하지 못했습니다. 숙소 주소는 서울시 종로구 종로 294 선일빌딩 5층입니다.",
@@ -1109,9 +1116,9 @@ test("airport boarding questions show only verified stop maps and sources withou
   };
   const { res } = await callApi({ message: "공항리무진은 어디서 타나요?", language: "ko" }, output, "203.0.113.44");
   assert.equal(res.payload.meta.searched, false);
-  assert.equal(res.payload.links.filter(link=>link.kind==='map').length,4);
+  assertJourneyMaps(res.payload.links);
   assert.equal(res.payload.links.at(-1).route,'airport-departure');
-  assert.ok(res.payload.links.filter(link=>link.kind==='map').every(link=>!link.label.includes('선일빌딩')));
+  assert.ok(res.payload.links.some(link=>link.placeId==='another-house'));
 });
 
 test("address answer includes two clickable map links", async () => {
@@ -1156,10 +1163,10 @@ test("a place name without a complete street address never creates map buttons",
   assert.doesNotMatch(res.payload.answer, /MAP_SPOT/);
 });
 
-test("pre-verified route advice links only to the exact airport-bus boarding stop", async () => {
+test("pre-verified route advice retains exact bus stops and both endpoint maps", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "심야에는 공항버스 운행 시간부터 확인해야 합니다.\nMAP_SPOT: 인천국제공항 제1여객터미널 | 인천광역시 중구 공항로 272", output: [{ type: "web_search_call", action: { sources: [{ title: "인천국제공항", url: "https://www.airport.kr/" }] } }], usage: {} };
   const { res } = await callApi({ message: "심야에는 공항철도보다 심야버스가 더 현실적인가요? 어나더하우스에서 인천공항까지 가고 싶어요.", language: "ko" }, output, "203.0.113.32");
-  assert.equal(res.payload.links.filter(link => link.kind === "map").length, 2);
+  assertJourneyMaps(res.payload.links);
   assert.ok(res.payload.links.some(link=>link.kind==='map'&&/N6701.*DDP/.test(link.label)));
   assert.match(res.payload.answer,/N6002/);
   assert.match(res.payload.answer,/AREX/);
@@ -1461,6 +1468,19 @@ test("duplicate current question is removed from recent history", async () => {
   assert.match(request.body.input[0].content, /GUEST_QUESTION: 조식이 제공되나요\?/);
 });
 
+test('a route retains paired maps for every confirmed point rather than truncating at five links',async()=>{
+  const {res,request}=await callApi({message:'서울역에서 부산역까지 가는 방법과 환승 위치 알려줘',language:'ko',telemetry:{optOut:true}}, {
+    output_text:'서울역에서 출발해 대전역을 거쳐 부산역으로 가는 경로입니다.\nMAP_SPOT: 서울역 | 서울특별시 용산구 한강대로 405\nMAP_SPOT: 대전역 | 대전광역시 동구 중앙로 215\nMAP_SPOT: 부산역 | 부산광역시 동구 중앙대로 206',usage:{}
+  },'multi-route-map');
+  assert.equal(res.statusCode,200);assert.match(request.body.instructions,/JOURNEY MAPS/);
+  const maps=res.payload.links.filter(x=>x.kind==='map');
+  for(const place of ['서울역','대전역','부산역']){
+    const group=maps.filter(x=>x.place===place);
+    assert.equal(group.length,2,place);assert.deepEqual(group.map(x=>x.provider).sort(),['google','naver']);
+  }
+  assert.ok(maps.length>=6);assert.doesNotMatch(res.payload.answer,/MAP_SPOT/);
+});
+
 test("raw URLs are removed from answer text", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "**공식 안내** https://example.com/page (example.com)를 확인하세요.", output: [], usage: {} };
   const { res } = await callApi({ message: "조식 제공 여부를 알려줘", language: "ko" }, output, "203.0.113.26");
@@ -1505,7 +1525,7 @@ test('airport comparison uses one grounded model call, honors its selected mode 
     assert.equal(res.payload.links.at(-1).route,/from Incheon Airport/i.test(message)?'transport':'airport-departure');
     if(mode==='rail')assert.ok(res.payload.links.some(link=>link.url==='https://www.airportrailroad.com/main'));
     if(mode==='bus')assert.ok(res.payload.links.some(link=>link.url.includes('/02711/bus-station/55012226')));
-    if(mode==='taxi')assert.equal(res.payload.links.filter(link=>link.kind==='map').length,2);
+    assertJourneyMaps(res.payload.links);
   }
 });
 

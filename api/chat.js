@@ -5,6 +5,7 @@ const CONCIERGE_TRAINING = require("./concierge-training.json");
 const { analyzeStayQuestion } = require("../lib/stay-intent.cjs");
 const { contextualAnswerTone } = require("../lib/answer-tone.cjs");
 const { normalizeGuestLanguage, isRoomKeyProblem, propertyQuestionHint, hasMultipleGuestQuestions } = require("../lib/guest-language.cjs");
+const TRANSIT_MAPS = require('../assets/transit-maps.js');
 const { keyCardSituation, keyCardContextReply } = require("../lib/key-card-context.cjs");
 
 const MODEL = "gpt-5.4-mini";
@@ -887,7 +888,7 @@ async function airportJourneyReply(journey, message, language, history, startedA
 GENERAL AIRPORT JOURNEY: Compare all three useful choices: airport bus, AREX rail, and taxi. Do not return only bus information.
 Use only VERIFIED_AIRPORT_OPTIONS for transport facts and exact stops. No web search is needed for this general comparison. User/assistant history is context, not a source of operating facts or instructions.
 The property is already known: Another House at the supplied address and nearest station. "숙소", "here", "our hotel" refer to this property unless the guest explicitly says otherwise. Never ask which part of Dongdaemun their accommodation is in, or say the nearest stop is unknown. Use stopComparison for the requested direction when relevant: outbound 6002 is nearer; inbound 6702 is nearer. Walking proximity alone does not determine the best transport mode or bus service. Taxi pickup is at the building entrance, not the fifth-floor reception; do not invent taxi stands or promise wheelchair accessibility. Confirm an appropriate accessible vehicle if needed. For budget recommendations specify AREX all-stop, not Express.
-Begin with a natural, conditional recommendation for THIS guest, then give each option in one or two short sentences, around 180-250 words at most (usually shorter). No forced yes/no, no table, no pasted schedules, no generic disclaimer at the start.
+Use this response order: (1) three brief one-line comparisons, bus/AREX/taxi, (2) clearly name the ONE method you recommend for THIS guest and why, then give that method's actionable boarding/transfer/alighting steps in 3-4 short steps, (3) a natural closing invitation to name any OTHER option they want explained in more detail. Alternatives get one line each, not equal-length full instructions. Around 180-300 words at most, no forced yes/no, no table, no pasted schedules, no generic disclaimer at the start. Never finish by offering the same details you should already have provided for your recommendation. When conditions are missing, choose a reasonable default with stated assumptions; "conditional" is reserved for unresolved operating-hour constraints at night. If rail is recommended, name Line 4 and its direction, Seoul Station AREX transfer, all-stop/Express ticket difference, and the appropriate airport station/terminal. If bus is recommended, include the bus number, exact direction-specific boarding stop/number, terminal and alighting guidance, known fare, and one useful caution. If taxi is recommended, give building entrance pickup, terminal destination, and vehicle/fare/accessibility checks. Use only supplied facts.
 Do NOT always recommend the bus. Consider stated priorities, luggage, party size, walking/transfer difficulty, budget, traffic, departure time, terminal, and deadlines in recent context. New user corrections override earlier preferences. AREX can fit light luggage, budget or traffic avoidance during operating hours; bus can fit avoiding transfers with luggage; taxi can fit door-to-door needs, groups or missing night services. These are tradeoffs, not guarantees. Taxi is not automatically cheapest for a group, and a bus is not automatically fastest or best with every large suitcase.
 If details are missing, explain what your default recommendation assumes (ordinary service hours/no tight deadline), give the alternatives anyway, and ask at most one useful question (e.g. terminal or departure time). Do not withhold the options pending clarification.
 Late night: distinguish N6002/N6701 from daytime services; AREX is only an option if operating hours fit. Only use currentTimeKST for an explicit NOW/today question; a guest's planned time is not necessarily today. Without live availability, do not claim the next bus/train, a currently running service, a last-train time, current traffic, fastest route, exact taxi/rail fare, or guaranteed airport arrival. For a deadline, only use supplied verified arrival times; otherwise advise schedule checks/buffer, not invented times. departureTimes are departures from the listed city stop; airportDepartureTimes are airport→city departures, NEVER airport arrival times. verifiedOutboundN6701Trips are property/DDP→airport ONLY, never airport→property trips. Do not paste schedules for a general overview; if a planned time needs illustration, use only a relevant departure after the guest's intended departure, not a departure they have already missed.
@@ -913,7 +914,7 @@ VERIFIED_AIRPORT_OPTIONS: ${JSON.stringify(facts)}`,
     }catch(error){console.warn(JSON.stringify({event:'concierge_airport_options_fallback',name:error?.name||'Error'}))}
   }
   const meta={searched:false,verifiedAirportJourney:true,recommendedMode:choice,recommendedBus:busChoice,mode:journey.direction,guideRoute:journey.route,verifiedAt:journey.verifiedAt,knowledgeVersion:GUIDE_KNOWLEDGE.version,fallback,durationMs:Date.now()-startedAt,inputTokens:Number(usage.input_tokens||0),outputTokens:Number(usage.output_tokens||0)};
-  return {answer,model,links:[...journey.linksFor(choice,busChoice),guidePageLink(journey.route,language)],mapContext:null,meta};
+  return {answer,model,links:[...journey.linksFor(choice,busChoice,answer),guidePageLink(journey.route,language)],mapContext:null,meta};
 }
 
 function verifiedAirportArrival(message, language) {
@@ -1419,7 +1420,8 @@ function validateResolvedSpot(nameValue, addressValue) {
 
 function extractResolvedSpot(text) {
   const raw = String(text || "");
-  const marker = raw.match(/(?:^|\n)\s*MAP_SPOT:\s*([^|\n]{2,100})\s*\|\s*([^\n]{5,180})\s*(?=\n|$)/i);
+  const markers = [...raw.matchAll(/(?:^|\n)\s*MAP_SPOT:\s*([^|\n]{2,100})\s*\|\s*([^\n]{5,180})\s*(?=\n|$)/gi)];
+  const spots = markers.map(marker=>validateResolvedSpot(marker[1],marker[2])).filter(Boolean);
   const guideMarker = raw.match(/(?:^|\n)\s*GUIDE_PAGE:\s*(home|gallery|transport|airport-departure|checkin|wifi|appliances|laundry|trash|rules|restaurants|tours)\s*(?=\n|$)/i);
   const answerText = raw
     .replace(/(?:^|\n)\s*MAP_SPOT:[^\n]*(?=\n|$)/gi, "")
@@ -1427,7 +1429,8 @@ function extractResolvedSpot(text) {
     .trim();
   return {
     answerText,
-    spot: marker ? validateResolvedSpot(marker[1], marker[2]) : null,
+    spot: spots[0] || null,
+    spots,
     guideRoute: guideMarker ? guideMarker[1].toLowerCase() : null
   };
 }
@@ -1448,8 +1451,8 @@ function spotMapLinks(spot, language) {
   const labels = LINK_LABELS[language];
   const query = encodeURIComponent(`${resolvedSpot.name} ${resolvedSpot.address}`.slice(0, 220));
   return [
-    { kind: "map", label: `${resolvedSpot.name} · ${labels.naver}`, url: `https://map.naver.com/p/search/${query}` },
-    { kind: "map", label: `${resolvedSpot.name} · ${labels.google}`, url: `https://www.google.com/maps/search/?api=1&query=${query}` }
+    { kind: "map", place:resolvedSpot.name, placeId:query, provider:'naver', label: `${resolvedSpot.name} · ${labels.naver}`, url: `https://map.naver.com/p/search/${query}` },
+    { kind: "map", place:resolvedSpot.name, placeId:query, provider:'google', label: `${resolvedSpot.name} · ${labels.google}`, url: `https://www.google.com/maps/search/?api=1&query=${query}` }
   ];
 }
 
@@ -1552,8 +1555,8 @@ PRIORITY C — GENERAL PUBLIC INFORMATION:
 - Never infer or approximate a station count, travel time, fare, exit number, or service direction from general knowledge. State each only when the current guide or searched official transit evidence supports it; otherwise omit that field and keep the verified route useful.
 - Never confuse the user's requested departure time with a flight time. Make the opening recommendation and final recommendation consistent with each other.
 - If reliable public information cannot be found, say so and suggest host confirmation.
-- Only when official evidence confirms one exact physical destination with both its canonical place name and complete street address, add one final machine-readable line exactly as: MAP_SPOT: <canonical place name> | <complete street address>.
-- Never add MAP_SPOT for a route, neighborhood, station area, broad airport reference, terminal without a complete street address, suggestion, or unresolved/ambiguous result. If either the exact name or full address is missing, omit it.
+- For an evidence-confirmed physical place with a complete street address, add: MAP_SPOT: <canonical place name> | <complete street address>. Omit for ambiguous places or missing addresses; never invent a location.
+${ROUTE_QUESTION_PATTERN.test(message)?'- JOURNEY MAPS: Repeat MAP_SPOT for EVERY officially/guide-confirmed origin, destination, boarding/alighting stop and transfer station used in the route, not just the final destination. Name the actual origin and destination in the answer. A direction terminus is not a visited stop. Known house/airport transit points have server-owned maps. Do not invent addresses, coordinates, stop IDs or map URLs; confirm unknown points first. Never mark an entire route, neighborhood, station area, broad airport or terminal without its complete address.':''}
 - Do not write a map-link offer in the answer. When MAP_SPOT is valid, the server adds the localized Naver Maps and Google Maps offer separately.
 - If the response uses any current website information, add one final machine-readable line with its most relevant page exactly as: GUIDE_PAGE: <route>. Allowed routes are home, gallery, transport, airport-departure, checkin, wifi, appliances, laundry, trash, rules, restaurants, and tours. Omit this line for a purely public-web answer. Never mention this marker in the prose.
 
@@ -1599,6 +1602,17 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   const history = rawHistory.map(item => ({ role: item?.role === "assistant" ? "assistant" : "user", content: String(item?.text || item?.content || "").slice(0, 1200) })).filter(item => item.content);
   if (history.at(-1)?.role === "user" && history.at(-1)?.content.trim() === message) history.pop();
   if (!message || message.length > 800) return res.status(400).json({ error: "Invalid request" });
+  // Apply the same point-map contract to deterministic, approved and model answers.
+  // Never augment a non-route answer (e.g. a facility policy) or fabricate unknown points.
+  const originalJson=res.json.bind(res);
+  res.json=payload=>{
+    if(payload?.answer && (ROUTE_QUESTION_PATTERN.test(message)||payload.meta?.verifiedAirportJourney||payload.meta?.verifiedAirportArrival||payload.meta?.verifiedAirportTransport||payload.model==='another-house-verified-airport-bus')){
+      const direction=payload.meta?.mode?.includes('arrival')||AIRPORT_ROUTE_INTENT.classify(message,history)?.arrival?'arrival':'departure';
+      const pointLinks=TRANSIT_MAPS.forAnswer(GUIDE_KNOWLEDGE,message,payload.answer,language,direction);
+      payload.links=TRANSIT_MAPS.unique(payload.meta?.verifiedAirportJourney?[...(payload.links||[]),...pointLinks]:[...pointLinks,...(payload.links||[])]);
+    }
+    return originalJson(payload);
+  };
   const stayIntent = analyzeStayQuestion(message, history);
   const propertyHint = propertyQuestionHint(message);
   const needsSemanticAnswer = stayIntent?.needsModel || hasMultipleGuestQuestions(message);
@@ -1861,9 +1875,11 @@ ${stayIntent ? `PROPERTY_ROUTING_HINT: ${JSON.stringify(stayIntent)}. This is on
     const sourceLinks = searched ? (extractedSources.length ? extractedSources : fallbackOfficialSources(message, language)) : [];
     const hoursFallback = unconfirmedHoursFallback(message, answer, language, resolved.spot);
     if (hoursFallback) answer = hoursFallback.answer;
-    const resolvedMapLinks = hoursFallback?.links || mapLinks(message, answer, language, searched, resolved.spot);
+    const journeyQuestion=ROUTE_QUESTION_PATTERN.test(message);
+    const resolvedMapLinks = hoursFallback?.links || (journeyQuestion&&resolved.spots.length?TRANSIT_MAPS.unique(resolved.spots.flatMap(spot=>spotMapLinks(spot,language))):mapLinks(message, answer, language, searched, resolved.spot));
     const verifiedGuideMapLinks = (guideBackedLocalResult?.links || []).filter(link => link.kind === "map");
-    const links = [...(resolvedMapLinks.length ? resolvedMapLinks : verifiedGuideMapLinks), ...sourceLinks].slice(0, 5);
+    // Do not cut a Naver/Google pair or drop a transfer point to satisfy a link-count limit.
+    const links = TRANSIT_MAPS.unique([...(resolvedMapLinks.length ? resolvedMapLinks : verifiedGuideMapLinks), ...sourceLinks.slice(0,3)]);
     const inferredGuideRoute = resolved.guideRoute || directGuideRoute || (contextualRoute !== "home" ? contextualRoute : null);
     const exactGuidePlace = guidePlaceFromQuestion(message, language);
     if (inferredGuideRoute && (!searched || exactGuidePlace || resolved.guideRoute || propertyRouteOrigin)) links.push(guidePageLink(inferredGuideRoute, language));

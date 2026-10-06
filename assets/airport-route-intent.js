@@ -32,7 +32,7 @@
     const nightBusComparison = bus && night && /보다|더\s*현실|versus|\bvs\b|better|rather|比較|より|比|更/i.test(text);
     const optionsWanted = /옵션|선택지|여러|비교|뭐가|추천|options?|compare|which|recommend|比較|どれ|おすすめ|比较|比較|哪种|哪種|推荐|推薦/i.test(text);
     const modeComparison = bus && alternativeMode.test(text) && (optionsWanted || nightBusComparison || /(?:랑|하고|or|versus|\bvs\b|より|还是|還是)/i.test(text));
-    if (alternativeMode.test(text) && !modeComparison || (!bus && !night && !route)) return null;
+    if (alternativeMode.test(text) && !modeComparison || (!bus && !night && !route && !outbound.test(text) && !arrival.test(text))) return null;
     const isArrival = arrival.test(text) || (!outbound.test(text) && arrival.test(previous));
     return { arrival: isArrival, night, busOnly: bus && !modeComparison && !/옵션|선택지|여러|options?|compare|比較|比较/i.test(text), comparison: /6002/.test(text) && /6702/.test(text), explicit: text.match(/\b(N6701|N6002|6702|6002)\b/i)?.[1]?.toUpperCase() || null };
   }

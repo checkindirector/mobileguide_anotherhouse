@@ -7,6 +7,11 @@ const require=createRequire(import.meta.url),handler=require('../api/chat.js');
 const routeIntent=require('../assets/airport-route-intent.js');
 const journeyApi=require('../assets/airport-journey.js');
 const knowledge=handler._internals.GUIDE_KNOWLEDGE;
+function assertMapPairs(links){
+  const maps=links.filter(link=>link.kind==='map');assert.ok(maps.length>=6);
+  const groups=new Map();for(const link of maps){assert.ok(link.placeId);const providers=groups.get(link.placeId)||new Set();providers.add(link.provider);groups.set(link.placeId,providers)}
+  for(const providers of groups.values())assert.deepEqual([...providers].sort(),['google','naver']);
+}
 const ordinaryRoutes={
   ko:['숙소에서 인천공항 가는 길 알려줘','공항가는길','인천공항에서 가장 편한 길은?','공항에서 숙소 어떻게가요'],
   en:['How do I get to Incheon Airport from Another House?','How do I get to the airport?','Directions from Incheon Airport to Another House','How do I get here from the airport?'],
@@ -27,7 +32,7 @@ test('ordinary airport directions retain all three choices even when model servi
       assert.equal(res.body.meta.verifiedAirportJourney,true,message);
       assert.equal(res.body.meta.searched,false,message);
       assert.equal(res.body.meta.guideRoute,index<2?'airport-departure':'transport',message);
-      assert.equal(res.body.links.filter(link=>link.kind==='map').length,2,message);
+      assertMapPairs(res.body.links);
       assert.ok(res.body.links.some(link=>link.url.includes(index<2?'/01037/bus-station/80606':'/01901/bus-station/55012217')),message);
       assert.doesNotMatch(res.body.answer,/포항|Pohang/i);
       assert.match(res.body.answer,/AREX/);
@@ -60,7 +65,7 @@ test('browser fallback shares ordinary airport direction matching and exact stop
   for(const [lang,questions] of Object.entries(ordinaryRoutes))for(const [index,q] of questions.entries()){
     const response=runInNewContext(fn+';fallbackCurrentAirportBus(knowledge,q)',{window:{ANOTHER_HOUSE_AIRPORT_ROUTE:routeIntent,ANOTHER_HOUSE_AIRPORT_JOURNEY:journeyApi},knowledge,q,lang,fallbackGuideLink:route=>({kind:'guide',route})});
     assert.equal(response.meta.guideRoute,index<2?'airport-departure':'transport',q);
-    assert.equal(response.links.filter(link=>link.kind==='map').length,2,q);
+    assertMapPairs(response.links);
     assert.match(response.answer,/AREX/);
     assert.match(response.answer,/택시|Taxi|タクシー|出租车|計程車/i);
   }
@@ -68,9 +73,10 @@ test('browser fallback shares ordinary airport direction matching and exact stop
 test('shared route classifier loads before the app in both site entry points',()=>{
   for(const file of ['index.html','guide-anotherhouse.html']){
     const html=readFileSync(new URL('../'+file,import.meta.url),'utf8');
-    assert.ok(html.indexOf('airport-route-intent.js?v=20261006-2')<html.indexOf('master-app.js?v=20261006-2'));
-    assert.ok(html.includes('airport-route-intent.js?v=20261006-2'));
-    assert.ok(html.indexOf('airport-journey.js?v=20261006-2')<html.indexOf('master-app.js?v=20261006-2'));
+    assert.ok(html.indexOf('airport-route-intent.js?v=20261006-3')<html.indexOf('master-app.js?v=20261006-5'));
+    assert.ok(html.includes('airport-route-intent.js?v=20261006-3'));
+    assert.ok(html.indexOf('transit-maps.js?v=20261006-5')<html.indexOf('airport-journey.js?v=20261006-5'));
+    assert.ok(html.indexOf('airport-journey.js?v=20261006-5')<html.indexOf('master-app.js?v=20261006-5'));
   }
   const sandbox={window:{}};
   runInNewContext(readFileSync(new URL('../assets/airport-route-intent.js',import.meta.url),'utf8'),sandbox);
@@ -140,7 +146,7 @@ test('day/night airport questions return corrected direction and stop maps witho
     assert.equal(res.statusCode,200,message);assert.equal(res.body.model,'another-house-verified-airport-bus',message);
     assert.equal(res.body.meta.searched,false);assert.equal(res.body.meta.guideRoute,index%2===0?'transport':'airport-departure');
     const ids=index<2?['6702','6002']:['N6701','N6002'];for(const id of ids)assert.ok(res.body.answer.includes(id),message);
-    assert.equal(res.body.links.filter(link=>link.kind==='map').length,4);
+    assertMapPairs(res.body.links);
     if(index===0)assert.ok(res.body.links.some(link=>link.url.includes('/01023/bus-station/105523')));
     if(index===1)assert.ok(res.body.links.some(link=>link.url.includes('/01037/bus-station/80606')));
     if(index>=2)assert.ok(res.body.links.some(link=>link.url.includes('/02711/bus-station/55012226')));

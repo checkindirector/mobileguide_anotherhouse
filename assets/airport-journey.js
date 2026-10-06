@@ -1,6 +1,7 @@
 /* Verified facts for multi-option airport answers; no live availability is implied. */
 (function(root){
   const intentApi=typeof module!=='undefined'&&module.exports?require('./airport-route-intent.js'):root.ANOTHER_HOUSE_AIRPORT_ROUTE;
+  const mapsApi=typeof module!=='undefined'&&module.exports?require('./transit-maps.js'):root.ANOTHER_HOUSE_TRANSIT_MAPS;
   const languages=['ko','en','ja','zh','zh-TW'];
   const L=values=>Object.fromEntries(languages.map((language,index)=>[language,values[index]]));
   const names=L([['공항버스','AREX 공항철도','택시'],['Airport bus','AREX Airport Railroad','Taxi'],['空港バス','AREX空港鉄道','タクシー'],['机场巴士','AREX机场铁路','出租车'],['機場客運','AREX機場鐵路','計程車']]);
@@ -8,6 +9,14 @@
   const railTradeoff=L(['도로 정체의 영향을 받지 않고 일반열차는 비용을 아끼는 선택입니다. 서울역에서 환승하며, 일반열차는 교통카드, 직통열차는 별도 승차권이 필요합니다. 운행시간을 확인하세요.','Avoids road traffic; the all-stop train is the budget-oriented option. Transfer at Seoul Station. All-stop accepts transit cards; Express needs a separate ticket. Check operating hours.','道路渋滞を避けられ、一般列車は費用を抑えたい場合に向いています。ソウル駅で乗換。一般列車は交通カード、直通列車は別途乗車券が必要です。運行時間をご確認ください。','不受道路堵车影响，普通列车适合节省费用。需在首尔站换乘；普通列车可用交通卡，直达列车需另购票。请确认运行时间。','不受道路塞車影響，普通列車適合節省費用。需在首爾站轉乘；普通列車可用交通卡，直達列車需另購票。請確認營運時間。']);
   const busTradeoff=L(['환승 없이 이동할 수 있어 짐이 있거나 이동을 간단하게 하고 싶을 때 편합니다. 다만 도로 정체와 배차 간격의 영향을 받습니다.','No transfer, convenient with luggage or for a simpler journey. Road traffic and service intervals can affect the trip.','乗換がなく、荷物がある方や移動を簡単にしたい方に便利です。道路渋滞や運行間隔の影響はあります。','无需换乘，有行李或希望简单出行时较方便，但会受堵车和发车间隔影响。','不用轉乘，有行李或希望簡單移動時較方便，但會受塞車和班次間隔影響。']);
   const taxiTradeoff=L(['숙소와 이용 터미널 사이를 환승 없이 이동합니다. 여러 명이거나 걷기·환승이 어렵고, 심야 대중교통 시간이 맞지 않을 때 검토할 수 있습니다. 요금·소요시간·짐 적재 가능 여부는 차량과 교통상황에 따라 확인이 필요합니다.','Direct between the property and your terminal. Consider it for a group, difficulty walking/transferring, or when late-night public transport does not fit. Fare, travel time and luggage capacity require a vehicle/traffic check.','宿と利用ターミナルの間を直接移動します。複数人、徒歩・乗換が難しい場合、深夜の公共交通が合わない場合に検討できます。料金・所要時間・荷物の積載可否は車両と交通状況の確認が必要です。','住宿与所用航站楼之间直接移动。多人同行、步行或换乘困难、深夜公共交通不合适时可考虑。费用、时间和行李容量需按车辆与交通情况确认。','住宿與使用航廈之間直接移動。多人同行、步行或轉乘困難、深夜大眾運輸不合適時可考慮。費用、時間和行李容量需按車輛與交通狀況確認。']);
+  const overview=L([
+    ['공항버스: 환승 없이 이동 · 짐이 있을 때 편리 · 정체 영향','AREX: 비용 절약·정체 회피 · 서울역 환승·운행시간 확인','택시: 문 앞에서 바로 이동 · 차량·요금 확인 필요'],
+    ['Airport bus: no transfer, convenient with luggage; traffic can affect it.','AREX: budget/traffic avoidance; Seoul Station transfer and operating-hours check.','Taxi: door-to-door; confirm vehicle suitability and fare.'],
+    ['空港バス：乗換不要・荷物がある方に便利。渋滞の影響あり。','AREX：節約・渋滞回避。ソウル駅で乗換、運行時間の確認が必要。','タクシー：ドアツードア。車両と料金の確認が必要。'],
+    ['机场巴士：无需换乘，带行李方便，但受堵车影响。','AREX：省钱、避开堵车；首尔站换乘，需确认运行时间。','出租车：门到门；需确认车辆及费用。'],
+    ['機場客運：不用轉乘，帶行李方便，但受塞車影響。','AREX：省錢、避開塞車；首爾站轉乘，需確認營運時間。','計程車：門到門；需確認車輛及費用。']
+  ]);
+  const invitation=L(['다른 방법을 더 자세히 알고 싶으시면 “AREX”, “버스”, “택시” 중 궁금한 것을 말씀해 주세요.','Tell me if you would like more detail about AREX, the bus, or a taxi.','AREX・バス・タクシーのうち、さらに詳しく知りたい方法をお知らせください。','想了解哪一种的详细走法，告诉我“AREX”“巴士”或“出租车”即可。','想了解哪一種的詳細走法，告訴我「AREX」「客運」或「計程車」即可。']);
   const leads={
     bus:L(['특별한 조건이 없는 일반적인 이동이라면 환승 없는 공항버스를 먼저 추천드려요. 다만 짐이 가볍거나 비용·도로 정체가 더 중요하면 AREX가 더 잘 맞을 수 있습니다.','For an ordinary trip with no other preferences, I would first consider the no-transfer airport bus. AREX may fit better with light luggage or when cost/road traffic matters more.','特別な条件がない移動なら、まず乗換不要の空港バスをおすすめします。ただし荷物が少ない場合や費用・渋滞を重視する場合はAREXが合うこともあります。','没有特别条件时，可先考虑无需换乘的机场巴士。如果行李少，或更重视费用与堵车问题，AREX可能更合适。','沒有特殊條件時，可先考慮不用轉乘的機場客運。如果行李少，或更重視費用與塞車問題，AREX可能更合適。']),
     rail:L(['비용을 아끼거나 도로 정체를 피하는 것이 우선이면, 운행시간 내에는 AREX 공항철도를 먼저 검토하는 편이 좋습니다.','If saving money or avoiding road traffic comes first, consider AREX first within its operating hours.','費用を抑えることや渋滞回避を優先するなら、運行時間内はまずAREXを検討してください。','如果优先节省费用或避开道路堵车，在运行时间内可先考虑AREX。','如果優先節省費用或避開道路塞車，在營運時間內可先考慮AREX。']),
@@ -23,7 +32,6 @@
     const railRoute=routes.find(route=>/AREX/i.test(route.title)),taxiRoute=routes.find(route=>/택시|taxi|タクシー|出租车|計程車/i.test(route.title));
     const buses=guide.routes.filter(bus=>bus.night===intent.night).sort((a,b)=>intent.arrival?0:a.id==='6002'?-1:b.id==='6002'?1:0);
     const busFacts=guide.routes.map(bus=>({id:bus.id,service:bus.night?'night':'daytime',stop:bus[direction],description:bus[direction+'Body'],boarding:intent.arrival?bus.boarding:undefined,fare:bus.fare,departureTimes:intent.arrival?undefined:bus.departureTimes,airportDepartureTimes:intent.arrival?bus.airportTimes:undefined,source:bus[intent.arrival?'sourceArrival':'sourceDeparture']}));
-    const railMaps=intent.arrival?property.maps:{naver:'https://map.naver.com/p/search/'+encodeURIComponent('동대문역'),google:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent('동대문역')};
     const options={bus:{name:names[language][0],tradeoff:busTradeoff[language],routes:busFacts},rail:{name:names[language][1],path:intent.arrival?railRoute?.path:railDeparture[language],tradeoff:railTradeoff[language],source:'https://www.airportrailroad.com/main'},taxi:{name:names[language][2],tradeoff:taxiTradeoff[language],address:property.address,arrivalGuide:intent.arrival?taxiRoute:undefined}};
     const hasCurrentPreference=/저렴|싸게|절약|비용|정체|막히|짐|휠체어|걷기|거동|명|혼자|cheap|budget|cost|traffic|luggage|wheelchair|mobility|people|alone|費用|渋滞|荷物|車いす|人|行李|便宜|省钱|省錢|堵车|塞車|轮椅|輪椅/i.test(message);
     const contextText=hasCurrentPreference?message:history.filter(item=>item.role==='user').slice(-2).map(item=>item.content).concat(message).join(' ');
@@ -31,18 +39,17 @@
     if(/저렴|싸게|절약|비용|정체|막히|짐.{0,4}(?:가볍|없)|cheap|budget|cost|traffic|light\s*luggage|安く|費用|渋滞|荷物が少|便宜|省钱|省錢|堵车|塞車|行李少/i.test(contextText))suggested='rail';
     if(/휠체어|걷기.{0,5}어려|거동|(?:3|4|세|네)\s*명|wheelchair|mobility|(?:three|four|3|4)\s*(?:people|guests|of\s+us)|車いす|歩くのが難|[34]人|轮椅|輪椅|[三四34]人/i.test(contextText))suggested='taxi';
     if(intent.night)suggested='conditional';
-    const first=buses[0],stop=first?.[direction];
-    const mapsByMode={bus:stop?.maps,rail:railMaps,taxi:property.maps,conditional:stop?.maps};
+    const first=buses[0];
     const labels=guide.copy;
-    const linksFor=(choice,busId)=>{
-      const mode=['bus','rail','taxi','conditional'].includes(choice)?choice:suggested,maps=mapsByMode[mode];
-      const selectedBus=guide.routes.find(bus=>bus.id===busId)||first,selectedStop=selectedBus[direction],selectedMaps=mode==='bus'||mode==='conditional'?selectedStop.maps:maps;
-      const name=mode==='bus'||mode==='conditional'?`${selectedBus.id} · ${selectedStop.name}`:mode==='rail'?names[language][1]:'ANOTHER HOUSE';
-      const mapsLinks=selectedMaps?[{kind:'map',label:name+' · '+labels.naver,url:selectedMaps.naver},{kind:'map',label:name+' · '+labels.google,url:selectedMaps.google}]:[];
-      const sources=mode==='rail'?[{kind:'source',label:names[language][1]+' · '+labels.official,url:options.rail.source}]:mode==='taxi'?[]:[{kind:'source',label:selectedBus.id+' · '+labels.official,url:selectedBus[intent.arrival?'sourceArrival':'sourceDeparture']}];
+    const linksFor=(choice,busId,answer)=>{
+      const mode=['bus','rail','taxi','conditional'].includes(choice)?choice:suggested;
+      const selectedBus=guide.routes.find(bus=>bus.id===busId)||first;
+      const mapsLinks=mapsApi.airport(knowledge,message,answer||fallbackAnswer,language,direction,mode,selectedBus.id);
+      const sources=[{kind:'source',label:selectedBus.id+' · '+labels.official,url:selectedBus[intent.arrival?'sourceArrival':'sourceDeparture']},{kind:'source',label:names[language][1]+' · '+labels.official,url:options.rail.source}];
       return mapsLinks.concat(sources);
     };
-    const fallbackAnswer=[guide.copy[direction],leads[suggested][language],...Object.entries(options).map(([mode,option])=>option.name+'\n'+(option.path||(mode==='bus'?buses.map(bus=>bus.id+' · '+bus[direction].name+' ('+bus[direction].id+')').join('\n'):option.address))+'\n'+option.tradeoff),guide.copy.notice].join('\n\n');
+    const recommendedDetail=suggested==='rail'?options.rail.path+'\n'+options.rail.tradeoff:suggested==='taxi'?property.address+'\n'+options.taxi.tradeoff:[first.id+' · '+first[direction].name+' ('+first[direction].id+')',first[direction+'Body'],intent.arrival?first.boarding:undefined,first.fare,intent.arrival?guide.copy.lastMile:undefined,guide.copy.notice].filter(Boolean).join('\n');
+    const fallbackAnswer=[guide.copy[direction],overview[language].map((item,index)=>'• '+item+(index===0?' ('+buses.map(bus=>bus.id).join(' · ')+')':'')).join('\n'),leads[suggested][language],recommendedDetail,invitation[language]].join('\n\n');
     return {direction,route:intent.arrival?'transport':'airport-departure',night:intent.night,property:{name:property.name,address:property.address,nearestStation:property.nearestStation},stopComparison:guide.copy.comparison,options,suggested,fallbackAnswer,linksFor,verifiedAt:knowledge.airportBusGuide.verifiedAt};
   }
   const api={prepare};

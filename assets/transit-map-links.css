@@ -1,0 +1,4 @@
+.msg-map-place{min-width:0;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--warm)}
+.msg-map-place>strong{display:block;margin-bottom:7px;font-size:13px;line-height:1.4;overflow-wrap:anywhere}
+.msg-map-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.msg-map-pair .msg-link{min-width:0;justify-content:center;padding:8px 5px;font-size:12px;overflow-wrap:anywhere}
