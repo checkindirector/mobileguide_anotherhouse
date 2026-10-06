@@ -43,7 +43,7 @@
       return mapsLinks.concat(sources);
     };
     const fallbackAnswer=[guide.copy[direction],leads[suggested][language],...Object.entries(options).map(([mode,option])=>option.name+'\n'+(option.path||(mode==='bus'?buses.map(bus=>bus.id+' · '+bus[direction].name+' ('+bus[direction].id+')').join('\n'):option.address))+'\n'+option.tradeoff),guide.copy.notice].join('\n\n');
-    return {direction,route:intent.arrival?'transport':'airport-departure',night:intent.night,options,suggested,fallbackAnswer,linksFor,verifiedAt:knowledge.airportBusGuide.verifiedAt};
+    return {direction,route:intent.arrival?'transport':'airport-departure',night:intent.night,property:{name:property.name,address:property.address,nearestStation:property.nearestStation},stopComparison:guide.copy.comparison,options,suggested,fallbackAnswer,linksFor,verifiedAt:knowledge.airportBusGuide.verifiedAt};
   }
   const api={prepare};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.ANOTHER_HOUSE_AIRPORT_JOURNEY=api;
