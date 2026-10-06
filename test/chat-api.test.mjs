@@ -1516,6 +1516,12 @@ test('a malformed airport model reply falls back to all options without exposing
   assert.doesNotMatch(res.payload.answer,/포항|AIRPORT_MODE|https/);
 });
 
+test('late-night comparisons cannot imply rail is available without an operating-hours caveat',async()=>{
+  const {res}=await callApi({message:'숙소에서 인천공항 가는 길 내일 새벽 2시 출발',language:'ko',telemetry:{optOut:true}},{output_text:'심야버스 N6002를 추천해요. AREX는 환승이 번거롭지만 갈 수 있어요. 택시도 가능합니다.\nAIRPORT_MODE: bus\nAIRPORT_BUS: N6002'},'airport-night-caution');
+  assert.equal(res.payload.meta.fallback,true);
+  assert.match(res.payload.answer,/AREX도 운행시간 확인/);
+});
+
 test("searched weather answers always expose an official source fallback", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "오늘은 맑습니다.", output: [{ type: "web_search_call", action: { sources: [] } }], usage: {} };
   const { res } = await callApi({ message: "오늘 날씨 알려줘", language: "ko" }, output, "203.0.113.28");
