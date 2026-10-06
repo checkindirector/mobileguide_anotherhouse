@@ -1476,7 +1476,7 @@ test('airport comparison uses one grounded model call, honors its selected mode 
     ['zh','从住宿前往仁川机场怎么走？想省钱，行李少。','rail','您重视费用，可先考虑AREX普通列车。机场巴士不用换乘。出租车更方便，但费用需确认。'],
     ['zh-TW','從住宿前往仁川機場怎麼走？行李少，想省錢。','rail','您重視費用，可先考慮AREX普通列車。機場客運不用轉乘。計程車更方便，但費用需確認。'],
     ['en','How do I get from Incheon Airport to Another House? My bag is light and I want to avoid road traffic.','rail','With a light bag, consider AREX first to avoid road traffic. Airport bus avoids transfers. Taxi is direct but costs more.'],
-    ['ko','지금 공항 가는 길 심야버스랑 철도 택시 옵션을 비교해줘','bus','시간이 맞으면 N6701 공항버스를 검토해 보세요. AREX는 운행시간 확인이 필요하고, 택시는 버스 시간이 맞지 않을 때 대안입니다.']
+    ['ko','지금 공항 가는 길 심야버스랑 철도 택시 옵션을 비교해줘','bus','시간이 맞으면 N6701 심야버스를 검토해 보세요. AREX는 운행시간 확인이 필요하고, 택시는 버스 시간이 맞지 않을 때 대안입니다.']
   ];
   let seq=0;
   for(const [language,message,mode,answer] of scenarios){

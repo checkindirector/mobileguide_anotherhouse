@@ -905,7 +905,7 @@ VERIFIED_AIRPORT_OPTIONS: ${JSON.stringify(facts)}`,
       const mode=raw.match(/^AIRPORT_MODE:\s*(bus|rail|taxi|conditional)\s*$/mi)?.[1]?.toLowerCase();
       const bus=raw.match(/^AIRPORT_BUS:\s*(6002|6702|N6002|N6701|none)\s*$/mi)?.[1]?.toUpperCase();
       const composed=cleanAnswer(raw.replace(/^AIRPORT_(?:MODE|BUS):.*$/gmi,''));
-      const allOptions=/공항\s*버스|airport\s*(?:bus|coach)|空港バス|リムジンバス|机场(?:巴士|大巴)|機場(?:客運|巴士)/i.test(composed)&&/AREX/i.test(composed)&&/택시|\btaxi\b|タクシー|出租车|計程車/i.test(composed);
+      const allOptions=/(?:공항|심야)\s*버스|(?:airport|night)\s*(?:bus|coach)|(?:空港|深夜)バス|リムジンバス|机场(?:巴士|大巴)|機場(?:客運|巴士)|N6002|N6701/i.test(composed)&&/AREX/i.test(composed)&&/택시|\btaxi\b|タクシー|出租车|計程車/i.test(composed);
       if(response.ok&&!hitOutputLimit(data,4000)&&mode&&composed&&allOptions&&(mode!=='bus'||['6002','6702','N6002','N6701'].includes(bus))){answer=composed;choice=mode;busChoice=bus;model=data.model||MODEL;fallback=false;usage=data.usage||{}}
       else console.warn(JSON.stringify({event:'concierge_airport_options_fallback',status:response.status,incomplete:hitOutputLimit(data,4000),allOptions,hasChoice:Boolean(mode)}));
     }catch(error){console.warn(JSON.stringify({event:'concierge_airport_options_fallback',name:error?.name||'Error'}))}
