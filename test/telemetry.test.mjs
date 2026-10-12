@@ -54,6 +54,18 @@ test('reports require configured authorization including unicode-safe rejection'
 });
 test('maintenance never runs without its own secret', async () => { const res=recorder(); await maintenanceHandler({method:'GET',headers:{}},res); assert.equal(res.statusCode,401); });
 test('events fail closed before storage is configured', async () => { const res=recorder(); await eventHandler({method:'POST',headers:{},body:{}},res); assert.equal(res.statusCode,503); });
+test('reservation acknowledgement requires committed storage and does not claim success on failure', async () => {
+  const base={id:randomUUID(),kind:'ota_click',provider:'booking',surface:'home',language:'ja',telemetry:{visitorId:randomUUID(),sessionId:randomUUID(),internal:true}};
+  for (const failed of [false,true]) {
+    let saved=null;const exported={exports:{}};
+    vm.runInNewContext(readFileSync(new URL('../api/analytics-event.js',import.meta.url),'utf8'),{
+      module:exported,console:{error(){}},require:id=>id.includes('interaction-events')?{clientFields}:{...t,enabled:()=>true,persist:async event=>{if(failed)throw Error('storage unavailable');saved=event;},background:()=>{throw Error('must await reservation storage');}}
+    });
+    const res=recorder();await exported.exports({method:'POST',headers:{origin:'https://anotherhouse-guide.vercel.app'},body:base},res);
+    assert.equal(res.statusCode,failed?503:202);assert.equal(res.payload.stored,failed?undefined:true);
+    if(!failed){assert.equal(saved.internal,true);assert.equal(saved.provider,'booking');assert.equal(saved.language,'ja');}
+  }
+});
 test('previous week boundaries use Korean time, not host timezone', () => {
   assert.deepEqual(previousWeek(new Date('2026-10-05T00:00:00Z')), {from:'2026-09-27T15:00:00.000Z',to:'2026-10-04T15:00:00.000Z'});
 });
@@ -115,15 +127,58 @@ function browserClock({ hostname = 'anotherhouse-guide.vercel.app', optOut = fal
   const window = { addEventListener:(type, fn)=>{listeners[type]=fn;} };
   const DateMock = class extends Date { static now(){return 1791180000000 + now;} };
   vm.runInNewContext(readFileSync(new URL('../assets/concierge-telemetry.js',import.meta.url),'utf8'), {
-    window, document, location:{hostname}, navigator:{globalPrivacyControl:gpc}, crypto:{randomUUID}, Date:DateMock,
+    window, document, location:{hostname}, navigator:{globalPrivacyControl:gpc}, crypto:{randomUUID}, Date:DateMock, URL,
     performance:{now:()=>now}, localStorage:{getItem:k=>{if(blockedStorage)throw Error('blocked');return storage.get(k)||null;},setItem:(k,v)=>{if(blockedStorage)throw Error('blocked');storage.set(k,v);}},
     fetch:async(path, options)=>{sent.push(JSON.parse(options.body));return {ok:true};},
     setInterval:fn=>timers.push(fn), setTimeout:fn=>fn()
   });
   return { sent, window, storage, document, advance:ms=>{now+=ms;}, tick:()=>timers.forEach(fn=>fn()),
     visibility(state){document.visibilityState=state;docListeners.visibilitychange?.();},
-    fire:(type, event)=>listeners[type]?.(event), engagement:()=>sent.filter(e=>e.kind==='engagement'), element };
+    fire:(type, event)=>listeners[type]?.(event), documentEvent:(type, event)=>docListeners[type]?.({type, ...event}), engagement:()=>sent.filter(e=>e.kind==='engagement'), element };
 }
+test('reservation events reject arbitrary destinations and strip URL/text fields on the server', () => {
+  assert.deepEqual(clientFields({kind:'ota_click',provider:'booking',surface:'home',url:'https://private.test/?code=1234',label:'Guest name'}),{provider:'booking',surface:'home'});
+  for(const fields of [{provider:'unknown',surface:'home'},{provider:'agoda',surface:'chat'},{provider:'https://booking.com',surface:'checkin'}]) assert.equal(clientFields({kind:'ota_click',...fields}),null);
+  assert.deepEqual(clientFields({kind:'visit',marketingVersion:1,url:'private'}),{marketingVersion:1});
+  assert.deepEqual(clientFields({kind:'visit'}),{});
+  assert.equal(clientFields({kind:'visit',marketingVersion:2}),null);
+});
+test('delegated reservation clicks survive new links, handle keyboard/middle clicks and respect privacy', () => {
+  function click(b, {provider='booking',surface='home',href='https://www.booking.com/hotel/kr/example.html?private=secret',button=0,type='click',prevented=false}={}) {
+    const link={dataset:{ota:provider},href,closest:selector=>selector===(surface==='home'?'.home-support-card':'#checkinContent')?{}:null};
+    b.documentEvent(type,{button,defaultPrevented:prevented,target:{closest:()=>link}});
+  }
+  const b=browserClock();
+  b.storage.set('another-house-lang','ja');click(b);
+  b.storage.set('another-house-lang','zh-TW');click(b,{provider:'trip',surface:'checkin',href:'https://tw.trip.com/hotels/seoul-hotel-detail-134961520/example/',button:1,type:'auxclick'});
+  click(b,{href:'https://booking.com.evil.test/'});click(b,{provider:'unknown'});click(b,{prevented:true});click(b,{button:2});
+  const events=b.sent.filter(e=>e.kind==='ota_click');
+  assert.deepEqual(events.map(e=>[e.provider,e.surface,e.language]),[['booking','home','ja'],['trip','checkin','zh-TW']]);
+  assert.doesNotMatch(JSON.stringify(events),/secret|private|https/);
+  assert.equal(b.sent.find(e=>e.kind==='visit').marketingVersion,1);
+  for(const options of [{optOut:true},{gpc:true},{hostname:'localhost'}]) { const c=browserClock(options);click(c);assert.equal(c.sent.filter(e=>e.kind==='ota_click').length,0); }
+  const staff=browserClock({internal:true});click(staff);assert.equal(staff.sent.find(e=>e.kind==='ota_click').telemetry.internal,true);
+  b.window.conciergeTelemetry.preferences({optOut:true});click(b);assert.equal(b.sent.filter(e=>e.kind==='ota_click').length,2);
+});
+test('reservation reports distinguish missing history, partial weeks, repeated clicks and unmatched sessions', () => {
+  const range={from:'2026-10-11T15:00:00Z',to:'2026-10-18T15:00:00Z'}, at='2026-10-12T03:00:00Z';
+  const events=[
+    {at,kind:'visit',session:'a',marketingVersion:1},{at,kind:'visit',session:'a',marketingVersion:1},
+    {at,kind:'visit',session:'b',marketingVersion:1},{at,kind:'visit',session:'legacy'},
+    ...['booking','booking','agoda'].map(provider=>({at,kind:'ota_click',provider,surface:'home',language:'ja',session:'a'})),
+    {at,kind:'ota_click',provider:'trip',surface:'checkin',language:'zh-TW',session:'boundary'},
+    {at,kind:'ota_click',provider:'trip',surface:'home',language:'zh',session:'staff',internal:true}
+  ];
+  const report=buildReport(events,range,'2026-09-30T00:00:00Z',null,null,'2026-10-12T02:00:00Z');
+  const m=report.current.marketing;
+  assert.equal(m.available,true);assert.equal(m.complete,false);assert.equal(m.clicks,4);assert.equal(m.clickedSessions,2);
+  assert.equal(m.measuredSessions,2);assert.equal(m.matchedClickSessions,1);assert.equal(m.unmatchedClickSessions,1);assert.equal(m.clickSessionRate,.5);
+  assert.deepEqual(m.byProvider.find(e=>e.label==='booking'),{label:'booking',clicks:2,clickedSessions:1});
+  assert.equal(report.previous.marketing.clicks,null);assert.equal(report.previous.marketing.available,false);
+  assert.equal(report.daily[0].marketing.complete,false);assert.equal(report.daily[1].marketing.complete,true);
+  const empty=buildReport([],range,'2026-09-30T00:00:00Z',null,null,'2026-10-01T00:00:00Z').current.marketing;
+  assert.equal(empty.clicks,0);assert.equal(empty.clickSessionRate,null);
+});
 test('visible time excludes hidden gaps and BFCache gaps, without duplicate final chunks', () => {
   const b=browserClock(); b.advance(30000);b.tick();b.advance(5000);b.visibility('hidden');b.fire('pagehide');
   b.advance(120000);b.tick();b.visibility('visible');b.fire('pageshow');b.advance(10000);b.fire('pagehide');

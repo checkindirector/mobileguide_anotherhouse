@@ -18,7 +18,13 @@ module.exports = async function(req, res) {
   const bucket = limits.get(ctx.session);
   if (bucket && now - bucket.at < 60000 && bucket.count >= 60) return res.status(429).json({ error: 'Rate limit' });
   limits.set(ctx.session, { at: bucket && now - bucket.at < 60000 ? bucket.at : now, count: bucket && now - bucket.at < 60000 ? bucket.count + 1 : 1 });
-  background(persist({ id: body.id || randomUUID(), at: new Date(now).toISOString(), kind: body.kind, ...ctx,
-    ...fields }));
+  const saving = persist({ id: body.id || randomUUID(), at: new Date(now).toISOString(), kind: body.kind, ...ctx, ...fields });
+  // The reservation link opens independently. A positive acknowledgement here
+  // confirms the database transaction, so verification needs no private export.
+  if (body.kind === 'ota_click') {
+    try { await saving; return res.status(202).json({ accepted: true, stored: true }); }
+    catch { console.error(JSON.stringify({ event: 'telemetry_write_failed' })); return res.status(503).json({ error: 'Storage unavailable' }); }
+  }
+  background(saving);
   return res.status(202).json({ accepted: true });
 };

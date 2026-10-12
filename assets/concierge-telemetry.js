@@ -113,6 +113,22 @@
   // avoid double counting on pagehide/visibilitychange and limit lost final time.
   let visibleSince = null, visibleContext = null, pageHidden = false;
   function language() { try { return localStorage.getItem('another-house-lang') || 'ko'; } catch { return 'ko'; } }
+  // Delegation survives language changes and dynamically rendered reservation links.
+  // Only fixed provider/surface values leave the browser, never the destination URL.
+  function reservationClick(e) {
+    if (e.defaultPrevented || (e.type === 'click' ? e.button !== 0 : e.button !== 1)) return;
+    const link = e.target?.closest?.('a[data-ota]');
+    if (!link) return;
+    const provider = link.dataset.ota;
+    const surface = link.closest('.home-support-card') ? 'home' : link.closest('#checkinContent') ? 'checkin' : null;
+    const hosts = { booking: ['booking.com'], agoda: ['agoda.com'], trip: ['trip.com'] };
+    if (!surface || !Object.hasOwn(hosts, provider)) return;
+    try {
+      const url = new URL(link.href);
+      if (url.protocol !== 'https:' || !hosts[provider].some(host => url.hostname === host || url.hostname.endsWith('.' + host))) return;
+      event('ota_click', language(), { provider, surface });
+    } catch {}
+  }
   function resumeTime() {
     visibleSince = null; visibleContext = null;
     if (!production || pageHidden || document.visibilityState !== 'visible') return;
@@ -161,6 +177,13 @@
     zh: ['为改善服务，问题、回答和匿名使用统计保存约90天，包括屏幕显示时长、回答评价、回答链接/FAQ按钮点击及聊天打开、发送、显示、关闭和屏幕隐藏。不保存未发送的文字或完整链接地址。请勿输入联系方式或密码。常见个人信息会自动遮盖。', '不收集我的对话及使用统计', '员工测试模式'],
     'zh-TW': ['為改善服務，問題、回答和匿名使用統計保存約90天，包括螢幕顯示時間、回答評價、回答連結/FAQ按鈕點擊及聊天開啟、傳送、顯示、關閉和螢幕隱藏。不儲存未傳送的文字或完整連結網址。請勿輸入聯絡方式或密碼。常見個人資訊會自動遮蓋。', '不收集我的對話及使用統計', '員工測試模式']
   };
+  const reservationPrivacy = {
+    ko: ' 예약 사이트 버튼을 누르면 예약 플랫폼·화면 위치·선택 언어를 같은 기간 동안 기록합니다. 실제 예약 완료 여부는 알 수 없습니다.',
+    en: ' Reservation-button clicks also record the platform, screen location and selected language for the same period. We cannot see whether a booking is completed.',
+    ja: ' 予約サイトのボタンを押すと、予約プラットフォーム・画面内の位置・選択言語も同じ期間保存します。予約が完了したかは分かりません。',
+    zh: ' 点击预订平台按钮时，也会在相同期限内记录平台、页面位置及所选语言。无法得知是否完成预订。',
+    'zh-TW': ' 點擊訂房平台按鈕時，也會在相同期限內記錄平台、頁面位置及所選語言。無法得知是否完成訂房。'
+  };
   function render() {
     const holder = document.getElementById('analyticsPrivacy');
     if (!holder) return;
@@ -170,7 +193,7 @@
     const details = document.createElement('details'), summary = document.createElement('summary');
     summary.textContent = ({ko:'개인정보·이용 통계 설정',en:'Privacy & usage settings',ja:'プライバシー・利用統計',zh:'隐私和使用统计','zh-TW':'隱私與使用統計'})[language] || 'Privacy & usage settings';
     details.append(summary);
-    const p = document.createElement('p'); p.textContent = text[0]; details.append(p);
+    const p = document.createElement('p'); p.textContent = text[0] + (reservationPrivacy[language] || reservationPrivacy.ko); details.append(p);
     for (const [field, label] of [['optOut', text[1]], ['internal', text[2]]]) {
       const row = document.createElement('label'), input = document.createElement('input'); input.type = 'checkbox'; input.checked = ctx[field];
       input.addEventListener('change', () => window.conciergeTelemetry.preferences({ [field]: input.checked }));
@@ -184,7 +207,9 @@
     const style = document.createElement('style'); style.textContent = '#analyticsPrivacy label{display:block;margin:5px 0}#analyticsPrivacy summary{cursor:pointer}'; document.head.append(style);
     render();
     document.querySelectorAll('[data-language]').forEach(button => button.addEventListener('click', () => setTimeout(render, 0)));
-    if (!lastVisit) { lastVisit = true; event('visit', language()); startTime(); }
+    document.addEventListener('click', reservationClick);
+    document.addEventListener('auxclick', reservationClick);
+    if (!lastVisit) { lastVisit = true; event('visit', language(), { marketingVersion: 1 }); startTime(); }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
