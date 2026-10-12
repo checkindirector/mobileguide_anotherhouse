@@ -1,0 +1,9 @@
+.home-language-option{text-decoration:none;cursor:pointer}
+.booking-faq{padding:30px 22px 12px;border-top:1px solid var(--line)}
+.booking-faq h2{margin:8px 0 14px;font-size:24px;line-height:1.35;letter-spacing:-.03em}
+.booking-faq>p{font-size:14px;line-height:1.75;color:var(--secondary)}
+.booking-faq details{border-bottom:1px solid var(--line);padding:15px 0}
+.booking-faq summary{cursor:pointer;font-size:15px;font-weight:700;line-height:1.65;list-style-position:outside;margin-left:17px;padding-left:3px}
+.booking-faq details p{font-size:14px;line-height:1.8;margin:12px 0 2px;color:var(--secondary);overflow-wrap:anywhere}
+.booking-faq details[open] summary{color:var(--bronze)}
+@media(max-width:380px){.booking-faq{padding-left:18px;padding-right:18px}.booking-faq h2{font-size:22px}}

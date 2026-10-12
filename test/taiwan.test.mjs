@@ -21,8 +21,8 @@ test('every localized data entry includes Taiwan Traditional Chinese with the sa
 test('Taiwan locale is selectable, stored, and sent through AI concierge routing',async()=>{
   const html=await read('index.html');const source=await read('assets/master-app.js');
   assert.equal((html.match(/class="home-language-option"/g)||[]).length,5);
-  assert.match(html,/data-language="zh-TW" lang="zh-TW"><span>繁體中文（台灣）/);
-  assert.match(html,/data-language="zh" lang="zh-CN"><span>简体中文/);
+  assert.match(html,/data-language="zh-TW" lang="zh-TW"[^>]*><span>繁體中文（台灣）/);
+  assert.match(html,/data-language="zh" lang="zh-CN"[^>]*><span>简体中文/);
   assert.match(source,/"zh-TW":"TW"/);
   assert.match(source,/localStorage\.setItem\('another-house-lang',lang\)/);
   assert.match(source,/fetch\('\/api\/chat'/);

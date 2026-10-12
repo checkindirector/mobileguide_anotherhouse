@@ -110,9 +110,10 @@ test('storage failure does not break a successful answer',async()=>{
   finally{keys.forEach((k,i)=>{if(old[i]===undefined)delete process.env[k];else process.env[k]=old[i];});}
 });
 
-function browserClock({ hostname = 'anotherhouse-guide.vercel.app', optOut = false, internal = false, gpc = false, hidden = false, blockedStorage = false } = {}) {
+function browserClock({ hostname = 'anotherhouse-guide.vercel.app', optOut = false, internal = false, gpc = false, hidden = false, blockedStorage = false, siteLanguage, storedLanguage } = {}) {
   let now = 0; const sent = [], listeners = {}, docListeners = {}, timers = [];
   const storage = new Map([['another-analytics', JSON.stringify({ optOut, internal })]]);
+  if(storedLanguage) storage.set('another-house-lang',storedLanguage);
   const element = (tag='div') => {
     const node={tag, style:{}, dataset:{}, attributes:{}, children:[], handlers:{},
       append(...items){this.children.push(...items);},after(){},replaceChildren(){this.children=[];},
@@ -121,7 +122,7 @@ function browserClock({ hostname = 'anotherhouse-guide.vercel.app', optOut = fal
       querySelector(selector){return this.children.find(child=>selector==='.'+child.className)||null;}};
     return node;
   };
-  const document = { readyState:'complete', visibilityState:hidden?'hidden':'visible', head:element(),
+  const document = { readyState:'complete', documentElement:{dataset:siteLanguage?{siteLanguage}:{}}, visibilityState:hidden?'hidden':'visible', head:element(),
     createElement:element, createTextNode:()=>({}), getElementById:()=>null, querySelector:()=>null, querySelectorAll:()=>[],
     addEventListener:(type, fn)=>{docListeners[type]=fn;} };
   const window = { addEventListener:(type, fn)=>{listeners[type]=fn;} };
@@ -160,6 +161,16 @@ test('delegated reservation clicks survive new links, handle keyboard/middle cli
   const staff=browserClock({internal:true});click(staff);assert.equal(staff.sent.find(e=>e.kind==='ota_click').telemetry.internal,true);
   b.window.conciergeTelemetry.preferences({optOut:true});click(b);assert.equal(b.sent.filter(e=>e.kind==='ota_click').length,2);
 });
+test('language URL takes precedence over a previous language preference in visits and reservation clicks', () => {
+  for(const blockedStorage of [false,true]) {
+    const b=browserClock({siteLanguage:'ja',storedLanguage:'zh-TW',blockedStorage});
+    const link={dataset:{ota:'booking'},href:'https://www.booking.com/hotel/kr/example.html',closest:selector=>selector==='.home-support-card'?{}:null};
+    b.documentEvent('click',{button:0,defaultPrevented:false,target:{closest:()=>link}});
+    assert.equal(b.sent.find(e=>e.kind==='visit').language,'ja');
+    assert.equal(b.sent.find(e=>e.kind==='ota_click').language,'ja');
+  }
+});
+
 test('reservation reports distinguish missing history, partial weeks, repeated clicks and unmatched sessions', () => {
   const range={from:'2026-10-11T15:00:00Z',to:'2026-10-18T15:00:00Z'}, at='2026-10-12T03:00:00Z';
   const events=[

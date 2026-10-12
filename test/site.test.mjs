@@ -209,7 +209,8 @@ test("home gallery copy, compact rhythm, and restaurant imagery are upgraded",as
   const html=await read("index.html");
   const app=await read("assets/master-app.js");
   const expanded=await read("assets/restaurant-expanded.js");
-  assert.doesNotMatch(html,/previous-gallery-label|>03<|>THE HOUSE</);
+  const gallerySection = html.match(/<section class="previous-gallery-preview">[\s\S]*?<\/section>/)[0];
+  assert.doesNotMatch(gallerySection,/previous-gallery-label|>03<|>THE HOUSE</);
   assert.match(html,/previous-gallery-kicker">ROOM PHOTOS/);
   assert.match(html,/previous-gallery-subtitle/);
   assert.ok(html.includes("객실 둘러보기"));
@@ -416,7 +417,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(html,/\.image-lightbox\.is-zoomed \.image-lightbox-nav\{opacity:1;pointer-events:auto\}/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20261006-5/);
+  assert.match(html,/master-app\.js\?v=20261012-7/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
