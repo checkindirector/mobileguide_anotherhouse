@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://anotherhouse-guide.vercel.app/sitemap.xml

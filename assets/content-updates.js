@@ -31,11 +31,11 @@
       '在首爾一天的盡頭，\n回到只屬於自己的另一個家。'
     ),
     intro: I(
-      '동대문 곁, 문을 닫으면 따뜻한 쉼이 시작됩니다. 서울을 여행하는 여성을 위한 프라이빗 스테이입니다.',
-      'Step away from Dongdaemun into warm, quiet rest. A private stay for women exploring Seoul alone or together.',
-      '東大門のすぐそばで、扉を閉めれば温かな休息が始まります。ソウルを旅する女性のためのプライベートステイです。',
-      '邻近东大门，关上门便开始温暖休息。为游览首尔的女性打造的私密住宿。',
-      '鄰近東大門，關上門便開始溫暖休息。為遊覽首爾的女性打造的私密住宿。'
+      '어나더하우스는 동대문역 6번 출구 인근의 여성 전용 숙소입니다. 혼자 여행하는 분을 위한 싱글룸과 함께 머무는 분을 위한 2인실을 운영합니다.',
+      'Another House Dongdaemun is a women-only stay near Dongdaemun Station Exit 6. Choose a private single room for a solo trip or a double room for two guests.',
+      'Another House Dongdaemunは、東大門駅6番出口近くの女性専用宿です。ソウル一人旅向けの個室シングルルームと、2人で泊まれる個室をご用意しています。',
+      'Another House Dongdaemun是东大门站6号出口附近的女性专用住宿，设有适合首尔独自旅行的独立单人房，以及可供两人入住的独立客房。',
+      'Another House Dongdaemun是東大門站6號出口附近的女性專用住宿，設有適合首爾女生獨旅的獨立單人房，以及可供兩人入住的獨立客房。'
     ),
     privateKicker: 'A ROOM OF YOUR OWN',
     privateTitle: I(
@@ -46,11 +46,11 @@
       '空間雖小，\n這一夜完整屬於自己。'
     ),
     privateBody: I(
-      '싱글룸과 2인실 모두 개별 도어락을 갖췄습니다. 작지만 안락하고 실용적인 프라이빗 공간입니다.',
-      'Single and double rooms each have a private door lock. A compact, comfortable space designed for practical rest.',
-      'シングルと2人部屋はすべて個別ドアロック付き。小さくても、心地よく実用的なプライベート空間です。',
-      '单人房与双人房均配有独立门锁。空间小巧、舒适且实用。',
-      '單人房與雙人房均配有獨立門鎖。空間小巧、舒適且實用。'
+      '싱글룸과 2인실 모두 개별 도어락이 있는 작은 개인 객실입니다. 샤워실과 화장실은 다른 여성 투숙객과 함께 사용하는 공용 시설입니다.',
+      'Single and double rooms are compact private rooms with individual door locks. Showers and toilets are shared with other women staying at the property.',
+      'シングルと2人部屋は、すべて個別ドアロック付きのコンパクトな個室です。シャワーとトイレは、ほかの女性宿泊者と共用です。',
+      '单人房与双人房均为配有独立门锁的小型独立客房。淋浴间和卫生间为公共设施，与其他女性住客共用。',
+      '單人房與雙人房均為配有獨立門鎖的小型獨立客房。淋浴間和洗手間為公共設施，與其他女性住客共用。'
     ),
     facts: [
       { value: '30 SEC', label: I('동대문역 6번 출구', 'Dongdaemun Station Exit 6', '東大門駅6番出口', '东大门站6号出口', '東大門站6號出口') },
