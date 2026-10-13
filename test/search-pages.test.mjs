@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import vm from 'node:vm';
 import { parseHTML } from 'linkedom';
+import { accessGuides } from '../lib/access-content.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const read = name => readFile(resolve(root, name), 'utf8');
@@ -61,8 +62,36 @@ test('explicit language URL wins over an earlier language preference, including 
 
 test('sitemap covers all canonical homepages and the original HTML alias remains identical', async () => {
   const sitemap = await read('sitemap.xml');
-  assert.equal((sitemap.match(/<loc>/g)||[]).length, 5);
+  assert.equal((sitemap.match(/<loc>/g)||[]).length, 8);
   for (const locale of Object.values(locales)) assert.ok(sitemap.includes(`<loc>${origin}${locale.path}</loc>`));
   assert.equal(await read('index.html'), await read('guide-anotherhouse.html'));
   assert.equal((await read('google3e7332e3b88b3607.html')).trim(), 'google-site-verification: google3e7332e3b88b3607.html');
+});
+
+test('arrival guides have crawlable return and reciprocal language links, real photos, and matching structured data', async () => {
+  for (const guide of accessGuides) {
+    const {document} = parseHTML(await read(guide.path.slice(1) + '.html'));
+    assert.equal(document.documentElement.lang, guide.language);
+    assert.equal(document.querySelector('link[rel="canonical"]').href, origin + guide.path);
+    assert.equal(document.querySelectorAll('h1').length, 1);
+    assert.ok(document.querySelector('main').textContent.includes('서울 종로구 종로 294 5층'));
+    assert.equal(document.querySelectorAll('ol li').length, 4);
+    assert.equal(document.querySelector('.cta').href, guide.home + '#bookingFaq');
+    assert.equal(document.querySelector('.address a').href, 'https://naver.me/FbVSIXlL');
+    for (const alternate of accessGuides) {
+      assert.equal(document.querySelector(`link[hreflang="${alternate.hreflang}"]`).href, origin + alternate.path);
+      assert.ok(document.querySelector(`nav a[href="${alternate.path}"]`));
+    }
+    for (const image of document.querySelectorAll('img')) {
+      assert.ok(image.alt.length > 10);
+      assert.ok((await readFile(resolve(root, image.src.slice(1)))).length > 0);
+    }
+    const schema = JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent);
+    assert.equal(schema['@graph'][0].url, origin + guide.path);
+    assert.equal(schema['@graph'][0].about['@id'], origin + '/#lodging');
+    assert.equal(schema['@graph'][1].itemListElement[1].item, origin + guide.path);
+    const {document: home} = parseHTML(await read(guide.home.slice(1) + '.html'));
+    assert.ok(home.querySelector(`#bookingFaq details a[href="${guide.path}"]`));
+    assert.ok((await read('sitemap.xml')).includes(`<loc>${origin}${guide.path}</loc>`));
+  }
 });
