@@ -112,7 +112,7 @@
   // Visible-screen time, not attention or reading time. Unique, bounded chunks
   // avoid double counting on pagehide/visibilitychange and limit lost final time.
   let visibleSince = null, visibleContext = null, pageHidden = false;
-  function language() { try { return localStorage.getItem('another-house-lang') || 'ko'; } catch { return 'ko'; } }
+  function language() { const explicit = document.documentElement?.dataset?.siteLanguage; if (explicit) return explicit; try { return localStorage.getItem('another-house-lang') || 'ko'; } catch { return 'ko'; } }
   // Delegation survives language changes and dynamically rendered reservation links.
   // Only fixed provider/surface values leave the browser, never the destination URL.
   function reservationClick(e) {
@@ -187,7 +187,7 @@
   function render() {
     const holder = document.getElementById('analyticsPrivacy');
     if (!holder) return;
-    let language = 'ko'; try { language = localStorage.getItem('another-house-lang') || 'ko'; } catch {}
+    let language = document.documentElement?.dataset?.siteLanguage || 'ko'; try { language = document.documentElement?.dataset?.siteLanguage || localStorage.getItem('another-house-lang') || 'ko'; } catch {}
     const text = copy[language] || copy.ko, ctx = context();
     holder.replaceChildren();
     const details = document.createElement('details'), summary = document.createElement('summary');
