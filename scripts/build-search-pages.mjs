@@ -1,7 +1,9 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import vm from 'node:vm';
 import { parseHTML } from 'linkedom';
+import { accessGuides } from '../lib/access-content.mjs';
+import { renderAccessGuide } from '../lib/access-pages.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const origin = 'https://anotherhouse-guide.vercel.app';
@@ -21,6 +23,7 @@ const functions = functionLines.join('\n');
 for (const [language, locale] of Object.entries(locales)) {
   const { document } = parseHTML(source);
   document.querySelector('script[src^="assets/concierge-telemetry.js"]').setAttribute('src', 'assets/concierge-telemetry.js?v=20261012-4');
+  for (const name of ['master-app', 'search-content']) document.querySelector(`script[src^="assets/${name}.js"]`).setAttribute('src', `assets/${name}.js?v=20261013-1`);
   const context = vm.createContext({ window: dataContext.window, document, lang: language });
   vm.runInContext(`const D=window.ANOTHER_HOUSE_DATA;const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];const t=v=>v&&typeof v==='object'&&!Array.isArray(v)&&('ko'in v)?(v[lang]||v.ko):v;const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));${copySource}const c=()=>copy[lang]||copy.ko;${functions}renderHome();renderHomeEditorial();renderStayStory();renderSearchFaq();`, context);
   document.documentElement.lang = locale.htmlLang;
@@ -81,6 +84,11 @@ for (const [language, locale] of Object.entries(locales)) {
   await writeFile(resolve(root, filename), html);
   if (locale.path === '/') await writeFile(resolve(root, 'guide-anotherhouse.html'), html);
 }
-const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + Object.values(locales).map(locale => `  <url><loc>${origin}${locale.path}</loc></url>`).join('\n') + '\n</urlset>\n';
+for (const guide of accessGuides) {
+  await mkdir(resolve(root, guide.home.slice(1)), { recursive: true });
+  await writeFile(resolve(root, guide.path.slice(1) + '.html'), renderAccessGuide(guide));
+}
+const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + [...Object.values(locales), ...accessGuides].map(locale => `  <url><loc>${origin}${locale.path}</loc></url>`).join('\n') + '\n</urlset>\n';
 await writeFile(resolve(root, 'sitemap.xml'), sitemap);
 console.log(`Built ${Object.keys(locales).length} language versions of the existing homepage with visible booking FAQs.`);
+console.log(`Built ${accessGuides.length} arrival guides with reciprocal language links.`);
