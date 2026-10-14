@@ -27,8 +27,9 @@ const functions = functionLines.join('\n');
 for (const [language, locale] of Object.entries(locales)) {
   const { document } = parseHTML(source);
   document.querySelector('script[src^="assets/concierge-telemetry.js"]').setAttribute('src', 'assets/concierge-telemetry.js?v=20261012-4');
-  for (const name of ['master-app', 'search-content']) document.querySelector(`script[src^="assets/${name}.js"]`).setAttribute('src', `assets/${name}.js?v=20261014-2`);
-  document.querySelector('script[src^="assets/tour-app.js"]').setAttribute('src', 'assets/tour-app.js?v=20261014-2');
+  for (const name of ['master-app', 'search-content']) document.querySelector(`script[src^="assets/${name}.js"]`).setAttribute('src', `assets/${name}.js?v=20261014-3`);
+  document.querySelector('script[src^="assets/tour-app.js"]').setAttribute('src', 'assets/tour-app.js?v=20261014-3');
+  document.querySelectorAll('script[src]').forEach(script => script.setAttribute('defer', ''));
   if (!document.querySelector('link[data-tour-search]')) {
     const style = document.createElement('link');
     style.setAttribute('rel', 'stylesheet'); style.setAttribute('href', '/assets/tour-search.css?v=20261014-2'); style.setAttribute('data-tour-search', '');
@@ -39,6 +40,8 @@ for (const [language, locale] of Object.entries(locales)) {
   document.documentElement.lang = locale.htmlLang;
   document.documentElement.dataset.siteLanguage = language;
   vm.runInContext(tourApp, vm.createContext({window: dataContext.window, document, setTimeout: () => {}}));
+  // Existing below-the-fold photos keep their original sources and dimensions.
+  document.querySelectorAll('.previous-gallery-mosaic img, #homeNearby img, #homeTours img').forEach(img => img.setAttribute('loading', 'lazy'));
   for (const selector of ['#toursContent', '#homeTours']) {
     const container = document.querySelector(selector);
     container.innerHTML = container.innerHTML.replace(/[\t ]+$/gm, '');
@@ -112,6 +115,9 @@ for (const [language, locale] of Object.entries(locales)) {
   const title = tours.title[language] + ' | Another House';
   const description = tours.summary[language];
   const base = tourDocument.createElement('base'); base.setAttribute('href', '/'); tourDocument.head.prepend(base);
+  // Prioritize this screen's existing hero instead of the hidden homepage hero.
+  tourDocument.querySelector('link[rel="preload"][href="assets/images/main-01.webp"]').setAttribute('href', tours.hero);
+  tourDocument.querySelectorAll('.screen[data-screen="home"] img').forEach(img => img.setAttribute('loading', 'lazy'));
   tourDocument.documentElement.dataset.initialScreen = 'tours';
   tourDocument.title = title;
   tourDocument.body.className = 'is-tours';

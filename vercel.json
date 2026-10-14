@@ -2,7 +2,32 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "outputDirectory": ".",
-  "crons": [{ "path": "/api/analytics-maintenance", "schedule": "0 3 * * *" }],
+  "headers": [
+    {
+      "source": "/assets/images/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/assets/font/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/analytics-maintenance",
+      "schedule": "0 3 * * *"
+    }
+  ],
   "redirects": [
     {
       "source": "/guide-anotherstay",
