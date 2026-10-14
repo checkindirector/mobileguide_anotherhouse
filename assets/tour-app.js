@@ -36,7 +36,7 @@
 
   const cover = (place, compact = false) => `
     <figure class="${compact ? 'tour-mini' : 'restaurant-photo tour-card-cover'} tour-photo-cover">
-      <img src="${esc(place.image)}" alt="${esc(t(place.name))}" loading="${compact ? 'eager' : 'lazy'}">
+      <img src="${esc(place.image)}" alt="${esc(t(place.name))}" loading="lazy">
       <span class="tour-photo-shade" aria-hidden="true"></span>
       <span class="tour-cover-number">${esc(place.number)}</span>
       <span class="tour-cover-kicker">${place.host ? 'HOST’S PICK' : 'LOCAL ROUTE'}</span>

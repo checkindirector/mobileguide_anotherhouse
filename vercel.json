@@ -2,6 +2,10 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "outputDirectory": ".",
+  "headers": [
+    {"source": "/assets/images/:path*", "headers": [{"key": "Cache-Control", "value": "public, max-age=3600, must-revalidate"}]},
+    {"source": "/assets/font/:path*", "headers": [{"key": "Cache-Control", "value": "public, max-age=3600, must-revalidate"}]}
+  ],
   "crons": [{ "path": "/api/analytics-maintenance", "schedule": "0 3 * * *" }],
   "redirects": [
     {
