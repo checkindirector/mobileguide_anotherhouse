@@ -1,9 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {createRequire} from 'node:module';
-const require=createRequire(import.meta.url);
-const legacyScreen=require('../lib/legacy-screen.cjs');
+import {stripTypeScriptTypes} from 'node:module';
 import vm from 'node:vm';
 import {parseHTML} from 'linkedom';
 const read = path => readFile(new URL('../'+path, import.meta.url), 'utf8');
@@ -11,27 +9,27 @@ const origin = 'https://anotherhouse-guide.vercel.app';
 const homes = ['/', '/en', '/ja', '/zh-cn', '/zh-tw'];
 const tourPath = home => (home === '/' ? '' : home) + '/tours';
 
-test('legacy aliases redirect once, preserve locale and attribution, and cannot redirect externally', async () => {
+test('legacy home/tour aliases redirect once, preserve locale and attribution, and cannot redirect externally', async () => {
+  const code = stripTypeScriptTypes(await read('middleware.ts')).replace(/import .*?;\n/, '').replace('export default function', 'function').replace('export const config', 'const config');
+  const context = vm.createContext({URL, Response, next: () => 'next'});
+  vm.runInContext(code+'\nthis.route=middleware;this.routes=config;', context);
   for (const home of homes) {
-    const route=legacyScreen(home);
     for (const path of [home,tourPath(home)]) {
       for (const screen of ['home','tours']) {
-        const response={headers:{},setHeader(k,v){this.headers[k]=v},end(){}};
-        route({url:origin+path+'?utm_source=guide&page='+screen+'&lang=en'},response);
-        assert.equal(response.statusCode,308);
-        assert.equal(response.headers.Location,(screen==='home'?home:tourPath(home))+'?utm_source=guide&lang=en');
-        assert.equal(new URL(response.headers.Location,origin).searchParams.has('page'),false);
+        const response = context.route({url:origin+path+'?utm_source=guide&page='+screen+'&lang=en'});
+        const target = (screen==='home'?home:tourPath(home))+'?utm_source=guide&lang=en';
+        assert.equal(response.status,308); assert.equal(response.headers.get('location'),target);
+        assert.equal(context.route({url:origin+target}),'next');
       }
     }
-    const rejected={setHeader(){throw new Error('unexpected redirect')},end(){}};
-    route({url:origin+'/?page=https://evil.example'},rejected);assert.equal(rejected.statusCode,400);
   }
-  const config=JSON.parse(await read('vercel.json'));
-  assert.equal(config.rewrites.length,10);
-  for (const rule of config.rewrites) {
-    assert.equal(rule.has[0].key,'page');assert.equal(rule.has[0].value,'(home|tours)');
-    assert.ok(!rule.source.includes('api'));assert.ok(!rule.source.includes('assets'));
+  for (const path of ['/ja?page=transport','/ja?page=checkin','/api/chat?page=tours','/assets/test?page=tours','/unknown?page=tours','/ja']) {
+    assert.equal(context.route({url:origin+path}),'next');
   }
+  assert.equal(context.route({url:origin+'/ja?page=tours&next=https%3A%2F%2Fevil.example'}).headers.get('location').split('?')[0],'/ja/tours');
+  assert.equal(context.routes.matcher.length,10);
+  assert.deepEqual(Array.from(context.routes.matcher), homes.concat(homes.map(tourPath)));
+  for (const route of context.routes.matcher) assert.equal(typeof route,'string');
 });
 
 test('home and tour documents prioritize the correct hero and defer below-fold photos and ordered scripts', async () => {
