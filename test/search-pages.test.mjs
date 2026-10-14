@@ -14,6 +14,73 @@ vm.runInContext(await read('assets/search-content.js'), data);
 const locales = data.window.ANOTHER_HOUSE_SEARCH;
 const origin = 'https://anotherhouse-guide.vercel.app';
 
+test('all existing tour information is present in every initial language document with crawlable same-screen links', async () => {
+  const tourData = vm.createContext({window:{}});
+  vm.runInContext(await read('assets/tour-data.js'), tourData);
+  const tours = tourData.window.ANOTHER_HOUSE_TOURS;
+  for (const [language, locale] of Object.entries(locales)) {
+    const tourPath = locale.path.replace(/\/$/, '') + '/tours';
+    for (const filename of [locale.path === '/' ? 'index.html' : locale.path.slice(1)+'.html', tourPath.slice(1)+'.html']) {
+      const {document} = parseHTML(await read(filename));
+      const cards = [...document.querySelectorAll('#tourCards .tour-card')];
+      assert.equal(cards.length, 21);
+      assert.equal(cards.filter(card => !card.hasAttribute('hidden')).length, 7);
+      assert.equal(new Set(cards.map(card=>card.dataset.tourId)).size, 21);
+      for (const place of tours.places) {
+        const card = document.querySelector(`[data-tour-id="${place.id}"]`);
+        assert.equal(card.querySelector('h3').textContent, place.name[language]);
+        assert.equal(card.querySelector('.restaurant-copy').textContent, place.text[language]);
+        assert.equal(card.querySelector('.tour-travel strong').textContent, place.travel[language]);
+        assert.equal(card.querySelector('img').getAttribute('src'), place.image);
+        assert.equal(card.querySelector('img').alt, place.name[language]);
+        assert.deepEqual([...card.querySelectorAll('.restaurant-tags span')].map(node=>node.textContent), Array.from(place.tags[language]));
+        assert.equal(card.querySelectorAll('a').length, place.official ? 3 : 2);
+      }
+      assert.equal(document.querySelector('.tours-hero h2').textContent, tours.title[language]);
+      assert.equal(document.querySelector('.tour-hero-summary').textContent, tours.summary[language]);
+      assert.equal(document.querySelector('#homeTours').children.length, 2);
+      for (const link of document.querySelectorAll('[data-go="tours"]')) {
+        assert.equal(link.tagName, 'A'); assert.equal(link.getAttribute('href'), tourPath);
+      }
+      assert.ok(document.querySelector('noscript[data-tour-fallback]').textContent.includes('#tourCards>.tour-card[hidden]'));
+    }
+    const {document} = parseHTML(await read(tourPath.slice(1)+'.html'));
+    assert.equal(document.querySelector('base').getAttribute('href'), '/');
+    assert.equal(document.documentElement.dataset.initialScreen, 'tours');
+    assert.equal(document.querySelector('.screen.active').dataset.screen, 'tours');
+    assert.equal(document.querySelector('link[rel="canonical"]').href, origin+tourPath);
+    assert.equal(document.title, tours.title[language]+' | Another House');
+    assert.equal(document.querySelector('meta[name="description"]').content, tours.summary[language]);
+    for (const alternate of Object.values(locales)) {
+      assert.equal(document.querySelector(`link[hreflang="${alternate.hreflang}"]`).href, origin+alternate.path.replace(/\/$/,'')+'/tours');
+    }
+    assert.ok((await read('sitemap.xml')).includes(`<loc>${origin}${tourPath}</loc>`));
+  }
+});
+
+test('existing tour filters and search preserve all 21 cards while showing exactly the requested subset', async () => {
+  for (const [language, locale] of Object.entries(locales)) {
+    const {document} = parseHTML(await read(locale.path.replace(/\/$/,'').slice(1) + (locale.path==='/'?'tours.html':'/tours.html')));
+    const browser = vm.createContext({document,window:{},setTimeout:()=>{}});
+    vm.runInContext(await read('assets/tour-data.js'), browser);
+    vm.runInContext(await read('assets/search-content.js'), browser);
+    vm.runInContext(await read('assets/tour-app.js'), browser);
+    const count = () => document.querySelectorAll('#tourCards .tour-card').length;
+    const visible = () => [...document.querySelectorAll('#tourCards .tour-card')].filter(card=>!card.hidden);
+    assert.equal(count(),21); assert.equal(visible().length,7);
+    document.querySelector('[data-tour-category="all"]').onclick();
+    assert.equal(count(),21); assert.equal(visible().length,21);
+    const search = document.querySelector('#tourSearch');
+    search.oninput({target:{value:browser.window.ANOTHER_HOUSE_TOURS.places.find(p=>p.id==='gwangjang').name[language]}});
+    assert.equal(count(),21); assert.equal(visible().length,1); assert.equal(visible()[0].dataset.tourId,'gwangjang');
+    search.oninput({target:{value:'no-such-place-xyz'}});
+    assert.equal(count(),21); assert.equal(visible().length,0); assert.equal(document.querySelector('#toursEmpty').hidden,false);
+    search.oninput({target:{value:''}});
+    document.querySelector('[data-tour-category="host"]').onclick();
+    assert.equal(count(),21); assert.equal(visible().length,7);
+  }
+});
+
 test('every language is readable without JavaScript and declares reciprocal canonical language URLs', async () => {
   for (const [language, locale] of Object.entries(locales)) {
     const html = await read(locale.path === '/' ? 'index.html' : locale.path.slice(1) + '.html');
@@ -76,7 +143,7 @@ test('room-guide return links restore the intended home section after app initia
 
 test('sitemap covers all canonical homepages and the original HTML alias remains identical', async () => {
   const sitemap = await read('sitemap.xml');
-  assert.equal((sitemap.match(/<loc>/g)||[]).length, 11);
+  assert.equal((sitemap.match(/<loc>/g)||[]).length, 16);
   for (const locale of Object.values(locales)) assert.ok(sitemap.includes(`<loc>${origin}${locale.path}</loc>`));
   assert.equal(await read('index.html'), await read('guide-anotherhouse.html'));
   assert.equal((await read('google3e7332e3b88b3607.html')).trim(), 'google-site-verification: google3e7332e3b88b3607.html');

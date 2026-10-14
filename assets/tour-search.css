@@ -1,0 +1,3 @@
+/* Existing filters retain their appearance and hide cards without removing content. */
+#tourCards>.tour-card[hidden]{display:none!important}
+a[data-go="tours"]{text-decoration:none;font-family:inherit}

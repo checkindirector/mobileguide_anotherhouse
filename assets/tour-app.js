@@ -9,7 +9,8 @@
   const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
   }[char]));
-  const lang = () => document.documentElement.lang || 'ko';
+  const lang = () => document.documentElement.dataset.siteLanguage || document.documentElement.lang || 'ko';
+  const tourPath = () => (window.ANOTHER_HOUSE_SEARCH?.[lang()]?.path || '/').replace(/\/$/, '') + '/tours';
   const t = (value) => value && typeof value === 'object' && !Array.isArray(value)
     ? (value[lang()] || value.ko || value.en || '')
     : value;
@@ -44,7 +45,7 @@
 
   function card(place) {
     const l = labels();
-    return `<article class="restaurant-card tour-card">
+    return `<article class="restaurant-card tour-card" data-tour-id="${esc(place.id)}">
       ${cover(place)}
       <div class="restaurant-card-body">
         <div class="restaurant-card-top"><div><p class="restaurant-category">${esc((t(place.tags) || []).slice(0, 2).join(' · '))}</p><h3>${esc(t(place.name))}</h3></div>${place.host ? '<span class="restaurant-pick-badge"><span class="mi">hotel_class</span> PICK</span>' : ''}</div>
@@ -72,7 +73,9 @@
     count.textContent = String(list.length);
     const selected = DATA.categories.find((item) => item.id === category);
     label.textContent = selected ? t(selected.label) : '';
-    cards.innerHTML = list.map(card).join('');
+    // Keep all existing places in the document. Filtering changes visibility only.
+    const visible = new Set(list.map(place => place.id));
+    $$('[data-tour-id]', cards).forEach(node => { node.hidden = !visible.has(node.dataset.tourId); });
     empty.hidden = list.length > 0;
   }
 
@@ -91,7 +94,7 @@
     </div>
     <section class="restaurant-host-pick" id="tourHostPick"><div class="restaurant-host-pick-head"><span class="restaurant-host-pick-icon"><span class="mi">hotel_class</span></span><div><small>HOST’S PICK</small><strong>${esc(t(DATA.hostTitle))}</strong></div></div></section>
     <div class="restaurant-summary"><b><span id="tourCount">0</span> ${esc(l.places)}</b><span id="tourCategoryLabel"></span></div>
-    <div class="restaurants-list" id="tourCards"></div>
+    <div class="restaurants-list" id="tourCards">${DATA.places.map(card).join('')}</div>
     <div class="restaurants-empty" id="toursEmpty">${esc(l.empty)}</div>`;
     $$('[data-tour-category]', root).forEach((button) => {
       button.onclick = () => {
@@ -122,13 +125,21 @@
     if (homeTitle) homeTitle.textContent = homeLabels[0];
     if (browseLabel) browseLabel.textContent = homeLabels[1];
     root.innerHTML = DATA.places.filter((place) => place.host).slice(0, 2).map((place) => `
-      <button class="nearby-card tour-home-card" type="button" data-go="tours">
+      <a class="nearby-card tour-home-card" href="${tourPath()}" data-go="tours">
         ${cover(place, true)}
         <span class="nearby-card-copy"><small>${esc(t(place.travel))}</small><strong>${esc(t(place.name))}</strong><span>${esc((t(place.tags) || []).slice(0, 2).join(' · '))}</span></span>
         <span class="mi">arrow_forward</span>
-      </button>`).join('');
-    $$('[data-go="tours"]', root).forEach((button) => {
-      button.onclick = () => document.querySelector('[data-screen="tours"]')?.classList.add('active');
+      </a>`).join('');
+    // Preserve the existing labels/classes while exposing real navigation URLs.
+    $$('[data-go="tours"]').forEach(node => {
+      let link = node;
+      if (node.tagName !== 'A') {
+        link = document.createElement('a');
+        [...node.attributes].filter(attribute => attribute.name !== 'type').forEach(attribute => link.setAttribute(attribute.name, attribute.value));
+        link.innerHTML = node.innerHTML;
+        node.replaceWith(link);
+      }
+      link.setAttribute('href', tourPath());
     });
   }
 
