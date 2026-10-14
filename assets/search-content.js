@@ -36,6 +36,7 @@
     },
     ja: {
       accessPath: '/ja/access', accessLabel: '入口写真と詳しい到着案内を見る',
+      roomPath: '/ja/rooms', roomLabel: '客室写真・備品を詳しく見る', bathLabel: '共用シャワー・パウダースペースの写真を見る',
       path: '/ja', htmlLang: 'ja', hreflang: 'ja', ogLocale: 'ja_JP', code: 'JP',
       title: 'Another House 東大門 | ソウル女性一人旅の個室・共用バスルーム',
       description: '東大門駅6番出口近くの女性専用宿Another House Dongdaemun。個室シングル11室と2人部屋1室、個別ドアロック、共用シャワー・トイレ、チェックイン・アウト当日の無料荷物預かりをご案内します。',
@@ -53,6 +54,7 @@
     },
     zh: {
       accessPath: '/zh-cn/access', accessLabel: '查看入口照片与详细到店指南',
+      roomPath: '/zh-cn/rooms', roomLabel: '查看房型实拍与客房用品', bathLabel: '查看共用淋浴间与梳妆区照片',
       path: '/zh-cn', htmlLang: 'zh-CN', hreflang: 'zh-Hans', ogLocale: 'zh_CN', code: 'CN',
       title: 'Another House 东大门 | 首尔女性独自旅行・独立单人房・公共卫浴',
       description: '首尔东大门站6号出口附近的女性专用住宿Another House Dongdaemun。11间独立单人房、1间双人房、独立门锁、公共淋浴间和卫生间，以及入住与退房当天免费行李寄存。',
@@ -70,6 +72,7 @@
     },
     'zh-TW': {
       accessPath: '/zh-tw/access', accessLabel: '查看入口照片與詳細抵達指南',
+      roomPath: '/zh-tw/rooms', roomLabel: '查看房型實拍與客房用品', bathLabel: '查看共用淋浴間與梳妝區照片',
       path: '/zh-tw', htmlLang: 'zh-TW', hreflang: 'zh-Hant', ogLocale: 'zh_TW', code: 'TW',
       title: 'Another House 東大門 | 首爾女生獨旅・獨立單人房・共用衛浴',
       description: '首爾東大門站6號出口附近的女性專用住宿Another House Dongdaemun。11間獨立單人房、1間雙人房、獨立門鎖、共用淋浴間與洗手間，以及入住和退房當天免費行李寄放。',

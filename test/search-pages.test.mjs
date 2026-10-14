@@ -5,6 +5,7 @@ import { resolve } from 'node:path';
 import vm from 'node:vm';
 import { parseHTML } from 'linkedom';
 import { accessGuides } from '../lib/access-content.mjs';
+import { roomGuides } from '../lib/room-content.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const read = name => readFile(resolve(root, name), 'utf8');
@@ -60,12 +61,61 @@ test('explicit language URL wins over an earlier language preference, including 
   }
 });
 
+test('room-guide return links restore the intended home section after app initialization', async () => {
+  const app = await read('assets/master-app.js');
+  const source = app.split('\n').find(line => line.startsWith('function restoreHomeAnchor('));
+  const calls = [];
+  const context = vm.createContext({document:{getElementById:id=>({scrollIntoView:options=>calls.push({id,...options})})},requestAnimationFrame:fn=>fn()});
+  vm.runInContext(source, context);
+  for (const anchor of ['#bookingFaq','#homeBookingHint','#untrusted','']) vm.runInContext(`restoreHomeAnchor(${JSON.stringify(anchor)})`, context);
+  assert.deepEqual(calls.map(call=>call.id), ['bookingFaq','homeBookingHint']);
+  assert.ok(calls.every(call=>call.block==='center'));
+  assert.ok(app.includes("const initialScreen=homeAnchor?'home':"));
+  assert.ok(app.includes("location.pathname+location.search+homeAnchor);restoreHomeAnchor(homeAnchor)"));
+});
+
 test('sitemap covers all canonical homepages and the original HTML alias remains identical', async () => {
   const sitemap = await read('sitemap.xml');
-  assert.equal((sitemap.match(/<loc>/g)||[]).length, 8);
+  assert.equal((sitemap.match(/<loc>/g)||[]).length, 11);
   for (const locale of Object.values(locales)) assert.ok(sitemap.includes(`<loc>${origin}${locale.path}</loc>`));
   assert.equal(await read('index.html'), await read('guide-anotherhouse.html'));
   assert.equal((await read('google3e7332e3b88b3607.html')).trim(), 'google-site-verification: google3e7332e3b88b3607.html');
+});
+
+test('room guides expose real room and shared facility information with working localized paths and assets', async () => {
+  for (const guide of roomGuides) {
+    const {document} = parseHTML(await read(guide.path.slice(1) + '.html'));
+    assert.equal(document.documentElement.lang, guide.language);
+    assert.equal(document.querySelector('link[rel="canonical"]').href, origin + guide.path);
+    assert.equal(document.querySelectorAll('h1').length, 1);
+    assert.equal(document.querySelectorAll('table tbody tr').length, 2);
+    assert.ok(document.querySelector('#bathrooms').textContent.includes(guide.bath));
+    assert.ok(document.querySelector('#amenities').textContent.includes('Wi-Fi'));
+    assert.equal(document.querySelectorAll('main img').length, 6);
+    for (const image of document.querySelectorAll('img')) {
+      assert.ok(image.alt.length > 10);
+      assert.ok((await readFile(resolve(root, image.src.slice(1)))).length > 0);
+    }
+    for (const link of document.querySelectorAll('main a[href^="#"]')) assert.ok(document.querySelector(link.href));
+    for (const alternate of roomGuides) {
+      assert.equal(document.querySelector(`link[hreflang="${alternate.hreflang}"]`).href, origin + alternate.path);
+      assert.ok(document.querySelector(`nav a[href="${alternate.path}"]`));
+    }
+    const schema = JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent);
+    assert.equal(schema['@graph'][0].url, origin + guide.path);
+    assert.equal(schema['@graph'][0].about['@id'], origin + '/#lodging');
+    assert.equal(schema['@graph'][1].itemListElement[1].item, origin + guide.path);
+    assert.equal(schema['@graph'][0].aggregateRating, undefined);
+    const {document: home} = parseHTML(await read(guide.home.slice(1) + '.html'));
+    assert.ok(home.querySelector(`#bookingFaq details a[href="${guide.path}"]`));
+    assert.ok(home.querySelector(`#bookingFaq details a[href="${guide.path}#bathrooms"]`));
+    assert.equal(document.querySelector('.cta').href, guide.home + '#homeBookingHint');
+    assert.ok(home.querySelector('#homeBookingHint + nav a[data-ota]'));
+    const {document: access} = parseHTML(await read(guide.home.slice(1) + '/access.html'));
+    assert.ok(access.querySelector(`a[href="${guide.path}"]`));
+    assert.ok(document.querySelector(`a[href="${guide.home}/access"]`));
+    assert.ok((await read('sitemap.xml')).includes(`<loc>${origin}${guide.path}</loc>`));
+  }
 });
 
 test('arrival guides have crawlable return and reciprocal language links, real photos, and matching structured data', async () => {
