@@ -11,10 +11,12 @@ const root = resolve(import.meta.dirname, '..');
 const origin = 'https://anotherhouse-guide.vercel.app';
 const source = await readFile(resolve(root, 'index.html'), 'utf8');
 const master = await readFile(resolve(root, 'assets/master-app.js'), 'utf8');
+const tourApp = await readFile(resolve(root, 'assets/tour-app.js'), 'utf8');
 const sourceScripts = ['site-data', 'gallery-data', 'content-updates', 'gallery-overrides', 'restaurant-data', 'restaurant-expanded', 'tour-data', 'search-content'];
 const dataContext = vm.createContext({ window: {} });
 for (const name of sourceScripts) vm.runInContext(await readFile(resolve(root, `assets/${name}.js`), 'utf8'), dataContext);
 const locales = dataContext.window.ANOTHER_HOUSE_SEARCH;
+const tourLocales = Object.values(locales).map(locale => ({...locale, path: locale.path.replace(/\/$/, '') + '/tours'}));
 const copyStart = master.indexOf('const copy=');
 const copySource = master.slice(copyStart, master.indexOf('\n};', copyStart) + 3);
 const renderNames = ['renderHome', 'renderHomeEditorial', 'renderStayStory', 'otaLinksMarkup', 'renderSearchFaq'];
@@ -25,11 +27,28 @@ const functions = functionLines.join('\n');
 for (const [language, locale] of Object.entries(locales)) {
   const { document } = parseHTML(source);
   document.querySelector('script[src^="assets/concierge-telemetry.js"]').setAttribute('src', 'assets/concierge-telemetry.js?v=20261012-4');
-  for (const name of ['master-app', 'search-content']) document.querySelector(`script[src^="assets/${name}.js"]`).setAttribute('src', `assets/${name}.js?v=20261014-1`);
+  for (const name of ['master-app', 'search-content']) document.querySelector(`script[src^="assets/${name}.js"]`).setAttribute('src', `assets/${name}.js?v=20261014-2`);
+  document.querySelector('script[src^="assets/tour-app.js"]').setAttribute('src', 'assets/tour-app.js?v=20261014-2');
+  if (!document.querySelector('link[data-tour-search]')) {
+    const style = document.createElement('link');
+    style.setAttribute('rel', 'stylesheet'); style.setAttribute('href', '/assets/tour-search.css?v=20261014-2'); style.setAttribute('data-tour-search', '');
+    document.head.appendChild(style);
+  }
   const context = vm.createContext({ window: dataContext.window, document, lang: language });
   vm.runInContext(`const D=window.ANOTHER_HOUSE_DATA;const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];const t=v=>v&&typeof v==='object'&&!Array.isArray(v)&&('ko'in v)?(v[lang]||v.ko):v;const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));${copySource}const c=()=>copy[lang]||copy.ko;${functions}renderHome();renderHomeEditorial();renderStayStory();renderSearchFaq();`, context);
   document.documentElement.lang = locale.htmlLang;
   document.documentElement.dataset.siteLanguage = language;
+  vm.runInContext(tourApp, vm.createContext({window: dataContext.window, document, setTimeout: () => {}}));
+  for (const selector of ['#toursContent', '#homeTours']) {
+    const container = document.querySelector(selector);
+    container.innerHTML = container.innerHTML.replace(/[\t ]+$/gm, '');
+  }
+  if (!document.querySelector('noscript[data-tour-fallback]')) {
+    const fallback = document.createElement('noscript');
+    fallback.setAttribute('data-tour-fallback', '');
+    fallback.innerHTML = '<style>#tourCards>.tour-card[hidden]{display:block!important}#toursContent .restaurants-controls,#tourHostPick,#toursContent .restaurant-summary,#toursEmpty{display:none!important}</style>';
+    document.head.appendChild(fallback);
+  }
   document.title = locale.title;
   const setMeta = (selector, value) => document.querySelector(selector).setAttribute('content', value);
   setMeta('meta[name="description"]', locale.description);
@@ -85,6 +104,35 @@ for (const [language, locale] of Object.entries(locales)) {
   const filename = locale.path === '/' ? 'index.html' : locale.path.slice(1) + '.html';
   await writeFile(resolve(root, filename), html);
   if (locale.path === '/') await writeFile(resolve(root, 'guide-anotherhouse.html'), html);
+
+  // The existing tour screen gets its own URL; no new visible copy or layout.
+  const {document: tourDocument} = parseHTML(html);
+  const tourLocale = tourLocales.find(item => item.hreflang === locale.hreflang);
+  const tours = dataContext.window.ANOTHER_HOUSE_TOURS;
+  const title = tours.title[language] + ' | Another House';
+  const description = tours.summary[language];
+  const base = tourDocument.createElement('base'); base.setAttribute('href', '/'); tourDocument.head.prepend(base);
+  tourDocument.documentElement.dataset.initialScreen = 'tours';
+  tourDocument.title = title;
+  tourDocument.body.className = 'is-tours';
+  tourDocument.querySelectorAll('.screen').forEach(screen => screen.classList.toggle('active', screen.dataset.screen === 'tours'));
+  tourDocument.querySelector('link[rel="canonical"]').href = origin + tourLocale.path;
+  tourDocument.querySelector('meta[name="description"]').content = description;
+  tourDocument.querySelector('meta[property="og:url"]').content = origin + tourLocale.path;
+  for (const type of ['og', 'twitter']) {
+    const attribute = type === 'og' ? 'property' : 'name';
+    tourDocument.querySelector(`meta[${attribute}="${type}:title"]`).content = title;
+    tourDocument.querySelector(`meta[${attribute}="${type}:description"]`).content = description;
+  }
+  tourDocument.querySelectorAll('link[rel="alternate"][hreflang]').forEach(link => {
+    const alternate = link.hreflang === 'x-default' ? tourLocales[0] : tourLocales.find(item => item.hreflang === link.hreflang);
+    link.href = origin + alternate.path;
+  });
+  tourDocument.querySelectorAll('.home-language-option').forEach(link => {
+    link.href = locales[link.dataset.language].path.replace(/\/$/, '') + '/tours';
+  });
+  await mkdir(resolve(root, locale.path.slice(1)), {recursive:true});
+  await writeFile(resolve(root, tourLocale.path.slice(1) + '.html'), '<!doctype html>\n' + tourDocument.documentElement.outerHTML + '\n');
 }
 for (const guide of accessGuides) {
   await mkdir(resolve(root, guide.home.slice(1)), { recursive: true });
@@ -94,8 +142,9 @@ for (const guide of roomGuides) {
   await mkdir(resolve(root, guide.home.slice(1)), { recursive: true });
   await writeFile(resolve(root, guide.path.slice(1) + '.html'), renderRoomGuide(guide, dataContext.window.ANOTHER_HOUSE_DATA.pages.appliances.devices));
 }
-const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + [...Object.values(locales), ...accessGuides, ...roomGuides].map(locale => `  <url><loc>${origin}${locale.path}</loc></url>`).join('\n') + '\n</urlset>\n';
+const sitemap = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + [...Object.values(locales), ...accessGuides, ...roomGuides, ...tourLocales].map(locale => `  <url><loc>${origin}${locale.path}</loc></url>`).join('\n') + '\n</urlset>\n';
 await writeFile(resolve(root, 'sitemap.xml'), sitemap);
 console.log(`Built ${Object.keys(locales).length} language versions of the existing homepage with visible booking FAQs.`);
 console.log(`Built ${accessGuides.length} arrival guides with reciprocal language links.`);
 console.log(`Built ${roomGuides.length} room guides with operator amenity descriptions and real photos.`);
+console.log(`Prerendered all ${dataContext.window.ANOTHER_HOUSE_TOURS.places.length} existing tour cards in ${tourLocales.length} languages.`);

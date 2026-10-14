@@ -11,4 +11,9 @@
   <url><loc>https://anotherhouse-guide.vercel.app/ja/rooms</loc></url>
   <url><loc>https://anotherhouse-guide.vercel.app/zh-tw/rooms</loc></url>
   <url><loc>https://anotherhouse-guide.vercel.app/zh-cn/rooms</loc></url>
+  <url><loc>https://anotherhouse-guide.vercel.app/tours</loc></url>
+  <url><loc>https://anotherhouse-guide.vercel.app/en/tours</loc></url>
+  <url><loc>https://anotherhouse-guide.vercel.app/ja/tours</loc></url>
+  <url><loc>https://anotherhouse-guide.vercel.app/zh-cn/tours</loc></url>
+  <url><loc>https://anotherhouse-guide.vercel.app/zh-tw/tours</loc></url>
 </urlset>

@@ -417,7 +417,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(html,/\.image-lightbox\.is-zoomed \.image-lightbox-nav\{opacity:1;pointer-events:auto\}/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20261014-1/);
+  assert.match(html,/master-app\.js\?v=20261014-2/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
@@ -497,7 +497,7 @@ test("hamburger menu adds a five-language outbound airport guide after direction
 test("hamburger menu places house rules after trash with a dedicated icon",async()=>{
   const html=await read("index.html");
   const app=await read("assets/master-app.js");
-  const order=[...html.matchAll(/<button class="menu-link" data-go="([^"]+)"/g)].map(match=>match[1]);
+  const order=[...html.matchAll(/<(?:button|a)\b(?=[^>]*class="menu-link")(?=[^>]*data-go="([^"]+)")[^>]*>/g)].map(match=>match[1]);
   assert.deepEqual(order,["home","gallery","transport","checkin","wifi","appliances","laundry","trash","restaurants","tours"]);
   const menuSegment=html.slice(html.indexOf('<aside class="menu-panel"'),html.indexOf('<div class="image-lightbox-backdrop"'));
   assert.doesNotMatch(menuSegment,/data-go="guidebook"|게스트 가이드북/);
