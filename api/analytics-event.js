@@ -21,7 +21,7 @@ module.exports = async function(req, res) {
   const saving = persist({ id: body.id || randomUUID(), at: new Date(now).toISOString(), kind: body.kind, ...ctx, ...fields });
   // The reservation link opens independently. A positive acknowledgement here
   // confirms the database transaction, so verification needs no private export.
-  if (body.kind === 'ota_click') {
+  if (body.kind === 'ota_click' || body.kind === 'journey_view') {
     try { await saving; return res.status(202).json({ accepted: true, stored: true }); }
     catch { console.error(JSON.stringify({ event: 'telemetry_write_failed' })); return res.status(503).json({ error: 'Storage unavailable' }); }
   }

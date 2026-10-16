@@ -26,7 +26,7 @@ const functions = functionLines.join('\n');
 
 for (const [language, locale] of Object.entries(locales)) {
   const { document } = parseHTML(source);
-  document.querySelector('script[src^="assets/concierge-telemetry.js"]').setAttribute('src', 'assets/concierge-telemetry.js?v=20261012-4');
+  document.querySelector('script[src^="assets/concierge-telemetry.js"]').setAttribute('src', 'assets/concierge-telemetry.js?v=20261016-1');
   for (const name of ['master-app', 'search-content']) document.querySelector(`script[src^="assets/${name}.js"]`).setAttribute('src', `assets/${name}.js?v=20261014-3`);
   document.querySelector('script[src^="assets/tour-app.js"]').setAttribute('src', 'assets/tour-app.js?v=20261014-3');
   document.querySelectorAll('script[src]').forEach(script => script.setAttribute('defer', ''));
