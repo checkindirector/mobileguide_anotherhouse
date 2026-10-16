@@ -4,9 +4,10 @@
   const key = 'another-analytics';
   let memory = {}, lastVisit = false;
   const uuid = () => crypto.randomUUID();
-  function read() { try { const value=JSON.parse(localStorage.getItem(key) || '{}'); return value && typeof value==='object' && !Array.isArray(value) ? value : {}; } catch { return memory; } }
-  function write(data) { memory = data; try { localStorage.setItem(key, JSON.stringify(data)); } catch {} }
+  function read() { if (window.marketingJourney) return window.marketingJourney.readPreferences(); try { const value=JSON.parse(localStorage.getItem(key) || '{}'); return value && typeof value==='object' && !Array.isArray(value) ? value : {}; } catch { return memory; } }
+  function write(data) { if (window.marketingJourney) return window.marketingJourney.writePreferences(data); memory = data; try { localStorage.setItem(key, JSON.stringify(data)); } catch {} }
   function context() {
+    if (window.marketingJourney) return window.marketingJourney.context();
     const data = read(), now = Date.now();
     if (!data.visitorId || now - (data.created || 0) > 30 * 86400000) { data.visitorId = uuid(); data.created = now; }
     if (!data.sessionId || now - (data.last || 0) > 30 * 60000) { data.sessionId = uuid(); data.turn = 0; }
@@ -18,6 +19,10 @@
     try {
       const current = context(), telemetry = supplied || current;
       if (current.optOut || telemetry.optOut || current.internal !== telemetry.internal) return false;
+      if (kind === 'ota_click' && window.marketingJourney) {
+        const journey = window.marketingJourney.forClick(current);
+        if (journey) fields = { ...fields, journey };
+      }
       const response = await fetch('/api/analytics-event', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: uuid(), kind, language, telemetry, ...fields }), keepalive: true });
       return response.ok;
     } catch { return false; }
@@ -167,7 +172,7 @@
         emitQuality('answer_link', { requestId: tracking?.requestId, linkKind: kind, destination }, tracking);
       } catch {}
     },
-    preferences({ optOut, internal } = {}) { const data = read(); if (typeof optOut === 'boolean') data.optOut = optOut; if (typeof internal === 'boolean') data.internal = internal; write(data); resumeTime(); resetTracking(); render(); },
+    preferences({ optOut, internal } = {}) { const data = read(); if (typeof optOut === 'boolean') data.optOut = optOut; if (typeof internal === 'boolean') data.internal = internal; write(data); resumeTime(); resetTracking(); render(); window.marketingJourney?.refresh(); },
     context
   };
   const copy = {
