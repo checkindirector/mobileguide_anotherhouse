@@ -38,34 +38,295 @@
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Hostel",
-  "@id": "https://anotherhouse-guide.vercel.app/#lodging",
-  "name": "Another House Dongdaemun (Women Only)",
-  "alternateName": [
-    "어나더하우스",
-    "어나더 하우스 - 여성 전용",
-    "Another House Dongdaemun",
-    "Another House - Women Only",
-    "Another House Dongdaemun (Women Only)"
-  ],
-  "url": "https://anotherhouse-guide.vercel.app/",
-  "image": "https://anotherhouse-guide.vercel.app/assets/images/another-house-og-20260727.jpg",
-  "description": "東大門駅6番出口近くの女性専用宿Another House Dongdaemun。個室シングル11室と2人部屋1室、個別ドアロック、共用シャワー・トイレ、チェックイン・アウト当日の無料荷物預かりをご案内します。",
-  "checkinTime": "15:00",
-  "checkoutTime": "11:00",
-  "sameAs": [
-    "https://www.booking.com/hotel/kr/eonadeo-hauseu.ko.html",
-    "https://www.agoda.com/ko-kr/ko-kr/h91252591/hotel/seoul-kr.html?ds=nu6enISOegngXE2o",
-    "https://www.trip.com/hotels/seoul-hotel-detail-134961520/another-house-dongdaemun/"
-  ],
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "종로 294 선일빌딩 5층",
-    "addressLocality": "종로구",
-    "addressRegion": "서울특별시",
-    "addressCountry": "KR"
-  },
-  "numberOfRooms": 12
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://anotherhouse-guide.vercel.app/ja/tours#webpage",
+      "url": "https://anotherhouse-guide.vercel.app/ja/tours",
+      "name": "おすすめ近郊ツアー | Another House",
+      "description": "宿から歩き始め、城郭・市場・宮殿・デザインスポットを巡る21のローカルコースです。",
+      "inLanguage": "ja",
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://anotherhouse-guide.vercel.app/#guide-publisher",
+        "name": "Another House",
+        "url": "https://anotherhouse-guide.vercel.app/"
+      },
+      "mainEntity": {
+        "@id": "https://anotherhouse-guide.vercel.app/ja/tours#places"
+      }
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://anotherhouse-guide.vercel.app/ja/tours#places",
+      "name": "おすすめ近郊ツアー",
+      "numberOfItems": 21,
+      "itemListOrder": "https://schema.org/ItemListUnordered",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "Place",
+            "name": "東大門デザインプラザ DDP",
+            "description": "ザハ・ハディドの流線形建築、展示、夜景を楽しめる東大門の象徴です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/01-ddp.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EB%94%94%EC%9E%90%EC%9D%B8%ED%94%8C%EB%9D%BC%EC%9E%90%20DDP"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "Place",
+            "name": "興仁之門",
+            "description": "漢陽都城の東門。城郭散策の出発点に最適です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/02-heunginjimun.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "Place",
+            "name": "駱山公園＆漢陽都城",
+            "description": "城郭とソウルの屋根を一望できる夕暮れの尾根散歩です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/03-naksan.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%82%99%EC%82%B0%EA%B3%B5%EC%9B%90%20%EC%84%9C%EC%9A%B8%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "Place",
+            "name": "梨花壁画村",
+            "description": "急な路地、小さな工房、壁画が続く駱山麓の古い街です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/04-ihwa.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B4%ED%99%94%EB%B2%BD%ED%99%94%EB%A7%88%EC%9D%84"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "item": {
+            "@type": "Place",
+            "name": "昌信洞崖村＆採石場展望台",
+            "description": "花崗岩採石場の痕跡と山腹道路を歩く、昌信洞ならではの立体的なソウルです。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/05-changsin.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EC%A0%88%EB%B2%BD%EB%A7%88%EC%9D%84%20%EC%B1%84%EC%84%9D%EC%9E%A5%20%EC%A0%84%EB%A7%9D%EB%8C%80"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "item": {
+            "@type": "Place",
+            "name": "広蔵市場",
+            "description": "ピンデトッ、ユッケ、麻薬キンパ、布地商店が並ぶ代表的な伝統市場です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/06-gwangjang.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "item": {
+            "@type": "Place",
+            "name": "清渓川ナイトウォーク",
+            "description": "宿のすぐ近くで水辺と街の灯りをたどる気軽な夜散歩です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/07-cheonggyecheon.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B2%AD%EA%B3%84%EC%B2%9C%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "item": {
+            "@type": "Place",
+            "name": "漢陽都城博物館",
+            "description": "城郭の築造と保存を知ってから駱山へ続けるのに最適です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/08-wall-museum.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1%EB%B0%95%EB%AC%BC%EA%B4%80"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "item": {
+            "@type": "Place",
+            "name": "東大門総合市場",
+            "description": "生地、副資材、アクセサリー、工芸材料を探せる巨大な服飾材料市場です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/09-shopping-complex.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A2%85%ED%95%A9%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "item": {
+            "@type": "Place",
+            "name": "ドゥータモール・斗山タワー",
+            "description": "東大門のファッションやビューティー、夜のショッピングを楽しめる屋内モールです。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/21-doota-mall.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%91%90%ED%83%80%EB%AA%B0%20%EB%91%90%EC%82%B0%ED%83%80%EC%9B%8C"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "item": {
+            "@type": "Place",
+            "name": "東廟フリーマーケット",
+            "description": "古着、レコード、生活雑貨が積み上がるソウル独特の宝探し市場です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/10-dongmyo.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%AC%98%20%EB%B2%BC%EB%A3%A9%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "item": {
+            "@type": "Place",
+            "name": "昌信洞文具玩具通り",
+            "description": "玩具、文具、パーティー用品が密集する昔ながらの卸売路地です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/11-toy-market.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EB%AC%B8%EA%B5%AC%EC%99%84%EA%B5%AC%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "item": {
+            "@type": "Place",
+            "name": "宗廟",
+            "description": "簡潔な建築と長い月台が印象的なユネスコ世界遺産の王室祭祀空間です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/12-jongmyo.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%A2%85%EB%AC%98"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "item": {
+            "@type": "Place",
+            "name": "昌徳宮",
+            "description": "自然地形を生かした配置と後苑で愛されるユネスコ世界遺産です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/13-changdeokgung.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EB%8D%95%EA%B6%81"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "item": {
+            "@type": "Place",
+            "name": "昌慶宮",
+            "description": "明政殿、春塘池、温室を結ぶ落ち着いた宮殿散歩です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/14-changgyeonggung.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EA%B2%BD%EA%B6%81"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
+          "item": {
+            "@type": "Place",
+            "name": "景福宮",
+            "description": "勤政殿、慶会楼、北岳山がつくるソウルを象徴する宮殿景観です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/15-gyeongbokgung.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EA%B2%BD%EB%B3%B5%EA%B6%81"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 17,
+          "item": {
+            "@type": "Place",
+            "name": "益善洞韓屋通り",
+            "description": "狭い韓屋路地に食堂、デザート店、工房が続く街歩きエリアです。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/16-ikseon.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B5%EC%84%A0%EB%8F%99%20%ED%95%9C%EC%98%A5%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 18,
+          "item": {
+            "@type": "Place",
+            "name": "仁寺洞",
+            "description": "工芸、古書、伝統茶屋、ギャラリーをゆっくり巡る文化散歩です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/17-insadong.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B8%EC%82%AC%EB%8F%99"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 19,
+          "item": {
+            "@type": "Place",
+            "name": "西巡邏通り",
+            "description": "宗廟の塀沿いにジュエリー工房、小さなバー、カフェが続く静かな通りです。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/18-seosulla.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%88%9C%EB%9D%BC%EA%B8%B8"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 20,
+          "item": {
+            "@type": "Place",
+            "name": "大学路＆マロニエ公園",
+            "description": "小劇場、独立書店、公園が集まるソウル演劇文化の中心地です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/19-daehangno.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8C%80%ED%95%99%EB%A1%9C%20%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 21,
+          "item": {
+            "@type": "Place",
+            "name": "国立現代美術館ソウル",
+            "description": "景福宮の隣で韓国と世界の現代美術、建築的な中庭を楽しめる美術館です。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/20-mmca.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EA%B5%AD%EB%A6%BD%ED%98%84%EB%8C%80%EB%AF%B8%EC%88%A0%EA%B4%80%20%EC%84%9C%EC%9A%B8"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Hostel",
+      "@id": "https://anotherhouse-guide.vercel.app/#lodging",
+      "name": "Another House Dongdaemun (Women Only)",
+      "alternateName": [
+        "어나더하우스",
+        "어나더 하우스 - 여성 전용",
+        "Another House Dongdaemun",
+        "Another House - Women Only",
+        "Another House Dongdaemun (Women Only)"
+      ],
+      "url": "https://anotherhouse-guide.vercel.app/",
+      "image": "https://anotherhouse-guide.vercel.app/assets/images/another-house-og-20260727.jpg",
+      "description": "東大門駅6番出口近くの女性専用宿Another House Dongdaemun。個室シングル11室と2人部屋1室、個別ドアロック、共用シャワー・トイレ、チェックイン・アウト当日の無料荷物預かりをご案内します。",
+      "checkinTime": "15:00",
+      "checkoutTime": "11:00",
+      "sameAs": [
+        "https://www.booking.com/hotel/kr/eonadeo-hauseu.ko.html",
+        "https://www.agoda.com/ko-kr/ko-kr/h91252591/hotel/seoul-kr.html?ds=nu6enISOegngXE2o",
+        "https://www.trip.com/hotels/seoul-hotel-detail-134961520/another-house-dongdaemun/"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "종로 294 선일빌딩 5층",
+        "addressLocality": "종로구",
+        "addressRegion": "서울특별시",
+        "addressCountry": "KR"
+      },
+      "numberOfRooms": 12
+    }
+  ]
 }
 </script>
   <style>
