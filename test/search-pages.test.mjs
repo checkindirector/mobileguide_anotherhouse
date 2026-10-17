@@ -174,7 +174,8 @@ test('room guides expose real room and shared facility information with working 
     assert.equal(schema['@graph'][1].itemListElement[1].item, origin + guide.path);
     assert.equal(schema['@graph'][0].aggregateRating, undefined);
     const {document: home} = parseHTML(await read(guide.home.slice(1) + '.html'));
-    assert.ok(home.querySelector(`#bookingFaq details a[href="${guide.path}"]`));
+    assert.ok(home.querySelector(`#bookingFaq > p > a[href="${guide.path}"]`), 'Room photos are directly accessible without expanding a question');
+    assert.equal(home.querySelectorAll(`#bookingFaq a[href="${guide.path}"]`).length, 1, 'Move the existing link rather than duplicate it');
     assert.ok(home.querySelector(`#bookingFaq details a[href="${guide.path}#bathrooms"]`));
     assert.equal(document.querySelector('.cta').href, guide.home + '#homeBookingHint');
     assert.ok(home.querySelector('#homeBookingHint + nav a[data-ota]'));
