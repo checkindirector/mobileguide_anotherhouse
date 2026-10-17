@@ -38,34 +38,295 @@
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Hostel",
-  "@id": "https://anotherhouse-guide.vercel.app/#lodging",
-  "name": "Another House Dongdaemun (Women Only)",
-  "alternateName": [
-    "어나더하우스",
-    "어나더 하우스 - 여성 전용",
-    "Another House Dongdaemun",
-    "Another House - Women Only",
-    "Another House Dongdaemun (Women Only)"
-  ],
-  "url": "https://anotherhouse-guide.vercel.app/",
-  "image": "https://anotherhouse-guide.vercel.app/assets/images/another-house-og-20260727.jpg",
-  "description": "동대문역 6번 출구 인근 여성 전용 숙소 Another House Dongdaemun. 싱글룸 11실과 2인실 1실, 개별 도어락, 공용 샤워실·화장실, 당일 무료 짐 보관과 예약 전 확인할 정보를 안내합니다.",
-  "checkinTime": "15:00",
-  "checkoutTime": "11:00",
-  "sameAs": [
-    "https://www.booking.com/hotel/kr/eonadeo-hauseu.ko.html",
-    "https://www.agoda.com/ko-kr/ko-kr/h91252591/hotel/seoul-kr.html?ds=nu6enISOegngXE2o",
-    "https://www.trip.com/hotels/seoul-hotel-detail-134961520/another-house-dongdaemun/"
-  ],
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "종로 294 선일빌딩 5층",
-    "addressLocality": "종로구",
-    "addressRegion": "서울특별시",
-    "addressCountry": "KR"
-  },
-  "numberOfRooms": 12
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://anotherhouse-guide.vercel.app/tours#webpage",
+      "url": "https://anotherhouse-guide.vercel.app/tours",
+      "name": "추천 근교 투어 | Another House",
+      "description": "숙소에서 시작해 서울의 성곽, 시장, 궁궐과 디자인 명소를 만나는 21개의 로컬 코스입니다.",
+      "inLanguage": "ko",
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://anotherhouse-guide.vercel.app/#guide-publisher",
+        "name": "Another House",
+        "url": "https://anotherhouse-guide.vercel.app/"
+      },
+      "mainEntity": {
+        "@id": "https://anotherhouse-guide.vercel.app/tours#places"
+      }
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://anotherhouse-guide.vercel.app/tours#places",
+      "name": "추천 근교 투어",
+      "numberOfItems": 21,
+      "itemListOrder": "https://schema.org/ItemListUnordered",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "Place",
+            "name": "동대문디자인플라자 DDP",
+            "description": "자하 하디드의 유려한 건축과 전시, 야간 조명이 이어지는 동대문의 상징입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/01-ddp.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EB%94%94%EC%9E%90%EC%9D%B8%ED%94%8C%EB%9D%BC%EC%9E%90%20DDP"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "Place",
+            "name": "흥인지문",
+            "description": "서울 한양도성의 동쪽 대문. 성곽 산책을 시작하기 가장 좋은 기준점입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/02-heunginjimun.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "Place",
+            "name": "낙산공원 & 서울한양도성",
+            "description": "도심 능선을 따라 성곽과 서울의 지붕을 한눈에 보는 해질녘 산책 코스입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/03-naksan.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%82%99%EC%82%B0%EA%B3%B5%EC%9B%90%20%EC%84%9C%EC%9A%B8%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "Place",
+            "name": "이화벽화마을",
+            "description": "가파른 골목과 작은 작업실, 벽화가 이어지는 낙산 아래의 오래된 마을입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/04-ihwa.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B4%ED%99%94%EB%B2%BD%ED%99%94%EB%A7%88%EC%9D%84"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "item": {
+            "@type": "Place",
+            "name": "창신동 절벽마을 & 채석장 전망대",
+            "description": "화강암 채석장의 흔적과 산복도로 풍경을 따라 걷는, 창신동만의 입체적인 서울입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/05-changsin.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EC%A0%88%EB%B2%BD%EB%A7%88%EC%9D%84%20%EC%B1%84%EC%84%9D%EC%9E%A5%20%EC%A0%84%EB%A7%9D%EB%8C%80"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "item": {
+            "@type": "Place",
+            "name": "광장시장",
+            "description": "빈대떡, 육회, 마약김밥과 포목 상가가 공존하는 서울의 대표 전통시장입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/06-gwangjang.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "item": {
+            "@type": "Place",
+            "name": "청계천 야간 산책",
+            "description": "숙소 가까이에서 물길과 도시 조명을 따라 부담 없이 걷기 좋은 야간 코스입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/07-cheonggyecheon.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B2%AD%EA%B3%84%EC%B2%9C%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "item": {
+            "@type": "Place",
+            "name": "한양도성박물관",
+            "description": "성곽의 축조와 보존 이야기를 먼저 이해하고 낙산 코스로 이어가기 좋습니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/08-wall-museum.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1%EB%B0%95%EB%AC%BC%EA%B4%80"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "item": {
+            "@type": "Place",
+            "name": "동대문종합시장",
+            "description": "원단, 부자재, 액세서리와 공예 재료를 층층이 탐험하는 세계적인 패션 재료 시장입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/09-shopping-complex.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A2%85%ED%95%A9%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "item": {
+            "@type": "Place",
+            "name": "두타몰 · 두산타워",
+            "description": "동대문의 패션·뷰티 브랜드와 야간 쇼핑을 한 번에 즐기기 좋은 세련된 실내 쇼핑몰입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/21-doota-mall.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%91%90%ED%83%80%EB%AA%B0%20%EB%91%90%EC%82%B0%ED%83%80%EC%9B%8C"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "item": {
+            "@type": "Place",
+            "name": "동묘 벼룩시장",
+            "description": "빈티지 의류, 오래된 음반과 생활 도구가 쌓여 있는 서울의 독특한 보물찾기 시장입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/10-dongmyo.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%AC%98%20%EB%B2%BC%EB%A3%A9%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "item": {
+            "@type": "Place",
+            "name": "창신동 문구완구거리",
+            "description": "작은 장난감과 문구, 파티용품이 빽빽하게 들어선 오래된 도매 골목입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/11-toy-market.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EB%AC%B8%EA%B5%AC%EC%99%84%EA%B5%AC%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "item": {
+            "@type": "Place",
+            "name": "종묘",
+            "description": "조선 왕과 왕비의 신위를 모신 유네스코 세계유산. 절제된 건축과 긴 월대가 인상적입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/12-jongmyo.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%A2%85%EB%AC%98"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "item": {
+            "@type": "Place",
+            "name": "창덕궁",
+            "description": "자연 지형을 살린 궁궐 배치와 후원으로 사랑받는 유네스코 세계유산입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/13-changdeokgung.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EB%8D%95%EA%B6%81"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "item": {
+            "@type": "Place",
+            "name": "창경궁",
+            "description": "명정전, 춘당지와 온실을 잇는 차분한 궁궐 산책. 야간 개장 여부도 확인해 보세요.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/14-changgyeonggung.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EA%B2%BD%EA%B6%81"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
+          "item": {
+            "@type": "Place",
+            "name": "경복궁",
+            "description": "근정전과 경회루, 북악산이 만드는 서울의 가장 상징적인 궁궐 풍경입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/15-gyeongbokgung.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EA%B2%BD%EB%B3%B5%EA%B6%81"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 17,
+          "item": {
+            "@type": "Place",
+            "name": "익선동 한옥거리",
+            "description": "좁은 한옥 골목에 작은 식당, 디저트 숍과 공방이 이어지는 산책 동네입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/16-ikseon.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B5%EC%84%A0%EB%8F%99%20%ED%95%9C%EC%98%A5%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 18,
+          "item": {
+            "@type": "Place",
+            "name": "인사동",
+            "description": "공예품, 고서점, 전통 찻집과 갤러리를 천천히 둘러보는 서울 문화 산책입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/17-insadong.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B8%EC%82%AC%EB%8F%99"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 19,
+          "item": {
+            "@type": "Place",
+            "name": "서순라길",
+            "description": "종묘 담장을 따라 주얼리 공방과 작은 바, 카페가 이어지는 낮고 고요한 거리입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/18-seosulla.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%88%9C%EB%9D%BC%EA%B8%B8"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 20,
+          "item": {
+            "@type": "Place",
+            "name": "대학로 & 마로니에공원",
+            "description": "소극장, 독립 서점과 공원이 어우러진 서울 공연예술의 오래된 중심지입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/19-daehangno.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8C%80%ED%95%99%EB%A1%9C%20%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 21,
+          "item": {
+            "@type": "Place",
+            "name": "국립현대미술관 서울",
+            "description": "경복궁 옆에서 한국과 세계의 현대미술, 건축적 중정을 함께 경험하는 미술관입니다.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/20-mmca.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EA%B5%AD%EB%A6%BD%ED%98%84%EB%8C%80%EB%AF%B8%EC%88%A0%EA%B4%80%20%EC%84%9C%EC%9A%B8"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Hostel",
+      "@id": "https://anotherhouse-guide.vercel.app/#lodging",
+      "name": "Another House Dongdaemun (Women Only)",
+      "alternateName": [
+        "어나더하우스",
+        "어나더 하우스 - 여성 전용",
+        "Another House Dongdaemun",
+        "Another House - Women Only",
+        "Another House Dongdaemun (Women Only)"
+      ],
+      "url": "https://anotherhouse-guide.vercel.app/",
+      "image": "https://anotherhouse-guide.vercel.app/assets/images/another-house-og-20260727.jpg",
+      "description": "동대문역 6번 출구 인근 여성 전용 숙소 Another House Dongdaemun. 싱글룸 11실과 2인실 1실, 개별 도어락, 공용 샤워실·화장실, 당일 무료 짐 보관과 예약 전 확인할 정보를 안내합니다.",
+      "checkinTime": "15:00",
+      "checkoutTime": "11:00",
+      "sameAs": [
+        "https://www.booking.com/hotel/kr/eonadeo-hauseu.ko.html",
+        "https://www.agoda.com/ko-kr/ko-kr/h91252591/hotel/seoul-kr.html?ds=nu6enISOegngXE2o",
+        "https://www.trip.com/hotels/seoul-hotel-detail-134961520/another-house-dongdaemun/"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "종로 294 선일빌딩 5층",
+        "addressLocality": "종로구",
+        "addressRegion": "서울특별시",
+        "addressCountry": "KR"
+      },
+      "numberOfRooms": 12
+    }
+  ]
 }
 </script>
   <style>

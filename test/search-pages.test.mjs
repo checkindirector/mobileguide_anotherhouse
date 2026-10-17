@@ -51,6 +51,25 @@ test('all existing tour information is present in every initial language documen
     assert.equal(document.querySelector('link[rel="canonical"]').href, origin+tourPath);
     assert.equal(document.title, tours.title[language]+' | Another House');
     assert.equal(document.querySelector('meta[name="description"]').content, tours.summary[language]);
+    const structured = JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent);
+    const page = structured['@graph'].find(item => item['@type'] === 'CollectionPage');
+    const list = structured['@graph'].find(item => item['@type'] === 'ItemList');
+    assert.equal(page.url, document.querySelector('link[rel="canonical"]').href);
+    assert.equal(page.name, document.title);
+    assert.equal(page.description, document.querySelector('meta[name="description"]').content);
+    assert.equal(page.inLanguage, document.documentElement.lang);
+    assert.equal(page.mainEntity['@id'], list['@id']);
+    assert.equal(list.numberOfItems, 21);
+    assert.equal(list.itemListElement.length, 21);
+    for (const [index, entry] of list.itemListElement.entries()) {
+      const card = document.querySelectorAll('#tourCards .tour-card')[index];
+      assert.equal(entry.position, index + 1);
+      assert.equal(entry.item.name, card.querySelector('h3').textContent);
+      assert.equal(entry.item.description, card.querySelector('.restaurant-copy').textContent);
+      assert.equal(entry.item.image, new URL(card.querySelector('img').getAttribute('src'), origin).href);
+      assert.ok([...card.querySelectorAll('a')].some(a => a.href === entry.item.hasMap));
+    }
+    assert.equal(structured['@graph'].find(item => item['@type'] === 'Hostel')['@id'], origin + '/#lodging');
     for (const alternate of Object.values(locales)) {
       assert.equal(document.querySelector(`link[hreflang="${alternate.hreflang}"]`).href, origin+alternate.path.replace(/\/$/,'')+'/tours');
     }

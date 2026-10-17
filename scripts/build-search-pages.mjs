@@ -6,6 +6,7 @@ import { accessGuides } from '../lib/access-content.mjs';
 import { renderAccessGuide } from '../lib/access-pages.mjs';
 import { roomGuides } from '../lib/room-content.mjs';
 import { renderRoomGuide } from '../lib/room-pages.mjs';
+import { tourSchema } from '../lib/tour-schema.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 const origin = 'https://anotherhouse-guide.vercel.app';
@@ -115,6 +116,9 @@ for (const [language, locale] of Object.entries(locales)) {
   const tours = dataContext.window.ANOTHER_HOUSE_TOURS;
   const title = tours.title[language] + ' | Another House';
   const description = tours.summary[language];
+  tourDocument.querySelector('script[type="application/ld+json"]').textContent = '\n' + JSON.stringify(
+    tourSchema({ tours, language, locale: tourLocale, title, description, lodging: schema }), null, 2
+  ).replace(/</g, '\\u003c') + '\n';
   const base = tourDocument.createElement('base'); base.setAttribute('href', '/'); tourDocument.head.prepend(base);
   // Prioritize this screen's existing hero instead of the hidden homepage hero.
   tourDocument.querySelector('link[rel="preload"][href="assets/images/main-01.webp"]').setAttribute('href', tours.hero);

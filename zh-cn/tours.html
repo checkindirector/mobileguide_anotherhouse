@@ -38,34 +38,295 @@
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Hostel",
-  "@id": "https://anotherhouse-guide.vercel.app/#lodging",
-  "name": "Another House Dongdaemun (Women Only)",
-  "alternateName": [
-    "어나더하우스",
-    "어나더 하우스 - 여성 전용",
-    "Another House Dongdaemun",
-    "Another House - Women Only",
-    "Another House Dongdaemun (Women Only)"
-  ],
-  "url": "https://anotherhouse-guide.vercel.app/",
-  "image": "https://anotherhouse-guide.vercel.app/assets/images/another-house-og-20260727.jpg",
-  "description": "首尔东大门站6号出口附近的女性专用住宿Another House Dongdaemun。11间独立单人房、1间双人房、独立门锁、公共淋浴间和卫生间，以及入住与退房当天免费行李寄存。",
-  "checkinTime": "15:00",
-  "checkoutTime": "11:00",
-  "sameAs": [
-    "https://www.booking.com/hotel/kr/eonadeo-hauseu.ko.html",
-    "https://www.agoda.com/ko-kr/ko-kr/h91252591/hotel/seoul-kr.html?ds=nu6enISOegngXE2o",
-    "https://www.trip.com/hotels/seoul-hotel-detail-134961520/another-house-dongdaemun/"
-  ],
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "종로 294 선일빌딩 5층",
-    "addressLocality": "종로구",
-    "addressRegion": "서울특별시",
-    "addressCountry": "KR"
-  },
-  "numberOfRooms": 12
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://anotherhouse-guide.vercel.app/zh-cn/tours#webpage",
+      "url": "https://anotherhouse-guide.vercel.app/zh-cn/tours",
+      "name": "推荐近郊路线 | Another House",
+      "description": "从住宿出发，探索首尔城墙、市场、宫殿与设计地标的21条本地路线。",
+      "inLanguage": "zh-CN",
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://anotherhouse-guide.vercel.app/#guide-publisher",
+        "name": "Another House",
+        "url": "https://anotherhouse-guide.vercel.app/"
+      },
+      "mainEntity": {
+        "@id": "https://anotherhouse-guide.vercel.app/zh-cn/tours#places"
+      }
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://anotherhouse-guide.vercel.app/zh-cn/tours#places",
+      "name": "推荐近郊路线",
+      "numberOfItems": 21,
+      "itemListOrder": "https://schema.org/ItemListUnordered",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "Place",
+            "name": "东大门设计广场 DDP",
+            "description": "东大门地标，可欣赏扎哈·哈迪德的流线建筑、展览与夜景。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/01-ddp.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EB%94%94%EC%9E%90%EC%9D%B8%ED%94%8C%EB%9D%BC%EC%9E%90%20DDP"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "Place",
+            "name": "兴仁之门",
+            "description": "首尔汉阳都城的东门，是开启城墙漫步的最佳起点。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/02-heunginjimun.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "Place",
+            "name": "骆山公园与首尔城墙",
+            "description": "沿城市山脊漫步，在日落时俯瞰城墙与首尔屋顶。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/03-naksan.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%82%99%EC%82%B0%EA%B3%B5%EC%9B%90%20%EC%84%9C%EC%9A%B8%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "Place",
+            "name": "梨花壁画村",
+            "description": "位于骆山脚下的老街区，有陡峭小巷、工作室与壁画。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/04-ihwa.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B4%ED%99%94%EB%B2%BD%ED%99%94%EB%A7%88%EC%9D%84"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "item": {
+            "@type": "Place",
+            "name": "昌信洞悬崖村与采石场展望台",
+            "description": "沿花岗岩采石场遗迹与山腰道路，感受昌信洞独有的立体首尔。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/05-changsin.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EC%A0%88%EB%B2%BD%EB%A7%88%EC%9D%84%20%EC%B1%84%EC%84%9D%EC%9E%A5%20%EC%A0%84%EB%A7%9D%EB%8C%80"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "item": {
+            "@type": "Place",
+            "name": "广藏市场",
+            "description": "首尔代表性传统市场，汇集绿豆煎饼、生拌牛肉、紫菜包饭与布匹商铺。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/06-gwangjang.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "item": {
+            "@type": "Place",
+            "name": "清溪川夜间漫步",
+            "description": "从住宿出发，沿水流与城市灯光轻松夜行。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/07-cheonggyecheon.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B2%AD%EA%B3%84%EC%B2%9C%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "item": {
+            "@type": "Place",
+            "name": "汉阳都城博物馆",
+            "description": "了解城墙建造与保护历史后，再前往骆山路线。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/08-wall-museum.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1%EB%B0%95%EB%AC%BC%EA%B4%80"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "item": {
+            "@type": "Place",
+            "name": "东大门综合市场",
+            "description": "可探索面料、辅料、饰品与手工材料的大型时尚材料市场。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/09-shopping-complex.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A2%85%ED%95%A9%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "item": {
+            "@type": "Place",
+            "name": "DOOTA Mall · 斗山大厦",
+            "description": "适合一次逛遍东大门时尚、美妆与夜间购物的室内商场。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/21-doota-mall.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%91%90%ED%83%80%EB%AA%B0%20%EB%91%90%EC%82%B0%ED%83%80%EC%9B%8C"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "item": {
+            "@type": "Place",
+            "name": "东庙跳蚤市场",
+            "description": "在复古服饰、唱片与生活旧物中寻宝的独特首尔市场。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/10-dongmyo.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%AC%98%20%EB%B2%BC%EB%A3%A9%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "item": {
+            "@type": "Place",
+            "name": "昌信洞文具玩具街",
+            "description": "汇集玩具、文具与派对用品的传统批发小巷。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/11-toy-market.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EB%AC%B8%EA%B5%AC%EC%99%84%EA%B5%AC%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "item": {
+            "@type": "Place",
+            "name": "宗庙",
+            "description": "供奉朝鲜王室神位的世界遗产，以克制建筑与长月台著称。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/12-jongmyo.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%A2%85%EB%AC%98"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "item": {
+            "@type": "Place",
+            "name": "昌德宫",
+            "description": "以顺应自然地形的宫殿布局与后苑闻名的世界遗产。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/13-changdeokgung.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EB%8D%95%EA%B6%81"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "item": {
+            "@type": "Place",
+            "name": "昌庆宫",
+            "description": "串联明政殿、春塘池与温室的宁静宫殿漫步。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/14-changgyeonggung.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EA%B2%BD%EA%B6%81"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
+          "item": {
+            "@type": "Place",
+            "name": "景福宫",
+            "description": "勤政殿、庆会楼与北岳山构成首尔最具代表性的宫殿景观。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/15-gyeongbokgung.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EA%B2%BD%EB%B3%B5%EA%B6%81"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 17,
+          "item": {
+            "@type": "Place",
+            "name": "益善洞韩屋街",
+            "description": "狭窄韩屋小巷中分布餐厅、甜品店与工作室的漫步街区。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/16-ikseon.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B5%EC%84%A0%EB%8F%99%20%ED%95%9C%EC%98%A5%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 18,
+          "item": {
+            "@type": "Place",
+            "name": "仁寺洞",
+            "description": "在工艺品、古书店、传统茶馆与画廊间慢慢漫步。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/17-insadong.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B8%EC%82%AC%EB%8F%99"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 19,
+          "item": {
+            "@type": "Place",
+            "name": "西巡逻街",
+            "description": "沿宗庙围墙延伸的安静街道，分布珠宝工作室、小酒吧与咖啡馆。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/18-seosulla.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%88%9C%EB%9D%BC%EA%B8%B8"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 20,
+          "item": {
+            "@type": "Place",
+            "name": "大学路与马罗尼埃公园",
+            "description": "融合小剧场、独立书店与公园的首尔表演艺术老街区。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/19-daehangno.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8C%80%ED%95%99%EB%A1%9C%20%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 21,
+          "item": {
+            "@type": "Place",
+            "name": "国立现代美术馆首尔馆",
+            "description": "位于景福宫旁，可欣赏韩国与世界当代艺术及建筑庭院。",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/20-mmca.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EA%B5%AD%EB%A6%BD%ED%98%84%EB%8C%80%EB%AF%B8%EC%88%A0%EA%B4%80%20%EC%84%9C%EC%9A%B8"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Hostel",
+      "@id": "https://anotherhouse-guide.vercel.app/#lodging",
+      "name": "Another House Dongdaemun (Women Only)",
+      "alternateName": [
+        "어나더하우스",
+        "어나더 하우스 - 여성 전용",
+        "Another House Dongdaemun",
+        "Another House - Women Only",
+        "Another House Dongdaemun (Women Only)"
+      ],
+      "url": "https://anotherhouse-guide.vercel.app/",
+      "image": "https://anotherhouse-guide.vercel.app/assets/images/another-house-og-20260727.jpg",
+      "description": "首尔东大门站6号出口附近的女性专用住宿Another House Dongdaemun。11间独立单人房、1间双人房、独立门锁、公共淋浴间和卫生间，以及入住与退房当天免费行李寄存。",
+      "checkinTime": "15:00",
+      "checkoutTime": "11:00",
+      "sameAs": [
+        "https://www.booking.com/hotel/kr/eonadeo-hauseu.ko.html",
+        "https://www.agoda.com/ko-kr/ko-kr/h91252591/hotel/seoul-kr.html?ds=nu6enISOegngXE2o",
+        "https://www.trip.com/hotels/seoul-hotel-detail-134961520/another-house-dongdaemun/"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "종로 294 선일빌딩 5층",
+        "addressLocality": "종로구",
+        "addressRegion": "서울특별시",
+        "addressCountry": "KR"
+      },
+      "numberOfRooms": 12
+    }
+  ]
 }
 </script>
   <style>

@@ -38,34 +38,295 @@
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Hostel",
-  "@id": "https://anotherhouse-guide.vercel.app/#lodging",
-  "name": "Another House Dongdaemun (Women Only)",
-  "alternateName": [
-    "어나더하우스",
-    "어나더 하우스 - 여성 전용",
-    "Another House Dongdaemun",
-    "Another House - Women Only",
-    "Another House Dongdaemun (Women Only)"
-  ],
-  "url": "https://anotherhouse-guide.vercel.app/",
-  "image": "https://anotherhouse-guide.vercel.app/assets/images/another-house-og-20260727.jpg",
-  "description": "Women-only accommodation near Dongdaemun Station Exit 6 in Seoul. 11 private single rooms, one room for two, individual door locks, shared showers and toilets, and free luggage storage on arrival and departure days.",
-  "checkinTime": "15:00",
-  "checkoutTime": "11:00",
-  "sameAs": [
-    "https://www.booking.com/hotel/kr/eonadeo-hauseu.ko.html",
-    "https://www.agoda.com/ko-kr/ko-kr/h91252591/hotel/seoul-kr.html?ds=nu6enISOegngXE2o",
-    "https://www.trip.com/hotels/seoul-hotel-detail-134961520/another-house-dongdaemun/"
-  ],
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "종로 294 선일빌딩 5층",
-    "addressLocality": "종로구",
-    "addressRegion": "서울특별시",
-    "addressCountry": "KR"
-  },
-  "numberOfRooms": 12
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://anotherhouse-guide.vercel.app/en/tours#webpage",
+      "url": "https://anotherhouse-guide.vercel.app/en/tours",
+      "name": "Recommended Nearby Tours | Another House",
+      "description": "Twenty-one local places connecting Seoul’s city wall, markets, palaces and design landmarks.",
+      "inLanguage": "en",
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://anotherhouse-guide.vercel.app/#guide-publisher",
+        "name": "Another House",
+        "url": "https://anotherhouse-guide.vercel.app/"
+      },
+      "mainEntity": {
+        "@id": "https://anotherhouse-guide.vercel.app/en/tours#places"
+      }
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://anotherhouse-guide.vercel.app/en/tours#places",
+      "name": "Recommended Nearby Tours",
+      "numberOfItems": 21,
+      "itemListOrder": "https://schema.org/ItemListUnordered",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "item": {
+            "@type": "Place",
+            "name": "Dongdaemun Design Plaza",
+            "description": "Dongdaemun’s landmark for Zaha Hadid’s fluid architecture, exhibitions and night lights.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/01-ddp.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EB%94%94%EC%9E%90%EC%9D%B8%ED%94%8C%EB%9D%BC%EC%9E%90%20DDP"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "item": {
+            "@type": "Place",
+            "name": "Heunginjimun Gate",
+            "description": "The eastern gate of the Seoul City Wall and the best starting point for a wall walk.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/02-heunginjimun.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%ED%9D%A5%EC%9D%B8%EC%A7%80%EB%AC%B8"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "Place",
+            "name": "Naksan Park & Seoul City Wall",
+            "description": "A sunset ridge walk with the city wall and a broad view over Seoul’s rooftops.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/03-naksan.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%82%99%EC%82%B0%EA%B3%B5%EC%9B%90%20%EC%84%9C%EC%9A%B8%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "item": {
+            "@type": "Place",
+            "name": "Ihwa Mural Village",
+            "description": "An old hillside neighborhood of steep alleys, small studios and murals below Naksan.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/04-ihwa.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B4%ED%99%94%EB%B2%BD%ED%99%94%EB%A7%88%EC%9D%84"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 5,
+          "item": {
+            "@type": "Place",
+            "name": "Changsin Cliff Village",
+            "description": "A layered side of Seoul shaped by granite quarry traces and steep hillside roads.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/05-changsin.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EC%A0%88%EB%B2%BD%EB%A7%88%EC%9D%84%20%EC%B1%84%EC%84%9D%EC%9E%A5%20%EC%A0%84%EB%A7%9D%EB%8C%80"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 6,
+          "item": {
+            "@type": "Place",
+            "name": "Gwangjang Market",
+            "description": "A landmark traditional market for bindaetteok, yukhoe, mayak gimbap and textiles.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/06-gwangjang.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EA%B4%91%EC%9E%A5%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 7,
+          "item": {
+            "@type": "Place",
+            "name": "Cheonggyecheon Night Walk",
+            "description": "An easy evening walk following the stream and city lights just minutes from the house.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/07-cheonggyecheon.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B2%AD%EA%B3%84%EC%B2%9C%20%EB%8F%99%EB%8C%80%EB%AC%B8"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 8,
+          "item": {
+            "@type": "Place",
+            "name": "Seoul City Wall Museum",
+            "description": "Learn how the wall was built and preserved before continuing toward Naksan.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/08-wall-museum.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%ED%95%9C%EC%96%91%EB%8F%84%EC%84%B1%EB%B0%95%EB%AC%BC%EA%B4%80"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 9,
+          "item": {
+            "@type": "Place",
+            "name": "Dongdaemun Shopping Complex",
+            "description": "A vast fashion-material market for fabrics, notions, accessories and craft supplies.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/09-shopping-complex.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%8C%80%EB%AC%B8%EC%A2%85%ED%95%A9%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 10,
+          "item": {
+            "@type": "Place",
+            "name": "Doota Mall · Doosan Tower",
+            "description": "A polished indoor mall for Dongdaemun fashion, beauty and late-night shopping.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/21-doota-mall.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%91%90%ED%83%80%EB%AA%B0%20%EB%91%90%EC%82%B0%ED%83%80%EC%9B%8C"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 11,
+          "item": {
+            "@type": "Place",
+            "name": "Dongmyo Flea Market",
+            "description": "A singular Seoul treasure hunt among vintage clothes, records and everyday antiques.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/10-dongmyo.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8F%99%EB%AC%98%20%EB%B2%BC%EB%A3%A9%EC%8B%9C%EC%9E%A5"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 12,
+          "item": {
+            "@type": "Place",
+            "name": "Changsin Toy Wholesale Market",
+            "description": "An old wholesale lane packed with toys, stationery and party supplies.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/11-toy-market.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EC%8B%A0%EB%8F%99%20%EB%AC%B8%EA%B5%AC%EC%99%84%EA%B5%AC%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 13,
+          "item": {
+            "@type": "Place",
+            "name": "Jongmyo Shrine",
+            "description": "A UNESCO royal shrine known for restrained architecture and its monumental stone terrace.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/12-jongmyo.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%A2%85%EB%AC%98"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 14,
+          "item": {
+            "@type": "Place",
+            "name": "Changdeokgung Palace",
+            "description": "A UNESCO palace beloved for architecture shaped around the landscape and its Secret Garden.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/13-changdeokgung.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EB%8D%95%EA%B6%81"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 15,
+          "item": {
+            "@type": "Place",
+            "name": "Changgyeonggung Palace",
+            "description": "A calm palace walk through Myeongjeongjeon, Chundangji pond and the greenhouse.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/14-changgyeonggung.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%B0%BD%EA%B2%BD%EA%B6%81"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 16,
+          "item": {
+            "@type": "Place",
+            "name": "Gyeongbokgung Palace",
+            "description": "Seoul’s most iconic palace scene, framed by Geunjeongjeon, Gyeonghoeru and Bugaksan.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/15-gyeongbokgung.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EA%B2%BD%EB%B3%B5%EA%B6%81"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 17,
+          "item": {
+            "@type": "Place",
+            "name": "Ikseon-dong Hanok Street",
+            "description": "A walkable web of narrow hanok lanes filled with restaurants, dessert shops and studios.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/16-ikseon.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B5%EC%84%A0%EB%8F%99%20%ED%95%9C%EC%98%A5%EA%B1%B0%EB%A6%AC"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 18,
+          "item": {
+            "@type": "Place",
+            "name": "Insadong",
+            "description": "A slow cultural walk among crafts, antiquarian books, traditional tea houses and galleries.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/17-insadong.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%9D%B8%EC%82%AC%EB%8F%99"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 19,
+          "item": {
+            "@type": "Place",
+            "name": "Seosulla-gil",
+            "description": "A low-key lane along Jongmyo’s wall, lined with jewelry studios, small bars and cafes.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/18-seosulla.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EC%84%9C%EC%88%9C%EB%9D%BC%EA%B8%B8"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 20,
+          "item": {
+            "@type": "Place",
+            "name": "Daehangno & Marronnier Park",
+            "description": "Seoul’s longstanding theater district, mixing small stages, indie bookshops and a leafy park.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/19-daehangno.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EB%8C%80%ED%95%99%EB%A1%9C%20%EB%A7%88%EB%A1%9C%EB%8B%88%EC%97%90%EA%B3%B5%EC%9B%90"
+          }
+        },
+        {
+          "@type": "ListItem",
+          "position": 21,
+          "item": {
+            "@type": "Place",
+            "name": "MMCA Seoul",
+            "description": "A contemporary-art museum beside Gyeongbokgung with generous courtyards and global exhibitions.",
+            "image": "https://anotherhouse-guide.vercel.app/assets/images/tours/spots/20-mmca.webp",
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=%EA%B5%AD%EB%A6%BD%ED%98%84%EB%8C%80%EB%AF%B8%EC%88%A0%EA%B4%80%20%EC%84%9C%EC%9A%B8"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "Hostel",
+      "@id": "https://anotherhouse-guide.vercel.app/#lodging",
+      "name": "Another House Dongdaemun (Women Only)",
+      "alternateName": [
+        "어나더하우스",
+        "어나더 하우스 - 여성 전용",
+        "Another House Dongdaemun",
+        "Another House - Women Only",
+        "Another House Dongdaemun (Women Only)"
+      ],
+      "url": "https://anotherhouse-guide.vercel.app/",
+      "image": "https://anotherhouse-guide.vercel.app/assets/images/another-house-og-20260727.jpg",
+      "description": "Women-only accommodation near Dongdaemun Station Exit 6 in Seoul. 11 private single rooms, one room for two, individual door locks, shared showers and toilets, and free luggage storage on arrival and departure days.",
+      "checkinTime": "15:00",
+      "checkoutTime": "11:00",
+      "sameAs": [
+        "https://www.booking.com/hotel/kr/eonadeo-hauseu.ko.html",
+        "https://www.agoda.com/ko-kr/ko-kr/h91252591/hotel/seoul-kr.html?ds=nu6enISOegngXE2o",
+        "https://www.trip.com/hotels/seoul-hotel-detail-134961520/another-house-dongdaemun/"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "종로 294 선일빌딩 5층",
+        "addressLocality": "종로구",
+        "addressRegion": "서울특별시",
+        "addressCountry": "KR"
+      },
+      "numberOfRooms": 12
+    }
+  ]
 }
 </script>
   <style>
