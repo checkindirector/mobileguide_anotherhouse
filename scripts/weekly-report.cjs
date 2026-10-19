@@ -5,7 +5,7 @@ const { previousWeek } = require('../lib/weekly-report.cjs');
 (async () => {
   if (!process.env.ANALYTICS_REPORT_TOKEN) throw new Error('missing_credentials');
   const range = previousWeek();
-  const response = await fetch('https://anotherhouse-guide.vercel.app/api/analytics-report?' + new URLSearchParams(range), {
+  const response = await fetch('https://anotherhouse-guide.vercel.app/api/analytics-report?' + new URLSearchParams({ ...range, includeOriginals: '1' }), {
     headers: { Authorization: `Bearer ${process.env.ANALYTICS_REPORT_TOKEN}` }, signal: AbortSignal.timeout(30000)
   });
   if (!response.ok) throw new Error(`report_http_${response.status}`);
