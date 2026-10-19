@@ -63,6 +63,64 @@ async function callAccess(body, entranceCode = "TESTACCESSCODE") {
   }
 }
 
+test("individual shared-dining supplies answer from item 18 in all five languages without OpenAI", async () => {
+  const cases = [
+    ['ko', ['펜 있어요?', '펜?', '볼펜 빌릴 수 있나요', '포스트잇', '메모지 있나여'], /공용 다이닝.*펜과 포스트잇/],
+    ['en', ['Pen?', 'Do you have a pen?', 'sticky notes?', 'post-it notes'], /shared dining area/],
+    ['ja', ['ペンはキッチンにある？', 'ペン？', '付箋ありますか', 'ふせん'], /共用ダイニング/],
+    ['zh', ['有笔吗', '便签', '签字笔有吗', '便利贴'], /公共用餐区/],
+    ['zh-TW', ['有筆嗎', '原子筆', '便利貼', '便條紙'], /公共用餐區/],
+    ['ko', ['수저 있나요', '숟가락', '숫가락?', '젓가락?', '포크'], /공용주방.*숟가락·젓가락.*포크/],
+    ['en', ['spoon?', 'forks?', 'chopsticks?', 'cutlery'], /shared kitchen/],
+    ['ja', ['スプーンやフォークはありますか？', '箸はありますか', 'カトラリー'], /共用キッチン/],
+    ['zh', ['有勺子和叉子吗', '筷子', '餐具'], /公共厨房/],
+    ['zh-TW', ['湯匙有嗎', '叉子', '筷子', '餐具'], /公共廚房/]
+  ];
+  for (const [language, messages, expected] of cases) for (const message of messages) {
+    const { res, request } = await callApi({ message, language }, { output_text: 'Should not be used' }, `dining-${language}-${message}`);
+    assert.equal(res.statusCode, 200, message);
+    assert.equal(request, undefined, message);
+    assert.match(res.payload.answer, expected, message);
+    assert.equal(res.payload.meta.searched, false);
+    assert.equal(res.payload.meta.sourceItem, 18);
+    assert.equal(res.payload.meta.sourceRange, 'D19');
+    assert.equal(res.payload.links[0].route, 'appliances');
+    assert.doesNotMatch(res.payload.answer, /GUEST BOX|電子レンジ|전자레인지|microwave/);
+  }
+});
+
+test("fridge-labeling follow-up uses the confirmed dining pens rather than an unknown inventory", async () => {
+  const { res, request } = await callApi({ message: 'ペンはキッチンにある？', language: 'ja', history: [
+    {role:'user', content:'冷蔵庫を使えますか？'},
+    {role:'assistant', content:'食品に付箋で名前を書いてください。'}
+  ] }, {output_text:'unused'}, 'dining-followup');
+  assert.equal(request, undefined);
+  assert.match(res.payload.answer, /ペンと付箋.*共用ダイニング/);
+});
+
+test("compound dining inventory requests include both confirmed groups", async () => {
+  const { res } = await callApi({message:'펜과 포크 둘 다 있나요?',language:'ko'}, {output_text:'unused'}, 'dining-both');
+  assert.match(res.payload.answer, /펜과 포스트잇/);
+  assert.match(res.payload.answer, /숟가락·젓가락.*포크/);
+});
+
+test("missing supplies and other guest questions retain semantic interpretation with the new evidence", async () => {
+  for (const [language, message] of [['ko','펜이 안 보이는데 어디 있나요?'], ['ja','ペンが見つからない'], ['en','Do you have a pen and scissors?'], ['ko','펜 있고 체크인 몇시인가요?']]) {
+    const { request } = await callApi({message,language}, {output_text:'Please check the shared dining area. GUIDE_PAGE: appliances'}, `dining-semantic-${message}`);
+    assert.ok(request, message);
+    assert.match(request.body.instructions, /latestSharedDiningCorrection/);
+    assert.match(request.body.instructions, /2026-10-19/);
+    assert.equal(request.body.tools, undefined, message);
+  }
+});
+
+test("shopping and unrelated words are not answered as shared-dining availability", async () => {
+  const {directAnswer} = require('../lib/shared-dining.cjs');
+  for (const message of ['근처에 펜 살 곳', 'Where can I buy a pen?', 'ペンを買える店', '附近哪里买笔', '附近哪裡買筆', 'open', 'pencil', 'suspense', '프라이팬', 'ノートパソコン', '笔记本', '鉛筆', 'fork a github repo']) {
+    assert.equal(directAnswer(message, 'ko'), null, message);
+  }
+});
+
 test("a property question reaches the model with only its relevant guide and no search tool", async () => {
   const { res, request } = await callApi(
     { message: "조식이 제공되나요?", language: "ko", context: { malicious: "ignored" }, history: [] },

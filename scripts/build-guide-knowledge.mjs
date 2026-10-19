@@ -1,6 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import vm from "node:vm";
+import sharedDining from "../lib/shared-dining.cjs";
 
 const root = resolve(import.meta.dirname, "..");
 const VERSION = "2026-10-05.3";
@@ -541,6 +542,7 @@ const knowledge = {
     const page = localize(data.pages.appliances, language);
     return {
       title: page.title,
+      sharedDining: { source: sharedDining.source, inventory: sharedDining.inventory[language] },
       summary: page.summary,
       devices: (page.devices || []).map(device => ({
         name: device.name,

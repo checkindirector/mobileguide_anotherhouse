@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-30.1",
+  "version": "2026-10-19.1",
   "source": {
     "workbook": "Q&A 표준화 (2).xlsx",
     "rawSheet": "어나더 질문 RAW",
@@ -900,7 +900,7 @@
       "intent": "shared-kitchen",
       "type": "공용 주방 위치",
       "route": "appliances",
-      "answer": "라운지에 공용주방이 있으며 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류, 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다.",
+      "answer": "라운지에 공용주방이 있으며 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류(수저, 포크), 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다. 공용 다이닝을 이용하실 때 개인물품에는 준비된 포스트잇과 펜을 사용하여 이름을 적어주세요.",
       "examples": [
         "공용 주방은 몇층입니까?"
       ],
@@ -911,7 +911,17 @@
         "Q015"
       ],
       "credentialsProtected": false,
-      "sourceAnswerSha256": "8f16ba245d859666198f4e779b9bbc4a843126c1727ad291b3fabcdd4e1b0d36"
+      "sourceAnswerSha256": "b5ad83ca80bfe2248b7dfde22ca803cdc7a72122bee249f19a078b629381c24d",
+      "sourceCorrections": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/11-CezKy5zGxL0lQuOKa86b7DwihfSH-ieCzJ7wIjPQ0/edit?gid=472542366",
+          "sheet": "어나더 요약",
+          "range": "D19",
+          "item": 18,
+          "verifiedAt": "2026-10-19",
+          "previousAnswerSha256": "8f16ba245d859666198f4e779b9bbc4a843126c1727ad291b3fabcdd4e1b0d36"
+        }
+      ]
     },
     {
       "id": "Q017",
@@ -1171,7 +1181,7 @@
       "intent": "towels-dryer",
       "type": "수건·건조기",
       "route": "appliances",
-      "answer": "수건이 부족한 경우 공용주방 냉장고 옆 GUEST BOX 또는 샤워실 선반의 여분 수건을 이용해주세요. 사용한 수건은 샤워실 앞 바구니에 넣어주세요. 공용주방에는 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류, 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다.",
+      "answer": "수건이 부족한 경우 공용주방 냉장고 옆 GUEST BOX 또는 샤워실 선반의 여분 수건을 이용해주세요. 사용한 수건은 샤워실 앞 바구니에 넣어주세요. 공용주방에는 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류(수저, 포크), 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다. 공용 다이닝을 이용하실 때 개인물품에는 준비된 포스트잇과 펜을 사용하여 이름을 적어주세요.",
       "examples": [
         "수건과 건조기가 있습니까?"
       ],
@@ -1182,7 +1192,17 @@
         "Q047"
       ],
       "credentialsProtected": false,
-      "sourceAnswerSha256": "ddbcbd32ab963968a20c2311b65acb12a531f6a0d8558dbd0f4643ad7ddb2b75"
+      "sourceAnswerSha256": "523ea413d8039f93281ff302f47e1aa673dab269b47638a2ed80088f067f27e7",
+      "sourceCorrections": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/11-CezKy5zGxL0lQuOKa86b7DwihfSH-ieCzJ7wIjPQ0/edit?gid=472542366",
+          "sheet": "어나더 요약",
+          "range": "D19",
+          "item": 18,
+          "verifiedAt": "2026-10-19",
+          "previousAnswerSha256": "ddbcbd32ab963968a20c2311b65acb12a531f6a0d8558dbd0f4643ad7ddb2b75"
+        }
+      ]
     },
     {
       "id": "Q048",
@@ -1243,7 +1263,7 @@
       "intent": "appliances",
       "type": "비품",
       "route": "appliances",
-      "answer": "라운지에 공용주방이 있으며 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류, 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다.",
+      "answer": "라운지에 공용주방이 있으며 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류(수저, 포크), 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다. 공용 다이닝을 이용하실 때 개인물품에는 준비된 포스트잇과 펜을 사용하여 이름을 적어주세요.",
       "examples": [
         "이 방에 TV가 있나요?",
         "안녕하세요, 다리미 있으신가요?",
@@ -1260,14 +1280,24 @@
         "Q108"
       ],
       "credentialsProtected": false,
-      "sourceAnswerSha256": "8f16ba245d859666198f4e779b9bbc4a843126c1727ad291b3fabcdd4e1b0d36"
+      "sourceAnswerSha256": "b5ad83ca80bfe2248b7dfde22ca803cdc7a72122bee249f19a078b629381c24d",
+      "sourceCorrections": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/11-CezKy5zGxL0lQuOKa86b7DwihfSH-ieCzJ7wIjPQ0/edit?gid=472542366",
+          "sheet": "어나더 요약",
+          "range": "D19",
+          "item": 18,
+          "verifiedAt": "2026-10-19",
+          "previousAnswerSha256": "8f16ba245d859666198f4e779b9bbc4a843126c1727ad291b3fabcdd4e1b0d36"
+        }
+      ]
     },
     {
       "id": "Q052",
       "intent": "refrigerator",
       "type": "공용 냉장고",
       "route": "appliances",
-      "answer": "라운지에 공용주방이 있으며 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류, 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다.",
+      "answer": "라운지에 공용주방이 있으며 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류(수저, 포크), 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다. 공용 다이닝을 이용하실 때 개인물품에는 준비된 포스트잇과 펜을 사용하여 이름을 적어주세요.",
       "examples": [
         "공용 주방에 냉장고가 있나요?"
       ],
@@ -1278,7 +1308,17 @@
         "Q052"
       ],
       "credentialsProtected": false,
-      "sourceAnswerSha256": "8f16ba245d859666198f4e779b9bbc4a843126c1727ad291b3fabcdd4e1b0d36"
+      "sourceAnswerSha256": "b5ad83ca80bfe2248b7dfde22ca803cdc7a72122bee249f19a078b629381c24d",
+      "sourceCorrections": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/11-CezKy5zGxL0lQuOKa86b7DwihfSH-ieCzJ7wIjPQ0/edit?gid=472542366",
+          "sheet": "어나더 요약",
+          "range": "D19",
+          "item": 18,
+          "verifiedAt": "2026-10-19",
+          "previousAnswerSha256": "8f16ba245d859666198f4e779b9bbc4a843126c1727ad291b3fabcdd4e1b0d36"
+        }
+      ]
     },
     {
       "id": "Q053",
@@ -1405,7 +1445,7 @@
       "intent": "towels",
       "type": "수건 지급량",
       "route": "appliances",
-      "answer": "수건이 부족한 경우 공용주방 냉장고 옆 GUEST BOX 또는 샤워실 선반의 여분 수건을 이용해주세요. 사용한 수건은 샤워실 앞 바구니에 넣어주세요. 공용주방에는 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류, 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다.",
+      "answer": "수건이 부족한 경우 공용주방 냉장고 옆 GUEST BOX 또는 샤워실 선반의 여분 수건을 이용해주세요. 사용한 수건은 샤워실 앞 바구니에 넣어주세요. 공용주방에는 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류(수저, 포크), 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다. 공용 다이닝을 이용하실 때 개인물품에는 준비된 포스트잇과 펜을 사용하여 이름을 적어주세요.",
       "examples": [
         "얼굴 수건은 1인 1장인가요?",
         "목욕 수건, 수건이 있습니까?"
@@ -1419,7 +1459,17 @@
         "Q096"
       ],
       "credentialsProtected": false,
-      "sourceAnswerSha256": "ddbcbd32ab963968a20c2311b65acb12a531f6a0d8558dbd0f4643ad7ddb2b75"
+      "sourceAnswerSha256": "523ea413d8039f93281ff302f47e1aa673dab269b47638a2ed80088f067f27e7",
+      "sourceCorrections": [
+        {
+          "url": "https://docs.google.com/spreadsheets/d/11-CezKy5zGxL0lQuOKa86b7DwihfSH-ieCzJ7wIjPQ0/edit?gid=472542366",
+          "sheet": "어나더 요약",
+          "range": "D19",
+          "item": 18,
+          "verifiedAt": "2026-10-19",
+          "previousAnswerSha256": "ddbcbd32ab963968a20c2311b65acb12a531f6a0d8558dbd0f4643ad7ddb2b75"
+        }
+      ]
     },
     {
       "id": "Q097",

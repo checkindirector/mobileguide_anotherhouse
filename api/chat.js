@@ -2,6 +2,7 @@ const GUIDE_KNOWLEDGE = require("../assets/guide-knowledge.json");
 const AIRPORT_ROUTE_INTENT = require("../assets/airport-route-intent.js");
 const AIRPORT_JOURNEY = require("../assets/airport-journey.js");
 const CONCIERGE_TRAINING = require("./concierge-training.json");
+const SHARED_DINING = require("../lib/shared-dining.cjs");
 const { analyzeStayQuestion } = require("../lib/stay-intent.cjs");
 const { contextualAnswerTone } = require("../lib/answer-tone.cjs");
 const { normalizeGuestLanguage, isRoomKeyProblem, propertyQuestionHint, hasMultipleGuestQuestions } = require("../lib/guest-language.cjs");
@@ -520,6 +521,7 @@ function guidePageLink(route, language) {
 }
 
 function guideRouteFromQuestion(message, language) {
+  if (SHARED_DINING.matchingGroups(message).length && !isPlaceSearchIntent(message)) return "appliances";
   if (propertyQuestionHint(message)?.topics.includes("dining")) return "rules";
   if (/(남자|남성|남성\s*게스트|men\s*allowed|male\s*guest|男性|男生|男性旅客)/i.test(String(message || ""))) return "gallery";
   const trainedIntent = trainingIntentFromQuestion(message, language);
@@ -1635,6 +1637,10 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   const airportBusGuide = stayIntent && !['airport-bus','airport-shuttle'].includes(stayIntent.id) ? null : verifiedAirportBusGuide(message, language, history);
   if (airportBusGuide) return res.status(200).json({answer:airportBusGuide.answer,links:[...airportBusGuide.links,guidePageLink(airportBusGuide.route,language)],mapContext:null,model:'another-house-verified-airport-bus',meta:{searched:false,guideRoute:airportBusGuide.route,mode:airportBusGuide.mode,verifiedAt:airportBusGuide.verifiedAt,knowledgeVersion:GUIDE_KNOWLEDGE.version,durationMs:Date.now()-startedAt}});
   const matchedApprovedReply = approvedAnswerFromQuestion(message, language, history);
+  const diningItem = SHARED_DINING.directAnswer(message, language, propertyHint?.topics || []);
+  if (diningItem && !stayIntent) {
+    return res.status(200).json({ answer: diningItem.answer, model: "another-house-verified-amenity", links: [guidePageLink("appliances", language)], mapContext: null, meta: { searched: false, verifiedAmenity: true, item: diningItem.item, guideRoute: "appliances", sourceSheet: diningItem.source.sheet, sourceRange: diningItem.source.range, sourceItem: diningItem.source.item, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+  }
   // The operator approved a newer airport correction; retain the workbook archive, not its outdated transport answer.
   const approvedReply = ['Q020','Q070'].includes(matchedApprovedReply?.id) ? null : matchedApprovedReply;
   if (approvedReply && language === "ko") {
@@ -1780,6 +1786,8 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   }
   else delete guideForRequest.airportBusGuide;
   guideForRequest.verifiedOperations = Object.fromEntries(Object.entries(VERIFIED_TRAINING_FACTS).map(([id, fact]) => [id, fact.answers[language] || fact.answers.ko]));
+  const diningEvidence = SHARED_DINING.evidence(message, language);
+  if (diningEvidence) guideForRequest.latestSharedDiningCorrection = diningEvidence;
   const approvedCandidates = propertyRouteOrigin && !stayIntent ? [] : (CONCIERGE_TRAINING.approvedAnswers || []).filter(record => record.route === knowledgeRoute || propertyHint?.routes.includes(record.route) || stayIntent?.needsModel || (!knowledgeRoute && !requestedSearchLevel));
   guideForRequest.approvedWorkbookAnswers = approvedCandidates.filter(record=>!['Q020','Q070'].includes(record.id)).map(({ id, type, answer, route }) => ({ id, type, answer, route }));
   const fullGuideText = JSON.stringify(guideForRequest);
