@@ -5,6 +5,29 @@ import { resolve } from "node:path";
 
 const root = resolve(import.meta.dirname, "..");
 
+test("item 18 dining correction reaches both guide pages and chatbot evidence in every language", async () => {
+  const knowledge = JSON.parse(await readFile(resolve(root, 'assets/guide-knowledge.json'), 'utf8'));
+  for (const [language, cutlery, stationery] of [
+    ['ko', /수저.*포크/, /포스트잇과 펜/],
+    ['en', /spoons, chopsticks and forks/, /Pens and sticky notes/],
+    ['ja', /スプーン・箸・フォーク/, /付箋とペン/],
+    ['zh', /勺子、筷子和叉子/, /便签和笔/],
+    ['zh-TW', /湯匙、筷子和叉子/, /便利貼和筆/]
+  ]) {
+    const devices = knowledge.appliances[language].devices;
+    assert.ok(devices.some(device => cutlery.test(JSON.stringify(device)) && stationery.test(JSON.stringify(device))), language);
+    assert.equal(knowledge.appliances[language].sharedDining.source.item, 18);
+    assert.equal(knowledge.appliances[language].sharedDining.source.range, 'D19');
+  }
+  const training = JSON.parse(await readFile(resolve(root, 'api/concierge-training.json'), 'utf8'));
+  const corrected = training.approvedAnswers.filter(answer => answer.sourceCorrections?.some(source => source.item === 18));
+  assert.equal(corrected.length, 5);
+  for (const record of corrected) {
+    assert.match(record.answer, /식기류\(수저, 포크\)/);
+    assert.match(record.answer, /포스트잇과 펜/);
+  }
+});
+
 test("generated knowledge mirrors current public guide content without secrets", async () => {
   const raw = await readFile(resolve(root, "assets/guide-knowledge.json"), "utf8");
   const knowledge = JSON.parse(raw);

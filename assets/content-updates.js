@@ -441,11 +441,11 @@
     {
       name: I('공용주방 이용', 'Using the shared kitchen', '共用キッチンの利用', '公共厨房使用', '公共廚房使用'),
       steps: I(
-        ['객실에 별도 테이블이 없는 경우 음식은 공용주방 라운지 테이블에서 드셔 주세요.', '사용한 식기는 설거지한 뒤 제자리에 놓아 주세요.'],
-        ['If your room does not have a table, please eat at the shared-kitchen lounge table.', 'Wash used dishes and return them to their places.'],
-        ['客室にテーブルがない場合は、共用キッチンのラウンジテーブルでお召し上がりください。', '使用した食器は洗って元の場所へ戻してください。'],
-        ['如果客房没有桌子，请在公共厨房的休息区餐桌用餐。', '使用过的餐具请清洗后放回原位。'],
-        ['如果客房沒有桌子，請在公共廚房的休息區餐桌用餐。', '使用過的餐具請清洗後放回原位。']
+        ['객실에 별도 테이블이 없는 경우 음식은 공용주방 라운지 테이블에서 드셔 주세요.', '공용주방에는 수저(숟가락·젓가락)와 포크를 포함한 식기류가 준비되어 있습니다. 사용한 식기는 설거지한 뒤 제자리에 놓아 주세요.', '공용 다이닝을 이용하실 때 개인물품에는 준비된 포스트잇과 펜을 사용하여 이름을 적어주세요.'],
+        ['If your room does not have a table, please eat at the shared-kitchen lounge table.', 'The shared kitchen provides dishes and cutlery, including spoons, chopsticks and forks. Wash used dishes and cutlery and return them to their places.', 'Pens and sticky notes are provided in the shared dining area. Please use them to label personal belongings with your name.'],
+        ['客室にテーブルがない場合は、共用キッチンのラウンジテーブルでお召し上がりください。', '共用キッチンには食器とスプーン・箸・フォークがあります。使用後は洗って元の場所へ戻してください。', '共用ダイニングには付箋とペンが用意されています。私物には名前を書いてください。'],
+        ['如果客房没有桌子，请在公共厨房的休息区餐桌用餐。', '公共厨房备有餐具，包括勺子、筷子和叉子。使用后请清洗并放回原位。', '公共用餐区备有便签和笔，请用来给个人物品标注姓名。'],
+        ['如果客房沒有桌子，請在公共廚房的休息區餐桌用餐。', '公共廚房備有餐具，包括湯匙、筷子和叉子。使用後請清洗並放回原位。', '公共用餐區備有便利貼和筆，請用來在個人物品上標註姓名。']
       )
     }
   );
