@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import { readFileSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
+// Kept in scripts/, not test/, so the deployment's .vercelignore cannot remove the release guard.
 const journeySource=readFileSync(new URL('../assets/marketing-journey.js',import.meta.url),'utf8');
 const conciergeSource=readFileSync(new URL('../assets/concierge-telemetry.js',import.meta.url),'utf8');
 

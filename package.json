@@ -5,10 +5,11 @@
   "scripts": {
     "start": "npx serve .",
     "generate:knowledge": "node scripts/build-guide-knowledge.mjs",
-    "build": "node scripts/build-guide-knowledge.mjs && node scripts/build-search-pages.mjs && node scripts/validate.mjs && npm run test:telemetry",
+    "build": "node scripts/build-guide-knowledge.mjs && node scripts/build-search-pages.mjs && node scripts/validate.mjs && npm run check:telemetry",
     "pretest": "node scripts/build-guide-knowledge.mjs && node scripts/build-search-pages.mjs",
-    "test": "node --test test/site.test.mjs test/taiwan.test.mjs test/chat-api.test.mjs test/knowledge.test.mjs test/telemetry.test.mjs test/message-originals.test.mjs test/telemetry-sync.test.mjs test/journey.test.mjs test/airport-bus.test.mjs test/transit-maps.test.mjs test/search-pages.test.mjs test/performance-routing.test.mjs",
-    "test:telemetry": "node --test --test-reporter=dot test/telemetry.test.mjs test/message-originals.test.mjs test/telemetry-sync.test.mjs test/journey.test.mjs",
+    "test": "node --test test/site.test.mjs test/taiwan.test.mjs test/chat-api.test.mjs test/knowledge.test.mjs test/telemetry.test.mjs scripts/check-originals.mjs scripts/check-telemetry-sync.mjs test/journey.test.mjs test/airport-bus.test.mjs test/transit-maps.test.mjs test/search-pages.test.mjs test/performance-routing.test.mjs",
+    "test:telemetry": "node --test --test-reporter=dot test/telemetry.test.mjs scripts/check-originals.mjs scripts/check-telemetry-sync.mjs test/journey.test.mjs",
+    "check:telemetry": "node --test --test-reporter=dot scripts/check-originals.mjs scripts/check-telemetry-sync.mjs",
     "analytics:setup": "node --env-file=.env.local scripts/analytics-setup.cjs",
     "analytics:report": "node --env-file=.env.reporting.local scripts/weekly-report.cjs",
     "generate:search": "node scripts/build-search-pages.mjs"

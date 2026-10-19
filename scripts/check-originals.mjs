@@ -10,7 +10,7 @@ process.env.ANALYTICS_REPORT_TOKEN = 'test-originals-admin-token-'.repeat(3);
 
 test('original messages retain guest details, codes, URLs and exact whitespace, encrypted at rest', () => {
   const question = '제 이름은 테스트. test@example.com 010-1234-5678\n룸키 두고나옴';
-  const answer = '503호 앞\n8282 → ENT https://example.com/guide  ';
+  const answer = '테스트 공용문\n2468 → ENT https://example.com/guide  ';
   const a = originals.seal('event-a', question, answer), b = originals.seal('event-a', question, answer);
   assert.notEqual(a.ciphertext, b.ciphertext);
   assert.ok(!JSON.stringify(a).includes('test@example.com'));
@@ -21,24 +21,24 @@ test('original messages retain guest details, codes, URLs and exact whitespace, 
 
 test('server infrastructure secrets never enter original messages; guest entrance code remains', () => {
   process.env.OPENAI_API_KEY = 'test-infrastructure-secret';
-  process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE = '8282';
+  process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE = '2468';
   try {
-    const a = originals.open('id', originals.seal('id', 'test-infrastructure-secret', '8282'));
-    assert.equal(a.question, '[SERVER_SECRET_REMOVED]'); assert.equal(a.answer, '8282');
+    const a = originals.open('id', originals.seal('id', 'test-infrastructure-secret', '2468'));
+    assert.equal(a.question, '[SERVER_SECRET_REMOVED]'); assert.equal(a.answer, '2468');
   } finally { delete process.env.OPENAI_API_KEY; delete process.env.ANOTHER_HOUSE_COMMON_ENTRANCE_CODE; }
 });
 
 test('only updated privacy-notice clients collect originals; opt-out and legacy clients do not', () => {
-  const event = policy => telemetry.chatEvent({body:{message:'test@example.com',telemetry:policy}},{answer:'8282'},200,Date.now(),'test-id');
+  const event = policy => telemetry.chatEvent({body:{message:'test@example.com',telemetry:policy}},{answer:'2468'},200,Date.now(),'test-id');
   const current = event({messagePolicy:originals.POLICY});
   assert.equal(current.question,'[EMAIL]'); assert.equal(current.answer,'[NUMBER]');
-  assert.deepEqual(originals.open(current.id,current.encryptedOriginal),{question:'test@example.com',answer:'8282'});
+  assert.deepEqual(originals.open(current.id,current.encryptedOriginal),{question:'test@example.com',answer:'2468'});
   assert.equal(event({}).encryptedOriginal,undefined);
   assert.equal(event({messagePolicy:originals.POLICY,optOut:true}).encryptedOriginal,undefined);
 });
 
 test('reports omit ciphertext and originals by default, and explicitly distinguish historical gaps and decryption failures', () => {
-  const event={id:'a',kind:'chat',question:'[EMAIL]',encryptedOriginal:originals.seal('a','test@example.com','8282')};
+  const event={id:'a',kind:'chat',question:'[EMAIL]',encryptedOriginal:originals.seal('a','test@example.com','2468')};
   const safe=originals.forReport(event);
   assert.equal(safe.encryptedOriginal,undefined); assert.equal(safe.originalMessages,undefined);
   assert.equal(safe.originalMessagesStatus,'available_on_request');
@@ -71,6 +71,6 @@ test('deployment build and report entry points retain the original-message recov
   for(const field of ['originalMessagesCoverage','originalMessagesCollectionStartedAt','originalMessagesRequested']) assert.ok(api.includes(field),field);
   assert.ok(api.indexOf('if (!authorized(req))') < api.indexOf('includeOriginals ='));
   assert.ok(script.includes("includeOriginals: '1'"));
-  assert.ok(JSON.parse(source('package.json')).scripts.build.includes('test:telemetry'));
+  assert.ok(JSON.parse(source('package.json')).scripts.build.includes('check:telemetry'));
   for(const file of ['index.html','guide-anotherhouse.html']) assert.ok(source(file).includes('concierge-telemetry.js?v=20261019-1'));
 });
