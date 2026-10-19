@@ -1,4 +1,4 @@
-/* First-party, pseudonymous quality measurement. No IP, URL, name, or history payload. */
+/* First-party measurement; disclosed message originals are encrypted server-side. No IP or chat history payload. */
 (() => {
   const production = location.hostname === 'anotherhouse-guide.vercel.app';
   const key = 'another-analytics';
@@ -7,12 +7,12 @@
   function read() { if (window.marketingJourney) return window.marketingJourney.readPreferences(); try { const value=JSON.parse(localStorage.getItem(key) || '{}'); return value && typeof value==='object' && !Array.isArray(value) ? value : {}; } catch { return memory; } }
   function write(data) { if (window.marketingJourney) return window.marketingJourney.writePreferences(data); memory = data; try { localStorage.setItem(key, JSON.stringify(data)); } catch {} }
   function context() {
-    if (window.marketingJourney) return window.marketingJourney.context();
+    if (window.marketingJourney) return { ...window.marketingJourney.context(), messagePolicy: 'internal-original-v1' };
     const data = read(), now = Date.now();
     if (!data.visitorId || now - (data.created || 0) > 30 * 86400000) { data.visitorId = uuid(); data.created = now; }
     if (!data.sessionId || now - (data.last || 0) > 30 * 60000) { data.sessionId = uuid(); data.turn = 0; }
     data.last = now; write(data);
-    return { visitorId: data.visitorId, sessionId: data.sessionId, turn: data.turn || 0, internal: data.internal === true, optOut: data.optOut === true || navigator.globalPrivacyControl === true };
+    return { visitorId: data.visitorId, sessionId: data.sessionId, turn: data.turn || 0, internal: data.internal === true, optOut: data.optOut === true || navigator.globalPrivacyControl === true, messagePolicy: 'internal-original-v1' };
   }
   async function event(kind, language, fields = {}, supplied) {
     if (!production) return;
@@ -29,6 +29,14 @@
   }
   const faqIds = ['checkin_time', 'checkin_method', 'early_checkin', 'checkout_time', 'luggage', 'amenities'];
   let currentChat = null, privacyEpoch = 0;
+  // Privacy is independent of visibility. A hidden tab has no visibleContext;
+  // comparing ordinary storage writes with that null value caused two-tab loops.
+  function privacySignature() {
+    const data = read(); let disabled = false;
+    try { disabled = !!localStorage.getItem('va-disable'); } catch {}
+    return [data.internal === true, data.optOut === true || navigator.globalPrivacyControl === true || disabled].join('|');
+  }
+  let observedPrivacy = privacySignature();
   function emitQuality(kind, fields, tracking = currentChat) {
     if (!tracking || tracking.epoch !== privacyEpoch) return Promise.resolve(false);
     return event(kind, tracking.language, { interactionId: tracking.interactionId, ...fields }, tracking.telemetry);
@@ -156,14 +164,18 @@
     window.addEventListener('pagehide', () => { flushTime(); pauseChat('pagehide'); pageHidden = true; resumeTime(); });
     window.addEventListener('pageshow', () => { pageHidden = false; resumeTime(); resumeChat(); });
     window.addEventListener('storage', e => {
-      if (e.key === key) { const data = read(); if (data.optOut === true || (data.internal === true) !== visibleContext?.internal) { resumeTime(); resetTracking(); } }
+      if (e.key !== key && e.key !== 'va-disable') return;
+      const nextPrivacy = privacySignature();
+      if (nextPrivacy === observedPrivacy) return;
+      observedPrivacy = nextPrivacy;
+      resumeTime(); resetTracking(); render();
     });
   }
   window.conciergeTelemetry = {
     next() { try { context(); const data = read(); data.turn = (data.turn || 0) + 1; write(data); return context(); } catch { return {optOut:true}; } },
     failure(language) { return event('client_failure', language); },
     open: openChat, close: closeChat, begin: beginQuestion, finish: finishQuestion, decorate: addFeedback,
-    reset(language) { closeChat('language'); if (document.getElementById('chatPanel')?.classList.contains('open')) openChat(language); },
+    reset(language) { if (currentChat?.language === language) return; closeChat('language'); if (document.getElementById('chatPanel')?.classList.contains('open')) openChat(language); },
     faq(index, surface, accepted, language) { if (faqIds[index]) event('faq_click', language, { faqId: faqIds[index], surface, accepted }); },
     link(tracking, link) {
       try {
@@ -172,15 +184,15 @@
         emitQuality('answer_link', { requestId: tracking?.requestId, linkKind: kind, destination }, tracking);
       } catch {}
     },
-    preferences({ optOut, internal } = {}) { const data = read(); if (typeof optOut === 'boolean') data.optOut = optOut; if (typeof internal === 'boolean') data.internal = internal; write(data); resumeTime(); resetTracking(); render(); window.marketingJourney?.refresh(); },
+    preferences({ optOut, internal } = {}) { const data = read(); if (typeof optOut === 'boolean') data.optOut = optOut; if (typeof internal === 'boolean') data.internal = internal; write(data); observedPrivacy = privacySignature(); resumeTime(); resetTracking(); render(); window.marketingJourney?.refresh(); },
     context
   };
   const copy = {
-    ko: ['서비스 개선을 위해 질문·답변과 익명 이용 통계(화면 표시 체류시간, 답변 평가, 답변 링크·FAQ 버튼 이용, 챗봇 열기·전송·표시·닫기·화면 숨김)를 약 90일 저장합니다. 입력 중인 문장과 링크 전체 주소는 저장하지 않습니다. 연락처·비밀번호를 입력하지 마세요. 일반적인 개인정보는 자동 마스킹합니다.', '대화·이용 통계 수집 제외', '운영팀 테스트 모드'],
-    en: ['We save questions, answers and anonymous usage statistics for about 90 days: visible-screen time, answer feedback, answer-link/FAQ clicks, and chat opening, sending, display, closing and screen hiding. Unsent text and full link URLs are not saved. Do not enter contact details or passwords. Common personal details are automatically masked.', 'Exclude my chat and usage statistics', 'Staff test mode'],
-    ja: ['改善のため質問・回答と匿名利用統計（画面表示時間、回答評価、回答リンク・FAQボタン、チャットの開閉・送信・表示・画面非表示）を約90日間保存します。未送信の文章やリンクの完全なURLは保存しません。連絡先やパスワードは入力しないでください。一般的な個人情報は自動でマスクします。', '会話・利用統計の収集を停止', 'スタッフのテストモード'],
-    zh: ['为改善服务，问题、回答和匿名使用统计保存约90天，包括屏幕显示时长、回答评价、回答链接/FAQ按钮点击及聊天打开、发送、显示、关闭和屏幕隐藏。不保存未发送的文字或完整链接地址。请勿输入联系方式或密码。常见个人信息会自动遮盖。', '不收集我的对话及使用统计', '员工测试模式'],
-    'zh-TW': ['為改善服務，問題、回答和匿名使用統計保存約90天，包括螢幕顯示時間、回答評價、回答連結/FAQ按鈕點擊及聊天開啟、傳送、顯示、關閉和螢幕隱藏。不儲存未傳送的文字或完整連結網址。請勿輸入聯絡方式或密碼。常見個人資訊會自動遮蓋。', '不收集我的對話及使用統計', '員工測試模式']
+    ko: ['서비스 개선을 위해 보낸 질문과 실제 답변 원문을 분석 서버에 약 90일 암호화 저장하며, 운영팀의 내부 보고서에도 별도 보관합니다. 입력한 이름·연락처 등 개인정보도 원문에 포함되며 숙소 운영팀이 내부 보고서에서 확인합니다. 불필요한 개인정보·비밀번호는 입력하지 마세요. 익명 이용 통계(화면 표시 체류시간, 답변 평가, 안내 링크·FAQ 이용, 챗봇 이용 단계)도 수집합니다. 전송 전 작성 중인 문장은 저장하지 않습니다. 아래에서 수집을 제외할 수 있습니다.', '대화·이용 통계 수집 제외', '운영팀 테스트 모드'],
+    en: ['To improve service, we encrypt and store your sent questions and actual answers on our analysis server for about 90 days; accommodation staff also retain them in internal reports. Original messages include any names, contact details or other personal information you enter and are reviewed by accommodation staff in internal reports. Do not enter unnecessary personal details or passwords. We also collect anonymous usage statistics: visible-screen time, feedback, guide-link/FAQ use and chat stages. Unsent drafts are not stored. You can opt out below.', 'Exclude my chat and usage statistics', 'Staff test mode'],
+    ja: ['サービス改善のため、送信した質問と実際の回答の原文を分析サーバーに暗号化して約90日間保存し、運営チームの内部報告書にも別途保管します。入力した氏名・連絡先などの個人情報も含まれ、宿泊施設の運営スタッフが内部報告書で確認します。不要な個人情報やパスワードは入力しないでください。画面表示時間、回答評価、案内リンク・FAQの利用、チャットの利用段階の匿名統計も収集します。未送信の文章は保存しません。下記で収集を停止できます。', '会話・利用統計の収集を停止', 'スタッフのテストモード'],
+    zh: ['为改善服务，您发送的问题和实际回答原文会在分析服务器加密保存约90天，运营团队也会另行保留在内部报告中。原文包含您输入的姓名、联系方式等个人信息，住宿运营团队会在内部报告中查看。请勿输入不必要的个人信息或密码。另收集屏幕显示时长、回答评价、指引链接/FAQ使用及聊天阶段的匿名统计。不保存未发送的草稿。您可在下方关闭收集。', '不收集我的对话及使用统计', '员工测试模式'],
+    'zh-TW': ['為改善服務，您傳送的問題和實際回答原文會在分析伺服器加密儲存約90天，營運團隊也會另行保留在內部報告中。原文包含您輸入的姓名、聯絡方式等個人資訊，住宿營運團隊會在內部報告中查看。請勿輸入不必要的個人資訊或密碼。另收集螢幕顯示時間、回答評價、指引連結/FAQ使用及聊天階段的匿名統計。不儲存未傳送的草稿。您可在下方關閉收集。', '不收集我的對話及使用統計', '員工測試模式']
   };
   const reservationPrivacy = {
     ko: ' 예약 사이트 버튼을 누르면 예약 플랫폼·화면 위치·선택 언어를 같은 기간 동안 기록합니다. 실제 예약 완료 여부는 알 수 없습니다.',
@@ -196,7 +208,7 @@
     const text = copy[language] || copy.ko, ctx = context();
     holder.replaceChildren();
     const details = document.createElement('details'), summary = document.createElement('summary');
-    summary.textContent = ({ko:'개인정보·이용 통계 설정',en:'Privacy & usage settings',ja:'プライバシー・利用統計',zh:'隐私和使用统计','zh-TW':'隱私與使用統計'})[language] || 'Privacy & usage settings';
+    summary.textContent = ({ko:'대화 원문은 운영팀 내부 보고서에 저장됩니다 · 수집 설정',en:'Original messages are saved for internal staff reports · Privacy',ja:'会話原文を内部報告書に保存します · 収集設定',zh:'对话原文用于运营团队内部报告 · 收集设置','zh-TW':'對話原文用於營運團隊內部報告 · 收集設定'})[language] || 'Original messages are saved for internal staff reports · Privacy';
     details.append(summary);
     const p = document.createElement('p'); p.textContent = text[0] + (reservationPrivacy[language] || reservationPrivacy.ko); details.append(p);
     for (const [field, label] of [['optOut', text[1]], ['internal', text[2]]]) {

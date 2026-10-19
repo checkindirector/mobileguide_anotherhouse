@@ -1,5 +1,6 @@
 const { authorized, enabled, db } = require('../lib/telemetry.cjs');
 const { previousWeek, buildReport } = require('../lib/weekly-report.cjs');
+const { forReport } = require('../lib/message-originals.cjs');
 module.exports = async function(req, res) {
   res.setHeader('Cache-Control', 'private, no-store');
   res.setHeader('X-Robots-Tag', 'noindex, nofollow');
@@ -15,7 +16,12 @@ module.exports = async function(req, res) {
     if (rows.length > 20000) return res.status(413).json({ error: 'Too many records; request a shorter range. No partial report emitted.' });
     const settings = await sql`SELECT key, value FROM concierge_settings`;
     const config = Object.fromEntries(settings.map(x => [x.key, x.value]));
-    const report = buildReport(rows.map(x => x.data), { from: new Date(start).toISOString(), to: new Date(end).toISOString() }, config.collection_started_at || null, config.engagement_started_at || null, config.quality_started_at || null, config.marketing_started_at || null, config.journey_started_at || null);
+    const includeOriginals = req.query?.includeOriginals === '1';
+    const report = buildReport(rows.map(x => forReport(x.data, includeOriginals)), { from: new Date(start).toISOString(), to: new Date(end).toISOString() }, config.collection_started_at || null, config.engagement_started_at || null, config.quality_started_at || null, config.marketing_started_at || null, config.journey_started_at || null);
+    report.originalMessagesCollectionStartedAt = config.message_originals_started_at || null;
+    report.originalMessagesRequested = includeOriginals;
+    report.originalMessagesCoverage = Object.fromEntries(['available', 'available_on_request', 'unavailable_legacy', 'capture_failed', 'decryption_failed'].map(status => [status, report.conversations.filter(x => x.originalMessagesStatus === status).length]));
+    report.caveats.push('originalMessages는 이름·연락처·게스트용 출입코드가 포함될 수 있는 사내 보고서용 원문입니다. 원문 미수집·복호화 실패는 상태로 구분하며, 과거 가림 값은 추정 복구하지 않습니다. 외부에 공유하지 않습니다.');
     report.retentionCleanupAt = config.last_retention_cleanup || null;
     if (Buffer.byteLength(JSON.stringify(report)) > 3500000) return res.status(413).json({ error: 'Report exceeds safe response size; request a shorter range. No partial report emitted.' });
     return res.status(200).json(report);
