@@ -71,18 +71,35 @@
         id: 'booking',
         name: 'Booking.com',
         url: 'https://www.booking.com/hotel/kr/eonadeo-hauseu.ko.html',
+        urls: {
+          ja: 'https://www.booking.com/hotel/kr/eonadeo-hauseu.ja.html',
+          zh: 'https://www.booking.com/hotel/kr/eonadeo-hauseu.zh-cn.html',
+          'zh-TW': 'https://www.booking.com/hotel/kr/eonadeo-hauseu.zh-tw.html'
+        },
         logo: '/assets/images/platforms/booking-com.svg'
       },
       {
         id: 'agoda',
         name: 'Agoda',
         url: 'https://www.agoda.com/ko-kr/ko-kr/h91252591/hotel/seoul-kr.html?ds=nu6enISOegngXE2o',
+        urls: {
+          ja: 'https://www.agoda.com/ja-jp/h91252591/hotel/seoul-kr.html',
+          zh: 'https://www.agoda.com/zh-cn/h91252591/hotel/seoul-kr.html',
+          'zh-TW': 'https://www.agoda.com/zh-tw/h91252591/hotel/seoul-kr.html'
+        },
         logo: '/assets/images/platforms/agoda-official.png'
       },
       {
         id: 'trip',
         name: 'Trip.com',
         url: 'https://kr.trip.com/hotels/cityname-hotel-detail-134961520/hotelname/',
+        // Trip.com's public language selector has no Simplified Chinese option.
+        // Use the verified Traditional Chinese listing for both Chinese locales.
+        urls: {
+          ja: 'https://jp.trip.com/hotels/seoul-hotel-detail-134961520/another-house-dongdaemun/',
+          zh: 'https://tw.trip.com/hotels/seoul-hotel-detail-134961520/another-house-dongdaemun/',
+          'zh-TW': 'https://tw.trip.com/hotels/seoul-hotel-detail-134961520/another-house-dongdaemun/'
+        },
         logo: '/assets/images/platforms/trip-com.svg'
       }
     ]
