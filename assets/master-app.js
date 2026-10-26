@@ -128,6 +128,8 @@ function fallbackCurrentAirportBus(knowledge,q){
   const text=String(q||'');
   const intent=window.ANOTHER_HOUSE_AIRPORT_ROUTE?.classify(text);
   if(!intent||/(?:짐보관|check.?in|체크인|行李寄存|荷物預)/i.test(text))return null;
+  const stops=window.ANOTHER_HOUSE_AIRPORT_ROUTE?.stopGuide(knowledge,intent,lang);
+  if(stops)return{...stops,links:stops.links.concat([fallbackGuideLink(stops.route)]),meta:{fallback:true,guideRoute:stops.route,knowledgeVersion:knowledge.version}};
   const journey=window.ANOTHER_HOUSE_AIRPORT_JOURNEY?.prepare(knowledge,text,lang);
   if(journey)return{answer:journey.fallbackAnswer,links:journey.linksFor(journey.suggested).concat([fallbackGuideLink(journey.route)]),meta:{fallback:true,verifiedAirportJourney:true,recommendedMode:journey.suggested,guideRoute:journey.route,knowledgeVersion:knowledge.version}};
   const g=knowledge.airportBusGuide?.locales?.[lang];if(!g)return null;

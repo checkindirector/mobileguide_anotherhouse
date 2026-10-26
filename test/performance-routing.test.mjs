@@ -10,7 +10,7 @@ const homes = ['/', '/en', '/ja', '/zh-cn', '/zh-tw'];
 const tourPath = home => (home === '/' ? '' : home) + '/tours';
 
 test('legacy home/tour aliases redirect once, preserve locale and attribution, and cannot redirect externally', async () => {
-  const code = stripTypeScriptTypes(await read('middleware.ts')).replace(/import .*?;\n/, '').replace('export default function', 'function').replace('export const config', 'const config');
+  const code = stripTypeScriptTypes(await read('middleware.ts')).replace(/import .*?;\r?\n/, '').replace('export default function', 'function').replace('export const config', 'const config');
   const context = vm.createContext({URL, Response, next: () => 'next'});
   vm.runInContext(code+'\nthis.route=middleware;this.routes=config;', context);
   for (const home of homes) {

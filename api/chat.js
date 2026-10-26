@@ -3,6 +3,7 @@ const AIRPORT_ROUTE_INTENT = require("../assets/airport-route-intent.js");
 const AIRPORT_JOURNEY = require("../assets/airport-journey.js");
 const CONCIERGE_TRAINING = require("./concierge-training.json");
 const SHARED_DINING = require("../lib/shared-dining.cjs");
+const AMENITY_FACTS = require("../lib/amenity-facts.cjs");
 const { analyzeStayQuestion } = require("../lib/stay-intent.cjs");
 const { contextualAnswerTone } = require("../lib/answer-tone.cjs");
 const { normalizeGuestLanguage, isRoomKeyProblem, propertyQuestionHint, hasMultipleGuestQuestions } = require("../lib/guest-language.cjs");
@@ -139,7 +140,7 @@ const MAP_APP_GUIDANCE_PATTERN = /(지도\s*앱|어떤\s*지도|맵\s*앱|map\s*
 const NON_PLACE_TRAVEL_PATTERN = /(e[\s-]?sim|로밍|roaming|전압|콘센트|플러그|voltage|power\s*plug|socket|tax\s*refund|면세|地图\s*(?:软件|应用)|地圖\s*(?:軟體|應用)|地図\s*アプリ|电压|電壓|插头|插頭)/i;
 const TRAVEL_PUBLIC_PATTERN = /(교통카드|티머니|t[\s-]?money|와우패스|wowpass|신용카드|체크카드|비자\s*카드|마스터\s*카드|카드\s*결제|현금|환전|원화|tax\s*refund|면세|결제|payment|credit\s*card|debit\s*card|visa\s*card|mastercard|cash|currency|exchange|sim\s*card|e[\s-]?sim|유심|로밍|roaming|택시|taxi|카카오\s*t|kakao\s*t|짐\s*보관|수하물\s*보관|luggage\s*storage|locker|코인\s*라커|전압|콘센트|플러그|voltage|power\s*plug|socket|번역\s*앱|translation\s*app|여행자\s*보험|travel\s*insurance|응급|구급차|경찰|병원|약국|의사|medical|ambulance|police|hospital|pharmacy|doctor|交通卡|交通カード|クレジットカード|現金|両替|换汇|換匯|信用卡|现金|電話卡|网卡|網卡|行李寄存|行李寄放|电压|電壓|插头|插頭|急救|救护车|救護車|警察|医院|醫院|药店|藥局)/i;
 const HAIR_DRYER_PATTERN = /(헤어\s*드라이(?:어|기)|드라이(?:어|기)|hair\s*dryers?|hairdryers?|blow\s*dryers?|blowdryers?|ヘアドライヤー|ドライヤー|吹风机|吹風機|电吹风|電吹風)/i;
-const HAIR_STRAIGHTENER_PATTERN = /(고데기|hair\s*straightener|flat\s*iron|ヘアアイロン|直发器|直髮器|夹板|離子夾)/i;
+const HAIR_STRAIGHTENER_PATTERN = /(고데기|hair\s*(?:straightener|iron)|straightening\s*iron|flat\s*iron|ヘアアイロン|ストレートアイロン|直发器|直髮器|夹板|夾板|离子夹|離子夾)/i;
 const GUEST_BOX_ITEM_PATTERN = /(여분\s*(?:수건|타월)|수건|타월|칫솔|치약|밴드|반창고|여행용\s*어댑터|변환\s*어댑터|물티슈|비닐\s*봉투|extra\s*towels?|spare\s*towels?|towels?|toothbrush|toothpaste|dental\s*kit|band-?aids?|bandages?|plasters?|travel\s*adapter|plug\s*adapter|power\s*adapter|wet\s*wipes?|plastic\s*bags?|予備タオル|タオル|歯ブラシ|歯磨き|歯みがき|絆創膏|ばんそうこう|旅行用アダプター|変換アダプター|電源アダプター|ウェットティッシュ|ビニール袋|ポリ袋|备用毛巾|備用毛巾|额外毛巾|額外毛巾|毛巾|牙刷|牙膏|牙具|创可贴|創可貼|止血贴|OK繃|旅行转换插头|旅行轉接頭|转换插头|轉換插頭|转换器|轉接頭|湿巾|溼巾|湿紙巾|溼紙巾|塑料袋|塑膠袋)/i;
 const PROPERTY_MEDICINE_PATTERN = /((?:비상|상비|구급|응급)\s*(?:용\s*)?약|구급\s*함|진통제|소화제|감기약|해열제|약(?:이|은|도)?\s*(?:있|없|준비|비치|제공)|emergency\s+medicines?|first[\s-]*aid\s+(?:medicines?|kits?)|pain\s*(?:killers?|relievers?)|cold\s+medicine|digestive\s+medicine|fever\s+medicine|(?:do\s+you\s+have|is\s+there|are\s+there).{0,24}(?:medicines?|medications?)|常備薬|救急薬|救急箱|痛み止め|風邪薬|胃腸薬|解熱剤|薬(?:は|が|も)?\s*(?:あります|ある|用意)|常备药|常備藥|急救药|急救藥|急救箱|止痛药|止痛藥|感冒药|感冒藥|消化药|腸胃藥|退烧药|退燒藥|有(?:没有|沒有)?(?:药|藥)(?:吗|嗎)?)/i;
 const MEDICINE_PURCHASE_PATTERN = /(약국|어디서.{0,20}(?:사|살|구입|구해)|(?:사|살|구입|구해).{0,20}(?:곳|어디)|pharmacy|drugstore|where.{0,30}(?:buy|get|find)|(?:buy|get|find).{0,30}medicine|薬局|どこ.{0,20}(?:買|手に入)|(?:買|手に入).{0,20}どこ|药店|藥局|哪里.{0,20}(?:买|買|获得|獲得)|哪裡.{0,20}(?:買|獲得))/i;
@@ -510,6 +511,8 @@ function verifiedGuestBoxItem(message, language) {
   const normalized = normalizeGuideMatch(text);
   const direct = PROPERTY_MEDICINE_PATTERN.test(text)
     ? (topic?.directAnswers || []).find(item => item.item === "emergency-medicine")
+    : HAIR_DRYER_PATTERN.test(text) || HAIR_STRAIGHTENER_PATTERN.test(text)
+    ? (topic?.directAnswers || []).find(item => item.item === (HAIR_DRYER_PATTERN.test(text) ? "hair-dryer" : "hair-straightener"))
     : (topic?.directAnswers || []).find(item => (item.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword))));
   return direct?.answer ? { answer: contextualAnswerTone(direct.answer, message), item: direct.item || null, returnPolicy: direct.returnPolicy || null } : null;
 }
@@ -521,6 +524,10 @@ function guidePageLink(route, language) {
 }
 
 function guideRouteFromQuestion(message, language) {
+  if ((AMENITY_FACTS.matches(message) || AMENITY_FACTS.isOverview(message)) && !isPlaceSearchIntent(message)) return "appliances";
+  // A room qualifier must not hide its specific inventory evidence (e.g.
+  // 客室のスリッパ / room hangers / 房間的拖鞋) behind the room-photo page.
+  if (propertyQuestionHint(message)?.topics.some(topic => ['electric-items', 'amenities', 'toiletries', 'towels', 'hair-tools'].includes(topic)) && !isPlaceSearchIntent(message)) return "appliances";
   if (SHARED_DINING.matchingGroups(message).length && !isPlaceSearchIntent(message)) return "appliances";
   if (propertyQuestionHint(message)?.topics.includes("dining")) return "rules";
   if (/(남자|남성|남성\s*게스트|men\s*allowed|male\s*guest|男性|男生|男性旅客)/i.test(String(message || ""))) return "gallery";
@@ -860,6 +867,8 @@ function verifiedAirportBusGuide(message, language, history = []) {
   const { arrival, night: nightIntent, comparison, explicit } = intent;
   // Exact departure/deadline queries retain the timetable selector, or the model for N6002/6002.
   if (requestedClockMinutes(text) !== null) return null;
+  const stopGuide = AIRPORT_ROUTE_INTENT.stopGuide(GUIDE_KNOWLEDGE, intent, language);
+  if (stopGuide) return stopGuide;
   const direction = arrival ? 'arrival' : 'departure';
   const guide = GUIDE_KNOWLEDGE.airportBusGuide?.locales?.[language] || GUIDE_KNOWLEDGE.airportBusGuide?.locales?.ko;
   if (!guide) return null;
@@ -1637,6 +1646,10 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   const airportBusGuide = stayIntent && !['airport-bus','airport-shuttle'].includes(stayIntent.id) ? null : verifiedAirportBusGuide(message, language, history);
   if (airportBusGuide) return res.status(200).json({answer:airportBusGuide.answer,links:[...airportBusGuide.links,guidePageLink(airportBusGuide.route,language)],mapContext:null,model:'another-house-verified-airport-bus',meta:{searched:false,guideRoute:airportBusGuide.route,mode:airportBusGuide.mode,verifiedAt:airportBusGuide.verifiedAt,knowledgeVersion:GUIDE_KNOWLEDGE.version,durationMs:Date.now()-startedAt}});
   const matchedApprovedReply = approvedAnswerFromQuestion(message, language, history);
+  const inventoryItem = AMENITY_FACTS.directAnswer(message, language, propertyHint?.topics || []);
+  if (inventoryItem && !stayIntent) {
+    return res.status(200).json({ answer: inventoryItem.answer, model: "another-house-verified-amenity", links: [guidePageLink("appliances", language)], mapContext: null, meta: { searched: false, verifiedAmenity: true, item: inventoryItem.item, guideRoute: "appliances", sourceSheet: inventoryItem.source.sheet, sourceRange: inventoryItem.source.range, sourceItem: inventoryItem.source.item, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+  }
   const diningItem = SHARED_DINING.directAnswer(message, language, propertyHint?.topics || []);
   if (diningItem && !stayIntent) {
     return res.status(200).json({ answer: diningItem.answer, model: "another-house-verified-amenity", links: [guidePageLink("appliances", language)], mapContext: null, meta: { searched: false, verifiedAmenity: true, item: diningItem.item, guideRoute: "appliances", sourceSheet: diningItem.source.sheet, sourceRange: diningItem.source.range, sourceItem: diningItem.source.item, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
@@ -1788,6 +1801,8 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   guideForRequest.verifiedOperations = Object.fromEntries(Object.entries(VERIFIED_TRAINING_FACTS).map(([id, fact]) => [id, fact.answers[language] || fact.answers.ko]));
   const diningEvidence = SHARED_DINING.evidence(message, language);
   if (diningEvidence) guideForRequest.latestSharedDiningCorrection = diningEvidence;
+  const amenityEvidence = AMENITY_FACTS.evidence(message, language);
+  if (amenityEvidence) guideForRequest.latestAmenityCorrection = amenityEvidence;
   const approvedCandidates = propertyRouteOrigin && !stayIntent ? [] : (CONCIERGE_TRAINING.approvedAnswers || []).filter(record => record.route === knowledgeRoute || propertyHint?.routes.includes(record.route) || stayIntent?.needsModel || (!knowledgeRoute && !requestedSearchLevel));
   guideForRequest.approvedWorkbookAnswers = approvedCandidates.filter(record=>!['Q020','Q070'].includes(record.id)).map(({ id, type, answer, route }) => ({ id, type, answer, route }));
   const fullGuideText = JSON.stringify(guideForRequest);

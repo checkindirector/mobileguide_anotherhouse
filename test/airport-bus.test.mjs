@@ -70,14 +70,24 @@ test('browser fallback shares ordinary airport direction matching and exact stop
     assert.match(response.answer,/택시|Taxi|タクシー|出租车|計程車/i);
   }
 });
+test('browser stop fallback retains paired maps for both directions and does not capture city buses',()=>{
+  const source=readFileSync(new URL('../assets/master-app.js',import.meta.url),'utf8');
+  const fn=source.slice(source.indexOf('function fallbackCurrentAirportBus('),source.indexOf('function airportBusMapsMarkup('));
+  for(const [lang,q] of [['ko','리무진 정류장 가까워요?'],['en','Is the limousine bus stop close?'],['ja','リムジンバス停は近いですか？'],['zh','机场巴士站近吗'],['zh-TW','機場客運站近嗎']]){
+    const response=runInNewContext(fn+';fallbackCurrentAirportBus(knowledge,q)',{window:{ANOTHER_HOUSE_AIRPORT_ROUTE:routeIntent,ANOTHER_HOUSE_AIRPORT_JOURNEY:journeyApi},knowledge,q,lang,fallbackGuideLink:route=>({kind:'guide',route})});
+    for(const id of ['01037','01023','01901'])for(const provider of ['naver','google'])assert.ok(response.links.some(link=>link.placeId==='bus-'+id&&link.provider===provider),lang+' '+id+' '+provider);
+  }
+  for(const q of ['버스 정류장 가까워요?','Where is the city bus stop?','市内バス停は近いですか','公交站在哪里','公車站在哪','明洞からリムジンバス停への行き方'])assert.equal(routeIntent.classify(q),null,q);
+});
+
 test('shared route classifier loads before the app in both site entry points',()=>{
   for(const file of ['index.html','guide-anotherhouse.html']){
     const html=readFileSync(new URL('../'+file,import.meta.url),'utf8');
-    assert.ok(html.indexOf('airport-route-intent.js?v=20261006-3')<html.indexOf('master-app.js?v=20261014-3'));
-    assert.ok(html.includes('airport-route-intent.js?v=20261006-3'));
+    assert.ok(html.indexOf('airport-route-intent.js?v=20261026-1')<html.indexOf('master-app.js?v=20261026-1'));
+    assert.ok(html.includes('airport-route-intent.js?v=20261026-1'));
     assert.ok(html.includes('transit-maps.js?v=20261006-6'));
     assert.ok(html.indexOf('transit-maps.js?v=20261006-6')<html.indexOf('airport-journey.js?v=20261006-6'));
-    assert.ok(html.indexOf('airport-journey.js?v=20261006-6')<html.indexOf('master-app.js?v=20261014-3'));
+    assert.ok(html.indexOf('airport-journey.js?v=20261006-6')<html.indexOf('master-app.js?v=20261026-1'));
   }
   const sandbox={window:{}};
   runInNewContext(readFileSync(new URL('../assets/airport-route-intent.js',import.meta.url),'utf8'),sandbox);

@@ -417,7 +417,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(html,/\.image-lightbox\.is-zoomed \.image-lightbox-nav\{opacity:1;pointer-events:auto\}/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20261014-3/);
+  assert.match(html,/master-app\.js\?v=20261026-1/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{
@@ -567,7 +567,7 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20261012-1/);
+  assert.match(html,/content-updates\.js\?v=20261025-1/);
   assert.match(html,/gallery-overrides\.js\?v=20260908-02/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
