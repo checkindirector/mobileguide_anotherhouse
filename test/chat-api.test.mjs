@@ -63,6 +63,59 @@ async function callAccess(body, entranceCode = "TESTACCESSCODE") {
   }
 }
 
+test("inventory synonyms, requested room locations and complete compounds work in five languages", async () => {
+  const cases=[
+    ['ko',['바디샤워 있어요?','드라이어가 있습니까?','방 안에 칫솔 있나요?','객실에 수건 있나요?','냄비랑 포크 있나요?','바디워시랑 샴푸랑 드라이기 있나요?'],[/바디워시.*공용 욕실/s,/헤어드라이어.*공용 욕실/s,/덴탈키트.*객실/s,/수건.*객실/s,/냄비.*포크/s,/바디워시.*샴푸.*헤어드라이어/s]],
+    ['en',['Do you have shower gel?','Is there a blow dryer?','Is a toothbrush provided in the room?','Are towels provided in the room?','Do you have pots and forks?','Are body wash, shampoo and a hair dryer provided?'],[/shared bathroom.*body wash/s,/hair dryers.*shared bathroom/s,/guest room.*dental kits/s,/guest room.*towels/s,/cooking pots.*forks/s,/body wash.*shampoo.*hair dryers/s]],
+    ['ja',['ボディウォッシュありますか？','ヘアドライヤーはありますか？','部屋に歯ブラシはありますか？','客室にタオルはありますか？','鍋とフォークはありますか？','ボディソープとシャンプーとドライヤーはありますか？'],[/共用バスルーム.*ボディソープ/s,/ヘアドライヤー.*共用バスルーム/s,/客室.*歯ブラシセット/s,/客室.*タオル/s,/鍋.*フォーク/s,/ボディソープ.*シャンプー.*ヘアドライヤー/s]],
+    ['zh',['有沐浴液吗？','有电吹风吗？','客房里有牙刷吗？','客房有毛巾吗？','有锅和叉子吗？','有沐浴露、洗发水和吹风机吗？'],[/公共浴室.*沐浴露/s,/吹风机.*公共浴室/s,/客房.*牙具/s,/客房.*毛巾/s,/锅.*叉子/s,/沐浴露.*洗发水.*吹风机/s]],
+    ['zh-TW',['有沐浴露嗎？','有電吹風嗎？','客房裡有牙刷嗎？','客房有毛巾嗎？','有鍋子和叉子嗎？','有沐浴乳、洗髮精和吹風機嗎？'],[/公共浴室.*沐浴乳/s,/吹風機.*公共浴室/s,/客房.*牙具/s,/客房.*毛巾/s,/鍋子.*叉子/s,/沐浴乳.*洗髮精.*吹風機/s]]
+  ];
+  for(const [language,questions,expected] of cases)for(let i=0;i<questions.length;i++){
+    const message=questions[i],{res,request}=await callApi({message,language,telemetry:{optOut:true}},{output_text:'UNUSED'},'inventory-new-'+language+i);
+    assert.equal(request,undefined,message);assert.match(res.payload.answer,expected[i],message);
+    assert.equal(res.payload.meta.searched,false);assert.equal(res.payload.links[0].route,'appliances');
+    assert.doesNotMatch(res.payload.answer,/GUIDE_PAGE|GIDA_PAGE|髮夾|发夹|髮直器/);
+  }
+});
+
+test("unknown extra objects, conditions and failure reports cannot be swallowed by inventory replies", async()=>{
+  const cases=[
+    ['ko',['냄비랑 가위 있나요?','수건 안 있어요','샴푸랑 린스 있나요?','펜 몇개 있어요?','객실에 수건 없는데요']],
+    ['en',['Do you have pots and scissors?','Is shampoo and conditioner provided?','The hair dryer is broken','How many towels are provided?','Where can I buy a pen?']],
+    ['ja',['鍋とはさみはありますか？','シャンプーとコンディショナーはありますか？','ドライヤーが壊れました','タオルは何枚ですか？','ペンを買える店']],
+    ['zh',['有锅和剪刀吗？','有洗发水和护发素吗？','吹风机坏了','有几条毛巾？','附近哪里买笔']],
+    ['zh-TW',['有鍋子和剪刀嗎？','有洗髮精和護髮素嗎？','吹風機壞了','有幾條毛巾？','附近哪裡買筆']]
+  ];
+  for(const [language,questions] of cases)for(const message of questions){
+    const {res,request}=await callApi({message,language,telemetry:{optOut:true}},{output_text:'Please check the requested details. GUIDE_PAGE: appliances'},'inventory-guard-'+language+message);
+    assert.ok(request,message);assert.match(request.body.instructions,/verifiedRequestedInventory/);
+    assert.equal(res.payload.meta.verifiedAmenity,undefined,message);
+  }
+});
+
+test("metadata markers never reach guest text, including inline and known misspelling variants",async()=>{
+  for(const language of ['ko','en','ja','zh','zh-TW'])for(const marker of ['GUIDE_PAGE: appliances','GIDA_PAGE: laundry','GUIDE_PAGE: unknown-route']){
+    const {res}=await callApi({message:'샴푸와 린스 브랜드는?',language},{output_text:'확인된 샴푸는 공용 욕실에 있습니다. '+marker},'marker-'+language+marker);
+    assert.equal(res.payload.answer,'확인된 샴푸는 공용 욕실에 있습니다.');
+    assert.ok(res.payload.links.some(x=>x.kind==='guide'));
+  }
+  const {extractResolvedSpot,cleanAnswer}=handler._internals;
+  assert.equal(extractResolvedSpot('Text GUIDE_PAGE: javascript-evil').guideRoute,null);
+  assert.equal(cleanAnswer('Text APPROVED_ANSWER_ID: Q045'),'Text');
+  assert.equal(extractResolvedSpot('Meet here MAP_SPOT: Unverified | Somewhere').spots.length,0);
+});
+
+test("mislinked source examples cannot return unrelated shared inventory",async()=>{
+  for(const message of ['공용 주방은 몇층입니까?','이 방에 TV가 있나요?','안녕하세요, 다리미 있으신가요?','혹시 에어컨 어떻게 키나요?']){
+    const {res,request}=await callApi({message,language:'ko'},{output_text:'질문에 해당하는 안내를 확인합니다. GUIDE_PAGE: appliances'},'mislinked-'+message);
+    assert.ok(request,message);assert.notEqual(res.payload.meta.approvedAnswerId,'Q051');
+    const evidence=request.body.instructions;
+    assert.doesNotMatch(evidence,/"id":"Q045"|"id":"Q051"|"id":"Q015"/);
+    assert.match(evidence,/TV는 설치되어 있지|운전 모드|냉난방/);
+  }
+});
+
 test("operator room hangers and shared inventory retain correct evidence in five languages", async () => {
   const cases = [
     ['ko', ['옷걸이', '방에 옷 걸이 있나요?', '행거 있나여'], /객실.*옷걸이/, ['공용비품', '공용 비품 알려주세요'], /헤어고데기/, /포스트잇과 펜/],
@@ -1409,13 +1462,19 @@ test("unlisted ambiguous wording gets semantic guide context and optional search
   assert.match(request.body.instructions, /approvedWorkbookAnswers/);
 });
 
-test("compound synonym questions retain both topics instead of one canned reply", async () => {
-  for (const message of ["짐 맡기고 샤워도 가능?", "드라이기랑 고데기도 있니", "타올하고 덴탈키트 어디있어"]) {
+test("compound synonym questions retain both topics or compose every verified item", async () => {
+  for (const message of ["짐 맡기고 샤워도 가능?"]) {
     const { request, res } = await callApi({ message, language: "ko" }, { output_text: "두 가지 문의를 안내해 드립니다.", usage: {} }, `compound-${message}`);
     assert.ok(request, message);
     assert.equal(request.body.tools, undefined, message);
     assert.equal(res.statusCode, 200);
   }
+  const {request,res}=await callApi({message:'드라이기랑 고데기도 있니',language:'ko'},{output_text:'unused'},'compound-hair-complete');
+  assert.equal(request,undefined);
+  assert.match(res.payload.answer,/헤어드라이어.*공용 욕실/s);
+  assert.match(res.payload.answer,/헤어고데기.*GUEST BOX/s);
+  const towels=await callApi({message:'타올하고 덴탈키트 어디있어',language:'ko'},{output_text:'unused'},'compound-towel-dental-complete');
+  assert.equal(towels.request,undefined);assert.match(towels.res.payload.answer,/수건.*덴탈키트/s);
 });
 
 test("subject synonyms cover every house-guide topic in all five supported languages", () => {
