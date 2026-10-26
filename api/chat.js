@@ -571,6 +571,7 @@ function guidePageLink(route, language) {
 }
 
 function guideRouteFromQuestion(message, language) {
+  if(isLegacyAmenityQuestion(message)&&!isPlaceSearchIntent(message))return 'appliances';
   const inventoryItems=AMENITY_INVENTORY.matching(message).items;
   if(inventoryItems.length&&!isPlaceSearchIntent(message))return inventoryItems.every(x=>['washer','dryer','detergent'].includes(x.id))?'laundry':'appliances';
   if ((AMENITY_FACTS.matches(message) || AMENITY_FACTS.isOverview(message)) && !isPlaceSearchIntent(message)) return "appliances";
@@ -600,6 +601,11 @@ function guideRouteFromQuestion(message, language) {
   if (/(냉난방|에어컨|난방|인덕션|전자레인지|냉장고|정수기|공용\s*주방|주방|레인지\s*후드|환풍기|휴대폰\s*충전기|일회용\s*슬리퍼|샴푸|바디워시|헤어드라이어|헤어드라이기|드라이기|고데기|여분\s*수건|tv|티비|텔레비전|ott|넷플릭스|air\s*condition|heating|induction|microwave|refrigerator|water\s*purifier|shared\s*kitchen|kitchen|range\s*hood|extractor|phone\s*charger|disposable\s*slippers?|shampoo|body\s*wash|hair\s*dryer|hair\s*straightener|extra\s*towels?|television|netflix|冷暖房|エアコン|電子レンジ|冷蔵庫|浄水器|共用キッチン|キッチン|レンジフード|換気扇|携帯電話充電器|使い捨てスリッパ|シャンプー|ボディソープ|ヘアドライヤー|ヘアアイロン|予備タオル|テレビ|空调|空調|暖气|暖氣|电磁炉|電磁爐|微波炉|微波爐|冰箱|净水器|淨水器|共用厨房|共用廚房|厨房|廚房|抽油烟机|抽油煙機|手机充电器|手機充電器|一次性拖鞋|洗发水|洗髮精|沐浴露|沐浴乳|吹风机|吹風機|直发器|直髮器|备用毛巾|備用毛巾|电视|電視)/i.test(text)) return "appliances";
   if (/(객실|방\s*종류|싱글룸|2인실|더블룸|샤워실|화장실|파우더룸|라운지|여성\s*전용|남자|남성|몇\s*명|정원|50[1-6]호|프라이빗|room|single|double|shower|toilet|powder\s*room|lounge|women.?only|men|male|capacity|how\s*many\s*(?:people|guests)|room\s*50[1-6]|private\s*stay|客室|シングル|2人部屋|シャワー|トイレ|パウダールーム|ラウンジ|女性専用|男性|定員|50[1-6]号室|房型|单人房|單人房|双人房|雙人房|淋浴|卫生间|洗手間|化妆间|化妝間|休息室|女性专用|女性專用|男性|男生|入住人数|入住人數|50[1-6]号房|50[1-6]號房)/i.test(text)) return "gallery";
   return propertyQuestionHint(text)?.route || (PROPERTY_ONLY_PATTERN.test(text) ? "home" : null);
+}
+
+function isLegacyAmenityQuestion(message){
+  if(/약국|薬局|药店|藥局|pharmacy|drugstore|근처|주변|구매|구입|파는|\bbuy\b|purchase|nearby|買|購入|周辺|附近/iu.test(message))return false;
+  return AMENITY_INVENTORY.legacyMatching(message).length>0;
 }
 
 function isPlaceSearchIntent(message) {
@@ -1681,7 +1687,7 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   const stayIntent = analyzeStayQuestion(message, history);
   const propertyHint = propertyQuestionHint(message);
   const inventoryAnalysis=AMENITY_INVENTORY.analyze(message);
-  const amenityQuestion=inventoryAnalysis.items.length>0||propertyHint?.topics.some(topic=>['tv','climate','electric-items','amenities','toiletries','towels','hair-tools','shared-dining','refrigerator','kitchen','laundry'].includes(topic));
+  const amenityQuestion=inventoryAnalysis.items.length>0||isLegacyAmenityQuestion(message)||propertyHint?.topics.some(topic=>['tv','climate','electric-items','amenities','toiletries','towels','hair-tools','shared-dining','refrigerator','kitchen','laundry'].includes(topic));
   const inventoryNeedsModel=inventoryAnalysis.items.length>0&&!inventoryAnalysis.complete;
   const needsSemanticAnswer = stayIntent?.needsModel || hasMultipleGuestQuestions(message) || inventoryNeedsModel;
   const accessSupport = anotherHouseAccessSupport(message, history, language);

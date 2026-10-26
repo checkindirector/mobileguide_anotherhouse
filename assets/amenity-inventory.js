@@ -79,5 +79,9 @@ function legacyComplete(message,item){
   const result=analyze(masked);
   return result.complete&&result.items.length===1&&result.items[0].id==='shampoo';
 }
-return {items,matching,analyze,compose,evidence,legacyComplete};
+function legacyMatching(message){
+  const text=String(message||'').normalize('NFKC');
+  return Object.entries(legacyPatterns).filter(([,pattern])=>new RegExp(pattern.source,'iu').test(text)).map(([id])=>id);
+}
+return {items,matching,analyze,compose,evidence,legacyComplete,legacyMatching};
 });
