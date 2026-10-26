@@ -552,6 +552,18 @@ function verifiedInventory(message, language, analysis) {
   return {answer,item:ids.join('+'),source:{...AMENITY_FACTS.source,range:[...new Set(analysis.items.flatMap(x=>x.range.split(',')))].join(',')}};
 }
 
+function verifiedTvAvailability(message,language){
+  const tv=/(?<![a-z])tv(?![a-z])|티비|티브이|텔레비전|テレビ|电视|電視/giu;
+  const text=String(message||'').normalize('NFKC');
+  if(!tv.test(text))return null;tv.lastIndex=0;
+  // Borrow the same conservative neutral grammar, not a second broad topic
+  // classifier. A condition or another requested item must reach composition.
+  const covered=AMENITY_INVENTORY.analyze(text.replace(tv,'shampoo'));
+  if(!covered.complete||covered.items.length!==1||covered.items[0].id!=='shampoo')return null;
+  const notice=localizeKnowledge(language).stay.tvAndOtt;
+  return notice?.body||null;
+}
+
 function guidePageLink(route, language) {
   const safeRoute = GUIDE_PAGE_ROUTES.has(route) ? route : "home";
   const labels = GUIDE_PAGE_LABELS[language] || GUIDE_PAGE_LABELS.ko;
@@ -1669,6 +1681,7 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   const stayIntent = analyzeStayQuestion(message, history);
   const propertyHint = propertyQuestionHint(message);
   const inventoryAnalysis=AMENITY_INVENTORY.analyze(message);
+  const amenityQuestion=inventoryAnalysis.items.length>0||propertyHint?.topics.some(topic=>['tv','climate','electric-items','amenities','toiletries','towels','hair-tools','shared-dining','refrigerator','kitchen','laundry'].includes(topic));
   const inventoryNeedsModel=inventoryAnalysis.items.length>0&&!inventoryAnalysis.complete;
   const needsSemanticAnswer = stayIntent?.needsModel || hasMultipleGuestQuestions(message) || inventoryNeedsModel;
   const accessSupport = anotherHouseAccessSupport(message, history, language);
@@ -1687,7 +1700,9 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   if(airportJourney) return res.status(200).json(await airportJourneyReply(airportJourney,message,language,history,startedAt));
   const airportBusGuide = stayIntent && !['airport-bus','airport-shuttle'].includes(stayIntent.id) ? null : verifiedAirportBusGuide(message, language, history);
   if (airportBusGuide) return res.status(200).json({answer:airportBusGuide.answer,links:[...airportBusGuide.links,guidePageLink(airportBusGuide.route,language)],mapContext:null,model:'another-house-verified-airport-bus',meta:{searched:false,guideRoute:airportBusGuide.route,mode:airportBusGuide.mode,verifiedAt:airportBusGuide.verifiedAt,knowledgeVersion:GUIDE_KNOWLEDGE.version,durationMs:Date.now()-startedAt}});
-  const matchedApprovedReply = inventoryAnalysis.items.length ? null : approvedAnswerFromQuestion(message, language, history);
+  const tvAnswer=!stayIntent&&verifiedTvAvailability(message,language);
+  if(tvAnswer)return res.status(200).json({answer:tvAnswer,model:'another-house-verified-amenity',links:[guidePageLink('appliances',language)],mapContext:null,meta:{searched:false,verifiedAmenity:true,item:'tv-not-installed',guideRoute:'appliances',sourceKind:'website-guide',durationMs:Date.now()-startedAt,knowledgeVersion:GUIDE_KNOWLEDGE.version}});
+  const matchedApprovedReply = amenityQuestion ? null : approvedAnswerFromQuestion(message, language, history);
   const inventoryItem = verifiedInventory(message,language,inventoryAnalysis) || (!inventoryAnalysis.items.length ? AMENITY_FACTS.directAnswer(message, language, propertyHint?.topics || []) : null);
   if (inventoryItem && !stayIntent) {
     const source=inventoryItem.source||AMENITY_INVENTORY.evidence(message,language);
@@ -1851,9 +1866,9 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   const approvedCandidates = propertyRouteOrigin && !stayIntent ? [] : (CONCIERGE_TRAINING.approvedAnswers || []).filter(record => record.route === knowledgeRoute || propertyHint?.routes.includes(record.route) || stayIntent?.needsModel || (!knowledgeRoute && !requestedSearchLevel));
   // Inventory conditions and unknown second items require a complete natural
   // answer. Do not let a broad historical template swallow those details.
-  const eligibleApprovedCandidates=approvedCandidates.filter(record=>!SUPERSEDED_APPROVED_IDS.has(record.id)&&!inventoryAnalysis.items.length);
+  const eligibleApprovedCandidates=approvedCandidates.filter(record=>!SUPERSEDED_APPROVED_IDS.has(record.id)&&!amenityQuestion);
   guideForRequest.approvedWorkbookAnswers = eligibleApprovedCandidates.map(({ id, type, answer, route }) => ({ id, type, answer, route }));
-  if(inventoryAnalysis.items.length)guideForRequest.relatedOperationsFacts=approvedCandidates.filter(record=>!SUPERSEDED_APPROVED_IDS.has(record.id)).map(({type,answer})=>({type,answer}));
+  if(amenityQuestion)guideForRequest.relatedOperationsFacts=approvedCandidates.filter(record=>!SUPERSEDED_APPROVED_IDS.has(record.id)).map(({type,answer})=>({type,answer}));
   const fullGuideText = JSON.stringify(guideForRequest);
   const routeOriginContext = propertyRouteOrigin
     ? `\nDEFAULT_ROUTE_ORIGIN: ${searchOrigin}\nROUTE_DIRECTION: Another House → the destination requested by the guest. The guest either omitted the origin or explicitly named the property; do not reverse this direction and do not ask for the origin.`
@@ -1880,6 +1895,7 @@ ${stayIntent ? `PROPERTY_ROUTING_HINT: ${JSON.stringify(stayIntent)}. This is on
     prompt_cache_key: `another-house-${GUIDE_KNOWLEDGE.version}-${language}-${knowledgeCacheScope}`,
     store: false
   };
+  if(amenityQuestion)requestBody.instructions+='\nAMENITY ANSWER FORMAT: No workbook template ID is eligible for this request. Write a natural answer to the actual question using verifiedRequestedInventory, the current guide and relatedOperationsFacts. Address every requested object, location and condition. Do not output APPROVED_ANSWER_ID. Never substitute a general inventory paragraph for a TV, iron, air-conditioning control or unknown-item question.';
   if (requestedSearchLevel) {
     requestBody.tools = [{ type: "web_search", search_context_size: requestedSearchLevel, user_location: SEOUL_SEARCH_LOCATION }];
     requestBody.tool_choice = "required";

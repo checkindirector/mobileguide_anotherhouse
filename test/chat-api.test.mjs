@@ -112,7 +112,7 @@ test("legacy guest-box supplies cannot swallow a second item or an unsupported r
 });
 
 test("ineligible template-only model output is repaired once and all usage is counted",async()=>{
-  const {res,requests}=await callApi({message:'이 방에 TV가 있나요?',language:'ko'},[
+  const {res,requests}=await callApi({message:'TV 리모컨이 고장났어요',language:'ko'},[
     {output_text:'APPROVED_ANSWER_ID: Q051',usage:{input_tokens:10,output_tokens:5}},
     {output_text:'객실과 공용공간에 TV는 설치되어 있지 않습니다. GUIDE_PAGE: appliances',usage:{input_tokens:20,output_tokens:15}}
   ],'ineligible-template-repair');
@@ -123,12 +123,18 @@ test("ineligible template-only model output is repaired once and all usage is co
 });
 
 test("mislinked source examples cannot return unrelated shared inventory",async()=>{
-  for(const message of ['공용 주방은 몇층입니까?','이 방에 TV가 있나요?','안녕하세요, 다리미 있으신가요?','혹시 에어컨 어떻게 키나요?']){
+  for(const message of ['공용 주방은 몇층입니까?','안녕하세요, 다리미 있으신가요?','혹시 에어컨 어떻게 키나요?']){
     const {res,request}=await callApi({message,language:'ko'},{output_text:'질문에 해당하는 안내를 확인합니다. GUIDE_PAGE: appliances'},'mislinked-'+message);
     assert.ok(request,message);assert.notEqual(res.payload.meta.approvedAnswerId,'Q051');
     const evidence=request.body.instructions;
     assert.doesNotMatch(evidence,/"id":"Q045"|"id":"Q051"|"id":"Q015"/);
     assert.match(evidence,/TV는 설치되어 있지|운전 모드|냉난방/);
+  }
+});
+
+test('TV availability uses the current verified notice in all five languages, not a generic workbook list',async()=>{
+  for(const [language,message,expected]of[['ko','객실 TV 있나요?',/TV는 설치되어 있지/],['en','Is there a TV in the room?',/no TV/],['ja','客室にテレビはありますか？',/テレビはありません/],['zh','客房有电视吗？',/未安装电视/],['zh-TW','客房有電視嗎？',/未安裝電視/]]){
+    const {res,request}=await callApi({message,language},{output_text:'unused'},'tv-verified-'+language);assert.equal(request,undefined);assert.match(res.payload.answer,expected);assert.equal(res.payload.meta.sourceKind,'website-guide');
   }
 });
 
