@@ -63,6 +63,76 @@ async function callAccess(body, entranceCode = "TESTACCESSCODE") {
   }
 }
 
+test("operator room hangers and shared inventory retain correct evidence in five languages", async () => {
+  const cases = [
+    ['ko', ['옷걸이', '방에 옷 걸이 있나요?', '행거 있나여'], /객실.*옷걸이/, ['공용비품', '공용 비품 알려주세요'], /헤어고데기/, /포스트잇과 펜/],
+    ['en', ['hanger?', 'Are there clothes hangers in the room?', 'Do you have coat hangers?'], /hangers.*guest room/, ['Shared amenities', 'What shared amenities are available?'], /hair straightener/, /sticky notes and pens/],
+    ['ja', ['部屋にハンガーありますか？', 'ハンガー', '客室のハンガーはありますか'], /客室にハンガー/, ['共用備品', '共用の備品は何がありますか？'], /ヘアアイロン/, /付箋とペン/],
+    ['zh', ['有衣架吗', '衣架', '客房有衣服架吗'], /客房内.*衣架/, ['公共用品', '共用备品有哪些'], /直发器/, /便签和笔/],
+    ['zh-TW', ['有衣架嗎', '衣架', '客房有衣服架嗎'], /客房內.*衣架/, ['共用備品', '公共用品有哪些'], /直髮器/, /便利貼和筆/]
+  ];
+  for (const [language, hangers, hangerAnswer, shared, hairName, stationery] of cases) {
+    for (const [message, item, expected] of [...hangers.map(q => [q, 'room-hangers', hangerAnswer]), ...shared.map(q => [q, 'shared-amenities', hairName])]) {
+      const {res,request} = await callApi({message,language}, {output_text:'unused'}, `inventory-${language}-${message}`);
+      assert.equal(res.statusCode,200,message); assert.equal(request,undefined,message);
+      assert.equal(res.payload.meta.item,item,message); assert.match(res.payload.answer,expected,message);
+      assert.equal(res.payload.meta.searched,false); assert.equal(res.payload.links[0].route,'appliances');
+      if(item==='shared-amenities') { assert.match(res.payload.answer,stationery); assert.doesNotMatch(res.payload.answer,/髮夾|发夹|髮直器|hair clip/); }
+    }
+    const q=hangers[0];
+    assert.equal(handler._internals.guideRouteFromQuestion(q,language),'appliances');
+    assert.ok(handler._internals.relevantGuideKnowledge(language,'appliances',q).appliances);
+  }
+});
+
+test("other foreign room-inventory nouns also select appliance evidence rather than room photos", () => {
+  const cases={ko:['방에 슬리퍼 있나요','객실 충전기'],en:['Do rooms have slippers?','room charger'],ja:['客室のスリッパはありますか','部屋に充電器はありますか'],zh:['房间有拖鞋吗','客房充电器'], 'zh-TW':['房間有拖鞋嗎','客房充電器']};
+  for(const [language,questions] of Object.entries(cases))for(const message of questions){
+    assert.equal(handler._internals.guideRouteFromQuestion(message,language),'appliances',message);
+    assert.ok(handler._internals.relevantGuideKnowledge(language,'appliances',message).appliances);
+    assert.equal(handler._internals.searchLevelFor(message),null,message);
+  }
+});
+
+test("hanger problems, quantities, unrelated items and compound requests are not stock promises", async () => {
+  const facts=require('../lib/amenity-facts.cjs');
+  for(const message of ['옷걸이 몇 개 있나요', '옷걸이가 없는데요', '옷걸이 가져가도 돼요', 'hangers and scissors?', 'Can I take a hanger home?', 'How many coat hangers?', 'ハンガーが見つからない', 'ハンガーと朝食はありますか', '衣架找不到', '衣架和剪刀有嗎', '附近哪裡買衣架', 'hanger steak']) assert.equal(facts.directAnswer(message,'ko',message==='hanger steak'?['dining']:[]),null,message);
+  for(const [language,message] of [['ja','ハンガーが見つからない'],['en','Do you have hangers and scissors?'],['zh-TW','衣架和剪刀有嗎']]){
+    const {request}=await callApi({message,language},{output_text:'Please check your room. GUIDE_PAGE: appliances'},`hanger-semantic-${message}`);
+    assert.ok(request,message); assert.match(request.body.instructions,/latestAmenityCorrection/); assert.equal(request.body.tools,undefined);
+  }
+});
+
+test("hair straightener synonyms keep a fixed appliance name, never a hair clip or dryer",async()=>{
+  for(const [language,questions,expected] of [
+    ['ko',['고데기 있나요','헤어 고데기'],/고데기/],
+    ['en',['flat iron?','hair iron?','straightening iron?'],/hair straightener/],
+    ['ja',['ヘアアイロン','ストレートアイロンありますか'],/ヘアアイロン/],
+    ['zh',['直发器','离子夹有吗','夹板'],/直发器/],
+    ['zh-TW',['直髮器','離子夾有嗎','夾板'],/直髮器/]
+  ]) for(const message of questions){
+    const {res,request}=await callApi({message,language},{output_text:'unused'},`straightener-${language}-${message}`);
+    assert.equal(request,undefined,message);assert.equal(res.payload.meta.item,'hair-straightener',message);
+    assert.match(res.payload.answer,expected);assert.doesNotMatch(res.payload.answer,/髮夾|发夹|髮直器|hair clip|shared bathroom|吹風機/);
+  }
+});
+
+test("airport bus stop proximity questions attach both exact map providers in five languages",async()=>{
+  const cases={ko:['리무진 정류장 가까워요?','공항버스 정류장 어디야','인천공항으로 가는 6002 정류장 어디에요','인천공항에서 오는 6002 하차 정류장'],en:['Is the limousine bus stop close?','Where is the airport bus stop?','Where is the 6002 stop to Incheon Airport?','Where is the 6002 stop from Incheon Airport?'],ja:['リムジンバス停は近いですか？','空港バスの乗り場はどこ？','仁川空港へ行く6002の停留所はどこ？','仁川空港からの6002の停留所はどこ？'],zh:['机场巴士站近吗','机场大巴站点在哪里','去仁川机场6002在哪上车','从仁川机场来的6002在哪下车'], 'zh-TW':['機場客運站近嗎','機場巴士站牌在哪','去仁川機場6002在哪上車','從仁川機場來的6002在哪下車']};
+  for(const [language,questions] of Object.entries(cases))for(const [i,message] of questions.entries()){
+    const {res,request}=await callApi({message,language},{output_text:'unused'},`stop-${language}-${i}`);
+    assert.equal(res.statusCode,200,message);assert.equal(request,undefined,message);
+    assert.equal(res.payload.model,'another-house-verified-airport-bus',message);
+    const maps=res.payload.links.filter(x=>x.kind==='map');
+    for(const id of i<2?['01037','01023','01901']:[i===2?'01037':'01023']){
+      assert.ok(maps.some(x=>x.url.includes('/'+id+'/bus-station/')),message+' naver '+id);
+      assert.ok(maps.some(x=>x.provider==='google'&&x.placeId==='bus-'+id),message+' google '+id);
+    }
+    if(i<2)assert.match(res.payload.answer,/182.*285|285.*182/s,message);
+    assert.doesNotMatch(res.payload.answer,/공개 자료|公開情報|public information/);
+  }
+});
+
 test("individual shared-dining supplies answer from item 18 in all five languages without OpenAI", async () => {
   const cases = [
     ['ko', ['펜 있어요?', '펜?', '볼펜 빌릴 수 있나요', '포스트잇', '메모지 있나여'], /공용 다이닝.*펜과 포스트잇/],
@@ -777,11 +847,13 @@ test("airport bus and airport limousine wording use verified stops without searc
   }
 });
 
-test("limousine-only wording receives an official airport source fallback", async () => {
+test("limousine-only boarding wording receives verified stop maps instead of a generic airport homepage", async () => {
   const output = { model: "gpt-5.4-mini", output_text: "리무진버스 운행 정보를 확인했습니다.", output: [{ type: "web_search_call", action: { sources: [] } }], usage: {} };
   const { res } = await callApi({ message: "리무진버스 어디서 타요?", language: "ko" }, output, "203.0.113.43");
-  assert.equal(res.payload.links[0].url, "https://www.airport.kr/");
-  assert.match(res.payload.links[0].label, /인천국제공항/);
+  assert.equal(res.payload.model, 'another-house-verified-airport-bus');
+  assert.ok(res.payload.links.some(link => link.url.includes('/01037/bus-station/80606')));
+  assert.ok(res.payload.links.some(link => link.url.includes('/01023/bus-station/105523')));
+  assert.ok(res.payload.links.some(link => link.provider === 'google' && link.placeId === 'bus-01037'));
 });
 
 test("time-specific dining requests force high-context web search", async () => {
