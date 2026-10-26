@@ -30,10 +30,10 @@ for (const [language, locale] of Object.entries(locales)) {
   document.querySelector('script[src^="assets/concierge-telemetry.js"]').setAttribute('src', 'assets/concierge-telemetry.js?v=20261019-1');
   document.querySelector('script[src^="assets/content-updates.js"]').setAttribute('src', 'assets/content-updates.js?v=20261025-1');
   const masterScript=document.querySelector('script[src^="assets/master-app.js"]');
-  masterScript.setAttribute('src', 'assets/master-app.js?v=20261026-2');
-  if(!document.querySelector('script[src^="assets/amenity-inventory.js"]')){
-    const inventoryScript=document.createElement('script');inventoryScript.setAttribute('defer','');inventoryScript.setAttribute('src','assets/amenity-inventory.js?v=20261026-1');masterScript.before(inventoryScript);
-  }
+  masterScript.setAttribute('src', 'assets/master-app.js?v=20261026-3');
+  let inventoryScript=document.querySelector('script[src^="assets/amenity-inventory.js"]');
+  if(!inventoryScript){inventoryScript=document.createElement('script');masterScript.before(inventoryScript);}
+  inventoryScript.setAttribute('defer','');inventoryScript.setAttribute('src','assets/amenity-inventory.js?v=20261026-2');
   document.querySelector('script[src^="assets/airport-route-intent.js"]').setAttribute('src', 'assets/airport-route-intent.js?v=20261026-1');
   document.querySelector('script[src^="assets/search-content.js"]').setAttribute('src', 'assets/search-content.js?v=20261014-3');
   document.querySelector('script[src^="assets/tour-app.js"]').setAttribute('src', 'assets/tour-app.js?v=20261014-3');
