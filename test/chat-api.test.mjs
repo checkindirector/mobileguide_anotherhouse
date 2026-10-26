@@ -108,7 +108,8 @@ test("metadata markers never reach guest text, including inline and known misspe
 
 test("legacy guest-box supplies cannot swallow a second item or an unsupported request",async()=>{
   const cases=[['ko','밴드랑 물티슈 있나요?'],['en','Do you have bandages and wet wipes?'],['ja','絆創膏とウェットティッシュはありますか？'],['zh','有创可贴和湿巾吗？'],['zh-TW','有OK繃和溼紙巾嗎？'],['ko','비상약이랑 가위 있어요?'],['en','Do you have medicine and scissors?']];
-  for(const [language,message]of cases){const {request}=await callApi({message,language},{output_text:'Please check the requested supplies. GUIDE_PAGE: appliances'},'legacy-coverage-'+message);assert.ok(request,message);}
+  for(const [language,message]of cases){const {request,res}=await callApi({message,language},{output_text:'Please check the requested supplies.'},'legacy-coverage-'+message);assert.ok(request,message);assert.ok(res.payload.links.some(link=>link.route==='appliances'));assert.match(request.body.instructions,/AMENITY ANSWER FORMAT/);}
+  for(const [language,message]of [['ja','薬とはさみはありますか？'],['zh-TW','有藥和剪刀嗎？']]){const {request,res}=await callApi({message,language},{output_text:'現在の案内で確認できません。'},'legacy-language-'+language);assert.ok(request);assert.ok(res.payload.links.some(link=>link.route==='appliances'));assert.match(request.body.instructions,/AMENITY ANSWER FORMAT/);}
 });
 
 test("ineligible template-only model output is repaired once and all usage is counted",async()=>{
