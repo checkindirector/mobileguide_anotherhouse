@@ -519,6 +519,7 @@ function verifiedGuestBoxItem(message, language) {
     : HAIR_DRYER_PATTERN.test(text) || HAIR_STRAIGHTENER_PATTERN.test(text)
     ? (topic?.directAnswers || []).find(item => item.item === (HAIR_DRYER_PATTERN.test(text) ? "hair-dryer" : "hair-straightener"))
     : (topic?.directAnswers || []).find(item => (item.keywords || []).some(keyword => normalized.includes(normalizeGuideMatch(keyword))));
+  if(direct&&!AMENITY_INVENTORY.legacyComplete(text,direct.item))return null;
   return direct?.answer ? { answer: contextualAnswerTone(direct.answer, message), item: direct.item || null, returnPolicy: direct.returnPolicy || null } : null;
 }
 
@@ -1905,7 +1906,7 @@ ${stayIntent ? `PROPERTY_ROUTING_HINT: ${JSON.stringify(stayIntent)}. This is on
       return res.status(502).json({ error: "AI response failed" });
     }
     const modelOutputs = [...(data.output || [])];
-    const firstUsage = data.usage || {};
+    const responseUsages = [data.usage || {}];
     let retriedForCompletion = false;
     if (hitOutputLimit(data, requestBody.max_output_tokens)) {
       retriedForCompletion = true;
@@ -1928,9 +1929,22 @@ ${stayIntent ? `PROPERTY_ROUTING_HINT: ${JSON.stringify(stayIntent)}. This is on
         return res.status(502).json({ error: "AI response was incomplete" });
       }
       modelOutputs.push(...(data.output || []));
+      responseUsages.push(data.usage || {});
     }
-    const rawAnswerText = extractOutputText(data);
-    const approvedId = rawAnswerText.match(/^APPROVED_ANSWER_ID:\s*([A-Za-z0-9_-]+)/m)?.[1];
+    let rawAnswerText = extractOutputText(data);
+    let approvedId = rawAnswerText.match(/^APPROVED_ANSWER_ID:\s*([A-Za-z0-9_-]+)/m)?.[1];
+    let retriedForApproval = false;
+    if(approvedId&&!eligibleApprovedCandidates.some(record=>record.id===approvedId)&&!cleanAnswer(rawAnswerText.replace(/^APPROVED_ANSWER_ID:.*$/gm,''))){
+      // A model may invent/select a disabled template ID. Never expose it,
+      // fall back to that wrong template, or turn it into an empty answer.
+      retriedForApproval=true;
+      const repairBody={...requestBody,instructions:requestBody.instructions+'\nFORMAT REPAIR: The previous output referred to a workbook ID that is not eligible for this question. Answer the original question naturally in the guest language, using the current guide facts and all requested conditions. Do not output APPROVED_ANSWER_ID or any record identifier. Never substitute an unrelated inventory paragraph.'};
+      const repairResponse=await fetch(OPENAI_RESPONSES_URL,{method:'POST',headers:{Authorization:`Bearer ${apiKey}`,'Content-Type':'application/json'},body:JSON.stringify(repairBody),signal:AbortSignal.timeout(45_000)});
+      data=await repairResponse.json().catch(()=>({}));
+      if(!repairResponse.ok||hitOutputLimit(data,repairBody.max_output_tokens))return res.status(502).json({error:'AI response was incomplete'});
+      modelOutputs.push(...(data.output||[]));responseUsages.push(data.usage||{});
+      rawAnswerText=extractOutputText(data);approvedId=rawAnswerText.match(/^APPROVED_ANSWER_ID:\s*([A-Za-z0-9_-]+)/m)?.[1];
+    }
     const selectedApproved = language === "ko" && eligibleApprovedCandidates.find(record => record.id === approvedId);
     if (selectedApproved) {
       const answer = hydrateApprovedAnswer(selectedApproved.answer, language);
@@ -1969,10 +1983,11 @@ ${stayIntent ? `PROPERTY_ROUTING_HINT: ${JSON.stringify(stayIntent)}. This is on
       naverPrimarySearched,
       crossCheckSearched,
       searchCalls: Number(naverPrimarySearched) + Number(crossCheckSearched),
-      cachedTokens: Number(data?.usage?.input_tokens_details?.cached_tokens || 0),
-      inputTokens: Number(firstUsage.input_tokens || 0) + (retriedForCompletion ? Number(data?.usage?.input_tokens || 0) : 0),
-      outputTokens: Number(firstUsage.output_tokens || 0) + (retriedForCompletion ? Number(data?.usage?.output_tokens || 0) : 0),
+      cachedTokens: responseUsages.reduce((sum,usage)=>sum+Number(usage.input_tokens_details?.cached_tokens||0),0),
+      inputTokens: responseUsages.reduce((sum,usage)=>sum+Number(usage.input_tokens||0),0),
+      outputTokens: responseUsages.reduce((sum,usage)=>sum+Number(usage.output_tokens||0),0),
       retriedForCompletion,
+      retriedForApproval,
       propertyRouteOrigin,
       durationMs: Date.now() - startedAt,
       knowledgeVersion: GUIDE_KNOWLEDGE.version,

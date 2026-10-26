@@ -84,9 +84,12 @@ function fallbackGuideLink(route){const labels={ko:{home:'숙소 안내 바로�
 function fallbackGuideRoute(q,guide){const topicRoutes={luggage:'checkin',checkin:'checkin',checkout:'checkin',wifi:'wifi',parking:'checkin',rules:'rules',appliances:'appliances',laundry:'laundry',waste:'trash',rooms:'gallery',tv:'appliances',contact:'home'};if(guide)return topicRoutes[guide.id]||'home';const text=String(q||'');if(/(공항|교통|찾아오|동대문역|6번\s*출구|주소|위치|airport|transport|direction|dongdaemun|address|location|空港|交通|東大門|机场|機場|地址|位置)/i.test(text))return'transport';if(/(식당|맛집|음식|카페|restaurant|food|cafe|飲食店|レストラン|餐厅|餐廳|美食)/i.test(text))return'restaurants';if(/(관광|명소|투어|tour|attraction|観光|景点|景點)/i.test(text))return'tours';if(/(숙소|객실|어나더|property|room|another\s*house|宿|客室|住宿|房间|房間)/i.test(text))return'home';return null}
 function fallbackAirportDepartureGuideLink(){const label={ko:'공항으로 가는 길 바로가기',en:'Open the airport departure guide',ja:'空港へのアクセスを開く',zh:'打开前往机场指南','zh-TW':'開啟前往機場指南'}[lang];return{kind:'guide',label,url:'https://anotherhouse-guide.vercel.app/?page=airport-departure',route:'airport-departure'}}
 function fallbackInventory(knowledge,q){
-  const inventory=window.ANOTHER_HOUSE_AMENITIES,analysis=inventory?.analyze(q);if(!analysis?.items.length)return null;
+  const inventory=window.ANOTHER_HOUSE_AMENITIES,analysis=inventory?.analyze(q);
+  const quick=(knowledge.quickGuide?.[lang]||[]).find(x=>x.id==='appliances'),direct=quick?.directAnswers?.find(x=>(x.keywords||[]).some(word=>fallbackGuideNormalize(q).includes(fallbackGuideNormalize(word))));
+  const unsafeLegacy=inventory&&direct&&!inventory.legacyComplete(q,direct.item);
+  if(!analysis?.items.length&&!unsafeLegacy)return null;
   const unavailable={ko:'지금 AI 연결이 원활하지 않아 질문의 세부 조건을 확인하지 못했습니다. 비품 안내를 확인해 주세요.',en:'The AI connection is temporarily unavailable, so I cannot verify the details of this question. Please check the amenities guide.',ja:'現在AIに接続できず、ご質問の詳しい条件を確認できません。備品案内をご確認ください。',zh:'目前 AI 暂时无法连接，不能确认此问题的具体条件。请查看用品指南。','zh-TW':'目前 AI 暫時無法連線，無法確認此問題的詳細條件。請查看用品指南。'};
-  let text=analysis.complete?inventory.compose(analysis,lang):unavailable[lang];
+  let text=analysis.complete&&!unsafeLegacy?inventory.compose(analysis,lang):unavailable[lang];
   if(analysis.complete){const quick=(knowledge.quickGuide?.[lang]||[]).find(x=>x.id==='appliances');for(const [id,key] of [['towel','extra-towel'],['dental','dental-kit'],['straightener','hair-straightener'],['adapter','travel-adapter']])if(analysis.items.some(x=>x.id===id)){const extra=quick?.directAnswers?.find(x=>x.item===key);if(extra)text+='\n\n'+extra.answer;}}
   return{answer:text,links:[fallbackGuideLink('appliances')],meta:{fallback:true,siteGuide:true,guideRoute:'appliances',knowledgeVersion:knowledge.version}};
 }

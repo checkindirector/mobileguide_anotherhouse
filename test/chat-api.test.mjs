@@ -106,6 +106,22 @@ test("metadata markers never reach guest text, including inline and known misspe
   assert.equal(extractResolvedSpot('Meet here MAP_SPOT: Unverified | Somewhere').spots.length,0);
 });
 
+test("legacy guest-box supplies cannot swallow a second item or an unsupported request",async()=>{
+  const cases=[['ko','밴드랑 물티슈 있나요?'],['en','Do you have bandages and wet wipes?'],['ja','絆創膏とウェットティッシュはありますか？'],['zh','有创可贴和湿巾吗？'],['zh-TW','有OK繃和溼紙巾嗎？'],['ko','비상약이랑 가위 있어요?'],['en','Do you have medicine and scissors?']];
+  for(const [language,message]of cases){const {request}=await callApi({message,language},{output_text:'Please check the requested supplies. GUIDE_PAGE: appliances'},'legacy-coverage-'+message);assert.ok(request,message);}
+});
+
+test("ineligible template-only model output is repaired once and all usage is counted",async()=>{
+  const {res,requests}=await callApi({message:'이 방에 TV가 있나요?',language:'ko'},[
+    {output_text:'APPROVED_ANSWER_ID: Q051',usage:{input_tokens:10,output_tokens:5}},
+    {output_text:'객실과 공용공간에 TV는 설치되어 있지 않습니다. GUIDE_PAGE: appliances',usage:{input_tokens:20,output_tokens:15}}
+  ],'ineligible-template-repair');
+  assert.equal(requests.length,2);assert.equal(res.statusCode,200);assert.match(res.payload.answer,/TV는 설치되어 있지/);
+  assert.match(requests[1].body.instructions,/FORMAT REPAIR/);assert.equal(res.payload.meta.retriedForApproval,true);
+  assert.equal(res.payload.meta.inputTokens,30);assert.equal(res.payload.meta.outputTokens,20);
+  assert.doesNotMatch(res.payload.answer,/APPROVED_ANSWER_ID|공용주방/);
+});
+
 test("mislinked source examples cannot return unrelated shared inventory",async()=>{
   for(const message of ['공용 주방은 몇층입니까?','이 방에 TV가 있나요?','안녕하세요, 다리미 있으신가요?','혹시 에어컨 어떻게 키나요?']){
     const {res,request}=await callApi({message,language:'ko'},{output_text:'질문에 해당하는 안내를 확인합니다. GUIDE_PAGE: appliances'},'mislinked-'+message);

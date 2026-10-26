@@ -65,5 +65,19 @@ function evidence(message,language='ko') {
   return {source,range:[...new Set(analysis.items.flatMap(x=>x.range.split(',')))].join(','),requestedItems:analysis.items.map(x=>x.id),inventory:compose(analysis,language),
     instruction:'Verified operator inventory. Address EVERY requested item and condition, including unknown additional items. Room towels and dental kits are provided IN rooms; spare supplies are also in GUEST BOX. Used towels go in the shower basket, not GUEST BOX. Hairdryer: shared bathroom. Straightener: GUEST BOX (return after use). Washer and dryer are one combination machine. Do not infer conditioner, soap, scissors, quantities, live stock, brands or compatibility. Q045 in the question sheet is mislinked to item 17; use bathroom item 19 for hairdryer, never the unrelated room list.'};
 }
-return {items,matching,analyze,compose,evidence};
+// Older website-confirmed Guest Box supplies are not newly added sheet facts.
+// Keep their existing answers, but never let one swallow a second item/condition.
+const legacyPatterns={
+  bandage:/밴드|반창고|(?<![a-z])(?:band-?aids?|bandages?|plasters?)(?![a-z])|絆創膏|ばんそうこう|创可贴|創可貼|止血贴|OK繃/giu,
+  'wet-wipes':/물티슈|(?<![a-z])wet\s*wipes?(?![a-z])|ウェットティッシュ|湿巾|溼巾|濕巾|湿紙巾|溼紙巾|濕紙巾/giu,
+  'plastic-bag':/비닐\s*봉투|(?<![a-z])plastic\s*bags?(?![a-z])|ビニール袋|ポリ袋|塑料袋|塑膠袋/giu,
+  'emergency-medicine':/(?:비상|상비|구급|응급)\s*(?:용\s*)?약|구급\s*함|진통제|소화제|감기약|해열제|(?<!예)약|(?<![a-z])(?:emergency\s*medicines?|first[\s-]*aid\s*(?:medicines?|kits?)|pain\s*(?:killers?|relievers?)|cold\s*medicine|digestive\s*medicine|fever\s*medicine|medicines?|medications?)(?![a-z])|常備薬|救急薬|救急箱|痛み止め|風邪薬|胃腸薬|解熱剤|薬|常备药|常備藥|急救药|急救藥|急救箱|止痛药|止痛藥|感冒药|感冒藥|消化药|腸胃藥|退烧药|退燒藥|药|藥/giu
+};
+function legacyComplete(message,item){
+  const pattern=legacyPatterns[item];if(!pattern)return true;
+  const masked=String(message||'').normalize('NFKC').replace(pattern,'shampoo');
+  const result=analyze(masked);
+  return result.complete&&result.items.length===1&&result.items[0].id==='shampoo';
+}
+return {items,matching,analyze,compose,evidence,legacyComplete};
 });
