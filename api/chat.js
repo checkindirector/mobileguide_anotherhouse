@@ -2,8 +2,13 @@ const GUIDE_KNOWLEDGE = require("../assets/guide-knowledge.json");
 const AIRPORT_ROUTE_INTENT = require("../assets/airport-route-intent.js");
 const AIRPORT_JOURNEY = require("../assets/airport-journey.js");
 const CONCIERGE_TRAINING = require("./concierge-training.json");
+// Preserve the source archive, but never emit a known mislinked question as an
+// exact answer. Q015 asks kitchen floor; Q045 hairdryer; Q051 also groups TV,
+// clothes iron and AC controls under an unrelated shared-inventory paragraph.
+const SUPERSEDED_APPROVED_IDS = new Set(['Q020','Q070','Q015','Q045','Q051']);
 const SHARED_DINING = require("../lib/shared-dining.cjs");
 const AMENITY_FACTS = require("../lib/amenity-facts.cjs");
+const AMENITY_INVENTORY = require("../assets/amenity-inventory.js");
 const { analyzeStayQuestion } = require("../lib/stay-intent.cjs");
 const { contextualAnswerTone } = require("../lib/answer-tone.cjs");
 const { normalizeGuestLanguage, isRoomKeyProblem, propertyQuestionHint, hasMultipleGuestQuestions } = require("../lib/guest-language.cjs");
@@ -517,6 +522,35 @@ function verifiedGuestBoxItem(message, language) {
   return direct?.answer ? { answer: contextualAnswerTone(direct.answer, message), item: direct.item || null, returnPolicy: direct.returnPolicy || null } : null;
 }
 
+function verifiedInventory(message, language, analysis) {
+  if (!analysis.complete) return null;
+  const quick = (GUIDE_KNOWLEDGE.quickGuide?.[language] || GUIDE_KNOWLEDGE.quickGuide.ko).find(x=>x.id==='appliances');
+  const legacyIds={hairdryer:'hair-dryer',straightener:'hair-straightener',towel:'extra-towel',dental:'dental-kit',adapter:'travel-adapter'};
+  if(analysis.items.length===1){
+    const id=analysis.items[0].id;
+    if(['washer','detergent'].includes(id))return null; // retain the detailed laundry evidence/controls
+    const direct=quick.directAnswers.find(x=>x.item===legacyIds[id]);
+    if(direct){
+      if(analysis.room&&analysis.items[0].location!=='room')return {answer:AMENITY_INVENTORY.compose(analysis,language),item:direct.item,returnPolicy:direct.returnPolicy};
+      const roomProvision=analysis.room&&['towel','dental'].includes(id)?AMENITY_INVENTORY.compose(analysis,language)+'\n\n':'';
+      return {answer:roomProvision+contextualAnswerTone(direct.answer,message),item:direct.item,returnPolicy:direct.returnPolicy};
+    }
+    // Retain the approved wording and metadata for these established replies.
+    const old=AMENITY_FACTS.directAnswer(message,language)||SHARED_DINING.directAnswer(message,language);
+    if(old)return old;
+  }
+  if(analysis.items.every(x=>['cutlery','stationery'].includes(x.id))){
+    const dining=SHARED_DINING.directAnswer(message,language);if(dining)return dining;
+  }
+  let answer=AMENITY_INVENTORY.compose(analysis,language);
+  const ids=analysis.items.map(x=>x.id);
+  // Preserve handling instructions, without ever returning used consumables.
+  for(const [id,legacyId] of [['towel','extra-towel'],['dental','dental-kit'],['straightener','hair-straightener'],['adapter','travel-adapter']]){
+    if(ids.includes(id))answer+='\n\n'+quick.directAnswers.find(x=>x.item===legacyId).answer;
+  }
+  return {answer,item:ids.join('+'),source:{...AMENITY_FACTS.source,range:[...new Set(analysis.items.flatMap(x=>x.range.split(',')))].join(',')}};
+}
+
 function guidePageLink(route, language) {
   const safeRoute = GUIDE_PAGE_ROUTES.has(route) ? route : "home";
   const labels = GUIDE_PAGE_LABELS[language] || GUIDE_PAGE_LABELS.ko;
@@ -524,6 +558,8 @@ function guidePageLink(route, language) {
 }
 
 function guideRouteFromQuestion(message, language) {
+  const inventoryItems=AMENITY_INVENTORY.matching(message).items;
+  if(inventoryItems.length&&!isPlaceSearchIntent(message))return inventoryItems.every(x=>['washer','dryer','detergent'].includes(x.id))?'laundry':'appliances';
   if ((AMENITY_FACTS.matches(message) || AMENITY_FACTS.isOverview(message)) && !isPlaceSearchIntent(message)) return "appliances";
   // A room qualifier must not hide its specific inventory evidence (e.g.
   // 客室のスリッパ / room hangers / 房間的拖鞋) behind the room-photo page.
@@ -590,6 +626,7 @@ function extractOutputText(data) {
 
 function cleanAnswer(text) {
   return String(text || "")
+    .replace(/\b(?:GUIDE_PAGE|GIDA_PAGE|GUIDE_PAG[E]?|APPROVED_ANSWER_ID)\s*:\s*[a-z0-9_-]+/gi, "")
     .replace(/cite[^]+/g, "")
     .replace(/\[([^\]]+)\]\(https?:\/\/[^)]+\)/gi, "$1")
     .replace(/https?:\/\/[^\s)\]]+/gi, "")
@@ -1435,10 +1472,10 @@ function extractResolvedSpot(text) {
   const raw = String(text || "");
   const markers = [...raw.matchAll(/(?:^|\n)\s*MAP_SPOT:\s*([^|\n]{2,100})\s*\|\s*([^\n]{5,180})\s*(?=\n|$)/gi)];
   const spots = markers.map(marker=>validateResolvedSpot(marker[1],marker[2])).filter(Boolean);
-  const guideMarker = raw.match(/(?:^|\n)\s*GUIDE_PAGE:\s*(home|gallery|transport|airport-departure|checkin|wifi|appliances|laundry|trash|rules|restaurants|tours)\s*(?=\n|$)/i);
+  const guideMarker = raw.match(/\b(?:GUIDE_PAGE|GIDA_PAGE):\s*(home|gallery|transport|airport-departure|checkin|wifi|appliances|laundry|trash|rules|restaurants|tours)(?![a-z0-9_-])/i);
   const answerText = raw
     .replace(/(?:^|\n)\s*MAP_SPOT:[^\n]*(?=\n|$)/gi, "")
-    .replace(/(?:^|\n)\s*GUIDE_PAGE:[^\n]*(?=\n|$)/gi, "")
+    .replace(/\b(?:GUIDE_PAGE|GIDA_PAGE|GUIDE_PAG)\s*:\s*[a-z0-9_-]+/gi, "")
     .trim();
   return {
     answerText,
@@ -1619,6 +1656,8 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   // Never augment a non-route answer (e.g. a facility policy) or fabricate unknown points.
   const originalJson=res.json.bind(res);
   res.json=payload=>{
+    // Metadata is server-owned UI data, never guest-visible message text.
+    if(payload?.answer)payload.answer=cleanAnswer(payload.answer);
     if(payload?.answer && (ROUTE_QUESTION_PATTERN.test(message)||payload.meta?.verifiedAirportJourney||payload.meta?.verifiedAirportArrival||payload.meta?.verifiedAirportTransport||payload.model==='another-house-verified-airport-bus')){
       const direction=payload.meta?.mode?.includes('arrival')||AIRPORT_ROUTE_INTENT.classify(message,history)?.arrival?'arrival':'departure';
       const pointLinks=TRANSIT_MAPS.forAnswer(GUIDE_KNOWLEDGE,message,payload.answer,language,direction);
@@ -1628,7 +1667,9 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   };
   const stayIntent = analyzeStayQuestion(message, history);
   const propertyHint = propertyQuestionHint(message);
-  const needsSemanticAnswer = stayIntent?.needsModel || hasMultipleGuestQuestions(message);
+  const inventoryAnalysis=AMENITY_INVENTORY.analyze(message);
+  const inventoryNeedsModel=inventoryAnalysis.items.length>0&&!inventoryAnalysis.complete;
+  const needsSemanticAnswer = stayIntent?.needsModel || hasMultipleGuestQuestions(message) || inventoryNeedsModel;
   const accessSupport = anotherHouseAccessSupport(message, history, language);
   if (accessSupport) {
     console.log(JSON.stringify({ event: "concierge_access_support", stage: accessSupport.stage, language, durationMs: Date.now() - startedAt }));
@@ -1645,17 +1686,18 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   if(airportJourney) return res.status(200).json(await airportJourneyReply(airportJourney,message,language,history,startedAt));
   const airportBusGuide = stayIntent && !['airport-bus','airport-shuttle'].includes(stayIntent.id) ? null : verifiedAirportBusGuide(message, language, history);
   if (airportBusGuide) return res.status(200).json({answer:airportBusGuide.answer,links:[...airportBusGuide.links,guidePageLink(airportBusGuide.route,language)],mapContext:null,model:'another-house-verified-airport-bus',meta:{searched:false,guideRoute:airportBusGuide.route,mode:airportBusGuide.mode,verifiedAt:airportBusGuide.verifiedAt,knowledgeVersion:GUIDE_KNOWLEDGE.version,durationMs:Date.now()-startedAt}});
-  const matchedApprovedReply = approvedAnswerFromQuestion(message, language, history);
-  const inventoryItem = AMENITY_FACTS.directAnswer(message, language, propertyHint?.topics || []);
+  const matchedApprovedReply = inventoryAnalysis.items.length ? null : approvedAnswerFromQuestion(message, language, history);
+  const inventoryItem = verifiedInventory(message,language,inventoryAnalysis) || (!inventoryAnalysis.items.length ? AMENITY_FACTS.directAnswer(message, language, propertyHint?.topics || []) : null);
   if (inventoryItem && !stayIntent) {
-    return res.status(200).json({ answer: inventoryItem.answer, model: "another-house-verified-amenity", links: [guidePageLink("appliances", language)], mapContext: null, meta: { searched: false, verifiedAmenity: true, item: inventoryItem.item, guideRoute: "appliances", sourceSheet: inventoryItem.source.sheet, sourceRange: inventoryItem.source.range, sourceItem: inventoryItem.source.item, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
+    const source=inventoryItem.source||AMENITY_INVENTORY.evidence(message,language);
+    return res.status(200).json({ answer: inventoryItem.answer, model: "another-house-verified-amenity", links: [guidePageLink("appliances", language)], mapContext: null, meta: { searched: false, verifiedAmenity: true, item: inventoryItem.item, returnPolicy:inventoryItem.returnPolicy||null, requestedItems:inventoryAnalysis.items.map(x=>x.id), guideRoute: "appliances", sourceSheet: source.sheet||source.source?.sheet, sourceRange: source.range, sourceItem: source.item, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
-  const diningItem = SHARED_DINING.directAnswer(message, language, propertyHint?.topics || []);
+  const diningItem = inventoryAnalysis.items.length ? null : SHARED_DINING.directAnswer(message, language, propertyHint?.topics || []);
   if (diningItem && !stayIntent) {
     return res.status(200).json({ answer: diningItem.answer, model: "another-house-verified-amenity", links: [guidePageLink("appliances", language)], mapContext: null, meta: { searched: false, verifiedAmenity: true, item: diningItem.item, guideRoute: "appliances", sourceSheet: diningItem.source.sheet, sourceRange: diningItem.source.range, sourceItem: diningItem.source.item, durationMs: Date.now() - startedAt, knowledgeVersion: GUIDE_KNOWLEDGE.version } });
   }
   // The operator approved a newer airport correction; retain the workbook archive, not its outdated transport answer.
-  const approvedReply = ['Q020','Q070'].includes(matchedApprovedReply?.id) ? null : matchedApprovedReply;
+  const approvedReply = SUPERSEDED_APPROVED_IDS.has(matchedApprovedReply?.id) ? null : matchedApprovedReply;
   if (approvedReply && language === "ko") {
     const answer = hydrateApprovedAnswer(approvedReply.answer, language);
     return res.status(200).json({ answer, model: "another-house-approved-workbook", links: [guidePageLink(approvedReply.route, language)], mapContext: null, meta: { searched: false, approvedWorkbook: true, approvedAnswerId: approvedReply.id, sourceRows: approvedReply.sourceRows, credentialsProtected: approvedReply.credentialsProtected, trainingIntent: approvedReply.intent, trainingVersion: CONCIERGE_TRAINING.version, guideRoute: approvedReply.route, knowledgeVersion: GUIDE_KNOWLEDGE.version, durationMs: Date.now() - startedAt } });
@@ -1803,8 +1845,14 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   if (diningEvidence) guideForRequest.latestSharedDiningCorrection = diningEvidence;
   const amenityEvidence = AMENITY_FACTS.evidence(message, language);
   if (amenityEvidence) guideForRequest.latestAmenityCorrection = amenityEvidence;
+  const inventoryEvidence=AMENITY_INVENTORY.evidence(message,language);
+  if(inventoryEvidence)guideForRequest.verifiedRequestedInventory=inventoryEvidence;
   const approvedCandidates = propertyRouteOrigin && !stayIntent ? [] : (CONCIERGE_TRAINING.approvedAnswers || []).filter(record => record.route === knowledgeRoute || propertyHint?.routes.includes(record.route) || stayIntent?.needsModel || (!knowledgeRoute && !requestedSearchLevel));
-  guideForRequest.approvedWorkbookAnswers = approvedCandidates.filter(record=>!['Q020','Q070'].includes(record.id)).map(({ id, type, answer, route }) => ({ id, type, answer, route }));
+  // Inventory conditions and unknown second items require a complete natural
+  // answer. Do not let a broad historical template swallow those details.
+  const eligibleApprovedCandidates=approvedCandidates.filter(record=>!SUPERSEDED_APPROVED_IDS.has(record.id)&&!inventoryAnalysis.items.length);
+  guideForRequest.approvedWorkbookAnswers = eligibleApprovedCandidates.map(({ id, type, answer, route }) => ({ id, type, answer, route }));
+  if(inventoryAnalysis.items.length)guideForRequest.relatedOperationsFacts=approvedCandidates.filter(record=>!SUPERSEDED_APPROVED_IDS.has(record.id)).map(({type,answer})=>({type,answer}));
   const fullGuideText = JSON.stringify(guideForRequest);
   const routeOriginContext = propertyRouteOrigin
     ? `\nDEFAULT_ROUTE_ORIGIN: ${searchOrigin}\nROUTE_DIRECTION: Another House → the destination requested by the guest. The guest either omitted the origin or explicitly named the property; do not reverse this direction and do not ask for the origin.`
@@ -1883,7 +1931,7 @@ ${stayIntent ? `PROPERTY_ROUTING_HINT: ${JSON.stringify(stayIntent)}. This is on
     }
     const rawAnswerText = extractOutputText(data);
     const approvedId = rawAnswerText.match(/^APPROVED_ANSWER_ID:\s*([A-Za-z0-9_-]+)/m)?.[1];
-    const selectedApproved = language === "ko" && approvedCandidates.find(record => record.id === approvedId);
+    const selectedApproved = language === "ko" && eligibleApprovedCandidates.find(record => record.id === approvedId);
     if (selectedApproved) {
       const answer = hydrateApprovedAnswer(selectedApproved.answer, language);
       return res.status(200).json({ answer, model: data.model || MODEL, links: [guidePageLink(selectedApproved.route, language)], mapContext: null, meta: { searched: false, approvedWorkbook: true, approvedAnswerId: selectedApproved.id, sourceRows: selectedApproved.sourceRows, credentialsProtected: selectedApproved.credentialsProtected, trainingIntent: selectedApproved.intent, trainingVersion: CONCIERGE_TRAINING.version, guideRoute: selectedApproved.route, knowledgeVersion: GUIDE_KNOWLEDGE.version, durationMs: Date.now() - startedAt } });
@@ -1905,7 +1953,7 @@ ${stayIntent ? `PROPERTY_ROUTING_HINT: ${JSON.stringify(stayIntent)}. This is on
     const verifiedGuideMapLinks = (guideBackedLocalResult?.links || []).filter(link => link.kind === "map");
     // Do not cut a Naver/Google pair or drop a transfer point to satisfy a link-count limit.
     const links = TRANSIT_MAPS.unique([...(resolvedMapLinks.length ? resolvedMapLinks : verifiedGuideMapLinks), ...sourceLinks.slice(0,3)]);
-    const inferredGuideRoute = resolved.guideRoute || directGuideRoute || (contextualRoute !== "home" ? contextualRoute : null);
+    const inferredGuideRoute = (inventoryAnalysis.items.length ? directGuideRoute : null) || resolved.guideRoute || directGuideRoute || (contextualRoute !== "home" ? contextualRoute : null);
     const exactGuidePlace = guidePlaceFromQuestion(message, language);
     if (inferredGuideRoute && (!searched || exactGuidePlace || resolved.guideRoute || propertyRouteOrigin)) links.push(guidePageLink(inferredGuideRoute, language));
     const hasMapLinks = links.some(link => link.kind === "map");
