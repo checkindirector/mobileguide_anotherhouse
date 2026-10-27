@@ -31,6 +31,7 @@ for(const [language,questions,patterns]of locales){
   const app=readFileSync(new URL('../assets/master-app.js',import.meta.url),'utf8');const fn=app.split('\n').find(x=>x.startsWith('function fallbackConfirmedPolicy('));
   const ctx=vm.createContext({lang:language,fallbackGuideLink:route=>({route})});vm.runInContext(fn,ctx);
   for(let i=0;i<questions.length;i++)assert.match(ctx.fallbackConfirmedPolicy(k,questions[i]).answer,patterns[i]);
+  for(const q of ['세탁기 용량 몇 kg?','How do I use the induction cooktop?','洗濯機は何時まで？','洗衣机怎么用？','電磁爐的型號？'])assert.equal(ctx.fallbackConfirmedPolicy(k,q),null,q);
  });
 }
 test('compound questions retain all owner corrections and exclude retired templates',async()=>{
