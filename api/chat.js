@@ -1696,7 +1696,14 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
     return res.status(200).json({ answer: accessSupport.answer, model: "another-house-approved-workbook", links: [guidePageLink(accessSupport.approved?.route || "checkin", language)], mapContext: null, meta: { searched: false, accessSupport: true, approvedWorkbook: Boolean(accessSupport.approved), approvedAnswerId: accessSupport.approved?.id || null, sourceRows: accessSupport.approved?.sourceRows || [], credentialsProtected: Boolean(accessSupport.approved?.credentialsProtected), trainingIntent: accessSupport.approved?.intent || null, trainingVersion: CONCIERGE_TRAINING.version, guideRoute: accessSupport.approved?.route || "checkin", knowledgeVersion: GUIDE_KNOWLEDGE.version, durationMs: Date.now() - startedAt } });
   }
   const confirmedPolicy = CONFIRMED_POLICY.direct(GUIDE_KNOWLEDGE, message, language, stayIntent?.needsModel || hasMultipleGuestQuestions(message));
-  if (confirmedPolicy) return res.status(200).json({answer:confirmedPolicy.answer,model:'another-house-confirmed-policy',links:[guidePageLink(confirmedPolicy.route,language)],mapContext:null,meta:{searched:false,confirmedPolicy:confirmedPolicy.id,policyVersion:GUIDE_KNOWLEDGE.confirmedPolicies.version,guideRoute:confirmedPolicy.route,durationMs:Date.now()-startedAt}});
+  if (confirmedPolicy) {
+    let answer=confirmedPolicy.answer;
+    if(confirmedPolicy.ids?.includes('keycard')&&isRoomKeyProblem(message)){
+      const record=CONCIERGE_TRAINING.approvedAnswers.find(x=>x.intent==='key-card-recovery');
+      answer=confirmedPolicy.ids.map(id=>id==='keycard'?localizedKeyCardRecovery(record.answer,language):GUIDE_KNOWLEDGE.confirmedPolicies[id].answer[language]).join('\n\n');
+    }
+    return res.status(200).json({answer,model:'another-house-confirmed-policy',links:(confirmedPolicy.routes||[confirmedPolicy.route]).map(route=>guidePageLink(route,language)),mapContext:null,meta:{searched:false,confirmedPolicy:confirmedPolicy.id,policyVersion:GUIDE_KNOWLEDGE.confirmedPolicies.version,guideRoute:confirmedPolicy.route,durationMs:Date.now()-startedAt}});
+  }
   const mapFollowup = mapFollowupFromHistory(message, rawHistory, language);
   if (mapFollowup) {
     console.log(JSON.stringify({ event: "concierge_map_followup", language, place: mapFollowup.mapContext.name, durationMs: Date.now() - startedAt }));
