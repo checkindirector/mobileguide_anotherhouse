@@ -35,7 +35,16 @@ for(const [language,questions,patterns]of locales){
  });
 }
 test('fully covered compound questions combine exact owner wording in every language',async()=>{
+ const nativeCompounds={
+  ko:'룸키를 잃어버렸어요. 1회 재발급된다던데 맞나요? 취소 환불 규정, 연박할 때 같은 방, 세탁·건조 비용과 공용주방의 인덕션도 알려주세요.',
+  en:'I lost my room key. Is a one-time replacement still allowed? Also tell me the refund policy, whether consecutive bookings keep the same room, laundry and drying charges, and whether the shared kitchen has an induction cooktop.',
+  ja:'ルームキーを紛失しました。1回だけ再発行できますか？返金条件、連泊で同じ部屋に泊まる手続き、洗濯と乾燥の料金、共用キッチンにIHコンロがあるかも教えてください。',
+  zh:'房卡丢了，还能补办一次吗？也请说明退款条件、连续两笔预订如何住同一间房、洗衣烘干的费用，以及公共厨房有没有电磁炉。',
+  'zh-TW':'房卡遺失了，還能補發一次嗎？也請說明退款條件、連續兩筆訂房如何住同一間房、洗衣烘衣費用，以及公共廚房有沒有電磁爐。'
+ };
  for(const [language]of locales){
+  const native=await ask(nativeCompounds[language],language,'fixture');assert.equal(native.request,undefined,language);
+  for(const id of ['keycard','refund','extension','laundry','cooktop'])assert.ok(native.res.payload.answer.includes(k.confirmedPolicies[id].answer[language]),language+': '+id);
   const{request,res}=await ask('카드키를 분실했고 세탁비랑 같은 방 연박도 궁금해요',language,'fixture');assert.equal(request,undefined);
   for(const id of ['keycard','extension','laundry'])assert.ok(res.payload.answer.includes(k.confirmedPolicies[id].answer[language]));
   const unsupported=await ask('카드키 분실했고 세탁기 용량과 가위도 궁금해요',language,'fixture');assert.ok(unsupported.request);
