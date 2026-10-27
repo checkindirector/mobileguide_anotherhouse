@@ -34,10 +34,11 @@ for(const [language,questions,patterns]of locales){
   for(const q of ['세탁기 용량 몇 kg?','How do I use the induction cooktop?','洗濯機は何時まで？','洗衣机怎么用？','電磁爐的型號？'])assert.equal(ctx.fallbackConfirmedPolicy(k,q),null,q);
  });
 }
-test('compound questions retain all owner corrections and exclude retired templates',async()=>{
+test('fully covered compound questions combine exact owner wording in every language',async()=>{
  for(const [language]of locales){
-  const{request}=await ask('카드키를 분실했고 세탁비랑 같은 방 연박도 궁금해요',language,'fixture');assert.ok(request);
-  assert.match(request.instructions,/OWNER CONFIRMATION 2026-10-27/);assert.doesNotMatch(request.instructions,/KEY-CARD SITUATION POLICY|one-time exception after an actual loss|원격으로 재발급 해드립니다|연장하시면 같은 방으로 배정됩니다/);
-  for(const id of ['keycard','extension','laundry'])assert.ok(request.instructions.includes(k.confirmedPolicies[id].answer[language]));
+  const{request,res}=await ask('카드키를 분실했고 세탁비랑 같은 방 연박도 궁금해요',language,'fixture');assert.equal(request,undefined);
+  for(const id of ['keycard','extension','laundry'])assert.ok(res.payload.answer.includes(k.confirmedPolicies[id].answer[language]));
+  const unsupported=await ask('카드키 분실했고 세탁기 용량과 가위도 궁금해요',language,'fixture');assert.ok(unsupported.request);
+  assert.match(unsupported.request.instructions,/OWNER CONFIRMATION 2026-10-27/);assert.doesNotMatch(unsupported.request.instructions,/KEY-CARD SITUATION POLICY|one-time exception after an actual loss|원격으로 재발급 해드립니다|연장하시면 같은 방으로 배정됩니다/);
  }
 });
