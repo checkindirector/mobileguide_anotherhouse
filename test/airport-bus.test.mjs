@@ -83,11 +83,11 @@ test('browser stop fallback retains paired maps for both directions and does not
 test('shared route classifier loads before the app in both site entry points',()=>{
   for(const file of ['index.html','guide-anotherhouse.html']){
     const html=readFileSync(new URL('../'+file,import.meta.url),'utf8');
-    assert.ok(html.indexOf('airport-route-intent.js?v=20261026-1')<html.indexOf('master-app.js?v=20261026-3'));
+    assert.ok(html.indexOf('airport-route-intent.js?v=20261026-1')<html.indexOf('master-app.js?v=20261027-1'));
     assert.ok(html.includes('airport-route-intent.js?v=20261026-1'));
     assert.ok(html.includes('transit-maps.js?v=20261006-6'));
     assert.ok(html.indexOf('transit-maps.js?v=20261006-6')<html.indexOf('airport-journey.js?v=20261006-6'));
-    assert.ok(html.indexOf('airport-journey.js?v=20261006-6')<html.indexOf('master-app.js?v=20261026-3'));
+    assert.ok(html.indexOf('airport-journey.js?v=20261006-6')<html.indexOf('master-app.js?v=20261027-1'));
   }
   const sandbox={window:{}};
   runInNewContext(readFileSync(new URL('../assets/airport-route-intent.js',import.meta.url),'utf8'),sandbox);

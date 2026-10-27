@@ -553,4 +553,60 @@
       "結束後及時取出衣物，敞開洗滌劑盒和機門，烘乾後清理絨毛過濾器。"
     ]
   );
+  // Owner's final confirmations, 2026-10-27. These supersede historical OTA replies.
+  // Shared by the rendered pages, generated chatbot knowledge and offline fallback.
+  D.confirmedPolicies = {
+    version: '2026-10-27.1',
+    keycard: { route: 'checkin', keywords: ['카드키','객실키','룸키','방키','열쇠','key card','keycard','room key','キーカード','カードキー','ルームキー','鍵','房卡','钥匙','鑰匙'], answer: I(
+      '카드키는 최초 체크인 시 최대 3장까지 받을 수 있습니다. 이후에는 재발급이 불가하므로 분실에 유의 부탁드립니다.',
+      'You can receive up to 3 key cards at your initial check-in. Key cards cannot be reissued afterward, so please take care not to lose them.',
+      'キーカードは最初のチェックイン時に最大3枚までお受け取りいただけます。その後の再発行はできませんので、紛失にご注意ください。',
+      '首次办理入住时最多可领取3张房卡。之后无法补办，请妥善保管，避免遗失。',
+      '首次辦理入住時最多可領取3張房卡。之後無法補發，請妥善保管，避免遺失。') },
+    refund: { route: 'rules', keywords: ['환불','취소','refund','cancel','返金','キャンセル','退款','取消'], answer: I(
+      '운영 정책 상 입실일 2주 내의 예약 건에 대해서는 환불이 불가합니다. 국내(대한민국) 천재지변 상황에 대해서만 환불이 가능합니다.',
+      'Under our operating policy, reservations within 2 weeks of check-in are non-refundable. Refunds are available only in the event of a natural disaster in South Korea.',
+      '運営方針により、チェックイン日まで2週間以内のご予約は返金できません。韓国国内での天災の場合に限り、返金が可能です。',
+      '根据运营政策，距离入住日两周以内的预订不予退款。仅在韩国境内发生自然灾害的情况下可退款。',
+      '依營運政策，距離入住日兩週以內的訂房不予退款。僅在韓國境內發生天然災害的情況下可退款。') },
+    extension: { route: 'checkin', keywords: ['연박','숙박 연장','투숙 연장','예약 연장','같은 방','같은 객실','same room','extend my stay','extend the stay','extra night','another night','two bookings','連泊','延泊','同じ部屋','同じ客室','续住','續住','连住','連住','同一间房','同一間房','同一个房','同一個房','两笔订单','兩筆訂單'], answer: I(
+      '연박 시 같은 방에 배정하도록 관리하고 있습니다만, 시스템 상으로 같은 방이 배정되는 것은 아니기 때문에, 호텔 측에 한번 더 알림 메시지를 주셔야 수동으로 동일한 객실을 배정할 수 있습니다.',
+      'We try to keep consecutive-night guests in the same room, but the system does not assign the same room automatically. Please send the property a reminder message so staff can manually arrange the same room.',
+      '連泊では同じお部屋になるよう管理していますが、システム上で自動的に同室が割り当てられるわけではありません。同じお部屋を手動で手配できるよう、宿へ改めてメッセージをお送りください。',
+      '连住时我们会尽量安排同一间客房，但系统不会自动分配同一间房。请再次给住宿方发送提醒消息，以便工作人员手动安排同一间客房。',
+      '連住時我們會盡量安排同一間客房，但系統不會自動分配同一間房。請再次傳送提醒訊息給住宿方，以便工作人員手動安排同一間客房。') },
+    laundry: { route: 'laundry', keywords: ['세탁','빨래','건조기','세제','유연제','laundry','washer','washing machine','tumble dryer','detergent','fabric softener','洗濯','乾燥機','洗剤','柔軟剤','洗衣','烘干','烘乾','烘衣','柔顺','柔順','柔軟精'], answer: I(
+      '공용라운지 내 세탁기와 건조기 사용은 무료입니다. 또한, 세탁세제와 섬유 유연제도 제공합니다.',
+      'Use of the washing and drying facilities in the shared lounge is free. Laundry detergent and fabric softener are also provided.',
+      '共用ラウンジの洗濯・乾燥設備は無料でご利用いただけます。洗濯洗剤と柔軟剤もご用意しています。',
+      '公共休息区的洗衣及烘干设备可免费使用，同时提供洗衣液和柔顺剂。',
+      '公共休息區的洗衣及烘衣設備可免費使用，並提供洗衣精和柔軟精。') },
+    cooktop: { route: 'appliances', keywords: ['인덕션','하이라이트','쿡탑','induction','cooktop','hob','ceramic cooktop','IH','コンロ','ハイライト','电磁炉','電磁爐','电陶炉','電陶爐'], answer: I(
+      '공용주방에는 인덕션이 있습니다.', 'An induction cooktop is available in the shared kitchen.',
+      '共用キッチンにはIHコンロがあります。', '公共厨房配有电磁炉。', '公共廚房配有電磁爐。') }
+  };
+  const P = D.confirmedPolicies;
+  for (const language of ['ko','en','ja','zh','zh-TW']) {
+    D.pages.checkin.sections[0].steps[language][7] += ' ' + P.keycard.answer[language];
+  }
+  const policySection = (title, policy) => ({ title, steps: Object.fromEntries(['ko','en','ja','zh','zh-TW'].map(language => [language, [policy.answer[language]]])) });
+  D.pages.rules.sections.push(
+    policySection(I('카드키 발급·분실 안내','Key-card issue and loss','キーカードの発行・紛失','房卡领取与遗失','房卡領取與遺失'), P.keycard),
+    policySection(I('취소·환불 안내','Cancellation and refunds','キャンセル・返金','取消与退款','取消與退款'), P.refund),
+    policySection(I('연박·같은 객실 이용','Consecutive stays in the same room','連泊・同じ客室の利用','连住与同一客房','連住與同一客房'), P.extension)
+  );
+  D.pages.laundry.summary = P.laundry.answer;
+  const cooktop = D.pages.appliances.devices[2];
+  cooktop.name = I('인덕션','Induction cooktop','IHコンロ','电磁炉','電磁爐');
+  cooktop.summary = P.cooktop.answer;
+  // The old ceramic-hob model/manual is not evidence for this confirmed induction unit.
+  cooktop.model = ''; cooktop.manualUrl = ''; cooktop.manualLabel = '';
+  cooktop.guideImages = []; cooktop.guideImage = ''; cooktop.guideSourceUrl = '';
+  cooktop.steps = I(
+    ['정확한 조작 방법은 현장 기기의 표시와 숙소 안내를 확인해 주세요. 사용법 확인이 필요하면 예약 채널 메시지로 문의해 주세요.'],
+    ['Follow the controls and instructions on the actual appliance. If you need help with operation, contact the property through your booking-channel messages.'],
+    ['操作方法は現場の機器表示と宿の案内をご確認ください。不明な場合は予約サイトのメッセージでお問い合わせください。'],
+    ['具体操作请以现场设备标识和住宿说明为准。需要协助时请通过预订平台消息联系住宿方。'],
+    ['具體操作請以現場設備標示和住宿說明為準。需要協助時請透過訂房平台訊息聯絡住宿方。']
+  );
 })();

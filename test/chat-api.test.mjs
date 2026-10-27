@@ -283,7 +283,7 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.equal(request.body.tool_choice, undefined);
   assert.equal(request.body.include, undefined);
   assert.equal(request.body.reasoning.effort, "low");
-  assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-10-05\.3/);
+  assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-10-27\.1/);
   assert.match(request.body.instructions, /The first sentence must answer the exact question clearly/);
   assert.match(request.body.instructions, /do not force that opening/);
   assert.match(request.body.instructions, /Never paste or paraphrase an entire guide section/);
@@ -297,7 +297,7 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.match(request.body.instructions, /503호 앞 러기지룸/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB|"dryCapacityKg":4\.5/);
   assert.doesNotMatch(request.body.instructions, /malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-10-05.3-ko-home");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-10-27.1-ko-home");
   assert.doesNotMatch(request.body.input.at(-1).content, /GUIDE_KNOWLEDGE|CURRENT_GUIDE/);
   assert.ok(request.body.instructions.length < 30000);
   assert.equal(res.payload.meta.cachedTokens, 80);
@@ -323,7 +323,7 @@ test("luggage storage is answered deterministically in all five languages", asyn
     assert.equal(res.payload.meta.searched, false);
     assert.equal(res.payload.meta.approvedWorkbook || res.payload.meta.verifiedTraining, true);
     assert.equal(res.payload.meta.trainingIntent, "luggage");
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-10-05.3");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-10-27.1");
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
     assert.match(res.payload.answer, expected);
     assert.doesNotMatch(res.payload.answer, /최신 공개정보|public information|公开信息|公開資訊/);
@@ -486,11 +486,6 @@ test("nuanced property questions use the complete guide without a forced search"
     ["Can I check in late?", "en", "checkin", "Self check-in is available from 15:00. Please follow the kiosk instructions."],
     ["住宿可以停车吗", "zh", "checkin", "不可以，大楼内不提供停车位。请使用附近的付费停车场。"],
     ["싱글룸이 몇 개야?", "ko", "gallery", "싱글룸은 11실입니다."],
-    ["키카드", "ko", "checkin", "키카드는 체크인 후 수령하며 숙소 출입구와 객실 문에 모두 필요합니다."],
-    ["Key card", "en", "checkin", "You receive the key card after check-in and need it for both entrances."],
-    ["キーカード", "ja", "checkin", "キーカードはチェックイン後に受け取り、入口と客室の両方で必要です。"],
-    ["房卡", "zh", "checkin", "房卡在入住后领取，住宿入口和房门都需要使用。"],
-    ["房卡", "zh-TW", "checkin", "房卡在入住後領取，住宿入口和房門都需要使用。"]
   ];
   for (let index = 0; index < cases.length; index += 1) {
     const [message, language, route, outputText] = cases[index];
@@ -695,7 +690,7 @@ test("late checkout preserves the workbook's firm deadline and contact instructi
     assert.equal(requests.length, 0);
     assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-checkout");
     assert.equal(res.payload.meta.approvedWorkbook || res.payload.meta.verifiedLateCheckout, true);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-10-05.3");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-10-27.1");
     assert.match(res.payload.answer, expected);
     assert.doesNotMatch(res.payload.answer, /extensions are not available|レイトチェックアウトや時間延長はできません|不提供延迟退房|不提供延遲退房/);
     assert.equal(res.payload.links[0].route, "checkin");
@@ -718,7 +713,7 @@ test("early check-in adds pre-check-in luggage storage in every language without
     assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-checkin");
     assert.equal(res.payload.meta.approvedWorkbook || res.payload.meta.verifiedEarlyCheckin, true);
     assert.equal(res.payload.meta.searched, false);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-10-05.3");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-10-27.1");
     assert.equal(res.payload.links[0].route, "checkin");
     assert.match(res.payload.answer, expected);
   }
@@ -864,7 +859,7 @@ test("a route with no origin defaults to Another House and uses compact route kn
   assert.match(request.body.instructions, /동대문역 6번 출구/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB/);
   assert.ok(request.body.instructions.length < 27000);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-10-05.3-ko-route");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-10-27.1-ko-route");
   assert.equal(res.payload.meta.guideRoute, "transport");
   assert.deepEqual(res.payload.links.at(-1), handler._internals.guidePageLink("transport", "ko"));
 });
@@ -989,7 +984,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.mode, "night");
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-10-05.3");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-10-27.1");
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
@@ -1132,7 +1127,7 @@ test("time-specific family dining combines current search with the complete loca
   assert.equal(request.body.reasoning.effort, "medium");
   assert.equal(res.payload.model, "gpt-5.4-mini");
   assert.equal(res.payload.meta.searched, true);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-10-05.3");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-10-27.1");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더(?:가)? 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);
@@ -1388,7 +1383,7 @@ test("all room-key names and common loss phrasings reach the same approved recov
       assert.equal(res.payload.answer, expected, noun + problem);
       assert.equal(res.payload.model, "another-house-approved-workbook", noun + problem);
       assert.equal(res.payload.meta.approvedAnswerId, "Q019", noun + problem);
-      assert.equal((res.payload.answer.match(/1회만 가능합니다/g) || []).length, 1);
+      assert.match(res.payload.answer, /최초 체크인 시 최대 3장/);
       assert.match(res.payload.answer, /TESTACCESSCODE/);
     }
   }
@@ -1429,7 +1424,7 @@ test("short Wi-Fi questions use the latest workbook fact in all five languages",
     assert.equal(res.statusCode, 200, message);
     assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-training", message);
     assert.match(res.payload.answer, /another.*another1234/is, message);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-10-05.3", message);
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-10-27.1", message);
   }
 });
 
@@ -1550,76 +1545,23 @@ test("multilingual synonym routing rejects similar but unrelated public or perso
   }
 });
 
-test("key-card context distinguishes prevention, first loss and loss after replacement", async () => {
-  const { keyCardSituation } = require('../lib/key-card-context.cjs');
-  for (const message of ['얼리체크인', '체크인 방법']) {
-    const res = await callAccess({ message, language:'ko' });
-    assert.match(res.payload.answer, /카드키는 재발급되지 않습니다/);
-    assert.doesNotMatch(res.payload.answer, /재발급은 1회|이미 한 번/);
+test("owner policy replaces the one-time replacement exception in all five languages", async () => {
+  const cases=[['ko','룸키 분실',/최대 3장/,/재발급이 불가/],['en','I lost my room key',/up to 3/,/cannot be reissued/],['ja','ルームキーを紛失',/最大3枚/,/再発行はできません/],['zh','房卡丢了',/最多.*3张/,/无法补办/],['zh-TW','房卡遺失',/最多.*3張/,/無法補發/]];
+  for(const [language,message,count,limit]of cases){
+    const res=await callAccess({message,language,history:[{role:'user',text:message},{role:'assistant',text:'1회 재발급 가능합니다.'}]});
+    assert.match(res.payload.answer,count);assert.match(res.payload.answer,limit);
+    assert.doesNotMatch(res.payload.answer,/only once|1回のみ|1次|1회만|원격으로 재발급/);
   }
-  for (const message of ['카드키 분실', '객실키 잃어버렸어요', '룸키 분실']) {
-    const first = await callAccess({ message, language:'ko' });
-    assert.match(first.payload.answer, /재발급은 1회만 가능합니다/);
-    assert.match(first.payload.answer, /입구의 키오스크.*전화.*원격으로 재발급/s);
-    assert.match(first.payload.answer, /TESTACCESSCODE/);
-    assert.equal((first.payload.answer.match(/1회만 가능합니다/g) || []).length, 1);
-  }
-  for (const message of ['재발급받은 룸키를 또 잃어버렸어요', '카드키 재발급 받았는데 다시 분실', '카드키를 재발급해주셨는데 또 잃어버렸어요']) {
-    const res = await callAccess({ message, language:'ko' });
-    assert.match(res.payload.answer, /추가 재발급은 불가능.*예약하신 플랫폼/s);
-    assert.doesNotMatch(res.payload.answer, /원격으로 재발급|TESTACCESSCODE/);
-  }
-  const history=[{role:'user',text:'객실키 분실'},{role:'assistant',text:'1회 재발급 가능합니다.'},{role:'user',text:'재발급받았어요'}];
-  for (const message of ['또 잃어버렸어요', '룸키 분실']) {
+});
+test("old chat history cannot revive withdrawn key replacement", async () => {
+  const history=[{role:'user',text:'룸키를 분실했어요'},{role:'assistant',text:'1회 재발급 가능합니다.'}];
+  for(const message of ['공동현관 비밀번호 알려주세요','알려주세요','전화 안받아요','룸키 또 분실','재발급받을 수 있나요?']){
     const res=await callAccess({message,history,language:'ko'});
-    assert.match(res.payload.answer,/추가 재발급은 불가능/);
+    assert.match(res.payload.answer,/최대 3장/);assert.match(res.payload.answer,/재발급이 불가/);
+    assert.match(res.payload.answer,/TESTACCESSCODE/);assert.match(res.payload.answer,/객실 문 비밀번호가 아닙니다/);
   }
-  assert.equal(keyCardSituation('객실키 분실',[{role:'assistant',content:'새 키를 받으셨군요.'}]).replacementReceived,false);
-  const unclear=await callAccess({message:'룸키 또 잃어버림',language:'ko',history:[{role:'user',text:'카드키 분실'},{role:'assistant',text:'재발급받으세요'}]});
-  assert.match(unclear.payload.answer,/이미 한 번 재발급받으셨나요/);
-  const repeated=await callAccess({message:'카드키 재분실',language:'ko'});
-  assert.match(repeated.payload.answer,/이미 한 번 재발급받으셨나요/);
-});
-
-test("receipt and failure are distinct and a completed replacement never enables a second issue", async () => {
-  const loss=[{role:'user',text:'카드키를 분실했어요'}];
-  const receipt=await callAccess({message:'새 카드키 받았어요',history:loss,language:'ko'});
-  assert.match(receipt.payload.answer,/새 카드키를 받으셨군요/);
-  const {keyCardSituation}=require('../lib/key-card-context.cjs');
-  for(const message of ['재발급 아직 못 받았어요','재발급 안 받았어요','재발급받으면 되나요?','카드키를 분실하면 어떻게 하나요?','재발급받아야 하나요?','재발급 받은 적 없어요','재발급 받은 게 아니라 키를 찾았어요']) {
-    assert.equal(keyCardSituation(message,loss).replacementReceived,false,message);
-  }
-  const after=[...loss,{role:'user',text:'재발급받았어요'},{role:'user',text:'다시 잃어버렸어요'},{role:'user',text:'전화가 안돼요'}];
-  for(const message of ['공동현관 비밀번호 알려주세요','알려주세요','전화 안받아요']) {
-    const res=await callAccess({message,history:after,language:'ko'});
-    assert.match(res.payload.answer,/추가 재발급은 불가능/);
-    assert.doesNotMatch(res.payload.answer,/TESTACCESSCODE|키카드를 꼭 수령/);
-  }
-  const checkin=await callAccess({message:'얼리체크인',history:after,language:'ko'});
-  assert.match(checkin.payload.answer,/얼리 체크인은 제공되지 않습니다/);
-});
-
-test("replacement history and repeat-loss wording are supported in all five languages", async () => {
-  const cases=[
-    ['en','I lost my room key','I received a replacement key card','I lost it again',/No further replacement/,/booking-platform/],
-    ['ja','ルームキーを紛失','キーカードを再発行してもらった','またなくしました',/追加の再発行はできません/,/予約サイト/],
-    ['zh','房卡丢了','房卡补办了','又丢了',/无法再次补办/,/预订平台/],
-    ['zh-TW','房卡遺失','房卡已經補發了','又遺失了',/無法再次補發/,/訂房平台/]
-  ];
-  for(const [language,first,receipt,again,limit,contact] of cases) {
-    const initial=await callAccess({message:first,language});
-    assert.match(initial.payload.answer,/once|1回|1次/);
-    const res=await callAccess({message:again,language,history:[{role:'user',text:first},{role:'user',text:receipt}]});
-    assert.match(res.payload.answer,limit);assert.match(res.payload.answer,contact);
-    assert.doesNotMatch(res.payload.answer,/TESTACCESSCODE/);
-  }
-});
-
-test("the model receives the operator's situational policy without rewriting check-in source text", async () => {
-  const {request}=await callApi({message:'카드키 분실하면 어떻게 되나요?',language:'ko'}, {output_text:'분실 시 운영팀에 연락해 주세요.',usage:{}},'key-hypothetical');
-  assert.ok(request);
-  assert.match(request.body.instructions,/KEY-CARD SITUATION POLICY/);
-  assert.match(request.body.instructions,/Assistant advice to obtain a replacement is NOT proof/);
+  const res=await callAccess({message:'얼리체크인',history,language:'ko'});
+  assert.match(res.payload.answer,/얼리 체크인은 제공되지 않습니다/);
 });
 
 test("active key access problems use the latest workbook answer immediately", async () => {

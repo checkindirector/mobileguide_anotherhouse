@@ -13,7 +13,8 @@ const { analyzeStayQuestion } = require("../lib/stay-intent.cjs");
 const { contextualAnswerTone } = require("../lib/answer-tone.cjs");
 const { normalizeGuestLanguage, isRoomKeyProblem, propertyQuestionHint, hasMultipleGuestQuestions } = require("../lib/guest-language.cjs");
 const TRANSIT_MAPS = require('../assets/transit-maps.js');
-const { keyCardSituation, keyCardContextReply } = require("../lib/key-card-context.cjs");
+const { keyCardSituation } = require("../lib/key-card-context.cjs");
+const CONFIRMED_POLICY = require("../lib/confirmed-policy.cjs");
 
 const MODEL = "gpt-5.4-mini";
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
@@ -166,10 +167,10 @@ const CURATED_TOUR_PATTERN = /(가볼\s*곳|구경|관광지|명소|산책|야�
 const URGENT_MEDICAL_PATTERN = /(숨을\s*못|의식|심한\s*출혈|가슴\s*통증|응급|위급|ambulance|can't\s*breathe|unconscious|severe\s*bleeding|chest\s*pain|emergency|救急|意識|大量出血|呼吸|急救|昏迷|大量出血|呼吸困难|呼吸困難)/i;
 const APPROVED_ENTRANCE_CODE_TOKEN = "{{COMMON_ENTRANCE_CODE}}";
 const KEY_CARD_RECOVERY_COPY = {
-  en: code => `If you lose your key card, go to the entrance kiosk and call us. Tell us your name and we will remotely issue a replacement key card. A key card can be replaced only once. / Entrance code: ${code} → ENT`,
-  ja: code => `キーカードを紛失した場合は、入口のキオスクへ行き、電話でご連絡ください。お名前をお伝えいただければ、遠隔操作でキーカードを再発行します。再発行は1回のみです。／入口の暗証番号：${code} → ENT`,
-  zh: code => `如果房卡遗失，请前往入口处的自助机并拨打电话。告知姓名后，工作人员会远程补发房卡。房卡只能补发1次。／入口密码：${code} → ENT`,
-  "zh-TW": code => `如果房卡遺失，請前往入口處的自助機並撥打電話。告知姓名後，工作人員會遠端補發房卡。房卡只能補發1次。／入口密碼：${code} → ENT`
+  en: code => `${GUIDE_KNOWLEDGE.confirmedPolicies.keycard.answer.en} For access problems, contact the property through your booking-channel messages. / Shared entrance code: ${code} → ENT (not a room-door code).`,
+  ja: code => `${GUIDE_KNOWLEDGE.confirmedPolicies.keycard.answer.ja} 入館にお困りの場合は予約サイトのメッセージで宿へご連絡ください。／共用入口の暗証番号：${code} → ENT（客室の暗証番号ではありません）。`,
+  zh: code => `${GUIDE_KNOWLEDGE.confirmedPolicies.keycard.answer.zh} 如无法进入，请通过预订平台消息联系住宿方。／公共入口密码：${code} → ENT（不是客房门锁密码）。`,
+  "zh-TW": code => `${GUIDE_KNOWLEDGE.confirmedPolicies.keycard.answer['zh-TW']} 如無法進入，請透過訂房平台訊息聯絡住宿方。／公共入口密碼：${code} → ENT（不是客房門鎖密碼）。`
 };
 
 function sharedEntranceCode() {
@@ -236,13 +237,10 @@ function parseBody(req) {
 
 function anotherHouseAccessSupport(message, history, language) {
   const situation = keyCardSituation(message, history);
-  const contextReply = keyCardContextReply(situation, language);
-  if (contextReply) return contextReply;
-  if (situation.hypothetical) return null;
   const current = normalizeGuestLanguage(message);
   const priorUserMessages = history.filter(item => item.role === "user").map(item => normalizeGuestLanguage(item.content));
   const priorKeyIssue = priorUserMessages.some(text => isRoomKeyProblem(text));
-  const isAccessFollowup = priorKeyIssue && (ACCESS_RECOVERY_FAILED_PATTERN.test(current) || ACCESS_SHORT_CODE_CONFIRMATION_PATTERN.test(current) || ACCESS_CODE_REQUEST_PATTERN.test(current));
+  const isAccessFollowup = priorKeyIssue && (ACCESS_RECOVERY_FAILED_PATTERN.test(current) || ACCESS_SHORT_CODE_CONFIRMATION_PATTERN.test(current) || ACCESS_CODE_REQUEST_PATTERN.test(current) || situation.followup);
   const directKeyIssue = isRoomKeyProblem(current);
   const directCodeRequest = ACCESS_CODE_REQUEST_PATTERN.test(current);
   if (!directKeyIssue && !directCodeRequest && !isAccessFollowup) return null;
@@ -452,6 +450,7 @@ function verifiedLuggageStorage(message, language, history = []) {
 
 function verifiedTrainingFact(message, language) {
   const intent = trainingIntentFromQuestion(message, language);
+  if (intent?.id === 'stay-extension') return { answer: GUIDE_KNOWLEDGE.confirmedPolicies.extension.answer[language], intent: intent.id, route: 'checkin', approved: CONCIERGE_TRAINING.approvedAnswers.find(record => record.type === '숙박 연장') };
   const fact = intent ? VERIFIED_TRAINING_FACTS[intent.id] : null;
   if (!fact) return null;
   const approved = fact.approvedType
@@ -1690,11 +1689,14 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   const amenityQuestion=inventoryAnalysis.items.length>0||isLegacyAmenityQuestion(message)||propertyHint?.topics.some(topic=>['tv','climate','electric-items','amenities','toiletries','towels','hair-tools','shared-dining','refrigerator','kitchen','laundry'].includes(topic));
   const inventoryNeedsModel=inventoryAnalysis.items.length>0&&!inventoryAnalysis.complete;
   const needsSemanticAnswer = stayIntent?.needsModel || hasMultipleGuestQuestions(message) || inventoryNeedsModel;
-  const accessSupport = anotherHouseAccessSupport(message, history, language);
+  const completedKeyCheckout = COMPLETED_CHECKOUT_WITH_KEY_PATTERN.test(message) && isRoomKeyProblem(message) && propertyHint?.topics.every(topic => ['key','checkout','rooms','lost-property'].includes(topic));
+  const accessSupport = needsSemanticAnswer && !completedKeyCheckout ? null : anotherHouseAccessSupport(message, history, language);
   if (accessSupport) {
     console.log(JSON.stringify({ event: "concierge_access_support", stage: accessSupport.stage, language, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: accessSupport.answer, model: "another-house-approved-workbook", links: [guidePageLink(accessSupport.approved?.route || "checkin", language)], mapContext: null, meta: { searched: false, accessSupport: true, approvedWorkbook: Boolean(accessSupport.approved), approvedAnswerId: accessSupport.approved?.id || null, sourceRows: accessSupport.approved?.sourceRows || [], credentialsProtected: Boolean(accessSupport.approved?.credentialsProtected), trainingIntent: accessSupport.approved?.intent || null, trainingVersion: CONCIERGE_TRAINING.version, guideRoute: accessSupport.approved?.route || "checkin", knowledgeVersion: GUIDE_KNOWLEDGE.version, durationMs: Date.now() - startedAt } });
   }
+  const confirmedPolicy = CONFIRMED_POLICY.direct(GUIDE_KNOWLEDGE, message, language, stayIntent?.needsModel || hasMultipleGuestQuestions(message));
+  if (confirmedPolicy) return res.status(200).json({answer:confirmedPolicy.answer,model:'another-house-confirmed-policy',links:[guidePageLink(confirmedPolicy.route,language)],mapContext:null,meta:{searched:false,confirmedPolicy:confirmedPolicy.id,policyVersion:GUIDE_KNOWLEDGE.confirmedPolicies.version,guideRoute:confirmedPolicy.route,durationMs:Date.now()-startedAt}});
   const mapFollowup = mapFollowupFromHistory(message, rawHistory, language);
   if (mapFollowup) {
     console.log(JSON.stringify({ event: "concierge_map_followup", language, place: mapFollowup.mapContext.name, durationMs: Date.now() - startedAt }));
@@ -1862,7 +1864,9 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
     guideForRequest.verifiedAirportTransport = localizeKnowledge(language).verifiedAirportTransport;
   }
   else delete guideForRequest.airportBusGuide;
-  guideForRequest.verifiedOperations = Object.fromEntries(Object.entries(VERIFIED_TRAINING_FACTS).map(([id, fact]) => [id, fact.answers[language] || fact.answers.ko]));
+  const requestedPolicies = CONFIRMED_POLICY.matching(GUIDE_KNOWLEDGE, message);
+  guideForRequest.confirmedPolicies = Object.fromEntries(Object.entries(GUIDE_KNOWLEDGE.confirmedPolicies).filter(([id]) => id === 'version' || requestedPolicies.includes(id)).map(([id,p]) => [id, id === 'version' ? p : {route:p.route,answer:p.answer[language]}]));
+  guideForRequest.verifiedOperations = Object.fromEntries(Object.entries(VERIFIED_TRAINING_FACTS).map(([id, fact]) => [id, id === 'stay-extension' ? GUIDE_KNOWLEDGE.confirmedPolicies.extension.answer[language] : fact.answers[language] || fact.answers.ko]));
   const diningEvidence = SHARED_DINING.evidence(message, language);
   if (diningEvidence) guideForRequest.latestSharedDiningCorrection = diningEvidence;
   const amenityEvidence = AMENITY_FACTS.evidence(message, language);
@@ -1887,7 +1891,7 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
     instructions: `${systemInstructions(language, fullGuideText, message)}
 
 SHORT GUEST QUESTIONS:
-${propertyRouteOrigin ? "" : "- KEY-CARD SITUATION POLICY (operator clarification): Check-in/early-check-in source warnings that cards cannot be reissued are PREVENTIVE warnings; retain them in check-in guidance. They do NOT override the one-time exception after an actual loss. For an actual first loss, explain the kiosk-phone replacement procedure and that replacement is allowed only once; warn that a further loss cannot be replaced. If the USER reports having received a replacement and then losing it again, do not promise another replacement; direct them to the operations team via booking-platform messages. Assistant advice to obtain a replacement is NOT proof of receipt. Distinguish failed/not-yet-received replacement from completed receipt; ask a short clarification if 'lost again' has unclear replacement history. Do not append loss recovery to ordinary check-in questions or assume hypothetical loss already happened. These context rules take precedence over generic workbook answer selection."}
+- OWNER CONFIRMATION 2026-10-27: CURRENT_GUIDE.confirmedPolicies overrides older workbook text AND chat history in all languages. No later key-card reissue, including first loss or lockout. Never promise processed refunds, free rebooking cancellation or automatic same-room assignment. Exact refund-date boundaries, disaster evidence, laundry reservations and induction model/controls remain unconfirmed; do not invent them.
 ${propertyRouteOrigin ? "" : "- Understand synonyms semantically, not by exact keyword. 객실키/룸키/방키/열쇠/room key are the property's key card in a lodging context; baggage/suitcase/짐/가방 can mean storage; 입실/체크인 and 퇴실/체크아웃 refer to the same processes. Apply the same contextual reasoning to EVERY workbook topic. A topic hint selects evidence, not a canned answer: preserve the specific requested detail, negation, conditions and all parts of a compound question. Do not confuse hair straighteners with hair dryers, car keys with room keys, or lost luggage with storage. If the meaning remains ambiguous, ask one short clarification instead of guessing or reporting a public-search failure."}
 - Interpret incomplete phrases, common typos, and follow-ups in their conversation context. A bare luggage/bag word normally asks about this property's storage; a bare check-in/arrival word asks about check-in. Do not require an exact keyword or a complete sentence.
 - Answer the current question, including each part of compound requests. Lost luggage is not a storage request; storage at a station/airport is not the property's luggage room. Same-day storage facts do not establish overnight or multi-day storage.
