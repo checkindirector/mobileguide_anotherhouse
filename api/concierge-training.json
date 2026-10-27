@@ -1,10 +1,11 @@
 {
-  "version": "2026-10-19.1",
+  "version": "2026-10-27.1",
   "source": {
     "workbook": "Q&A 표준화 (2).xlsx",
     "rawSheet": "어나더 질문 RAW",
     "trainingSheet": "어나더 질문 & 답변 AI학습",
-    "trainingRange": "A1:E122"
+    "trainingRange": "A1:E122",
+    "operatorConfirmation": "2026-10-27: 오너 확인 필요 5건 C2:C6"
   },
   "recordCount": 121,
   "intentCount": 33,
@@ -993,7 +994,7 @@
       "intent": "key-card-recovery",
       "type": "키 재발급·오반납,분실",
       "route": "checkin",
-      "answer": "카드키를 분실하셨다면 입구의 키오스크로 가셔서 전화해주십시요. 이름을 말해주시면 원격으로 재발급 해드립니다. ★ 재발급은 1회만 가능합니다. / 입구 출입비밀번호 : {{COMMON_ENTRANCE_CODE}} → ENT",
+      "answer": "카드키는 최초 체크인 시 최대 3장까지 받을 수 있습니다. 이후에는 재발급이 불가하므로 분실에 유의 부탁드립니다. 출입에 문제가 있으면 예약 채널 메시지로 숙소에 현재 상황을 알려주세요. / 공용 출입구 비밀번호: {{COMMON_ENTRANCE_CODE}} → ENT (객실 문 비밀번호가 아닙니다.)",
       "examples": [
         "안녕하세요, 제가 실수로 출입 카드를 반납했습니다. 어떻게 하면 새 카드를 신청할 수 있나요?",
         "룸 키를 없애버렸습니다. 방 번호는 501호실입니다. 일본어밖에 말할 수 없습니다.",
@@ -1021,7 +1022,8 @@
         "Q075"
       ],
       "credentialsProtected": true,
-      "sourceAnswerSha256": null
+      "sourceAnswerSha256": null,
+      "operatorConfirmation": "2026-10-27"
     },
     {
       "id": "Q024",
@@ -1494,7 +1496,7 @@
       "intent": "stay-extension",
       "type": "연장, 연박요청",
       "route": "checkin",
-      "answer": "연장하시면 같은 방으로 배정됩니다. 1박 연장은 해당 날짜의 객실 가능 여부를 확인해야 합니다. 예약자 이름과 원하시는 추가 숙박 날짜로 예약 채널을 통해 직접 예약해주세요.",
+      "answer": "연박 시 같은 방에 배정하도록 관리하고 있습니다만, 시스템 상으로 같은 방이 배정되는 것은 아니기 때문에, 호텔 측에 한번 더 알림 메시지를 주셔야 수동으로 동일한 객실을 배정할 수 있습니다.",
       "examples": [
         "저는 9월 19일에 황로마 호텔에 2박 투숙할 예정입니다. 비밀번호는 이전과 동일하게 사용 가능한가요?"
       ],
@@ -1505,14 +1507,15 @@
         "Q023"
       ],
       "credentialsProtected": false,
-      "sourceAnswerSha256": "3c3c006702268b551e6e1ac34a4c4287ec4051f5f5e6ce11bf2188352123f776"
+      "sourceAnswerSha256": null,
+      "operatorConfirmation": "2026-10-27"
     },
     {
       "id": "Q116",
       "intent": "stay-extension",
       "type": "숙박 연장",
       "route": "checkin",
-      "answer": "1박 연장은 해당 날짜의 객실 가능 여부를 확인해야 합니다. 예약자 이름과 원하시는 추가 숙박 날짜로 예약 채널을 통해 직접 예약해주세요.",
+      "answer": "연박 시 같은 방에 배정하도록 관리하고 있습니다만, 시스템 상으로 같은 방이 배정되는 것은 아니기 때문에, 호텔 측에 한번 더 알림 메시지를 주셔야 수동으로 동일한 객실을 배정할 수 있습니다.",
       "examples": [
         "숙박을 1박 연장할 수 있나요?"
       ],
@@ -1523,7 +1526,8 @@
         "Q116"
       ],
       "credentialsProtected": false,
-      "sourceAnswerSha256": "00b94ced07ca63b81b7d23e5f83398ad3d4deb8ffc9a5567a2a39e605645e7cc"
+      "sourceAnswerSha256": null,
+      "operatorConfirmation": "2026-10-27"
     }
   ]
 }

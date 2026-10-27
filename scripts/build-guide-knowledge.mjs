@@ -4,7 +4,7 @@ import vm from "node:vm";
 import sharedDining from "../lib/shared-dining.cjs";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-10-05.3";
+const VERSION = "2026-10-27.1";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -478,6 +478,7 @@ airportTransport.incheon.daytimeBus.maps = context.window.ANOTHER_HOUSE_AIRPORT_
 airportTransport.incheon.nightBus.maps = context.window.ANOTHER_HOUSE_AIRPORT_BUS.locales.ko.routes[2].departure.maps;
 const knowledge = {
   version: VERSION,
+  confirmedPolicies: data.confirmedPolicies,
   generatedAt: "2026-09-23",
   sourceOfTruth: "Another House operations manual synchronized with current rendered site data",
   canonicalUrl: SITE_URL,
