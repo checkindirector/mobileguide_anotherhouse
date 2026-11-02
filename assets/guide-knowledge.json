@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-27.1",
+  "version": "2026-11-02.1",
   "confirmedPolicies": {
     "version": "2026-10-27.1",
     "keycard": {
@@ -10665,6 +10665,9 @@
         },
         "inventory": "공용주방에 수저(숟가락·젓가락)와 포크가 있습니다. 공용 다이닝에는 개인물품에 이름을 적을 수 있도록 포스트잇과 펜이 준비되어 있습니다."
       },
+      "sharedInventory": {
+        "inventory": "라운지에 공용주방이 있으며 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류(수저, 포크), 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제와 섬유유연제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다. 공용 다이닝을 이용하실 때 개인물품에는 준비된 포스트잇과 펜을 사용하여 이름을 적어주세요. 공용라운지 내 세탁기와 건조기 사용은 무료입니다."
+      },
       "summary": "사진에서 확인한 모델명과 제조사 공식 자료를 대조해, 숙소에서 자주 쓰는 조작만 정리했습니다.",
       "devices": [
         {
@@ -10771,6 +10774,9 @@
           "verifiedAt": "2026-10-19"
         },
         "inventory": "Spoons, chopsticks and forks are available in the shared kitchen. Sticky notes and pens are provided in the shared dining area for labeling personal belongings with your name."
+      },
+      "sharedInventory": {
+        "inventory": "The shared kitchen in the lounge has a refrigerator, microwave, induction cooktop, water purifier, cups, cutlery (spoons, chopsticks and forks), pots, frying pans, a washer-dryer, laundry detergent and fabric softener. The GUEST BOX contains a hair straightener, travel adapters, extra towels and dental kits. In the shared dining area, please use the provided sticky notes and pens to label your personal belongings with your name. Use of the washing and drying facilities in the shared lounge is free."
       },
       "summary": "We matched the photographed models with manufacturer documentation and summarized the controls guests use most.",
       "devices": [
@@ -10879,6 +10885,9 @@
         },
         "inventory": "共用キッチンにスプーン・箸・フォークがあります。共用ダイニングには、私物に名前を書くための付箋とペンが用意されています。"
       },
+      "sharedInventory": {
+        "inventory": "ラウンジの共用キッチンには冷蔵庫、電子レンジ、IHコンロ、浄水器、カップ、食器類（スプーン・箸・フォーク）、鍋、フライパン、洗濯乾燥機、洗濯洗剤、柔軟剤があります。GUEST BOXにはヘアアイロン、変換アダプター、予備タオル、歯ブラシセットを用意しています。共用ダイニングでは、備え付けの付箋とペンで私物に名前を書いてください。共用ラウンジの洗濯・乾燥設備は無料でご利用いただけます。"
+      },
       "summary": "写真の型番をメーカー公式資料と照合し、滞在中によく使う操作をまとめました。",
       "devices": [
         {
@@ -10986,6 +10995,9 @@
         },
         "inventory": "公共厨房备有勺子、筷子和叉子。公共用餐区备有便签和笔，请用来给个人物品标注姓名。"
       },
+      "sharedInventory": {
+        "inventory": "休息区的公共厨房备有冰箱、微波炉、电磁炉、净水器、杯子、餐具（勺子、筷子和叉子）、锅、平底锅、洗烘一体机、洗衣液和柔顺剂。GUEST BOX 内备有直发器、转换插头、备用毛巾和牙具套装。使用公共用餐区时，请用备好的便签和笔在个人物品上写上姓名。公共休息区的洗衣及烘干设备可免费使用。"
+      },
       "summary": "已将照片中的型号与制造商官方资料核对，并整理住客常用操作。",
       "devices": [
         {
@@ -11092,6 +11104,9 @@
           "verifiedAt": "2026-10-19"
         },
         "inventory": "公共廚房備有湯匙、筷子和叉子。公共用餐區備有便利貼和筆，請用來在個人物品上標註姓名。"
+      },
+      "sharedInventory": {
+        "inventory": "休息區的公共廚房備有冰箱、微波爐、電磁爐、淨水器、杯子、餐具（湯匙、筷子和叉子）、鍋子、平底鍋、洗脫烘洗衣機、洗衣精和柔軟精。GUEST BOX 內備有直髮器、轉換插頭、備用毛巾和牙具組。使用公共用餐區時，請用準備好的便利貼和筆在個人物品上寫上姓名。公共休息區的洗衣及烘衣設備可免費使用。"
       },
       "summary": "已將照片中的型號與製造商官方資料核對，並整理住客常用操作。",
       "devices": [
@@ -16631,7 +16646,7 @@
     "accommodationFactsMustComeFromThisKnowledge": true
   },
   "conciergeTraining": {
-    "version": "2026-10-27.1",
+    "version": "2026-11-02.1",
     "approvedAnswerCount": 36,
     "recordCount": 121,
     "intentCount": 33,

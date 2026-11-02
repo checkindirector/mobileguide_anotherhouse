@@ -1,11 +1,31 @@
 /* Pure route classification shared by the server and browser fallback. */
 (function (root) {
   const airport = /공항|airport|空港|机场|機場/i;
-  const arrival = /공항(?:\s*(?:T[12]|제?\s*[12]\s*터미널))?\s*(?:에서|부터)|from\s+(?:(?:incheon|the)\s+)?(?:international\s+)?airport|(?:仁川)?(?:国際)?空港(?:T[12]|第?[12]ターミナル)?から|(?:从|從)(?:仁川)?(?:国际|國際)?(?:机场|機場)/i;
+  const arrival = /공항(?:\s*(?:T[12]|제?\s*[12]\s*터미널))?\s*(?:에서|부터)|from\s+(?:(?:incheon|the)\s+)?(?:international\s+)?airport|(?:仁川)?(?:国際)?空港(?:T[12]|第?[12]ターミナル)?から|(?:从|從)(?:仁川)?(?:国际|國際)?(?:机场|機場)|(?:숙소|어나더\s*하우스)(?:로|에|까지)\s*(?:오|가|도착)|(?:to|arriv(?:e|ing)\s+at)\s+(?:the\s+)?(?:hotel|property|hostel|accommodation)|(?:宿|ホテル)(?:へ|に)(?:到着|向か)|(?:到|往|抵[达達]|到[达達])\s*(?:住宿|酒店|飯店|饭店)/i;
   const outbound = /공항\s*(?:으로|에|까지|가는|갈)|to\s+(?:incheon\s+)?(?:the\s+)?airport|空港(?:へ|まで|に)|(?:去|到|往).{0,8}(?:机场|機場)/i;
   const propertyOrigin = /숙소|어나더\s*하우스|선일\s*빌딩|동대문|another\s*house|property|hotel|hostel|accommodation|here|dongdaemun|当館|宿泊先|ホテル|(?:^|\s)宿$|東大門|住宿|旅舍|酒店|飯店|饭店|東大門|东大门/i;
   const airportOrigin = /공항|airport|空港|机场|機場/i;
   const alternativeMode = /AREX|공항\s*철도|철도|지하철|전철|열차|기차|택시|airport\s*(?:rail|train)|railway|\btrain\b|subway|metro|\btaxi\b|鉄道|地下鉄|電車|タクシー|铁路|鐵路|地铁|地鐵|列车|列車|出租车|計程車/i;
+
+  function clarification(value, history = [], language = 'ko') {
+    const text = String(value || '').normalize('NFKC');
+    const previous = history.filter(x => x?.role === 'user').slice(-2).map(x => x.content || x.text || '').join(' ');
+    if (/체크인|체크아웃|짐보관|check.?in|check.?out|luggage\s*storage|チェックイン|チェックアウト|入住|退房|行李寄|荷物預/iu.test(text)) return null;
+    // Arrival alone does not name a destination. Only a guest's explicit
+    // direction may resolve it; an earlier assistant assumption is not consent.
+    if (!/도착|도달|\barriv(?:e|es|ing|al)\b|到着|到[达達]|抵[达達]/i.test(text)) return null;
+    if (!(airport.test(text) || /리무진|limousine|リムジン|N?6002|6702/i.test(text) || airport.test(previous))) return null;
+    const airportDestination = /공항\s*도착|arriv(?:e|ing|al)\s+at\s+(?:(?:incheon|the)\s+)*(?:international\s+)?airport/i;
+    if (hasOtherOrigin(text) || arrival.test(text) || outbound.test(text) || airportDestination.test(text) || arrival.test(previous) || outbound.test(previous) || airportDestination.test(previous)) return null;
+    if (/숙소\s*(?:로|에|까지)|to\s+(?:the\s+)?(?:hotel|property|hostel|accommodation)|宿(?:泊先)?(?:へ|に)|(?:到|往|抵[达達])\s*(?:住宿|酒店|飯店|饭店)/i.test(text)) return null;
+    return {
+      ko: '공항에서 숙소로 오시는 길인가요, 숙소에서 공항으로 가시는 길인가요?',
+      en: 'Are you travelling from the airport to the property, or from the property to the airport?',
+      ja: '空港から宿へ向かいますか、それとも宿から空港へ向かいますか？',
+      zh: '您是从机场前往住宿，还是从住宿前往机场？',
+      'zh-TW': '您是從機場前往住宿，還是從住宿前往機場？'
+    }[language] || null;
+  }
 
   function hasOtherOrigin(value) {
     const text = String(value || '');
@@ -62,7 +82,7 @@
     const seen = new Set();
     return { answer, links:links.filter(link => !seen.has(link.url) && seen.add(link.url)), mode:direction, route:arrival ? 'transport' : 'airport-departure', verifiedAt:knowledge.airportBusGuide.verifiedAt };
   }
-  const api = { classify, hasOtherOrigin, alternativeMode, stopGuide };
+  const api = { classify, clarification, hasOtherOrigin, alternativeMode, stopGuide };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.ANOTHER_HOUSE_AIRPORT_ROUTE = api;
 })(typeof window !== 'undefined' ? window : globalThis);

@@ -3,8 +3,17 @@
 // question may use a fixed answer; unknown words and conditions go to the model.
 (function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.ANOTHER_HOUSE_AMENITIES=api;})(typeof globalThis!=='undefined'?globalThis:this,function(){
 'use strict';
-const source = {url:'https://docs.google.com/spreadsheets/d/11-CezKy5zGxL0lQuOKa86b7DwihfSH-ieCzJ7wIjPQ0/edit?gid=472542366',sheet:'어나더 요약',verifiedAt:'2026-10-26'};
+const source = {url:'https://docs.google.com/spreadsheets/d/11-CezKy5zGxL0lQuOKa86b7DwihfSH-ieCzJ7wIjPQ0/edit?gid=472542366',sheet:'어나더 요약',verifiedAt:'2026-11-02'};
 const languages = ['ko', 'en', 'ja', 'zh', 'zh-TW'];
+const overview = /^(?:(?:공용\s*(?:비품|용품)|공용\s*시설\s*비품)(?:은|이|에|에는)?\s*(?:뭐|무엇|어떤|목록|알려|있|준비|안내|좀|나요|어요|주세요|돼|되어|가|들|있는지|것|습니까|까요|\s|[?？.!])*|(?:(?:what|which)\s+)?(?:shared|common|communal)\s+(?:amenities|supplies|facilities)(?:\s+(?:are|do|you|have|available|provided|there|include|the|please|tell|me|about|what|is|list|of))*[?？.!]*|(?:共用|共有)(?:の)?(?:備品|アメニティ|設備)(?:は|が|に|を|何|なに|どんな|あります|ある|用意|教えて|ください|です|か|ます|されて|います|一覧|[?？。！\s])*|(?:公共|共用|公用)(?:备品|備品|用品|設備|设备)(?:有|哪些|什么|什麼|提供|吗|嗎|請問|请问|清单|清單|介紹|介绍|[?？。！\s])*)$/iu;
+const shared = {
+  "ko": "라운지에 공용주방이 있으며 냉장고, 전자레인지, 인덕션, 정수기, 컵, 식기류(수저, 포크), 냄비, 프라이팬, 세탁기(건조기 겸용), 세탁세제와 섬유유연제가 있습니다. GUEST BOX에는 헤어고데기, 변환 어댑터, 여분 수건과 덴탈키트가 준비되어 있습니다. 공용 다이닝을 이용하실 때 개인물품에는 준비된 포스트잇과 펜을 사용하여 이름을 적어주세요. 공용라운지 내 세탁기와 건조기 사용은 무료입니다.",
+  "en": "The shared kitchen in the lounge has a refrigerator, microwave, induction cooktop, water purifier, cups, cutlery (spoons, chopsticks and forks), pots, frying pans, a washer-dryer, laundry detergent and fabric softener. The GUEST BOX contains a hair straightener, travel adapters, extra towels and dental kits. In the shared dining area, please use the provided sticky notes and pens to label your personal belongings with your name. Use of the washing and drying facilities in the shared lounge is free.",
+  "ja": "ラウンジの共用キッチンには冷蔵庫、電子レンジ、IHコンロ、浄水器、カップ、食器類（スプーン・箸・フォーク）、鍋、フライパン、洗濯乾燥機、洗濯洗剤、柔軟剤があります。GUEST BOXにはヘアアイロン、変換アダプター、予備タオル、歯ブラシセットを用意しています。共用ダイニングでは、備え付けの付箋とペンで私物に名前を書いてください。共用ラウンジの洗濯・乾燥設備は無料でご利用いただけます。",
+  "zh": "休息区的公共厨房备有冰箱、微波炉、电磁炉、净水器、杯子、餐具（勺子、筷子和叉子）、锅、平底锅、洗烘一体机、洗衣液和柔顺剂。GUEST BOX 内备有直发器、转换插头、备用毛巾和牙具套装。使用公共用餐区时，请用备好的便签和笔在个人物品上写上姓名。公共休息区的洗衣及烘干设备可免费使用。",
+  "zh-TW": "休息區的公共廚房備有冰箱、微波爐、電磁爐、淨水器、杯子、餐具（湯匙、筷子和叉子）、鍋子、平底鍋、洗脫烘洗衣機、洗衣精和柔軟精。GUEST BOX 內備有直髮器、轉換插頭、備用毛巾和牙具組。使用公共用餐區時，請用準備好的便利貼和筆在個人物品上寫上姓名。公共休息區的洗衣及烘衣設備可免費使用。"
+};
+function isOverview(value) { return overview.test(String(value || '').normalize('NFKC').trim()); }
 const row = (id, location, range, pattern, names) => ({id, location, range, pattern, names: Object.fromEntries(languages.map((l,i)=>[l,names[i]]))});
 const items = [
   row('bedding','room','D18',/침구|이불|bed(?:ding| linen)|寝具|布団|床上用品|寢具|被子/giu,['침구','bedding','寝具','床上用品','寢具']),
@@ -84,5 +93,5 @@ function legacyMatching(message){
   const text=String(message||'').normalize('NFKC');
   return Object.entries(legacyPatterns).filter(([,pattern])=>new RegExp(pattern.source,'iu').test(text)).map(([id])=>id);
 }
-return {items,matching,analyze,compose,evidence,legacyComplete,legacyMatching};
+return {items,matching,analyze,compose,evidence,legacyComplete,legacyMatching,shared,isOverview};
 });
