@@ -1676,13 +1676,15 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   res.json=payload=>{
     // Metadata is server-owned UI data, never guest-visible message text.
     if(payload?.answer)payload.answer=cleanAnswer(payload.answer);
-    if(payload?.answer && (ROUTE_QUESTION_PATTERN.test(message)||payload.meta?.verifiedAirportJourney||payload.meta?.verifiedAirportArrival||payload.meta?.verifiedAirportTransport||payload.model==='another-house-verified-airport-bus')){
+    if(payload?.answer && !payload.meta?.needsAirportDirection && (ROUTE_QUESTION_PATTERN.test(message)||payload.meta?.verifiedAirportJourney||payload.meta?.verifiedAirportArrival||payload.meta?.verifiedAirportTransport||payload.model==='another-house-verified-airport-bus')){
       const direction=payload.meta?.mode?.includes('arrival')||AIRPORT_ROUTE_INTENT.classify(message,history)?.arrival?'arrival':'departure';
       const pointLinks=TRANSIT_MAPS.forAnswer(GUIDE_KNOWLEDGE,message,payload.answer,language,direction);
       payload.links=TRANSIT_MAPS.unique(payload.meta?.verifiedAirportJourney?[...(payload.links||[]),...pointLinks]:[...pointLinks,...(payload.links||[])]);
     }
     return originalJson(payload);
   };
+  const directionQuestion = AIRPORT_ROUTE_INTENT.clarification(message, history, language);
+  if (directionQuestion) return res.status(200).json({answer:directionQuestion,links:[],mapContext:null,model:'another-house-airport-direction-question',meta:{searched:false,needsAirportDirection:true,knowledgeVersion:GUIDE_KNOWLEDGE.version,durationMs:Date.now()-startedAt}});
   const stayIntent = analyzeStayQuestion(message, history);
   const propertyHint = propertyQuestionHint(message);
   const inventoryAnalysis=AMENITY_INVENTORY.analyze(message);

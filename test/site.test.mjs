@@ -317,7 +317,7 @@ test("appliance cards stay compact and chat guide links reveal the relevant sect
   assert.match(app,/\['room','객실 안내'/);
   assert.match(app,/\['kitchen','주방 · 가전'/);
   assert.match(app,/\['shared','공용 비품'/);
-  assert.match(app,/groups=\{room:\['tv','climate','room-amenities'\],kitchen:\['microwave','cooktop','purifier','fridge','shared-kitchen'\],shared:\['guestbox','bathroom-amenities'\]\}/);
+  assert.match(app,/groups=\{room:\['tv','climate','room-amenities'\],kitchen:\['microwave','cooktop','purifier','fridge','shared-kitchen'\],shared:\['shared-inventory','guestbox','bathroom-amenities'\]\}/);
   assert.match(app,/showApplianceCategory\(appliancePanel\.dataset\.appliancePanel,false\)/);
   assert.doesNotMatch(app,/<small>TV · OTT<\/small>/);
   assert.doesNotMatch(app,/appliance-category-panel-head[^']*<div>/);
@@ -417,7 +417,7 @@ test("entrance signage stays attached to the image during fullscreen zoom",async
   assert.match(html,/\.image-lightbox\.is-zoomed \.image-lightbox-nav\{opacity:1;pointer-events:auto\}/);
   assert.match(html,/\.image-lightbox-signage \.entrance-sign\{z-index:6\}/);
   assert.match(html,/\.image-lightbox-signage \.photo-signage\{z-index:7\}/);
-  assert.match(html,/master-app\.js\?v=20261027-1/);
+  assert.match(html,/master-app\.js\?v=20261102-1/);
 });
 
 test("mobile shell remains fluid and avoids automatic input zoom across phone widths",async()=>{

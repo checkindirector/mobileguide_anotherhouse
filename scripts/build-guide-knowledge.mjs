@@ -2,9 +2,10 @@ import { readFile, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import vm from "node:vm";
 import sharedDining from "../lib/shared-dining.cjs";
+import amenityInventory from "../assets/amenity-inventory.js";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-10-27.1";
+const VERSION = "2026-11-02.1";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
@@ -544,6 +545,7 @@ const knowledge = {
     return {
       title: page.title,
       sharedDining: { source: sharedDining.source, inventory: sharedDining.inventory[language] },
+      sharedInventory: { source: amenityInventory.source, inventory: amenityInventory.shared[language] },
       summary: page.summary,
       devices: (page.devices || []).map(device => ({
         name: device.name,

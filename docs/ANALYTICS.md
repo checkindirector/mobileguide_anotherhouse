@@ -66,7 +66,7 @@ Neon 무료 PostgreSQL, 운영 환경만 연결. `DATABASE_URL`, `TELEMETRY_ENAB
 
 ## 주간 보고
 
-2026-10-05부터 단순 체크아웃 시간 질문을 5개 언어 공통 `checkout-time`으로 보정합니다. `intent`는 집계 분류, `recordedIntent`는 원래 답변 경로 분류이며 `classificationVersion`을 함께 제공합니다. 과거 DB 기록은 변경하지 않고 보고서 복사본에만 같은 규칙을 적용해 전주 비교도 동일 기준으로 합니다. 연장·키 반납·짐 보관·복합 질문은 단순 시간으로 덮어쓰지 않습니다. 분류 보정은 답변 오류나 해결 여부를 의미하지 않습니다.
+2026-10-05부터 단순 체크아웃 시간 질문을 5개 언어 공통 `checkout-time`으로 보정합니다. 2026-11-02부터 명확한 체크인 방법 질문(예: 체크인 방법, How do I check in?, チェックイン方法, 入住方式)도 `checkin-method`로 보정합니다. `intent`는 집계 분류, `recordedIntent`는 원래 답변 경로 분류이며 `classificationVersion`을 함께 제공합니다. 과거 DB 기록은 변경하지 않고 보고서 복사본에만 같은 규칙을 적용해 전주 비교도 동일 기준으로 합니다. 시간·짐보관·얼리체크인 등 다른 주제가 섞인 복합 질문은 단순 방법으로 덮어쓰지 않습니다. 연장·키 반납·짐 보관·복합 질문도 단순 시간으로 덮어쓰지 않습니다. 분류 보정은 답변 오류나 해결 여부를 의미하지 않습니다.
 
 `npm run analytics:report` → 직전 월요일 00:00부터 다음 월요일 00:00 미만(KST), 전주 비교. 보고서 인증은 서버에서 Sensitive로 보관하며 별도의 비공개 `.env.reporting.local`을 사용합니다(일반 env pull로 덮어쓰지 않음). 관리자 Bearer 인증 없는 `/api/analytics-report`는 401. 원본 마스킹 기록은 `reports/concierge-weekly/YYYY-MM-DD.json`에 비공개 저장되고 Git·Vercel 배포에서 제외됩니다.
 
