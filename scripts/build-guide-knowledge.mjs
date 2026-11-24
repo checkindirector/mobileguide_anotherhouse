@@ -5,7 +5,7 @@ import sharedDining from "../lib/shared-dining.cjs";
 import amenityInventory from "../assets/amenity-inventory.js";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-11-02.1";
+const VERSION = "2026-11-24.1";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [

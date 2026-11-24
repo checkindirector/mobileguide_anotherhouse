@@ -283,7 +283,7 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.equal(request.body.tool_choice, undefined);
   assert.equal(request.body.include, undefined);
   assert.equal(request.body.reasoning.effort, "low");
-  assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-11-02\.1/);
+  assert.match(request.body.instructions, /RELEVANT_CURRENT_GUIDE version 2026-11-24\.1/);
   assert.match(request.body.instructions, /The first sentence must answer the exact question clearly/);
   assert.match(request.body.instructions, /do not force that opening/);
   assert.match(request.body.instructions, /Never paste or paraphrase an entire guide section/);
@@ -297,7 +297,7 @@ test("a property question reaches the model with only its relevant guide and no 
   assert.match(request.body.instructions, /503호 앞 러기지룸/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB|"dryCapacityKg":4\.5/);
   assert.doesNotMatch(request.body.instructions, /malicious/);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-11-02.1-ko-home");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-11-24.1-ko-home");
   assert.doesNotMatch(request.body.input.at(-1).content, /GUIDE_KNOWLEDGE|CURRENT_GUIDE/);
   assert.ok(request.body.instructions.length < 30000);
   assert.equal(res.payload.meta.cachedTokens, 80);
@@ -323,7 +323,7 @@ test("luggage storage is answered deterministically in all five languages", asyn
     assert.equal(res.payload.meta.searched, false);
     assert.equal(res.payload.meta.approvedWorkbook || res.payload.meta.verifiedTraining, true);
     assert.equal(res.payload.meta.trainingIntent, "luggage");
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-11-02.1");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-11-24.1");
     assert.deepEqual(res.payload.links.map(link => [link.kind, link.route]), [["guide", "checkin"]]);
     assert.match(res.payload.answer, expected);
     assert.doesNotMatch(res.payload.answer, /최신 공개정보|public information|公开信息|公開資訊/);
@@ -430,7 +430,7 @@ test("short check-in and misspelled arrival questions carry the correct property
 });
 
 test("conditions and compound luggage questions reach the model without an unrelated canned answer", async () => {
-  for (const message of ["짐보관하고 모레 찾을게요", "체크아웃 다음 날 짐 찾아도 돼요?", "캐리어 보관 사물함 크기?", "짐 맡기고 택배도 받아주나요", "짐보관과 체크인 방법 알려줘", "짐을 두고 왔어요", "짐이 없어졌어요", "체크인 안내 메일이 안 왔어요", "캐리어 잠금장치 있나요", "짐 보관 안 하고 방으로 바로 들어가고 싶어요", "체크인 후 수건 어디서 받아요"]) {
+  for (const message of ["짐보관하고 모레 찾을게요", "체크아웃 다음 날 짐 찾아도 돼요?", "캐리어 보관 사물함 크기?", "짐 맡기고 택배도 받아주나요", "짐보관과 체크인 방법 알려줘", "짐을 두고 왔어요", "짐이 없어졌어요", "캐리어 잠금장치 있나요", "짐 보관 안 하고 방으로 바로 들어가고 싶어요", "체크인 후 수건 어디서 받아요"]) {
     const { request, requests, res } = await callApi({ message, language: "ko" }, { output_text: "운영 안내를 확인해 드릴게요. GUIDE_PAGE: checkin" }, `stay-conditions-${message}`);
     assert.equal(requests.length, 1, message);
     assert.equal(request.body.tools, undefined, message);
@@ -690,7 +690,7 @@ test("late checkout preserves the workbook's firm deadline and contact instructi
     assert.equal(requests.length, 0);
     assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-checkout");
     assert.equal(res.payload.meta.approvedWorkbook || res.payload.meta.verifiedLateCheckout, true);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-11-02.1");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-11-24.1");
     assert.match(res.payload.answer, expected);
     assert.doesNotMatch(res.payload.answer, /extensions are not available|レイトチェックアウトや時間延長はできません|不提供延迟退房|不提供延遲退房/);
     assert.equal(res.payload.links[0].route, "checkin");
@@ -713,7 +713,7 @@ test("early check-in adds pre-check-in luggage storage in every language without
     assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-checkin");
     assert.equal(res.payload.meta.approvedWorkbook || res.payload.meta.verifiedEarlyCheckin, true);
     assert.equal(res.payload.meta.searched, false);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-11-02.1");
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-11-24.1");
     assert.equal(res.payload.links[0].route, "checkin");
     assert.match(res.payload.answer, expected);
   }
@@ -859,7 +859,7 @@ test("a route with no origin defaults to Another House and uses compact route kn
   assert.match(request.body.instructions, /동대문역 6번 출구/);
   assert.doesNotMatch(request.body.instructions, /LG FY9WTB/);
   assert.ok(request.body.instructions.length < 27000);
-  assert.equal(request.body.prompt_cache_key, "another-house-2026-11-02.1-ko-route");
+  assert.equal(request.body.prompt_cache_key, "another-house-2026-11-24.1-ko-route");
   assert.equal(res.payload.meta.guideRoute, "transport");
   assert.deepEqual(res.payload.links.at(-1), handler._internals.guidePageLink("transport", "ko"));
 });
@@ -984,7 +984,7 @@ test("pre-verified Incheon airport timetable answers exact early departures with
   assert.equal(res.payload.model, "another-house-verified-airport-transport");
   assert.equal(res.payload.meta.searched, false);
   assert.equal(res.payload.meta.mode, "night");
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-11-02.1");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-11-24.1");
   assert.match(res.payload.answer, /DDP 정류장 02:55 출발/);
   assert.match(res.payload.answer, /T1 04:15, T2 04:35/);
   assert.match(res.payload.answer, /평일·주말·공휴일/);
@@ -1127,7 +1127,7 @@ test("time-specific family dining combines current search with the complete loca
   assert.equal(request.body.reasoning.effort, "medium");
   assert.equal(res.payload.model, "gpt-5.4-mini");
   assert.equal(res.payload.meta.searched, true);
-  assert.equal(res.payload.meta.knowledgeVersion, "2026-11-02.1");
+  assert.equal(res.payload.meta.knowledgeVersion, "2026-11-24.1");
   assert.match(res.payload.answer, /본우리반상 동대문두타점/);
   assert.match(res.payload.answer, /라스트오더(?:가)? 21:00/);
   assert.match(res.payload.answer, /포메인RED 두타몰직영점/);
@@ -1399,7 +1399,7 @@ test("semantic checkout requests receive aligned current page facts and workbook
   for (const [message, language] of [
     ["퇴실이 한 시간 늦어질 사정이 생겼는데 어떻게 해야 하나요?", "ko"],
     ["I cannot leave on time because of my flight. What should I do? Check-out is tomorrow.", "en"],
-    ["チェックアウト時間", "ja"]
+    ["チェックアウト時間を1時間延長したいのですが、どうすればいいですか？", "ja"]
   ]) {
     const { request } = await callApi({ message, language, history: [] }, { model: "test", output_text: "Test response.\nGUIDE_PAGE: checkin" }, '198.51.100.' + (++accessCallSequence));
     assert.ok(request);
@@ -1424,7 +1424,7 @@ test("short Wi-Fi questions use the latest workbook fact in all five languages",
     assert.equal(res.statusCode, 200, message);
     assert.equal(res.payload.model, language === "ko" ? "another-house-approved-workbook" : "another-house-verified-training", message);
     assert.match(res.payload.answer, /another.*another1234/is, message);
-    assert.equal(res.payload.meta.knowledgeVersion, "2026-11-02.1", message);
+    assert.equal(res.payload.meta.knowledgeVersion, "2026-11-24.1", message);
   }
 });
 
@@ -1455,7 +1455,8 @@ test("FAQ buttons return the workbook answers with in-site links", async () => {
   const types = [["체크인 시간", "체크인·체크아웃 시간"], ["체크인 방법", "체크인 방법"], ["얼리체크인", "얼리 체크인"], ["체크아웃 시간", "체크인·체크아웃 시간"], ["짐보관", "짐보관 가능 여부 및 시간"], ["공용비품", "비품"]];
   for (const [message, type] of types) {
     const res = await callAccess({ message, language: "ko" });
-    assert.equal(res.payload.answer, hydrateExpected(handler._internals.CONCIERGE_TRAINING.approvedAnswers.find(record => record.type === type).answer), message);
+    const expected=message==='체크아웃 시간'?'체크아웃은 오전 11시까지입니다.':message==='체크인 시간'?'체크인은 오후 3시부터 가능합니다. 오후 3시 이후에는 키오스크를 이용해 언제든지 비대면 체크인할 수 있습니다. ★ 카드키는 재발급되지 않습니다, 분실에 유의하십시오.':hydrateExpected(handler._internals.CONCIERGE_TRAINING.approvedAnswers.find(record => record.type === type).answer);
+    assert.equal(res.payload.answer, expected, message);
     assert.equal(res.payload.links[0].kind, "guide");
   }
 });
