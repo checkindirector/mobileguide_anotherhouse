@@ -15,6 +15,7 @@ const { normalizeGuestLanguage, isRoomKeyProblem, propertyQuestionHint, hasMulti
 const TRANSIT_MAPS = require('../assets/transit-maps.js');
 const { keyCardSituation } = require("../lib/key-card-context.cjs");
 const CONFIRMED_POLICY = require("../lib/confirmed-policy.cjs");
+const { supportReply } = require('../lib/operational-support.cjs');
 
 const MODEL = "gpt-5.4-mini";
 const OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses";
@@ -382,7 +383,7 @@ function contextualGuideRoute(message, history, language) {
   const directRoute = guideRouteFromQuestion(message, language);
   if (directRoute) return directRoute;
   const looksLikeFollowup = String(message || "").length <= 80
-    && /(?:그거|그건|그게|거기|어디|위치|몇\s*개|더\s*있|어떻게|what about|where|which one|how about|is there more|それ|そこ|どこ|どう|那个|那個|那里|那裡|哪里|哪裡|怎么|怎麼)/i.test(message);
+    && /(?:그거|그건|그게|거기|어디|위치|몇\s*개|몇\s*시|언제까지|더\s*있|어떻게|what about|what time|until when|how late|where|which one|how about|is there more|それ|そこ|どこ|どう|何時|いつまで|那个|那個|那里|那裡|哪里|哪裡|几点|幾點|怎么|怎麼)/i.test(message);
   if (!looksLikeFollowup) return "home";
   const previousUserMessage = [...(history || [])].reverse().find(item => item?.role === "user")?.content;
   return guideRouteFromQuestion(previousUserMessage, language) || "home";
@@ -1685,6 +1686,14 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   };
   const directionQuestion = AIRPORT_ROUTE_INTENT.clarification(message, history, language);
   if (directionQuestion) return res.status(200).json({answer:directionQuestion,links:[],mapContext:null,model:'another-house-airport-direction-question',meta:{searched:false,needsAirportDirection:true,knowledgeVersion:GUIDE_KNOWLEDGE.version,durationMs:Date.now()-startedAt}});
+  let operations = supportReply(message, history, language, sharedEntranceCode());
+  // Keep the complete approved recovery policy for an established key problem;
+  // the new short-code route fills aliases that did not reach that path.
+  if (operations?.intent==='shared-entrance-code' && anotherHouseAccessSupport(message,history,language)) operations=null;
+  if (operations) {
+    const approved = operations.intent==='checkin-method' ? CONCIERGE_TRAINING.approvedAnswers.find(x=>x.intent==='checkin-method') : null;
+    return res.status(200).json({answer:operations.answer,links:[guidePageLink(operations.route,language)],mapContext:null,model:'another-house-verified-operations',meta:{searched:false,trainingIntent:operations.intent,approvedWorkbook:Boolean(approved),approvedAnswerId:approved?.id||null,guideRoute:operations.route,sourceRows:approved?.sourceRows||operations.sourceRows||[],knowledgeVersion:GUIDE_KNOWLEDGE.version,durationMs:Date.now()-startedAt}});
+  }
   const stayIntent = analyzeStayQuestion(message, history);
   const propertyHint = propertyQuestionHint(message);
   const inventoryAnalysis=AMENITY_INVENTORY.analyze(message);
@@ -1692,7 +1701,8 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
   const inventoryNeedsModel=inventoryAnalysis.items.length>0&&!inventoryAnalysis.complete;
   const needsSemanticAnswer = stayIntent?.needsModel || hasMultipleGuestQuestions(message) || inventoryNeedsModel;
   const completedKeyCheckout = COMPLETED_CHECKOUT_WITH_KEY_PATTERN.test(message) && isRoomKeyProblem(message) && propertyHint?.topics.every(topic => ['key','checkout','rooms','lost-property'].includes(topic));
-  const accessSupport = needsSemanticAnswer && !completedKeyCheckout ? null : anotherHouseAccessSupport(message, history, language);
+  const focusedKeyIssue = isRoomKeyProblem(message) && propertyHint?.topics.every(topic => ['key','rooms','lost-property'].includes(topic)) && !inventoryAnalysis.items.length;
+  const accessSupport = needsSemanticAnswer && !completedKeyCheckout && !focusedKeyIssue ? null : anotherHouseAccessSupport(message, history, language);
   if (accessSupport) {
     console.log(JSON.stringify({ event: "concierge_access_support", stage: accessSupport.stage, language, durationMs: Date.now() - startedAt }));
     return res.status(200).json({ answer: accessSupport.answer, model: "another-house-approved-workbook", links: [guidePageLink(accessSupport.approved?.route || "checkin", language)], mapContext: null, meta: { searched: false, accessSupport: true, approvedWorkbook: Boolean(accessSupport.approved), approvedAnswerId: accessSupport.approved?.id || null, sourceRows: accessSupport.approved?.sourceRows || [], credentialsProtected: Boolean(accessSupport.approved?.credentialsProtected), trainingIntent: accessSupport.approved?.intent || null, trainingVersion: CONCIERGE_TRAINING.version, guideRoute: accessSupport.approved?.route || "checkin", knowledgeVersion: GUIDE_KNOWLEDGE.version, durationMs: Date.now() - startedAt } });
@@ -1894,12 +1904,16 @@ module.exports = require('../lib/telemetry.cjs').observeChat(async function hand
     : "";
   const outputTokenLimit = requestedSearchLevel === "high" ? 12000 : requestedSearchLevel ? 8000 : 6000;
   const knowledgeCacheScope = propertyRouteOrigin ? "route" : (knowledgeRoute || (requestedSearchLevel ? "public" : "general"));
+  const operationalContext = isPropertyFollowup || propertyHint?.topics.some(x=>['checkin','checkout','booking','key','contact','wifi','hair-tools','dining','lost-property'].includes(x));
   const requestBody = {
     model: MODEL,
     reasoning: { effort: requestedSearchLevel === "high" ? "medium" : "low" },
     instructions: `${systemInstructions(language, fullGuideText, message)}
 
 SHORT GUEST QUESTIONS:
+${operationalContext ? `- CHAT CAPABILITIES: No reservation lookup, message resend, staff forwarding or later reply is performed here. Attribute workbook staff actions to staff. Missing entry instructions need known shared-entrance/kiosk steps, not repeated channel requests. Staff hours: 09:00–18:00. Never promise a reply or message-delivery deadline.
+- LANGUAGE: Keep ordinary words in the selected language; no mixed Hangul in Japanese instructions. Preserve approved appliance terms and facts.
+- FACILITIES: Short usage-time follow-ups refer to the immediately preceding guest facility. Clarify if uncertain; no public notice, internal-appliance maps or invented cutoff.` : ''}
 - OWNER CONFIRMATION 2026-10-27: CURRENT_GUIDE.confirmedPolicies overrides older workbook text AND chat history in all languages. No later key-card reissue, including first loss or lockout. Never promise processed refunds, free rebooking cancellation or automatic same-room assignment. Exact refund-date boundaries, disaster evidence, laundry reservations and induction model/controls remain unconfirmed; do not invent them.
 ${propertyRouteOrigin ? "" : "- Understand synonyms semantically, not by exact keyword. 객실키/룸키/방키/열쇠/room key are the property's key card in a lodging context; baggage/suitcase/짐/가방 can mean storage; 입실/체크인 and 퇴실/체크아웃 refer to the same processes. Apply the same contextual reasoning to EVERY workbook topic. A topic hint selects evidence, not a canned answer: preserve the specific requested detail, negation, conditions and all parts of a compound question. Do not confuse hair straighteners with hair dryers, car keys with room keys, or lost luggage with storage. If the meaning remains ambiguous, ask one short clarification instead of guessing or reporting a public-search failure."}
 - Interpret incomplete phrases, common typos, and follow-ups in their conversation context. A bare luggage/bag word normally asks about this property's storage; a bare check-in/arrival word asks about check-in. Do not require an exact keyword or a complete sentence.
