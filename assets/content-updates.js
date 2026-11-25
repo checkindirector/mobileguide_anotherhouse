@@ -156,7 +156,7 @@
       title: I('셀프 체크인', 'Self check-in', 'セルフチェックイン', '自助入住', "自助入住"),
       steps: I(
         [
-          '체크인 하루 전부터 당일 오전 9시 사이에 예약 플랫폼 메시지로 발송된 체크인 안내를 확인합니다.',
+          '예약한 사이트의 메시지에서 체크인 안내를 확인합니다.',
           '15:00 이후 5층 키오스크에서 예약 바우처에 적힌 예약자 이름 또는 예약 번호 뒤 4자리로 예약을 조회합니다.',
           '화면 안내에 따라 셀프 체크인을 완료하고 객실 번호와 카드키를 확인합니다.',
           '체크인 후에는 카드키를 출입구 옆 기기에 태그하여 문을 엽니다.',
@@ -166,7 +166,7 @@
           '카드키는 숙소 출입구와 객실 문에 모두 필요하며 재발급되지 않으니, 외출할 때 반드시 소지해 주세요.'
         ],
         [
-          'Check the arrival instructions sent through your booking platform between the day before check-in and 09:00 on arrival day.',
+          'Check the check-in instructions in the messages on the site you booked with.',
           'After 15:00, use the kiosk on the 5th floor and search with the name shown on the booking voucher or the last four digits of the reservation number.',
           'Complete self check-in on screen and confirm your room number and key card.',
           'After check-in, tap the key card on the reader beside the entrance.',
@@ -176,7 +176,7 @@
           'The key card is required for both the property entrance and your room. It cannot be reissued, so always take it with you when you go out.'
         ],
         [
-          'チェックイン前日から当日9:00までに予約プラットフォームのメッセージで届く案内をご確認ください。',
+          'ご予約のサイトのメッセージでチェックイン案内をご確認ください。',
           '15:00以降、5階のキオスクで予約バウチャー記載の予約者名、または予約番号の下4桁で予約を検索します。',
           '画面案内に従ってセルフチェックインを完了し、客室番号とカードキーをご確認ください。',
           'チェックイン後は入口横の端末にカードキーをかざして入館します。',
@@ -186,7 +186,7 @@
           'カードキーは宿の入口と客室の両方で必要です。再発行できないため、外出時は必ずお持ちください。'
         ],
         [
-          '请查看入住前一天至入住当日上午9:00之间通过预订平台消息发送的入住说明。',
+          '请在您预订的网站消息中查看入住指南。',
           '15:00后，在5层自助机上使用预订凭证中的姓名，或订单号后四位查询订单。',
           '按照屏幕提示完成自助入住，并确认房号和房卡。',
           '入住后请将房卡贴近入口旁的读卡器开门。',
@@ -195,7 +195,7 @@
           '即使较晚抵达，15:00后也可随时通过自助机办理非接触式入住。',
           '房卡用于住宿入口和房门，无法补发；外出时请务必随身携带。'
         ], [
-          "請檢視入住前一天至入住當日上午9:00之間通過預訂平台訊息傳送的入住說明。",
+          "請在您訂房的網站訊息中查看入住指南。",
           "15:00後，在5層自助機上使用預訂憑證中的姓名，或訂單號後四位查詢訂單。",
           "按照螢幕提示完成自助入住，並確認房號和房卡。",
           "入住後請將房卡貼近入口旁的讀卡器開門。",
@@ -209,10 +209,10 @@
     {
       title: I('도움이 필요할 때', 'If you need help', 'サポートが必要な場合', '需要帮助时', "需要幫助時"),
       body: I(
-        '직원 응대시간은 09:00–18:00입니다. 문의사항은 예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴)의 메시지로 남겨 주세요.',
-        'Staff respond from 09:00 to 18:00. Please send questions through the messaging service of your booking platform (Booking.com, Agoda, or Trip.com).',
-        'スタッフ対応時間は09:00〜18:00です。お問い合わせは予約サイト（Booking.com、Agoda、Trip.com）のメッセージでお送りください。',
-        '工作人员回复时间为09:00–18:00。请通过预订平台（Booking.com、Agoda或Trip.com）的消息功能咨询。', "工作人員回覆時間為09:00–18:00。請通過預訂平台（Booking.com、Agoda或Trip.com）的訊息功能諮詢。"
+        '직원 응대시간은 09:00–18:00입니다. 문의사항은 예약하신 플랫폼(부킹닷컴, 아고다, 트립닷컴, 에어비앤비)의 메시지로 남겨 주세요.',
+        'Staff respond from 09:00 to 18:00. Please send questions through the messaging service of your booking platform (Booking.com, Agoda, Trip.com, or Airbnb).',
+        'スタッフ対応時間は09:00〜18:00です。お問い合わせは予約サイト（Booking.com、Agoda、Trip.com、Airbnb）のメッセージでお送りください。',
+        '工作人员回复时间为09:00–18:00。请通过预订平台（Booking.com、Agoda、Trip.com或Airbnb）的消息功能咨询。', "工作人員回覆時間為09:00–18:00。請通過預訂平台（Booking.com、Agoda、Trip.com或Airbnb）的訊息功能諮詢。"
       )
     }
   ];
@@ -609,4 +609,19 @@
     ['具体操作请以现场设备标识和住宿说明为准。需要协助时请通过预订平台消息联系住宿方。'],
     ['具體操作請以現場設備標示和住宿說明為準。需要協助時請透過訂房平台訊息聯絡住宿方。']
   );
+  // Share the newly approved facts with rendered pages and the server bundle.
+  const O = window.ANOTHER_HOUSE_OPERATIONS;
+  if (O) {
+    D.operationalPolicies = O;
+    D.pages.checkin.sections.push({
+      title:I('체크인 안내 메시지','Check-in messages','チェックイン案内メッセージ','入住指南消息','入住指南訊息'),
+      steps:Object.fromEntries(['ko','en','ja','zh','zh-TW'].map(lang=>[lang,[O.messageSchedule.answer[lang]]]))
+    });
+    D.pages.rules.sections.push({
+      title:I('객실 취식 · 배달음식','In-room dining & food delivery','客室での飲食・デリバリー','客房用餐与外卖','客房用餐與外送'),
+      steps:Object.fromEntries(['ko','en','ja','zh','zh-TW'].map(lang=>[lang,[O.roomDining.answer[lang],O.foodDelivery.answer[lang]]]))
+    });
+    const kitchen=D.pages.appliances.devices.find(item=>item.name?.ko==='공용주방 이용');
+    if(kitchen)for(const lang of ['ko','en','ja','zh','zh-TW'])kitchen.steps[lang][0]=O.roomDining.answer[lang];
+  }
 })();

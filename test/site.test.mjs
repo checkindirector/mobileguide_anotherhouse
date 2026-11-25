@@ -567,7 +567,7 @@ test("source document additions include parking, editorial story, OTA links, and
   const content=await read("assets/content-updates.js");
   assert.match(html,/class="hotel-section stay-story"/);
   assert.match(html,/id="homeBookingHint"/);
-  assert.match(html,/content-updates\.js\?v=20261027-1/);
+  assert.match(html,/content-updates\.js\?v=20261125-1/);
   assert.match(html,/gallery-overrides\.js\?v=20260908-02/);
   assert.match(app,/parkingGuideMarkup/);
   assert.match(app,/renderBookingLinks/);
