@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import {parseHTML} from 'linkedom';
 const require=createRequire(import.meta.url),handler=require('../api/chat.js'),{facts,reply}=require('../lib/confirmed-operations.cjs');
 const training=require('../api/concierge-training.json'),knowledge=require('../assets/guide-knowledge.json');
 const cases=[
@@ -55,5 +56,23 @@ test('current website, generated model evidence and the approved records share t
   assert.ok(d.pages.rules.sections.some(s=>s.steps?.[language]?.includes(facts.foodDelivery.answer[language])));
   assert.ok(d.pages.appliances.devices.some(s=>s.steps?.[language]?.includes(facts.roomDining.answer[language])));
   const model=handler._internals.relevantGuideKnowledge(language,'rules','food delivery');assert.equal(model.confirmedOperations.foodDelivery.answer,facts.foodDelivery.answer[language]);
+ }
+});
+
+test('the actual check-in renderer displays the confirmed message schedule in all five languages',()=>{
+ const window={};
+ for(const file of ['site-data','gallery-data','operations-policies','content-updates'])vm.runInNewContext(fs.readFileSync(new URL('../assets/'+file+'.js',import.meta.url),'utf8'),{window});
+ const source=fs.readFileSync(new URL('../assets/master-app.js',import.meta.url),'utf8');
+ const renderer=source.slice(source.indexOf('function renderCheckin(){'),source.indexOf('function renderTransport(){'));
+ const helpers=['steps','imageFigure'].map(name=>source.split('\n').find(line=>line.startsWith('function '+name+'('))).join('\n');
+ for(const [language]of cases){
+  const {document}=parseHTML('<div class="checkin-hero"><h2></h2></div><div id="checkinContent"></div>');
+  vm.runInNewContext(`const D=window.ANOTHER_HOUSE_DATA;const $=s=>document.querySelector(s);const t=v=>v&&typeof v==='object'&&!Array.isArray(v)&&('ko'in v)?(v[lang]||v.ko):v;const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;');const parkingOverviewMarkup=()=>'',parkingGuideMarkup=()=>'';${helpers}${renderer}renderCheckin();`,{window,document,lang:language});
+  const cards=[...document.querySelectorAll('#checkinContent .checkin-guide-card')];
+  const messageCards=cards.filter(card=>card.querySelector('.airport-copy small')?.textContent==='MESSAGES');
+  assert.equal(messageCards.length,1,language);
+  assert.ok(messageCards[0].textContent.includes(facts.messageSchedule.answer[language]),language);
+  assert.equal(messageCards[0].closest('details'),null,'schedule must be visible without opening an accordion');
+  assert.ok(cards.some(card=>card.querySelector('.airport-copy small')?.textContent==='SELF CHECK-IN'));
  }
 });

@@ -24,8 +24,12 @@ new items 44–45, and AI training answers Q054 and Q097. The source's existing
 item 43 and all other guest examples remain intact. The local approved-answer
 archive keeps its original row associations and records the operator correction.
 
-Validation: 297 tests and production build pass. Five-language regressions cover
+Validation: 298 tests and production build pass. Five-language regressions cover
 message schedules and channels, same-day bookings, absent exact clock times,
 food/snacks/drinks in rooms, delivery pickup outside 1F, compound requests,
 parcel-vs-food distinctions and message resend requests. Live release checks
 are stored in private reports after deployment.
+
+The check-in renderer also displays additional operational sections as visible
+cards. A rendered-DOM regression checks that the complete five-event message
+schedule appears once, outside a collapsed section, in all five languages.
