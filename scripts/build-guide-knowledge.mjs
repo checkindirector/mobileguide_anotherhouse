@@ -5,12 +5,13 @@ import sharedDining from "../lib/shared-dining.cjs";
 import amenityInventory from "../assets/amenity-inventory.js";
 
 const root = resolve(import.meta.dirname, "..");
-const VERSION = "2026-11-24.1";
+const VERSION = "2026-11-25.1";
 const SITE_URL = "https://anotherhouse-guide.vercel.app/";
 const languages = ["ko", "en", "ja", "zh", "zh-TW"];
 const sourceScripts = [
   "assets/site-data.js",
   "assets/gallery-data.js",
+  "assets/operations-policies.js",
   "assets/content-updates.js",
   "assets/gallery-overrides.js",
   "assets/restaurant-data.js",
@@ -637,6 +638,7 @@ const knowledge = {
     publicInformationMustBeSearched: true,
     accommodationFactsMustComeFromThisKnowledge: true
   },
+  confirmedOperations: data.operationalPolicies,
   conciergeTraining: {
     version: conciergeTraining.version,
     approvedAnswerCount: conciergeTraining.approvedAnswers.length,

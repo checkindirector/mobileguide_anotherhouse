@@ -366,6 +366,7 @@ function relevantGuideKnowledge(language, route, message = "") {
       break;
   }
 
+  if (['checkin','appliances','rules'].includes(safeRoute)) selected.confirmedOperations=localized.confirmedOperations;
   if (VERIFIED_LOCAL_GROUPS.some(group => group.pattern.test(message))) selected.publicLocalDirectory = localized.publicLocalDirectory;
   if (URGENT_MEDICAL_PATTERN.test(message)) selected.emergency = localized.emergency;
   selected.guidebook = localized.guidebook;

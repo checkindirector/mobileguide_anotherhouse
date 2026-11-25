@@ -13,7 +13,7 @@ const origin = 'https://anotherhouse-guide.vercel.app';
 const source = await readFile(resolve(root, 'index.html'), 'utf8');
 const master = await readFile(resolve(root, 'assets/master-app.js'), 'utf8');
 const tourApp = await readFile(resolve(root, 'assets/tour-app.js'), 'utf8');
-const sourceScripts = ['site-data', 'gallery-data', 'content-updates', 'gallery-overrides', 'restaurant-data', 'restaurant-expanded', 'tour-data', 'search-content'];
+const sourceScripts = ['site-data', 'gallery-data', 'operations-policies', 'content-updates', 'gallery-overrides', 'restaurant-data', 'restaurant-expanded', 'tour-data', 'search-content'];
 const dataContext = vm.createContext({ window: {} });
 for (const name of sourceScripts) vm.runInContext(await readFile(resolve(root, `assets/${name}.js`), 'utf8'), dataContext);
 const locales = dataContext.window.ANOTHER_HOUSE_SEARCH;
@@ -28,7 +28,10 @@ const functions = functionLines.join('\n');
 for (const [language, locale] of Object.entries(locales)) {
   const { document } = parseHTML(source);
   document.querySelector('script[src^="assets/concierge-telemetry.js"]').setAttribute('src', 'assets/concierge-telemetry.js?v=20261019-1');
-  document.querySelector('script[src^="assets/content-updates.js"]').setAttribute('src', 'assets/content-updates.js?v=20261027-1');
+  document.querySelector('script[src^="assets/content-updates.js"]').setAttribute('src', 'assets/content-updates.js?v=20261125-1');
+  let operationsScript=document.querySelector('script[src^="assets/operations-policies.js"]');
+  if(!operationsScript){operationsScript=document.createElement('script');document.querySelector('script[src^="assets/content-updates.js"]').before(operationsScript);}
+  operationsScript.setAttribute('defer','');operationsScript.setAttribute('src','assets/operations-policies.js?v=20261125-1');
   const masterScript=document.querySelector('script[src^="assets/master-app.js"]');
   masterScript.setAttribute('src', 'assets/master-app.js?v=20261102-1');
   let inventoryScript=document.querySelector('script[src^="assets/amenity-inventory.js"]');
