@@ -33,7 +33,7 @@ for (const [language, locale] of Object.entries(locales)) {
   if(!operationsScript){operationsScript=document.createElement('script');document.querySelector('script[src^="assets/content-updates.js"]').before(operationsScript);}
   operationsScript.setAttribute('defer','');operationsScript.setAttribute('src','assets/operations-policies.js?v=20261125-1');
   const masterScript=document.querySelector('script[src^="assets/master-app.js"]');
-  masterScript.setAttribute('src', 'assets/master-app.js?v=20261102-1');
+  masterScript.setAttribute('src', 'assets/master-app.js?v=20261125-1');
   let inventoryScript=document.querySelector('script[src^="assets/amenity-inventory.js"]');
   if(!inventoryScript){inventoryScript=document.createElement('script');masterScript.before(inventoryScript);}
   inventoryScript.setAttribute('defer','');inventoryScript.setAttribute('src','assets/amenity-inventory.js?v=20261102-1');
